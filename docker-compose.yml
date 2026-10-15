@@ -1,0 +1,21 @@
+# Optional local infrastructure for development.
+# MongoDB Atlas is the preferred persistent store; this is the local alternative.
+# Usage: docker compose up -d mongo
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: saige-prep-mongo
+    restart: unless-stopped
+    # Bound to loopback only so the database is never exposed on the LAN.
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo-data:

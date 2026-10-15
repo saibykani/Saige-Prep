@@ -1,0 +1,9 @@
+# Runtime dependencies (direct, pinned). Full transitive lock: requirements.lock.txt
+fastapi==0.143.2
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+pydantic-settings==2.16.0
+pymongo==4.19.0
+email-validator==2.3.0
+python-multipart==0.0.32
+argon2-cffi==25.1.0
