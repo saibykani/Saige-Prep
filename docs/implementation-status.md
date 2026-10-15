@@ -32,8 +32,9 @@ _Last updated: 2026-10-16. Phases 0–1._
 - **Frontend:** dark design tokens; UI components (Button, Card, Badge, Input/Label/FieldError, Alert, Skeleton, Spinner, EmptyState, Kbd, CodeBlock with copy, ConfirmDialog, Toast); AppShell with grouped collapsible sidebar, mobile drawer, top bar, breadcrumbs, Ctrl+K section search, skip link; login page (RHF + Zod, safe `?next=` redirect); proxy-based route protection; dashboard (real user, live system status, honest empty state); settings (account, status, sign-out confirm); admin UI gate; all 19 navigation sections routed.
 - **Tooling:** pinned dependencies (`requirements.txt`, `requirements-dev.txt`, `requirements.lock.txt`, exact npm versions), ruff, ESLint, tsc strict, Vitest, Playwright config with an isolated e2e stack.
 
-## In progress
-- Playwright E2E run (browser download failed on the first attempt; being investigated).
+## In progress / blocked
+- **Playwright E2E is blocked by disk space on C:** (0.43 GB free). MongoDB refuses `createIndexes` below 500 MB free (`OutOfDiskSpace`, code 14031), so the e2e backend cannot seed its database. Chromium is installed on D: (`PLAYWRIGHT_BROWSERS_PATH=D:\ms-playwright`; set `TEMP`/`TMP` to `D:\tmp` when installing). Free space on C:, then run `npm run test:e2e` with `PLAYWRIGHT_BROWSERS_PATH` set.
+- Fixed as a result: an index-creation failure at startup no longer crashes the backend; `/ready` reports an `indexes` check instead.
 
 ## Outstanding (not yet built; pages say "Planned · Phase N")
 Everything in Phases 2–9: curriculum content and role roadmaps, lesson rendering (Markdown/Mermaid), content search, bookmarks/notes, practice labs, toolkit, assessments, interviews, projects, planner, analytics, admin CMS, data export/deletion, deployment.
@@ -42,12 +43,12 @@ Phase 1 components still to come with their features: diagram viewer, screenshot
 ## Tests executed
 | Suite | Command | Result |
 |---|---|---|
-| Backend (unit + integration + security) | `python -m pytest` | **36 passed** |
+| Backend (unit + integration + security) | `python -m pytest` | **37 passed** |
 | Backend lint/format | `ruff check .` / `ruff format --check .` | clean |
 | Frontend unit/component | `npm test` | **27 passed** (4 files) |
 | Frontend types / lint | `npm run typecheck` / `npm run lint` | clean |
 | Frontend production build | `npm run build` | success; 24 routes prerendered as static shells |
-| E2E | `npm run test:e2e` | not yet run (see In progress) |
+| E2E | `npm run test:e2e` | **not run: blocked** by low disk space on C: (see above). 10 specs written; desktop + mobile projects |
 
 ## Known limitations
 - The login rate limiter is in-memory (single backend process).
@@ -56,5 +57,5 @@ Phase 1 components still to come with their features: diagram viewer, screenshot
 - Global search covers sections only until Phase 2 adds content search.
 
 ## Next actions
-1. Get Playwright running and the E2E suite green.
+1. Free disk space on C:, then run the E2E suite and fix any failures.
 2. Phase 2: content schema + validator, idempotent seeding, role catalogue (all roles in spec §8), full Manual Testing curriculum, lesson reader, search, bookmarks, progress.
