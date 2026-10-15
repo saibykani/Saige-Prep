@@ -18,7 +18,30 @@ async def test_health_ok(client):
 async def test_ready_reports_database_ok(client):
     response = await client.get("/ready")
     assert response.status_code == 200
-    assert response.json() == {"status": "ready", "checks": [{"name": "mongodb", "ok": True}], "ai_enabled": False}
+    assert response.json() == {
+        "status": "ready",
+        "checks": [{"name": "mongodb", "ok": True}, {"name": "indexes", "ok": True}],
+        "ai_enabled": False,
+    }
+
+
+async def test_ready_reports_index_failure_instead_of_crashing(settings, mongo_available, monkeypatch):
+    if not mongo_available:
+        pytest.skip("MongoDB not reachable")
+    from pymongo.errors import OperationFailure
+
+    async def failing_indexes(_db):
+        raise OperationFailure("available disk space is less than required minimum", code=14031)
+
+    monkeypatch.setattr("app.main.ensure_indexes", failing_indexes)
+    app = create_app(settings)
+    async with app.router.lifespan_context(app):
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+            response = await client.get("/ready")
+    assert response.status_code == 503
+    assert {"name": "indexes", "ok": False} in response.json()["checks"]
+    assert "disk" not in response.text
 
 
 async def test_ready_returns_503_without_leaking_uri_when_database_down():

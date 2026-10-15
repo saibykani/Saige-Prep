@@ -21,7 +21,10 @@ async def health(settings: SettingsDep) -> HealthOut:
 )
 async def ready(request: Request, response: Response, settings: SettingsDep) -> ReadinessOut:
     """Verifies required dependencies. Never includes connection strings or error details."""
-    checks = [ReadinessCheck(name="mongodb", ok=await request.app.state.database.ping())]
+    checks = [
+        ReadinessCheck(name="mongodb", ok=await request.app.state.database.ping()),
+        ReadinessCheck(name="indexes", ok=request.app.state.indexes_ok),
+    ]
     is_ready = all(check.ok for check in checks)
     if not is_ready:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE

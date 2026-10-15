@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from pymongo.errors import PyMongoError
 
 from app import __version__
 from app.api import auth, health
@@ -26,8 +27,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         database = Database(settings)
         app.state.database = database
+        app.state.indexes_ok = False
         if await database.ping():
-            await ensure_indexes(database.db)
+            try:
+                await ensure_indexes(database.db)
+                app.state.indexes_ok = True
+            except PyMongoError as exc:
+                # e.g. OutOfDiskSpace: keep serving so /ready can report the problem.
+                logger.error("Index creation failed (%s); /ready will report not_ready", type(exc).__name__)
         else:
             # Start anyway so /health answers and /ready reports the outage.
             logger.error("MongoDB unreachable at startup; /ready will report not_ready")
