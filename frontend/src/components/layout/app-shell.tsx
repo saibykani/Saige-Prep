@@ -3,14 +3,18 @@
 import { LogOut, Menu, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { CommandPalette } from "@/components/navigation/command-palette";
 import { SidebarNav } from "@/components/navigation/sidebar-nav";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, Kbd, Spinner } from "@/components/ui/feedback";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
 import { ApiError } from "@/lib/api";
+import { isGuest } from "@/lib/auth-mode";
+
+const subscribeNoop = () => () => {};
 
 function Brand() {
   return (
@@ -30,6 +34,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   const logout = useLogout();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  );
 
   const unauthorized = error instanceof ApiError && error.status === 401;
 
@@ -48,10 +57,11 @@ export function AppShell({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  if (isPending || unauthorized) {
+  // Private pages render in the browser only; the prerendered shell is this loading state.
+  if (!mounted || isPending || unauthorized) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Spinner label="Checking your session" />
+        <Spinner label="Loading Saige-Prep" />
       </div>
     );
   }
@@ -138,16 +148,22 @@ export function AppShell({ children }: { children: ReactNode }) {
             <span className="hidden text-sm text-muted md:inline" data-testid="current-user">
               {user.display_name}
             </span>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Sign out"
-              title="Sign out"
-              loading={logout.isPending}
-              onClick={() => logout.mutate()}
-            >
-              {!logout.isPending && <LogOut className="h-4 w-4" aria-hidden />}
-            </Button>
+            {isGuest(user) ? (
+              <Badge tone="accent" title="Sign-in is turned off (NEXT_PUBLIC_AUTH_REQUIRED is not set)">
+                Open access
+              </Badge>
+            ) : (
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Sign out"
+                title="Sign out"
+                loading={logout.isPending}
+                onClick={() => logout.mutate()}
+              >
+                {!logout.isPending && <LogOut className="h-4 w-4" aria-hidden />}
+              </Button>
+            )}
           </div>
         </header>
 

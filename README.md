@@ -93,6 +93,8 @@ Health checks: `GET /health` (liveness) and `GET /ready` (checks MongoDB; return
 
 ## Security model (summary)
 
+> **Sign-in is currently optional and OFF by default.** Everyone browses as "Guest". To require login, set `NEXT_PUBLIC_AUTH_REQUIRED=true` (in `frontend/.env.local`, or in Vercel's environment variables) and rebuild or redeploy.
+
 - Single owner account, created by a script. No registration endpoint.
 - Argon2id password hashing; per-account login rate limiting.
 - Opaque server-side sessions in an HttpOnly, SameSite=Lax cookie (Secure in production). Only an HMAC of the token is stored.

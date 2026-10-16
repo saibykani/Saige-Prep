@@ -51,6 +51,7 @@ Phase 1 components still to come with their features: diagram viewer, screenshot
 | E2E | `npm run test:e2e` | **not run: blocked** by low disk space on C: (see above). 10 specs written; desktop + mobile projects |
 
 ## Known limitations
+- **Sign-in is currently OFF by the owner's choice (open access).** The frontend runs in guest mode unless it is built with `NEXT_PUBLIC_AUTH_REQUIRED=true`. Anyone with the URL can browse. Backend auth (login, sessions, CSRF, admin guard) is unchanged and fully tested, and E2E always runs with sign-in required. Re-enable it before adding personal data (Phase 7) or deploying privately (Phase 8).
 - The login rate limiter is in-memory (single backend process).
 - `npm audit` reports 5 high-severity advisories in the **dev-only** ESLint toolchain (`braces` via `eslint-config-next`). `npm audit --omit=dev` reports 0. The suggested fix is a breaking downgrade, so it is deferred until upstream updates.
 - No Content-Security-Policy yet (needs nonce support with Next.js inline scripts); planned for Phase 8.

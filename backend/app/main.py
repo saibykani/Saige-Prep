@@ -1,5 +1,6 @@
 """FastAPI application factory for the Saige-Prep backend."""
 
+import asyncio
 import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
@@ -23,23 +24,32 @@ logger = logging.getLogger("saige_prep")
 def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
 
+    start_lock = asyncio.Lock()
+
+    async def start(app: FastAPI) -> None:
+        async with start_lock:
+            if getattr(app.state, "database", None) is not None:
+                return
+            database = Database(settings)
+            app.state.indexes_ok = False
+            if await database.ping():
+                try:
+                    await ensure_indexes(database.db)
+                    app.state.indexes_ok = True
+                except PyMongoError as exc:
+                    # e.g. OutOfDiskSpace: keep serving so /ready can report the problem.
+                    logger.error("Index creation failed (%s); /ready will report not_ready", type(exc).__name__)
+            else:
+                # Start anyway so /health answers and /ready reports the outage.
+                logger.error("MongoDB unreachable at startup; /ready will report not_ready")
+            app.state.database = database
+
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        database = Database(settings)
-        app.state.database = database
-        app.state.indexes_ok = False
-        if await database.ping():
-            try:
-                await ensure_indexes(database.db)
-                app.state.indexes_ok = True
-            except PyMongoError as exc:
-                # e.g. OutOfDiskSpace: keep serving so /ready can report the problem.
-                logger.error("Index creation failed (%s); /ready will report not_ready", type(exc).__name__)
-        else:
-            # Start anyway so /health answers and /ready reports the outage.
-            logger.error("MongoDB unreachable at startup; /ready will report not_ready")
+        await start(app)
         yield
-        await database.close()
+        await app.state.database.close()
+        app.state.database = None
 
     app = FastAPI(
         title=f"{settings.app_name} API",
@@ -51,6 +61,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         openapi_url=None if settings.is_production else "/openapi.json",
     )
     app.state.settings = settings
+    app.state.database = None
+
+    @app.middleware("http")
+    async def ensure_started(request: Request, call_next):
+        # Serverless runtimes may skip ASGI lifespan events; connect on first request instead.
+        if app.state.database is None:
+            await start(app)
+        return await call_next(request)
+
     app.state.login_limiter = RateLimiter(settings.login_rate_limit, settings.login_rate_window_seconds)
 
     app.add_middleware(SecurityHeadersMiddleware, hsts=settings.is_production)

@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
 import { SystemStatus } from "@/features/system/system-status";
+import { isGuest } from "@/lib/auth-mode";
 
 export function SettingsView() {
   const { data: user } = useCurrentUser();
@@ -24,7 +25,13 @@ export function SettingsView() {
             <CardDescription>This is a private, single-owner installation.</CardDescription>
           </CardHeader>
           <CardContent>
-            {user && (
+            {isGuest(user) ? (
+              <p className="text-sm text-muted">
+                Open access is on, so you are browsing as a guest without an account. To require sign-in, set{" "}
+                <code className="font-mono text-foreground">NEXT_PUBLIC_AUTH_REQUIRED=true</code> and rebuild the
+                frontend.
+              </p>
+            ) : user && (
               <dl className="grid grid-cols-[120px_1fr] gap-y-3 text-sm">
                 <dt className="text-muted">Name</dt>
                 <dd>{user.display_name}</dd>
@@ -45,17 +52,19 @@ export function SettingsView() {
 
         <SystemStatus />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Session</CardTitle>
-            <CardDescription>Signing out revokes this session on the server.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="secondary" onClick={() => setConfirmOpen(true)}>
-              Sign out
-            </Button>
-          </CardContent>
-        </Card>
+        {!isGuest(user) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Session</CardTitle>
+              <CardDescription>Signing out revokes this session on the server.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="secondary" onClick={() => setConfirmOpen(true)}>
+                Sign out
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardHeader>

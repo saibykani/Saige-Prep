@@ -58,6 +58,21 @@ async def test_ready_returns_503_without_leaking_uri_when_database_down():
     assert "127.0.0.1" not in response.text
 
 
+async def test_connects_on_first_request_when_lifespan_is_skipped(settings, mongo_available):
+    """Serverless hosts may never send ASGI lifespan events."""
+    if not mongo_available:
+        pytest.skip("MongoDB not reachable")
+    app = create_app(settings)  # note: lifespan context deliberately not entered
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as client:
+        response = await client.get("/ready")
+        me = await client.get("/api/auth/me")
+    assert response.status_code == 200
+    assert response.json()["status"] == "ready"
+    assert me.status_code == 401
+    await app.state.database.close()
+
+
 async def test_indexes_created(app):
     indexes = await app.state.database.db.sessions.index_information()
     assert "ttl_expires_at" in indexes

@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { EmptyState } from "@/components/ui/feedback";
 import { useCurrentUser } from "@/features/auth/hooks";
 import { SystemStatus } from "@/features/system/system-status";
+import { isGuest } from "@/lib/auth-mode";
 
 interface NextStep {
   label: string;
@@ -17,8 +18,18 @@ interface NextStep {
   phase?: number;
 }
 
-const NEXT_STEPS: NextStep[] = [
-  { label: "Secure your owner account", detail: "Signed in with a private, bootstrapped account.", done: true },
+const OWNER_STEP: NextStep = {
+  label: "Secure your owner account",
+  detail: "Signed in with a private, bootstrapped account.",
+  done: true,
+};
+const GUEST_STEP: NextStep = {
+  label: "Turn sign-in back on when you go private",
+  detail: "Open access is enabled. Set NEXT_PUBLIC_AUTH_REQUIRED=true and rebuild to require login.",
+  done: false,
+};
+
+const LEARNING_STEPS: NextStep[] = [
   {
     label: "Pick a target role",
     detail: "Choose from 70+ testing role roadmaps.",
@@ -51,11 +62,12 @@ function greeting(date = new Date()) {
 
 export function DashboardView() {
   const { data: user } = useCurrentUser();
+  const NEXT_STEPS = [isGuest(user) ? GUEST_STEP : OWNER_STEP, ...LEARNING_STEPS];
 
   return (
     <div className="animate-fade-in">
       <PageHeader
-        title={`${greeting()}${user ? `, ${user.display_name}` : ""}`}
+        title={`${greeting()}${user && !isGuest(user) ? `, ${user.display_name}` : ""}`}
         description="Learn. Practice. Test. Get Hired. Your progress here is based only on what you actually complete."
       />
 

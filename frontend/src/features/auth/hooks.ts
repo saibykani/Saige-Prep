@@ -3,16 +3,23 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ApiError, apiFetch } from "@/lib/api";
+import { authRequired, GUEST_USER } from "@/lib/auth-mode";
 import type { SessionResponse, User } from "@/types/api";
 
 export const sessionKey = ["auth", "me"] as const;
 
 export function useCurrentUser() {
+  const required = authRequired();
   return useQuery({
     queryKey: sessionKey,
     queryFn: () => apiFetch<User>("/api/auth/me"),
+    // Open mode: no session lookup; everyone browses as a guest.
+    enabled: required,
+    initialData: required ? undefined : GUEST_USER,
+    // Fixed timestamp + "static" so the guest query never reads the clock during prerendering.
+    initialDataUpdatedAt: required ? undefined : 0,
     retry: (count, error) => !(error instanceof ApiError && error.status === 401) && count < 2,
-    staleTime: 5 * 60 * 1000,
+    staleTime: required ? 5 * 60 * 1000 : "static",
   });
 }
 

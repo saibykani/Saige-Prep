@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { authRequired } from "@/lib/auth-mode";
 
 const SESSION_COOKIE = "saige_session";
 const PUBLIC_PATHS = new Set(["/", "/login"]);
@@ -10,7 +11,7 @@ const PUBLIC_PATHS = new Set(["/", "/login"]);
  */
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  if (PUBLIC_PATHS.has(pathname) || request.cookies.has(SESSION_COOKIE)) {
+  if (!authRequired() || PUBLIC_PATHS.has(pathname) || request.cookies.has(SESSION_COOKIE)) {
     return NextResponse.next();
   }
   const loginUrl = new URL("/login", request.url);
