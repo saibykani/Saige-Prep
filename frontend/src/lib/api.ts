@@ -61,7 +61,12 @@ export async function apiFetch<T>(path: string, init: RequestInit & { json?: unk
   }
 
   if (response.status === 204) return undefined as T;
-  const body: unknown = await response.json().catch(() => undefined);
+  const isJson = response.headers.get("content-type")?.includes("application/json") ?? false;
+  const body: unknown = isJson ? await response.json().catch(() => undefined) : undefined;
+  if (!response.ok && !isJson && [404, 500, 502, 503, 504].includes(response.status)) {
+    // A non-JSON error means the request never reached the Saige-Prep API (wrong BACKEND_URL or backend down).
+    throw new ApiError(response.status, "Cannot reach the Saige-Prep API. Check that the backend is running and BACKEND_URL points to it.");
+  }
   if (!response.ok) {
     throw new ApiError(response.status, messageFrom(body, `Request failed (${response.status})`), body);
   }

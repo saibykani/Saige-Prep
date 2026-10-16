@@ -45,8 +45,8 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Code", Consolas, monospace;
 }
 
 body {
@@ -86,4 +86,130 @@ body {
 
 .animate-fade-in {
   animation: fade-in-up 180ms ease-out both;
+}
+
+/* ---------- Login / hero animations ---------- */
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg));
+  }
+  33% {
+    transform: translate3d(6px, -14px, 0) rotate(calc(var(--tilt, 0deg) + 2deg));
+  }
+  66% {
+    transform: translate3d(-8px, -6px, 0) rotate(calc(var(--tilt, 0deg) - 2deg));
+  }
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(-10%, -6%, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+@keyframes grid-pan {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 48px 48px;
+  }
+}
+
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.float-chip {
+  animation: float-drift var(--dur, 9s) ease-in-out var(--delay, 0s) infinite;
+  will-change: transform;
+}
+
+.aurora-blob {
+  animation: aurora var(--dur, 16s) ease-in-out var(--delay, 0s) infinite;
+  filter: blur(70px);
+}
+
+.grid-backdrop {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: grid-pan 12s linear infinite;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* Rotating gradient border for the sign-in card. */
+.glow-border {
+  position: relative;
+  isolation: isolate;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg,
+    rgb(163 148 245 / 0.75) 60deg,
+    rgb(79 191 143 / 0.6) 120deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  animation: border-spin 6s linear infinite;
+}
+
+.terminal-line {
+  animation: line-in 260ms ease-out both;
+}
+
+.caret {
+  animation: caret-blink 1s step-end infinite;
+}
+
+.scanline {
+  animation: scan 5s linear infinite;
 }

@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 // FastAPI backend. Browser requests stay same-origin and are rewritten server-side,
 // so the session cookie is first-party and CORS is not needed in the browser path.
 // Rewrites are resolved at build time: set BACKEND_URL before `next build`.
-const backendUrl = (process.env.BACKEND_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
+// Default port 8010 avoids clashing with other local services commonly bound to 8000.
+const backendUrl = (process.env.BACKEND_URL ?? "http://127.0.0.1:8010").replace(/\/$/, "");
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },

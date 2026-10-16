@@ -17,7 +17,8 @@ OWNER_PASSWORD = "Correct-Horse-42"
 def _test_settings(**overrides) -> Settings:
     base = {
         "app_env": "test",
-        "mongodb_uri": os.environ.get("TEST_MONGODB_URI", "mongodb://127.0.0.1:27017"),
+        # Same server as development (from .env) unless TEST_MONGODB_URI overrides it.
+        "mongodb_uri": os.environ.get("TEST_MONGODB_URI") or Settings().mongodb_uri.get_secret_value(),
         # Never the real database: tests drop this database freely.
         "mongodb_database": "saige_prep_test",
         "mongodb_timeout_ms": 2000,

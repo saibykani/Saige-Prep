@@ -6,8 +6,8 @@ test.describe("authentication", () => {
     await page.goto("/learn/manual-testing");
     await expect(page).toHaveURL(/\/login\?next=%2Flearn%2Fmanual-testing/);
 
-    await page.getByLabel("Email").fill(OWNER.email);
-    await page.getByLabel("Password").fill(OWNER.password);
+    await page.getByLabel("Email", { exact: true }).fill(OWNER.email);
+    await page.getByLabel("Password", { exact: true }).fill(OWNER.password);
     await page.getByRole("button", { name: "Sign in" }).click();
 
     await expect(page).toHaveURL(/\/learn\/manual-testing$/);
@@ -16,8 +16,8 @@ test.describe("authentication", () => {
 
   test("wrong password shows an error and stays on login", async ({ page }) => {
     await page.goto("/login");
-    await page.getByLabel("Email").fill(OWNER.email);
-    await page.getByLabel("Password").fill("Not-The-Password-1");
+    await page.getByLabel("Email", { exact: true }).fill(OWNER.email);
+    await page.getByLabel("Password", { exact: true }).fill("Not-The-Password-1");
     await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page.getByRole("alert")).toContainText("Invalid email or password");
     await expect(page).toHaveURL(/\/login/);

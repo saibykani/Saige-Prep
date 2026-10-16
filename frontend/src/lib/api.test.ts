@@ -44,6 +44,13 @@ describe("apiFetch", () => {
     expect((error as ApiError).status).toBe(0);
   });
 
+  it("explains a non-JSON 404 as an unreachable API (e.g. missing BACKEND_URL)", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response("<html>Not Found</html>", { status: 404, headers: { "Content-Type": "text/html" } }),
+    );
+    await expect(apiFetch("/api/auth/login", { json: {} })).rejects.toThrow(/Cannot reach the Saige-Prep API/);
+  });
+
   it("returns undefined for 204 responses", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 204 }));
     await expect(apiFetch("/api/auth/logout", { method: "POST" })).resolves.toBeUndefined();

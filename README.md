@@ -41,12 +41,17 @@ py -3.12 -m venv .venv
 Copy-Item ..\.env.example .env
 # Edit .env: set SESSION_SECRET (command in the file) and MONGODB_URI
 
-# 2. Database: skip if MongoDB already runs locally
-docker compose -f ..\docker-compose.yml up -d mongo
+# 2. Database: pick ONE
+#    a) MongoDB already running locally on 27017: nothing to do
+#    b) Dedicated instance with data on another drive (port 27018; set MONGODB_URI to match):
+powershell -ExecutionPolicy Bypass -File ..\scripts\start-mongo.ps1 -DataDir D:\saige-data
+#    c) Docker: docker compose -f ..\docker-compose.yml up -d mongo
 
 # 3. Create the owner account. This is the only way to create an account;
 #    there is no public sign-up and no default password.
 .\.venv\Scripts\python.exe -m scripts.create_owner --email you@example.com --name "Your Name"
+# Change the password later (also signs out every session):
+.\.venv\Scripts\python.exe -m scripts.create_owner --email you@example.com --reset-password
 
 # 4. Frontend
 cd ..\frontend
@@ -58,14 +63,16 @@ If PowerShell blocks `Activate.ps1`, you don't need to change execution policy: 
 ## Running locally
 
 ```powershell
-# Terminal 1: API on http://127.0.0.1:8000 (docs at /docs)
+# Terminal 1: API on http://127.0.0.1:8010 (docs at /docs)
 cd backend
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8010
 
-# Terminal 2: web app on http://localhost:3000
+# Terminal 2: web app on http://localhost:3002
 cd frontend
 npm run dev
 ```
+
+Ports 3002/8010 are used so Saige-Prep doesn't collide with other local services on 3000/8000. To use other ports, set `BACKEND_URL` in `frontend/.env.local` and `FRONTEND_ORIGIN` in `backend/.env`.
 
 Health checks: `GET /health` (liveness) and `GET /ready` (checks MongoDB; returns 503 if it's down).
 
@@ -73,7 +80,7 @@ Health checks: `GET /health` (liveness) and `GET /ready` (checks MongoDB; return
 
 | Where | Command | Purpose |
 |---|---|---|
-| backend | `.\.venv\Scripts\python.exe -m pytest` | Unit, integration and security tests (needs MongoDB; uses `saige_prep_test`) |
+| backend | `.\.venv\Scripts\python.exe -m pytest` | Unit, integration and security tests (MongoDB from `.env` or `TEST_MONGODB_URI`; uses `saige_prep_test`) |
 | backend | `.\.venv\Scripts\python.exe -m ruff check .` | Lint |
 | backend | `.\.venv\Scripts\python.exe -m ruff format .` | Format |
 | frontend | `npm run typecheck` | TypeScript strict check |
