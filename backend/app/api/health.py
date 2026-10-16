@@ -7,6 +7,12 @@ from app.schemas.health import HealthOut, ReadinessCheck, ReadinessOut
 router = APIRouter(tags=["health"])
 
 
+@router.get("/", response_model=HealthOut, summary="Service info", include_in_schema=False)
+async def root(settings: SettingsDep) -> HealthOut:
+    """Friendly response at the bare backend URL (e.g. the hosting dashboard preview)."""
+    return HealthOut(status="ok", app=settings.app_name, version=__version__)
+
+
 @router.get("/health", response_model=HealthOut, summary="Liveness probe")
 async def health(settings: SettingsDep) -> HealthOut:
     """Reports that the process is up. Does not touch dependencies."""
