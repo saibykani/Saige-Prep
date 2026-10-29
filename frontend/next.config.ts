@@ -25,6 +25,13 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Login is disabled: the home and login pages open the dashboard directly.
+  async redirects() {
+    return [
+      { source: "/", destination: "/dashboard", permanent: false },
+      { source: "/login", destination: "/dashboard", permanent: false },
+    ];
+  },
   async rewrites() {
     return [
       { source: "/api/:path*", destination: `${backendUrl}/api/:path*` },

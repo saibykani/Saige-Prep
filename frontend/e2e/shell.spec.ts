@@ -1,13 +1,13 @@
 import { expect, test } from "@playwright/test";
-import { isMobile, OWNER, signIn } from "./fixtures";
+import { isMobile, signIn } from "./fixtures";
 
 test.describe("application shell", () => {
   test.beforeEach(async ({ page }) => {
     await signIn(page);
   });
 
-  test("dashboard shows the user, real system status and an honest empty state", async ({ page }) => {
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(OWNER.name);
+  test("dashboard shows real system status and an honest empty state", async ({ page }) => {
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     const checks = page.getByRole("list", { name: "System checks" });
     await expect(checks).toContainText("Connected");
     await expect(checks).toContainText("Off — curated mode");
@@ -21,7 +21,6 @@ test.describe("application shell", () => {
       ["Mock Tests", "/mock-tests"],
       ["QA Toolkit", "/toolkit"],
       ["Settings", "/settings"],
-      ["Admin", "/admin"],
     ] as const;
     for (const [label, href] of sections) {
       if (isMobile(page)) await page.getByRole("button", { name: "Open navigation" }).click();

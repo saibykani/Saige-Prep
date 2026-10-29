@@ -45,8 +45,7 @@ export default defineConfig({
     {
       command: "npx next dev --port 3100 --hostname 127.0.0.1",
       url: "http://127.0.0.1:3100/login",
-      // E2E always exercises the real sign-in flow.
-      env: { BACKEND_URL: "http://127.0.0.1:8100", NEXT_PUBLIC_AUTH_REQUIRED: "true" },
+      env: { BACKEND_URL: "http://127.0.0.1:8100" },
       reuseExistingServer: false,
       timeout: 180_000,
     },

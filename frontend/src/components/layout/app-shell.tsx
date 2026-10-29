@@ -149,7 +149,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               {user.display_name}
             </span>
             {isGuest(user) ? (
-              <Badge tone="accent" title="Sign-in is turned off (NEXT_PUBLIC_AUTH_REQUIRED is not set)">
+              <Badge tone="accent" title="Login is turned off; the portal opens directly">
                 Open access
               </Badge>
             ) : (

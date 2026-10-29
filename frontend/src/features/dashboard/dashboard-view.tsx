@@ -23,12 +23,6 @@ const OWNER_STEP: NextStep = {
   detail: "Signed in with a private, bootstrapped account.",
   done: true,
 };
-const GUEST_STEP: NextStep = {
-  label: "Turn sign-in back on when you go private",
-  detail: "Open access is enabled. Set NEXT_PUBLIC_AUTH_REQUIRED=true and rebuild to require login.",
-  done: false,
-};
-
 const LEARNING_STEPS: NextStep[] = [
   {
     label: "Pick a target role",
@@ -62,7 +56,7 @@ function greeting(date = new Date()) {
 
 export function DashboardView() {
   const { data: user } = useCurrentUser();
-  const NEXT_STEPS = [isGuest(user) ? GUEST_STEP : OWNER_STEP, ...LEARNING_STEPS];
+  const NEXT_STEPS = isGuest(user) ? LEARNING_STEPS : [OWNER_STEP, ...LEARNING_STEPS];
 
   return (
     <div className="animate-fade-in">

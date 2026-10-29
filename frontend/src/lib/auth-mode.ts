@@ -1,11 +1,12 @@
 import type { User } from "@/types/api";
 
 /**
- * Sign-in is optional for now: the app is open unless NEXT_PUBLIC_AUTH_REQUIRED=true
- * is set at build time. The backend still enforces auth on its own protected endpoints.
+ * Login is turned off: the owner asked for the portal to open directly with no sign-in.
+ * Everyone browses as GUEST_USER. The login form and backend auth code are kept so
+ * sign-in can be restored later by making this return true again.
  */
 export function authRequired(): boolean {
-  return process.env.NEXT_PUBLIC_AUTH_REQUIRED === "true";
+  return false;
 }
 
 export const GUEST_USER: User = {

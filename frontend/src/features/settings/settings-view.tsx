@@ -27,9 +27,8 @@ export function SettingsView() {
           <CardContent>
             {isGuest(user) ? (
               <p className="text-sm text-muted">
-                Open access is on, so you are browsing as a guest without an account. To require sign-in, set{" "}
-                <code className="font-mono text-foreground">NEXT_PUBLIC_AUTH_REQUIRED=true</code> and rebuild the
-                frontend.
+                Login is turned off, so the portal opens directly and you are browsing as a guest. No account is
+                needed.
               </p>
             ) : user && (
               <dl className="grid grid-cols-[120px_1fr] gap-y-3 text-sm">
