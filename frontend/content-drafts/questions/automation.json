@@ -1,0 +1,805 @@
+{
+  "bank": "automation",
+  "title": "Automation Testing",
+  "track": "automation",
+  "questions": [
+    {
+      "id": "au-001",
+      "type": "code-output",
+      "topic": "java-basics-for-testers",
+      "difficulty": "beginner",
+      "prompt": "What does this Java code print?",
+      "code": "String a = \"test\";\nString b = new String(\"test\");\nSystem.out.println(a == b);\nSystem.out.println(a.equals(b));\n",
+      "codeLanguage": "java",
+      "options": [
+        "false, then true",
+        "true, then true",
+        "false, then false",
+        "true, then false"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`==` compares object references, and `new String(\"test\")` creates a separate object, so `a == b` is false. `equals()` compares the characters, so it returns true, which is why string assertions in tests should use `equals` or `assertEquals`."
+    },
+    {
+      "id": "au-002",
+      "type": "code-output",
+      "topic": "java-basics-for-testers",
+      "difficulty": "intermediate",
+      "prompt": "A report calculates a pass rate. What does this code print?",
+      "code": "int passed = 7, total = 8;\ndouble rate = passed / total * 100;\nSystem.out.println(rate);\n",
+      "codeLanguage": "java",
+      "options": [
+        "87.5",
+        "0.0",
+        "87.0",
+        "100.0"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`passed / total` is integer division because both operands are `int`, so 7 / 8 evaluates to 0 before the multiplication and the result 0 is widened to 0.0. Casting first, as in `(double) passed / total * 100`, gives the intended 87.5."
+    },
+    {
+      "id": "au-003",
+      "type": "single",
+      "topic": "java-oop-for-test-automation",
+      "difficulty": "beginner",
+      "prompt": "A page object keeps its WebElement locators private and exposes methods such as `login(user, password)`. Which OOP principle does this apply?",
+      "options": [
+        "Inheritance",
+        "Encapsulation",
+        "Method overloading",
+        "Polymorphism"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Encapsulation hides internal details (the locators) behind a public interface (the actions), so tests cannot depend on how the page is built. Inheritance would be a page object extending a BasePage, which is a different technique."
+    },
+    {
+      "id": "au-004",
+      "type": "code-output",
+      "topic": "java-oop-for-test-automation",
+      "difficulty": "intermediate",
+      "prompt": "A variable of type BasePage holds a LoginPage object. What does this code print?",
+      "code": "class BasePage { String name() { return \"base\"; } }\nclass LoginPage extends BasePage {\n    @Override String name() { return \"login\"; }\n}\n\nBasePage page = new LoginPage();\nSystem.out.println(page.name());\n",
+      "codeLanguage": "java",
+      "options": [
+        "base",
+        "login",
+        "A compilation error",
+        "null"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The variable is declared as `BasePage`, but the object is a `LoginPage`, and Java chooses overridden instance methods at runtime from the actual object type. Printing \"base\" would only happen if `name()` were static or not overridden."
+    },
+    {
+      "id": "au-005",
+      "type": "single",
+      "topic": "java-collections-and-exceptions",
+      "difficulty": "beginner",
+      "prompt": "What does Selenium's `driver.getWindowHandles()` return?",
+      "options": [
+        "A `Set<String>` of unique window handles",
+        "A `Map<String, WebElement>`",
+        "A `List<String>` that can contain duplicates",
+        "A single `String`"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each window or tab has a unique handle, so Selenium returns them as a `Set<String>`, which cannot contain duplicates. A single `String` is what `getWindowHandle()` returns for the current window only."
+    },
+    {
+      "id": "au-006",
+      "type": "code-output",
+      "topic": "java-collections-and-exceptions",
+      "difficulty": "advanced",
+      "prompt": "What does this code with try, catch and finally print?",
+      "code": "static String run() {\n    try {\n        throw new IllegalStateException(\"boom\");\n    } catch (IllegalStateException e) {\n        return \"caught\";\n    } finally {\n        System.out.print(\"cleanup \");\n    }\n}\n\nSystem.out.println(run());\n",
+      "codeLanguage": "java",
+      "options": [
+        "cleanup caught",
+        "A stack trace for IllegalStateException",
+        "caught cleanup",
+        "caught"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The exception is caught, and the `finally` block runs before the method actually returns, so \"cleanup \" is printed first and then `println` prints the returned value \"caught\". This is why `finally` (or `@AfterMethod`) is a reliable place for cleanup such as quitting the driver."
+    },
+    {
+      "id": "au-007",
+      "type": "single",
+      "topic": "selenium-architecture",
+      "difficulty": "beginner",
+      "prompt": "In Selenium 4, how do the language bindings communicate with browser drivers such as chromedriver?",
+      "options": [
+        "Using the W3C WebDriver protocol over HTTP",
+        "Using the JSON Wire Protocol",
+        "Through the operating system clipboard",
+        "By injecting JavaScript directly into the page"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Selenium 4 uses the W3C WebDriver standard, sending HTTP requests with JSON payloads to the driver, which controls the browser. The older JSON Wire Protocol was used by Selenium 3 and earlier and is no longer supported by Selenium 4."
+    },
+    {
+      "id": "au-008",
+      "type": "truefalse",
+      "topic": "selenium-architecture",
+      "difficulty": "intermediate",
+      "prompt": "From Selenium 4.6 onwards, Selenium Manager can automatically find or download a matching browser driver when none is available on the PATH.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Selenium Manager ships with Selenium from version 4.6 and resolves drivers (and, in later versions, browsers) automatically. Before that, teams had to download drivers manually or use third-party tools such as WebDriverManager."
+    },
+    {
+      "id": "au-009",
+      "type": "single",
+      "topic": "locator-strategies",
+      "difficulty": "beginner",
+      "prompt": "Which locator is generally the most robust against UI changes?",
+      "options": [
+        "Link text that changes with the language setting",
+        "A build-generated CSS class such as .css-1x2y3z",
+        "An absolute XPath such as /html/body/div[2]/div/form/button",
+        "A dedicated test attribute such as [data-testid='submit-order']"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "A dedicated test attribute exists only to identify the element, so styling or layout changes do not break it. An absolute XPath breaks whenever any ancestor element is added or moved, which makes it one of the most fragile choices."
+    },
+    {
+      "id": "au-010",
+      "type": "code-output",
+      "topic": "locator-strategies",
+      "difficulty": "beginner",
+      "prompt": "Which elements does this CSS selector match?",
+      "code": "form#login input[type='password']\n",
+      "codeLanguage": "css",
+      "options": [
+        "Password inputs that are descendants of the form with id \"login\"",
+        "Every input element on the page",
+        "Inputs that have the class \"password\"",
+        "Only the form element with id \"login\""
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The `#login` id selector picks the form, the space is the descendant combinator, and `input[type='password']` filters by attribute value. Selecting by class would need `.password`, which this selector does not contain."
+    },
+    {
+      "id": "au-011",
+      "type": "multiple",
+      "topic": "locator-strategies",
+      "difficulty": "advanced",
+      "prompt": "A button contains only the text \"Save\", with no surrounding whitespace or child elements. Which XPath expressions select only buttons whose text is exactly \"Save\"? Select all that apply.",
+      "options": [
+        "//button[text()='Save']",
+        "//button[.='Save']",
+        "//button[contains(text(),'Save')]",
+        "//button[@text='Save']"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "`text()='Save'` compares the button's text node and `.='Save'` compares its full string value, so both match exactly. `contains()` would also match \"Save draft\", and `@text` looks for an attribute named text, which HTML buttons do not have."
+    },
+    {
+      "id": "au-012",
+      "type": "single",
+      "topic": "waits-and-synchronization",
+      "difficulty": "intermediate",
+      "prompt": "Why does the Selenium documentation advise against mixing implicit and explicit waits?",
+      "options": [
+        "Mixing them causes a compilation error",
+        "Explicit waits stop working once an implicit wait is set",
+        "Implicit waits are deprecated in Selenium 4",
+        "The combination can cause unpredictable wait times"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "An implicit wait applies to every element lookup, including the lookups an explicit wait makes while polling, so timeouts can stack in unexpected ways. Implicit waits are not deprecated; the advice is to choose one approach, and most teams prefer explicit waits for specific conditions."
+    },
+    {
+      "id": "au-013",
+      "type": "debugging",
+      "topic": "waits-and-synchronization",
+      "difficulty": "advanced",
+      "prompt": "This test passes locally but fails intermittently in CI because the toast sometimes appears after more than 3 seconds. What is the best fix?",
+      "code": "driver.findElement(By.id(\"save\")).click();\nThread.sleep(3000);\nString message = driver.findElement(By.id(\"toast\")).getText();\nAssert.assertEquals(message, \"Saved\");\n",
+      "codeLanguage": "java",
+      "options": [
+        "Add a retry annotation so the whole test runs three times",
+        "Increase the sleep to 10 seconds",
+        "Set a 30-second implicit wait in addition to the sleep",
+        "Replace the sleep with `new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(By.id(\"toast\")))`"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "An explicit wait polls for the specific condition and continues as soon as the toast is visible, so it is both faster and more reliable than a fixed sleep. A longer sleep still guesses the timing and slows every run, and retries hide the synchronisation problem rather than fixing it."
+    },
+    {
+      "id": "au-014",
+      "type": "single",
+      "topic": "handling-frames-windows-alerts",
+      "difficulty": "intermediate",
+      "prompt": "An element you can see on the page throws `NoSuchElementException`, and you find it is inside an iframe. What must you do?",
+      "options": [
+        "Use an absolute XPath that starts at /html",
+        "Call `driver.navigate().refresh()` before the lookup",
+        "Switch to the frame with `driver.switchTo().frame(...)`, interact, then return with `driver.switchTo().defaultContent()`",
+        "Add a longer implicit wait"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "WebDriver searches only the current browsing context, so elements inside an iframe are invisible to it until you switch into that frame. Waiting longer does not help because the element will never appear in the top-level document."
+    },
+    {
+      "id": "au-015",
+      "type": "debugging",
+      "topic": "handling-frames-windows-alerts",
+      "difficulty": "advanced",
+      "prompt": "Clicking \"Help\" opens a new tab. What happens on the last line of this code?",
+      "code": "String original = driver.getWindowHandle();\ndriver.findElement(By.linkText(\"Help\")).click();\nfor (String handle : driver.getWindowHandles()) {\n    if (!handle.equals(original)) {\n        driver.switchTo().window(handle);\n    }\n}\ndriver.close();\nSystem.out.println(driver.getTitle());\n",
+      "codeLanguage": "java",
+      "options": [
+        "It prints an empty string",
+        "It throws `NoSuchWindowException`, because the driver is still focused on the tab that was just closed",
+        "It prints the title of the Help page",
+        "It prints the title of the original page"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`close()` closes the current window but does not move the driver's focus, so the next command targets a window that no longer exists. The fix is to call `driver.switchTo().window(original)` after closing the Help tab."
+    },
+    {
+      "id": "au-016",
+      "type": "single",
+      "topic": "testng-essentials",
+      "difficulty": "beginner",
+      "prompt": "Which TestNG annotation marks a method to run before every @Test method in the class?",
+      "options": [
+        "@BeforeTest",
+        "@BeforeMethod",
+        "@BeforeSuite",
+        "@BeforeClass"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`@BeforeMethod` runs before each test method, which makes it the usual place to start a fresh browser. `@BeforeTest` is easy to confuse with it but runs once before each `<test>` tag in testng.xml, not before every method."
+    },
+    {
+      "id": "au-017",
+      "type": "code-output",
+      "topic": "testng-essentials",
+      "difficulty": "intermediate",
+      "prompt": "What are the results of these two TestNG tests?",
+      "code": "@Test\npublic void login() {\n    Assert.fail(\"server unavailable\");\n}\n\n@Test(dependsOnMethods = \"login\")\npublic void checkout() {\n    // ...\n}\n",
+      "codeLanguage": "java",
+      "options": [
+        "login fails and checkout passes",
+        "Both tests are skipped",
+        "Both tests fail",
+        "login fails and checkout is skipped"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "With `dependsOnMethods`, TestNG skips a test when a method it depends on fails, so `checkout` is reported as skipped rather than run. If `alwaysRun = true` were set on `checkout`, it would run despite the failure."
+    },
+    {
+      "id": "au-018",
+      "type": "single",
+      "topic": "junit-5-essentials",
+      "difficulty": "beginner",
+      "prompt": "Which JUnit 5 annotation replaces JUnit 4's `@Before`?",
+      "options": [
+        "@BeforeAll",
+        "@BeforeEach",
+        "@BeforeMethod",
+        "@Setup"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "In JUnit 5 (Jupiter), `@BeforeEach` runs before every test method, just as `@Before` did in JUnit 4. `@BeforeAll` runs once per class, and `@BeforeMethod` is a TestNG annotation."
+    },
+    {
+      "id": "au-019",
+      "type": "code-output",
+      "topic": "junit-5-essentials",
+      "difficulty": "beginner",
+      "prompt": "How does JUnit 5 run this test?",
+      "code": "@ParameterizedTest\n@CsvSource({\"1, 1, 2\", \"2, 3, 5\", \"-1, 1, 0\"})\nvoid adds(int a, int b, int expected) {\n    assertEquals(expected, a + b);\n}\n",
+      "codeLanguage": "java",
+      "options": [
+        "It does not compile because @Test is missing",
+        "As 3 invocations, one failing",
+        "As 3 invocations, all passing",
+        "As 1 test that passes"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "`@ParameterizedTest` with `@CsvSource` runs once per CSV row, and every row is correct (1 + 1 = 2, 2 + 3 = 5, -1 + 1 = 0). A parameterized test does not need `@Test`; adding both would be a mistake."
+    },
+    {
+      "id": "au-020",
+      "type": "single",
+      "topic": "maven-for-test-projects",
+      "difficulty": "beginner",
+      "prompt": "Which Maven command compiles the project and runs its unit tests through the Surefire plugin?",
+      "options": [
+        "mvn clean",
+        "mvn test",
+        "mvn compile",
+        "mvn install -DskipTests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The `test` phase runs everything up to and including test execution, which Surefire handles by default. `mvn compile` stops before tests run, and `-DskipTests` explicitly skips them."
+    },
+    {
+      "id": "au-021",
+      "type": "single",
+      "topic": "maven-for-test-projects",
+      "difficulty": "beginner",
+      "prompt": "How should a test-only library such as TestNG be declared in pom.xml?",
+      "options": [
+        "With `<scope>compile</scope>`, so it is available everywhere",
+        "With `<scope>test</scope>`, so it is available for test code but not packaged with the application",
+        "With `<scope>provided</scope>`",
+        "In the `<build>` section as a plugin"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The test scope puts the dependency on the test classpath only and keeps it out of the production artifact. Compile scope would leak the test library into the application's runtime dependencies."
+    },
+    {
+      "id": "au-022",
+      "type": "single",
+      "topic": "git-for-testers",
+      "difficulty": "beginner",
+      "prompt": "You want to download the latest commits from the remote without changing your working files yet. Which command does this?",
+      "options": [
+        "git push",
+        "git fetch",
+        "git pull",
+        "git reset --hard"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`git fetch` updates your remote-tracking branches but leaves your local branch and working tree untouched, so you can inspect changes first. `git pull` is a fetch followed by a merge (or rebase), so it changes your branch immediately."
+    },
+    {
+      "id": "au-023",
+      "type": "scenario",
+      "topic": "git-for-testers",
+      "difficulty": "intermediate",
+      "prompt": "You accidentally committed a `.env` file containing a real API key and pushed it to the shared repository. What should you do first?",
+      "options": [
+        "Rename the file to .env.bak",
+        "Delete the file in a new commit, because that removes it from history",
+        "Revoke or rotate the key immediately, then remove the file, add it to .gitignore and agree with the team whether to rewrite history",
+        "Do nothing, because the repository is private"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Once a secret has been pushed, it must be treated as compromised, so revoking it is the only reliable protection. A new commit that deletes the file leaves the key visible in the earlier commit, which anyone with access can still read."
+    },
+    {
+      "id": "au-024",
+      "type": "single",
+      "topic": "page-object-model",
+      "difficulty": "beginner",
+      "prompt": "What is the main benefit of the Page Object Model?",
+      "options": [
+        "It removes the need for assertions",
+        "It allows tests to run without a browser",
+        "Locators and page interactions live in one place, so a UI change is fixed once and tests read as business steps",
+        "Tests run faster because pages load quicker"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Page objects centralise how a page is used, so when a locator changes only one class is updated and the tests stay readable. They do not change browser speed and do not replace assertions, which should stay in the tests."
+    },
+    {
+      "id": "au-025",
+      "type": "debugging",
+      "topic": "page-object-model",
+      "difficulty": "intermediate",
+      "prompt": "What is the main design problem in this page object?",
+      "code": "public class LoginPage {\n    private final WebDriver driver;\n\n    public LoginPage(WebDriver driver) { this.driver = driver; }\n\n    public void login(String user, String password) {\n        driver.findElement(By.id(\"user\")).sendKeys(user);\n        driver.findElement(By.id(\"password\")).sendKeys(password);\n        driver.findElement(By.id(\"submit\")).click();\n        Assert.assertEquals(driver.getTitle(), \"Dashboard\");\n    }\n}\n",
+      "codeLanguage": "java",
+      "options": [
+        "The constructor should be static",
+        "The driver field should be public",
+        "It should use `Thread.sleep` before clicking",
+        "The assertion inside `login` mixes verification into the page object, so it cannot be reused for negative tests such as an invalid password"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Page objects should perform actions and expose state, while tests decide what to assert; a hard-coded \"Dashboard\" check makes every failed-login test fail inside the page object. A better design returns the next page object (or the current one) and lets each test make its own assertion."
+    },
+    {
+      "id": "au-026",
+      "type": "code-output",
+      "topic": "data-driven-testing",
+      "difficulty": "beginner",
+      "prompt": "How many times does `canLogIn` run?",
+      "code": "@DataProvider(name = \"users\")\npublic Object[][] users() {\n    return new Object[][] {\n        {\"ana\", \"admin\"}, {\"ben\", \"editor\"}, {\"cy\", \"viewer\"}, {\"dee\", \"guest\"}\n    };\n}\n\n@Test(dataProvider = \"users\")\npublic void canLogIn(String name, String role) { /* ... */ }\n",
+      "codeLanguage": "java",
+      "options": [
+        "1",
+        "2",
+        "4",
+        "8"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "TestNG invokes the test once per row of the `Object[][]`, and there are four rows, so it runs four times with a different name and role each time. Eight would be the number of individual values, not the number of rows."
+    },
+    {
+      "id": "au-027",
+      "type": "single",
+      "topic": "data-driven-testing",
+      "difficulty": "intermediate",
+      "prompt": "Why is a DataProvider or parameterized test better than a for-loop over test data inside a single test method?",
+      "options": [
+        "Parameterized tests never need assertions",
+        "Each data row is reported as its own test result, and a failure in one row does not stop the others from running",
+        "Loops are not allowed in test methods",
+        "A DataProvider runs without a browser"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With a loop, the first failing assertion ends the method, so later rows never run and the report shows a single failure with little context. Loops are perfectly legal Java; the problem is the reporting and isolation, not the syntax."
+    },
+    {
+      "id": "au-028",
+      "type": "single",
+      "topic": "cucumber-bdd",
+      "difficulty": "beginner",
+      "prompt": "In a Gherkin scenario, which keyword describes the action the user takes?",
+      "options": [
+        "Given",
+        "Background",
+        "Then",
+        "When"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "`When` describes the event or action under test, `Given` sets up the context and `Then` states the expected outcome. `Background` is a section for steps shared by every scenario in the feature, not a step keyword for the action."
+    },
+    {
+      "id": "au-029",
+      "type": "code-output",
+      "topic": "cucumber-bdd",
+      "difficulty": "intermediate",
+      "prompt": "How many scenarios does Cucumber run for this feature, and how many times does the Background step run?",
+      "code": "Feature: Coupons\n  Background:\n    Given I am logged in as a customer\n\n  Scenario Outline: Apply a coupon\n    When I apply the coupon \"<code>\"\n    Then the total is reduced by <percent>%\n\n    Examples:\n      | code   | percent |\n      | SAVE10 | 10      |\n      | SAVE20 | 20      |\n      | HALF   | 50      |\n",
+      "codeLanguage": "gherkin",
+      "options": [
+        "1 scenario; the Background runs once",
+        "3 scenarios; the Background runs once",
+        "3 scenarios; the Background runs 3 times",
+        "4 scenarios; the Background runs 4 times"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A Scenario Outline produces one scenario per Examples row (the header row does not count), so three scenarios run. The Background runs before each scenario, so it also runs three times, which keeps every scenario independent."
+    },
+    {
+      "id": "au-030",
+      "type": "scenario",
+      "topic": "parallel-execution",
+      "difficulty": "advanced",
+      "prompt": "Tests pass when run one at a time, but fail randomly with `parallel=\"methods\"` in TestNG. Every test uses a `static WebDriver driver` field in a shared base class. What is the best fix?",
+      "options": [
+        "Add `Thread.sleep` calls between steps",
+        "Reduce the thread count to 2",
+        "Store the driver in a `ThreadLocal<WebDriver>` so each thread gets its own browser session",
+        "Make the driver field `final`"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A static field is shared by all threads, so parallel tests drive each other's browser and interfere. `ThreadLocal` gives each thread an isolated driver, whereas fewer threads only make the collisions rarer without removing them."
+    },
+    {
+      "id": "au-031",
+      "type": "code-output",
+      "topic": "parallel-execution",
+      "difficulty": "advanced",
+      "prompt": "A suite has 6 test classes, each with 2 test methods, and this testng.xml. Which statement is true?",
+      "code": "<suite name=\"Regression\" parallel=\"classes\" thread-count=\"3\">\n  <test name=\"All\">\n    <packages>\n      <package name=\"com.example.tests\"/>\n    </packages>\n  </test>\n</suite>\n",
+      "codeLanguage": "xml",
+      "options": [
+        "Up to 3 classes run at the same time, and the methods of any one class run in the same thread",
+        "All 12 methods run at the same time",
+        "Up to 3 methods of the same class run at the same time",
+        "Tests run sequentially, because parallel needs a DataProvider"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With `parallel=\"classes\"`, TestNG runs each class in its own thread and keeps all methods of a class in that thread, limited here to 3 threads at once. Running methods of the same class concurrently would need `parallel=\"methods\"`."
+    },
+    {
+      "id": "au-032",
+      "type": "multiple",
+      "topic": "reporting-and-logging",
+      "difficulty": "intermediate",
+      "prompt": "Which items make an automated test failure report useful? Select all that apply.",
+      "options": [
+        "A screenshot taken at the moment of failure",
+        "Browser console and application logs around the failure",
+        "The stack trace with a descriptive assertion message",
+        "The test data used in the run",
+        "The plain-text passwords of the test accounts"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Screenshots, logs, a clear assertion message and the input data let someone diagnose the failure without re-running it. Secrets such as passwords must never be written to reports, which are often shared widely and stored for a long time."
+    },
+    {
+      "id": "au-033",
+      "type": "single",
+      "topic": "automation-design-patterns",
+      "difficulty": "intermediate",
+      "prompt": "Which design pattern fits a class that creates a ChromeDriver, FirefoxDriver or EdgeDriver based on a configuration value?",
+      "options": [
+        "Iterator",
+        "Factory",
+        "Decorator",
+        "Observer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A factory hides the creation logic behind one method, so tests ask for \"a driver\" and configuration decides which kind they get. Observer is about notifying subscribers of events, which does not address object creation."
+    },
+    {
+      "id": "au-034",
+      "type": "single",
+      "topic": "automation-design-patterns",
+      "difficulty": "advanced",
+      "prompt": "Why is a classic Singleton WebDriver (one static instance for the whole JVM) a problem in a growing suite?",
+      "options": [
+        "Singletons cannot be created in Java",
+        "WebDriver cannot be stored in a static field",
+        "It makes tests start more slowly",
+        "It shares one browser across all tests and threads, which breaks parallel execution and leaks state such as cookies between tests"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "A single shared browser means tests depend on each other's leftover state and cannot run concurrently. Storing a driver in a static field is legal Java; the problem is the shared lifetime, which a per-thread or per-test driver avoids."
+    },
+    {
+      "id": "au-035",
+      "type": "scenario",
+      "topic": "flaky-test-reduction",
+      "difficulty": "intermediate",
+      "prompt": "A UI test fails about once in every 20 runs with different symptoms. What should you do first?",
+      "options": [
+        "Add three automatic retries and move on",
+        "Delete the test",
+        "Increase every timeout in the suite to 60 seconds",
+        "Investigate the root cause using the failure artifacts (logs, screenshots, timing), quarantine the test if it blocks the pipeline, and fix it"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Intermittent failures usually come from synchronisation, shared data or ordering problems, and only investigation finds which one. Automatic retries hide the problem and can mask a real product defect, so they are at most a temporary measure."
+    },
+    {
+      "id": "au-036",
+      "type": "multiple",
+      "topic": "flaky-test-reduction",
+      "difficulty": "advanced",
+      "prompt": "Which of these are common causes of flaky UI tests? Select all that apply.",
+      "options": [
+        "Fixed sleeps instead of waiting for a specific condition",
+        "Tests sharing and modifying the same test data",
+        "Tests that depend on running in a particular order",
+        "Animations or transitions that are still running when the test clicks",
+        "Explicit waits for a specific, deterministic condition"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Fixed sleeps, shared data, order dependence and unfinished animations all make the outcome depend on timing or on other tests. Waiting explicitly for a deterministic condition is the cure for timing problems, not a cause of them."
+    },
+    {
+      "id": "au-037",
+      "type": "debugging",
+      "topic": "debugging-failing-tests",
+      "difficulty": "intermediate",
+      "prompt": "Clicking \"Refresh\" re-renders the results table. Why does `row.click()` throw `StaleElementReferenceException`, and what is the fix?",
+      "code": "WebElement row = driver.findElement(By.cssSelector(\"#results tr\"));\ndriver.findElement(By.id(\"refresh\")).click();\nrow.click();\n",
+      "codeLanguage": "java",
+      "options": [
+        "The element is inside an iframe, so switch frames",
+        "The page has not loaded, so add a 5-second sleep",
+        "The DOM node that `row` refers to was replaced, so locate the row again after the refresh",
+        "The CSS selector is invalid"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A WebElement is a reference to a specific DOM node, and re-rendering removes that node even if an identical-looking one replaces it. Re-locating the element (ideally after waiting for the refresh to finish) gives a fresh reference; a sleep does not help because the old reference stays stale forever."
+    },
+    {
+      "id": "au-038",
+      "type": "single",
+      "topic": "debugging-failing-tests",
+      "difficulty": "beginner",
+      "prompt": "A test fails with `ElementClickInterceptedException`. What is the most likely cause?",
+      "options": [
+        "The test has no assertion",
+        "Another element, such as a cookie banner, overlay or loading spinner, is covering the target element",
+        "The locator matched no elements",
+        "The browser driver version is wrong"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "This exception means the element was found but another element would receive the click at that point. A locator that matches nothing raises `NoSuchElementException` instead, which is a different problem."
+    },
+    {
+      "id": "au-039",
+      "type": "single",
+      "topic": "test-doubles-and-mocking",
+      "difficulty": "intermediate",
+      "prompt": "What is the main difference between a stub and a mock?",
+      "options": [
+        "A stub is used only in UI tests and a mock only in API tests",
+        "A mock always calls the real dependency",
+        "There is no difference",
+        "A stub provides canned answers to calls, while a mock also verifies that the expected interactions happened"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Stubs supply indirect inputs so the code under test can run, and mocks check the outputs as interactions, for example that `sendEmail` was called once. Neither calls the real dependency; that would be a spy wrapping a real object or no test double at all."
+    },
+    {
+      "id": "au-040",
+      "type": "code-output",
+      "topic": "test-doubles-and-mocking",
+      "difficulty": "advanced",
+      "prompt": "What does this Mockito code print?",
+      "code": "List<String> list = mock(List.class);\nwhen(list.get(0)).thenReturn(\"first\");\nSystem.out.println(list.get(0));\nSystem.out.println(list.get(1));\nSystem.out.println(list.size());\n",
+      "codeLanguage": "java",
+      "options": [
+        "first, then IndexOutOfBoundsException",
+        "first, null, 0",
+        "first, first, 1",
+        "first, null, then NullPointerException"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Only `get(0)` is stubbed, so it returns \"first\"; unstubbed methods on a Mockito mock return defaults, which is `null` for objects and `0` for `int`. A mock has no real list behind it, so it never throws `IndexOutOfBoundsException` unless told to."
+    },
+    {
+      "id": "au-041",
+      "type": "single",
+      "topic": "playwright-with-typescript",
+      "difficulty": "intermediate",
+      "prompt": "How does Playwright's web-first assertion `await expect(page.getByRole(\"status\")).toHaveText(\"Saved\")` behave?",
+      "options": [
+        "It checks once immediately and fails if the text is not there yet",
+        "It retries until the element has the expected text or the assertion timeout expires",
+        "It only works with CSS locators",
+        "It waits for a fixed 5 seconds and then checks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Web-first assertions poll the locator until the condition is met or the timeout is reached, which removes the need for manual waits. Checking once immediately is what a plain `expect(await locator.textContent())` does, which is more prone to flakiness."
+    },
+    {
+      "id": "au-042",
+      "type": "single",
+      "topic": "cypress-fundamentals",
+      "difficulty": "intermediate",
+      "prompt": "Why does `const title = cy.get(\"h1\").invoke(\"text\")` not give you the heading text as a string?",
+      "options": [
+        "Cypress commands are queued and run asynchronously, and they return chainable objects rather than values; use `.then()` or `.should()` to work with the result",
+        "The text is only available after `cy.wait(5000)`",
+        "Cypress cannot read text from elements",
+        "`cy.get` only works with XPath"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Cypress enqueues commands and runs them later, so the line returns a Chainable immediately and the text is only available inside a `.then()` callback or an assertion. Adding a fixed `cy.wait` does not change this, because the return value is still a Chainable."
+    },
+    {
+      "id": "au-043",
+      "type": "truefalse",
+      "topic": "webdriverio-fundamentals",
+      "difficulty": "beginner",
+      "prompt": "In WebdriverIO, `$` finds a single element and `$$` finds all matching elements.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`$(selector)` returns the first matching element and `$$(selector)` returns an array of all matches. This mirrors the familiar jQuery-style shorthand, and both accept CSS selectors as well as the other selector strategies WebdriverIO supports."
+    },
+    {
+      "id": "au-044",
+      "type": "single",
+      "topic": "robot-framework-fundamentals",
+      "difficulty": "beginner",
+      "prompt": "In Robot Framework's space-separated test data format, how are a keyword and its arguments separated?",
+      "options": [
+        "By semicolons",
+        "By a single space",
+        "By two or more spaces",
+        "By commas"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Robot Framework uses two or more spaces (or a tab or the pipe format) as the separator, which is why keyword names can contain single spaces, such as `Open Browser`. A single space is treated as part of the keyword name or argument."
+    },
+    {
+      "id": "au-045",
+      "type": "truefalse",
+      "topic": "accessibility-automation",
+      "difficulty": "intermediate",
+      "prompt": "A page that reports zero violations in an automated axe-core scan is fully conformant with WCAG 2.2 Level AA.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Automated tools reliably detect only some issues, such as missing labels, missing alt attributes or insufficient contrast, and they cannot judge whether alt text is meaningful or a keyboard flow makes sense. Automated scans are a valuable first pass, but manual and assistive-technology testing are still needed."
+    }
+  ]
+}

@@ -6,10 +6,10 @@ import { allTopics } from "./curriculum";
 import { getInterviewTracks, getLessons, getProjects, getRoles } from "./loader";
 
 /**
- * Kinds whose pages are live. Interview, project, tool and practice docs are indexed only
+ * Kinds whose pages are live. Interview and project docs are indexed only
  * once their pages ship, so search never links to an unbuilt page.
  */
-const LIVE_KINDS = new Set<SearchDoc["kind"]>(["lesson", "role", "section"]);
+const LIVE_KINDS = new Set<SearchDoc["kind"]>(["lesson", "role", "section", "tool", "practice"]);
 
 /** Builds the global search index from all bundled content (run at build time). */
 export function buildSearchIndex(): SearchDoc[] {

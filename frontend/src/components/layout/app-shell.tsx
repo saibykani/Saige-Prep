@@ -4,6 +4,7 @@ import { LogOut, Menu, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { BrandMark } from "@/components/layout/brand-mark";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { CommandPalette } from "@/components/navigation/command-palette";
 import { SidebarNav } from "@/components/navigation/sidebar-nav";
@@ -19,9 +20,7 @@ const subscribeNoop = () => () => {};
 function Brand() {
   return (
     <Link href="/dashboard" className="flex items-center gap-2 px-2">
-      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent text-sm font-bold text-[#0d0b1a]">
-        S
-      </span>
+      <BrandMark />
       <span className="text-sm font-semibold tracking-tight">Saige-Prep</span>
     </Link>
   );
