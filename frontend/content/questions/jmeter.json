@@ -1,0 +1,1047 @@
+{
+  "bank": "jmeter",
+  "title": "Apache JMeter",
+  "track": "jmeter",
+  "questions": [
+    {
+      "id": "jm-001",
+      "type": "single",
+      "topic": "what-is-jmeter",
+      "difficulty": "beginner",
+      "prompt": "What does Apache JMeter actually do when it runs an HTTP test?",
+      "options": [
+        "Sends real protocol requests from threads and measures the responses",
+        "Renders pages in a full browser and executes their JavaScript",
+        "Profiles the server's CPU and memory from inside the application",
+        "Reads the server's access logs and replays them as metrics"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter works at the protocol level: each thread sends HTTP requests and records timings and results. It is not a browser, so it does not render pages or run client-side JavaScript, which is the tempting misconception. See: What is Apache JMeter (and what it is not)."
+    },
+    {
+      "id": "jm-002",
+      "type": "single",
+      "topic": "installing-jmeter",
+      "difficulty": "beginner",
+      "prompt": "What must be installed before JMeter 5.6.x can start?",
+      "options": [
+        "Node.js",
+        "A supported Java runtime (Java 8 or later)",
+        "Python 3",
+        "A local database server"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "JMeter is a pure Java application, so it needs a Java runtime; JMeter 5.6 requires Java 8 or later, and a current LTS JDK is recommended. Node.js, Python and databases are not prerequisites, which is why those distractors are wrong. See: Installing JMeter and Java step by step."
+    },
+    {
+      "id": "jm-003",
+      "type": "truefalse",
+      "topic": "jmeter-gui-tour",
+      "difficulty": "beginner",
+      "prompt": "The JMeter GUI is the recommended way to run the real high-volume load test.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. The GUI is for building and debugging scripts; it consumes a lot of memory and CPU, especially with listeners, so the real load test should run in non-GUI (CLI) mode with jmeter -n. JMeter itself prints this warning when it starts in GUI mode. See: A guided tour of the JMeter GUI."
+    },
+    {
+      "id": "jm-004",
+      "type": "single",
+      "topic": "jmeter-fundamentals",
+      "difficulty": "beginner",
+      "prompt": "What is the minimum set of elements needed for a test plan that sends one HTTP request and lets you see the result in the GUI?",
+      "options": [
+        "Test Plan and a listener only",
+        "Test Plan, a timer and an assertion",
+        "Test Plan, a Thread Group, an HTTP Request sampler and a listener",
+        "Test Plan and an HTTP Request sampler, with no Thread Group needed"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Samplers only run inside a Thread Group, which supplies the virtual users, and a listener is needed to view results in the GUI. A sampler placed without a Thread Group never executes, which rules out the last option. See: JMeter Fundamentals."
+    },
+    {
+      "id": "jm-005",
+      "type": "scenario",
+      "topic": "jmeter-thread-groups",
+      "difficulty": "beginner",
+      "prompt": "A Thread Group has Number of Threads = 50, Ramp-up period = 100 seconds and Loop Count = 1. How are the threads started?",
+      "options": [
+        "All 50 threads start at once and run for 100 seconds",
+        "About one new thread every 2 seconds until all 50 are running",
+        "One thread starts and runs 100 iterations",
+        "50 threads start every 100 seconds"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Ramp-up spreads thread starts across the period: 100 s / 50 threads means roughly one new thread every 2 seconds. Ramp-up is not a duration for which all threads run, so the first option is the common misreading. See: Thread Groups: users, ramp-up and loops."
+    },
+    {
+      "id": "jm-006",
+      "type": "code-output",
+      "topic": "jmeter-thread-groups",
+      "difficulty": "beginner",
+      "prompt": "Given these Thread Group settings, how many times in total is the single HTTP sampler executed (assuming no errors)?",
+      "code": "Number of Threads (users): 10\nRamp-up period (seconds): 20\nLoop Count: 4\nSpecify thread lifetime: unchecked",
+      "codeLanguage": "text",
+      "options": [
+        "10",
+        "4",
+        "14",
+        "40"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Each of the 10 threads runs the loop 4 times, so the sampler runs 10 x 4 = 40 times. Adding threads and loops (14) or taking only one of the values ignores that every thread performs every iteration. See: Thread Groups: users, ramp-up and loops."
+    },
+    {
+      "id": "jm-007",
+      "type": "single",
+      "topic": "jmeter-thread-groups",
+      "difficulty": "advanced",
+      "prompt": "What does 'Same user on each iteration' (enabled by default in JMeter 5.x Thread Groups) control?",
+      "options": [
+        "Whether cookies, cache and similar state are kept across iterations of the same thread",
+        "Whether every thread uses the same CSV row",
+        "Whether only one thread is created",
+        "Whether timers are applied once per iteration"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "When checked, a thread keeps its cookie and cache state between iterations, behaving like one user doing repeated actions; unchecking it makes each iteration behave like a fresh user. It has nothing to do with CSV row sharing, which is controlled by the CSV Data Set Config's sharing mode. See: Thread Groups: users, ramp-up and loops."
+    },
+    {
+      "id": "jm-008",
+      "type": "single",
+      "topic": "jmeter-http-request-sampler",
+      "difficulty": "beginner",
+      "prompt": "In an HTTP Request sampler, which field holds '/api/orders' for a request to https://shop.example.com/api/orders?",
+      "options": [
+        "Server Name or IP",
+        "Path",
+        "Protocol",
+        "Content encoding"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Path field holds the resource path, while Server Name holds only the host 'shop.example.com' and Protocol holds 'https'. Putting the full URL into Server Name is a common beginner error that produces unknown-host failures. See: The HTTP Request sampler in depth."
+    },
+    {
+      "id": "jm-009",
+      "type": "single",
+      "topic": "jmeter-http-request-sampler",
+      "difficulty": "intermediate",
+      "prompt": "What does enabling 'Retrieve All Embedded Resources' in an HTTP Request do?",
+      "options": [
+        "Executes JavaScript to fetch AJAX data",
+        "Follows every link on the page recursively",
+        "Parses the HTML response and also downloads referenced images, CSS and scripts",
+        "Stores the response body to disk"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "It makes JMeter parse HTML and fetch embedded resources such as images, stylesheets and scripts, optionally in parallel, to mimic a browser's page load. It does not execute JavaScript or crawl links, so AJAX calls still have to be scripted separately. See: The HTTP Request sampler in depth."
+    },
+    {
+      "id": "jm-010",
+      "type": "single",
+      "topic": "jmeter-config-elements",
+      "difficulty": "beginner",
+      "prompt": "Which config element lets you set the server name and protocol once so that all HTTP samplers in scope inherit them?",
+      "options": [
+        "HTTP Header Manager",
+        "User Defined Variables",
+        "HTTP Cache Manager",
+        "HTTP Request Defaults"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "HTTP Request Defaults supplies default values such as protocol, server and port to every HTTP Request in its scope that leaves those fields blank. The Header Manager adds HTTP headers, not target server details, so it is the tempting but wrong choice. See: Config elements: defaults, headers, cookies and cache."
+    },
+    {
+      "id": "jm-011",
+      "type": "multiple",
+      "topic": "jmeter-config-elements",
+      "difficulty": "intermediate",
+      "prompt": "Which statements about the HTTP Header Manager are correct? (Select all that apply.)",
+      "options": [
+        "It can set headers such as Content-Type: application/json",
+        "Placed as a child of a single sampler, it applies only to that sampler",
+        "It automatically extracts tokens from responses",
+        "It can reference variables, as in Bearer ${token}"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "The Header Manager adds request headers, follows normal scoping rules and supports variable references such as Bearer ${token}. It never extracts anything from responses; that is the job of post-processors like the JSON Extractor. See: Config elements: defaults, headers, cookies and cache."
+    },
+    {
+      "id": "jm-012",
+      "type": "single",
+      "topic": "jmeter-listeners-and-results",
+      "difficulty": "intermediate",
+      "prompt": "In JMeter results, what does the 'Latency' value measure?",
+      "options": [
+        "Total time until the last byte of the response is received",
+        "Time from just before sending the request until the first byte of the response is received",
+        "Time spent establishing the TCP connection only",
+        "Time the thread spent in timers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Latency is time to first response byte, while 'elapsed' covers the whole response until the last byte. Connect time is reported separately and is included within latency, so it is not the same thing. See: Listeners and reading results."
+    },
+    {
+      "id": "jm-013",
+      "type": "truefalse",
+      "topic": "jmeter-listeners-and-results",
+      "difficulty": "beginner",
+      "prompt": "View Results Tree should be disabled or removed before running a real load test.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. View Results Tree keeps request and response data in memory and is meant for debugging; under load it consumes heavy memory and CPU and skews results. For load runs, write results with -l and build reports afterwards. See: Listeners and reading results."
+    },
+    {
+      "id": "jm-014",
+      "type": "code-output",
+      "topic": "jmeter-listeners-and-results",
+      "difficulty": "intermediate",
+      "prompt": "In this CSV results line (default column order: timeStamp, elapsed, label, responseCode, responseMessage, threadName, dataType, success, ...), how long did the request take end to end?",
+      "code": "1730000000000,412,GET /api/orders,200,OK,Users 1-3,text,true,,5120,310,10,10,https://shop.example.com/api/orders,180,0,35",
+      "codeLanguage": "csv",
+      "options": [
+        "1730000000000 ms",
+        "200 ms",
+        "412 ms",
+        "It cannot be determined from this line"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The second column, 'elapsed', is the full response time in milliseconds: 412 ms. The first column is a Unix epoch timestamp of when the sample started, and 200 is the response code, not a duration. See: Listeners and reading results."
+    },
+    {
+      "id": "jm-015",
+      "type": "single",
+      "topic": "jmeter-scope-and-execution-order",
+      "difficulty": "intermediate",
+      "prompt": "A Response Assertion is placed directly under the Thread Group, alongside three HTTP samplers. Which samplers does it check?",
+      "options": [
+        "Only the first sampler",
+        "Only the sampler placed immediately above it",
+        "None, because assertions must be children of a sampler",
+        "All three samplers in that Thread Group"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Assertions, timers, pre- and post-processors apply to every sampler within their scope, so at Thread Group level it checks all three. To target one sampler, the assertion must be a child of that sampler; it does not bind to the nearest sibling. See: Element scope and execution order."
+    },
+    {
+      "id": "jm-016",
+      "type": "single",
+      "topic": "jmeter-scope-and-execution-order",
+      "difficulty": "advanced",
+      "prompt": "For a single sampler, in which order does JMeter apply the elements in scope?",
+      "options": [
+        "Timers, config elements, sampler, assertions, post-processors, listeners",
+        "Config elements, pre-processors, timers, sampler, post-processors, assertions, listeners",
+        "Pre-processors, sampler, timers, assertions, post-processors, listeners",
+        "Listeners, config elements, sampler, timers, assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The documented order is config elements, pre-processors, timers, sampler, post-processors, assertions, then listeners. Timers run before the sampler (delaying it), not after, and post-processors run before assertions, so assertions can validate extracted variables. See: Element scope and execution order."
+    },
+    {
+      "id": "jm-017",
+      "type": "truefalse",
+      "topic": "jmeter-scope-and-execution-order",
+      "difficulty": "advanced",
+      "prompt": "A Constant Timer placed under a Transaction Controller containing three samplers adds its delay only once for the whole transaction.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. A timer applies before each sampler in its scope, so it delays all three samplers, not just once per transaction. To pause once, use a Flow Control Action sampler with a pause, or make the timer a child of only one sampler. See: Element scope and execution order."
+    },
+    {
+      "id": "jm-018",
+      "type": "single",
+      "topic": "jmeter-logic-controllers",
+      "difficulty": "beginner",
+      "prompt": "Which controller groups several samplers and reports their combined time as one business transaction such as 'Checkout'?",
+      "options": [
+        "Simple Controller",
+        "Once Only Controller",
+        "Transaction Controller",
+        "Random Controller"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The Transaction Controller generates an extra sample measuring the total time of its children. A Simple Controller only organises elements and reports nothing extra, which makes it the tempting but wrong answer. See: Logic controllers: transactions, loops and conditions."
+    },
+    {
+      "id": "jm-019",
+      "type": "single",
+      "topic": "jmeter-logic-controllers",
+      "difficulty": "intermediate",
+      "prompt": "Which controller runs its children only on the first iteration of each thread, for example a login step?",
+      "options": [
+        "Loop Controller",
+        "Once Only Controller",
+        "Throughput Controller",
+        "Interleave Controller"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Once Only Controller executes its children only during the first loop iteration of each thread. A Throughput Controller limits executions by percentage or count, and a Loop Controller repeats children, so neither gives 'first iteration only' behaviour. See: Logic controllers: transactions, loops and conditions."
+    },
+    {
+      "id": "jm-020",
+      "type": "debugging",
+      "topic": "jmeter-logic-controllers",
+      "difficulty": "advanced",
+      "prompt": "This If Controller (with 'Interpret Condition as Variable Expression' checked) never executes its children, even when status is 'PAID'. What is the most likely fix?",
+      "code": "If Controller\n  Condition: ${status} == \"PAID\"\n  [x] Interpret Condition as Variable Expression?",
+      "codeLanguage": "text",
+      "options": [
+        "Uncheck 'Evaluate for all children'",
+        "Wrap the comparison in a function so it evaluates to true/false, e.g. ${__groovy(vars.get(\"status\") == \"PAID\")}",
+        "Move the If Controller under a Loop Controller",
+        "Replace the If Controller with a Simple Controller"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "In variable-expression mode the condition field must evaluate to the literal string 'true'; a bare text comparison like the one shown is never evaluated as code, so it never equals 'true'. Using __groovy (or __jexl3) produces true or false; the other options change structure but leave the broken condition in place. See: Logic controllers: transactions, loops and conditions."
+    },
+    {
+      "id": "jm-021",
+      "type": "single",
+      "topic": "jmeter-recording-scripts",
+      "difficulty": "beginner",
+      "prompt": "How does the HTTP(S) Test Script Recorder capture browser traffic?",
+      "options": [
+        "It acts as a proxy; the browser is pointed at it and JMeter turns requests into samplers",
+        "It installs a browser extension that exports a HAR file",
+        "It reads network packets directly from the network card",
+        "It scrapes the browser history"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The recorder runs a proxy (port 8888 by default) and converts traffic passing through it into HTTP Request samplers. It does not sniff packets or use browser history, which is why the browser's proxy settings must point at it. See: Recording scripts with the HTTP(S) Test Script Recorder."
+    },
+    {
+      "id": "jm-022",
+      "type": "single",
+      "topic": "jmeter-recording-scripts",
+      "difficulty": "intermediate",
+      "prompt": "To record HTTPS sites without certificate errors, what must you do?",
+      "options": [
+        "Disable TLS on the target server",
+        "Set the recorder port to 443",
+        "Import JMeter's generated root CA certificate (ApacheJMeterTemporaryRootCA) into the browser",
+        "Use HTTP Request Defaults with protocol http"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The recorder intercepts TLS using its own temporary root CA, which the browser must trust to avoid certificate warnings. Changing the target server or forcing HTTP alters what you are testing and is not how recording works. See: Recording scripts with the HTTP(S) Test Script Recorder."
+    },
+    {
+      "id": "jm-023",
+      "type": "single",
+      "topic": "jmeter-variables-and-properties",
+      "difficulty": "beginner",
+      "prompt": "What is the key difference between JMeter variables and properties?",
+      "options": [
+        "Variables are global; properties are per thread",
+        "Variables are local to each thread; properties are shared across all threads in the JMeter instance",
+        "Both are per thread but properties are read-only",
+        "Properties can only hold numbers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each thread has its own copy of variables, while properties belong to the whole JMeter instance and are shared by all threads. That is why properties (often set with -J) are used for configuration such as user counts, and variables for per-user data such as tokens. See: Variables, properties and user-defined variables."
+    },
+    {
+      "id": "jm-024",
+      "type": "code-output",
+      "topic": "jmeter-variables-and-properties",
+      "difficulty": "beginner",
+      "prompt": "A Thread Group's Number of Threads field contains the expression below. The test is started with: jmeter -n -t plan.jmx -Jusers=50. How many threads run?",
+      "code": "${__P(users,10)}",
+      "codeLanguage": "text",
+      "options": [
+        "10",
+        "50",
+        "60",
+        "The test fails because users is undefined"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "__P reads a JMeter property and falls back to the default only if it is not set; -Jusers=50 defines it, so 50 threads run. Without -Jusers the default 10 would be used, which is the tempting answer if you overlook the command line. See: Variables, properties and user-defined variables."
+    },
+    {
+      "id": "jm-025",
+      "type": "truefalse",
+      "topic": "jmeter-variables-and-properties",
+      "difficulty": "intermediate",
+      "prompt": "User Defined Variables elements are processed at the start of the test regardless of where they appear in the plan, so they are not a way to create per-iteration dynamic values.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. All User Defined Variables are processed once at startup, regardless of location, and copied to every thread. For per-thread or per-iteration values, use CSV Data Set Config, functions or a pre-processor instead. See: Variables, properties and user-defined variables."
+    },
+    {
+      "id": "jm-026",
+      "type": "single",
+      "topic": "jmeter-csv-data-set-config",
+      "difficulty": "beginner",
+      "prompt": "What is CSV Data Set Config mainly used for?",
+      "options": [
+        "Saving test results to a CSV file",
+        "Feeding each virtual user different test data, such as usernames and passwords, from a file",
+        "Converting JSON responses to CSV",
+        "Defining HTTP headers in bulk"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "CSV Data Set Config reads lines from a file into variables so threads use different data. Saving results to CSV is done with the -l results file or listener configuration, not with this element. See: Test data with CSV Data Set Config."
+    },
+    {
+      "id": "jm-027",
+      "type": "debugging",
+      "topic": "jmeter-csv-data-set-config",
+      "difficulty": "intermediate",
+      "prompt": "A plan runs fine on the tester's laptop, but on the CI agent every request sends the literal text ${username}. The CSV config is shown. What is the most likely cause?",
+      "code": "CSV Data Set Config\n  Filename: C:\\Users\\alex\\Desktop\\users.csv\n  Variable Names: username,password\n  Recycle on EOF: True\n  Sharing mode: All threads",
+      "codeLanguage": "text",
+      "options": [
+        "The variable names must be uppercase",
+        "Recycle on EOF must be False",
+        "The absolute Windows path does not exist on the agent, so no data is loaded; use a path relative to the .jmx file",
+        "The sharing mode must be 'Current thread'"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "When the file cannot be opened the variables are never set, so JMeter sends the unresolved ${username} text literally. Relative paths resolve against the test plan's folder and work on any machine, while changing recycle or sharing mode does not help a missing file. See: Test data with CSV Data Set Config."
+    },
+    {
+      "id": "jm-028",
+      "type": "scenario",
+      "topic": "jmeter-csv-data-set-config",
+      "difficulty": "advanced",
+      "prompt": "Each user account may only be logged in once, the CSV has 100 rows and you run 100 threads for one iteration each. Which settings guarantee no account is reused?",
+      "options": [
+        "Sharing mode Current thread, Recycle on EOF True",
+        "Sharing mode All threads, Recycle on EOF True, Stop thread on EOF False",
+        "Sharing mode Current thread group, Recycle on EOF True",
+        "Sharing mode All threads, Recycle on EOF False, Stop thread on EOF True"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "With 'All threads' each line is handed out once across all threads, and disabling recycle with stop-on-EOF prevents wrapping back to row one. 'Current thread' gives every thread its own file pointer starting at row one, so every thread would use the same first account. See: Test data with CSV Data Set Config."
+    },
+    {
+      "id": "jm-029",
+      "type": "code-output",
+      "topic": "jmeter-functions",
+      "difficulty": "beginner",
+      "prompt": "What does this expression produce each time it is evaluated?",
+      "code": "${__Random(1,100)}",
+      "codeLanguage": "text",
+      "options": [
+        "Always the number 1",
+        "A random decimal between 0 and 1",
+        "A random integer between 1 and 100 inclusive",
+        "The current time in milliseconds"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "__Random(min,max) returns a random integer in the inclusive range, here 1 to 100. It does not return decimals or timestamps; __time is the function for the current time. See: JMeter functions (__Random, __time, __P and more)."
+    },
+    {
+      "id": "jm-030",
+      "type": "single",
+      "topic": "jmeter-functions",
+      "difficulty": "intermediate",
+      "prompt": "Which function returns the current time formatted as a date, for example 2026-10-30?",
+      "options": [
+        "${__Random(yyyy-MM-dd)}",
+        "${__P(yyyy-MM-dd)}",
+        "${__counter(yyyy-MM-dd)}",
+        "${__time(yyyy-MM-dd)}"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "__time takes an optional Java date format and returns the current time in it; without a format it returns epoch milliseconds. __P reads a property and __counter returns a number, so neither formats dates. See: JMeter functions (__Random, __time, __P and more)."
+    },
+    {
+      "id": "jm-031",
+      "type": "single",
+      "topic": "jmeter-correlation-and-parameterization",
+      "difficulty": "beginner",
+      "prompt": "What is correlation in JMeter?",
+      "options": [
+        "Replacing hardcoded values with data from a CSV file",
+        "Capturing a dynamic value from one response and sending it in a later request",
+        "Comparing two test runs statistically",
+        "Matching response times to server CPU graphs"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Correlation means extracting server-generated dynamic values, such as session IDs or CSRF tokens, and reusing them in later requests. Feeding user data from a CSV is parameterization, the closely related but different concept. See: Correlation and Parameterization in JMeter."
+    },
+    {
+      "id": "jm-032",
+      "type": "debugging",
+      "topic": "jmeter-correlation-and-parameterization",
+      "difficulty": "intermediate",
+      "prompt": "A recorded script logs in, then the 'Submit order' request fails with 403 'invalid CSRF token'. The recorded request body contains csrf_token=a81f9c2e. What is the fix?",
+      "options": [
+        "Add a Constant Timer before the submit request",
+        "Increase the ramp-up period",
+        "Extract the token from the form page with an extractor and send ${csrf_token} instead of the hardcoded value",
+        "Add a Response Assertion for code 403"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The recorded token was valid only for the recording session; each new session gets a new one, so it must be extracted and reused. Timers and ramp-up change pacing, not the token, and an assertion would only report the failure rather than fix it. See: Correlation and Parameterization in JMeter."
+    },
+    {
+      "id": "jm-033",
+      "type": "scenario",
+      "topic": "jmeter-correlation-and-parameterization",
+      "difficulty": "advanced",
+      "prompt": "A Regular Expression Extractor for sessionId works for most users, but intermittently the next request sends 'NOT_FOUND', the default value you configured. What is the best next step?",
+      "options": [
+        "Inspect the failing responses (for example by logging or saving them) to find the response shape or error page the regex does not match",
+        "Remove the default value so the error disappears",
+        "Set Match No. to -1",
+        "Run all threads in the GUI to watch them"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "An intermittent default value means some responses differ, often an error page or different markup, so look at the failing responses and add an assertion on the step that should provide the value. Removing the default only hides the problem, and Match No. -1 returns all matches into numbered variables, which does not fix a missing match. See: Correlation and Parameterization in JMeter."
+    },
+    {
+      "id": "jm-034",
+      "type": "single",
+      "topic": "jmeter-assertions-and-extractors",
+      "difficulty": "beginner",
+      "prompt": "Which post-processor is the natural choice for pulling a value out of a JSON response, such as $.data.id?",
+      "options": [
+        "Boundary Extractor",
+        "XPath Extractor",
+        "JSON Extractor",
+        "CSS Selector Extractor"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The JSON Extractor uses JSONPath expressions like $.data.id and is designed for JSON bodies. XPath and CSS selector extractors target XML/HTML, and a Boundary Extractor works on raw text, which is more fragile for structured JSON. See: Assertions and Extractors in JMeter."
+    },
+    {
+      "id": "jm-035",
+      "type": "code-output",
+      "topic": "jmeter-assertions-and-extractors",
+      "difficulty": "intermediate",
+      "prompt": "A Regular Expression Extractor uses the settings below against the response body {\"token\":\"abc123\",\"exp\":3600}. What is the value of ${token}?",
+      "code": "Reference Name: token\nRegular Expression: \"token\":\"([^\"]+)\"\nTemplate: $1$\nMatch No.: 1\nDefault Value: NOT_FOUND",
+      "codeLanguage": "text",
+      "options": [
+        "abc123",
+        "\"token\":\"abc123\"",
+        "$1$",
+        "NOT_FOUND"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The template $1$ uses the first capture group, ([^\"]+), so ${token} becomes abc123. Template $0$ would return the whole match including the key, and NOT_FOUND only appears when nothing matches. See: Assertions and Extractors in JMeter."
+    },
+    {
+      "id": "jm-036",
+      "type": "single",
+      "topic": "jmeter-assertions-and-extractors",
+      "difficulty": "beginner",
+      "prompt": "What does the Boundary Extractor need in order to capture a value?",
+      "options": [
+        "A JSONPath expression",
+        "A left boundary and a right boundary string around the value",
+        "An XPath query",
+        "A Groovy script"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Boundary Extractor takes the text between a left and a right boundary, which is simple and fast without regular expressions. JSONPath and XPath belong to other extractors, which is the confusion the distractors play on. See: Assertions and Extractors in JMeter."
+    },
+    {
+      "id": "jm-037",
+      "type": "truefalse",
+      "topic": "jmeter-assertions-and-extractors",
+      "difficulty": "beginner",
+      "prompt": "Without assertions, JMeter marks an HTTP 200 response as successful even if its body says 'Error: out of stock'.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. By default JMeter judges HTTP success mainly on the response code, so a 200 page containing an error message still passes. Response, JSON or Duration assertions are needed to verify the content is actually correct. See: Assertions and Extractors in JMeter."
+    },
+    {
+      "id": "jm-038",
+      "type": "multiple",
+      "topic": "jmeter-assertions-and-extractors",
+      "difficulty": "advanced",
+      "prompt": "Which practices keep assertions useful without hurting load-generator performance? (Select all that apply.)",
+      "options": [
+        "Prefer simple Response or JSON assertions over heavy XPath or XML Schema assertions under load",
+        "Assert on a specific business value, not just the status code",
+        "Add a View Results Tree listener to show every assertion result during the load run",
+        "Avoid BeanShell assertions; use JSR223 with Groovy if scripting is needed"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Lightweight assertions on meaningful content give real validation at low cost, and Groovy in JSR223 can be compiled and cached whereas BeanShell is interpreted and slow. A View Results Tree under load is costly in memory and CPU, so it should not be used during the real run. See: Assertions and Extractors in JMeter."
+    },
+    {
+      "id": "jm-039",
+      "type": "scenario",
+      "topic": "jmeter-testing-rest-apis",
+      "difficulty": "intermediate",
+      "prompt": "POST /auth/login returns {\"access_token\":\"...\"}. Later requests need 'Authorization: Bearer <token>'. What is the correct JMeter setup?",
+      "options": [
+        "A CSV Data Set Config containing a token copied from Postman",
+        "A JSON Extractor on the login request ($.access_token into token) and a Header Manager on later requests with Authorization: Bearer ${token}",
+        "A User Defined Variable named token computed at test start",
+        "A Response Assertion on the login request with the token value"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Extracting the token per thread at runtime and passing it in a header is the standard chaining pattern. A copied token expires and is shared by everyone, and User Defined Variables are evaluated once at startup, before any login has happened. See: Testing REST APIs with JSON, tokens and chaining."
+    },
+    {
+      "id": "jm-040",
+      "type": "single",
+      "topic": "jmeter-testing-rest-apis",
+      "difficulty": "beginner",
+      "prompt": "To send a JSON body in an HTTP Request, which approach is correct?",
+      "options": [
+        "Put each JSON field in the Parameters tab",
+        "Upload it via 'Files Upload' as a parameter",
+        "Put the JSON in the Path field",
+        "Put the JSON in the Body Data tab and send the header Content-Type: application/json"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Raw JSON goes in Body Data, with a Header Manager setting Content-Type to application/json so the API parses it. The Parameters tab sends form-encoded name/value pairs, which most JSON APIs reject. See: Testing REST APIs with JSON, tokens and chaining."
+    },
+    {
+      "id": "jm-041",
+      "type": "single",
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "difficulty": "intermediate",
+      "prompt": "Which element is part of core JMeter (no plugin needed) and aims to hold a target throughput in samples per minute?",
+      "options": [
+        "Throughput Shaping Timer",
+        "Concurrency Thread Group",
+        "Constant Throughput Timer",
+        "Arrivals Thread Group"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The Constant Throughput Timer ships with JMeter and paces samplers toward a target per-minute rate. The Throughput Shaping Timer and the Concurrency and Arrivals Thread Groups come from jmeter-plugins, so they need the Plugins Manager. See: Timers and Throughput Shaping in JMeter."
+    },
+    {
+      "id": "jm-042",
+      "type": "scenario",
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "difficulty": "advanced",
+      "prompt": "You configure a Constant Throughput Timer for 6000 samples/minute, but the test only achieves about 2000/minute with 20 threads and an average response time of 600 ms. What is the most likely reason?",
+      "options": [
+        "The timer must be placed in a Logic Controller",
+        "There are not enough threads; the timer can only slow threads down, never make them go faster",
+        "The value should be entered per second, not per minute",
+        "Non-GUI mode ignores the timer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "20 threads at roughly 0.6 s per request can produce at most about 20 / 0.6 = 33 requests per second, about 2000 per minute. The Constant Throughput Timer only adds delays, so you need more threads to reach the target; its unit really is per minute. See: Timers and Throughput Shaping in JMeter."
+    },
+    {
+      "id": "jm-043",
+      "type": "code-output",
+      "topic": "jmeter-workload-design",
+      "difficulty": "intermediate",
+      "prompt": "Using Little's Law (N = X x (R + Z)), how many concurrent threads are needed for the values below?",
+      "code": "X = 10 requests/second (target throughput)\nR = 1 s (response time)\nZ = 4 s (think time)\nN = X * (R + Z) = ?",
+      "codeLanguage": "text",
+      "options": [
+        "14",
+        "10",
+        "50",
+        "2"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "N = 10 x (1 + 4) = 50 threads. Forgetting think time gives 10 threads, and simply adding the numbers (14) is not how the law works. See: Designing a workload model in JMeter."
+    },
+    {
+      "id": "jm-044",
+      "type": "single",
+      "topic": "jmeter-workload-design",
+      "difficulty": "advanced",
+      "prompt": "What is the main difference between a closed and an open workload model?",
+      "options": [
+        "Closed models use HTTPS and open models use HTTP",
+        "Open models never use think time",
+        "In a closed model a fixed number of users wait for each response before continuing; in an open model new arrivals come at a set rate regardless of response times",
+        "Closed models are only for databases"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Standard Thread Groups are closed: slower responses reduce the arrival rate because threads wait. Open models (for example the jmeter-plugins Arrivals Thread Group) keep the arrival rate fixed, so a slowing system builds a queue, which is often closer to public internet traffic. See: Designing a workload model in JMeter."
+    },
+    {
+      "id": "jm-045",
+      "type": "single",
+      "topic": "jmeter-groovy-jsr223",
+      "difficulty": "beginner",
+      "prompt": "Which scripting language is recommended for JSR223 elements in JMeter 5.6?",
+      "options": [
+        "BeanShell",
+        "Groovy",
+        "JavaScript (Nashorn)",
+        "Jython"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Groovy is bundled with JMeter and, with script caching, is compiled and fast. BeanShell is interpreted and much slower under load, so it is the tempting legacy choice that JMeter's own documentation steers away from. See: Groovy and JSR223 in JMeter."
+    },
+    {
+      "id": "jm-046",
+      "type": "code-output",
+      "topic": "jmeter-groovy-jsr223",
+      "difficulty": "intermediate",
+      "prompt": "What does this JSR223 PostProcessor (Groovy) do?",
+      "code": "def id = vars.get(\"orderId\")\nvars.put(\"orderRef\", \"ORD-\" + id)\nlog.info(\"orderRef=\" + vars.get(\"orderRef\"))",
+      "codeLanguage": "groovy",
+      "options": [
+        "Reads a property orderId and writes a property orderRef",
+        "Reads variable orderId, saves 'ORD-' + orderId in variable orderRef, and logs it",
+        "Fails because vars is not available in JSR223",
+        "Sends a new HTTP request with the order ID"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "vars is the per-thread JMeterVariables object, so get and put read and write variables, and log writes to jmeter.log. Properties are accessed through props, not vars, which is why the first option is wrong. See: Groovy and JSR223 in JMeter."
+    },
+    {
+      "id": "jm-047",
+      "type": "debugging",
+      "topic": "jmeter-groovy-jsr223",
+      "difficulty": "advanced",
+      "prompt": "A JSR223 Sampler with 'Cache compiled script if available' checked contains the script below and is slow under load. What is the problem?",
+      "code": "def user = \"${userId}\"\nlog.info(\"Processing \" + user)",
+      "codeLanguage": "groovy",
+      "options": [
+        "Groovy cannot concatenate strings",
+        "log.info must be replaced with println",
+        "The ${userId} reference is inlined into the script text, so each value produces a different script that defeats compilation caching; use vars.get(\"userId\") instead",
+        "Cache compiled script must be unchecked for Groovy"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "JMeter substitutes ${...} before Groovy sees the code, so the script text changes per value and cannot be cached, costing CPU and memory. Reading through vars.get keeps the script constant; unchecking caching would make performance worse, not better. See: Groovy and JSR223 in JMeter."
+    },
+    {
+      "id": "jm-048",
+      "type": "code-output",
+      "topic": "jmeter-non-gui-and-distributed",
+      "difficulty": "beginner",
+      "prompt": "What does this command do?",
+      "code": "jmeter -n -t plan.jmx -l results.jtl -e -o report",
+      "codeLanguage": "bash",
+      "options": [
+        "Runs plan.jmx in non-GUI mode, writes results to results.jtl and generates the HTML report into the report folder",
+        "Opens plan.jmx in the GUI and exports a report",
+        "Runs the plan in distributed mode on remote servers",
+        "Validates plan.jmx without sending any requests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-n is non-GUI mode, -t the test plan, -l the results file, -e generates the dashboard after the run and -o sets its output folder, which must be empty or not yet exist. Distributed mode would need -r or -R, which this command does not use. See: Non-GUI and Distributed Execution in JMeter."
+    },
+    {
+      "id": "jm-049",
+      "type": "single",
+      "topic": "jmeter-non-gui-and-distributed",
+      "difficulty": "advanced",
+      "prompt": "In distributed mode with 3 remote servers, the Thread Group is set to 100 threads. How many threads run in total?",
+      "options": [
+        "100, split evenly across the servers",
+        "About 33 per server",
+        "300, because each remote server runs the full plan",
+        "100 on the controller only"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Each JMeter server executes the whole test plan with its own thread count, so 3 x 100 = 300 threads. Assuming JMeter splits the load across servers is a frequent mistake that triples the intended load. See: Non-GUI and Distributed Execution in JMeter."
+    },
+    {
+      "id": "jm-050",
+      "type": "single",
+      "topic": "jmeter-html-dashboard-report",
+      "difficulty": "intermediate",
+      "prompt": "In the JMeter HTML dashboard, what does APDEX summarise?",
+      "options": [
+        "User satisfaction derived from response times, using satisfied and tolerated thresholds",
+        "Server CPU utilisation",
+        "Number of active threads over time",
+        "Network bandwidth per request"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "APDEX classes samples as satisfied (at or below the satisfied threshold), tolerating (up to the tolerated threshold) or frustrated, giving a score from 0 to 1. It is computed purely from response times, not from server resources such as CPU. See: The HTML dashboard report explained."
+    },
+    {
+      "id": "jm-051",
+      "type": "single",
+      "topic": "jmeter-html-dashboard-report",
+      "difficulty": "beginner",
+      "prompt": "How can you generate the HTML dashboard from an existing results file after a test has finished?",
+      "options": [
+        "jmeter -n -t results.jtl",
+        "jmeter -r results.jtl",
+        "jmeter -e results.jtl",
+        "jmeter -g results.jtl -o report"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "-g takes an existing results file and -o the output folder for the dashboard. -e only works together with a test run (-n -t ...), so using it alone does not generate a report from a file. See: The HTML dashboard report explained."
+    },
+    {
+      "id": "jm-052",
+      "type": "scenario",
+      "topic": "jmeter-analyzing-results",
+      "difficulty": "advanced",
+      "prompt": "As threads ramp up, throughput rises and then flattens while average response time keeps climbing steeply. What does this most likely indicate?",
+      "options": [
+        "The load generator is idle",
+        "The system has hit a bottleneck: it is saturated and additional load only queues",
+        "The test has too much think time",
+        "Response times are improving with load"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Flat throughput with rising response time is the classic sign of saturation: extra users wait in queues instead of getting more work done. Next, check server and load-generator resources to find the constrained component; extra think time would lower throughput without causing steep response-time growth. See: Analysing JMeter results and finding bottlenecks."
+    },
+    {
+      "id": "jm-053",
+      "type": "single",
+      "topic": "jmeter-analyzing-results",
+      "difficulty": "intermediate",
+      "prompt": "Why are percentiles such as the 95th and 99th usually more useful than the average response time?",
+      "options": [
+        "They show the experience of the slowest users, which averages hide",
+        "They are always lower than the average",
+        "They exclude failed requests",
+        "They measure throughput"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Averages smooth over long tails, so a few very slow requests can hide behind a good-looking mean; the 95th percentile is the time that 95% of requests were at or below. Percentiles are not necessarily lower than the average and do not measure throughput. See: Analysing JMeter results and finding bottlenecks."
+    },
+    {
+      "id": "jm-054",
+      "type": "single",
+      "topic": "jmeter-plugins-manager",
+      "difficulty": "beginner",
+      "prompt": "Which of these Thread Groups requires installing a plugin via the JMeter Plugins Manager?",
+      "options": [
+        "Thread Group",
+        "setUp Thread Group",
+        "Concurrency Thread Group",
+        "tearDown Thread Group"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The Concurrency Thread Group is part of the jmeter-plugins Custom Thread Groups set. The standard, setUp and tearDown Thread Groups ship with core JMeter, so they need no plugin. See: JMeter Plugins Manager and popular plugins."
+    },
+    {
+      "id": "jm-055",
+      "type": "single",
+      "topic": "jmeter-backend-listener-grafana",
+      "difficulty": "advanced",
+      "prompt": "What does the Backend Listener with the InfluxDB client do?",
+      "options": [
+        "Stores every response body in InfluxDB",
+        "Sends aggregated metrics during the run to InfluxDB, which Grafana can chart live",
+        "Removes the need for a results file and HTML report completely",
+        "Pulls server metrics from Grafana into JMeter"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Backend Listener pushes aggregated metrics such as response times, throughput and errors to InfluxDB during the test, enabling live Grafana dashboards. It does not send full response data, and keeping a .jtl file is still recommended for detailed post-run analysis. See: Live monitoring: Backend Listener, InfluxDB and Grafana."
+    },
+    {
+      "id": "jm-056",
+      "type": "multiple",
+      "topic": "jmeter-ci-cd",
+      "difficulty": "intermediate",
+      "prompt": "Which practices make JMeter tests work well in a CI/CD pipeline? (Select all that apply.)",
+      "options": [
+        "Run in non-GUI mode with -n",
+        "Pass environment-specific values as properties with -J and read them with __P",
+        "Fail the build on agreed thresholds such as error rate or percentile response time",
+        "Commit the .jmx with absolute file paths from the author's machine"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Non-GUI runs, property-driven configuration and threshold-based pass/fail make tests repeatable and meaningful in pipelines. Absolute local paths break on CI agents; files should be referenced relative to the test plan. See: Running JMeter in CI/CD."
+    },
+    {
+      "id": "jm-057",
+      "type": "single",
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "difficulty": "intermediate",
+      "prompt": "Which element must be configured for a JDBC Request sampler to work?",
+      "options": [
+        "HTTP Request Defaults",
+        "JDBC Connection Configuration with a matching pool variable name, plus the database driver jar in JMeter's lib folder",
+        "CSV Data Set Config",
+        "A Database Assertion"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The JDBC Request refers to a connection pool by the variable name defined in JDBC Connection Configuration, and the driver jar must be on JMeter's classpath (the lib folder). HTTP Request Defaults only affect HTTP samplers, and there is no core 'Database Assertion' element. See: JDBC, JMS and other protocols."
+    },
+    {
+      "id": "jm-058",
+      "type": "debugging",
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "difficulty": "advanced",
+      "prompt": "A long non-GUI run crashes with java.lang.OutOfMemoryError: Java heap space. Which change is the most appropriate first fix?",
+      "options": [
+        "Switch to GUI mode so you can watch memory",
+        "Remove heavy listeners such as View Results Tree, and raise the heap via the HEAP environment variable (e.g. -Xms1g -Xmx4g) within the machine's RAM",
+        "Add more assertions to catch the error",
+        "Lower the Constant Timer to zero"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Listeners that keep every sample in memory are a common cause of heap exhaustion, and the HEAP variable read by JMeter's startup script controls heap size. GUI mode uses more memory, not less, and removing think time increases load without addressing memory. See: Best practices, memory tuning and troubleshooting."
+    },
+    {
+      "id": "jm-059",
+      "type": "multiple",
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "difficulty": "beginner",
+      "prompt": "Which are recommended JMeter best practices? (Select all that apply.)",
+      "options": [
+        "Debug the script with a few threads before scaling up",
+        "Monitor the load generator's CPU and memory during the run",
+        "Run the real load test in GUI mode with all listeners enabled",
+        "Use assertions to verify responses are correct"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Validating with a small load first, watching generator resources and asserting on responses all protect result quality. Running load in GUI mode with listeners is explicitly discouraged because the generator itself becomes the bottleneck. See: Best practices, memory tuning and troubleshooting."
+    },
+    {
+      "id": "jm-060",
+      "type": "scenario",
+      "topic": "jmeter-capstone-payment-load-test",
+      "difficulty": "advanced",
+      "prompt": "In a payment load test, response times look great but the payment service records far fewer payments than JMeter's sample count suggests. What should you check first?",
+      "options": [
+        "Increase the thread count",
+        "Change the listener's colour scheme",
+        "Whether responses actually confirm a payment: add assertions on the confirmation content and check correlation of payment IDs",
+        "Reduce the ramp-up period"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Fast 'successful' samples with missing business outcomes usually mean errors returned with status 200 or broken correlation, so assertions on payment confirmation are needed. Adding threads or changing ramp-up would only multiply invalid traffic. See: Capstone: a complete payment load test."
+    }
+  ]
+}

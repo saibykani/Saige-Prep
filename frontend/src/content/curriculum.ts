@@ -24,6 +24,8 @@ export interface Track {
   /** Route of the track page (matches src/lib/navigation.ts). */
   href: string;
   description: string;
+  /** Sub-track shown as a tab inside its parent track (e.g. JMeter inside Performance). */
+  parent?: string;
   modules: Module[];
 }
 
@@ -318,20 +320,6 @@ export const TRACKS: Track[] = [
         ],
       },
       {
-        slug: "jmeter",
-        title: "Apache JMeter",
-        description: "Building realistic load tests.",
-        path: "core",
-        topics: [
-          t("jmeter-fundamentals", "JMeter fundamentals"),
-          t("jmeter-correlation-and-parameterization", "Correlation and parameterization"),
-          t("jmeter-assertions-and-extractors", "Assertions and extractors"),
-          t("jmeter-timers-and-throughput-shaping", "Timers and throughput shaping"),
-          t("jmeter-groovy-jsr223", "Groovy and JSR223"),
-          t("jmeter-non-gui-and-distributed", "Non-GUI and distributed execution"),
-        ],
-      },
-      {
         slug: "analysis",
         title: "Monitoring and analysis",
         description: "From numbers to root causes.",
@@ -343,6 +331,107 @@ export const TRACKS: Track[] = [
           t("monitoring-with-influxdb-grafana", "Monitoring with InfluxDB and Grafana"),
           t("analyzing-performance-results", "Analysing results and root cause"),
           t("capacity-planning-and-baselines", "Capacity planning, baselines and thresholds"),
+        ],
+      },
+    ],
+  },
+  {
+    slug: "jmeter",
+    title: "Apache JMeter",
+    href: "/learn/jmeter",
+    parent: "performance",
+    description:
+      "JMeter from absolute zero to advanced: install it, build your first test, make it realistic, correlate, validate, run at scale, monitor and report — explained for complete beginners.",
+    modules: [
+      {
+        slug: "jmeter-getting-started",
+        title: "Module 1 · Getting started",
+        description: "What JMeter is, installing it, and your first working test plan.",
+        path: "core",
+        topics: [
+          t("what-is-jmeter", "What is Apache JMeter (and what it is not)"),
+          t("installing-jmeter", "Installing JMeter and Java step by step"),
+          t("jmeter-gui-tour", "A guided tour of the JMeter GUI"),
+          t("jmeter-fundamentals", "JMeter fundamentals: your first test plan"),
+        ],
+      },
+      {
+        slug: "jmeter-building-blocks",
+        title: "Module 2 · Building blocks",
+        description: "The elements every test plan is made of, and how JMeter executes them.",
+        path: "core",
+        topics: [
+          t("jmeter-thread-groups", "Thread Groups: users, ramp-up and loops"),
+          t("jmeter-http-request-sampler", "The HTTP Request sampler in depth"),
+          t("jmeter-config-elements", "Config elements: defaults, headers, cookies and cache"),
+          t("jmeter-listeners-and-results", "Listeners and reading results"),
+          t("jmeter-scope-and-execution-order", "Element scope and execution order"),
+          t("jmeter-logic-controllers", "Logic controllers: transactions, loops and conditions"),
+        ],
+      },
+      {
+        slug: "jmeter-realistic-tests",
+        title: "Module 3 · Making tests realistic",
+        description: "Recording, variables, test data and functions.",
+        path: "core",
+        topics: [
+          t("jmeter-recording-scripts", "Recording scripts with the HTTP(S) Test Script Recorder"),
+          t("jmeter-variables-and-properties", "Variables, properties and user-defined variables"),
+          t("jmeter-csv-data-set-config", "Test data with CSV Data Set Config"),
+          t("jmeter-functions", "JMeter functions (__Random, __time, __P and more)"),
+        ],
+      },
+      {
+        slug: "jmeter-correlation-validation",
+        title: "Module 4 · Correlation and validation",
+        description: "Handling dynamic values and checking responses are really correct.",
+        path: "core",
+        topics: [
+          t("jmeter-correlation-and-parameterization", "Correlation and parameterization"),
+          t("jmeter-assertions-and-extractors", "Assertions and extractors"),
+          t("jmeter-testing-rest-apis", "Testing REST APIs with JSON, tokens and chaining"),
+        ],
+      },
+      {
+        slug: "jmeter-workload-control",
+        title: "Module 5 · Controlling the workload",
+        description: "Think time, pacing and hitting a target throughput.",
+        path: "core",
+        topics: [
+          t("jmeter-timers-and-throughput-shaping", "Timers and throughput shaping"),
+          t("jmeter-workload-design", "Designing a workload model in JMeter"),
+        ],
+      },
+      {
+        slug: "jmeter-scripting",
+        title: "Module 6 · Scripting",
+        description: "Extending JMeter with Groovy.",
+        path: "core",
+        topics: [t("jmeter-groovy-jsr223", "Groovy and JSR223")],
+      },
+      {
+        slug: "jmeter-execution-reporting",
+        title: "Module 7 · Running and reporting",
+        description: "Running tests properly and turning results into decisions.",
+        path: "core",
+        topics: [
+          t("jmeter-non-gui-and-distributed", "Non-GUI and distributed execution"),
+          t("jmeter-html-dashboard-report", "The HTML dashboard report explained"),
+          t("jmeter-analyzing-results", "Analysing JMeter results and finding bottlenecks"),
+        ],
+      },
+      {
+        slug: "jmeter-advanced",
+        title: "Module 8 · Advanced JMeter",
+        description: "Plugins, live monitoring, CI/CD, other protocols, best practices and a capstone.",
+        path: "core",
+        topics: [
+          t("jmeter-plugins-manager", "JMeter Plugins Manager and popular plugins"),
+          t("jmeter-backend-listener-grafana", "Live monitoring: Backend Listener, InfluxDB and Grafana"),
+          t("jmeter-ci-cd", "Running JMeter in CI/CD"),
+          t("jmeter-jdbc-and-other-protocols", "JDBC, JMS and other protocols"),
+          t("jmeter-best-practices-and-troubleshooting", "Best practices, memory tuning and troubleshooting"),
+          t("jmeter-capstone-payment-load-test", "Capstone: a complete payment load test"),
         ],
       },
     ],

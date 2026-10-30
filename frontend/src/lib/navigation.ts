@@ -20,6 +20,7 @@ import {
   Timer,
   Webhook,
   Wrench,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 
@@ -123,6 +124,15 @@ export const NAV_GROUPS: NavGroup[] = [
         phase: 2,
         planned: ["Load, stress, spike and endurance testing", "Little's Law and percentiles", "JMeter deep dive"],
         keywords: ["jmeter", "load", "p95", "throughput", "latency"],
+      },
+      {
+        href: "/learn/jmeter",
+        label: "Apache JMeter",
+        icon: Zap,
+        description: "JMeter from zero to advanced, explained for complete beginners.",
+        phase: 2,
+        planned: [],
+        keywords: ["jmeter", "load test", "thread group", "correlation", "listener"],
       },
       {
         href: "/learn/mobile",
