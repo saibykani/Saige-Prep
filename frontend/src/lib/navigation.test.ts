@@ -43,7 +43,7 @@ describe("navigation registry", () => {
   });
 
   it("searches labels, descriptions and keywords, hiding admin items from learners", () => {
-    expect(searchNav("jmeter", false).map((i) => i.href)).toEqual(["/learn/performance"]);
+    expect(searchNav("jmeter", false).map((i) => i.href)).toEqual(["/learn/performance", "/learn/jmeter"]);
     expect(searchNav("admin", false)).toHaveLength(0);
     expect(searchNav("admin", true).map((i) => i.href)).toContain("/admin");
   });

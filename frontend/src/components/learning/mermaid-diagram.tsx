@@ -3,7 +3,30 @@
 import { useEffect, useId, useState } from "react";
 import { Alert, Skeleton } from "@/components/ui/feedback";
 
-let initialized = false;
+let initializedFor: string | null = null;
+
+const PALETTES = {
+  dark: {
+    darkMode: true,
+    background: "#131315",
+    primaryColor: "#1f1b33",
+    primaryTextColor: "#ededef",
+    primaryBorderColor: "#a394f5",
+    lineColor: "#6b6b74",
+    secondaryColor: "#16251f",
+    tertiaryColor: "#1a1a1d",
+  },
+  light: {
+    darkMode: false,
+    background: "#ffffff",
+    primaryColor: "#efebfd",
+    primaryTextColor: "#16141f",
+    primaryBorderColor: "#6248e0",
+    lineColor: "#6e6a80",
+    secondaryColor: "#e6f4ee",
+    tertiaryColor: "#f1eff8",
+  },
+} as const;
 
 /** Renders a Mermaid diagram client-side. Mermaid is loaded lazily, only on pages that use it. */
 export function MermaidDiagram({ chart, caption }: { chart: string; caption?: string }) {
@@ -16,26 +39,20 @@ export function MermaidDiagram({ chart, caption }: { chart: string; caption?: st
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
-        if (!initialized) {
+        const theme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
+        if (initializedFor !== theme) {
           mermaid.initialize({
             startOnLoad: false,
             // "strict" disables click handlers and HTML labels from diagram source.
             securityLevel: "strict",
             theme: "base",
             themeVariables: {
-              darkMode: true,
-              background: "#131315",
-              primaryColor: "#1f1b33",
-              primaryTextColor: "#ededef",
-              primaryBorderColor: "#a394f5",
-              lineColor: "#6b6b74",
-              secondaryColor: "#16251f",
-              tertiaryColor: "#1a1a1d",
+              ...PALETTES[theme],
               fontFamily: "ui-sans-serif, system-ui, sans-serif",
               fontSize: "14px",
             },
           });
-          initialized = true;
+          initializedFor = theme;
         }
         const { svg: rendered } = await mermaid.render(`mmd-${id}`, chart);
         if (!cancelled) setSvg(rendered);

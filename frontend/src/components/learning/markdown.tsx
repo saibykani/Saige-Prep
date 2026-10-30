@@ -65,7 +65,7 @@ const components: Components = {
     const code = String(children).replace(/\n$/, "");
     if (language === "mermaid") return <MermaidDiagram chart={code} />;
     if (language || code.includes("\n")) return <CodeBlock code={code} language={language} className="my-5" />;
-    return <code className="rounded bg-surface-raised px-1.5 py-0.5 font-mono text-[0.85em] text-[#d6cffb]">{children}</code>;
+    return <code className="rounded bg-surface-raised px-1.5 py-0.5 font-mono text-[0.85em] text-code-inline">{children}</code>;
   },
   // Code blocks are rendered by `code`; drop the wrapping <pre> so we don't nest.
   pre: ({ children }) => <>{children}</>,

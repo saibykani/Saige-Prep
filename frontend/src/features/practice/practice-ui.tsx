@@ -228,10 +228,10 @@ export function Verdict({ ok, children, xp = 10, attempt = 0 }: { ok: boolean; c
       {ok && (
         <>
           <Confetti />
-          <span className="xp-float rounded-full bg-success px-2 py-0.5 text-xs font-bold text-[#06140e]">+{xp} XP</span>
+          <span className="xp-float rounded-full bg-success px-2 py-0.5 text-xs font-bold text-success-foreground">+{xp} XP</span>
         </>
       )}
-      <span className={cn("mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full", ok ? "bg-success text-[#06140e]" : "bg-danger/80 text-white")}>
+      <span className={cn("mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full", ok ? "bg-success text-success-foreground" : "bg-danger text-white")}>
         {ok ? (
           <svg viewBox="0 0 24 24" className="check-draw h-4 w-4" aria-hidden>
             <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />

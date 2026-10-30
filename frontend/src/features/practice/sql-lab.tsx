@@ -185,7 +185,7 @@ export function SqlLab() {
             }
           }}
           rows={7}
-          className="w-full resize-y rounded-lg border border-border bg-[#0b0b0d] p-3 font-mono text-[13px] leading-6 text-[#e4defc] focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+          className="w-full resize-y rounded-lg border border-border bg-code-bg p-3 font-mono text-[13px] leading-6 text-code-foreground focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
         />
         <div className="flex flex-wrap items-center gap-2">
           {!ready && !loadError ? (

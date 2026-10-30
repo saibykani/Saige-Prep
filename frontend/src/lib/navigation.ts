@@ -180,7 +180,7 @@ export const NAV_GROUPS: NavGroup[] = [
         href: "/mock-tests",
         label: "Mock Tests",
         icon: Timer,
-        description: "Timed assessments with server-side scoring.",
+        description: "Timed assessments with topic-wise results.",
         phase: 4,
         planned: ["Timed exams with autosave", "Flag for review", "Topic-wise results and revision"],
         keywords: ["quiz", "exam", "assessment"],
@@ -264,7 +264,7 @@ export const NAV_GROUPS: NavGroup[] = [
         icon: Settings,
         description: "Account, system status and data controls.",
         phase: 1,
-        planned: ["Data export and account deletion (Phase 8)"],
+        planned: [],
       },
       {
         href: "/admin",

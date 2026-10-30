@@ -103,7 +103,7 @@ export function QuestionCard({
                 checked={isSelected}
                 onChange={() => toggle(i)}
                 disabled={reveal}
-                className="mt-0.5 accent-[#a394f5]"
+                className="mt-0.5 accent-accent"
               />
               <span className="flex-1 leading-6">{option}</span>
               {reveal && isAnswer && <Check className="h-4 w-4 shrink-0 text-success" aria-label="Correct answer" />}

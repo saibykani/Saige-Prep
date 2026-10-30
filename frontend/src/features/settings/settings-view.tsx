@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
+import { DataControls } from "@/features/settings/data-controls";
 import { SystemStatus } from "@/features/system/system-status";
 import { isGuest } from "@/lib/auth-mode";
 
@@ -19,6 +21,16 @@ export function SettingsView() {
     <div className="animate-fade-in">
       <PageHeader title="Settings" description="Your account, system status and data controls." />
       <div className="grid gap-6 lg:grid-cols-2">
+        <DataControls />
+        <Card>
+          <CardHeader>
+            <CardTitle>Appearance</CardTitle>
+            <CardDescription>Choose light, dark, or follow your system setting. Saved on this device.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ThemeToggle showLabels />
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle>Account</CardTitle>

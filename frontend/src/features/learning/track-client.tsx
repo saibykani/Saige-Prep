@@ -99,7 +99,7 @@ export function ContinueLearning({ topics }: { topics: TopicRow[] }) {
   return (
     <Link
       href={next.href}
-      className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-[#0d0b1a] transition-colors hover:bg-accent-strong"
+      className="inline-flex h-10 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-strong"
     >
       {candidates[0] ? "Continue" : "Start"}: {next.title}
     </Link>

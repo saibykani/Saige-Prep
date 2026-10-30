@@ -18,7 +18,7 @@ export function CodeBlock({ code, language, className }: { code: string; languag
   }
 
   return (
-    <figure className={cn("overflow-hidden rounded-lg border border-border bg-[#0d0d0f]", className)}>
+    <figure className={cn("overflow-hidden rounded-lg border border-border bg-code-bg", className)}>
       <figcaption className="flex items-center justify-between border-b border-border px-3 py-1.5">
         <span className="font-mono text-[11px] uppercase tracking-wide text-subtle">{language ?? "text"}</span>
         <button

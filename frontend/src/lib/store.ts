@@ -111,7 +111,7 @@ export const storeSchema = z.object({
   interviews: z.array(interviewSession),
   /** Question ids answered wrong and not yet re-answered correctly. */
   revision: z.array(z.string()),
-  plan: z.object({ startedAt: iso.optional(), tasks: z.array(planTask) }),
+  plan: z.object({ startedAt: iso.optional(), weeks: z.number().int().min(1).optional(), tasks: z.array(planTask) }),
   activity: z.array(activity),
   practice: z.record(z.string(), z.object({ completedAt: iso, score: z.number().optional() })),
 });
@@ -307,12 +307,32 @@ export const actions = {
     update((d) => logActivity({ ...d, practice: { ...d.practice, [id]: { completedAt: now(), score } } }, "practice", id));
   },
 
+  resetPractice(id: string) {
+    update((d) => {
+      const practice = { ...d.practice };
+      delete practice[id];
+      return { ...d, practice };
+    });
+  },
+
   setProfile(profile: Partial<StoreData["profile"]>) {
     update((d) => ({ ...d, profile: { ...d.profile, ...profile } }));
   },
 
   setPlan(tasks: PlanTask[]) {
     update((d) => ({ ...d, plan: { startedAt: d.plan.startedAt ?? now(), tasks } }));
+  },
+
+  /** Replace the plan with a freshly generated one (new start date). */
+  startPlan(tasks: Omit<PlanTask, "id" | "done">[], weeks: number) {
+    update((d) => ({
+      ...d,
+      plan: { startedAt: now(), weeks, tasks: tasks.map((t) => ({ ...t, id: newId(), done: false })) },
+    }));
+  },
+
+  resetPlan() {
+    update((d) => ({ ...d, plan: { tasks: [] } }));
   },
 
   toggleTask(id: string) {

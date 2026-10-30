@@ -29,7 +29,7 @@ function Checklist({ items, checked, onToggle }: { items: string[]; checked: num
                 on ? "border-success/40 bg-success-soft" : "border-border hover:border-border-strong",
               )}
             >
-              <span className={cn("mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px]", on ? "border-success bg-success text-[#06140e]" : "border-border-strong")} aria-hidden>
+              <span className={cn("mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px]", on ? "border-success bg-success text-success-foreground" : "border-border-strong")} aria-hidden>
                 {on ? "✓" : ""}
               </span>
               {text}

@@ -36,7 +36,7 @@ export function Editor({ label, id, className, ...props }: TextareaHTMLAttribute
         id={id}
         spellCheck={false}
         className={cn(
-          "min-h-40 w-full resize-y rounded-xl border border-border bg-[#0b0b0d] p-3 font-mono text-[13px] leading-6 text-[#e4defc] placeholder:text-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30",
+          "min-h-40 w-full resize-y rounded-xl border border-border bg-code-bg p-3 font-mono text-[13px] leading-6 text-code-foreground placeholder:text-subtle focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30",
           className,
         )}
         {...props}
@@ -98,7 +98,7 @@ export function Output({ label, value, tone = "neutral" }: { label: string; valu
       <pre
         className={cn(
           "max-h-[28rem] min-h-24 overflow-auto whitespace-pre-wrap break-words rounded-xl border p-3 font-mono text-[13px] leading-6",
-          tone === "error" ? "border-danger/30 bg-danger-soft text-danger" : tone === "success" ? "border-success/30 bg-[#0b0b0d] text-[#e4defc]" : "border-border bg-[#0b0b0d] text-[#e4defc]",
+          tone === "error" ? "border-danger/30 bg-danger-soft text-danger" : tone === "success" ? "border-success/30 bg-code-bg text-code-foreground" : "border-border bg-code-bg text-code-foreground",
         )}
         aria-live="polite"
       >
@@ -118,7 +118,7 @@ export function Segmented<T extends string>({ value, options, onChange, label }:
           role="radio"
           aria-checked={value === o.value}
           onClick={() => onChange(o.value)}
-          className={cn("rounded-md px-3 py-1.5 text-xs font-medium transition-colors", value === o.value ? "bg-accent text-[#0d0b1a]" : "text-muted hover:text-foreground")}
+          className={cn("rounded-md px-3 py-1.5 text-xs font-medium transition-colors", value === o.value ? "bg-accent text-accent-foreground" : "text-muted hover:text-foreground")}
         >
           {o.label}
         </button>

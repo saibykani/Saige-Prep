@@ -1,0 +1,305 @@
+{
+  "bank": "performance",
+  "title": "Performance Testing",
+  "track": "performance",
+  "questions": [
+    {
+      "id": "pf-001", "type": "single", "topic": "performance-testing-types", "difficulty": "beginner",
+      "prompt": "Which test checks how a system behaves under its expected normal and peak production load?",
+      "options": ["Load test", "Stress test", "Spike test", "Smoke test"],
+      "answer": [0],
+      "explanation": "A load test applies the expected workload, including the expected peak, to check response times and stability against requirements. A stress test deliberately goes beyond expected load to find the breaking point."
+    },
+    {
+      "id": "pf-002", "type": "single", "topic": "performance-testing-types", "difficulty": "beginner",
+      "prompt": "A test runs at normal load for 12 hours to find memory leaks and slow degradation. What type of test is it?",
+      "options": ["Spike test", "Endurance (soak) test", "Volume test", "Stress test"],
+      "answer": [1],
+      "explanation": "Endurance or soak tests hold a steady load for a long time to reveal problems that only build up over hours, such as leaks or growing queues. A spike test is short and focuses on sudden jumps in load."
+    },
+    {
+      "id": "pf-003", "type": "single", "topic": "performance-testing-types", "difficulty": "intermediate",
+      "prompt": "Users jump from 100 to 2,000 in under a minute when a ticket sale opens. Which test models this?",
+      "options": ["Endurance test", "Spike test", "Volume test", "Baseline test"],
+      "answer": [1],
+      "explanation": "A spike test applies a sudden, steep increase in load and checks how the system copes and recovers. Volume testing is about large amounts of data rather than a sudden rise in users."
+    },
+    {
+      "id": "pf-004", "type": "single", "topic": "performance-testing-types", "difficulty": "intermediate",
+      "prompt": "A team loads a database with 50 million rows to see how report queries behave. What type of test is this?",
+      "options": ["Volume test", "Spike test", "Soak test", "Scalability test"],
+      "answer": [0],
+      "explanation": "Volume testing examines behaviour with large data volumes, which often exposes missing indexes or full scans. User load can stay modest; the variable under test is the amount of data."
+    },
+    {
+      "id": "pf-005", "type": "truefalse", "topic": "performance-testing-types", "difficulty": "intermediate",
+      "prompt": "A scalability test measures how throughput and response times change as load or resources such as servers are increased.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "Scalability testing checks whether adding load or capacity gives proportional results, for example whether doubling instances roughly doubles throughput. It helps find the point where adding resources stops helping."
+    },
+    {
+      "id": "pf-006", "type": "single", "topic": "performance-testing-types", "difficulty": "advanced",
+      "prompt": "What is the main goal of a stress test?",
+      "options": ["To confirm the system meets its SLA at expected load", "To push beyond expected load to find the breaking point and check that the system fails gracefully and recovers", "To check the system with large data volumes only", "To verify functional correctness"],
+      "answer": [1],
+      "explanation": "Stress testing goes past normal capacity to learn where and how the system fails, and whether it recovers once load drops. Confirming the SLA at expected load is the purpose of a load test."
+    },
+    {
+      "id": "pf-007", "type": "single", "topic": "throughput-latency-and-percentiles", "difficulty": "beginner",
+      "prompt": "What does throughput measure in a performance test?",
+      "options": ["The time one request takes", "The number of requests or transactions completed per unit of time", "The number of virtual users configured", "The CPU usage of the load generator"],
+      "answer": [1],
+      "explanation": "Throughput is work completed per unit of time, such as requests per second. Response time measures how long a single request takes, which is a different metric."
+    },
+    {
+      "id": "pf-008", "type": "single", "topic": "throughput-latency-and-percentiles", "difficulty": "beginner",
+      "prompt": "What does a 95th percentile (p95) response time of 800 ms mean?",
+      "options": ["The average response time is 800 ms", "95% of requests completed in 800 ms or less", "5% of requests completed in 800 ms or less", "The slowest request took 800 ms"],
+      "answer": [1],
+      "explanation": "The p95 is the value below which 95% of the measurements fall, so only 5% of requests were slower than 800 ms. It is not the average and not the maximum."
+    },
+    {
+      "id": "pf-009", "type": "scenario", "topic": "throughput-latency-and-percentiles", "difficulty": "intermediate",
+      "prompt": "Ten requests take 100 ms each except one that takes 5,100 ms. Which statement is correct?",
+      "options": ["The average of 600 ms describes the typical user experience well", "The average is 600 ms, but the median is 100 ms, so the average hides that most requests were fast and one was very slow", "The median is 600 ms", "The average and median are equal"],
+      "answer": [1],
+      "explanation": "The total is 9 x 100 + 5,100 = 6,000 ms, so the average is 600 ms, yet the median is 100 ms. Averages are distorted by outliers, which is why percentiles are preferred for response-time requirements."
+    },
+    {
+      "id": "pf-010", "type": "single", "topic": "throughput-latency-and-percentiles", "difficulty": "advanced",
+      "prompt": "Why should p95 values from separate load generators not simply be averaged to get the overall p95?",
+      "options": ["Because percentiles are always integers", "Because the mean of several p95 values is generally not the p95 of the combined data; it must be computed from the merged samples or histograms", "Because load generators cannot measure percentiles", "Because p95 is always equal to the maximum"],
+      "answer": [1],
+      "explanation": "Percentiles are not additive: generators with different volumes and distributions produce p95 values whose mean has no defined meaning. Merge the raw samples or mergeable histograms and compute the percentile once."
+    },
+    {
+      "id": "pf-011", "type": "truefalse", "topic": "throughput-latency-and-percentiles", "difficulty": "intermediate",
+      "prompt": "If throughput stops increasing while response times rise sharply as more users are added, the system has probably reached a bottleneck.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "Past saturation, extra users cannot be served faster, so they wait in queues: throughput plateaus while response times grow. This knee in the curve is the signal to look for the constrained resource."
+    },
+    {
+      "id": "pf-012", "type": "single", "topic": "littles-law", "difficulty": "beginner",
+      "prompt": "Which formula expresses Little's Law?",
+      "options": ["L = λ × W (items in the system = arrival rate × time in the system)", "L = λ / W", "W = L × λ", "λ = L + W"],
+      "answer": [0],
+      "explanation": "Little's Law states that the average number of items in a stable system equals the average arrival rate multiplied by the average time each item spends in the system. The other forms are rearranged incorrectly."
+    },
+    {
+      "id": "pf-013", "type": "code-output", "topic": "littles-law", "difficulty": "intermediate",
+      "prompt": "A service handles 200 requests per second, and each request spends 0.5 seconds in the system on average. Using Little's Law, how many requests are in progress on average?",
+      "code": "L = λ × W\nλ = 200 requests/second\nW = 0.5 seconds\n",
+      "codeLanguage": "text",
+      "options": ["400", "100", "200.5", "40"],
+      "answer": [1],
+      "explanation": "L = 200 × 0.5 = 100 concurrent requests. Dividing instead of multiplying gives 400, which is a common slip."
+    },
+    {
+      "id": "pf-014", "type": "code-output", "topic": "littles-law", "difficulty": "advanced",
+      "prompt": "You need 50 transactions per second. Each virtual user's iteration has a 2 s response time plus 8 s of think time. How many virtual users are needed?",
+      "code": "N = X × (R + Z)\nX = 50 transactions/second\nR = 2 s, Z = 8 s\n",
+      "codeLanguage": "text",
+      "options": ["100", "500", "400", "25"],
+      "answer": [1],
+      "explanation": "Applying Little's Law to the whole user cycle gives N = 50 × (2 + 8) = 500 users. Ignoring think time would give 100, which would generate far more load per user than real users do."
+    },
+    {
+      "id": "pf-015", "type": "truefalse", "topic": "littles-law", "difficulty": "intermediate",
+      "prompt": "Little's Law applies to long-run averages of a stable system, where arrivals and departures balance over the measurement period.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "The law relates averages over a period in which the system is stable. During ramp-up, or when a queue keeps growing without bound, the numbers taken at one moment will not satisfy it."
+    },
+    {
+      "id": "pf-016", "type": "single", "topic": "workload-modeling", "difficulty": "beginner",
+      "prompt": "What is think time in a performance script?",
+      "options": ["The time the server spends processing a request", "A pause that simulates a real user reading or typing between actions", "The time taken to compile the script", "Network latency between client and server"],
+      "answer": [1],
+      "explanation": "Think time reproduces the gaps real users leave between actions. Without it, each virtual user fires requests back to back and generates far more load than a real user would."
+    },
+    {
+      "id": "pf-017", "type": "single", "topic": "workload-modeling", "difficulty": "intermediate",
+      "prompt": "What is the difference between think time and pacing?",
+      "options": ["They are the same thing", "Think time is a pause between steps within an iteration; pacing controls the interval between the start of iterations so each user runs at a target rate", "Pacing is a server setting", "Think time only applies to API tests"],
+      "answer": [1],
+      "explanation": "Think time sits between individual actions, while pacing sets how often a whole iteration begins. Pacing keeps the arrival rate steady even when response times change."
+    },
+    {
+      "id": "pf-018", "type": "scenario", "topic": "workload-modeling", "difficulty": "intermediate",
+      "prompt": "Production analytics show that at peak, 70% of sessions browse, 25% search and 5% check out. How should the workload model use this?",
+      "options": ["Test only checkout, because it matters most", "Distribute virtual users or iterations across the three journeys in roughly a 70/25/5 mix at the measured peak rate", "Give each journey an equal one-third share", "Ignore the analytics and use the maximum number of users the tool allows"],
+      "answer": [1],
+      "explanation": "A realistic workload model reproduces the observed transaction mix and rate, so shared resources are stressed the way production stresses them. An equal split or a single journey would load the wrong parts of the system."
+    },
+    {
+      "id": "pf-019", "type": "single", "topic": "workload-modeling", "difficulty": "advanced",
+      "prompt": "In a closed workload model, the number of users is fixed. What happens to the request arrival rate when the server slows down?",
+      "options": ["It stays constant", "It drops, because each user waits for its response before sending the next request", "It increases", "It becomes random"],
+      "answer": [1],
+      "explanation": "In a closed model each user sends the next request only after the previous one completes, so slower responses mean fewer requests per second. An open model keeps arriving at a fixed rate, which is closer to public web traffic and exposes queueing that a closed model can hide."
+    },
+    {
+      "id": "pf-020", "type": "single", "topic": "resource-utilization-and-bottlenecks", "difficulty": "beginner",
+      "prompt": "What is a bottleneck in performance testing?",
+      "options": ["The fastest component in the system", "The resource or component that limits overall throughput because it reaches capacity first", "A type of load test", "A logging library"],
+      "answer": [1],
+      "explanation": "The bottleneck is the constrained resource that caps the whole system, such as a saturated CPU or an exhausted connection pool. Improving any other component does not raise throughput until the bottleneck is addressed."
+    },
+    {
+      "id": "pf-021", "type": "scenario", "topic": "resource-utilization-and-bottlenecks", "difficulty": "intermediate",
+      "prompt": "During a load test, response times rise while application server CPU stays at 20%, memory is stable and the database server CPU is at 98%. Where should you look first?",
+      "options": ["Application server CPU", "The database: slow or expensive queries, missing indexes or lock contention", "The load generator's disk", "The network between users and the CDN"],
+      "answer": [1],
+      "explanation": "The saturated resource is the database CPU, so the investigation starts there, typically with the slowest and most frequent queries. The application server has spare capacity, so it is waiting rather than limiting."
+    },
+    {
+      "id": "pf-022", "type": "single", "topic": "resource-utilization-and-bottlenecks", "difficulty": "intermediate",
+      "prompt": "Why must the load generator machines also be monitored during a test?",
+      "options": ["They are never a problem", "If the load generator runs out of CPU, memory or network, it cannot send the intended load and its timings become inaccurate", "To bill the test to the right team", "Because they host the database"],
+      "answer": [1],
+      "explanation": "An overloaded generator produces less load than planned and measures inflated response times, which can be mistaken for an application problem. Checking generator health is part of validating any result."
+    },
+    {
+      "id": "pf-023", "type": "truefalse", "topic": "resource-utilization-and-bottlenecks", "difficulty": "advanced",
+      "prompt": "Memory usage that grows steadily during a constant-load soak test and does not drop back after garbage collection is a classic sign of a memory leak.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "At constant load, healthy memory use rises and falls in a sawtooth around a stable level. A baseline that keeps climbing after each collection means objects are being retained, which eventually leads to long pauses or out-of-memory errors."
+    },
+    {
+      "id": "pf-024", "type": "single", "topic": "thread-and-connection-pools", "difficulty": "beginner",
+      "prompt": "Why do applications use a database connection pool?",
+      "options": ["To store query results", "To reuse already-open connections instead of paying the cost of opening a new one for every request", "To encrypt data", "To make queries run in parallel automatically"],
+      "answer": [1],
+      "explanation": "Opening a database connection is relatively expensive, so pools keep a set of connections open and lend them out. The pool size also caps how many concurrent queries the application can run."
+    },
+    {
+      "id": "pf-025", "type": "scenario", "topic": "thread-and-connection-pools", "difficulty": "intermediate",
+      "prompt": "Under load, logs show many \"timeout waiting for connection from pool\" errors, yet the database CPU is only at 30%. What is the most likely cause?",
+      "options": ["The database is overloaded", "The application's connection pool is too small for the concurrency, or connections are held too long or leaked", "The load generator is too slow", "The network is down"],
+      "answer": [1],
+      "explanation": "Requests are queuing for a pool connection while the database still has spare capacity, so the limit is in the pool. Check its size, how long connections are held and whether any are not returned (leaks)."
+    },
+    {
+      "id": "pf-026", "type": "single", "topic": "thread-and-connection-pools", "difficulty": "advanced",
+      "prompt": "Why is making the connection pool very large not always the right fix for pool exhaustion?",
+      "options": ["Large pools are not allowed by drivers", "The database can only work on so many queries efficiently; too many connections cause contention and context switching that make every query slower", "Large pools use less memory", "Pool size has no effect on performance"],
+      "answer": [1],
+      "explanation": "Beyond the point where database CPU, disk or locks are busy, extra connections only add contention and move the queue to the database. The right size comes from measurement, together with fixing slow queries and leaks."
+    },
+    {
+      "id": "pf-027", "type": "truefalse", "topic": "thread-and-connection-pools", "difficulty": "intermediate",
+      "prompt": "When every worker thread in a web server's thread pool is busy, new requests typically wait in a queue or are rejected, which shows up as rising response times or errors.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "A thread pool limits concurrent processing, so excess requests queue (adding wait time) or are refused once the queue is full. Thread-pool saturation is a common cause of a response-time knee."
+    },
+    {
+      "id": "pf-028", "type": "single", "topic": "database-and-caching-bottlenecks", "difficulty": "beginner",
+      "prompt": "A search query on a large table becomes much slower as the table grows. What is a common cause?",
+      "options": ["Too many indexes on unrelated tables", "A missing index on the searched column, so the database scans the whole table", "The query uses SELECT", "The application server has too much memory"],
+      "answer": [1],
+      "explanation": "Without a suitable index, the database reads every row, so cost grows with table size. The execution plan (for example with EXPLAIN) shows whether a full scan is happening."
+    },
+    {
+      "id": "pf-029", "type": "single", "topic": "database-and-caching-bottlenecks", "difficulty": "intermediate",
+      "prompt": "A page shows 50 orders and runs one query for the list plus one query per order to load its customer. What is this problem called?",
+      "options": ["The N+1 query problem", "A deadlock", "A cache stampede", "A memory leak"],
+      "answer": [0],
+      "explanation": "One query for the list plus N queries for related data produces 51 round trips where one join or batched query would do. It often hides behind ORM lazy loading and gets worse as data grows."
+    },
+    {
+      "id": "pf-030", "type": "scenario", "topic": "database-and-caching-bottlenecks", "difficulty": "advanced",
+      "prompt": "A test runs the same 10 product ids in every iteration and reports excellent response times. What is the risk?",
+      "options": ["None, repetition makes results more accurate", "The data is served almost entirely from caches, so results are unrealistically fast compared with production traffic across many products", "The test will fail with errors", "The database will run out of disk"],
+      "answer": [1],
+      "explanation": "A tiny, repeated data set gives an artificially high cache hit rate in the application, database and disk caches. Parameterise with a realistic spread of data so the cache hit ratio resembles production."
+    },
+    {
+      "id": "pf-031", "type": "single", "topic": "database-and-caching-bottlenecks", "difficulty": "advanced",
+      "prompt": "A popular cache entry expires, and hundreds of concurrent requests miss the cache and all query the database at once. What is this called?",
+      "options": ["Cache stampede (thundering herd)", "Cache warming", "Write-through caching", "Connection leak"],
+      "answer": [0],
+      "explanation": "A stampede happens when many requests rebuild the same expired entry together and overload the backend. Mitigations include request coalescing, locking around the rebuild and staggered or early expiry."
+    },
+    {
+      "id": "pf-032", "type": "single", "topic": "monitoring-with-influxdb-grafana", "difficulty": "beginner",
+      "prompt": "In a common JMeter monitoring setup, what roles do InfluxDB and Grafana play?",
+      "options": ["InfluxDB generates load and Grafana stores logs", "InfluxDB is a time-series database that stores metrics, and Grafana queries it to show live dashboards", "Both are load-testing tools", "Grafana stores the data and InfluxDB draws charts"],
+      "answer": [1],
+      "explanation": "JMeter's Backend Listener can send metrics to InfluxDB, which stores time-stamped data efficiently, and Grafana visualises that data in dashboards during and after the test."
+    },
+    {
+      "id": "pf-033", "type": "single", "topic": "monitoring-with-influxdb-grafana", "difficulty": "intermediate",
+      "prompt": "Why should load-test metrics be shown on the same time axis as server metrics such as CPU and database connections?",
+      "options": ["It looks nicer", "So changes in response time can be correlated with resource behaviour at the same moment to find the cause", "Because Grafana requires it", "To reduce storage costs"],
+      "answer": [1],
+      "explanation": "Lining up the timelines shows, for example, that response times jumped exactly when the connection pool hit its maximum. Without correlation you can see a symptom but not its likely cause."
+    },
+    {
+      "id": "pf-034", "type": "truefalse", "topic": "monitoring-with-influxdb-grafana", "difficulty": "intermediate",
+      "prompt": "Real-time dashboards during a test let you stop a run early when errors spike, instead of discovering the problem only after hours of wasted execution.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "Live monitoring shows error rates, throughput and resource use as the test runs, so a broken environment or script can be spotted within minutes. This saves time and avoids reporting results from an invalid run."
+    },
+    {
+      "id": "pf-035", "type": "scenario", "topic": "analyzing-performance-results", "difficulty": "intermediate",
+      "prompt": "A test shows excellent response times, but the error rate is 40% and most errors are immediate HTTP 503 responses. How should the result be interpreted?",
+      "options": ["The system performs well", "The run is not a pass: fast failures drag the response times down, so the timings must be analysed for successful requests and the cause of the 503s investigated", "Ignore the errors, because response time is the key metric", "Increase the load to confirm"],
+      "answer": [1],
+      "explanation": "Failed requests often return very quickly, which makes the overall timings look better than reality. A result must always be read together with the error rate, and a high error rate makes the run a failure regardless of timings."
+    },
+    {
+      "id": "pf-036", "type": "single", "topic": "analyzing-performance-results", "difficulty": "intermediate",
+      "prompt": "Why are measurements from the ramp-up period usually separated from the steady-state results?",
+      "options": ["Ramp-up data is always wrong", "During ramp-up the load and caches are still changing, so mixing it in distorts the figures for the target load", "Tools cannot record ramp-up", "Ramp-up is only used in functional tests"],
+      "answer": [1],
+      "explanation": "Requirements are usually about behaviour at a given load, so analysis focuses on the period when that load is stable. Ramp-up includes cold caches and partial load, which shift averages and percentiles."
+    },
+    {
+      "id": "pf-037", "type": "single", "topic": "analyzing-performance-results", "difficulty": "advanced",
+      "prompt": "Two runs of the same test on the same build differ in p95 by 25%. What should you do before claiming a regression or improvement?",
+      "options": ["Report the better number", "Check that environment, data, test configuration and background activity were the same, and repeat the runs to understand normal run-to-run variation", "Average the two and move on", "Delete the slower run"],
+      "answer": [1],
+      "explanation": "Differences only mean something when conditions are controlled and the normal variation is known. Repeated runs show whether a change is larger than the noise, which prevents false alarms and missed regressions."
+    },
+    {
+      "id": "pf-038", "type": "single", "topic": "capacity-planning-and-baselines", "difficulty": "beginner",
+      "prompt": "What is a performance baseline?",
+      "options": ["The maximum load a system can survive", "A reference set of measurements from a known build and environment that later results are compared against", "The first test anyone writes", "A list of hardware requirements"],
+      "answer": [1],
+      "explanation": "A baseline gives a known reference point, so a later run can show whether a change made things better or worse. Without one, a number such as \"p95 = 900 ms\" has nothing to be compared with."
+    },
+    {
+      "id": "pf-039", "type": "single", "topic": "capacity-planning-and-baselines", "difficulty": "intermediate",
+      "prompt": "Which is a well-formed, testable performance requirement?",
+      "options": ["The system should be fast", "Checkout must respond within 2 seconds at the 95th percentile with 500 concurrent users and an error rate below 1%", "The system must never be slow", "Pages should load as quickly as competitors'"],
+      "answer": [1],
+      "explanation": "A testable requirement states the metric, the percentile, the threshold and the load at which it applies, plus an error budget. Vague wording such as \"fast\" cannot be passed or failed objectively."
+    },
+    {
+      "id": "pf-040", "type": "scenario", "topic": "capacity-planning-and-baselines", "difficulty": "advanced",
+      "prompt": "Testing shows one server instance handles 400 requests per second within the SLA. Forecast peak is 1,500 requests per second. What is the sound capacity-planning approach?",
+      "options": ["Deploy exactly 4 instances, because 4 × 400 = 1,600", "Plan for more than the raw minimum, with headroom for growth and the loss of an instance, and confirm by testing the scaled configuration, because scaling is rarely perfectly linear", "Deploy 1 instance and enable retries", "Use the stress-test breaking point as the planned capacity"],
+      "answer": [1],
+      "explanation": "Linear arithmetic gives a lower bound, but shared resources such as the database often stop scaling linearly, and capacity must survive failures and growth. Testing the planned configuration verifies the assumption."
+    },
+    {
+      "id": "pf-041", "type": "truefalse", "topic": "capacity-planning-and-baselines", "difficulty": "intermediate",
+      "prompt": "It is acceptable to load-test a third-party API or website as long as you keep the test short.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Load-testing a system you do not own without written authorisation can disrupt other users and may be illegal, whatever the duration. Use a stub or service virtualisation, or get explicit permission from the owner."
+    },
+    {
+      "id": "pf-042", "type": "multiple", "topic": "analyzing-performance-results", "difficulty": "advanced",
+      "prompt": "Which items belong in a useful performance test report? Select all that apply.",
+      "options": ["The workload model and test configuration used", "Response-time percentiles, throughput and error rates against the requirements", "Key resource metrics and identified bottlenecks", "Environment details and known differences from production", "Only the average response time, to keep it short"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "Readers need to know what was tested, how results compare with requirements, why the system behaved as it did and how far the environment resembles production. An average alone hides outliers and context, so it cannot support a decision."
+    }
+  ]
+}

@@ -1,0 +1,1587 @@
+{
+  "category": "security-specialist",
+  "roles": [
+    {
+      "slug": "security-test-engineer",
+      "title": "Security Test Engineer",
+      "category": "security-specialist",
+      "overview": "A Security Test Engineer finds security weaknesses in applications and APIs before attackers do, working inside the delivery team rather than as an outside auditor. The role combines OWASP-based manual testing, security scanning in CI and close work with developers on fixes. Most of the value comes from catching authentication, authorization and input-handling flaws early and making security checks a routine part of testing.",
+      "responsibilities": [
+        "Test features for common weaknesses such as broken access control, injection and insecure session handling",
+        "Run and tune static, dependency and dynamic security scans in the CI pipeline",
+        "Triage scanner findings, remove false positives and rate real issues by risk",
+        "Write security test cases and abuse cases alongside functional test cases",
+        "Explain vulnerabilities, impact and fixes clearly to developers",
+        "Retest fixes and add regression checks so issues do not return"
+      ],
+      "skills": {
+        "essential": [
+          "OWASP Top 10 and common web vulnerability classes",
+          "HTTP, cookies, sessions and authentication flows",
+          "Authorization and access control testing",
+          "Risk rating and clear defect reporting"
+        ],
+        "roleSpecific": [
+          "Intercepting proxies such as Burp Suite or OWASP ZAP",
+          "SAST, DAST and dependency scanning in CI",
+          "API security testing including token and object-level authorization checks",
+          "Threat modelling at feature level"
+        ],
+        "optional": [
+          "Scripting in Python or JavaScript for custom checks",
+          "Cloud configuration security basics",
+          "Security certifications such as entry-level ethical hacking courses"
+        ]
+      },
+      "prerequisites": [
+        "Solid functional or API testing experience",
+        "Comfort with HTTP and browser developer tools",
+        "Basic scripting ability"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn the security testing basics",
+          "goals": [
+            "Explain each OWASP Top 10 category with an example from a web application",
+            "Inspect requests, cookies and headers with browser tools and an intercepting proxy",
+            "Test login, logout, password reset and session timeout for common weaknesses"
+          ],
+          "topics": [
+            "security-testing-fundamentals",
+            "owasp-top-10-for-testers",
+            "http-fundamentals",
+            "testing-login-and-authentication"
+          ]
+        },
+        "intermediate": {
+          "title": "Test APIs and access control",
+          "goals": [
+            "Test every role against every protected endpoint and log access control gaps",
+            "Probe APIs for object-level authorization and mass assignment issues",
+            "Run a DAST scan against a test environment and triage the findings"
+          ],
+          "topics": [
+            "api-security-testing",
+            "authentication-and-authorization",
+            "testing-user-permissions",
+            "api-negative-and-boundary-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Make security continuous",
+          "goals": [
+            "Add dependency, static and dynamic scans to a CI pipeline with sensible failure thresholds",
+            "Run lightweight threat modelling sessions for new features",
+            "Report security risk trends to the team and leadership"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "shift-left-and-continuous-testing",
+            "risk-based-testing",
+            "qa-metrics-and-reporting"
+          ]
+        }
+      },
+      "tools": [
+        "OWASP ZAP",
+        "Burp Suite Community or Professional",
+        "Browser developer tools",
+        "Dependency scanners such as OWASP Dependency-Check or Snyk",
+        "Static analysis such as Semgrep or SonarQube",
+        "Postman for API security checks"
+      ],
+      "exercises": [
+        "Use OWASP Juice Shop locally and find and document five vulnerabilities from different OWASP categories",
+        "Build a role-by-endpoint access matrix for a demo API and test every cell",
+        "Run ZAP baseline scan in a CI job against a local test app and classify each alert",
+        "Write abuse cases for a password reset feature and execute them"
+      ],
+      "sampleProject": {
+        "title": "Security test pack for a deliberately vulnerable app",
+        "description": "Run OWASP Juice Shop or a similar intentionally vulnerable app on your own machine. Produce a short threat model, an access control matrix, manual findings with risk ratings and reproduction steps, and a CI pipeline that runs dependency and ZAP baseline scans with documented triage of every alert."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is broken access control and how do you test for it?",
+          "a": "It is when users can act outside their intended permissions, such as viewing another user's order by changing an ID. I build a matrix of roles and actions, then try every action as every role, including unauthenticated, by replaying requests with different tokens and IDs. Checks must happen on the server, so hiding a button in the UI is not a fix."
+        },
+        {
+          "q": "How do you handle a DAST scan with hundreds of alerts?",
+          "a": "I group alerts by type, confirm a sample of each manually to separate true issues from false positives, and rate confirmed issues by impact and exploitability. I then tune the scan rules and suppress verified false positives with a documented reason so the next run is meaningful."
+        },
+        {
+          "q": "What is the difference between authentication and authorization?",
+          "a": "Authentication verifies who the user is, for example by password and MFA. Authorization decides what that verified user may do. Many serious bugs are authorization bugs in systems with strong authentication, so both need separate testing."
+        },
+        {
+          "q": "How would you test for SQL injection safely?",
+          "a": "Only in an environment I am authorized to test, never production without explicit approval. I try inputs that change query syntax, such as quotes and boolean conditions, in every parameter and watch for errors, behaviour changes or timing differences. I also check the code or ask whether parameterised queries are used, since that is the real fix."
+        },
+        {
+          "q": "Why put security scans in CI?",
+          "a": "Scans in CI catch known vulnerable dependencies and common coding flaws on every change, when fixes are cheapest. They do not replace manual testing of business logic, but they stop easy issues from reaching later stages and give a consistent baseline."
+        }
+      ],
+      "codingRequirements": "Moderate. You need to read application code well enough to understand a vulnerability, write small scripts for custom checks, and configure scanners in CI pipelines.",
+      "commonMistakes": [
+        "Reporting raw scanner output without confirming or rating the findings",
+        "Testing only through the UI and missing direct API access control flaws",
+        "Testing systems or environments without written authorization",
+        "Treating security as a one-off test phase instead of a continuous activity"
+      ],
+      "readinessCriteria": [
+        "Can find and explain access control, injection and session issues in a practice application",
+        "Can configure and triage security scans in a CI pipeline",
+        "Can write a security defect report with impact, reproduction steps and fix guidance",
+        "Understands and respects authorization and scope rules for security testing"
+      ],
+      "nextRoles": [
+        "application-security-tester",
+        "penetration-testing-specialist",
+        "test-architect"
+      ],
+      "boundaries": "Only test systems you own or have explicit written authorization to test, and stay within the agreed scope, environments and time windows. Never test production or third-party services without documented approval, avoid accessing or keeping real personal data, and report findings only through agreed confidential channels. Practise on deliberately vulnerable apps running on your own machine."
+    },
+    {
+      "slug": "application-security-tester",
+      "title": "Application Security Tester",
+      "category": "security-specialist",
+      "overview": "An Application Security Tester focuses on finding vulnerabilities in web, mobile and API applications through in-depth manual testing supported by tools. Compared with a general security test engineer, the role goes deeper into business logic flaws, authentication design and secure coding review, and often supports an application security programme across several teams.",
+      "responsibilities": [
+        "Perform in-depth security testing of applications against standards such as OWASP ASVS",
+        "Find business logic flaws such as price manipulation, workflow bypass and race conditions",
+        "Review authentication, session and authorization designs for weaknesses",
+        "Review code for insecure patterns alongside developers",
+        "Verify fixes and maintain a register of open security risks",
+        "Coach developers and testers on secure design and security test techniques"
+      ],
+      "skills": {
+        "essential": [
+          "OWASP Top 10 and ASVS",
+          "Deep knowledge of HTTP, sessions, tokens and OAuth flows",
+          "Business logic and abuse case testing",
+          "Risk-based reporting"
+        ],
+        "roleSpecific": [
+          "Advanced use of Burp Suite or ZAP including repeater and intruder style testing",
+          "Secure code review in at least one language",
+          "Testing JWT, OAuth 2.0 and OpenID Connect implementations",
+          "Race condition and concurrency testing"
+        ],
+        "optional": [
+          "Mobile application security testing with OWASP MASTG",
+          "Writing custom scanner rules",
+          "Cloud and container security basics"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a security test engineer or strong API tester",
+        "Ability to read application code",
+        "Good understanding of web architecture"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Strengthen web security foundations",
+          "goals": [
+            "Test authentication and session handling against ASVS requirements",
+            "Find and explain each OWASP Top 10 category in a practice application",
+            "Use an intercepting proxy to modify and replay requests confidently"
+          ],
+          "topics": [
+            "owasp-top-10-for-testers",
+            "security-testing-fundamentals",
+            "authentication-and-authorization",
+            "testing-sessions-and-concurrency"
+          ]
+        },
+        "intermediate": {
+          "title": "Hunt for logic and API flaws",
+          "goals": [
+            "Test payment and checkout flows for price and quantity manipulation",
+            "Probe APIs for object-level and function-level authorization flaws",
+            "Test idempotency and race conditions on critical operations"
+          ],
+          "topics": [
+            "api-security-testing",
+            "testing-cart-and-checkout",
+            "idempotency-retries-rate-limiting",
+            "testing-user-permissions"
+          ]
+        },
+        "advanced": {
+          "title": "Lead application security testing",
+          "goals": [
+            "Plan and run a full ASVS-based assessment of an application",
+            "Review code for insecure patterns and propose secure alternatives",
+            "Build security checks into team test strategies"
+          ],
+          "topics": [
+            "test-strategy-vs-test-plan",
+            "risk-based-testing",
+            "shift-left-and-continuous-testing",
+            "root-cause-analysis"
+          ]
+        }
+      },
+      "tools": [
+        "Burp Suite",
+        "OWASP ZAP",
+        "Semgrep",
+        "jwt.io and JWT testing extensions",
+        "Postman",
+        "Browser developer tools"
+      ],
+      "exercises": [
+        "Map the authentication and session design of a practice app and test it against ASVS chapter requirements",
+        "Find a business logic flaw in a demo shop, such as applying a coupon twice, and write it up with impact",
+        "Send parallel requests to a demo redeem endpoint to test for race conditions",
+        "Review a short code sample for injection and access control flaws and propose fixes"
+      ],
+      "sampleProject": {
+        "title": "ASVS-based assessment of a practice application",
+        "description": "Assess an intentionally vulnerable application running locally against selected OWASP ASVS chapters. Document scope, method, findings with severity and reproduction steps, code-level root causes where possible, and a retest record after applying or simulating fixes."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is a business logic vulnerability? Give an example.",
+          "a": "It is a flaw in how the application enforces its own rules rather than a classic technical bug. For example, a checkout that trusts a price sent from the browser, or a refund flow that can be triggered twice. Scanners rarely find these, so testers must understand the intended rules and try to break them."
+        },
+        {
+          "q": "How do you test a JWT-based API?",
+          "a": "I check that signatures are verified and the none algorithm is rejected, that expired and tampered tokens fail, that claims such as user ID and role are not trusted for authorization without server checks, and that tokens are not leaked in URLs or logs. I also test token revocation on logout and password change."
+        },
+        {
+          "q": "How do you test for race conditions?",
+          "a": "I identify operations that should happen only once, such as redeeming a voucher, then send many identical requests at the same moment using a tool or script. If more than one succeeds, there is a race condition. The fix is usually atomic database operations or locks."
+        },
+        {
+          "q": "How do you prioritise security findings?",
+          "a": "I consider impact, such as data exposure or financial loss, and likelihood, such as whether authentication is needed and how easy the exploit is. I often use a CVSS-style score adjusted for business context, and I explain the reasoning so owners can make decisions."
+        }
+      ],
+      "codingRequirements": "Moderate to high. You should read code in at least one major language to spot insecure patterns, and write scripts to automate attacks such as race condition tests.",
+      "commonMistakes": [
+        "Relying on scanners and missing business logic flaws",
+        "Reporting issues without a clear impact statement",
+        "Testing outside the authorized scope or environment",
+        "Recommending fixes that only hide the issue in the user interface"
+      ],
+      "readinessCriteria": [
+        "Can run a structured ASVS-based assessment of an application",
+        "Can find and demonstrate business logic and authorization flaws",
+        "Can review code for common insecure patterns",
+        "Can communicate risk and fixes to developers and product owners"
+      ],
+      "nextRoles": [
+        "penetration-testing-specialist",
+        "test-strategy-consultant"
+      ],
+      "boundaries": "Test only applications and environments covered by written authorization and an agreed scope. Do not attempt denial of service, social engineering or access to real customer data unless explicitly permitted. Handle findings confidentially, follow responsible disclosure rules, and comply with applicable laws and company policy at all times."
+    },
+    {
+      "slug": "penetration-testing-specialist",
+      "title": "Penetration Testing Specialist",
+      "category": "security-specialist",
+      "overview": "A Penetration Testing Specialist performs authorized, simulated attacks against applications, networks and cloud environments to show how real attackers could break in and what they could reach. The role follows a formal engagement process with a written scope and rules of engagement, and ends with a clear report that helps the organisation fix the most important risks first.",
+      "responsibilities": [
+        "Agree scope, rules of engagement and written authorization before any testing",
+        "Perform reconnaissance and vulnerability discovery within the agreed scope",
+        "Safely exploit vulnerabilities to demonstrate real impact",
+        "Chain lower-risk issues to show realistic attack paths",
+        "Write reports with executive summaries, technical findings and remediation advice",
+        "Retest remediated findings and confirm closure"
+      ],
+      "skills": {
+        "essential": [
+          "Web application and API attack techniques",
+          "Networking fundamentals including TCP/IP, DNS and common services",
+          "Linux and Windows command line",
+          "Professional reporting and ethics"
+        ],
+        "roleSpecific": [
+          "Penetration testing methodologies such as PTES and the OWASP Web Security Testing Guide",
+          "Exploitation and privilege escalation techniques",
+          "Active Directory and cloud attack paths",
+          "Scripting exploits and tooling in Python or Bash"
+        ],
+        "optional": [
+          "Certifications such as OSCP or equivalent",
+          "Mobile and thick-client testing",
+          "Red team and social engineering engagements where authorized"
+        ]
+      },
+      "prerequisites": [
+        "Security testing or application security experience",
+        "Strong networking and operating system knowledge",
+        "Scripting ability"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Build attacker fundamentals legally",
+          "goals": [
+            "Exploit OWASP Top 10 issues in deliberately vulnerable labs",
+            "Explain how HTTP, authentication and sessions can be abused",
+            "Learn the legal and ethical rules of authorized testing"
+          ],
+          "topics": [
+            "security-testing-fundamentals",
+            "owasp-top-10-for-testers",
+            "http-fundamentals",
+            "authentication-and-authorization"
+          ]
+        },
+        "intermediate": {
+          "title": "Run structured engagements in labs",
+          "goals": [
+            "Complete end-to-end lab engagements from reconnaissance to report",
+            "Test APIs for authorization, injection and rate limiting flaws",
+            "Chain findings into a realistic attack path"
+          ],
+          "topics": [
+            "api-security-testing",
+            "idempotency-retries-rate-limiting",
+            "testing-user-permissions",
+            "docker-for-testers"
+          ]
+        },
+        "advanced": {
+          "title": "Deliver professional assessments",
+          "goals": [
+            "Lead an authorized engagement with documented scope and rules of engagement",
+            "Write reports that rank risks for both executives and engineers",
+            "Advise on remediation and verify fixes"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "root-cause-analysis",
+            "test-execution-and-closure-reports"
+          ]
+        }
+      },
+      "tools": [
+        "Burp Suite Professional",
+        "Nmap",
+        "Metasploit Framework",
+        "Kali Linux",
+        "sqlmap",
+        "Wireshark"
+      ],
+      "exercises": [
+        "Complete a series of retired machines on a legal practice platform and document each attack path",
+        "Write a rules of engagement document for a fictional client engagement",
+        "Exploit and then explain the fix for an injection flaw in a local vulnerable app",
+        "Produce a sample report with executive summary and three technical findings from a lab"
+      ],
+      "sampleProject": {
+        "title": "Home lab engagement with full report",
+        "description": "Build an isolated home lab with intentionally vulnerable virtual machines and web apps. Write a scope and rules of engagement, perform reconnaissance, exploitation and privilege escalation, then deliver a professional report with risk ratings, an attack path narrative and remediation guidance."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What must be in place before you start a penetration test?",
+          "a": "Written authorization from someone with the authority to grant it, a clear scope listing targets and exclusions, rules of engagement covering timing, techniques, data handling and emergency contacts, and agreement on how findings will be reported. Without these, testing may be illegal."
+        },
+        {
+          "q": "What is the difference between a vulnerability scan and a penetration test?",
+          "a": "A vulnerability scan is automated and lists potential weaknesses. A penetration test uses skilled manual work to confirm, exploit and chain issues to show real business impact, and removes false positives. Penetration tests are deeper but cover a narrower scope in a fixed time."
+        },
+        {
+          "q": "What do you do if you find evidence of a real compromise during a test?",
+          "a": "Stop the related activity, preserve evidence, and immediately notify the client contact named in the rules of engagement. It is then the client's incident response process, not something to continue investigating on my own."
+        },
+        {
+          "q": "How do you write findings for different audiences?",
+          "a": "The executive summary explains overall risk and business impact in plain language. Each technical finding includes affected assets, severity, reproduction steps, evidence and specific remediation. Ranking findings helps teams fix the most important issues first."
+        }
+      ],
+      "codingRequirements": "Moderate to high. You need to script tools and exploits in Python or Bash, read code to understand vulnerabilities, and adapt public proof-of-concept code safely.",
+      "commonMistakes": [
+        "Starting any testing without written authorization and an agreed scope",
+        "Running destructive exploits without approval",
+        "Reporting tool output instead of confirmed, explained findings",
+        "Keeping client data or credentials after the engagement ends"
+      ],
+      "readinessCriteria": [
+        "Can complete a full lab engagement from scoping to report",
+        "Can explain the legal and ethical framework for penetration testing",
+        "Can exploit and explain common web, API and system vulnerabilities in a lab",
+        "Can produce a clear report for both technical and executive readers"
+      ],
+      "nextRoles": [
+        "test-strategy-consultant"
+      ],
+      "boundaries": "Penetration testing is only legal with explicit written authorization from the system owner. Always work within an agreed scope and rules of engagement, never test targets outside that scope, follow computer misuse and data protection laws in every relevant jurisdiction, avoid service disruption unless approved, handle and destroy client data securely, and practise only on your own labs or legal training platforms."
+    },
+    {
+      "slug": "accessibility-qa-specialist",
+      "title": "Accessibility QA Specialist",
+      "category": "security-specialist",
+      "overview": "An Accessibility QA Specialist is the go-to expert for accessibility quality across products. Beyond testing individual pages, the role sets accessibility standards, trains teams, audits complex components, produces conformance reports and helps the organisation meet legal requirements. It builds on accessibility test engineering with more strategy, coaching and advanced assistive technology skill.",
+      "responsibilities": [
+        "Define accessibility standards, acceptance criteria and test approaches for teams",
+        "Audit complex components and journeys with a range of assistive technologies",
+        "Produce accessibility conformance reports and remediation roadmaps",
+        "Train designers, developers and testers in accessibility practice",
+        "Review design systems for accessible patterns",
+        "Track accessibility defects and conformance trends over time"
+      ],
+      "skills": {
+        "essential": [
+          "WCAG 2.2 in depth",
+          "Expert screen reader and keyboard testing",
+          "HTML semantics and ARIA authoring practices",
+          "Clear reporting of user impact"
+        ],
+        "roleSpecific": [
+          "Auditing complex widgets such as comboboxes, dialogs and data grids",
+          "Accessibility conformance reporting",
+          "Designing accessibility automation strategy",
+          "Coaching and training"
+        ],
+        "optional": [
+          "Accessibility certifications",
+          "Usability testing with disabled participants",
+          "Document and PDF accessibility"
+        ]
+      },
+      "prerequisites": [
+        "Experience as an accessibility test engineer",
+        "Strong web testing background",
+        "Confident use of multiple screen readers"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Deepen accessibility expertise",
+          "goals": [
+            "Audit a full journey across keyboard, two screen readers, zoom and contrast",
+            "Explain every WCAG 2.2 AA criterion with a test approach"
+          ],
+          "topics": [
+            "accessibility-testing-fundamentals",
+            "screen-reader-and-keyboard-testing",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Scale accessibility testing",
+          "goals": [
+            "Build an automated accessibility layer for a test suite",
+            "Write accessibility acceptance criteria for design system components",
+            "Test mobile apps with platform accessibility settings"
+          ],
+          "topics": [
+            "accessibility-automation",
+            "acceptance-criteria-dor-dod",
+            "mobile-testing-fundamentals",
+            "playwright-with-typescript"
+          ]
+        },
+        "advanced": {
+          "title": "Lead accessibility quality",
+          "goals": [
+            "Produce a conformance report and prioritised remediation roadmap",
+            "Run training sessions for designers and developers",
+            "Report accessibility metrics to leadership"
+          ],
+          "topics": [
+            "qa-metrics-and-reporting",
+            "test-strategy-vs-test-plan",
+            "release-readiness"
+          ]
+        }
+      },
+      "tools": [
+        "NVDA and JAWS",
+        "VoiceOver and TalkBack",
+        "axe-core and axe DevTools",
+        "Accessibility Insights",
+        "Colour contrast analysers"
+      ],
+      "exercises": [
+        "Audit a custom combobox against ARIA authoring practices with two screen readers",
+        "Write accessibility acceptance criteria for a modal dialog component",
+        "Create a short conformance summary for a demo site's three key journeys",
+        "Prepare a 30-minute accessibility training outline for developers"
+      ],
+      "sampleProject": {
+        "title": "Accessibility programme starter kit",
+        "description": "For a demo web app you run locally, deliver a WCAG 2.2 AA audit of key journeys, component-level acceptance criteria, an axe-based CI check, a prioritised remediation roadmap and a short training deck for the team."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you audit a custom dropdown component?",
+          "a": "I check it against the matching ARIA pattern: correct roles and states, keyboard support for arrows, Enter, Escape and type-ahead, visible focus, correct announcements in at least two screen readers, and behaviour with zoom. Often a native select would be simpler and more robust."
+        },
+        {
+          "q": "How do you make accessibility sustainable across teams?",
+          "a": "Build it into the design system, definition of done and acceptance criteria, add automated checks in CI for what can be automated, train people, and run regular manual audits. Tracking metrics helps show progress and keeps it visible."
+        },
+        {
+          "q": "What is a conformance report?",
+          "a": "A document stating how a product meets each accessibility criterion, usually as supports, partially supports or does not support, with remarks. It is used in procurement and compliance, so it must be based on real testing evidence."
+        },
+        {
+          "q": "How do you prioritise accessibility issues?",
+          "a": "By user impact and reach: issues that block a task for a group of users, such as an inaccessible checkout button, come first. I also consider legal risk and how many pages share the issue, since fixing a shared component can solve many issues at once."
+        }
+      ],
+      "codingRequirements": "Low to moderate. You need to read HTML, CSS, ARIA and component code and write small automated checks, but not build features.",
+      "commonMistakes": [
+        "Claiming conformance based on automated scans alone",
+        "Auditing pages one by one instead of fixing shared components",
+        "Using only one screen reader and browser combination",
+        "Not involving disabled users in evaluation"
+      ],
+      "readinessCriteria": [
+        "Can audit complex components with multiple assistive technologies",
+        "Can produce an evidence-based conformance report",
+        "Can define accessibility acceptance criteria and automation strategy",
+        "Can train and coach other team members"
+      ],
+      "nextRoles": [
+        "qa-lead",
+        "test-strategy-consultant"
+      ]
+    },
+    {
+      "slug": "localization-tester",
+      "title": "Localization Tester",
+      "category": "security-specialist",
+      "overview": "A Localization Tester checks that a product works and reads correctly in each target language and region. The role covers translation quality in context, truncated or overlapping text, date, number and currency formats, cultural fit and region-specific behaviour. It often involves working with translators and native speakers and testing builds in many locales.",
+      "responsibilities": [
+        "Test translated user interfaces for truncation, overlap and untranslated text",
+        "Verify date, time, number, currency and address formats for each locale",
+        "Check translations in context with linguists and native speakers",
+        "Test right-to-left layouts where supported",
+        "Log localization defects with screenshots and locale details",
+        "Maintain locale test checklists and coverage"
+      ],
+      "skills": {
+        "essential": [
+          "Functional testing fundamentals",
+          "Locale formats and regional conventions",
+          "Attention to visual and textual detail",
+          "Clear defect reporting with screenshots"
+        ],
+        "roleSpecific": [
+          "Pseudo-localization testing",
+          "Right-to-left layout testing",
+          "Working with translation management systems",
+          "Testing on devices and browsers set to different locales"
+        ],
+        "optional": [
+          "Fluency in one or more additional languages",
+          "Basic automation of locale screenshot checks",
+          "Knowledge of Unicode and character encodings"
+        ]
+      },
+      "prerequisites": [
+        "Basic manual testing experience",
+        "Interest in languages and cultures"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn localization basics",
+          "goals": [
+            "Explain the difference between localization and internationalization",
+            "Switch browsers and devices to different locales and test a simple app",
+            "Report truncation and untranslated strings with clear evidence"
+          ],
+          "topics": [
+            "localization-and-internationalization",
+            "writing-a-great-defect-report",
+            "test-scenarios-and-test-cases"
+          ]
+        },
+        "intermediate": {
+          "title": "Cover locales systematically",
+          "goals": [
+            "Build a locale checklist covering formats, layout and content",
+            "Test right-to-left and long-text languages",
+            "Use pseudo-localization to find issues before translation"
+          ],
+          "topics": [
+            "compatibility-and-installation-testing",
+            "cross-browser-testing",
+            "pairwise-and-combinatorial-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Scale localization quality",
+          "goals": [
+            "Plan locale coverage by market risk",
+            "Automate locale screenshots for visual review",
+            "Report localization quality trends"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "playwright-with-typescript",
+            "qa-metrics-and-reporting"
+          ]
+        }
+      },
+      "tools": [
+        "Browser and OS locale settings",
+        "Translation management systems such as Crowdin or Lokalise",
+        "Pseudo-localization tools",
+        "Screenshot tools",
+        "Jira or similar tracker"
+      ],
+      "exercises": [
+        "Test a demo app in German, Japanese and Arabic locales and log layout issues",
+        "Compare date, number and currency formats across five locales against expectations",
+        "Enable pseudo-localization on a sample app and list strings that are hardcoded",
+        "Write a localization checklist for a checkout page"
+      ],
+      "sampleProject": {
+        "title": "Localization test pack for a sample app",
+        "description": "Choose an open-source app with several translations. Build a locale coverage plan, a checklist, pseudo-localization results and a defect log covering truncation, untranslated text, formatting and right-to-left issues, with screenshots."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is pseudo-localization and why use it?",
+          "a": "It replaces UI strings with longer, accented versions of the original text. This reveals hardcoded strings, truncation and encoding problems before real translations exist, which makes fixes cheaper."
+        },
+        {
+          "q": "What do you check when testing a new locale?",
+          "a": "Translation completeness and context, text fitting within layouts, date, time, number, currency and address formats, sorting, input of local characters, right-to-left mirroring if relevant, and region-specific content such as legal text or payment methods."
+        },
+        {
+          "q": "How do you report a translation issue if you do not speak the language?",
+          "a": "I report what I can observe, such as truncation, mixed languages or placeholder text, with a screenshot and string key. For meaning or tone I flag it for a native-speaking linguist to confirm rather than guessing."
+        },
+        {
+          "q": "Why are German and Arabic often used in localization testing?",
+          "a": "German text is often much longer than English, which exposes truncation and layout issues. Arabic is right-to-left, which tests mirroring of layout, icons and text alignment."
+        }
+      ],
+      "codingRequirements": "Low. Mostly manual testing. Basic scripting helps for automated locale screenshots but is not required to start.",
+      "commonMistakes": [
+        "Checking translations out of context in spreadsheets only",
+        "Ignoring formats such as dates, numbers and currencies",
+        "Testing only in the default browser locale",
+        "Judging translation meaning without a native speaker"
+      ],
+      "readinessCriteria": [
+        "Can test an application in several locales and report issues clearly",
+        "Can explain and use pseudo-localization",
+        "Can build a locale checklist and coverage plan"
+      ],
+      "nextRoles": [
+        "internationalization-tester",
+        "compatibility-test-engineer"
+      ]
+    },
+    {
+      "slug": "internationalization-tester",
+      "title": "Internationalization Tester",
+      "category": "security-specialist",
+      "overview": "An Internationalization Tester checks that software is built so it can support many languages and regions without code changes. The focus is on the engineering foundation: Unicode handling, externalised strings, locale-aware formatting, time zones, sorting and data storage. Internationalization issues found early make every later localization cheaper and safer.",
+      "responsibilities": [
+        "Test Unicode input, storage and display across the stack",
+        "Verify that strings are externalised and not hardcoded",
+        "Test locale-aware formatting, sorting and parsing",
+        "Test time zone and daylight saving behaviour",
+        "Check APIs and databases handle multi-byte characters correctly",
+        "Review designs and code for internationalization risks"
+      ],
+      "skills": {
+        "essential": [
+          "Unicode and character encodings",
+          "Locale data and formatting rules",
+          "Time zones and date handling",
+          "API and database testing basics"
+        ],
+        "roleSpecific": [
+          "Testing with multi-byte, combining and emoji characters",
+          "Pseudo-localization and string externalisation checks",
+          "Bidirectional text handling",
+          "Locale-aware sorting and search"
+        ],
+        "optional": [
+          "ICU libraries and CLDR data",
+          "Automated internationalization checks in CI",
+          "Knowledge of regional regulations such as data residency"
+        ]
+      },
+      "prerequisites": [
+        "Functional and API testing experience",
+        "Basic SQL",
+        "Some programming knowledge"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand internationalization",
+          "goals": [
+            "Explain Unicode, UTF-8 and common encoding bugs",
+            "Test input fields with multi-language and emoji input",
+            "Distinguish internationalization from localization issues"
+          ],
+          "topics": [
+            "localization-and-internationalization",
+            "test-data-design",
+            "equivalence-partitioning"
+          ]
+        },
+        "intermediate": {
+          "title": "Test across the stack",
+          "goals": [
+            "Verify multi-byte data round-trips through API and database",
+            "Test time zone conversions and daylight saving boundaries",
+            "Test locale-aware sorting and search"
+          ],
+          "topics": [
+            "api-database-validation",
+            "sql-for-testers",
+            "boundary-value-analysis",
+            "testing-search-and-filtering"
+          ]
+        },
+        "advanced": {
+          "title": "Prevent internationalization defects",
+          "goals": [
+            "Add automated internationalization checks to CI",
+            "Review architecture for internationalization risk",
+            "Define internationalization standards with developers"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "shift-left-and-continuous-testing",
+            "test-architecture-and-system-design"
+          ]
+        }
+      },
+      "tools": [
+        "Pseudo-localization tools",
+        "Postman",
+        "SQL clients",
+        "Browser and OS locale and time zone settings",
+        "Unicode inspection tools"
+      ],
+      "exercises": [
+        "Create a test data set of names and addresses in ten scripts and run it through a demo signup flow",
+        "Test a scheduling feature across time zones and a daylight saving change",
+        "Check a demo API stores and returns emoji and combining characters unchanged",
+        "Find hardcoded strings in a sample app using pseudo-localization"
+      ],
+      "sampleProject": {
+        "title": "Internationalization readiness review",
+        "description": "Assess an open-source web app for internationalization readiness. Test Unicode round-trips through UI, API and database, time zone handling, formatting and sorting, then write a report with defects and recommendations ranked by risk."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between internationalization and localization?",
+          "a": "Internationalization is designing and building software so it can support any language and region. Localization is adapting it for a specific locale, including translation and formats. Internationalization bugs are in the code; localization bugs are often in content."
+        },
+        {
+          "q": "What typical bugs appear with Unicode?",
+          "a": "Garbled characters from wrong encoding, truncation that cuts a multi-byte character, string length limits counted in bytes instead of characters, broken sorting and search, and emoji or combining characters lost in storage."
+        },
+        {
+          "q": "How do you test time zone handling?",
+          "a": "I test users and servers in different zones, events across midnight and daylight saving changes, and check that timestamps are stored in UTC and shown in the user's zone. Boundary dates such as the start and end of daylight saving are key test cases."
+        },
+        {
+          "q": "How would you check for hardcoded strings?",
+          "a": "Use pseudo-localization so every externalised string looks different; any text still in plain English is probably hardcoded. Code search for literal strings in UI components also helps."
+        }
+      ],
+      "codingRequirements": "Moderate. You should write SQL queries, use APIs and read code to find hardcoded strings and formatting logic.",
+      "commonMistakes": [
+        "Testing only with English and Latin characters",
+        "Ignoring time zones and daylight saving",
+        "Confusing byte length with character length",
+        "Leaving internationalization testing until after translation"
+      ],
+      "readinessCriteria": [
+        "Can design Unicode and locale test data",
+        "Can test internationalization across UI, API and database",
+        "Can explain and test time zone behaviour"
+      ],
+      "nextRoles": [
+        "test-architect",
+        "compatibility-test-engineer"
+      ]
+    },
+    {
+      "slug": "game-qa-tester",
+      "title": "Game QA Tester",
+      "category": "security-specialist",
+      "overview": "A Game QA Tester finds bugs in video games across gameplay, graphics, audio, performance, progression and platform requirements. The role relies heavily on exploratory testing, precise reproduction steps and regression testing across builds, often on several consoles, PCs and mobile devices. Senior testers also check certification requirements set by platform holders.",
+      "responsibilities": [
+        "Play test builds to find gameplay, graphical, audio and stability bugs",
+        "Write precise reproduction steps, often with video evidence",
+        "Run regression and smoke tests on each new build",
+        "Test performance, frame rate and loading on target platforms",
+        "Check platform certification and compliance requirements",
+        "Test multiplayer, save systems and progression"
+      ],
+      "skills": {
+        "essential": [
+          "Exploratory testing",
+          "Precise bug reproduction and reporting",
+          "Regression and smoke testing",
+          "Patience and attention to detail"
+        ],
+        "roleSpecific": [
+          "Platform certification requirements",
+          "Testing multiplayer and network conditions",
+          "Performance and frame rate observation",
+          "Capturing video and logs from consoles and PCs"
+        ],
+        "optional": [
+          "Game engine basics in Unity or Unreal",
+          "Test automation for games",
+          "Compatibility testing on PC hardware"
+        ]
+      },
+      "prerequisites": [
+        "Interest in games and a range of genres",
+        "Basic testing knowledge"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn testing and bug reporting",
+          "goals": [
+            "Write bug reports with reliable reproduction steps and video",
+            "Run structured exploratory sessions on a game area",
+            "Classify severity and priority for game bugs"
+          ],
+          "topics": [
+            "exploratory-testing-charters",
+            "writing-a-great-defect-report",
+            "severity-vs-priority"
+          ]
+        },
+        "intermediate": {
+          "title": "Test systems and builds",
+          "goals": [
+            "Run smoke and regression checklists on new builds",
+            "Test save, progression and state changes",
+            "Test multiplayer under poor network conditions"
+          ],
+          "topics": [
+            "smoke-and-sanity-testing",
+            "regression-testing",
+            "state-transition-testing",
+            "testing-multi-browser-and-network-issues"
+          ]
+        },
+        "advanced": {
+          "title": "Own quality areas",
+          "goals": [
+            "Plan test coverage for a feature or platform",
+            "Check certification requirements before submission",
+            "Report quality trends and release readiness"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "compatibility-and-installation-testing",
+            "release-readiness"
+          ]
+        }
+      },
+      "tools": [
+        "Jira or other bug trackers",
+        "Screen and video capture tools",
+        "Platform development kits where provided",
+        "Performance overlays and frame rate counters",
+        "Network condition simulators"
+      ],
+      "exercises": [
+        "Run a one-hour exploratory session on a free indie game and log bugs with video",
+        "Write a smoke test checklist for a game's main menu and first level",
+        "Map the states of a save system and test transitions such as quitting mid-save",
+        "Test an online game with throttled network and record behaviour"
+      ],
+      "sampleProject": {
+        "title": "Test pass on an open-source game",
+        "description": "Pick an open-source game, build or download it, and perform a full test pass: test plan, exploratory session notes, a regression checklist, bug reports with video evidence and a release readiness summary."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you report a bug that happens only sometimes?",
+          "a": "I record exactly what I did, the build, platform and settings, attach video and logs, and try to find the pattern by varying one factor at a time. I state the reproduction rate, such as three out of ten attempts, so developers know what to expect."
+        },
+        {
+          "q": "What is certification testing?",
+          "a": "Platform holders such as console makers have technical requirements that a game must meet before release, covering things like save data handling, user accounts and error messages. Testing against them before submission avoids failed submissions and delays."
+        },
+        {
+          "q": "How would you test a save system?",
+          "a": "Save and load in different states, quit or lose power during saving, fill storage, use multiple profiles, load saves from older builds and check progression, inventory and settings all restore correctly."
+        },
+        {
+          "q": "How do you decide severity for a game bug?",
+          "a": "By impact on the player: crashes, progression blockers and save corruption are critical; gameplay issues that have workarounds are lower; visual glitches depend on how visible and common they are. Certification failures are always high priority."
+        }
+      ],
+      "codingRequirements": "Low. Mostly manual testing. Scripting and engine knowledge help for automation and senior roles.",
+      "commonMistakes": [
+        "Writing vague reproduction steps without build and platform details",
+        "Only playing normally instead of trying unusual player behaviour",
+        "Ignoring certification requirements until late",
+        "Not attaching video for hard-to-explain bugs"
+      ],
+      "readinessCriteria": [
+        "Can write precise game bug reports with evidence",
+        "Can run exploratory and regression testing on builds",
+        "Understands severity and certification in games"
+      ],
+      "nextRoles": [
+        "qa-lead",
+        "compatibility-test-engineer"
+      ]
+    },
+    {
+      "slug": "embedded-systems-test-engineer",
+      "title": "Embedded Systems Test Engineer",
+      "category": "security-specialist",
+      "overview": "An Embedded Systems Test Engineer tests software running on dedicated hardware such as automotive controllers, medical devices, industrial equipment and consumer electronics. The role covers firmware behaviour, timing, hardware interfaces and safety requirements, often using simulators, hardware-in-the-loop rigs and strict traceability for regulated industries.",
+      "responsibilities": [
+        "Design tests from requirements, including safety and timing requirements",
+        "Test firmware on simulators, development boards and hardware-in-the-loop rigs",
+        "Verify communication over interfaces such as CAN, UART, SPI or I2C",
+        "Test error handling, power loss and recovery behaviour",
+        "Maintain traceability from requirements to tests and results",
+        "Automate test execution on hardware rigs"
+      ],
+      "skills": {
+        "essential": [
+          "Requirements-based test design",
+          "Basic electronics and hardware interfaces",
+          "C or Python for test scripts",
+          "Traceability and documentation"
+        ],
+        "roleSpecific": [
+          "Hardware-in-the-loop and software-in-the-loop testing",
+          "Bus protocols such as CAN or Modbus",
+          "Lab equipment such as oscilloscopes and logic analysers",
+          "Safety standards such as ISO 26262 or IEC 62304"
+        ],
+        "optional": [
+          "Real-time operating systems",
+          "Unit testing frameworks for C",
+          "Model-based testing"
+        ]
+      },
+      "prerequisites": [
+        "Engineering or technical background",
+        "Basic programming in C or Python"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn test design for embedded",
+          "goals": [
+            "Design tests from requirements using boundaries and states",
+            "Explain the levels of testing for embedded systems",
+            "Write simple Python scripts to send commands to a device"
+          ],
+          "topics": [
+            "boundary-value-analysis",
+            "state-transition-testing",
+            "black-white-gray-box-testing",
+            "requirements-analysis-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Test on hardware",
+          "goals": [
+            "Test a development board over serial and verify responses",
+            "Test power loss and recovery behaviour",
+            "Keep a traceability matrix for a small project"
+          ],
+          "topics": [
+            "integration-testing",
+            "recovery-reliability-availability-testing",
+            "traceability-matrix-and-coverage",
+            "unit-and-component-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Automate and assure",
+          "goals": [
+            "Automate hardware rig tests in a CI pipeline",
+            "Plan testing to meet a safety standard",
+            "Report coverage and results for audits"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "risk-based-testing",
+            "test-execution-and-closure-reports"
+          ]
+        }
+      },
+      "tools": [
+        "Python with pyserial",
+        "Development boards such as Arduino or Raspberry Pi",
+        "Oscilloscopes and logic analysers",
+        "CAN analysers",
+        "Unity or Ceedling for C unit tests"
+      ],
+      "exercises": [
+        "Write Python tests that drive an Arduino over serial and check responses",
+        "Model a device's operating states and design state transition tests",
+        "Test what happens when power is removed during a configuration write",
+        "Build a traceability matrix from ten requirements to tests"
+      ],
+      "sampleProject": {
+        "title": "Automated test rig for a microcontroller project",
+        "description": "Build a small device with a microcontroller and sensor. Write requirements, design boundary and state tests, automate them in Python over serial, test power-loss recovery, and run the suite in CI against the connected board with a traceability report."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is hardware-in-the-loop testing?",
+          "a": "The real controller runs its firmware while a simulator provides its inputs and reads its outputs, imitating the rest of the system. It allows realistic, repeatable and safe testing of conditions that would be dangerous or expensive on real equipment."
+        },
+        {
+          "q": "Why is traceability important in embedded testing?",
+          "a": "Many embedded products are safety-critical and regulated. Auditors need evidence that every requirement is tested and every test passed, so the link from requirement to test to result must be maintained."
+        },
+        {
+          "q": "How do you test timing requirements?",
+          "a": "Measure actual response times with logic analysers, oscilloscopes or timestamps across many runs, including under load, and compare worst cases with the requirement. Average times are not enough for real-time systems."
+        },
+        {
+          "q": "What would you test when power is lost?",
+          "a": "That the device recovers to a safe state, configuration and data are not corrupted, partial writes are handled, and the device restarts correctly. Interrupting power at different points of an operation is key."
+        }
+      ],
+      "codingRequirements": "Moderate. You need Python or C to script tests and drive hardware, and enough understanding of firmware to diagnose failures.",
+      "commonMistakes": [
+        "Testing only on simulators and never on real hardware",
+        "Ignoring timing and worst-case behaviour",
+        "Weak traceability in regulated projects",
+        "Not testing power loss and error conditions"
+      ],
+      "readinessCriteria": [
+        "Can design requirements-based tests for embedded features",
+        "Can automate tests that drive real hardware",
+        "Understands traceability and safety standards at a basic level"
+      ],
+      "nextRoles": [
+        "iot-test-engineer",
+        "hardware-software-integration-tester"
+      ]
+    },
+    {
+      "slug": "iot-test-engineer",
+      "title": "IoT Test Engineer",
+      "category": "security-specialist",
+      "overview": "An IoT Test Engineer tests connected device systems end to end: the device, its firmware, the network, cloud services and the mobile or web apps that control it. The role covers connectivity loss, provisioning, firmware updates, data accuracy and device security, often across many device and network combinations.",
+      "responsibilities": [
+        "Test device onboarding, provisioning and pairing",
+        "Test device to cloud communication including protocols such as MQTT",
+        "Test behaviour under poor or lost connectivity",
+        "Test over-the-air firmware updates and rollback",
+        "Verify data accuracy from device sensors through to dashboards",
+        "Check basic device and communication security"
+      ],
+      "skills": {
+        "essential": [
+          "End-to-end and integration testing",
+          "API testing",
+          "Networking basics",
+          "Mobile app testing"
+        ],
+        "roleSpecific": [
+          "IoT protocols such as MQTT, CoAP and BLE",
+          "Network condition simulation",
+          "Firmware update testing",
+          "Device simulation at scale"
+        ],
+        "optional": [
+          "Embedded testing basics",
+          "Cloud IoT platforms",
+          "Device security testing"
+        ]
+      },
+      "prerequisites": [
+        "API and mobile testing experience",
+        "Basic networking knowledge",
+        "Some scripting"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand connected systems",
+          "goals": [
+            "Map the components of an IoT system and their interfaces",
+            "Test a device companion app's pairing flow",
+            "Send and inspect MQTT messages with a client tool"
+          ],
+          "topics": [
+            "system-and-end-to-end-testing",
+            "mobile-testing-fundamentals",
+            "http-fundamentals"
+          ]
+        },
+        "intermediate": {
+          "title": "Test the full chain",
+          "goals": [
+            "Test behaviour when devices lose and regain connectivity",
+            "Validate data from device to API to dashboard",
+            "Test firmware updates including failure and rollback"
+          ],
+          "topics": [
+            "integration-testing",
+            "testing-multi-browser-and-network-issues",
+            "api-database-validation",
+            "recovery-reliability-availability-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Test at scale and securely",
+          "goals": [
+            "Simulate thousands of devices against the cloud backend",
+            "Test device authentication and encrypted communication",
+            "Plan device and network coverage by risk"
+          ],
+          "topics": [
+            "performance-testing-types",
+            "security-testing-fundamentals",
+            "device-and-os-coverage-strategy"
+          ]
+        }
+      },
+      "tools": [
+        "MQTT clients such as MQTT Explorer",
+        "Postman",
+        "Network link conditioners",
+        "Device simulators",
+        "Wireshark"
+      ],
+      "exercises": [
+        "Set up a local MQTT broker and test publish and subscribe with retained and QoS messages",
+        "Test a smart device app with Wi-Fi switched off mid-command",
+        "Write a script that simulates 100 devices sending readings to an API",
+        "Design tests for a firmware update that fails halfway"
+      ],
+      "sampleProject": {
+        "title": "Simulated IoT system test suite",
+        "description": "Build a simple simulated system with a Python device simulator, local MQTT broker, small API and dashboard. Write end-to-end, connectivity-loss, data-accuracy and scale tests, and document the results and any defects found."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is special about testing IoT systems?",
+          "a": "Many components must work together: hardware, firmware, networks, cloud and apps. Connectivity is unreliable, devices are hard to update, and there are many combinations, so end-to-end and failure testing are especially important."
+        },
+        {
+          "q": "How do you test connectivity loss?",
+          "a": "Cut the network at different points, such as during a command or an update, and check the device and app handle it gracefully, queue or retry data, avoid duplicates and resync correctly when the connection returns."
+        },
+        {
+          "q": "How do you test over-the-air updates?",
+          "a": "Test successful updates, interrupted downloads, power loss during install, invalid or unsigned images, and rollback. The device must never be left unusable and must reject untrusted firmware."
+        },
+        {
+          "q": "What is MQTT QoS?",
+          "a": "Quality of Service levels define delivery guarantees: 0 is at most once, 1 is at least once and 2 is exactly once. Testing should check the system handles duplicates or lost messages according to the level used."
+        }
+      ],
+      "codingRequirements": "Moderate. You need scripting to simulate devices and messages, and API testing skills for cloud services.",
+      "commonMistakes": [
+        "Testing only with a perfect network",
+        "Ignoring firmware update failure cases",
+        "Testing components separately but never end to end",
+        "Overlooking device security and authentication"
+      ],
+      "readinessCriteria": [
+        "Can test an IoT system end to end including connectivity failures",
+        "Can work with IoT protocols such as MQTT",
+        "Can simulate devices for scale testing"
+      ],
+      "nextRoles": [
+        "hardware-software-integration-tester",
+        "cloud-qa-engineer"
+      ]
+    },
+    {
+      "slug": "hardware-software-integration-tester",
+      "title": "Hardware-Software Integration Tester",
+      "category": "security-specialist",
+      "overview": "A Hardware-Software Integration Tester verifies that software works correctly with the hardware it controls or depends on, such as sensors, peripherals, drivers and custom boards. The role sits between hardware and software teams, finding interface mismatches, timing problems and configuration issues that neither side sees alone.",
+      "responsibilities": [
+        "Plan integration tests across hardware revisions and software versions",
+        "Test drivers, peripherals and hardware interfaces",
+        "Diagnose whether failures come from hardware, firmware or software",
+        "Test configuration and compatibility across hardware variants",
+        "Maintain lab setups and test rigs",
+        "Report issues with evidence such as logs and signal traces"
+      ],
+      "skills": {
+        "essential": [
+          "Integration testing",
+          "Basic electronics",
+          "Logs and debugging",
+          "Compatibility testing"
+        ],
+        "roleSpecific": [
+          "Lab equipment such as multimeters and logic analysers",
+          "Hardware revision and configuration management",
+          "Driver and peripheral testing",
+          "Root cause isolation across layers"
+        ],
+        "optional": [
+          "Embedded C",
+          "Hardware-in-the-loop rigs",
+          "Manufacturing test processes"
+        ]
+      },
+      "prerequisites": [
+        "Testing experience",
+        "Basic electronics or engineering background"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn integration basics",
+          "goals": [
+            "Explain integration approaches and interface risks",
+            "Test a peripheral with a computer and read device logs"
+          ],
+          "topics": [
+            "integration-testing",
+            "functional-vs-non-functional-testing",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Test across variants",
+          "goals": [
+            "Build a compatibility matrix for hardware and software versions",
+            "Use pairwise testing to reduce combinations",
+            "Isolate failures to hardware or software"
+          ],
+          "topics": [
+            "compatibility-and-installation-testing",
+            "pairwise-and-combinatorial-testing",
+            "root-cause-analysis",
+            "debugging-failing-tests"
+          ]
+        },
+        "advanced": {
+          "title": "Own integration quality",
+          "goals": [
+            "Automate integration tests on lab rigs",
+            "Define entry and exit criteria for hardware releases",
+            "Report integration risks to both teams"
+          ],
+          "topics": [
+            "entry-and-exit-criteria",
+            "ci-cd-for-test-engineers",
+            "release-readiness"
+          ]
+        }
+      },
+      "tools": [
+        "Multimeters and logic analysers",
+        "Serial terminals",
+        "Python for automation",
+        "Device and driver management tools",
+        "Bug trackers"
+      ],
+      "exercises": [
+        "Test a USB peripheral across two operating systems and log differences",
+        "Create a pairwise compatibility matrix for three hardware revisions and four software versions",
+        "Diagnose a simulated sensor fault from logs and signal readings",
+        "Write entry criteria for a new hardware revision entering software testing"
+      ],
+      "sampleProject": {
+        "title": "Integration test plan for a sensor device",
+        "description": "Using a development board and two sensor models, write an integration test plan, a compatibility matrix, automated Python checks of readings, and defect reports that show how each failure was isolated to hardware, firmware or software."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you decide if a bug is hardware or software?",
+          "a": "Swap one factor at a time: try another unit of the same hardware, an older software version, or a known good configuration. Logs and signal measurements show whether the hardware sends the right signals and whether the software reads them correctly."
+        },
+        {
+          "q": "How do you manage many hardware and software combinations?",
+          "a": "Prioritise combinations by usage and risk, use pairwise techniques to cover interactions efficiently, and keep a matrix of what was tested. Full combinations are usually impossible."
+        },
+        {
+          "q": "What are typical integration defects?",
+          "a": "Wrong units or scaling, timing and synchronisation issues, mismatched protocol versions, incorrect pin or configuration settings, and poor handling of disconnected or faulty hardware."
+        },
+        {
+          "q": "Why are entry criteria important for hardware revisions?",
+          "a": "Testing software on unstable or unverified hardware wastes time and produces misleading failures. Clear entry criteria ensure hardware has passed its own checks first."
+        }
+      ],
+      "codingRequirements": "Low to moderate. Python scripting for automation and log analysis is useful, plus enough code reading to understand drivers.",
+      "commonMistakes": [
+        "Blaming software or hardware without isolating the cause",
+        "Not recording hardware revision and configuration in bug reports",
+        "Testing only one hardware unit",
+        "Ignoring disconnected or faulty hardware scenarios"
+      ],
+      "readinessCriteria": [
+        "Can plan and run hardware-software integration tests",
+        "Can isolate failures to the right layer",
+        "Can manage compatibility across variants"
+      ],
+      "nextRoles": [
+        "embedded-systems-test-engineer",
+        "test-lead"
+      ]
+    },
+    {
+      "slug": "erp-enterprise-application-tester",
+      "title": "ERP and Enterprise Application Tester",
+      "category": "security-specialist",
+      "overview": "An ERP and Enterprise Application Tester tests large business systems such as SAP, Oracle, Microsoft Dynamics, Salesforce and Workday. The work centres on end-to-end business processes like order to cash and procure to pay, configuration changes, integrations, data migration and regression testing across frequent vendor updates.",
+      "responsibilities": [
+        "Test end-to-end business processes across modules",
+        "Test configuration changes and customisations",
+        "Test integrations with other enterprise systems",
+        "Validate data migration and reconciliation",
+        "Support user acceptance testing with business users",
+        "Maintain regression suites for vendor updates"
+      ],
+      "skills": {
+        "essential": [
+          "Business process knowledge",
+          "End-to-end and integration testing",
+          "SQL and data validation",
+          "UAT coordination"
+        ],
+        "roleSpecific": [
+          "Knowledge of at least one ERP or CRM platform",
+          "Role and authorization testing in enterprise systems",
+          "Data migration testing",
+          "Enterprise test automation tools"
+        ],
+        "optional": [
+          "Finance, supply chain or HR domain knowledge",
+          "Platform certifications",
+          "Automation with tools such as Tosca"
+        ]
+      },
+      "prerequisites": [
+        "Functional testing experience",
+        "Interest in business processes"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn business process testing",
+          "goals": [
+            "Map an order to cash process and design tests for it",
+            "Write test cases from business requirements and use cases"
+          ],
+          "topics": [
+            "use-case-testing",
+            "system-and-end-to-end-testing",
+            "requirements-analysis-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Test integrations, data and roles",
+          "goals": [
+            "Validate migrated data with SQL reconciliation",
+            "Test role-based access across modules",
+            "Coordinate a UAT cycle with business users"
+          ],
+          "topics": [
+            "sql-for-testers",
+            "testing-user-permissions",
+            "acceptance-alpha-beta-testing",
+            "integration-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Manage enterprise regression",
+          "goals": [
+            "Build a risk-based regression suite for vendor updates",
+            "Plan testing for a release with many integrations",
+            "Report readiness to business stakeholders"
+          ],
+          "topics": [
+            "regression-testing",
+            "risk-based-testing",
+            "release-sign-off"
+          ]
+        }
+      },
+      "tools": [
+        "ERP and CRM platforms such as SAP, Dynamics or Salesforce",
+        "Tricentis Tosca or similar",
+        "SQL clients",
+        "Jira and test management tools",
+        "Excel for reconciliation"
+      ],
+      "exercises": [
+        "Write end-to-end test cases for procure to pay in a free trial CRM or ERP",
+        "Reconcile a sample data migration using SQL row counts and totals",
+        "Build a role and permission matrix for three business roles",
+        "Choose a regression subset for a vendor update based on risk"
+      ],
+      "sampleProject": {
+        "title": "Business process test pack",
+        "description": "Using a trial or open-source ERP such as Odoo, design and execute tests for an order to cash process, a role access matrix, a small data migration reconciliation and a risk-based regression suite, with a UAT summary."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you test an end-to-end ERP process?",
+          "a": "I map every step and system involved, for example order, delivery, invoice and payment, then test the full flow with realistic data, checking each document, status and accounting entry. Variations such as partial delivery and returns are important."
+        },
+        {
+          "q": "How do you test data migration?",
+          "a": "Compare counts and totals between source and target, sample records in detail, check mandatory fields and relationships, test transformed values, and run business processes on migrated data."
+        },
+        {
+          "q": "How do you handle frequent vendor updates?",
+          "a": "Keep a risk-based regression suite focused on critical processes and customisations, automate stable parts, and review release notes to target changed areas."
+        },
+        {
+          "q": "Why are roles and authorizations important to test?",
+          "a": "Enterprise systems hold financial and personal data, and segregation of duties is often a legal requirement. Users must be able to do their job and nothing more."
+        }
+      ],
+      "codingRequirements": "Low to moderate. SQL is important, and some automation tools need light scripting.",
+      "commonMistakes": [
+        "Testing screens in isolation instead of complete processes",
+        "Using unrealistic test data",
+        "Skipping authorization and segregation of duties testing",
+        "Running full regression without risk-based prioritisation"
+      ],
+      "readinessCriteria": [
+        "Can test end-to-end business processes",
+        "Can validate data migration",
+        "Can coordinate UAT with business users"
+      ],
+      "nextRoles": [
+        "test-lead",
+        "test-manager"
+      ]
+    },
+    {
+      "slug": "payments-fintech-qa-engineer",
+      "title": "Payments and Fintech QA Engineer",
+      "category": "security-specialist",
+      "overview": "A Payments and Fintech QA Engineer tests systems that move money: payment gateways, card processing, wallets, banking apps and lending platforms. The role combines functional, API and data testing with a strong focus on accuracy, idempotency, reconciliation, security and regulatory compliance, because small defects can cause real financial loss.",
+      "responsibilities": [
+        "Test payment flows including authorization, capture, refund and cancellation",
+        "Test payment APIs for idempotency, retries and error handling",
+        "Validate ledger entries and reconciliation reports",
+        "Test integrations with payment providers using sandboxes",
+        "Check compliance requirements such as PCI DSS and strong customer authentication",
+        "Test fraud, limits and edge cases such as currency rounding"
+      ],
+      "skills": {
+        "essential": [
+          "API testing",
+          "SQL and data validation",
+          "Payment flow knowledge",
+          "Attention to detail and accuracy"
+        ],
+        "roleSpecific": [
+          "Idempotency and retry testing",
+          "Payment provider sandboxes and test cards",
+          "Reconciliation testing",
+          "Compliance awareness for PCI DSS and SCA"
+        ],
+        "optional": [
+          "ISO 20022 and banking message formats",
+          "Performance testing of payment systems",
+          "Security testing basics"
+        ]
+      },
+      "prerequisites": [
+        "API and functional testing experience",
+        "Basic SQL"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn payment flows",
+          "goals": [
+            "Explain authorization, capture, refund and chargeback",
+            "Test a checkout with sandbox test cards for success and failure"
+          ],
+          "topics": [
+            "testing-payments-refunds-cancellations",
+            "testing-cart-and-checkout",
+            "http-status-codes"
+          ]
+        },
+        "intermediate": {
+          "title": "Test APIs and data",
+          "goals": [
+            "Test idempotency keys and retries on payment APIs",
+            "Validate ledger entries with SQL",
+            "Test rounding and multi-currency amounts"
+          ],
+          "topics": [
+            "idempotency-retries-rate-limiting",
+            "api-database-validation",
+            "boundary-value-analysis",
+            "testing-sessions-and-concurrency"
+          ]
+        },
+        "advanced": {
+          "title": "Assure money movement",
+          "goals": [
+            "Design reconciliation tests across systems",
+            "Test security and compliance controls",
+            "Load test a payment API safely in a test environment"
+          ],
+          "topics": [
+            "api-security-testing",
+            "jmeter-capstone-payment-load-test",
+            "risk-based-testing"
+          ]
+        }
+      },
+      "tools": [
+        "Postman",
+        "Payment provider sandboxes such as Stripe test mode",
+        "SQL clients",
+        "JMeter",
+        "Jira"
+      ],
+      "exercises": [
+        "Use a payment sandbox to test successful, declined and 3-D Secure card flows",
+        "Send the same payment request twice with one idempotency key and verify one charge",
+        "Write SQL checks that every payment has balanced ledger entries",
+        "Test refunds larger than the original amount and partial refunds"
+      ],
+      "sampleProject": {
+        "title": "Payment API test suite",
+        "description": "Build a test suite against a payment provider sandbox or a local mock payment API covering charges, refunds, idempotency, error codes, webhooks and ledger reconciliation, run it in CI and document risks found."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why is idempotency important in payments?",
+          "a": "Networks fail and clients retry. Without idempotency a retry could charge a customer twice. An idempotency key lets the server recognise a repeated request and return the original result instead of processing it again."
+        },
+        {
+          "q": "How do you test refunds?",
+          "a": "Full and partial refunds, multiple partial refunds up to the total, refunds above the original amount, refunds on failed or pending payments, currency handling and the effect on ledgers and reports."
+        },
+        {
+          "q": "What is reconciliation testing?",
+          "a": "Checking that records in different systems agree, for example the internal ledger, payment provider reports and bank statements. Any mismatch must be detected and explained."
+        },
+        {
+          "q": "How do you handle card data in testing?",
+          "a": "Never use real card numbers. Use provider test cards in sandboxes, and check that full card numbers are never stored or logged, in line with PCI DSS."
+        }
+      ],
+      "codingRequirements": "Moderate. API automation, SQL and scripting for data checks are expected.",
+      "commonMistakes": [
+        "Using real card data in testing",
+        "Not testing retries, timeouts and duplicates",
+        "Ignoring rounding and currency edge cases",
+        "Testing the UI only and not the ledger and reconciliation"
+      ],
+      "readinessCriteria": [
+        "Can test payment flows end to end with sandboxes",
+        "Can test idempotency and error handling on payment APIs",
+        "Can validate ledgers and reconciliation with SQL"
+      ],
+      "nextRoles": [
+        "api-automation-engineer",
+        "security-test-engineer",
+        "qa-lead"
+      ]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import { SidebarNav } from "@/components/navigation/sidebar-nav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, Kbd, Spinner } from "@/components/ui/feedback";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
 import { ApiError } from "@/lib/api";
 import { isGuest } from "@/lib/auth-mode";
@@ -84,7 +85,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-[#0d0b1a]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-foreground"
       >
         Skip to content
       </a>
@@ -103,7 +104,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <button
             type="button"
             aria-label="Close navigation"
-            className="absolute inset-0 bg-black/70"
+            className="absolute inset-0 bg-overlay"
             onClick={() => setMobileOpen(false)}
           />
           <div className="animate-fade-in relative flex h-full w-72 max-w-[85vw] flex-col border-r border-border bg-background">
@@ -115,6 +116,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
             <div className="flex-1 overflow-y-auto px-3 py-4">
               <SidebarNav isAdmin={isAdmin} onNavigate={() => setMobileOpen(false)} />
+            </div>
+            <div className="border-t border-border px-3 py-3">
+              <ThemeToggle showLabels className="w-full justify-between" />
             </div>
           </div>
         </div>
@@ -144,6 +148,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className="flex-1 text-left">Search…</span>
               <Kbd>Ctrl K</Kbd>
             </button>
+            <ThemeToggle className="hidden sm:inline-flex" />
             <span className="hidden text-sm text-muted md:inline" data-testid="current-user">
               {user.display_name}
             </span>

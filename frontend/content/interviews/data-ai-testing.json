@@ -1,0 +1,315 @@
+{
+  "track": "data-ai-testing",
+  "title": "Data & AI Testing",
+  "description": "Mock interview questions for data and AI quality roles: ETL and data warehouse validation, data quality checks, and evaluating LLM and RAG applications for accuracy, grounding, safety and regressions.",
+  "roles": [
+    "data-qa-engineer",
+    "etl-test-engineer",
+    "data-warehouse-tester",
+    "analytics-qa-engineer",
+    "ai-quality-engineer",
+    "llm-application-tester",
+    "ml-model-testing-specialist",
+    "rag-application-evaluator",
+    "ai-agent-testing-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-dai-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "How would you test an ETL pipeline that loads customer data from a source system into a warehouse?",
+      "followUps": [
+        "How do you test at scale when you cannot compare every row by eye?",
+        "What changes when the load is incremental?"
+      ],
+      "modelAnswer": "I test each stage against the mapping specification. Extraction: record counts and checksums from the source match what was extracted for the same window. Transformation: each business rule (type conversions, derived columns, lookups, deduplication, null handling) is verified with targeted test rows, including boundaries and bad data. Load: target counts reconcile with source minus documented rejects, keys are unique, foreign keys resolve, and data types and lengths do not truncate values. For scale I use set-based comparisons in SQL (EXCEPT or full outer joins on the business key) and aggregate checks such as sums of amounts by day. For incremental loads I check the watermark logic, that late-arriving and updated records are captured, that reruns are idempotent and do not duplicate rows, and that slowly changing dimensions keep history correctly. Rejected records should land in an error table with a reason.",
+      "keyPoints": [
+        "Tests extract, transform and load against the mapping spec",
+        "Count, checksum and aggregate reconciliation",
+        "Set-based source vs target comparison",
+        "Incremental: watermarks, idempotent reruns, SCD history",
+        "Rejected records are captured, not dropped silently"
+      ],
+      "redFlags": [
+        "Only compares row counts",
+        "Samples a few rows manually and calls it done"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-dai-02",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write SQL to find rows that exist in the staging customers table but are missing or different in the warehouse dim_customer table.",
+      "followUps": [
+        "How do you handle NULL comparisons?",
+        "How would you make this efficient on a billion-row table?"
+      ],
+      "modelAnswer": "Using a full comparison on the business key:\n\n```sql\nSELECT s.customer_id,\n       CASE WHEN d.customer_id IS NULL THEN 'missing' ELSE 'different' END AS issue\nFROM stg_customers s\nLEFT JOIN dim_customer d\n  ON d.customer_id = s.customer_id AND d.is_current = TRUE\nWHERE d.customer_id IS NULL\n   OR s.email IS DISTINCT FROM d.email\n   OR s.country IS DISTINCT FROM d.country\n   OR s.signup_date IS DISTINCT FROM d.signup_date;\n```\n\nThe LEFT JOIN finds missing rows; IS DISTINCT FROM compares values while treating two NULLs as equal, which a plain inequality does not (NULL compared with anything is unknown, so the row would be silently skipped). Where IS DISTINCT FROM is unavailable, use COALESCE with a sentinel. I join only to the current version of a type 2 dimension. For very large tables I compare per-partition hashes of the relevant columns first, then drill into only the partitions that differ, and I run the reverse direction too to find unexpected extra rows in the target.",
+      "keyPoints": [
+        "LEFT JOIN on business key to find missing rows",
+        "NULL-safe comparison (IS DISTINCT FROM or COALESCE)",
+        "Filters to current SCD row",
+        "Checks the reverse direction for extras",
+        "Partition hashing for scale"
+      ],
+      "redFlags": [
+        "Uses plain != and misses NULL differences",
+        "Uses an inner join so missing rows disappear"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-dai-03",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What are the main dimensions of data quality, and how would you check each automatically?",
+      "followUps": [
+        "Which tools have you used for data quality checks?",
+        "Where in a pipeline should these checks run?"
+      ],
+      "modelAnswer": "Common dimensions are completeness (required fields populated, expected rows arrived), validity (values match type, format, ranges and allowed sets), uniqueness (no duplicate keys), consistency (the same fact agrees across tables and systems), accuracy (values reflect reality, checked against a trusted source) and timeliness or freshness (data arrived within its SLA). I automate them as assertions in the pipeline using tools like dbt tests or Great Expectations: not_null and unique on keys, accepted_values on status columns, relationships for foreign keys, row-count and freshness thresholds, and range checks on amounts. They run after each load, with critical failures blocking downstream publishing and warnings alerting the owning team. Anomaly checks on volumes and distributions catch problems no fixed rule anticipated.",
+      "keyPoints": [
+        "Names completeness, validity, uniqueness, consistency, accuracy, timeliness",
+        "Concrete automated assertion per dimension",
+        "Tools such as dbt tests or Great Expectations",
+        "Blocking vs warning severity; anomaly detection"
+      ],
+      "redFlags": [
+        "Cannot name more than one or two dimensions",
+        "Only checks quality manually in dashboards"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-dai-04",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "A business dashboard shows revenue for yesterday 30% lower than expected. The pipeline reported success. How do you investigate?",
+      "followUps": [
+        "How would you prevent this class of issue in future?",
+        "Who do you inform and when?"
+      ],
+      "modelAnswer": "First I confirm whether it is a data problem or a real business change by checking with the business owner and comparing against an independent source such as the payment provider's report. Then I trace lineage backwards: dashboard query and filters, the reporting table, the transformation layers, and the raw landing data. At each layer I compare row counts and revenue sums for that date against the previous days. Typical causes are a partial extract (a source file landed late or truncated), a timezone change shifting records into another day, a new status or currency value filtered out by a join or WHERE clause, or duplicate removal being too aggressive. Once found, I fix and backfill, then add the missing check: volume and sum anomaly thresholds by day, source-to-target reconciliation and freshness checks so a successful job run is not mistaken for correct data. I let dashboard consumers know early that the figure is under investigation.",
+      "keyPoints": [
+        "Rules out a real business change with an independent source",
+        "Traces lineage layer by layer with counts and sums",
+        "Knows common causes: partial loads, timezones, filtered new values",
+        "Backfill plus new reconciliation and anomaly checks",
+        "Communicates early to consumers"
+      ],
+      "redFlags": [
+        "Trusts job success status as proof of correctness",
+        "Starts rewriting the pipeline before locating the cause"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-dai-05",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you test a machine learning model differently from conventional software?",
+      "followUps": [
+        "What is data leakage and how do you detect it?",
+        "How would you monitor a model after release?"
+      ],
+      "modelAnswer": "Conventional tests assert exact outputs; ML models are statistical, so I test against metrics and thresholds on representative held-out data, chosen for the business problem (precision and recall for fraud, not just accuracy on imbalanced data). I check the data first: schema, distributions, label quality and leakage, where a feature contains information unavailable at prediction time or test rows overlap training rows, which makes offline scores unrealistically high. I evaluate on slices such as region, device or demographic groups to find hidden weaknesses and fairness issues, and run behavioural tests: invariance (changing an irrelevant detail should not change the prediction), directional expectations, and edge cases. The surrounding code still gets ordinary unit and integration tests, including feature pipelines for training/serving skew. After release I monitor input drift, prediction distributions and, when labels arrive, real performance, with alerts and a retraining or rollback plan.",
+      "keyPoints": [
+        "Metric thresholds suited to the problem, not exact outputs",
+        "Data validation and leakage checks",
+        "Slice-based evaluation and fairness",
+        "Behavioural tests: invariance, directional",
+        "Production monitoring for drift"
+      ],
+      "redFlags": [
+        "Uses accuracy alone on imbalanced data",
+        "Thinks testing ends once offline metrics look good"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-dai-06",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How would you evaluate the quality of a retrieval-augmented generation (RAG) system?",
+      "followUps": [
+        "How do you build the evaluation dataset?",
+        "What is the difference between faithfulness and answer correctness?"
+      ],
+      "modelAnswer": "I evaluate retrieval and generation separately, because a wrong answer can come from either. For retrieval I build a labelled set of questions with the documents or chunks that should answer them and measure recall at k, precision and ranking metrics such as MRR, which tells me whether chunking, embeddings or filters are failing. For generation I measure faithfulness or groundedness (every claim is supported by the retrieved context), answer relevance, and correctness against a reference answer; faithfulness can be high while correctness is low if retrieval fetched the wrong passage. I include questions with no answer in the corpus to check the system declines rather than invents, plus ambiguous, multi-hop and out-of-date questions. Scoring combines human review on a sample with LLM-as-judge or frameworks such as Ragas, calibrated against the human labels. The golden set is versioned and run on every change to prompts, models, chunking or index.",
+      "keyPoints": [
+        "Separate retrieval and generation metrics",
+        "Retrieval: recall@k, precision, MRR",
+        "Generation: faithfulness, relevance, correctness",
+        "Unanswerable questions to test refusal",
+        "Versioned golden set; human-calibrated judges"
+      ],
+      "redFlags": [
+        "Only eyeballs a few answers",
+        "Cannot separate retrieval failures from generation failures"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-dai-07",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a small regression test harness that runs a golden set of prompts against an LLM feature and fails if quality drops.",
+      "followUps": [
+        "How do you deal with non-deterministic output?",
+        "What should the threshold be and who sets it?"
+      ],
+      "modelAnswer": "A pytest-style harness in Python:\n\n```python\nimport json\n\ndef load_cases(path=\"golden_set.jsonl\"):\n    with open(path) as f:\n        return [json.loads(line) for line in f]\n\ndef score(case, output):\n    checks = []\n    for phrase in case.get(\"must_include\", []):\n        checks.append(phrase.lower() in output.lower())\n    for phrase in case.get(\"must_not_include\", []):\n        checks.append(phrase.lower() not in output.lower())\n    return sum(checks) / len(checks) if checks else 1.0\n\ndef test_golden_set_quality():\n    cases = load_cases()\n    results = []\n    for case in cases:\n        output = answer_question(case[\"input\"], temperature=0)\n        results.append({\"id\": case[\"id\"], \"score\": score(case, output)})\n    mean = sum(r[\"score\"] for r in results) / len(results)\n    failures = [r for r in results if r[\"score\"] < 1.0]\n    print(json.dumps(failures, indent=2))\n    assert mean >= 0.9, f\"mean score {mean:.2f} below 0.9\"\n```\n\nDeterministic checks (required facts, forbidden content, valid JSON) are cheap and stable; for open-ended answers I add an LLM judge with a rubric, calibrated on human-labelled examples. To handle non-determinism I set temperature to 0 where possible, compare aggregate scores against a baseline rather than exact strings, and rerun flaky cases several times. The threshold comes from the current baseline agreed with the product owner, and per-case results are saved so regressions can be inspected.",
+      "keyPoints": [
+        "Versioned golden set with expected properties",
+        "Deterministic checks plus rubric-based judge",
+        "Aggregate threshold against a baseline",
+        "Handles non-determinism: temperature, reruns, no exact match",
+        "Reports per-case failures"
+      ],
+      "redFlags": [
+        "Asserts exact string equality on LLM output",
+        "No baseline or threshold rationale"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-dai-08",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "What are the risks of using an LLM as a judge for evaluation, and how do you mitigate them?",
+      "followUps": [
+        "How would you measure judge agreement with humans?",
+        "When would you avoid an LLM judge entirely?"
+      ],
+      "modelAnswer": "LLM judges have known biases: position bias in pairwise comparisons, a preference for longer or more confident answers, self-preference for outputs from the same model family, and inconsistency between runs. They can also miss factual errors they do not know about. I mitigate by giving the judge a specific rubric with scored criteria and reference answers or source context, asking for a short justification before the score, swapping the order in pairwise comparisons and averaging, using a different model family from the system under test, and fixing temperature. Most importantly I calibrate: humans label a sample, and I measure agreement (for example Cohen's kappa or simple percentage agreement per criterion), re-checking whenever the judge prompt or model changes. Where a deterministic check exists, such as JSON validity, exact numeric facts or citation presence, I use that instead of a judge.",
+      "keyPoints": [
+        "Names biases: position, verbosity, self-preference, inconsistency",
+        "Rubric, references and reasoning before score",
+        "Order swapping and different model family",
+        "Calibrate against human labels and track agreement",
+        "Prefer deterministic checks where possible"
+      ],
+      "redFlags": [
+        "Treats judge scores as ground truth",
+        "Never compares the judge with human ratings"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-dai-09",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Users report the internal policy assistant confidently gives outdated answers. How do you diagnose and fix it?",
+      "followUps": [
+        "How would you test that the fix stays fixed?",
+        "Should the bot show citations?"
+      ],
+      "modelAnswer": "I collect the failing questions and inspect the trace for each: what was retrieved, what context reached the prompt, and what the model answered. If the old document was retrieved, the issue is the index: superseded versions not removed, re-indexing not running, or no metadata to prefer current documents. If the new document exists but is not retrieved, the issue is retrieval quality: chunking splitting key text, weak embeddings for domain terms, or the query not matching; hybrid keyword plus vector search and re-ranking often help. If the right context was retrieved but the answer is still wrong, the model is relying on its own knowledge, so I tighten the prompt to answer only from context, cite sources and say when it is unsure. Fixes include document lifecycle metadata, effective-date filtering and an index freshness check. I add the reported questions to the golden set with the expected current answer, plus a freshness test that updates a document and confirms the new answer. Citations help users verify answers and help us debug.",
+      "keyPoints": [
+        "Uses traces to locate the failure: index, retrieval or generation",
+        "Index hygiene: removing superseded docs, re-index jobs",
+        "Retrieval tuning: chunking, hybrid search, re-ranking",
+        "Grounding prompt and citations",
+        "Add cases to golden set; freshness test"
+      ],
+      "redFlags": [
+        "Immediately proposes fine-tuning the model",
+        "Changes the prompt without checking what was retrieved"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-dai-10",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design a continuous evaluation and testing setup for an LLM-based customer support assistant that ships prompt and model changes weekly.",
+      "followUps": [
+        "How do you decide whether to ship a change that improves one metric and lowers another?",
+        "How do you handle personal data in evaluation logs?"
+      ],
+      "modelAnswer": "Offline, every change to prompts, model version, retrieval settings or tools runs in CI against versioned datasets: a golden set covering top intents, edge cases and unanswerable questions; a safety set with prompt-injection, jailbreak and data-leakage attempts; and regression cases harvested from production incidents. Scoring combines deterministic checks, retrieval metrics and a calibrated LLM judge, compared against the current production baseline with per-slice results so a regression in one intent is not hidden by an average. Safety checks are hard gates; quality metrics use agreed tolerances. Results are stored with the exact configuration so any run can be reproduced. Online, changes roll out behind a flag or canary, with monitoring of escalation rate, user feedback, resolution rate, latency, cost and judge scores on sampled traffic, plus a fast rollback. Sampled conversations go to human review, and the failures feed back into the datasets. Logs are redacted of personal data, access controlled and retained according to policy. Trade-offs between metrics are decided with product using the agreed priority order, with safety first.",
+      "keyPoints": [
+        "Versioned golden, safety and incident-derived datasets",
+        "CI gating vs baseline with per-slice reporting",
+        "Safety as a hard gate",
+        "Canary rollout, online metrics, rollback",
+        "Human review loop and PII-redacted logs"
+      ],
+      "redFlags": [
+        "Relies only on manual spot checks before release",
+        "No production monitoring or rollback"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-dai-11",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How would you test an AI agent that can call tools such as creating tickets and sending emails?",
+      "followUps": [
+        "How do you make agent tests repeatable?",
+        "What actions should require human confirmation?"
+      ],
+      "modelAnswer": "I test at three levels. Tool level: each tool is ordinary code with unit and contract tests, input validation and authorization based on the user's identity, never on what the model claims. Trajectory level: for scenario tasks I check not just the final answer but the sequence of tool calls, that the right tools were called with correct arguments, no unnecessary or repeated calls happened, and the agent stopped when the task was done or impossible. Safety level: prompt-injection content inside tool results, attempts to trigger out-of-scope actions, and handling of tool errors and timeouts. For repeatability I run against sandboxed or mocked tools with recorded responses, fix temperature, and run each scenario several times to measure success rate rather than a single pass. Irreversible or external actions, such as sending emails or deleting data, should require confirmation or be limited by policy, with step and cost limits to prevent runaway loops.",
+      "keyPoints": [
+        "Tool-level unit, contract and authorization tests",
+        "Trajectory evaluation of tool calls and arguments",
+        "Injection via tool results; error handling",
+        "Sandboxed tools and repeated runs for success rate",
+        "Confirmation for irreversible actions; step and cost limits"
+      ],
+      "redFlags": [
+        "Only checks the final text response",
+        "Tests against real email and ticket systems without sandboxing"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-dai-12",
+      "kind": "behavioral",
+      "difficulty": "intermediate",
+      "question": "Tell me about a time you had to convince stakeholders that a data or model result could not be trusted.",
+      "followUps": [
+        "What evidence was most persuasive?",
+        "What changed in the process afterwards?"
+      ],
+      "modelAnswer": "A strong answer is a specific STAR story. For example: marketing planned to cut a campaign because a churn model showed it had no effect. I noticed the evaluation table excluded customers who joined mid-quarter, which were mostly campaign sign-ups. I reproduced the numbers, then showed side by side the result with and without the exclusion, using a simple chart rather than technical detail, and gave the likely size of the error. I was careful to say what we did not know yet rather than overclaiming. We agreed to delay the decision a week while the data team fixed the filter; the corrected analysis showed a modest positive effect, and the campaign was kept with a smaller budget. Afterwards we added a population-coverage check to the evaluation pipeline and a review step for analyses that drive spending decisions.",
+      "keyPoints": [
+        "Concrete situation, action and result",
+        "Evidence-based, reproducible demonstration",
+        "Communicates in business terms and admits uncertainty",
+        "Leads to a lasting process improvement"
+      ],
+      "redFlags": [
+        "Relies on authority rather than evidence",
+        "No outcome or follow-up"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-dai-13",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is hallucination in an LLM application, and what testing and design techniques reduce it?",
+      "followUps": [
+        "Can hallucination be eliminated completely?",
+        "How would you measure the hallucination rate?"
+      ],
+      "modelAnswer": "Hallucination is when the model produces fluent content that is false or not supported by its sources, such as invented policy details, citations or numbers. It cannot be eliminated entirely, so the aim is to reduce and detect it. Design techniques: ground answers in retrieved, current documents; instruct the model to answer only from the provided context and to say when it does not know; require citations; use structured outputs and validate facts such as prices or ids against systems of record instead of trusting generated values. Testing: a golden set including unanswerable questions, faithfulness scoring that checks each claim against the context, and human review of a sample. I measure the hallucination rate as the share of sampled answers containing at least one unsupported claim, tracked per release and in production sampling.",
+      "keyPoints": [
+        "Defines hallucination as unsupported or false content",
+        "Cannot be fully eliminated; reduce and detect",
+        "Grounding, abstention, citations, validation against systems of record",
+        "Faithfulness scoring and unanswerable test cases",
+        "Measurable rate tracked over time"
+      ],
+      "redFlags": [
+        "Claims a better prompt fully prevents hallucination",
+        "No way to measure it"
+      ],
+      "minutes": 5
+    }
+  ]
+}

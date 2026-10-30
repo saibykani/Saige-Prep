@@ -1,0 +1,334 @@
+{
+  "bank": "api-testing",
+  "title": "API Testing",
+  "track": "api-testing",
+  "questions": [
+    {
+      "id": "api-001", "type": "single", "topic": "http-fundamentals", "difficulty": "beginner",
+      "prompt": "Which HTTP method is defined as both safe and idempotent and is used to retrieve a resource?",
+      "options": ["POST", "GET", "PATCH", "DELETE"],
+      "answer": [1],
+      "explanation": "GET is safe (it must not change server state) and idempotent, so repeating it has the same effect as calling it once. DELETE is idempotent but not safe, because it changes state, and POST is neither."
+    },
+    {
+      "id": "api-002", "type": "multiple", "topic": "http-fundamentals", "difficulty": "intermediate",
+      "prompt": "Which HTTP methods are idempotent according to RFC 9110? Select all that apply.",
+      "options": ["PUT", "DELETE", "POST", "GET", "PATCH"],
+      "answer": [0, 1, 3],
+      "explanation": "PUT, DELETE and GET are defined as idempotent: sending the same request twice leaves the server in the same state as sending it once. POST is not idempotent, and PATCH is not guaranteed to be idempotent because a patch such as \"increment by 1\" changes the result each time."
+    },
+    {
+      "id": "api-003", "type": "single", "topic": "http-fundamentals", "difficulty": "beginner",
+      "prompt": "Which request header tells the server the media type of the request body?",
+      "options": ["Accept", "Content-Type", "Authorization", "Cache-Control"],
+      "answer": [1],
+      "explanation": "`Content-Type` describes the body being sent, for example `application/json`. `Accept` is easy to confuse with it, but it tells the server which media types the client wants in the response."
+    },
+    {
+      "id": "api-004", "type": "single", "topic": "http-status-codes", "difficulty": "beginner",
+      "prompt": "A POST request successfully creates a new order. Which status code is the most appropriate response?",
+      "options": ["200 OK", "201 Created", "204 No Content", "202 Accepted"],
+      "answer": [1],
+      "explanation": "201 Created signals that a new resource was created, usually with a `Location` header pointing to it. 202 Accepted means the request was accepted for processing that has not finished yet, which is a different situation."
+    },
+    {
+      "id": "api-005", "type": "single", "topic": "http-status-codes", "difficulty": "intermediate",
+      "prompt": "A request carries a valid token, but the user does not have permission to delete the resource. Which status code fits best?",
+      "options": ["401 Unauthorized", "403 Forbidden", "404 Not Found", "400 Bad Request"],
+      "answer": [1],
+      "explanation": "403 means the server understood who the client is but refuses the action. 401 means authentication is missing or invalid, which is not the case here because the token is valid."
+    },
+    {
+      "id": "api-006", "type": "single", "topic": "http-status-codes", "difficulty": "beginner",
+      "prompt": "What does the 5xx class of status codes indicate?",
+      "options": ["The request was redirected", "The client sent an invalid request", "The server failed to fulfil an apparently valid request", "The request succeeded"],
+      "answer": [2],
+      "explanation": "5xx codes are server errors, such as 500 Internal Server Error or 503 Service Unavailable. Client mistakes such as invalid input belong to the 4xx class, so an API returning 500 for bad input is itself a defect."
+    },
+    {
+      "id": "api-007", "type": "scenario", "topic": "http-status-codes", "difficulty": "intermediate",
+      "prompt": "Sending `{\"quantity\": \"abc\"}` to an order endpoint returns 500 Internal Server Error with a Java stack trace in the body. What is the best assessment?",
+      "options": ["Correct behaviour, because the input was invalid", "Two defects: invalid input should produce a 4xx such as 400 with a clear message, and the stack trace leaks internal details", "Not a defect, because 500 is still an error code", "Only a documentation issue"],
+      "answer": [1],
+      "explanation": "Validation failures are client errors and should return a 4xx code with a helpful, safe message. Returning 500 shows the input was not validated, and exposing a stack trace gives attackers details about the implementation."
+    },
+    {
+      "id": "api-008", "type": "single", "topic": "rest-principles", "difficulty": "beginner",
+      "prompt": "What does it mean that REST is stateless?",
+      "options": ["The server never stores any data", "Each request contains all the information needed to process it, and the server keeps no client session state between requests", "Responses can never be cached", "Only GET requests are allowed"],
+      "answer": [1],
+      "explanation": "Statelessness means the server does not rely on stored session context between requests, so each request carries its own authentication and context. The server can still store resources in a database; statelessness is about conversation state, not data."
+    },
+    {
+      "id": "api-009", "type": "single", "topic": "rest-principles", "difficulty": "intermediate",
+      "prompt": "Which URI design follows common REST conventions for retrieving the orders of customer 42?",
+      "options": ["GET /getOrdersForCustomer?id=42", "POST /customers/42/orders/get", "GET /customers/42/orders", "GET /customer-orders-fetch/42"],
+      "answer": [2],
+      "explanation": "REST URIs name resources with nouns and use the HTTP method to express the action, so `GET /customers/42/orders` reads as \"the orders of customer 42\". Verbs in the path such as `get` or `fetch` duplicate what the method already says."
+    },
+    {
+      "id": "api-010", "type": "truefalse", "topic": "rest-principles", "difficulty": "intermediate",
+      "prompt": "A PUT request is intended to replace the target resource with the representation in the request body, while PATCH applies a partial modification.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "PUT sends a complete representation that replaces the current state, so omitted fields may be cleared. PATCH sends only the changes, which is why tests for PUT should check that omitted fields behave as the API documents."
+    },
+    {
+      "id": "api-011", "type": "code-output", "topic": "json-and-xml-for-testers", "difficulty": "beginner",
+      "prompt": "Given this response body, what does the JSONPath `$.items[1].name` return?",
+      "code": "{\n  \"items\": [\n    { \"name\": \"pen\", \"price\": 2 },\n    { \"name\": \"book\", \"price\": 12 },\n    { \"name\": \"lamp\", \"price\": 30 }\n  ]\n}\n",
+      "codeLanguage": "json",
+      "options": ["pen", "book", "lamp", "An error, because arrays start at 1"],
+      "answer": [1],
+      "explanation": "JSONPath array indexes are zero-based, so `items[1]` is the second element, whose name is \"book\". `items[0]` would return \"pen\"."
+    },
+    {
+      "id": "api-012", "type": "single", "topic": "json-and-xml-for-testers", "difficulty": "beginner",
+      "prompt": "Which of these is valid JSON?",
+      "options": ["{'name': 'Ana'}", "{\"name\": \"Ana\", }", "{\"name\": \"Ana\", \"active\": true}", "{name: \"Ana\"}"],
+      "answer": [2],
+      "explanation": "JSON requires double-quoted keys and strings and does not allow trailing commas. Single quotes and unquoted keys are accepted by JavaScript object literals but not by the JSON standard."
+    },
+    {
+      "id": "api-013", "type": "single", "topic": "json-and-xml-for-testers", "difficulty": "intermediate",
+      "prompt": "Which XPath expression selects the text of every `title` element that is a child of `book` anywhere in an XML response?",
+      "options": ["//book/title/text()", "/title", "book.title", "$.book.title"],
+      "answer": [0],
+      "explanation": "`//book` finds `book` elements at any depth, `/title` selects their `title` children and `text()` selects the text nodes. `$.book.title` is JSONPath syntax, which does not apply to XML."
+    },
+    {
+      "id": "api-014", "type": "single", "topic": "authentication-and-authorization", "difficulty": "beginner",
+      "prompt": "What is the difference between authentication and authorization?",
+      "options": ["They are the same thing", "Authentication verifies who the caller is; authorization decides what that caller is allowed to do", "Authentication is only for admins", "Authorization happens before authentication"],
+      "answer": [1],
+      "explanation": "Authentication establishes identity, for example by validating a token, and authorization checks permissions for that identity. Authorization depends on knowing who the caller is, so it normally happens after authentication."
+    },
+    {
+      "id": "api-015", "type": "single", "topic": "authentication-and-authorization", "difficulty": "intermediate",
+      "prompt": "How is an OAuth 2.0 bearer access token normally sent to an API?",
+      "options": ["In the URL query string as ?token=...", "In the header `Authorization: Bearer <token>`", "In a `Content-Type` header", "In the response body"],
+      "answer": [1],
+      "explanation": "RFC 6750 defines the `Authorization: Bearer` header as the standard way to send bearer tokens. Query-string tokens are discouraged because URLs end up in logs, browser history and proxies."
+    },
+    {
+      "id": "api-016", "type": "truefalse", "topic": "authentication-and-authorization", "difficulty": "intermediate",
+      "prompt": "The payload of a standard signed JWT (JWS) is encrypted, so it is safe to put secrets in it.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "A signed JWT is only Base64URL-encoded, so anyone holding it can decode and read the payload. The signature protects integrity, not confidentiality; secrets must not be stored in the claims."
+    },
+    {
+      "id": "api-017", "type": "single", "topic": "postman-collections-and-environments", "difficulty": "beginner",
+      "prompt": "In Postman, how do you reference an environment variable named `baseUrl` in a request URL?",
+      "options": ["$baseUrl", "{{baseUrl}}", "${baseUrl}", "%baseUrl%"],
+      "answer": [1],
+      "explanation": "Postman resolves variables written with double curly braces, so `{{baseUrl}}/users` uses whichever environment is selected. This lets the same collection run against dev, test and staging."
+    },
+    {
+      "id": "api-018", "type": "single", "topic": "postman-collections-and-environments", "difficulty": "intermediate",
+      "prompt": "A variable named `token` is defined at both collection and environment scope with different values. Which value does a request use?",
+      "options": ["The collection value", "The environment value", "Postman raises an error", "Whichever was created first"],
+      "answer": [1],
+      "explanation": "Postman resolves the narrowest scope first, and environment scope is narrower than collection scope, so the environment value wins. Only local and data variables (from a data file) are narrower still."
+    },
+    {
+      "id": "api-019", "type": "code-output", "topic": "postman-tests-and-request-chaining", "difficulty": "beginner",
+      "prompt": "The response status is 201. What is the result of this Postman test script?",
+      "code": "pm.test(\"Status is 200\", function () {\n    pm.response.to.have.status(200);\n});\n",
+      "codeLanguage": "javascript",
+      "options": ["The test passes because 201 is a success code", "The test fails because the expected status is exactly 200", "The script throws a syntax error", "The test is skipped"],
+      "answer": [1],
+      "explanation": "`to.have.status(200)` checks for exactly 200, so a 201 response fails the assertion. If any 2xx is acceptable, the test should say so explicitly, but for a create endpoint asserting 201 is usually the better check."
+    },
+    {
+      "id": "api-020", "type": "single", "topic": "postman-tests-and-request-chaining", "difficulty": "intermediate",
+      "prompt": "A login request returns `{\"token\": \"abc\"}`. How do you store the token so the next request in the collection can use it?",
+      "options": ["`pm.environment.set(\"token\", pm.response.json().token);` in the login request's post-response script", "Copy it manually into each request", "`pm.request.headers.add(\"token\")` in the login request", "`console.log(pm.response.token)`"],
+      "answer": [0],
+      "explanation": "Setting a variable from the parsed response body in the post-response (Tests) script makes it available to later requests as `{{token}}`. This is request chaining, and it avoids hard-coding values that change on every run."
+    },
+    {
+      "id": "api-021", "type": "single", "topic": "newman-command-line-runs", "difficulty": "beginner",
+      "prompt": "Which command runs a Postman collection with a specific environment file using Newman?",
+      "options": ["newman run collection.json -e staging.json", "newman start collection.json --env staging.json", "postman collection.json staging.json", "npm test collection.json"],
+      "answer": [0],
+      "explanation": "`newman run` executes a collection and `-e` (or `--environment`) loads an environment file. This is how collections are run headlessly in CI."
+    },
+    {
+      "id": "api-022", "type": "single", "topic": "newman-command-line-runs", "difficulty": "intermediate",
+      "prompt": "Why does a CI pipeline step that runs Newman fail when an assertion fails?",
+      "options": ["Newman deletes the collection", "Newman exits with a non-zero exit code when any test fails, and the CI runner treats that as a failed step", "Newman sends an email to the CI server", "It does not; Newman always exits with 0"],
+      "answer": [1],
+      "explanation": "CI tools decide pass or fail from the process exit code, and Newman returns non-zero when tests or requests fail. Reporters such as JUnit XML add detail, but the exit code is what fails the build."
+    },
+    {
+      "id": "api-023", "type": "code-output", "topic": "newman-command-line-runs", "difficulty": "intermediate",
+      "prompt": "users.csv has a header row and 5 data rows. How many times does Newman run the collection?",
+      "code": "newman run collection.json -d users.csv\n",
+      "codeLanguage": "bash",
+      "options": ["1", "5", "6", "It depends on the number of requests"],
+      "answer": [1],
+      "explanation": "With a data file, Newman runs one iteration per data row, and the header row only supplies the variable names. Five data rows therefore produce five iterations."
+    },
+    {
+      "id": "api-024", "type": "code-output", "topic": "restassured-fundamentals", "difficulty": "beginner",
+      "prompt": "The API returns status 200 with body `{\"id\": 7, \"name\": \"Ana\"}`. What is the result of this RestAssured test?",
+      "code": "given()\n    .baseUri(\"https://api.example.test\")\n.when()\n    .get(\"/users/7\")\n.then()\n    .statusCode(200)\n    .body(\"name\", equalTo(\"Ana\"));\n",
+      "codeLanguage": "java",
+      "options": ["It passes", "It fails on the status code", "It fails on the body assertion", "It does not compile because `then()` must come first"],
+      "answer": [0],
+      "explanation": "The given/when/then chain sends the GET, then asserts status 200 and that the `name` field equals \"Ana\", and both match. The order given, when, then is the standard RestAssured BDD style."
+    },
+    {
+      "id": "api-025", "type": "single", "topic": "restassured-fundamentals", "difficulty": "intermediate",
+      "prompt": "In RestAssured, what is a `RequestSpecification` built with `RequestSpecBuilder` mainly used for?",
+      "options": ["Generating the API's documentation", "Sharing common request settings such as base URI, headers and authentication across many tests", "Starting a mock server", "Parsing XML only"],
+      "answer": [1],
+      "explanation": "A request specification bundles repeated configuration so each test only states what is specific to it, applied with `given().spec(...)`. This removes duplication and makes environment changes a one-line fix."
+    },
+    {
+      "id": "api-026", "type": "code-output", "topic": "restassured-fundamentals", "difficulty": "intermediate",
+      "prompt": "The response body is `{\"items\": [{\"price\": 5}, {\"price\": 15}]}`. What does this RestAssured code extract?",
+      "code": "List<Integer> prices = get(\"/cart\").then().extract().path(\"items.price\");\n",
+      "codeLanguage": "java",
+      "options": ["[5, 15]", "20", "5", "null"],
+      "answer": [0],
+      "explanation": "RestAssured uses Groovy GPath, where `items.price` collects the `price` of every element in the `items` array, giving the list [5, 15]. A sum would need an explicit expression such as `items.price.sum()`."
+    },
+    {
+      "id": "api-027", "type": "single", "topic": "json-schema-validation", "difficulty": "beginner",
+      "prompt": "What does JSON Schema validation check in an API test?",
+      "options": ["That the response is fast enough", "The structure of the response: required fields, types, formats and allowed values", "That the business values are correct for this specific request", "That the server is authenticated"],
+      "answer": [1],
+      "explanation": "A schema describes the shape of valid data, so validation catches missing fields, wrong types or unexpected properties. It does not prove the values are correct for the request, so value assertions are still needed."
+    },
+    {
+      "id": "api-028", "type": "code-output", "topic": "json-schema-validation", "difficulty": "intermediate",
+      "prompt": "Is the instance `{\"id\": 1, \"email\": \"a@b.test\", \"role\": \"admin\"}` valid against this schema?",
+      "code": "{\n  \"type\": \"object\",\n  \"required\": [\"id\", \"email\"],\n  \"properties\": {\n    \"id\": { \"type\": \"integer\" },\n    \"email\": { \"type\": \"string\" }\n  },\n  \"additionalProperties\": false\n}\n",
+      "codeLanguage": "json",
+      "options": ["Valid, because both required fields are present", "Invalid, because `role` is not declared and `additionalProperties` is false", "Invalid, because `id` must be a string", "Valid, because unknown properties are always ignored"],
+      "answer": [1],
+      "explanation": "`additionalProperties: false` rejects any property not listed in `properties`, so `role` makes the instance invalid. Without that keyword, extra properties are allowed by default."
+    },
+    {
+      "id": "api-029", "type": "single", "topic": "api-test-data-management", "difficulty": "intermediate",
+      "prompt": "Which approach gives the most reliable, independent API tests?",
+      "options": ["Every test reuses a single shared user that other tests also modify", "Each test creates the data it needs (for example through the API), uses unique values, and cleans up afterwards", "Tests rely on data that someone created manually in the environment months ago", "Tests run in a fixed order so the next one can use the previous one's data"],
+      "answer": [1],
+      "explanation": "Tests that create and own their data can run in any order and in parallel without colliding. Shared, manually created or order-dependent data is a leading cause of flaky failures when someone changes it."
+    },
+    {
+      "id": "api-030", "type": "truefalse", "topic": "api-test-data-management", "difficulty": "beginner",
+      "prompt": "Copying real customer personal data from production into a test environment is acceptable as long as the test environment is internal.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Production personal data is subject to privacy laws and policies wherever it is copied, and test environments are usually less protected. Use synthetic data, or properly masked or anonymised data with approval."
+    },
+    {
+      "id": "api-031", "type": "multiple", "topic": "api-negative-and-boundary-testing", "difficulty": "intermediate",
+      "prompt": "A `quantity` field accepts integers from 1 to 100. Which inputs are useful negative or boundary tests? Select all that apply.",
+      "options": ["0", "101", "\"ten\" (a string)", "The field omitted entirely", "50"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "0 and 101 sit just outside the valid boundaries, a string tests type validation and an omitted field tests the required rule. 50 is a valid middle value, which is a positive test rather than a negative or boundary one."
+    },
+    {
+      "id": "api-032", "type": "single", "topic": "api-negative-and-boundary-testing", "difficulty": "beginner",
+      "prompt": "A required `email` field is missing from a POST request. What is the most appropriate response?",
+      "options": ["201 Created with an empty email", "400 Bad Request (or 422) with an error that names the missing field", "500 Internal Server Error", "200 OK with no body"],
+      "answer": [1],
+      "explanation": "A missing required field is a client error, so a 4xx response with a clear validation message is expected. Accepting the request or failing with 500 would both be defects."
+    },
+    {
+      "id": "api-033", "type": "scenario", "topic": "pagination-sorting-filtering", "difficulty": "intermediate",
+      "prompt": "An endpoint returns 25 items in total with `?page=1&size=10` style pagination. Which check best catches an off-by-one defect?",
+      "options": ["Request page 1 only and check it has 10 items", "Request pages 1, 2 and 3, check they contain 10, 10 and 5 items with no duplicates or gaps, and that page 4 is empty or handled as documented", "Check the response time of page 1", "Request page 1 twice"],
+      "answer": [1],
+      "explanation": "Walking every page and comparing the combined results with the total reveals skipped or repeated items at page boundaries and wrong handling of the final partial page. Checking one page cannot show a boundary defect."
+    },
+    {
+      "id": "api-034", "type": "single", "topic": "pagination-sorting-filtering", "difficulty": "advanced",
+      "prompt": "Why can offset-based pagination return duplicate or missing items while records are being inserted, and what design avoids this?",
+      "options": ["Offsets are not supported by HTTP; use POST instead", "New rows shift the positions that offsets point to; cursor (keyset) pagination based on a stable sort key avoids this", "Because the page size is too small; use larger pages", "Because responses are cached; disable caching"],
+      "answer": [1],
+      "explanation": "An insert before the current offset shifts later items down, so the next page repeats one; a delete shifts them up, so one is skipped. A cursor that continues from the last seen sort key is unaffected by those shifts."
+    },
+    {
+      "id": "api-035", "type": "single", "topic": "idempotency-retries-rate-limiting", "difficulty": "intermediate",
+      "prompt": "A payment POST times out on the client and the client retries. How do many payment APIs prevent a double charge?",
+      "options": ["By rejecting every retry", "With an idempotency key header: the server stores the result for that key and returns it for repeated requests instead of charging again", "By converting the POST to a GET", "By adding a random delay"],
+      "answer": [1],
+      "explanation": "An idempotency key lets the server recognise a repeated request and return the original outcome, which makes a non-idempotent POST safe to retry. Testing it means sending the same key twice and confirming only one charge exists."
+    },
+    {
+      "id": "api-036", "type": "single", "topic": "idempotency-retries-rate-limiting", "difficulty": "beginner",
+      "prompt": "Which status code indicates that a client has exceeded a rate limit?",
+      "options": ["429 Too Many Requests", "403 Forbidden", "503 Service Unavailable", "409 Conflict"],
+      "answer": [0],
+      "explanation": "429 is defined specifically for rate limiting, often with a `Retry-After` header telling the client when to try again. 409 Conflict is about a conflict with the resource's current state."
+    },
+    {
+      "id": "api-037", "type": "single", "topic": "idempotency-retries-rate-limiting", "difficulty": "advanced",
+      "prompt": "Why should clients use exponential backoff with jitter when retrying failed requests?",
+      "options": ["It makes each request faster", "It spreads retries out over time so many clients do not retry in synchronised bursts and overload a recovering server", "It is required by the HTTP specification", "It guarantees that the retry succeeds"],
+      "answer": [1],
+      "explanation": "Increasing delays reduce pressure on a struggling server, and random jitter stops clients that failed at the same moment from retrying at the same moment. Nothing guarantees success; backoff only makes recovery more likely."
+    },
+    {
+      "id": "api-038", "type": "single", "topic": "contract-testing", "difficulty": "intermediate",
+      "prompt": "In consumer-driven contract testing with Pact, what does the provider verification step do?",
+      "options": ["It load-tests the provider", "It replays the interactions from the consumer's contract against the real provider and checks the responses match the expectations", "It generates UI tests", "It deploys the consumer"],
+      "answer": [1],
+      "explanation": "The consumer's tests produce a contract (pact) of the requests it makes and the responses it relies on; the provider then verifies it can satisfy each interaction. This catches breaking API changes without a full end-to-end environment."
+    },
+    {
+      "id": "api-039", "type": "truefalse", "topic": "contract-testing", "difficulty": "advanced",
+      "prompt": "A passing contract test proves that the provider's business logic is correct.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Contract tests check that the request and response formats the consumer relies on are honoured, not that the provider computes the right results. Functional tests of the provider are still needed for business rules."
+    },
+    {
+      "id": "api-040", "type": "scenario", "topic": "api-security-testing", "difficulty": "intermediate",
+      "prompt": "Logged in as user A, you call `GET /api/orders/1002`, which belongs to user B, and receive B's order details. Which OWASP API Security Top 10 risk is this?",
+      "options": ["Broken Object Level Authorization (BOLA)", "Unrestricted resource consumption", "Security misconfiguration", "Server-side request forgery"],
+      "answer": [0],
+      "explanation": "BOLA occurs when the API does not check that the caller is allowed to access the specific object identified in the request. The expected response is 403 or 404, and such tests should only run in environments you are authorised to test."
+    },
+    {
+      "id": "api-041", "type": "multiple", "topic": "api-security-testing", "difficulty": "advanced",
+      "prompt": "Which checks belong in authorised API security testing of a user-profile endpoint? Select all that apply.",
+      "options": ["Requests without a token are rejected with 401", "A user cannot read or update another user's profile by changing the id", "Sending an extra field such as `\"role\": \"admin\"` does not escalate privileges", "Error responses do not leak stack traces or internal details", "Running the tests against a third party's production API without permission"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "Missing authentication, object-level authorization, mass assignment and information leakage are all core API security checks. Testing systems you are not authorised to test is unethical and usually illegal, so it is never part of a test plan."
+    },
+    {
+      "id": "api-042", "type": "scenario", "topic": "api-database-validation", "difficulty": "intermediate",
+      "prompt": "A `PUT /users/7` request returns 200 with the updated email in the body. Why might a tester also query the database?",
+      "options": ["To make the test slower", "To confirm the change was actually persisted, for example that the response was not just echoing the request while the update failed or was rolled back", "Because response bodies are never reliable", "To replace all API assertions"],
+      "answer": [1],
+      "explanation": "A response can reflect the request without the data being committed, so checking the stored record (read-only, in a test database) verifies persistence and side effects. It complements API assertions rather than replacing them."
+    },
+    {
+      "id": "api-043", "type": "single", "topic": "api-database-validation", "difficulty": "advanced",
+      "prompt": "A test calls `DELETE /products/55`. Which database checks give the most complete verification for a soft-delete design?",
+      "options": ["The row no longer exists in the table", "The row still exists with its deleted flag or timestamp set, and dependent records are handled as the requirements specify", "The table is empty", "No database check is needed for a delete"],
+      "answer": [1],
+      "explanation": "With soft deletes the row is kept but marked as deleted, so expecting it to disappear would be the wrong assertion. Checking related records (such as open cart lines) confirms the side effects are correct too."
+    },
+    {
+      "id": "api-044", "type": "single", "topic": "api-testing-in-ci", "difficulty": "intermediate",
+      "prompt": "Where should API credentials used by tests in a CI pipeline be stored?",
+      "options": ["Hard-coded in the test code", "In the CI system's secret store (for example GitHub Actions secrets), injected as environment variables at runtime", "In the README", "In a committed .env file"],
+      "answer": [1],
+      "explanation": "Secret stores keep credentials out of the repository and mask them in logs, and environment variables pass them to the tests at runtime. Anything committed to the repository should be treated as exposed."
+    },
+    {
+      "id": "api-045", "type": "single", "topic": "api-testing-in-ci", "difficulty": "beginner",
+      "prompt": "Why are API tests often run earlier in a CI pipeline than UI end-to-end tests?",
+      "options": ["API tests never fail", "They are usually faster and more stable, so they give quick feedback before slower UI suites run", "UI tests cannot run in CI", "API tests do not need an environment"],
+      "answer": [1],
+      "explanation": "API tests skip browser rendering, so they run quickly and break less often for timing reasons, which suits an early feedback stage. They still need a deployed service or test double to call."
+    }
+  ]
+}

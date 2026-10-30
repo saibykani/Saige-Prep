@@ -1,0 +1,306 @@
+{
+  "track": "security-testing",
+  "title": "Security Testing",
+  "description": "Mock interview questions for application security testing roles: OWASP risks, authentication and authorization flaws, injection, secure test design and the scope, ethics and reporting judgement expected in authorized engagements.",
+  "roles": [
+    "security-test-engineer",
+    "application-security-tester",
+    "penetration-testing-specialist",
+    "payments-fintech-qa-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-sec-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is the difference between authentication and authorization, and how would you test each?",
+      "followUps": [
+        "What is an IDOR and which of the two does it break?",
+        "How would you automate authorization checks across many endpoints?"
+      ],
+      "modelAnswer": "Authentication establishes who the caller is; authorization decides what that identity may do. For authentication I test credential handling (lockout or rate limiting after repeated failures, generic error messages that do not reveal whether a username exists), session handling (tokens invalidated on logout and password change, sensible expiry, secure and HttpOnly cookie flags) and MFA bypass paths such as skipping the second step by calling the next endpoint directly. For authorization I build a role-by-resource matrix and, in an authorized test environment, call every endpoint as each role, including unauthenticated, and as a user who owns a different record. Horizontal checks (user A reading user B's order by changing an id) and vertical checks (a normal user calling an admin endpoint) are the core. Authorization must be enforced server side; hiding a button in the UI is not a control.",
+      "keyPoints": [
+        "Authentication = identity, authorization = permissions",
+        "Session lifecycle checks: logout, expiry, cookie flags",
+        "Role-by-resource matrix with horizontal and vertical checks",
+        "Server-side enforcement, not UI hiding"
+      ],
+      "redFlags": [
+        "Treats the two terms as synonyms",
+        "Considers a hidden UI element sufficient access control"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-sec-02",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain SQL injection, how you would test for it safely, and what the correct fix is.",
+      "followUps": [
+        "Why is input escaping or a deny-list a weak fix?",
+        "What is blind SQL injection?"
+      ],
+      "modelAnswer": "SQL injection happens when user input is concatenated into a SQL statement so the input can change the query's structure. Testing is done only in an authorized, non-production environment: I send characters such as a single quote or a boolean condition into each parameter and watch for database errors, changed result counts or timing differences, which indicate the input reaches the query unparameterised. Tools such as sqlmap can help, but only within the agreed scope and rate limits. Blind injection is when no error or data is returned, so you infer behaviour from true/false response differences or delays. The correct fix is parameterised queries or prepared statements (or an ORM used without raw string building), plus least-privilege database accounts so a flaw has limited impact. Escaping and deny-lists are fragile because encodings and edge cases slip through.",
+      "keyPoints": [
+        "Input changes query structure through concatenation",
+        "Test only in authorized, non-production scope",
+        "Signals: errors, result differences, timing (blind)",
+        "Fix with parameterised queries plus least privilege"
+      ],
+      "redFlags": [
+        "Suggests testing on production without permission",
+        "Proposes a character deny-list as the main fix"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-sec-03",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Compare stored, reflected and DOM-based cross-site scripting. What controls prevent XSS?",
+      "followUps": [
+        "What does a Content Security Policy add, and what are its limits?",
+        "Why does HttpOnly on the session cookie only reduce impact?"
+      ],
+      "modelAnswer": "All three let attacker-controlled script run in a victim's browser in the site's origin. Stored XSS persists the payload on the server, for example in a comment, and hits everyone who views it. Reflected XSS bounces the payload straight back from a request, usually through a crafted link. DOM-based XSS happens entirely client side when JavaScript writes untrusted data, such as a URL fragment, into a dangerous sink like innerHTML. The primary control is context-aware output encoding, which modern frameworks do by default, so I look hard at places that bypass it (raw HTML rendering helpers, markdown renderers, innerHTML). Input validation and HTML sanitisation for rich text add depth. A strict Content Security Policy without unsafe-inline limits what an injected script can do, but it is a second layer, not the fix. HttpOnly stops script reading the cookie but the script can still act as the user within the page.",
+      "keyPoints": [
+        "Distinguishes stored, reflected and DOM-based correctly",
+        "Context-aware output encoding is the primary control",
+        "Looks for framework escape hatches and dangerous sinks",
+        "CSP and HttpOnly are defence in depth"
+      ],
+      "redFlags": [
+        "Thinks input validation alone prevents XSS",
+        "Believes HttpOnly fully neutralises XSS"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-sec-04",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "You are asked to security-test a new REST API before release. Walk me through how you would approach it.",
+      "followUps": [
+        "How do you agree scope and rules of engagement?",
+        "What would you automate in CI afterwards?"
+      ],
+      "modelAnswer": "First I get written authorization and scope: which hosts and environments, test accounts per role, time windows, rate limits, and who to call if something breaks. Then I map the attack surface from the OpenAPI spec and traffic captured through a proxy such as Burp Suite or OWASP ZAP. I work through the OWASP API Security Top 10: broken object-level authorization by swapping ids between accounts, broken authentication, excessive data exposure in responses, mass assignment by adding fields like role or isAdmin to request bodies, missing rate limiting, injection in every parameter and header, and security misconfiguration such as verbose errors, permissive CORS and missing TLS settings. I also check business logic, for example negative quantities or replaying a one-time action. Findings are written up with reproduction steps, impact and a fix, and rated consistently, for example with CVSS. Afterwards I turn repeatable checks into CI: authorization matrix tests, a DAST baseline scan, and dependency and secret scanning.",
+      "keyPoints": [
+        "Written authorization and clear scope first",
+        "Attack surface mapping from spec and proxy",
+        "OWASP API Top 10: BOLA, mass assignment, rate limits, exposure",
+        "Business logic abuse cases",
+        "Clear reporting and CI regression checks"
+      ],
+      "redFlags": [
+        "Starts scanning without agreed scope",
+        "Only runs an automated scanner and reports its output"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-sec-05",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "During a functional test you notice you can view another customer's invoice by changing the id in the URL. What do you do?",
+      "followUps": [
+        "Would you keep enumerating ids to measure impact?",
+        "How would you write the regression test?"
+      ],
+      "modelAnswer": "This is an insecure direct object reference, a broken access control issue, and potentially a data breach risk, so I treat it as high priority. I stop at the minimum needed to confirm it, ideally reproducing with two test accounts I control rather than reading real customer data, and I do not download, share or keep anything I saw. I do not enumerate further on my own; measuring impact is something to agree with the security team. I report it immediately through the agreed security channel rather than a public ticket, with exact steps, the affected endpoint and the fact that ids look sequential. If real personal data was exposed in a shared environment, I flag that so the privacy or incident process can decide on notification. The regression test logs in as user A, requests user B's invoice and asserts a 403 or 404, and I suggest checking every endpoint that takes an object id because these flaws are rarely isolated.",
+      "keyPoints": [
+        "Identifies IDOR / broken access control",
+        "Minimal confirmation with own test accounts",
+        "Reports privately and promptly through the right channel",
+        "Regression test with two users; check sibling endpoints"
+      ],
+      "redFlags": [
+        "Scrapes other customers' data to prove impact",
+        "Posts the details in a public channel or ticket"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-sec-06",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What are SAST, DAST, SCA and IAST, and where does each fit in a delivery pipeline?",
+      "followUps": [
+        "How do you stop these tools from drowning the team in false positives?",
+        "Which would catch a vulnerable transitive dependency?"
+      ],
+      "modelAnswer": "SAST analyses source code without running it, so it fits on pull requests and catches patterns like string-built SQL early, but it produces false positives and misses runtime configuration issues. DAST attacks a running application from outside, so it runs against a deployed test environment and finds things like missing headers, injection and misconfiguration, but has limited code visibility. SCA inventories third-party dependencies, including transitive ones, against known vulnerability databases and licence rules; it belongs on every build and on a schedule because new CVEs appear for old code. IAST instruments the running app during functional tests to see which code paths a request reached, giving more accurate results. To keep noise manageable I start with a small high-confidence rule set, fail builds only on new high or critical findings, triage and suppress false positives with a recorded reason, and track remediation time rather than raw counts.",
+      "keyPoints": [
+        "SAST: static code, early, on PRs",
+        "DAST: running app, deployed environment",
+        "SCA: dependencies and transitive CVEs, scheduled too",
+        "IAST: instrumented runtime",
+        "Noise management: gate on new high-severity findings"
+      ],
+      "redFlags": [
+        "Thinks one tool type covers everything",
+        "Fails builds on every finding regardless of severity"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-sec-07",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write an automated test that verifies an API enforces object-level authorization for the orders endpoint across two users.",
+      "followUps": [
+        "How would you scale this to every endpoint that takes an id?",
+        "Should the response be 403 or 404?"
+      ],
+      "modelAnswer": "Using pytest and requests against an authorized test environment:\n\n```python\nimport requests\n\nBASE = \"https://api.test.example.com\"\n\ndef login(user, pwd):\n    r = requests.post(f\"{BASE}/auth/login\", json={\"username\": user, \"password\": pwd})\n    r.raise_for_status()\n    return {\"Authorization\": f\"Bearer {r.json()['token']}\"}\n\ndef test_user_cannot_read_another_users_order():\n    alice = login(\"alice_test\", ALICE_PWD)\n    bob = login(\"bob_test\", BOB_PWD)\n    order = requests.post(f\"{BASE}/orders\", json={\"sku\": \"A1\", \"qty\": 1}, headers=alice)\n    order_id = order.json()[\"id\"]\n\n    assert requests.get(f\"{BASE}/orders/{order_id}\", headers=alice).status_code == 200\n    r = requests.get(f\"{BASE}/orders/{order_id}\", headers=bob)\n    assert r.status_code in (403, 404)\n    assert \"sku\" not in r.text\n    assert requests.get(f\"{BASE}/orders/{order_id}\").status_code == 401\n```\n\nThe test creates its own data, proves the owner can read it (so a failure is meaningful), then checks the other user and the anonymous caller, and asserts no data leaks in the body. Credentials come from environment variables or a secret store. To scale, I drive a parametrised matrix of endpoint, method and role from the API spec. 404 is often preferred because it does not confirm the object exists.",
+      "keyPoints": [
+        "Creates own test data with user A",
+        "Positive control: owner gets 200",
+        "Other user gets 403/404 and no data in body",
+        "Anonymous request gets 401",
+        "Secrets not hardcoded; parametrise across endpoints"
+      ],
+      "redFlags": [
+        "Only checks the status code, not the body",
+        "Hardcodes real credentials in the test"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-sec-08",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "What is server-side request forgery (SSRF), why is it dangerous in cloud environments, and how do you test and mitigate it?",
+      "followUps": [
+        "How can an allow-list be bypassed with redirects or DNS?",
+        "What is IMDSv2 and why does it help?"
+      ],
+      "modelAnswer": "SSRF occurs when the server fetches a URL that the user controls, such as a webhook target, an image-from-URL import or a PDF renderer, so an attacker can make the server reach internal systems it can see but the attacker cannot. In cloud environments the classic target is the instance metadata service, which can expose temporary credentials. In an authorized test I point those features at a collaborator endpoint I control to confirm outbound fetches, then try internal addresses, alternative IP encodings, redirects from an allowed host to an internal one, and DNS names that resolve to private ranges. Mitigation: allow-list destinations by scheme and host, resolve the hostname and block private, loopback and link-local ranges after resolution and on every redirect, disable unneeded schemes, route fetches through an egress proxy, and on AWS require IMDSv2, whose session token requirement blocks simple GET-based SSRF to metadata.",
+      "keyPoints": [
+        "Server fetches attacker-controlled URLs",
+        "Cloud metadata credentials as key impact",
+        "Tests: redirects, IP encodings, DNS to private ranges",
+        "Mitigate: allow-list, post-resolution IP checks, egress proxy, IMDSv2"
+      ],
+      "redFlags": [
+        "Relies on a string match of the hostname only",
+        "Unaware of redirect or DNS-rebinding bypasses"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-sec-09",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How would you test an application's JWT-based session handling?",
+      "followUps": [
+        "What is the alg none attack?",
+        "How do you revoke a JWT before it expires?"
+      ],
+      "modelAnswer": "I decode the token to see claims and algorithm, then check that the server actually verifies the signature: tampering with a claim such as the user id or role must be rejected, a token with alg set to none must be rejected, and for asymmetric keys the server must not accept a token re-signed with HMAC using the public key (algorithm confusion). I check expiry is short and enforced, that iss and aud are validated, that sensitive data is not stored in the readable payload, and how tokens are stored on the client (HttpOnly cookies reduce theft by XSS compared with localStorage). Because JWTs are stateless, logout and password change need a revocation strategy: short-lived access tokens with rotating refresh tokens, or a deny-list keyed by token id. I verify refresh token reuse is detected and that a weak HMAC secret is not used, which you can check against the agreed test environment's configuration.",
+      "keyPoints": [
+        "Signature verification: tampering, alg none, algorithm confusion",
+        "exp, iss, aud validation",
+        "No secrets in the payload; storage choice",
+        "Revocation: short expiry, refresh rotation, deny-list"
+      ],
+      "redFlags": [
+        "Believes JWT payloads are encrypted",
+        "Assumes logout invalidates a stateless token automatically"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-sec-10",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design a security testing strategy for a team shipping a payments web app weekly.",
+      "followUps": [
+        "Where does threat modelling fit?",
+        "How do you measure whether the strategy is working?"
+      ],
+      "modelAnswer": "I layer it so most checks are automatic and humans focus on design and logic. At design time, lightweight threat modelling (for example STRIDE) on new features that touch money, identity or personal data produces abuse cases that become test cases. In the pipeline: secret scanning and SAST on pull requests, SCA on every build and nightly, infrastructure-as-code and container image scanning, and automated authorization matrix tests plus a DAST baseline against the staging environment, gating only on new high-severity issues. Business-logic tests cover payment-specific risks: amount tampering, currency mismatches, idempotency and replay of payment requests, race conditions on refunds. Manual testing by security engineers targets high-risk changes, and an authorized external penetration test runs at least yearly and after major changes, as PCI DSS expects. Production gets monitoring and a vulnerability disclosure process. I measure mean time to remediate by severity, escaped vulnerabilities, and coverage of critical flows by abuse-case tests.",
+      "keyPoints": [
+        "Threat modelling producing abuse cases",
+        "Pipeline layers: secrets, SAST, SCA, IaC, DAST, authz tests",
+        "Payment logic: tampering, idempotency, races",
+        "Periodic authorized pen tests; compliance awareness",
+        "Metrics such as time to remediate"
+      ],
+      "redFlags": [
+        "Relies only on an annual pen test",
+        "Ignores business-logic abuse"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-sec-11",
+      "kind": "behavioral",
+      "difficulty": "intermediate",
+      "question": "Tell me about a time you found a serious security issue close to a release deadline. How did you handle it?",
+      "followUps": [
+        "What if the product owner wanted to ship anyway?",
+        "How did you communicate risk to non-technical stakeholders?"
+      ],
+      "modelAnswer": "A strong answer uses a concrete STAR story. For example: two days before release I found that the export endpoint returned other tenants' records when a filter parameter was removed. I confirmed it with my own test tenants, reported it privately to the lead and security contact within the hour with reproduction steps, and explained impact in business terms: any customer could download another customer's data, which is a reportable breach. I offered options rather than just a blocker: fix the server-side tenant filter (estimated half a day), or ship with the export feature disabled behind a flag. The team chose the fix; I wrote the regression test and checked the other export endpoints, finding one more. Afterwards we added tenant-isolation tests to CI. If a product owner chooses to accept a risk, the decision should be documented by someone with authority to accept it, not quietly dropped.",
+      "keyPoints": [
+        "Concrete situation and measurable result",
+        "Prompt, private escalation with evidence",
+        "Explains impact in business terms and offers options",
+        "Follow-through: regression tests, sibling checks",
+        "Documented risk acceptance if overridden"
+      ],
+      "redFlags": [
+        "Hid or downplayed the issue to meet the deadline",
+        "Blames others without describing own actions"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-sec-12",
+      "kind": "behavioral",
+      "difficulty": "beginner",
+      "question": "What ethical and legal boundaries do you follow as a security tester?",
+      "followUps": [
+        "What would you do if you found a flaw in a third-party service you depend on?",
+        "What if testing accidentally causes an outage?"
+      ],
+      "modelAnswer": "I only test systems I have explicit, written permission to test, within the agreed scope, environments, time windows and techniques. Out-of-scope systems, including third-party services and other customers' data, are off limits even if reachable; if I find something there I report it through the vendor's disclosure program rather than probing further. I avoid destructive or denial-of-service techniques unless explicitly authorized, use test accounts, access the minimum data needed to prove an issue, and never keep, share or misuse sensitive data. Findings go only to the agreed recipients and are kept confidential until fixed. If something I do causes an outage or unexpected impact, I stop immediately and contact the named emergency contact. Laws such as the Computer Misuse Act or CFAA make unauthorized access a crime regardless of intent.",
+      "keyPoints": [
+        "Written authorization and defined scope",
+        "No out-of-scope or third-party probing; responsible disclosure",
+        "Minimal data access and confidentiality",
+        "Stop and escalate on unexpected impact",
+        "Awareness of legal consequences"
+      ],
+      "redFlags": [
+        "Thinks good intent makes unauthorized testing acceptable",
+        "Would test a third party's systems without permission"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-sec-13",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Your team is adding an LLM-powered support chatbot that can look up a customer's orders. What security tests would you run?",
+      "followUps": [
+        "How is indirect prompt injection different from direct?",
+        "Where should authorization be enforced in this design?"
+      ],
+      "modelAnswer": "I treat the model as untrusted and test the boundaries around it, using the OWASP Top 10 for LLM applications as a checklist. Prompt injection: direct attempts to override instructions, and indirect injection through content the bot reads, such as an order note containing instructions. Authorization: the order-lookup tool must use the authenticated user's identity from the session, never an id the model chose, so I test whether asking for another customer's order succeeds. Sensitive data disclosure: system prompt leakage, other users' data, secrets in tool responses. Insecure output handling: model output rendered in the UI must be encoded so it cannot inject script, and must never be executed directly. Excessive agency: tools should be read-only unless needed, with confirmation for actions. I also test rate limits and cost abuse, and log conversations safely for review. All of this runs against a test deployment with test customers.",
+      "keyPoints": [
+        "Direct and indirect prompt injection",
+        "Authorization enforced in the tool layer from session identity",
+        "Data leakage and system prompt exposure",
+        "Output encoding; no executing model output",
+        "Least-privilege tools, rate and cost limits"
+      ],
+      "redFlags": [
+        "Relies on the system prompt as the security control",
+        "Lets the model pass arbitrary customer ids to tools"
+      ],
+      "minutes": 8
+    }
+  ]
+}

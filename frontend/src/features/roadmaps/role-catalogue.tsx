@@ -118,7 +118,7 @@ export function SetTargetRole({ slug, title }: { slug: string; title: string }) 
       onClick={() => actions.setProfile({ targetRole: active ? undefined : slug, onboardedAt: new Date().toISOString() })}
       className={cn(
         "inline-flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition-colors",
-        active ? "border border-accent bg-accent-soft text-foreground" : "bg-accent text-[#0d0b1a] hover:bg-accent-strong",
+        active ? "border border-accent bg-accent-soft text-foreground" : "bg-accent text-accent-foreground hover:bg-accent-strong",
       )}
       title={active ? `Stop targeting ${title}` : `Make ${title} your target role`}
     >

@@ -14,7 +14,7 @@ const METHODS = ["GET", "POST", "PUT", "DELETE"] as const;
 const METHOD_COLOR: Record<string, string> = {
   GET: "text-success",
   POST: "text-warning",
-  PUT: "text-[#9cc9e8]",
+  PUT: "text-sky-700 dark:text-[#9cc9e8]",
   DELETE: "text-danger",
 };
 
@@ -233,7 +233,7 @@ export function ApiLab() {
               onChange={(e) => setBody(e.target.value)}
               rows={6}
               spellCheck={false}
-              className="w-full resize-y rounded-lg border border-border bg-[#0b0b0d] p-3 font-mono text-[13px] leading-6 text-[#e4defc] focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+              className="w-full resize-y rounded-lg border border-border bg-code-bg p-3 font-mono text-[13px] leading-6 text-code-foreground focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
             />
           </div>
         )}
@@ -258,7 +258,7 @@ export function ApiLab() {
             </dl>
           )}
           {last.res.body !== null && (
-            <pre className="max-h-96 overflow-auto rounded-lg border border-border bg-[#0b0b0d] p-3 font-mono text-[13px] leading-6 text-[#e4defc]">
+            <pre className="max-h-96 overflow-auto rounded-lg border border-border bg-code-bg p-3 font-mono text-[13px] leading-6 text-code-foreground">
               {JSON.stringify(last.res.body, null, 2)}
             </pre>
           )}

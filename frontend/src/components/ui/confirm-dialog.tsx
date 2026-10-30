@@ -40,7 +40,7 @@ export function ConfirmDialog({
         event.preventDefault();
         onCancel();
       }}
-      className="m-auto w-[min(92vw,420px)] rounded-xl border border-border bg-surface p-0 text-foreground backdrop:bg-black/70"
+      className="m-auto w-[min(92vw,420px)] rounded-xl border border-border bg-surface p-0 text-foreground backdrop:bg-overlay"
     >
       {open && (
         <div className="space-y-4 p-6">

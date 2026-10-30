@@ -78,7 +78,7 @@ export function CommandPalette({
       onClick={(event) => {
         if (event.target === dialogRef.current) close();
       }}
-      className="mx-auto mt-[12vh] w-[min(94vw,620px)] rounded-xl border border-border bg-surface p-0 text-foreground shadow-2xl shadow-black/60 backdrop:bg-black/70"
+      className="mx-auto mt-[12vh] w-[min(94vw,620px)] rounded-xl border border-border bg-surface p-0 text-foreground shadow-2xl shadow-black/60 backdrop:bg-overlay"
     >
       {open && (
         <div>

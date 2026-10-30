@@ -27,7 +27,7 @@ export default function Home() {
         </p>
         <Link
           href="/dashboard"
-          className="inline-flex h-11 items-center gap-2 rounded-lg bg-accent px-5 text-sm font-medium text-[#0d0b1a] transition-colors hover:bg-accent-strong"
+          className="inline-flex h-11 items-center gap-2 rounded-lg bg-accent px-5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-strong"
         >
           Continue to Saige-Prep
           <ArrowRight className="h-4 w-4" aria-hidden />

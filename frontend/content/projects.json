@@ -1,0 +1,85 @@
+[
+  {
+    "slug": "selenium-testng-framework",
+    "title": "Selenium + TestNG UI automation framework",
+    "summary": "Build a maintainable web UI framework in Java: Page Object Model, explicit waits, a WebDriver factory that runs headless in CI, TestNG groups for smoke and regression, data-driven tests and screenshots on failure. Start from the runnable example in the repo and extend it against a practice site of your choice.",
+    "level": "intermediate",
+    "hours": 20,
+    "skills": ["Java", "Selenium WebDriver", "TestNG", "Page Object Model", "Maven"],
+    "roles": ["selenium-automation-engineer", "automation-test-engineer", "web-automation-engineer", "sdet"],
+    "sourceDir": "examples/selenium-java"
+  },
+  {
+    "slug": "restassured-api-suite",
+    "title": "RestAssured API regression suite",
+    "summary": "Write an API test suite in Java with RestAssured: request and response specifications, JSON schema validation, CRUD flows that create and clean up their own data, negative tests for status codes and error bodies, and auth handled once in a shared spec. The repo ships a runnable starting point.",
+    "level": "intermediate",
+    "hours": 16,
+    "skills": ["Java", "RestAssured", "REST", "JSON Schema", "Maven"],
+    "roles": ["api-test-engineer", "rest-api-tester", "api-automation-engineer", "backend-test-engineer"],
+    "sourceDir": "examples/restassured-java"
+  },
+  {
+    "slug": "jmeter-load-test-suite",
+    "title": "JMeter load-test suite with reporting",
+    "summary": "Design a load test for a public demo API or a local app: model realistic user journeys with thread groups, correlate dynamic values with extractors, parameterise data from CSV, add assertions, run in non-GUI mode and publish the HTML dashboard. Write a short report stating the workload model, the results and what limited throughput.",
+    "level": "intermediate",
+    "hours": 14,
+    "skills": ["JMeter", "Workload modelling", "Correlation", "Performance analysis"],
+    "roles": ["performance-test-engineer", "load-test-engineer", "performance-engineer"]
+  },
+  {
+    "slug": "playwright-e2e-suite",
+    "title": "Playwright end-to-end suite in TypeScript",
+    "summary": "Cover a real web app's critical journeys with Playwright Test: fixtures for logged-in state, web-first assertions instead of sleeps, API calls to seed data, cross-browser projects, trace and video on retry, and a small set of visual or accessibility checks. Keep the suite fast enough to run on every pull request.",
+    "level": "intermediate",
+    "hours": 15,
+    "skills": ["TypeScript", "Playwright", "Fixtures", "Cross-browser testing"],
+    "roles": ["web-automation-engineer", "sdet", "automation-test-engineer", "cross-browser-tester"]
+  },
+  {
+    "slug": "ci-pipeline-for-tests",
+    "title": "CI pipeline that runs and reports your tests",
+    "summary": "Take one of your test projects and wire it into GitHub Actions (or another CI): run unit, API and UI stages in sensible order, cache dependencies, shard slow suites, publish JUnit and HTML reports as artifacts, and fail the build on real regressions while quarantining known flaky tests with a tracked reason.",
+    "level": "advanced",
+    "hours": 12,
+    "skills": ["GitHub Actions", "YAML", "Test reporting", "Parallelisation"],
+    "roles": ["devops-cicd-test-engineer", "test-infrastructure-engineer", "sdet"]
+  },
+  {
+    "slug": "appium-mobile-suite",
+    "title": "Appium mobile automation for an Android app",
+    "summary": "Automate an open-source Android app with Appium: set up an emulator, choose stable locators (accessibility ids over XPath), handle permissions, gestures and app state resets, and structure screens as page objects. Document which device and OS versions you tested and what you could not automate.",
+    "level": "advanced",
+    "hours": 22,
+    "skills": ["Appium", "Android emulator", "Mobile locators", "Java or Python"],
+    "roles": ["mobile-automation-engineer", "android-test-engineer", "mobile-qa-engineer"]
+  },
+  {
+    "slug": "sql-etl-data-validation",
+    "title": "SQL data validation for an ETL pipeline",
+    "summary": "Load a public dataset into a staging table, transform it into a reporting table, then write SQL checks that prove the load is correct: row-count reconciliation, null and duplicate checks on keys, referential integrity, range and format rules, and source-to-target comparisons of aggregates. Automate the checks with pytest so they run after every load.",
+    "level": "intermediate",
+    "hours": 14,
+    "skills": ["SQL", "ETL testing", "Data reconciliation", "pytest"],
+    "roles": ["etl-test-engineer", "data-validation-tester", "data-qa-engineer", "database-test-engineer"]
+  },
+  {
+    "slug": "llm-evaluation-harness",
+    "title": "Evaluation harness for an LLM feature",
+    "summary": "Build a repeatable evaluation for an LLM-powered feature such as a summariser or a small RAG chatbot: a versioned golden dataset, deterministic checks (format, refusal, required facts), rubric-based grading with documented limits, regression comparison between prompt versions, and a set of adversarial prompts for prompt injection and hallucination.",
+    "level": "advanced",
+    "hours": 18,
+    "skills": ["Python", "LLM evaluation", "Golden datasets", "Prompt injection testing"],
+    "roles": ["llm-application-tester", "ai-quality-engineer", "rag-application-evaluator"]
+  },
+  {
+    "slug": "manual-test-plan-and-cases",
+    "title": "Test plan and test cases for a real web app",
+    "summary": "Pick a public web app and produce the artefacts a manual QA hands over: a one-page test plan with scope and risks, requirement-traced test cases using boundary values and equivalence partitions, an exploratory session charter with notes, and well-written bug reports with clear reproduction steps.",
+    "level": "beginner",
+    "hours": 8,
+    "skills": ["Test planning", "Test design techniques", "Exploratory testing", "Bug reporting"],
+    "roles": ["manual-qa-engineer", "qa-analyst", "software-test-engineer", "exploratory-tester"]
+  }
+]

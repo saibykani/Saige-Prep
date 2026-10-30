@@ -126,7 +126,7 @@ Scenario: your local shop app (`localhost:3000`). Model: 10 iterations per secon
 5. **Mix:** under the Thread Group add **Logic Controller → Throughput Controller** three times: *Percent Executions*, 70 / 25 / 5, each containing its journey (in Transaction Controllers).
 6. **Think time:** add a **Uniform Random Timer** inside each journey: Constant Delay `3000`, Random Delay Maximum `3000` (3–6 s, average 4.5 s).
 7. **Rate cap:** at Thread Group level add **Timer → Constant Throughput Timer**, Target throughput `600.0` (samples per minute), Calculate based on *all active threads*. Note it counts samples, so put it under a single sampler or divide the target by samplers per iteration.
-8. **Alternative stepped profile:** install **Throughput Shaping Timer** (Options → Plugins Manager → Available Plugins → "Custom Thread Groups"), and add rows:
+8. **Alternative stepped profile:** install **Throughput Shaping Timer** (Options → Plugins Manager → Available Plugins → "Throughput Shaping Timer", plugin id `jpgc-tst`; it is a separate plugin from "Custom Thread Groups", `jpgc-casutg`), and add rows:
 
 | Start RPS | End RPS | Duration (s) |
 |---|---|---|

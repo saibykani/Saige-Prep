@@ -57,7 +57,7 @@ export default async function TrackPage({ params }: Props) {
                 aria-current={t.slug === track.slug ? "page" : undefined}
                 className={
                   t.slug === track.slug
-                    ? "rounded-lg bg-accent px-4 py-1.5 text-sm font-medium text-[#0d0b1a]"
+                    ? "rounded-lg bg-accent px-4 py-1.5 text-sm font-medium text-accent-foreground"
                     : "rounded-lg px-4 py-1.5 text-sm text-muted transition-colors hover:text-foreground"
                 }
               >

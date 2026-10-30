@@ -164,7 +164,7 @@ export function Base64Tool() {
         />
         {mode === "encode" && (
           <label className="flex items-center gap-2 text-sm text-muted">
-            <input type="checkbox" checked={urlSafe} onChange={(e) => setUrlSafe(e.target.checked)} className="accent-[#a394f5]" />
+            <input type="checkbox" checked={urlSafe} onChange={(e) => setUrlSafe(e.target.checked)} className="accent-accent" />
             URL-safe (Base64URL)
           </label>
         )}
@@ -232,7 +232,7 @@ export function RegexTool() {
         </Alert>
       ) : (
         <div className="space-y-3">
-          <p className="rounded-xl border border-border bg-[#0b0b0d] p-3 font-mono text-[13px] leading-7">
+          <p className="rounded-xl border border-border bg-code-bg p-3 font-mono text-[13px] leading-7">
             {highlighted.map((p, i) => (
               <span key={i} className={cn(p.match && "rounded bg-accent/30 px-0.5 text-foreground ring-1 ring-accent/60")}>
                 {p.text}
