@@ -1,0 +1,318 @@
+{
+  "bank": "sdet",
+  "title": "SDET Engineering",
+  "track": "sdet",
+  "questions": [
+    {
+      "id": "sd-001", "type": "single", "topic": "ci-cd-for-test-engineers", "difficulty": "beginner",
+      "prompt": "What is the main purpose of running automated tests in a continuous integration pipeline?",
+      "options": ["To give fast feedback on every change so regressions are caught early", "To replace code review", "To deploy directly to production without checks", "To generate marketing reports"],
+      "answer": [0],
+      "explanation": "CI runs builds and tests on each change so the team learns quickly when something breaks, while the change is small and fresh. It complements code review rather than replacing it, and it adds checks rather than removing them."
+    },
+    {
+      "id": "sd-002", "type": "single", "topic": "ci-cd-for-test-engineers", "difficulty": "beginner",
+      "prompt": "What is the difference between continuous delivery and continuous deployment?",
+      "options": ["Continuous delivery keeps every change releasable with a manual release decision; continuous deployment releases every passing change to production automatically", "They are identical terms", "Continuous deployment never runs tests", "Continuous delivery only applies to mobile apps"],
+      "answer": [0],
+      "explanation": "Both keep the main line in a deployable state. In continuous delivery a person decides when to release; in continuous deployment every change that passes the pipeline goes to production automatically. Both depend heavily on automated tests."
+    },
+    {
+      "id": "sd-003", "type": "multiple", "topic": "ci-cd-for-test-engineers", "difficulty": "intermediate",
+      "prompt": "Which practices help keep a CI test stage fast? Select all that apply.",
+      "options": ["Running tests in parallel shards", "Caching dependencies between runs", "Running fast unit tests before slower end-to-end tests", "Adding fixed sleeps to every UI test"],
+      "answer": [0, 1, 2],
+      "explanation": "Parallelism, dependency caching and ordering stages from fastest to slowest all shorten feedback time. Fixed sleeps add time to every run and are a common cause of slow, flaky suites."
+    },
+    {
+      "id": "sd-004", "type": "scenario", "topic": "ci-cd-for-test-engineers", "difficulty": "intermediate",
+      "prompt": "A UI test fails about 1 in 20 runs on CI with no code change. The team proposes adding automatic retries for the whole suite. What is the best response?",
+      "options": ["Accept retries permanently and stop tracking failures", "Quarantine and track the flaky test, investigate the root cause (waits, data, environment), and fix it", "Delete all UI tests", "Run CI less often"],
+      "answer": [1],
+      "explanation": "Flaky tests erode trust in CI. Quarantining keeps the pipeline useful while the cause is investigated, and tracking ensures it gets fixed. Blanket retries can hide real intermittent bugs, and deleting tests or running CI less often lose coverage."
+    },
+    {
+      "id": "sd-005", "type": "truefalse", "topic": "ci-cd-for-test-engineers", "difficulty": "beginner",
+      "prompt": "A test step that fails in CI should make the pipeline fail, so a broken build cannot be merged or released unnoticed.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. A failing test must surface as a failing pipeline (a non-zero exit code), otherwise quality gates are meaningless. Swallowing failures, for example with continue-on-error everywhere, hides regressions."
+    },
+    {
+      "id": "sd-006", "type": "single", "topic": "ci-cd-for-test-engineers", "difficulty": "advanced",
+      "prompt": "Why should test reports and failure artifacts (screenshots, traces, logs) be uploaded from CI even when tests fail?",
+      "options": ["Because CI runners are ephemeral and the evidence needed to debug the failure is lost when the job ends", "Because artifacts make the tests pass", "Because reports are required for code to compile", "They should only be uploaded on success"],
+      "answer": [0],
+      "explanation": "CI runners are usually discarded after the job, so failure evidence must be published as artifacts. It is most valuable precisely when tests fail, which is why upload steps are configured to run regardless of the outcome."
+    },
+    {
+      "id": "sd-007", "type": "single", "topic": "github-actions-for-tests", "difficulty": "beginner",
+      "prompt": "Where are GitHub Actions workflow files stored in a repository?",
+      "options": [".github/workflows/", ".gitlab-ci.yml at the root", "Jenkinsfile at the root", "src/workflows/"],
+      "answer": [0],
+      "explanation": "GitHub Actions reads YAML workflow files from .github/workflows/. .gitlab-ci.yml is GitLab CI and Jenkinsfile is Jenkins."
+    },
+    {
+      "id": "sd-008", "type": "single", "topic": "github-actions-for-tests", "difficulty": "intermediate",
+      "prompt": "Which GitHub Actions feature runs the same job across several combinations, such as multiple Node versions or browsers?",
+      "options": ["strategy.matrix", "needs", "concurrency", "permissions"],
+      "answer": [0],
+      "explanation": "strategy.matrix expands one job definition into a job per combination of values. needs defines job dependencies, concurrency controls overlapping runs, and permissions scopes the GITHUB_TOKEN."
+    },
+    {
+      "id": "sd-009", "type": "code-output", "topic": "github-actions-for-tests", "difficulty": "intermediate",
+      "prompt": "How many jobs does this matrix create?",
+      "code": "jobs:\n  e2e:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        browser: [chromium, firefox, webkit]\n        shard: [1, 2]\n    steps:\n      - run: npx playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shard }}/2",
+      "codeLanguage": "yaml",
+      "options": ["2", "3", "5", "6"],
+      "answer": [3],
+      "explanation": "A matrix creates the Cartesian product of its values: 3 browsers multiplied by 2 shards gives 6 jobs. It is not the sum (5) and not either list alone."
+    },
+    {
+      "id": "sd-010", "type": "single", "topic": "github-actions-for-tests", "difficulty": "intermediate",
+      "prompt": "Which step condition ensures a test report is uploaded even when an earlier test step failed?",
+      "options": ["if: always()", "if: success()", "needs: test", "continue-on-error: false"],
+      "answer": [0],
+      "explanation": "always() makes the step run regardless of earlier step outcomes (failure() would run it only on failure). success() is the default and would skip the upload after a failed test step. needs is a job-level dependency, and continue-on-error: false is just the default behaviour."
+    },
+    {
+      "id": "sd-011", "type": "multiple", "topic": "github-actions-for-tests", "difficulty": "advanced",
+      "prompt": "Which are good security practices for GitHub Actions workflows that run tests? Select all that apply.",
+      "options": ["Store credentials as encrypted secrets, not in the YAML", "Give the GITHUB_TOKEN the minimum permissions needed", "Pin third-party actions to a full commit SHA or a trusted version", "Print secrets in logs to help debugging"],
+      "answer": [0, 1, 2],
+      "explanation": "Secrets, least-privilege tokens and pinned actions reduce the risk of leaks and supply-chain attacks. Printing secrets exposes them; GitHub masks registered secrets in logs, but deliberately echoing them, or derived values, is still unsafe."
+    },
+    {
+      "id": "sd-012", "type": "debugging", "topic": "github-actions-for-tests", "difficulty": "intermediate",
+      "prompt": "The test job fails with \"npm: command not found\" or uses an unexpected Node version. What is missing?",
+      "code": "jobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: npm ci\n      - run: npm test",
+      "codeLanguage": "yaml",
+      "options": ["actions/checkout and actions/setup-node steps before running npm", "A Jenkinsfile", "A matrix with one value", "The if: always() condition"],
+      "answer": [0],
+      "explanation": "Without actions/checkout the repository code is not on the runner, so npm ci has no package.json, and without actions/setup-node the Node version is whatever the image happens to provide. Adding both steps first fixes the job."
+    },
+    {
+      "id": "sd-013", "type": "single", "topic": "jenkins-pipelines-for-tests", "difficulty": "beginner",
+      "prompt": "What is a Jenkinsfile?",
+      "options": ["A text file in the repository that defines a Jenkins pipeline as code", "A Jenkins plugin binary", "A log file Jenkins writes after a build", "A Docker image"],
+      "answer": [0],
+      "explanation": "A Jenkinsfile describes the pipeline (stages, steps, agents) in Groovy-based declarative or scripted syntax and lives in source control alongside the code, so pipeline changes are reviewed and versioned."
+    },
+    {
+      "id": "sd-014", "type": "single", "topic": "jenkins-pipelines-for-tests", "difficulty": "intermediate",
+      "prompt": "In a declarative Jenkins pipeline, which block runs steps after the stages complete, for example to publish JUnit results whatever the outcome?",
+      "options": ["post { always { ... } }", "environment { ... }", "options { ... }", "parameters { ... }"],
+      "answer": [0],
+      "explanation": "The post section with an always condition runs after the pipeline or stage regardless of result, which is where junit report publishing typically goes. environment sets variables, options configures pipeline behaviour, and parameters declares build inputs."
+    },
+    {
+      "id": "sd-015", "type": "code-output", "topic": "jenkins-pipelines-for-tests", "difficulty": "intermediate",
+      "prompt": "The two test stages each take 10 minutes and run on separate agents. Roughly how long does the Tests stage take?",
+      "code": "stage('Tests') {\n  parallel {\n    stage('API')  { steps { sh 'mvn -Papi test' } }\n    stage('UI')   { steps { sh 'mvn -Pui test' } }\n  }\n}",
+      "codeLanguage": "groovy",
+      "options": ["About 10 minutes", "About 20 minutes", "About 5 minutes", "It fails because parallel is not allowed"],
+      "answer": [0],
+      "explanation": "The parallel block runs the API and UI stages concurrently, so the total is roughly the longest branch, about 10 minutes, rather than the 20-minute sum. parallel is valid declarative syntax."
+    },
+    {
+      "id": "sd-016", "type": "single", "topic": "jenkins-pipelines-for-tests", "difficulty": "intermediate",
+      "prompt": "What does Jenkins typically mark a build as when the junit step records test failures but the shell steps succeeded?",
+      "options": ["UNSTABLE", "ABORTED", "NOT_BUILT", "SUCCESS with no indication"],
+      "answer": [0],
+      "explanation": "By default the junit step sets the build result to UNSTABLE when it records failed tests, distinguishing test failures from build failures (FAILURE). ABORTED means the build was stopped, and NOT_BUILT means a stage was skipped."
+    },
+    {
+      "id": "sd-017", "type": "truefalse", "topic": "jenkins-pipelines-for-tests", "difficulty": "advanced",
+      "prompt": "Credentials used by a Jenkins pipeline should be referenced through the Jenkins credentials store (for example withCredentials) rather than hardcoded in the Jenkinsfile.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. The Jenkinsfile is in source control, so hardcoded secrets would be exposed to anyone with repository access. The credentials store keeps them encrypted and masks them in console output."
+    },
+    {
+      "id": "sd-018", "type": "single", "topic": "docker-for-testers", "difficulty": "beginner",
+      "prompt": "What is the difference between a Docker image and a container?",
+      "options": ["An image is a read-only template; a container is a running (or stopped) instance created from it", "They are the same thing", "A container is a template and an image is a running process", "Images only exist on Windows"],
+      "answer": [0],
+      "explanation": "An image packages the filesystem and configuration. Running it creates a container, which adds a writable layer and a process. Many containers can be started from one image."
+    },
+    {
+      "id": "sd-019", "type": "single", "topic": "docker-for-testers", "difficulty": "beginner",
+      "prompt": "Why are containers useful for test environments?",
+      "options": ["They give consistent, reproducible environments that start quickly and can be thrown away", "They make tests unnecessary", "They guarantee production has no bugs", "They only work for databases"],
+      "answer": [0],
+      "explanation": "Containers package dependencies so every run starts from the same known state, reducing \"works on my machine\" issues, and they are cheap to discard. They do not remove the need for tests or guarantee bug-free production."
+    },
+    {
+      "id": "sd-020", "type": "debugging", "topic": "docker-for-testers", "difficulty": "intermediate",
+      "prompt": "Tests running in the test container cannot connect to the database. What is wrong?",
+      "code": "services:\n  db:\n    image: postgres:16\n    environment:\n      POSTGRES_PASSWORD: example\n  tests:\n    build: .\n    environment:\n      DB_URL: postgresql://postgres:example@localhost:5432/postgres\n    depends_on: [db]",
+      "codeLanguage": "yaml",
+      "options": ["Inside the tests container, localhost refers to itself; it should use the service name db as the host", "Postgres cannot run in Docker", "depends_on must be removed", "The port must be 80"],
+      "answer": [0],
+      "explanation": "Each container has its own network namespace, so localhost is the tests container. Compose provides DNS for service names, so the host should be db. Also note depends_on only waits for the container to start, not for Postgres to be ready, so a healthcheck or retry is wise."
+    },
+    {
+      "id": "sd-021", "type": "single", "topic": "docker-for-testers", "difficulty": "intermediate",
+      "prompt": "In Docker Compose, what does depends_on without a condition guarantee?",
+      "options": ["The dependency container is started before the dependent one, not that the service inside is ready", "The dependency's application is fully ready to accept connections", "The containers share a filesystem", "The dependency will never crash"],
+      "answer": [0],
+      "explanation": "Plain depends_on only controls start order. To wait for readiness, define a healthcheck and use condition: service_healthy, or make tests retry the connection."
+    },
+    {
+      "id": "sd-022", "type": "multiple", "topic": "docker-for-testers", "difficulty": "advanced",
+      "prompt": "Which practices make Docker-based test runs more reproducible? Select all that apply.",
+      "options": ["Pin image tags (for example postgres:16.4) or digests instead of latest", "Seed test data from scripts at startup", "Use a fresh container per test run", "Rely on data left in a long-lived shared container"],
+      "answer": [0, 1, 2],
+      "explanation": "Pinned versions, scripted seed data and fresh containers make every run start from the same state. Data left behind in a shared long-lived container creates order-dependent, unreproducible results."
+    },
+    {
+      "id": "sd-023", "type": "single", "topic": "test-pyramid-and-strategy", "difficulty": "beginner",
+      "prompt": "According to the test pyramid, which tests should you generally have the most of?",
+      "options": ["Unit tests", "End-to-end UI tests", "Manual exploratory sessions", "Production load tests"],
+      "answer": [0],
+      "explanation": "The pyramid puts many fast, cheap, isolated unit tests at the base, fewer integration/service tests in the middle, and few slow, brittle end-to-end UI tests at the top."
+    },
+    {
+      "id": "sd-024", "type": "single", "topic": "test-pyramid-and-strategy", "difficulty": "intermediate",
+      "prompt": "What is the \"ice cream cone\" anti-pattern?",
+      "options": ["A suite dominated by manual and end-to-end UI tests with few unit tests", "A suite with only unit tests", "Running tests in parallel", "Testing in production only with feature flags"],
+      "answer": [0],
+      "explanation": "The ice cream cone inverts the pyramid: lots of slow, expensive UI and manual tests on top and few unit tests underneath, leading to slow feedback and flaky suites."
+    },
+    {
+      "id": "sd-025", "type": "scenario", "topic": "test-pyramid-and-strategy", "difficulty": "intermediate",
+      "prompt": "A pricing rule has 30 input combinations. Where should most of those combinations be tested?",
+      "options": ["In unit or service-level tests of the pricing logic, with one or two UI tests confirming the wiring", "All 30 as browser end-to-end tests", "Only manually before release", "Not at all, since the UI shows the price"],
+      "answer": [0],
+      "explanation": "Combinatorial business logic is cheapest and most reliable to test at the lowest level that exercises it. A thin UI layer confirms the integration. Thirty browser tests would be slow and brittle for no extra logic coverage."
+    },
+    {
+      "id": "sd-026", "type": "truefalse", "topic": "test-pyramid-and-strategy", "difficulty": "advanced",
+      "prompt": "The test pyramid is a guideline about cost and feedback speed, not a fixed ratio every project must match exactly.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. The pyramid expresses a heuristic: push tests down to where they are fast and cheap. Alternatives like the testing trophy weight integration tests more. The right shape depends on the system's architecture and risks."
+    },
+    {
+      "id": "sd-027", "type": "multiple", "topic": "test-pyramid-and-strategy", "difficulty": "advanced",
+      "prompt": "Which items belong in a written test strategy? Select all that apply.",
+      "options": ["Test levels and types in scope, and what is out of scope", "Environments and test data approach", "Entry and exit criteria and how risk drives priority", "The exact click-by-click steps of every test case"],
+      "answer": [0, 1, 2],
+      "explanation": "A strategy sets direction: scope, levels, environments, data, risk approach and criteria. Step-by-step instructions belong in test cases or scripts, not in the strategy."
+    },
+    {
+      "id": "sd-028", "type": "single", "topic": "test-architecture-and-system-design", "difficulty": "intermediate",
+      "prompt": "What is the main benefit of separating a test framework into layers such as tests, page objects or API clients, and core utilities?",
+      "options": ["Changes in the application are absorbed in one layer, so many tests do not need editing", "It makes tests run without the application", "It removes the need for assertions", "It makes every test independent of test data"],
+      "answer": [0],
+      "explanation": "Layering isolates how the app is driven from what the test verifies. When a locator or endpoint changes, you update one page object or client instead of every test. It does not remove assertions or data needs."
+    },
+    {
+      "id": "sd-029", "type": "single", "topic": "test-architecture-and-system-design", "difficulty": "intermediate",
+      "prompt": "Why should automated tests create their own data, or use isolated data, rather than share fixed records?",
+      "options": ["Shared mutable data makes tests order-dependent and prevents safe parallel execution", "Creating data is always faster", "Databases forbid shared records", "It removes the need for cleanup in all cases"],
+      "answer": [0],
+      "explanation": "When tests share and modify the same records, one test can change what another expects, causing flaky, order-dependent failures and blocking parallelism. Isolated data keeps tests independent. Cleanup is still usually needed."
+    },
+    {
+      "id": "sd-030", "type": "scenario", "topic": "test-architecture-and-system-design", "difficulty": "advanced",
+      "prompt": "Your UI suite logs in through the login page in every test, adding 8 seconds each. Login itself has dedicated tests. What is the best architectural improvement?",
+      "options": ["Authenticate once through the API or a stored session state and reuse it in the other tests", "Remove all login tests", "Add more sleeps to stabilise login", "Run every test serially"],
+      "answer": [0],
+      "explanation": "Setting up preconditions through faster channels (API calls or saved storage state) keeps UI tests focused on what they verify and cuts run time. Login is still covered by its own tests. Sleeps and serial runs make things slower."
+    },
+    {
+      "id": "sd-031", "type": "single", "topic": "test-architecture-and-system-design", "difficulty": "advanced",
+      "prompt": "Which technique lets a consumer service test its integration with a provider API without both being deployed together, by verifying a shared agreement?",
+      "options": ["Consumer-driven contract testing, for example with Pact", "Load testing", "Exploratory testing", "Mutation testing"],
+      "answer": [0],
+      "explanation": "Contract tests record what the consumer expects and verify the provider against that contract independently, catching breaking changes without a full integrated environment. Load, exploratory and mutation testing answer different questions."
+    },
+    {
+      "id": "sd-032", "type": "multiple", "topic": "test-architecture-and-system-design", "difficulty": "intermediate",
+      "prompt": "Which are signs of a well-designed automation framework? Select all that apply.",
+      "options": ["Tests can run in parallel without interfering", "Configuration such as base URL comes from environment, not hardcoded", "Failures produce clear messages and artifacts", "Every test depends on the previous test's output"],
+      "answer": [0, 1, 2],
+      "explanation": "Independence, externalised configuration and diagnosable failures make a framework scalable and maintainable. Chained tests that depend on each other cascade failures and cannot run in parallel."
+    },
+    {
+      "id": "sd-033", "type": "single", "topic": "requirements-analysis-for-testers", "difficulty": "beginner",
+      "prompt": "Which requirement is the most testable?",
+      "options": ["Search returns results within 2 seconds for 95% of queries under the agreed load", "Search should be fast", "Search must be user-friendly", "Search should work well"],
+      "answer": [0],
+      "explanation": "A testable requirement has measurable, objective acceptance criteria. \"Fast\", \"user-friendly\" and \"work well\" are vague and cannot be verified without further definition."
+    },
+    {
+      "id": "sd-034", "type": "single", "topic": "requirements-analysis-for-testers", "difficulty": "intermediate",
+      "prompt": "In Gherkin, which keyword describes the action or event being tested?",
+      "options": ["When", "Given", "Then", "Feature"],
+      "answer": [0],
+      "explanation": "Given sets up the context, When describes the action or event, and Then states the expected outcome. Feature names the capability being described."
+    },
+    {
+      "id": "sd-035", "type": "scenario", "topic": "requirements-analysis-for-testers", "difficulty": "intermediate",
+      "prompt": "A story says \"Users can upload a profile photo.\" What is the most useful thing a tester can do during refinement?",
+      "options": ["Ask clarifying questions about file types, size limits, error handling and who can see the photo, and turn the answers into acceptance criteria", "Wait until the feature is built to start thinking about tests", "Write automation scripts before any criteria exist", "Approve the story as written"],
+      "answer": [0],
+      "explanation": "Early questions expose gaps and ambiguities when they are cheapest to fix, and turn into concrete acceptance criteria. Waiting means defects are found later at higher cost."
+    },
+    {
+      "id": "sd-036", "type": "truefalse", "topic": "requirements-analysis-for-testers", "difficulty": "beginner",
+      "prompt": "Reviewing requirements for ambiguity before development starts is a form of static testing.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. Static testing examines work products such as requirements, designs and code without executing them. Requirement reviews are one of the cheapest ways to find defects."
+    },
+    {
+      "id": "sd-037", "type": "single", "topic": "qa-metrics-and-reporting", "difficulty": "beginner",
+      "prompt": "What does defect leakage (escaped defects) measure?",
+      "options": ["Defects found after release, compared with those found before release", "The number of test cases written", "Lines of code per developer", "Server uptime"],
+      "answer": [0],
+      "explanation": "Defect leakage tracks how many defects escaped testing and were found later, often in production. It indicates how effective earlier testing was. The other options measure unrelated things."
+    },
+    {
+      "id": "sd-038", "type": "single", "topic": "qa-metrics-and-reporting", "difficulty": "intermediate",
+      "prompt": "Why is \"number of test cases executed\" a weak measure of quality on its own?",
+      "options": ["It counts activity, not the risk covered or the defects that matter, and is easy to inflate", "It is impossible to count", "It always decreases quality", "It is the only metric that matters"],
+      "answer": [0],
+      "explanation": "Execution counts show effort, not effectiveness. Splitting tests or adding trivial ones raises the number without improving coverage. Metrics should be interpreted together with risk coverage and outcomes."
+    },
+    {
+      "id": "sd-039", "type": "code-output", "topic": "qa-metrics-and-reporting", "difficulty": "intermediate",
+      "prompt": "A release had 45 defects found before release and 5 found in production. What is the defect detection percentage (DDP) of pre-release testing?",
+      "code": "found_before = 45\nfound_after = 5\nddp = found_before / (found_before + found_after) * 100\nprint(ddp)",
+      "codeLanguage": "python",
+      "options": ["90.0", "11.1", "9.0", "45.0"],
+      "answer": [0],
+      "explanation": "DDP = defects found by testing / total defects (found by testing plus found later) = 45 / 50 = 0.9, printed as 90.0. 11.1 would be 5/45, which is not the formula."
+    },
+    {
+      "id": "sd-040", "type": "multiple", "topic": "qa-metrics-and-reporting", "difficulty": "advanced",
+      "prompt": "Which practices make QA metrics more useful and less harmful? Select all that apply.",
+      "options": ["Show trends over time rather than single snapshots", "Pair each metric with the decision it supports", "Avoid using metrics to rank individual testers", "Set targets like \"find 50 bugs per sprint\""],
+      "answer": [0, 1, 2],
+      "explanation": "Trends and decision-linked metrics inform action, and avoiding individual ranking prevents gaming. Bug-count targets encourage splitting or inflating reports instead of improving quality (Goodhart's law)."
+    },
+    {
+      "id": "sd-041", "type": "single", "topic": "test-management-and-leadership", "difficulty": "intermediate",
+      "prompt": "Testing time is cut in half before a release. What should a test lead do first?",
+      "options": ["Re-prioritise testing by risk, agree what will not be tested, and communicate the residual risk to stakeholders", "Run all tests faster by skipping verification steps", "Quietly test only the easiest features", "Refuse to test anything"],
+      "answer": [0],
+      "explanation": "Risk-based prioritisation focuses limited time on what matters most, and transparent communication lets stakeholders make an informed release decision. Silently cutting corners hides risk."
+    },
+    {
+      "id": "sd-042", "type": "truefalse", "topic": "test-management-and-leadership", "difficulty": "beginner",
+      "prompt": "Exit criteria help a team decide when testing for a phase or release is sufficient.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. Exit criteria, such as no open critical defects and planned coverage achieved, give an agreed, objective basis for deciding testing is done enough to proceed."
+    },
+    {
+      "id": "sd-043", "type": "scenario", "topic": "test-management-and-leadership", "difficulty": "advanced",
+      "prompt": "A developer and a tester disagree about whether a reported issue is a bug. What is the most constructive way for a lead to resolve it?",
+      "options": ["Refer back to the requirement or acceptance criteria and, if they are unclear, involve the product owner to decide the expected behaviour", "Let the most senior person win", "Close the issue to avoid conflict", "Escalate to HR"],
+      "answer": [0],
+      "explanation": "The disagreement is about expected behaviour, so the requirement is the reference, and the product owner owns ambiguous requirements. This keeps the discussion about the product, not people."
+    }
+  ]
+}

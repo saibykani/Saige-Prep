@@ -1,0 +1,307 @@
+{
+  "bank": "mobile",
+  "title": "Mobile Testing",
+  "track": "mobile",
+  "questions": [
+    {
+      "id": "mb-001", "type": "single", "topic": "mobile-testing-fundamentals", "difficulty": "beginner",
+      "prompt": "Which type of mobile app is built with web technologies and runs inside a native container that hosts a WebView?",
+      "options": ["Native app", "Hybrid app", "Mobile web app", "Progressive web app installed from an app store only"],
+      "answer": [1],
+      "explanation": "A hybrid app wraps HTML, CSS and JavaScript in a native shell that renders them in a WebView. A native app is built with platform SDKs (Kotlin/Java, Swift/Objective-C), and a mobile web app runs in the device browser with no native container."
+    },
+    {
+      "id": "mb-002", "type": "multiple", "topic": "mobile-testing-fundamentals", "difficulty": "beginner",
+      "prompt": "Which of these are risks that are specific to, or much more prominent in, mobile testing than desktop web testing? Select all that apply.",
+      "options": ["Interruptions such as incoming calls and notifications", "Switching between Wi-Fi, cellular and no network", "Battery and power-saving modes", "Screen orientation changes", "The HTTP protocol itself"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "Interruptions, changing network conditions, battery constraints and orientation changes are characteristic mobile risks. HTTP is used by both desktop and mobile clients, so it is not a mobile-specific risk."
+    },
+    {
+      "id": "mb-003", "type": "truefalse", "topic": "mobile-testing-fundamentals", "difficulty": "beginner",
+      "prompt": "Emulators and simulators can completely replace testing on real devices before a release.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "False. Emulators and simulators are fast and cheap for early feedback, but they do not faithfully reproduce real hardware behaviour such as sensors, camera, battery drain, thermal throttling, real network radios or OEM customisations. Some real-device testing is still needed."
+    },
+    {
+      "id": "mb-004", "type": "scenario", "topic": "mobile-testing-fundamentals", "difficulty": "intermediate",
+      "prompt": "A user fills half of a long form, switches to another app to copy a code, and returns to find the form empty. Which kind of test would most directly have caught this?",
+      "options": ["Load test of the backend", "App lifecycle test: background and foreground the app mid-task", "Installation test", "Localization test"],
+      "answer": [1],
+      "explanation": "The defect is lost state when the app goes to the background and returns. Lifecycle tests (background, foreground, and on Android, process death or activity recreation) check that state is preserved. Load, install and localization tests do not exercise this transition."
+    },
+    {
+      "id": "mb-005", "type": "single", "topic": "mobile-testing-fundamentals", "difficulty": "intermediate",
+      "prompt": "On Android, rotating the screen by default destroys and recreates the current Activity. What should a tester verify after rotation?",
+      "options": ["That the app reinstalls itself", "That user-entered data and screen state are preserved", "That the device reboots", "That push notifications are disabled"],
+      "answer": [1],
+      "explanation": "A configuration change such as rotation recreates the Activity unless the app handles it. If the app does not save and restore state, typed input or scroll position can be lost, so testers check that state survives rotation. Reinstalls, reboots and notification settings are unrelated."
+    },
+    {
+      "id": "mb-006", "type": "multiple", "topic": "mobile-testing-fundamentals", "difficulty": "intermediate",
+      "prompt": "Which network conditions are worth testing for a mobile app that syncs data? Select all that apply.",
+      "options": ["No connectivity (airplane mode)", "High latency and low bandwidth", "Switching from Wi-Fi to cellular mid-request", "Only a fast, stable office Wi-Fi"],
+      "answer": [0, 1, 2],
+      "explanation": "Real users move between networks and lose signal, so offline behaviour, slow networks and network handover are important. Testing only on a fast stable Wi-Fi network hides exactly the failures that mobile users experience."
+    },
+    {
+      "id": "mb-007", "type": "single", "topic": "mobile-testing-fundamentals", "difficulty": "advanced",
+      "prompt": "On Android, what is the most reliable way to verify that an app restores correctly after the operating system kills its process in the background?",
+      "options": ["Press the Home button and return immediately", "Enable the developer option \"Don't keep activities\" or kill the backgrounded process, then return to the app", "Rotate the device twice", "Clear the app's cache from settings while it is in the foreground"],
+      "answer": [1],
+      "explanation": "Simply pressing Home usually keeps the process alive, so it does not exercise restoration. \"Don't keep activities\" destroys activities as soon as the user leaves them, and killing the backgrounded process (for example with adb shell am kill) simulates the OS reclaiming memory, which tests saved-state restoration."
+    },
+    {
+      "id": "mb-008", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "beginner",
+      "prompt": "What is the standard file format for installing an Android app built for testing?",
+      "options": [".ipa", ".apk", ".exe", ".dmg"],
+      "answer": [1],
+      "explanation": "Android apps are installed from .apk files (Android App Bundles, .aab, are used for Play Store publishing and are turned into APKs). An .ipa is an iOS app package, while .exe and .dmg are desktop installers."
+    },
+    {
+      "id": "mb-009", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "beginner",
+      "prompt": "Which tool is the command-line bridge used to communicate with Android devices and emulators, for example to install apps or read logs?",
+      "options": ["xcrun simctl", "adb (Android Debug Bridge)", "Homebrew", "Gradle Wrapper only"],
+      "answer": [1],
+      "explanation": "adb installs apps, runs shell commands and streams logcat output on Android devices and emulators. xcrun simctl controls iOS simulators, Homebrew is a macOS package manager, and Gradle builds Android apps but is not the device bridge."
+    },
+    {
+      "id": "mb-010", "type": "truefalse", "topic": "android-vs-ios-testing", "difficulty": "beginner",
+      "prompt": "Building and running iOS apps on a simulator for automated testing requires macOS with Xcode.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. The iOS simulator and the Xcode toolchain (including XCUITest) run only on macOS. That is why iOS CI pipelines need macOS runners, whereas Android emulators run on Windows, Linux or macOS."
+    },
+    {
+      "id": "mb-011", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "intermediate",
+      "prompt": "Which native UI testing frameworks are provided by each platform vendor?",
+      "options": ["Espresso for Android and XCUITest for iOS", "XCUITest for Android and Espresso for iOS", "JMeter for Android and Postman for iOS", "Selenium for both"],
+      "answer": [0],
+      "explanation": "Google provides Espresso (and UI Automator) for Android, and Apple provides XCUITest within XCTest for iOS. JMeter and Postman are performance and API tools, and Selenium automates browsers, not native apps."
+    },
+    {
+      "id": "mb-012", "type": "multiple", "topic": "android-vs-ios-testing", "difficulty": "intermediate",
+      "prompt": "Which differences between Android and iOS commonly affect test design? Select all that apply.",
+      "options": ["Android devices have a system Back button or gesture with app-defined behaviour; iOS has no universal back button", "Android has much greater device and OEM fragmentation", "Runtime permission prompts differ in wording and flow", "Both platforms use exactly the same distribution channel for beta builds"],
+      "answer": [0, 1, 2],
+      "explanation": "Back navigation, fragmentation and permission flows all differ and need platform-specific tests. Beta distribution differs too: iOS uses TestFlight while Android commonly uses Play Console testing tracks or other channels, so the last option is false."
+    },
+    {
+      "id": "mb-013", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "intermediate",
+      "prompt": "Which Apple service is used to distribute iOS beta builds to internal and external testers?",
+      "options": ["Google Play internal testing", "TestFlight", "Firebase Crashlytics", "adb sideload"],
+      "answer": [1],
+      "explanation": "TestFlight is Apple's beta distribution service for iOS apps. Play internal testing is Android-only, Crashlytics is a crash reporting tool, and adb is the Android debug bridge."
+    },
+    {
+      "id": "mb-014", "type": "scenario", "topic": "android-vs-ios-testing", "difficulty": "advanced",
+      "prompt": "An app works on Pixel devices but background sync silently stops on some devices from other manufacturers after a few minutes. What is the most likely area to investigate first?",
+      "options": ["The app's font size settings", "OEM-specific battery optimisation that restricts background work", "The iOS App Transport Security policy", "The server's TLS certificate"],
+      "answer": [1],
+      "explanation": "Several Android OEMs apply aggressive battery management that kills or restricts background work beyond stock Android behaviour, which matches a device-specific background failure. Font size is unrelated, ATS is iOS-only, and a TLS problem would fail on all devices."
+    },
+    {
+      "id": "mb-015", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "intermediate",
+      "prompt": "Which command shows the Android system log, useful when reproducing a crash?",
+      "options": ["adb logcat", "adb push", "xcodebuild test", "adb reboot"],
+      "answer": [0],
+      "explanation": "adb logcat streams the device log, including stack traces for crashes. adb push copies files to the device, adb reboot restarts it, and xcodebuild is the iOS build tool."
+    },
+    {
+      "id": "mb-016", "type": "single", "topic": "device-and-os-coverage-strategy", "difficulty": "beginner",
+      "prompt": "What is the best primary input for choosing which devices and OS versions to test on?",
+      "options": ["The tester's personal phone", "Analytics data on what the app's real users run", "The newest flagship phones only", "A random selection"],
+      "answer": [1],
+      "explanation": "Coverage should reflect the actual user base, so usage analytics (devices, OS versions, screen sizes, regions) are the strongest input. Personal phones and flagships alone skew coverage away from where many users are, and random choice ignores risk."
+    },
+    {
+      "id": "mb-017", "type": "multiple", "topic": "device-and-os-coverage-strategy", "difficulty": "intermediate",
+      "prompt": "Which factors should influence a device coverage matrix? Select all that apply.",
+      "options": ["OS version share among users", "Screen sizes and densities", "Low-memory or low-end hardware", "Markets and regions the app targets", "The colour of the device case"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "OS versions, screen characteristics, hardware capability and target regions all change app behaviour and risk. The physical colour of a device has no effect on software behaviour."
+    },
+    {
+      "id": "mb-018", "type": "single", "topic": "device-and-os-coverage-strategy", "difficulty": "intermediate",
+      "prompt": "What is a key benefit of a cloud device farm compared with an in-house device lab?",
+      "options": ["It removes the need for any emulator testing", "Access to many real device models without buying and maintaining them", "It guarantees zero flaky tests", "It makes tests run without network access"],
+      "answer": [1],
+      "explanation": "Device farms rent access to a wide range of real devices, saving purchase and maintenance cost. They do not eliminate emulators, they cannot guarantee zero flakiness, and they require network access to reach the devices."
+    },
+    {
+      "id": "mb-019", "type": "scenario", "topic": "device-and-os-coverage-strategy", "difficulty": "intermediate",
+      "prompt": "Your team has budget for 6 real devices. Analytics show 70% Android (spread across many vendors) and 30% iOS. Which plan is most reasonable?",
+      "options": ["6 of the newest iPhones", "A mix weighted to Android across popular vendors, OS versions and one low-end device, plus a couple of iPhones covering the main iOS versions", "6 identical Android devices to run tests in parallel", "No real devices; rely only on simulators"],
+      "answer": [1],
+      "explanation": "A risk-based matrix follows usage share and fragmentation: more Android variety, including low-end hardware, and enough iOS coverage for the main versions. All-iPhone ignores most users, identical devices give no diversity, and simulators alone miss hardware-specific issues."
+    },
+    {
+      "id": "mb-020", "type": "truefalse", "topic": "device-and-os-coverage-strategy", "difficulty": "beginner",
+      "prompt": "A device coverage matrix should be reviewed periodically because OS and device usage changes over time.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. New OS releases ship every year and old devices drop out of use, so a matrix built once becomes stale. Reviewing it against fresh analytics keeps coverage aligned with real users."
+    },
+    {
+      "id": "mb-021", "type": "single", "topic": "device-and-os-coverage-strategy", "difficulty": "advanced",
+      "prompt": "Which approach best balances speed and confidence in a mobile CI pipeline?",
+      "options": ["Run the full suite on every device for every commit", "Run a fast subset on emulators/simulators per commit and a broader real-device run nightly or before release", "Only test manually before release", "Run tests only on the oldest supported device"],
+      "answer": [1],
+      "explanation": "Tiered execution gives fast per-commit feedback from emulators and broader real-device confidence on a schedule. Running everything everywhere per commit is slow and costly, manual-only testing is slow and inconsistent, and one device provides narrow coverage."
+    },
+    {
+      "id": "mb-022", "type": "single", "topic": "appium-architecture-and-setup", "difficulty": "beginner",
+      "prompt": "Which protocol does an Appium 2 client use to send commands to the Appium server?",
+      "options": ["The W3C WebDriver protocol over HTTP", "FTP", "SMTP", "A proprietary binary protocol over Bluetooth"],
+      "answer": [0],
+      "explanation": "Appium is a WebDriver server: clients send W3C WebDriver commands (with Appium extensions) as HTTP requests. FTP, SMTP and Bluetooth are not used for client-server commands."
+    },
+    {
+      "id": "mb-023", "type": "single", "topic": "appium-architecture-and-setup", "difficulty": "beginner",
+      "prompt": "In Appium 2, what must you install separately to automate Android or iOS?",
+      "options": ["A driver, such as UiAutomator2 or XCUITest", "A JMeter plugin", "A browser extension", "Nothing; all drivers are bundled in the core"],
+      "answer": [0],
+      "explanation": "Appium 2 split drivers out of the core. You install them with the appium driver install command, for example uiautomator2 for Android and xcuitest for iOS. Appium 1 bundled drivers, which is a common source of confusion."
+    },
+    {
+      "id": "mb-024", "type": "multiple", "topic": "appium-architecture-and-setup", "difficulty": "intermediate",
+      "prompt": "Which of these are valid W3C capabilities for starting an Appium session? Select all that apply.",
+      "options": ["platformName", "appium:automationName", "appium:deviceName", "appium:app", "browserVersionHistory"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "platformName is a standard W3C capability, and Appium-specific capabilities such as automationName, deviceName and app use the appium: vendor prefix in W3C mode. browserVersionHistory is not a real capability."
+    },
+    {
+      "id": "mb-025", "type": "single", "topic": "appium-architecture-and-setup", "difficulty": "intermediate",
+      "prompt": "Which Appium Android driver is the commonly used, actively maintained default for native Android automation?",
+      "options": ["UiAutomator2", "Selendroid", "XCUITest", "Espresso for iOS"],
+      "answer": [0],
+      "explanation": "The UiAutomator2 driver is the standard choice for Android. Selendroid is legacy, XCUITest is the iOS driver, and Espresso is Android-only (there is an Appium Espresso driver, but not for iOS)."
+    },
+    {
+      "id": "mb-026", "type": "debugging", "topic": "appium-architecture-and-setup", "difficulty": "intermediate",
+      "prompt": "Session creation fails with an error saying no driver supports the requested automationName. What is the most likely cause?",
+      "code": "{\n  \"platformName\": \"Android\",\n  \"appium:automationName\": \"UiAutomator2\",\n  \"appium:app\": \"/builds/app-debug.apk\"\n}",
+      "codeLanguage": "json",
+      "options": ["The UiAutomator2 driver has not been installed on the Appium 2 server", "platformName must be lowercase only", "APK files cannot be installed by Appium", "The JSON must use single quotes"],
+      "answer": [0],
+      "explanation": "In Appium 2 drivers are installed separately, so a fresh server has no UiAutomator2 driver until you run appium driver install uiautomator2. platformName is case-insensitive, Appium installs APKs routinely, and JSON requires double quotes."
+    },
+    {
+      "id": "mb-027", "type": "single", "topic": "appium-architecture-and-setup", "difficulty": "advanced",
+      "prompt": "What does the capability appium:noReset set to true typically do?",
+      "options": ["Keeps app data between sessions instead of clearing it", "Prevents the server from restarting", "Disables all implicit waits", "Forces a full reinstall of the app"],
+      "answer": [0],
+      "explanation": "noReset=true tells the driver not to clear app state or reinstall before the session, which speeds up runs but means tests can depend on leftover data. fullReset is the capability associated with full uninstall/reinstall."
+    },
+    {
+      "id": "mb-028", "type": "single", "topic": "appium-architecture-and-setup", "difficulty": "advanced",
+      "prompt": "How does Appium switch from automating native views to automating content inside a hybrid app's WebView?",
+      "options": ["By switching the context to the WEBVIEW context", "By restarting the server with a browser driver", "By reinstalling the app as a web app", "It cannot automate WebViews"],
+      "answer": [0],
+      "explanation": "Appium exposes contexts such as NATIVE_APP and WEBVIEW_<id>. Switching to a WebView context lets you use web locators like CSS selectors inside the embedded page, provided the WebView is debuggable."
+    },
+    {
+      "id": "mb-029", "type": "truefalse", "topic": "appium-architecture-and-setup", "difficulty": "beginner",
+      "prompt": "Appium lets you write tests in several programming languages because any WebDriver-compatible client library can talk to the server.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. Because Appium speaks the WebDriver protocol, there are client libraries for Java, Python, JavaScript, C#, Ruby and others. The server does not care which language sent the HTTP request."
+    },
+    {
+      "id": "mb-030", "type": "single", "topic": "appium-locators-and-gestures", "difficulty": "beginner",
+      "prompt": "Which locator strategy is generally the most stable and fast for cross-platform Appium tests?",
+      "options": ["Accessibility ID", "Absolute XPath", "Screen coordinates", "Element index in the hierarchy"],
+      "answer": [0],
+      "explanation": "Accessibility ID maps to content-desc on Android and accessibilityIdentifier on iOS, so it is fast and resilient when developers set it. Absolute XPath and indexes break when layouts change, and coordinates break across screen sizes."
+    },
+    {
+      "id": "mb-031", "type": "single", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "Why is XPath often discouraged for Appium locators?",
+      "options": ["It is not supported at all", "It can be slow because the driver must build and search the full UI hierarchy, and long paths are brittle", "It only works on iOS", "It requires root access"],
+      "answer": [1],
+      "explanation": "XPath is supported on both platforms but requires serialising the page source into XML and searching it, which is slow on large screens. Long hierarchical paths also break with small layout changes. It needs no root access."
+    },
+    {
+      "id": "mb-032", "type": "multiple", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "Which locator strategies are platform-specific in Appium? Select all that apply.",
+      "options": ["-android uiautomator", "-ios predicate string", "-ios class chain", "accessibility id"],
+      "answer": [0, 1, 2],
+      "explanation": "UiAutomator selectors work only with the Android UiAutomator2 driver, and predicate strings and class chains work only with the iOS XCUITest driver. Accessibility ID works on both platforms."
+    },
+    {
+      "id": "mb-033", "type": "single", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "In Appium 2 with W3C WebDriver, what is the standard way to perform a custom swipe gesture?",
+      "options": ["The legacy TouchAction API", "W3C Actions with a pointer input of type touch", "Sending keyboard arrow keys", "Calling driver.swipeLeft(), which is part of the W3C spec"],
+      "answer": [1],
+      "explanation": "The W3C Actions API models a touch pointer: move to start, pointer down, move to end with a duration, pointer up. The old TouchAction/MultiTouch APIs are deprecated and removed in modern clients. There is no swipeLeft in the W3C spec, though drivers also offer mobile: gesture extensions."
+    },
+    {
+      "id": "mb-034", "type": "scenario", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "A test taps a button immediately after navigation and intermittently fails with NoSuchElementException. What is the best fix?",
+      "options": ["Add Thread.sleep(10000) before every step", "Use an explicit wait for the element to be present or clickable before tapping", "Retry the whole suite three times", "Switch to absolute coordinates"],
+      "answer": [1],
+      "explanation": "The element is sometimes not yet rendered. An explicit wait polls until the condition is met, so it is both faster and more reliable than fixed sleeps. Blanket retries hide the problem, and coordinates are brittle across devices."
+    },
+    {
+      "id": "mb-035", "type": "single", "topic": "appium-locators-and-gestures", "difficulty": "beginner",
+      "prompt": "Which tool lets you inspect an app's UI hierarchy and find element attributes for Appium locators?",
+      "options": ["Appium Inspector", "JMeter GUI", "Postman", "Wireshark"],
+      "answer": [0],
+      "explanation": "Appium Inspector connects to a session and shows the element tree, attributes and suggested locators. JMeter is for load testing, Postman for APIs, and Wireshark for packet capture."
+    },
+    {
+      "id": "mb-036", "type": "code-output", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "On Android, what does this locator find?",
+      "code": "driver.findElement(AppiumBy.androidUIAutomator(\n  \"new UiScrollable(new UiSelector().scrollable(true))\" +\n  \".scrollIntoView(new UiSelector().text(\\\"Settings\\\"))\"));",
+      "codeLanguage": "java",
+      "options": ["It scrolls the first scrollable container until an element with text Settings is visible, then returns it", "It opens the system Settings app", "It throws because UiScrollable is iOS-only", "It returns every element on screen"],
+      "answer": [0],
+      "explanation": "UiScrollable.scrollIntoView scrolls the scrollable container until the matching UiSelector is on screen and returns that element. It does not launch system Settings, it is Android-only rather than iOS-only, and it returns a single element."
+    },
+    {
+      "id": "mb-037", "type": "single", "topic": "appium-locators-and-gestures", "difficulty": "advanced",
+      "prompt": "What is the most effective long-term way to make mobile locators stable across Android and iOS?",
+      "options": ["Agree with developers to add accessibility identifiers to key elements", "Record coordinates on the most common device", "Use the deepest XPath possible", "Locate elements by visible text in every language"],
+      "answer": [0],
+      "explanation": "Stable, intentional identifiers set by developers give fast, cross-platform locators and also help accessibility when they are meaningful. Coordinates and deep XPath are brittle, and visible text changes with copy edits and localization."
+    },
+    {
+      "id": "mb-038", "type": "truefalse", "topic": "appium-locators-and-gestures", "difficulty": "intermediate",
+      "prompt": "Mixing implicit waits and explicit waits in the same Appium session can cause unpredictable wait times.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "True. As in Selenium, an implicit wait applies to every element lookup, including those inside explicit wait polling, so the combined timeouts can stack unpredictably. The usual advice is to use explicit waits and keep the implicit wait at zero."
+    },
+    {
+      "id": "mb-039", "type": "debugging", "topic": "appium-locators-and-gestures", "difficulty": "advanced",
+      "prompt": "A test passes on a phone but fails on a tablet: the tap lands on the wrong element. What is the most likely cause?",
+      "code": "new Actions(driver)\n  .moveToLocation(540, 1650)\n  .click()\n  .perform();",
+      "codeLanguage": "java",
+      "options": ["Hardcoded screen coordinates that do not match the tablet's layout and resolution", "The tablet has no touch screen", "Actions are not supported on tablets", "The click needs a longer implicit wait"],
+      "answer": [0],
+      "explanation": "Absolute coordinates depend on screen size, density and layout, so the same point hits a different element on a tablet. Locate the element and act on it instead. Tablets have touch screens and support Actions, and waiting longer does not change the coordinates."
+    },
+    {
+      "id": "mb-040", "type": "multiple", "topic": "mobile-testing-fundamentals", "difficulty": "intermediate",
+      "prompt": "Which checks belong in install and update testing for a mobile app? Select all that apply.",
+      "options": ["Fresh install on a clean device", "Upgrade from the previous released version with existing user data", "Behaviour when storage is nearly full", "Uninstall leaves no app-owned data in its sandbox", "Server-side database index tuning"],
+      "answer": [0, 1, 2, 3],
+      "explanation": "Fresh install, upgrade with data migration, low storage and clean uninstall are all install/update concerns. Database index tuning is a backend performance task, not part of install testing."
+    },
+    {
+      "id": "mb-041", "type": "single", "topic": "mobile-testing-fundamentals", "difficulty": "advanced",
+      "prompt": "Users who denied location permission once report the app crashes when they open the map. Which test design technique would have best caught this?",
+      "options": ["Testing each permission state: granted, denied, denied permanently and revoked in settings", "Testing only the happy path where permission is granted", "Performance testing the map tiles", "Checking app icon resolution"],
+      "answer": [0],
+      "explanation": "Permissions have several states, and apps must handle each one, including revocation from system settings while the app is running. Testing only the granted path is exactly how such crashes slip through."
+    },
+    {
+      "id": "mb-042", "type": "single", "topic": "android-vs-ios-testing", "difficulty": "advanced",
+      "prompt": "Which iOS mechanism, enabled by default, blocks an app's plain-HTTP connections unless exceptions are declared in Info.plist?",
+      "options": ["App Transport Security (ATS)", "Gatekeeper", "SafetyNet", "Doze mode"],
+      "answer": [0],
+      "explanation": "App Transport Security requires secure HTTPS connections by default, so cleartext calls fail unless exceptions are configured. Gatekeeper is a macOS feature, SafetyNet is an Android attestation API, and Doze is Android power management."
+    }
+  ]
+}

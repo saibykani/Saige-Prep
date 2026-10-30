@@ -7,14 +7,14 @@ _Last updated: 2026-10-30._
 |---|---|---|
 | 0 | Inspection, CLAUDE.md, architecture docs, checklist | ✅ Done |
 | 1 | Shell, design system, FastAPI, DB, health checks, auth foundation, test infra | ✅ Done |
-| 2 | Curriculum & learning engine | 🟡 Engine done; lessons ~80%, all 80 role roadmaps done |
+| 2 | Curriculum & learning engine | ✅ Done (every curriculum topic has a lesson; all 80 role roadmaps) |
 | 3 | Practice labs and QA toolkit | ✅ Done (7 labs, 15 tools) |
-| 4 | Assessment engine | ✅ Done (mock-test hub + runner; 5 banks, 252 questions: manual, JMeter, API, automation, performance) |
+| 4 | Assessment engine | ✅ Done (mock-test hub + runner; 8 banks, 384 questions: manual, JMeter, API, automation, performance, mobile, SDET, specialist) |
 | 5 | Interview preparation | ✅ Done (8 tracks; 15/30/60-min runner with self-rated rubric) |
 | 6 | Projects, resource library, content admin | 🟡 9 guided projects done; content admin not built (no login) |
 | 7 | Personalization and analytics | ✅ Done (study planner, progress analytics, light/dark/system theme) |
 | 8 | Security and production hardening | 🟡 CSP/HSTS/COOP headers, data export/import/delete; backend auth unused while login is off |
-| 9 | Content and quality audit | 🟡 JMeter audit done (1 fix); other tracks not yet audited |
+| 9 | Content and quality audit | 🟡 JMeter audit done (1 fix); 38 newer lessons written without a live source check, audit pending |
 
 ## Architecture decision: learner data and content (recorded 2026-10-29)
 Login is disabled at the owner's request, and the hosted backend is not reachable from the live site. So:
