@@ -1,0 +1,1384 @@
+{
+  "category": "data-ai",
+  "roles": [
+    {
+      "slug": "data-qa-engineer",
+      "title": "Data QA Engineer",
+      "category": "data-ai",
+      "overview": "A Data QA Engineer makes sure the data that a business relies on is correct, complete and on time. They write SQL and automated checks that run against pipelines and tables, define what 'good data' means with data owners, and catch problems before dashboards, reports or downstream systems consume bad records.",
+      "responsibilities": [
+        "Define data quality rules with data owners across completeness, accuracy, consistency, validity, uniqueness and timeliness",
+        "Write SQL checks that validate row counts, null rates, key uniqueness, referential integrity and value ranges",
+        "Automate data tests so they run as part of pipeline execution and block or flag bad loads",
+        "Investigate data incidents, trace them to the source system or transformation step and document root cause",
+        "Design and maintain representative test datasets, including edge cases such as late-arriving records and duplicates",
+        "Review schema changes and transformation logic for downstream impact before they reach production",
+        "Report data quality trends to stakeholders in terms of affected tables, consumers and business impact"
+      ],
+      "skills": {
+        "essential": [
+          "Strong SQL: joins, aggregates, window functions and set operations",
+          "Data quality dimensions and how to turn each into a testable rule",
+          "Understanding of relational modelling, primary and foreign keys",
+          "Test design for data: boundaries, nulls, duplicates and invalid formats"
+        ],
+        "roleSpecific": [
+          "Automated data testing with a framework such as dbt tests or Great Expectations",
+          "Source-to-target reconciliation techniques",
+          "Reading pipeline orchestration logs, for example Apache Airflow task runs"
+        ],
+        "optional": [
+          "Python for scripted checks and data profiling",
+          "Cloud data warehouse experience",
+          "Data catalogue and lineage tooling"
+        ]
+      },
+      "prerequisites": [
+        "Comfort writing SELECT queries with joins and GROUP BY",
+        "Basic understanding of software testing concepts such as test cases and defects"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "SQL and data quality foundations",
+          "goals": [
+            "Write queries that find nulls, duplicates and orphaned foreign keys in a sample schema",
+            "Explain the six common data quality dimensions with one example check for each",
+            "Profile a table: row count, distinct counts, min/max and null percentage per column",
+            "Log a data defect with the query, expected result and actual result"
+          ],
+          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "database-testing", "testing-data-validation"]
+        },
+        "intermediate": {
+          "title": "Automated data checks in pipelines",
+          "goals": [
+            "Implement uniqueness, not-null, accepted-values and relationship tests in a dbt or Great Expectations project",
+            "Build a source-to-target reconciliation on counts, sums and sampled row-level comparisons",
+            "Use window functions to detect gaps and duplicates in time-series data",
+            "Run data checks from a CI job and fail the build on violations"
+          ],
+          "topics": ["etl-and-data-warehouse-testing", "test-data-design", "boundary-value-analysis", "ci-cd-for-test-engineers"]
+        },
+        "advanced": {
+          "title": "Data quality strategy and incident handling",
+          "goals": [
+            "Classify tables by business criticality and set check depth and freshness targets accordingly",
+            "Run a root cause analysis for a data incident and propose a preventive check",
+            "Define data quality metrics and a reporting cadence for stakeholders",
+            "Review schema change proposals for downstream breakage"
+          ],
+          "topics": ["risk-based-testing", "root-cause-analysis", "qa-metrics-and-reporting", "test-pyramid-and-strategy"]
+        }
+      },
+      "tools": ["SQL clients (DBeaver or similar)", "dbt tests", "Great Expectations", "Apache Airflow", "PostgreSQL", "Git", "Python with pandas"],
+      "exercises": [
+        "Given an orders and customers schema, write five queries that each expose a different data quality problem",
+        "Write dbt tests for a staging model: unique and not-null on the key, accepted values on status, relationship to customers",
+        "Reconcile a CSV source file against its loaded table and report count, sum and row-level differences",
+        "Detect duplicate events within a five-minute window using a window function"
+      ],
+      "sampleProject": {
+        "title": "Data quality suite for an e-commerce orders pipeline",
+        "description": "Load a public-domain or generated orders dataset into PostgreSQL, build a small dbt project with staging and mart models, and add tests for uniqueness, nulls, referential integrity, accepted values and freshness. Seed deliberate defects (duplicate order ids, negative totals, orphaned customer ids) and show the suite catching each one, with a short report of findings."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you turn the phrase 'the data must be accurate' into concrete tests?",
+          "a": "I would break accuracy down with the data owner into checkable rules: values match a trusted source (reconcile against the source system on keys and sums), values fall within valid ranges (no negative quantities, dates not in the future), derived fields match their formula (line total equals quantity times unit price), and codes belong to a reference list. Each rule becomes an automated check with a threshold and an owner, and anything that cannot be checked automatically gets a sampled manual review."
+        },
+        {
+          "q": "A dashboard shows revenue 3% lower than finance expects. How do you investigate?",
+          "a": "First I confirm both sides use the same definition: currency, tax inclusion, refunds, time zone and date cut-off. Then I reconcile layer by layer: source system totals for the period, staged data, transformed models and the dashboard query. The first layer where the totals diverge localises the problem. Typical causes are filtered-out records in a join (inner join dropping rows with missing dimension keys), duplicated rows from a many-to-many join, late-arriving data, or time-zone boundaries. I document the cause and add a check that would have caught it."
+        },
+        {
+          "q": "How do you test that a join does not silently drop or duplicate rows?",
+          "a": "Compare row counts before and after the join and against the expected grain. For a left join on a key that should be unique on the right side, the output count should equal the left count; if it is higher, the right key is not unique, so I test uniqueness on it. To find dropped rows, I run an anti-join (left join where right key is null) to list unmatched keys. I also check sums of an additive measure before and after."
+        },
+        {
+          "q": "What is the difference between a dbt test and a Great Expectations expectation, and when would you pick each?",
+          "a": "Both express assertions about data. dbt tests live alongside SQL transformation models and run as queries in the warehouse, so they fit teams already modelling in dbt and testing transformed tables. Great Expectations is a Python library that defines expectation suites against many data sources, including files and dataframes, and produces validation results and documentation. I would choose based on where the team already works and what needs testing: dbt for warehouse models, Great Expectations when validating data outside dbt or at ingestion."
+        },
+        {
+          "q": "How do you decide which data checks should block a pipeline and which should only warn?",
+          "a": "By impact and confidence. Checks guarding critical consumers, such as financial reporting or customer-facing figures, and checks with a very low false-positive rate (primary key uniqueness, required fields) should block. Statistical or heuristic checks, such as volume deviating from a trailing average, start as warnings until their thresholds are tuned. Each check needs an owner and a documented response, otherwise warnings get ignored."
+        }
+      ],
+      "codingRequirements": "SQL is mandatory and must be strong: joins, aggregates, subqueries, CTEs and window functions. Basic Python or the YAML/Jinja used by tools such as dbt is very helpful. Full software engineering skills are not required for most positions.",
+      "commonMistakes": [
+        "Checking only row counts, which misses wrong values, duplicates that offset drops, and broken joins",
+        "Writing checks without agreeing thresholds and owners with the business, so alerts are ignored",
+        "Testing only on clean sample data and never on late, duplicated or malformed records",
+        "Treating a passing test suite as proof the data is correct rather than evidence that known rules hold"
+      ],
+      "readinessCriteria": [
+        "Can write a window-function query to find duplicates and gaps without reference material",
+        "Has built an automated data test suite that runs in a pipeline or CI job and fails on violations",
+        "Can explain each data quality dimension with a concrete check",
+        "Has performed a source-to-target reconciliation and explained the discrepancies found"
+      ],
+      "nextRoles": ["etl-test-engineer", "data-warehouse-tester", "analytics-qa-engineer"]
+    },
+    {
+      "slug": "etl-test-engineer",
+      "title": "ETL Test Engineer",
+      "category": "data-ai",
+      "overview": "An ETL Test Engineer verifies the extract, transform and load processes that move data between systems. They test mapping rules, transformation logic, incremental loads and error handling, and prove through reconciliation that what arrives in the target matches what left the source after the documented transformations.",
+      "responsibilities": [
+        "Analyse source-to-target mapping documents and derive test cases for every transformation rule",
+        "Validate full and incremental loads, including change data capture and slowly changing dimension behaviour",
+        "Reconcile source and target on counts, aggregates and row-level samples",
+        "Test rejection and error handling for malformed, duplicate or late-arriving records",
+        "Verify job scheduling, dependencies, restartability and idempotency of reruns",
+        "Prepare test data that exercises boundaries, nulls, encodings and type conversions",
+        "Report defects with the failing query, affected records and the mapping rule involved"
+      ],
+      "skills": {
+        "essential": [
+          "Advanced SQL including set operations (EXCEPT/MINUS) for comparisons",
+          "Reading source-to-target mapping specifications",
+          "Understanding of full versus incremental loads and change data capture",
+          "Test case design for transformation rules"
+        ],
+        "roleSpecific": [
+          "Slowly changing dimension types (especially Type 1 and Type 2) and how to test them",
+          "Reconciliation techniques across heterogeneous databases",
+          "Familiarity with an ETL or orchestration tool such as Apache Airflow, dbt or a commercial ETL suite"
+        ],
+        "optional": [
+          "Python scripting for file and API source comparisons",
+          "Shell scripting for job automation",
+          "Experience with columnar or cloud data warehouses"
+        ]
+      },
+      "prerequisites": [
+        "Solid SQL querying skills",
+        "Understanding of relational databases and keys"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand ETL flows and mapping",
+          "goals": [
+            "Explain extract, transform and load stages and where defects typically enter",
+            "Write test cases directly from a mapping document for direct, derived and lookup columns",
+            "Compare source and target with EXCEPT queries in both directions",
+            "Validate data type conversions and truncation on boundary values"
+          ],
+          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "etl-and-data-warehouse-testing", "test-scenarios-and-test-cases"]
+        },
+        "intermediate": {
+          "title": "Incremental loads and error paths",
+          "goals": [
+            "Test an incremental load by inserting, updating and deleting source rows between runs",
+            "Verify SCD Type 2 history rows: effective dates, current flag and no overlapping periods",
+            "Test that rerunning a failed job does not duplicate data",
+            "Validate that rejected records land in an error table with a reason"
+          ],
+          "topics": ["database-testing", "test-data-design", "boundary-value-analysis", "positive-and-negative-testing"]
+        },
+        "advanced": {
+          "title": "Automating ETL verification",
+          "goals": [
+            "Build a reusable reconciliation framework parameterised by source and target tables",
+            "Run ETL regression checks in a CI pipeline against a containerised database",
+            "Define entry and exit criteria for ETL releases",
+            "Estimate ETL test effort from mapping complexity"
+          ],
+          "topics": ["regression-testing", "docker-for-testers", "ci-cd-for-test-engineers", "entry-and-exit-criteria", "test-estimation"]
+        }
+      },
+      "tools": ["SQL clients", "Apache Airflow", "dbt", "Python with pandas", "Docker", "PostgreSQL", "Jira or another defect tracker"],
+      "exercises": [
+        "Write a mapping-based test case set for a customer table with concatenated names, a lookup-coded country and a derived age band",
+        "Simulate two incremental loads and verify inserts, updates and deletes are applied exactly once",
+        "Test an SCD Type 2 dimension for overlapping effective date ranges with a self-join",
+        "Write a two-way EXCEPT comparison between a staging and target table and interpret the output"
+      ],
+      "sampleProject": {
+        "title": "Incremental load test harness",
+        "description": "Build a small pipeline (Python or dbt) that loads a customer source table into a dimension with SCD Type 2 history. Write an automated harness that seeds source changes between runs, executes the load, and asserts on counts, history correctness, idempotent reruns and rejected-record handling. Run it in Docker so it is reproducible."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you test an incremental load?",
+          "a": "I establish a baseline with an initial full load, then make controlled changes in the source: new rows, updates to tracked and untracked columns, deletes if they are supported, and records with timestamps at the watermark boundary. After the next run I verify only the expected rows changed, nothing was duplicated, the watermark advanced correctly and late-arriving records are handled per the specification. I also rerun the same load to prove it is idempotent."
+        },
+        {
+          "q": "What would you check for an SCD Type 2 dimension?",
+          "a": "Each business key has exactly one current row; effective date ranges per key do not overlap and have no unintended gaps; a change to a tracked attribute closes the old row and opens a new one; a change to an untracked attribute does not create history; surrogate keys are unique; and fact tables reference the version that was valid at the transaction date."
+        },
+        {
+          "q": "Source has 1,000,000 rows and target has 999,950. What next?",
+          "a": "Fifty rows is not automatically a defect, so I check the mapping for legitimate filters or rejects. Then I query the reject or error table, and run an anti-join on the business key to list the missing rows. Looking at those rows usually reveals the pattern: nulls in a join key, a failed type conversion, a date outside the load window or an inner join to a missing dimension member. The defect report includes the pattern and the rule involved."
+        },
+        {
+          "q": "How do you compare data between two different database engines?",
+          "a": "Direct joins are not possible, so I compare at levels: counts and aggregates per partition first, then hashed row fingerprints per key computed consistently on both sides (watching for differences in null handling, trimming, decimal precision and time zones), and finally full row comparisons only for partitions that differ. A script, for example in Python, can pull both sides and diff them for smaller volumes."
+        },
+        {
+          "q": "Why does idempotency matter for ETL jobs and how do you test it?",
+          "a": "Jobs fail and get retried, sometimes partway through. If a rerun inserts the same rows again, totals double silently. I test it by running the same load twice with no source changes and asserting the target is unchanged, and by killing a job midway, rerunning it and verifying the final state equals a clean single run."
+        }
+      ],
+      "codingRequirements": "Advanced SQL is required. Python or shell scripting is commonly expected for building reusable comparison utilities, but deep application programming is not usually required.",
+      "commonMistakes": [
+        "Comparing only total counts, which can hide equal numbers of dropped and duplicated rows",
+        "Testing a single full load and never testing incremental runs, reruns or late data",
+        "Ignoring rejected records instead of verifying each reject has a correct reason",
+        "Not checking precision, rounding and time-zone conversions in transformation rules"
+      ],
+      "readinessCriteria": [
+        "Can derive test cases from a mapping document for direct, derived and lookup columns",
+        "Has tested an incremental load including updates, deletes and reruns",
+        "Can write two-way EXCEPT and anti-join reconciliation queries from memory",
+        "Can explain and test SCD Type 1 and Type 2 behaviour"
+      ],
+      "nextRoles": ["data-warehouse-tester", "data-qa-engineer"]
+    },
+    {
+      "slug": "data-warehouse-tester",
+      "title": "Data Warehouse Tester",
+      "category": "data-ai",
+      "overview": "A Data Warehouse Tester validates the dimensional models, facts, aggregates and semantic layers that analytical reporting is built on. Beyond loading correctness, they check that grain, conformed dimensions and business metric definitions are right, so the same question gets the same answer everywhere.",
+      "responsibilities": [
+        "Verify fact table grain and that measures are additive, semi-additive or non-additive as designed",
+        "Test dimension integrity: unknown members, conformed dimensions and history handling",
+        "Validate aggregate and summary tables against detailed facts",
+        "Check business metric definitions against agreed documentation",
+        "Test partitioning, data retention and backfill processes",
+        "Run regression comparisons when models are refactored",
+        "Monitor data freshness against agreed service levels"
+      ],
+      "skills": {
+        "essential": [
+          "Advanced SQL including window functions and CTEs",
+          "Dimensional modelling concepts: facts, dimensions, grain, star schemas",
+          "Reconciliation of aggregates against detail",
+          "Clear defect reporting with reproducible queries"
+        ],
+        "roleSpecific": [
+          "Testing slowly changing dimensions and late-arriving facts",
+          "Understanding of semi-additive measures such as balances",
+          "Performance awareness for large analytical queries"
+        ],
+        "optional": [
+          "dbt project structure and testing",
+          "A cloud warehouse platform",
+          "BI semantic layer tools"
+        ]
+      },
+      "prerequisites": [
+        "Strong SQL",
+        "Experience testing data loads or databases"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Dimensional modelling basics",
+          "goals": [
+            "Identify the grain of a fact table and test it with a uniqueness query",
+            "Explain star versus snowflake schemas",
+            "Validate that every fact row joins to a dimension row, including an unknown member",
+            "Recompute a summary table from detail and compare"
+          ],
+          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "database-testing", "etl-and-data-warehouse-testing"]
+        },
+        "intermediate": {
+          "title": "Facts, history and metrics",
+          "goals": [
+            "Test that point-in-time joins use the dimension version valid at the transaction date",
+            "Verify semi-additive measures are not summed across time",
+            "Document and test metric definitions with the business owner",
+            "Test late-arriving facts and backfills"
+          ],
+          "topics": ["test-data-design", "traceability-matrix-and-coverage", "decision-table-testing", "testing-data-validation"]
+        },
+        "advanced": {
+          "title": "Warehouse regression and performance",
+          "goals": [
+            "Build before/after comparisons for a model refactor across all key metrics",
+            "Identify slow queries and discuss partitioning or clustering impacts with engineers",
+            "Define freshness and completeness service levels per subject area",
+            "Lead a data release sign-off"
+          ],
+          "topics": ["regression-testing", "database-and-caching-bottlenecks", "release-sign-off", "risk-based-testing"]
+        }
+      },
+      "tools": ["SQL clients", "dbt", "A cloud or on-premise data warehouse", "Apache Airflow", "BI tools for report verification", "Git"],
+      "exercises": [
+        "Write a query that proves or disproves the stated grain of a sales fact table",
+        "Find fact rows referencing dimension keys that do not exist",
+        "Show why summing an account balance across months gives a wrong answer and write the correct query",
+        "Compare a monthly summary table against detail facts for twelve months"
+      ],
+      "sampleProject": {
+        "title": "Star schema verification suite",
+        "description": "Model a small retail star schema (sales fact, date, product, store and customer dimensions with Type 2 history on customer). Write a verification suite that tests grain, referential integrity, point-in-time correctness, aggregate consistency and freshness, and produces a summary of pass/fail per check."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the grain of a fact table and why test it?",
+          "a": "The grain is what one row represents, for example one order line per day. If the grain is violated, for example two rows for the same order line, every sum is inflated. I test it by grouping on the columns that define the grain and asserting no group has more than one row."
+        },
+        {
+          "q": "How would you test a refactor of a core data model that should not change any results?",
+          "a": "Run the old and new models side by side on the same data, then compare key metrics by every important dimension and time period, followed by row-level comparison on the keys. Any difference must be explained, either as an intended fix or a defect. I agree tolerances for floating-point differences up front and keep the comparison queries as a regression asset."
+        },
+        {
+          "q": "What is a semi-additive measure and what defect does it cause?",
+          "a": "A measure that can be summed across some dimensions but not others, typically balances or inventory levels, which can be summed across accounts but not across time. Summing month-end balances over a year gives a meaningless number; the correct aggregation is usually the last value or an average. I test report queries to make sure they use the right aggregation."
+        },
+        {
+          "q": "How do you handle facts that arrive before their dimension member?",
+          "a": "The design usually maps them to an unknown or inferred member so they are not lost, then updates the reference when the dimension row arrives. I test that such facts are loaded rather than dropped, that they point to the inferred member, and that they are correctly re-pointed after the dimension load."
+        }
+      ],
+      "codingRequirements": "Advanced SQL is essential. Scripting is helpful but not mandatory. Understanding of data modelling matters more than general programming.",
+      "commonMistakes": [
+        "Never confirming the grain, so duplicated rows inflate every metric",
+        "Assuming metric names mean the same thing to every team without written definitions",
+        "Testing only the current state of dimensions and ignoring history",
+        "Comparing reports to the warehouse with different filters or time zones"
+      ],
+      "readinessCriteria": [
+        "Can test grain, referential integrity and history on a star schema",
+        "Can explain additive, semi-additive and non-additive measures with examples",
+        "Has built a before/after regression comparison for a model change",
+        "Can reconcile an aggregate table against detail facts"
+      ],
+      "nextRoles": ["analytics-qa-engineer", "data-qa-engineer"]
+    },
+    {
+      "slug": "analytics-qa-engineer",
+      "title": "Analytics QA Engineer",
+      "category": "data-ai",
+      "overview": "An Analytics QA Engineer checks that numbers people use to make decisions are trustworthy, from event tracking in the product to dashboards and experiment results. They test instrumentation, metric logic and report behaviour so that a chart reflects what actually happened.",
+      "responsibilities": [
+        "Verify product analytics events fire once, with the correct name, properties and user identifiers",
+        "Validate dashboard figures against independent queries on the underlying data",
+        "Test metric definitions, filters, time-zone handling and date boundaries in reports",
+        "Check experiment (A/B test) assignment, exposure logging and sample ratio",
+        "Maintain a tracking plan and flag undocumented or missing events",
+        "Test report permissions and row-level security for sensitive data"
+      ],
+      "skills": {
+        "essential": [
+          "SQL for independent recomputation of metrics",
+          "Understanding of event-based analytics and tracking plans",
+          "Basic statistics: rates, distributions and sample sizes",
+          "Browser developer tools for inspecting network calls"
+        ],
+        "roleSpecific": [
+          "A/B test validity checks such as sample ratio mismatch",
+          "BI tool behaviour: filters, caching and aggregation settings",
+          "Time-zone and date-boundary reasoning"
+        ],
+        "optional": [
+          "Python or R for analysis",
+          "Tag management systems",
+          "Experience with privacy and consent requirements for tracking"
+        ]
+      },
+      "prerequisites": [
+        "Working SQL knowledge",
+        "Basic familiarity with web or mobile applications"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Events and metrics basics",
+          "goals": [
+            "Inspect analytics network calls in browser developer tools and compare to a tracking plan",
+            "Recompute a dashboard metric with SQL and reconcile differences",
+            "Test daily metrics around midnight in different time zones",
+            "Write a defect report for a missing or duplicated event"
+          ],
+          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "testing-data-validation", "writing-a-great-defect-report"]
+        },
+        "intermediate": {
+          "title": "Dashboard and experiment testing",
+          "goals": [
+            "Build a checklist for dashboard filters, drill-downs and empty states",
+            "Detect sample ratio mismatch in an experiment dataset",
+            "Verify unique-user counts are not double counted across devices or sessions",
+            "Test row-level security on a report with two user roles"
+          ],
+          "topics": ["equivalence-partitioning", "boundary-value-analysis", "testing-user-permissions", "etl-and-data-warehouse-testing"]
+        },
+        "advanced": {
+          "title": "Analytics quality ownership",
+          "goals": [
+            "Automate tracking-plan validation in end-to-end tests",
+            "Define metric certification criteria with analytics owners",
+            "Run root cause analysis on a metric discrepancy across systems",
+            "Report analytics quality status to product leadership"
+          ],
+          "topics": ["playwright-with-typescript", "root-cause-analysis", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["Browser developer tools", "SQL clients", "BI and dashboard tools", "Product analytics platforms", "Playwright for event assertions", "Spreadsheets for reconciliation"],
+      "exercises": [
+        "Compare five events fired during a sign-up flow against a tracking plan and list discrepancies",
+        "Recompute daily active users with SQL and explain any difference from the dashboard",
+        "Given experiment assignment counts, decide whether there is a sample ratio mismatch and why it matters",
+        "Test a weekly report for correct week-start convention and time zone"
+      ],
+      "sampleProject": {
+        "title": "Tracking plan validator",
+        "description": "Write a tracking plan for a demo web app (event names, required properties, types). Use Playwright to intercept analytics requests during key flows and assert each expected event fires once with valid properties. Add SQL checks that recompute two dashboard metrics from the stored events and compare them with the reported values."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you test that an analytics event is implemented correctly?",
+          "a": "I check it against the tracking plan: correct name, fires on the right trigger exactly once, required properties present with valid types and values, correct user and session identifiers, and respects consent settings. I verify it in the network calls and then in the stored data, because events can be dropped or transformed between client and warehouse."
+        },
+        {
+          "q": "What is a sample ratio mismatch and why should a tester care?",
+          "a": "It is when the observed split of users between experiment variants differs from the designed split by more than chance would explain, typically tested with a chi-squared test. It usually indicates a bug in assignment, redirection or exposure logging, which makes the experiment's results unreliable regardless of the measured effect."
+        },
+        {
+          "q": "A dashboard and a SQL query disagree on daily active users. What do you check?",
+          "a": "The definition of active, the time zone used for the day boundary, deduplication across devices and anonymous-to-logged-in identity merges, filters such as internal or test users, data freshness and any caching in the BI tool. I align them one at a time until the numbers match and document which definition is authoritative."
+        },
+        {
+          "q": "How do you test row-level security in a reporting tool?",
+          "a": "I create test users in each role, check that each sees only permitted rows and that totals reflect only those rows, try access via export, drill-through and direct URLs, and confirm that changing role membership takes effect. Aggregates are a common leak, so I verify totals as well as row lists."
+        }
+      ],
+      "codingRequirements": "SQL is required. Light JavaScript or TypeScript is helpful for automated event checks. Statistical programming is optional.",
+      "commonMistakes": [
+        "Verifying an event fires in the browser but never checking it arrives correctly in the warehouse",
+        "Ignoring time zones and week-start conventions in date-based metrics",
+        "Including internal or test traffic in production metrics",
+        "Trusting a dashboard total without an independent recomputation"
+      ],
+      "readinessCriteria": [
+        "Can validate events against a tracking plan using browser tools",
+        "Can independently recompute a dashboard metric and explain differences",
+        "Can explain sample ratio mismatch and how to check for it",
+        "Has tested row-level security for at least two roles"
+      ],
+      "nextRoles": ["data-qa-engineer", "ml-model-testing-specialist"]
+    },
+    {
+      "slug": "ai-quality-engineer",
+      "title": "AI Quality Engineer",
+      "category": "data-ai",
+      "overview": "An AI Quality Engineer designs how AI-powered features are evaluated and tested across their lifecycle. Because model outputs are probabilistic, the role combines classic software testing of the surrounding system with evaluation datasets, quality metrics, human review and production monitoring, and is honest about what each method can and cannot show.",
+      "responsibilities": [
+        "Define quality criteria for AI features with product owners, including failure modes that are unacceptable",
+        "Build and maintain evaluation datasets with labelled expected behaviour and edge cases",
+        "Design automated evaluation pipelines that run on model, prompt or data changes",
+        "Test the deterministic parts of AI systems: input validation, fallbacks, timeouts, rate limits and logging",
+        "Coordinate human review and calibrate automated graders against human judgments",
+        "Assess safety, fairness and privacy risks and test for them",
+        "Monitor production quality signals and feed failures back into evaluation sets"
+      ],
+      "skills": {
+        "essential": [
+          "Software testing fundamentals and test design",
+          "Evaluation design: datasets, metrics, baselines and regression thresholds",
+          "Python for scripting evaluations and analysing results",
+          "Understanding of how ML and LLM systems fail: non-determinism, overfitting, distribution shift"
+        ],
+        "roleSpecific": [
+          "Classification metrics such as precision, recall and confusion matrices",
+          "LLM evaluation methods including rubric grading and their limitations",
+          "Safety testing for prompt injection and harmful outputs"
+        ],
+        "optional": [
+          "Experiment tracking tools",
+          "Statistics for comparing model versions",
+          "Familiarity with AI risk management frameworks"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a tester or developer",
+        "Basic Python"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Testing AI-powered features",
+          "goals": [
+            "Explain why exact-match assertions rarely work for model outputs and what to use instead",
+            "Test the non-model parts of an AI feature: validation, error handling, timeouts and fallbacks",
+            "Create a small labelled evaluation set covering typical, edge and adversarial inputs",
+            "Compute precision and recall for a simple classifier"
+          ],
+          "topics": ["testing-ai-applications", "test-data-design", "positive-and-negative-testing", "functional-vs-non-functional-testing"]
+        },
+        "intermediate": {
+          "title": "Evaluation pipelines",
+          "goals": [
+            "Build an evaluation script that scores a model or prompt version against a fixed dataset",
+            "Set regression thresholds and run evaluations in CI on prompt or model changes",
+            "Calibrate an automated grader against a sample of human labels",
+            "Test for prompt injection and data leakage"
+          ],
+          "topics": ["llm-evaluation", "rag-evaluation", "ci-cd-for-test-engineers", "security-testing-fundamentals"]
+        },
+        "advanced": {
+          "title": "AI quality strategy",
+          "goals": [
+            "Write an AI test strategy covering offline evaluation, human review and production monitoring",
+            "Define risk tiers for AI features and matching evaluation depth",
+            "Design a feedback loop from production failures into evaluation sets",
+            "Report AI quality with confidence intervals rather than single numbers"
+          ],
+          "topics": ["test-strategy-vs-test-plan", "risk-based-testing", "qa-metrics-and-reporting", "test-architecture-and-system-design"]
+        }
+      },
+      "tools": ["Python", "pytest", "Jupyter notebooks", "pandas", "An LLM evaluation framework", "Experiment tracking tools", "Git and CI"],
+      "exercises": [
+        "Write a 30-item evaluation set for a support-ticket classifier and compute per-class precision and recall",
+        "List ten failure modes for a summarisation feature and say how each would be detected",
+        "Compare two prompt versions on the same dataset and decide whether the difference is meaningful",
+        "Write test cases for the fallback behaviour when the model API times out"
+      ],
+      "sampleProject": {
+        "title": "Evaluation harness for an AI ticket triage feature",
+        "description": "Build a Python harness that runs a labelled set of support tickets through a classifier or LLM prompt, computes per-category precision, recall and a confusion matrix, flags regressions against a stored baseline, and runs in CI. Include adversarial inputs and a written note on the limits of the evaluation."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is testing an AI feature different from testing a conventional feature?",
+          "a": "Outputs are probabilistic and often have many acceptable answers, so I test statistically against an evaluation set with metrics and thresholds rather than single exact assertions. The surrounding system is still conventional and gets conventional tests. Quality can also change without code changes, through model updates or shifting input data, so production monitoring is part of testing rather than an afterthought."
+        },
+        {
+          "q": "How do you build a good evaluation dataset?",
+          "a": "Start from real or realistic inputs representing the actual usage distribution, add edge cases and known failure modes, label expected outcomes with clear guidelines, measure agreement between labellers, keep it versioned and separate from any data used for tuning prompts or training, and grow it with production failures. Its size should be enough that differences you care about are distinguishable from noise."
+        },
+        {
+          "q": "What are the limitations of using an LLM as a judge?",
+          "a": "LLM graders can prefer longer answers, favour particular positions or styles, be inconsistent between runs, miss factual errors they cannot verify, and share blind spots with the model being evaluated. I mitigate this with specific rubrics, checking agreement against human labels on a sample, randomising order in pairwise comparisons, and keeping deterministic checks wherever possible. I treat the judge as an instrument that needs calibration."
+        },
+        {
+          "q": "A new model version scores 2 points higher on your evaluation. Do you ship it?",
+          "a": "Not on that number alone. I check whether the difference is larger than run-to-run variation, look at per-category results for regressions hidden by the average, review safety and latency or cost changes, and inspect a sample of changed outputs. If critical categories regressed, the aggregate improvement does not justify shipping."
+        },
+        {
+          "q": "How would you test for bias in a model that scores loan applications?",
+          "a": "Working with legal and domain experts, I identify relevant groups and fairness metrics, for example comparing false positive and false negative rates or approval rates across groups. I evaluate on data with sufficient representation of each group, check proxies for protected attributes, and report that different fairness metrics can conflict so the choice is a documented decision, not a purely technical one."
+        }
+      ],
+      "codingRequirements": "Python is required for evaluation scripts and data analysis. You do not need to train models from scratch, but you must be comfortable reading model APIs, manipulating datasets and writing automated tests.",
+      "commonMistakes": [
+        "Reporting a single average score without per-category breakdowns or variance",
+        "Tuning prompts against the same evaluation set used to report quality, which inflates results",
+        "Trusting an LLM judge without checking it against human labels",
+        "Ignoring the deterministic system around the model, such as timeouts and fallbacks"
+      ],
+      "readinessCriteria": [
+        "Has built a versioned evaluation dataset and an automated scoring script",
+        "Can explain precision, recall and the trade-off between them with an example",
+        "Can describe at least three limitations of LLM-as-judge and mitigations",
+        "Has written test cases for prompt injection and fallback behaviour"
+      ],
+      "nextRoles": ["llm-application-tester", "ml-model-testing-specialist", "ai-agent-testing-engineer"]
+    },
+    {
+      "slug": "llm-application-tester",
+      "title": "LLM Application Tester",
+      "category": "data-ai",
+      "overview": "An LLM Application Tester tests products built on large language models, such as assistants, summarisers and content generators. They design test sets and rubrics, probe for hallucinations, prompt injection and unsafe outputs, and check that the application handles the model's variability, latency and failures gracefully.",
+      "responsibilities": [
+        "Design scenario-based test sets with expected behaviours and grading rubrics",
+        "Test factual accuracy and identify hallucinated content against source material",
+        "Probe direct and indirect prompt injection, system prompt leakage and jailbreak attempts in authorised test environments",
+        "Verify output format constraints such as valid JSON or required fields",
+        "Test conversation handling: context limits, multi-turn consistency and refusals",
+        "Check latency, streaming, timeouts, retries and cost-related limits",
+        "Run regression evaluations when prompts, models or parameters change"
+      ],
+      "skills": {
+        "essential": [
+          "Test design for open-ended outputs: rubrics, properties and acceptable variation",
+          "Understanding of LLM behaviour: tokens, context windows, temperature, non-determinism",
+          "Exploratory testing skills",
+          "Clear documentation of failures with prompts, settings and outputs"
+        ],
+        "roleSpecific": [
+          "Prompt injection and jailbreak test techniques",
+          "Hallucination detection against reference sources",
+          "Structured output validation, for example with JSON Schema"
+        ],
+        "optional": [
+          "Python scripting against model APIs",
+          "Using an evaluation framework",
+          "Accessibility and localisation testing of AI responses"
+        ]
+      },
+      "prerequisites": [
+        "Manual or exploratory testing experience",
+        "Basic understanding of APIs"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Exploring LLM behaviour",
+          "goals": [
+            "Document how output changes with temperature and repeated runs for the same prompt",
+            "Write exploratory charters for hallucination, refusal and format-following",
+            "Create a rubric with three to five scored criteria for one feature",
+            "Report an LLM defect with full reproduction context"
+          ],
+          "topics": ["testing-ai-applications", "exploratory-testing-charters", "writing-a-great-defect-report", "error-guessing"]
+        },
+        "intermediate": {
+          "title": "Systematic LLM evaluation",
+          "goals": [
+            "Build a test set of at least 50 scenarios with expected behaviours",
+            "Validate structured outputs automatically with a JSON Schema",
+            "Run a prompt injection test suite including indirect injection through retrieved or uploaded content",
+            "Compare two prompt versions with the same test set"
+          ],
+          "topics": ["llm-evaluation", "json-schema-validation", "security-testing-fundamentals", "regression-testing"]
+        },
+        "advanced": {
+          "title": "Automated and production evaluation",
+          "goals": [
+            "Automate evaluations in CI with thresholds per category",
+            "Calibrate an LLM judge against human ratings and document agreement",
+            "Define monitoring signals for production, such as user feedback and refusal rates",
+            "Test retrieval-augmented features for grounding"
+          ],
+          "topics": ["rag-evaluation", "api-testing-in-ci", "qa-metrics-and-reporting", "risk-based-testing"]
+        }
+      },
+      "tools": ["Model provider playgrounds and APIs", "Python", "pytest", "JSON Schema validators", "Postman", "An LLM evaluation framework", "Spreadsheets for rubric scoring"],
+      "exercises": [
+        "Write 15 prompt injection test cases, including instructions hidden in a document the assistant summarises",
+        "Run the same prompt ten times and categorise the variation in outputs",
+        "Create a rubric for a meeting summariser and score ten outputs with a peer, then compare agreement",
+        "Validate that an extraction feature returns schema-valid JSON for 30 varied inputs"
+      ],
+      "sampleProject": {
+        "title": "LLM assistant evaluation pack",
+        "description": "For a small LLM-backed Q&A or summarisation app you build or are authorised to test, create a versioned test set covering normal use, edge cases, hallucination traps, format constraints and prompt injection. Write a Python runner that executes it, applies schema checks and rubric grading, and produces a report comparing two prompt versions per category."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is prompt injection, and how would you test for it?",
+          "a": "It is when untrusted input contains instructions that override or subvert the application's intended instructions. Direct injection comes from the user; indirect injection arrives through content the model processes, such as web pages, documents or tool results. I test both, with attempts to reveal the system prompt, ignore rules, exfiltrate data or trigger actions, and verify mitigations such as input separation, output filtering and least-privilege tool access. Because no mitigation is complete, I also check the impact is contained when one succeeds."
+        },
+        {
+          "q": "How do you test for hallucinations?",
+          "a": "I create inputs where the correct answer is known or bounded by a source, including questions whose answer is not in the source. I check that claims are supported by the source, that the model says it does not know when appropriate, and that citations actually support the statements. Automated checks can flag unsupported claims, but I verify a sample by hand because automated grounding checks are imperfect."
+        },
+        {
+          "q": "Outputs differ every run. How can a test be repeatable?",
+          "a": "I make the test assert properties, not exact text: required facts present, format valid, no forbidden content, rubric score above threshold. I fix settings where possible, run multiple samples for important cases and report pass rates. Repeatability comes from the fixed test set, rubric and thresholds rather than identical outputs."
+        },
+        {
+          "q": "What non-model aspects of an LLM application do you test?",
+          "a": "Input length limits and truncation, timeouts and retries, behaviour when the provider returns errors or rate-limits, streaming and cancellation, logging that does not store sensitive data inappropriately, authentication and authorisation around conversations, cost controls, and the user experience when the model refuses or fails."
+        },
+        {
+          "q": "How would you report LLM quality to a product manager?",
+          "a": "By category of scenario, with pass rates against agreed rubrics, notable failure examples, safety results and the trend versus the previous version. I state the size and composition of the test set and the known limits of the evaluation so a single number is not over-interpreted."
+        }
+      ],
+      "codingRequirements": "Coding is not strictly required for exploratory LLM testing, but Python for calling APIs and running evaluations is strongly preferred for most roles. JSON and basic API skills are expected.",
+      "commonMistakes": [
+        "Running a prompt once and drawing conclusions from a single output",
+        "Testing only direct prompt injection and forgetting injection through documents or tool results",
+        "Accepting fluent, confident answers without checking them against a source",
+        "Changing the test set between versions, making comparisons meaningless"
+      ],
+      "readinessCriteria": [
+        "Has built and versioned a scenario test set with rubrics for an LLM feature",
+        "Can demonstrate direct and indirect prompt injection test cases in an authorised environment",
+        "Can explain why property-based assertions are used for non-deterministic outputs",
+        "Has automated schema validation for structured model outputs"
+      ],
+      "nextRoles": ["rag-application-evaluator", "ai-agent-testing-engineer", "ai-quality-engineer"]
+    },
+    {
+      "slug": "ml-model-testing-specialist",
+      "title": "ML Model Testing Specialist",
+      "category": "data-ai",
+      "overview": "An ML Model Testing Specialist evaluates predictive machine learning models such as classifiers, rankers and forecasters. They check data splits, metric choice, robustness, fairness across groups and drift after deployment, and make sure model quality claims are supported by sound evaluation.",
+      "responsibilities": [
+        "Review training, validation and test splits for leakage and representativeness",
+        "Choose and compute evaluation metrics appropriate to the task and business cost of errors",
+        "Perform slice-based evaluation to find subgroups where the model underperforms",
+        "Assess fairness metrics across relevant groups with domain and legal input",
+        "Test robustness to noisy, missing or out-of-range features",
+        "Validate that model serving produces the same predictions as offline evaluation",
+        "Define data and prediction drift monitoring and retraining triggers"
+      ],
+      "skills": {
+        "essential": [
+          "Python with pandas and scikit-learn",
+          "ML evaluation metrics: precision, recall, F1, ROC AUC, calibration, regression errors",
+          "Statistics: sampling, confidence intervals, distribution comparison",
+          "Understanding of overfitting and data leakage"
+        ],
+        "roleSpecific": [
+          "Slice-based and fairness evaluation",
+          "Data and concept drift detection",
+          "Training-serving skew testing"
+        ],
+        "optional": [
+          "Experiment tracking and model registry tools",
+          "Data validation libraries",
+          "Deep learning frameworks"
+        ]
+      },
+      "prerequisites": [
+        "Python programming",
+        "Introductory machine learning knowledge"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Evaluation fundamentals",
+          "goals": [
+            "Compute a confusion matrix and derive precision, recall and F1 by hand and in code",
+            "Explain why accuracy misleads on imbalanced data",
+            "Identify target leakage in a feature list",
+            "Write unit tests for feature transformation functions"
+          ],
+          "topics": ["testing-ai-applications", "unit-and-component-testing", "test-data-design", "sql-for-testers"]
+        },
+        "intermediate": {
+          "title": "Slices, fairness and robustness",
+          "goals": [
+            "Evaluate a model per segment and flag segments below threshold",
+            "Compute and compare error rates across groups and explain metric trade-offs",
+            "Test model behaviour on missing values, extreme values and unseen categories",
+            "Test that offline and served predictions match for the same inputs"
+          ],
+          "topics": ["equivalence-partitioning", "boundary-value-analysis", "testing-data-validation", "integration-testing"]
+        },
+        "advanced": {
+          "title": "Production model quality",
+          "goals": [
+            "Design drift monitoring for input features and prediction distributions",
+            "Define model release criteria including fairness and robustness gates",
+            "Run statistically sound comparisons between model versions",
+            "Automate model evaluation in a CI pipeline"
+          ],
+          "topics": ["risk-based-testing", "entry-and-exit-criteria", "ci-cd-for-test-engineers", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["Python", "scikit-learn", "pandas", "Jupyter notebooks", "pytest", "Experiment tracking tools", "Data validation libraries"],
+      "exercises": [
+        "Train a simple classifier on an imbalanced public dataset and show why accuracy is misleading",
+        "Evaluate the model on three slices and identify the weakest one",
+        "Simulate a shift in one feature's distribution and detect it with a statistical test",
+        "Write pytest tests for a feature engineering pipeline including null and unseen-category inputs"
+      ],
+      "sampleProject": {
+        "title": "Model validation report for a churn classifier",
+        "description": "Using a public tabular dataset, train a baseline classifier and produce a validation report: leakage review, metric choice justified by error costs, slice evaluation, a fairness comparison on an available attribute with limitations stated, robustness tests and a drift detection demo. Include automated pytest checks that fail if key metrics fall below thresholds."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is data leakage and how do you detect it?",
+          "a": "Leakage is when information that would not be available at prediction time influences training, giving optimistic evaluation results. Examples are features derived from the target, future data in time-series splits, or the same entity in train and test. I detect it by reviewing how each feature is produced and when it is available, using time-based splits where appropriate, checking for suspiciously predictive features and grouping by entity when splitting."
+        },
+        {
+          "q": "How do you choose an evaluation metric?",
+          "a": "From the cost of different errors. If missing a positive is costly, recall matters; if false alarms are costly, precision matters; if a threshold will be tuned later, a threshold-independent metric like ROC or precision-recall AUC helps for comparison; if probabilities drive decisions, calibration matters. I always report more than one metric and agree the primary metric with stakeholders before evaluating."
+        },
+        {
+          "q": "What is the difference between data drift and concept drift?",
+          "a": "Data drift is a change in the input distribution, for example a new customer segment. Concept drift is a change in the relationship between inputs and the target, for example customer behaviour changing so the same features predict differently. Data drift can be detected from inputs alone; concept drift usually needs fresh labels or proxy outcomes to detect."
+        },
+        {
+          "q": "How would you test a model for fairness?",
+          "a": "With domain and legal stakeholders I identify groups and the harm of interest, choose metrics such as differences in selection rate or in false positive and false negative rates, evaluate with enough samples per group to be meaningful, and check proxies for sensitive attributes. I report that some fairness criteria cannot be satisfied simultaneously, so the chosen criterion and its trade-offs must be documented decisions."
+        },
+        {
+          "q": "What is training-serving skew and how do you test for it?",
+          "a": "It is when features are computed differently in production than in training, so the served model sees different inputs than it was evaluated on. I test by sending the same raw records through the offline feature pipeline and the serving path and comparing features and predictions, and by monitoring feature distributions in production against training."
+        }
+      ],
+      "codingRequirements": "Python is required, including pandas and a common ML library. You need to be able to train simple models, compute metrics and write automated tests. Deep learning expertise is role-dependent.",
+      "commonMistakes": [
+        "Using accuracy on imbalanced data",
+        "Random splits on time-dependent data, leaking future information into training",
+        "Reporting only aggregate metrics and missing poorly served subgroups",
+        "Treating a fairness metric as a purely technical choice without stakeholder input"
+      ],
+      "readinessCriteria": [
+        "Can identify leakage in a feature set and propose a correct split",
+        "Has produced slice-based evaluation and a fairness comparison with stated limitations",
+        "Can explain data drift versus concept drift and how each is detected",
+        "Has automated model metric thresholds in tests"
+      ],
+      "nextRoles": ["ai-quality-engineer", "rag-application-evaluator"]
+    },
+    {
+      "slug": "rag-application-evaluator",
+      "title": "RAG Application Evaluator",
+      "category": "data-ai",
+      "overview": "A RAG Application Evaluator measures and improves retrieval-augmented generation systems, where a model answers using documents retrieved from a knowledge base. They evaluate retrieval and generation separately, so a team knows whether a bad answer came from finding the wrong content or from misusing the right content.",
+      "responsibilities": [
+        "Build question sets with known relevant documents and reference answers",
+        "Measure retrieval quality with metrics such as recall at k, precision at k and mean reciprocal rank",
+        "Evaluate answer faithfulness to retrieved context and answer relevance to the question",
+        "Test chunking, embedding and filtering choices for their effect on retrieval",
+        "Verify access control so users only retrieve documents they are permitted to see",
+        "Test handling of questions with no answer in the corpus and of conflicting or outdated documents",
+        "Track evaluation results across index, model and prompt changes"
+      ],
+      "skills": {
+        "essential": [
+          "Understanding of the RAG pipeline: ingestion, chunking, embedding, retrieval, re-ranking and generation",
+          "Information retrieval metrics",
+          "Evaluation dataset design",
+          "Python for running evaluations"
+        ],
+        "roleSpecific": [
+          "Faithfulness and groundedness evaluation, automated and human",
+          "Testing document-level permissions in retrieval",
+          "Indirect prompt injection through indexed content"
+        ],
+        "optional": [
+          "Vector database familiarity",
+          "Hybrid search (keyword plus vector) concepts",
+          "An open-source RAG evaluation framework"
+        ]
+      },
+      "prerequisites": [
+        "Basic LLM application testing experience",
+        "Python"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "RAG anatomy and failure points",
+          "goals": [
+            "Diagram a RAG pipeline and list failure modes at each stage",
+            "Write 20 questions with their known relevant documents",
+            "Manually judge whether answers are supported by retrieved chunks",
+            "Test questions whose answer is absent from the corpus"
+          ],
+          "topics": ["testing-ai-applications", "llm-evaluation", "test-data-design", "exploratory-testing-charters"]
+        },
+        "intermediate": {
+          "title": "Measuring retrieval and generation",
+          "goals": [
+            "Compute recall at k and mean reciprocal rank for a question set",
+            "Compare two chunking strategies on the same question set",
+            "Score faithfulness with an automated grader and check it against manual judgments",
+            "Test that permission filters prevent retrieval of restricted documents"
+          ],
+          "topics": ["rag-evaluation", "testing-user-permissions", "authentication-and-authorization", "regression-testing"]
+        },
+        "advanced": {
+          "title": "Continuous RAG evaluation",
+          "goals": [
+            "Automate retrieval and answer evaluations in CI on index or prompt changes",
+            "Test indirect prompt injection planted in indexed documents",
+            "Define production signals such as unanswered rate and citation click-through for review",
+            "Write an evaluation strategy that separates retrieval and generation ownership"
+          ],
+          "topics": ["security-testing-fundamentals", "ci-cd-for-test-engineers", "test-strategy-vs-test-plan", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["Python", "A vector database or search engine", "An open-source RAG evaluation framework", "pytest", "Jupyter notebooks", "Spreadsheets for human review"],
+      "exercises": [
+        "Compute recall at 5 and MRR by hand for five questions with given retrieved lists",
+        "Create ten questions with no answer in the corpus and check whether the system declines",
+        "Plant an instruction in a test document and check if the assistant follows it when the document is retrieved",
+        "Compare answers before and after changing chunk size, categorising each change"
+      ],
+      "sampleProject": {
+        "title": "RAG evaluation harness",
+        "description": "Index a corpus of public documentation you are allowed to use, build a simple RAG pipeline, and create a labelled set of questions with relevant document ids and reference answers. Write a harness that reports retrieval metrics, faithfulness and answer relevance separately, includes unanswerable and adversarial questions, and compares two chunking configurations."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why evaluate retrieval and generation separately?",
+          "a": "Because the fixes are different. If the relevant passage was never retrieved, changing the prompt cannot help; you need better chunking, embeddings, query rewriting or re-ranking. If the right passage was retrieved but the answer is wrong or unsupported, the generation step is at fault. Separate metrics tell the team where to spend effort."
+        },
+        {
+          "q": "Explain recall at k and mean reciprocal rank.",
+          "a": "Recall at k is the share of relevant documents that appear in the top k results, averaged across questions. Mean reciprocal rank averages, over questions, one divided by the rank of the first relevant result, so it rewards putting a relevant result near the top. Recall at k matters when the generator reads all k chunks; MRR matters when the first result dominates."
+        },
+        {
+          "q": "What is faithfulness and how do you measure it?",
+          "a": "Faithfulness is whether every claim in the answer is supported by the retrieved context. It is usually measured by splitting the answer into claims and checking each against the context, either by human reviewers or by an LLM grader. Automated graders should be validated against human judgments on a sample, since they can miss subtle unsupported claims."
+        },
+        {
+          "q": "How would you test access control in a RAG system?",
+          "a": "Create documents with different permissions and test users in each group, then ask questions whose answers exist only in restricted documents. Verify the restricted content is neither retrieved nor paraphrased in the answer or citations, and that permission changes take effect in the index. Filtering must happen at retrieval time, not only in the user interface."
+        },
+        {
+          "q": "How should a RAG system handle a question the corpus cannot answer?",
+          "a": "It should say it cannot find the answer, or ask a clarifying question, instead of answering from the model's general knowledge if the product requires grounded answers. I include unanswerable questions in the evaluation set and track the rate at which the system correctly declines versus fabricates."
+        }
+      ],
+      "codingRequirements": "Python is required to build datasets, run pipelines and compute metrics. Understanding of APIs and JSON is expected. You do not need to build embedding models.",
+      "commonMistakes": [
+        "Judging only the final answer and never inspecting what was retrieved",
+        "Leaving out unanswerable questions, so fabrication is never measured",
+        "Building questions by copying sentences from documents, which overstates retrieval quality",
+        "Ignoring document permissions during retrieval testing"
+      ],
+      "readinessCriteria": [
+        "Can compute retrieval metrics for a labelled question set",
+        "Has measured faithfulness and validated an automated grader against human judgments",
+        "Has tested retrieval permissions and indirect prompt injection",
+        "Can explain how to localise a bad answer to retrieval or generation"
+      ],
+      "nextRoles": ["ai-agent-testing-engineer", "ai-quality-engineer"]
+    },
+    {
+      "slug": "ai-agent-testing-engineer",
+      "title": "AI Agent Testing Engineer",
+      "category": "data-ai",
+      "overview": "An AI Agent Testing Engineer tests systems where a model plans and takes actions through tools, such as calling APIs, editing files or browsing. Because agents act in the world, the role focuses on tool-call correctness, task completion across multi-step trajectories, permission boundaries and safe failure behaviour in sandboxed environments.",
+      "responsibilities": [
+        "Design task suites with defined goals, environments and success checks",
+        "Evaluate tool selection and argument correctness at each step of an agent trajectory",
+        "Test safety controls: least-privilege permissions, confirmation for risky actions and spending or rate limits",
+        "Probe indirect prompt injection through tool outputs, web pages and files",
+        "Test error handling when tools fail, time out or return unexpected data",
+        "Build sandboxed and mocked environments so tests do not affect real systems",
+        "Analyse trajectory logs to classify failures and feed them into regression suites"
+      ],
+      "skills": {
+        "essential": [
+          "Python or TypeScript for test harnesses",
+          "API testing and mocking skills",
+          "LLM evaluation fundamentals",
+          "Security mindset: least privilege, untrusted input, auditability"
+        ],
+        "roleSpecific": [
+          "Trajectory and task-completion evaluation",
+          "Tool and function-calling schema validation",
+          "Sandboxing and environment reset for repeatable agent tests"
+        ],
+        "optional": [
+          "Containers for isolated environments",
+          "Browser automation for web-acting agents",
+          "Observability and tracing tools"
+        ]
+      },
+      "prerequisites": [
+        "Programming experience",
+        "Experience testing LLM applications or APIs"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "How agents work and fail",
+          "goals": [
+            "Describe the plan, act and observe loop and where errors enter",
+            "Validate tool-call arguments against their JSON schemas",
+            "Write five tasks with clear, checkable end states",
+            "Test agent behaviour when a tool returns an error"
+          ],
+          "topics": ["testing-ai-applications", "json-schema-validation", "test-doubles-and-mocking", "http-fundamentals"]
+        },
+        "intermediate": {
+          "title": "Task suites and safety tests",
+          "goals": [
+            "Build a sandboxed environment that resets between runs",
+            "Measure task success rate over repeated runs per task",
+            "Test that destructive actions require confirmation and stay within permitted scope",
+            "Run indirect prompt injection tests through tool outputs"
+          ],
+          "topics": ["llm-evaluation", "docker-for-testers", "security-testing-fundamentals", "api-security-testing"]
+        },
+        "advanced": {
+          "title": "Agent evaluation at scale",
+          "goals": [
+            "Automate agent evaluations in CI with per-task pass rates and cost and step budgets",
+            "Classify trajectory failures into planning, tool-use and recovery categories",
+            "Design guardrail and monitoring requirements for production agents",
+            "Write a risk-based test strategy for an agent with access to real systems"
+          ],
+          "topics": ["test-architecture-and-system-design", "risk-based-testing", "ci-cd-for-test-engineers", "rag-evaluation"]
+        }
+      },
+      "tools": ["Python or TypeScript", "pytest", "Docker", "Mock servers", "JSON Schema validators", "Tracing and logging tools", "Playwright for browser-based agents"],
+      "exercises": [
+        "Write a mock tool server that injects errors and latency, and observe how the agent recovers",
+        "Define success checks for a 'book a meeting' task using the final calendar state rather than the agent's message",
+        "Craft a tool output containing hidden instructions and test whether the agent follows them",
+        "Run one task 20 times and report success rate, step count distribution and failure categories"
+      ],
+      "sampleProject": {
+        "title": "Sandboxed agent evaluation suite",
+        "description": "Build a small agent with three tools (file read, file write in a sandbox folder, mock HTTP API). Create a task suite with state-based success checks, error-injecting mocks, permission-boundary tests and indirect prompt injection cases. The runner repeats each task several times in a resettable container and reports success rates, budgets used and categorised failures."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you decide whether an agent completed a task?",
+          "a": "By checking the resulting environment state against the goal, for example the record exists with the right values, not by trusting the agent's final message. I also check for side effects outside the goal, budgets used and whether any forbidden action occurred. Because outcomes vary, I run tasks multiple times and report success rates."
+        },
+        {
+          "q": "What safety tests would you run on an agent that can send emails?",
+          "a": "In a sandbox with a mock mail service: does it require confirmation before sending, does it refuse to send to recipients outside an allowed scope, can instructions inside an incoming email trick it into forwarding data, are rate limits enforced, is every action logged for audit, and does it stop cleanly when a step fails. Real external sends are never part of the test."
+        },
+        {
+          "q": "Why is indirect prompt injection especially dangerous for agents?",
+          "a": "Agents read untrusted content from tools and then take actions, so injected instructions can turn into real effects such as data exfiltration or unauthorised changes. Mitigations include least-privilege tools, separating data from instructions, human confirmation for high-impact actions and output checks, and testing must assume some injection will succeed and verify that impact is contained."
+        },
+        {
+          "q": "How do you make agent tests repeatable?",
+          "a": "Reset the environment to a known state before each run, mock or stub external services, fix model settings where possible, record full trajectories, and measure pass rates over repeated runs rather than single outcomes. Flaky tasks are analysed to see whether the variability is in the agent or in the environment."
+        },
+        {
+          "q": "What do you look for in a failed trajectory?",
+          "a": "Where it went wrong: misunderstanding the goal, choosing the wrong tool, wrong arguments, misreading a tool result, failing to recover from an error, looping, or stopping early. Categorising failures this way tells the team whether to fix prompts, tool descriptions, tool error messages or guardrails."
+        }
+      ],
+      "codingRequirements": "Programming is required: Python or TypeScript to build harnesses, mock tools and environments, and analyse logs. Comfort with APIs, JSON schemas and containers is expected.",
+      "commonMistakes": [
+        "Running agent tests against real systems instead of sandboxes",
+        "Accepting the agent's own claim of success without checking state",
+        "Testing only happy paths and never failing tools",
+        "Judging from single runs instead of success rates"
+      ],
+      "readinessCriteria": [
+        "Has built a resettable sandbox and a task suite with state-based success checks",
+        "Can design permission-boundary and indirect prompt injection tests",
+        "Can report agent results as success rates with categorised failures",
+        "Can explain least-privilege design for agent tools"
+      ],
+      "nextRoles": ["ai-quality-engineer", "test-architect"]
+    },
+    {
+      "slug": "devops-cicd-test-engineer",
+      "title": "DevOps and CI/CD Test Engineer",
+      "category": "data-ai",
+      "overview": "A DevOps and CI/CD Test Engineer makes automated testing a reliable, fast part of the delivery pipeline. They design which tests run at which pipeline stage, keep test environments reproducible with containers, tackle flaky tests, and give the team trustworthy signals about whether a change is safe to release.",
+      "responsibilities": [
+        "Design pipeline test stages: fast checks on every commit, broader suites on merge and pre-release",
+        "Build and maintain CI jobs that run unit, API, UI and non-functional tests",
+        "Containerise test dependencies so environments are reproducible locally and in CI",
+        "Parallelise and shard test suites to keep feedback times acceptable",
+        "Track and reduce flaky tests with quarantine and fix processes",
+        "Publish test reports, artifacts and trends that developers actually use",
+        "Collaborate on deployment strategies such as staged rollouts and post-deploy smoke tests"
+      ],
+      "skills": {
+        "essential": [
+          "A CI system such as GitHub Actions or Jenkins",
+          "Docker basics: images, containers, volumes and networks",
+          "Test automation in at least one language",
+          "Git workflows including branches and pull requests"
+        ],
+        "roleSpecific": [
+          "Pipeline design and test selection by stage",
+          "Flaky test diagnosis",
+          "Infrastructure as code awareness, for example reading Terraform plans"
+        ],
+        "optional": [
+          "Kubernetes basics",
+          "Observability tools",
+          "Feature flags and progressive delivery"
+        ]
+      },
+      "prerequisites": [
+        "Experience writing automated tests",
+        "Command-line familiarity"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "CI basics",
+          "goals": [
+            "Create a pipeline that installs dependencies and runs tests on every pull request",
+            "Publish test reports and failure artifacts from CI",
+            "Run a dependency such as a database in a container for tests",
+            "Explain the test pyramid in terms of pipeline stages"
+          ],
+          "topics": ["ci-cd-for-test-engineers", "github-actions-for-tests", "docker-for-testers", "git-for-testers"]
+        },
+        "intermediate": {
+          "title": "Fast and reliable pipelines",
+          "goals": [
+            "Shard a test suite across parallel jobs and measure the time saved",
+            "Set up a flaky-test quarantine with an owner and a deadline",
+            "Add post-deployment smoke tests",
+            "Cache dependencies safely"
+          ],
+          "topics": ["parallel-execution", "flaky-test-reduction", "smoke-and-sanity-testing", "jenkins-pipelines-for-tests"]
+        },
+        "advanced": {
+          "title": "Delivery quality strategy",
+          "goals": [
+            "Design quality gates per stage with clear pass and fail rules",
+            "Integrate performance and security checks without blocking every commit",
+            "Track pipeline metrics such as duration, failure causes and flake rate",
+            "Plan testing for staged rollouts and rollback"
+          ],
+          "topics": ["shift-left-and-continuous-testing", "test-pyramid-and-strategy", "release-readiness", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["GitHub Actions", "Jenkins", "Docker", "Docker Compose", "Git", "Playwright or Selenium", "Terraform (reading plans)", "Grafana"],
+      "exercises": [
+        "Write a GitHub Actions workflow that runs API tests against a service and database started with Docker Compose",
+        "Take a 20-minute test suite and design a sharding plan to bring feedback under 10 minutes",
+        "Diagnose three flaky tests from CI logs and classify their causes",
+        "Add a post-deploy smoke test job that runs only on the main branch"
+      ],
+      "sampleProject": {
+        "title": "Containerised test pipeline",
+        "description": "For a small web app with an API and database, build a CI pipeline with stages for lint and unit tests, API tests against containerised services, sharded UI tests and a smoke test after a mock deployment. Publish reports and artifacts, add a flaky-test quarantine label, and document pipeline duration before and after optimisation."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you decide which tests run on every commit and which run later?",
+          "a": "Based on feedback speed and the risk each test covers. Fast, reliable unit and component tests and critical API checks run on every commit; broader integration and UI suites run on merge or in parallel; long-running performance, full regression and cross-browser suites run nightly or before release. The goal is quick, trustworthy feedback early while still covering high-risk areas before release."
+        },
+        {
+          "q": "How do you deal with flaky tests in CI?",
+          "a": "Measure them first by tracking failures that pass on retry. Quarantine known flaky tests so they do not block merges, but give each an owner and deadline so quarantine does not become a graveyard. Then diagnose causes: timing and waits, shared test data, order dependence, environment instability. Automatic retries hide the problem, so if used they must be reported."
+        },
+        {
+          "q": "Why use containers for test environments?",
+          "a": "They make dependencies reproducible: the same database version and configuration locally and in CI, started fresh for each run, which removes 'works on my machine' differences and leftover state. They also make parallel isolated environments cheap."
+        },
+        {
+          "q": "What does infrastructure as code mean for a test engineer?",
+          "a": "Environments are defined in versioned files, such as Terraform or Kubernetes manifests, so they can be reviewed, recreated and tested. A test engineer should be able to read a plan to understand what will change, request test environments that match production configuration, and include configuration changes in risk assessment."
+        },
+        {
+          "q": "A pipeline that took 10 minutes now takes 35. How do you approach it?",
+          "a": "Look at job timing history to find which stage grew, then check for causes like lost caches, new slow tests, serialised jobs, slower runners or retries. Fix the biggest contributor first, then add a duration budget and alerting so the regression does not return unnoticed."
+        }
+      ],
+      "codingRequirements": "Scripting and test automation coding are required: YAML pipeline definitions, shell and at least one programming language for tests. Infrastructure as code is usually read rather than written in this role.",
+      "commonMistakes": [
+        "Adding automatic retries to hide flaky tests instead of fixing them",
+        "Running every test on every commit until feedback is too slow to be useful",
+        "Sharing a single mutable test environment across parallel jobs",
+        "Failing to keep logs, screenshots and traces as artifacts for failed runs"
+      ],
+      "readinessCriteria": [
+        "Has built a working CI pipeline with containerised dependencies and published reports",
+        "Can explain a staged testing strategy mapped to pipeline stages",
+        "Has diagnosed and fixed at least one flaky test with a documented cause",
+        "Can read a CI configuration and explain its triggers, jobs and caching"
+      ],
+      "nextRoles": ["test-infrastructure-engineer", "cloud-qa-engineer", "chaos-engineering-practitioner"]
+    },
+    {
+      "slug": "cloud-qa-engineer",
+      "title": "Cloud QA Engineer",
+      "category": "data-ai",
+      "overview": "A Cloud QA Engineer tests applications that run on cloud infrastructure and managed services. Beyond functional behaviour, they verify configuration, scaling, resilience to service failures, identity and permissions, and cost-aware environment usage, working closely with platform and operations teams.",
+      "responsibilities": [
+        "Test applications across environments and validate configuration differences",
+        "Verify identity and access permissions follow least privilege for services and users",
+        "Test autoscaling, health checks and recovery from instance or zone failures",
+        "Validate integrations with managed services such as queues, storage and databases",
+        "Use observability data (logs, metrics, traces) to verify behaviour and investigate failures",
+        "Create and tear down ephemeral test environments to control cost",
+        "Test backup, restore and disaster recovery procedures"
+      ],
+      "skills": {
+        "essential": [
+          "Core cloud concepts: regions, zones, compute, storage, networking and identity",
+          "API and integration testing",
+          "Containers and basic orchestration concepts",
+          "Reading logs, metrics and traces"
+        ],
+        "roleSpecific": [
+          "Testing distributed systems failure modes: timeouts, retries, partial failures",
+          "Infrastructure as code awareness",
+          "Backup and recovery testing"
+        ],
+        "optional": [
+          "A cloud provider certification",
+          "Kubernetes",
+          "Cost management tooling"
+        ]
+      },
+      "prerequisites": [
+        "Experience testing web applications or APIs",
+        "Basic networking knowledge"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Cloud fundamentals for testers",
+          "goals": [
+            "Explain regions, availability zones, managed services and shared responsibility",
+            "Deploy a containerised app to a test environment and run API tests against it",
+            "Find a request in logs using a correlation id",
+            "Verify a service account cannot access resources outside its role"
+          ],
+          "topics": ["docker-for-testers", "http-fundamentals", "authentication-and-authorization", "integration-testing"]
+        },
+        "intermediate": {
+          "title": "Distributed behaviour and resilience",
+          "goals": [
+            "Test retry and timeout behaviour when a managed dependency is slow or unavailable",
+            "Verify autoscaling triggers under a controlled load test",
+            "Test message queue handling for duplicates and poison messages",
+            "Create ephemeral environments from infrastructure definitions"
+          ],
+          "topics": ["microservices-testing", "idempotency-retries-rate-limiting", "performance-testing-types", "recovery-reliability-availability-testing"]
+        },
+        "advanced": {
+          "title": "Cloud quality strategy",
+          "goals": [
+            "Run a disaster recovery test and compare results against recovery objectives",
+            "Define environment parity rules between staging and production",
+            "Use observability data for test oracles and release decisions",
+            "Plan controlled failure experiments with the reliability team"
+          ],
+          "topics": ["chaos-engineering-basics", "test-architecture-and-system-design", "monitoring-with-influxdb-grafana", "release-readiness"]
+        }
+      },
+      "tools": ["A major cloud provider console and CLI", "Docker", "Kubernetes (kubectl)", "Terraform (reading plans)", "Postman or REST Assured", "Grafana", "Log and trace viewers"],
+      "exercises": [
+        "Compare two environment configurations and list differences that could affect test results",
+        "Simulate a slow downstream dependency and verify timeout and retry behaviour",
+        "Write tests for a queue consumer covering duplicate and malformed messages",
+        "Perform a restore from backup in a test environment and record time and data loss"
+      ],
+      "sampleProject": {
+        "title": "Resilience tests for a containerised service",
+        "description": "Deploy a small API with a database and a message queue to a local Kubernetes cluster or a cloud free tier you control. Write API and integration tests, verify health checks restart a failed container, test behaviour when the queue or database is unavailable, run a small load test to observe scaling, and tear the environment down with scripts."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is different about testing in the cloud compared with a single server?",
+          "a": "The system is distributed and dynamic: instances come and go, network calls fail partially, managed services have their own limits and behaviours, and configuration and identity are part of the system. Testing therefore covers retries, timeouts, scaling, permissions and configuration drift, not only functional behaviour, and relies more on observability."
+        },
+        {
+          "q": "How do you test least-privilege permissions?",
+          "a": "For each service identity, list the actions it should perform, then test both that those succeed and that adjacent actions it should not perform are denied, such as reading another bucket or deleting resources. I also check policies for wildcards and confirm that secrets are not exposed through logs or environment dumps."
+        },
+        {
+          "q": "How would you test a backup and restore process?",
+          "a": "Restore into an isolated environment, verify data integrity with counts and checksums against known reference data, measure how long it took and how much data was lost versus the recovery time and point objectives, and confirm the application works on the restored data. A backup that has never been restored is unproven."
+        },
+        {
+          "q": "How do you keep cloud test environments affordable?",
+          "a": "Create them on demand from infrastructure definitions and destroy them automatically after use, size them appropriately, tag resources by owner and purpose, and share expensive long-lived dependencies carefully. Cost should be visible to the team."
+        }
+      ],
+      "codingRequirements": "Scripting is expected: a language for test automation plus shell and cloud CLI usage. Infrastructure as code is usually read and occasionally modified, not authored from scratch.",
+      "commonMistakes": [
+        "Assuming staging behaves like production without checking configuration parity",
+        "Testing only happy paths and ignoring partial failure of dependencies",
+        "Leaving test environments running and accumulating cost",
+        "Using over-privileged credentials for tests, which hides permission defects"
+      ],
+      "readinessCriteria": [
+        "Can deploy an application to a test environment and run automated tests against it",
+        "Has tested timeout, retry and failure behaviour of a dependency",
+        "Can verify least-privilege permissions with positive and negative tests",
+        "Has performed and measured a restore test"
+      ],
+      "nextRoles": ["chaos-engineering-practitioner", "reliability-test-engineer", "devops-cicd-test-engineer"]
+    },
+    {
+      "slug": "chaos-engineering-practitioner",
+      "title": "Chaos Engineering Practitioner",
+      "category": "data-ai",
+      "overview": "A Chaos Engineering Practitioner runs controlled experiments that inject failures into systems to learn how they behave under turbulent conditions. They define steady-state hypotheses, limit blast radius, coordinate game days with operations teams and turn findings into resilience improvements.",
+      "responsibilities": [
+        "Define steady-state metrics that represent normal system behaviour",
+        "Design experiments with a hypothesis, scope, abort conditions and rollback plan",
+        "Start in non-production environments and expand scope only with approval and safeguards",
+        "Facilitate game days with engineering and on-call teams",
+        "Inject failures such as instance termination, latency, dependency outages and resource exhaustion",
+        "Verify alerting, runbooks and incident response during experiments",
+        "Track findings to resolution and repeat experiments to confirm fixes"
+      ],
+      "skills": {
+        "essential": [
+          "Distributed systems failure modes",
+          "Observability: metrics, logs, traces and alerting",
+          "Experiment design with hypotheses and abort criteria",
+          "Strong communication and coordination"
+        ],
+        "roleSpecific": [
+          "Fault injection tooling",
+          "Blast radius control and safety mechanisms",
+          "Game day facilitation and post-experiment reviews"
+        ],
+        "optional": [
+          "Kubernetes and service mesh concepts",
+          "Load testing to combine with fault injection",
+          "Site reliability engineering practices such as service level objectives"
+        ]
+      },
+      "prerequisites": [
+        "Experience with cloud or distributed systems",
+        "Familiarity with monitoring tools"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Principles and safe first experiments",
+          "goals": [
+            "Explain the principles of chaos engineering and how it differs from random breakage",
+            "Write a steady-state hypothesis with measurable metrics",
+            "Terminate a container in a local environment and observe recovery",
+            "Define abort conditions for an experiment"
+          ],
+          "topics": ["chaos-engineering-basics", "recovery-reliability-availability-testing", "docker-for-testers", "microservices-testing"]
+        },
+        "intermediate": {
+          "title": "Structured experiments",
+          "goals": [
+            "Inject latency into a dependency and verify timeouts and fallbacks",
+            "Run a game day in a staging environment with an on-call team",
+            "Verify alerts fire and runbooks are accurate during a failure",
+            "Document findings and action items in a blameless review"
+          ],
+          "topics": ["idempotency-retries-rate-limiting", "monitoring-with-influxdb-grafana", "resource-utilization-and-bottlenecks", "root-cause-analysis"]
+        },
+        "advanced": {
+          "title": "Resilience programme",
+          "goals": [
+            "Plan a production experiment with minimal blast radius, approvals and automatic abort",
+            "Automate recurring experiments in a pipeline for regression",
+            "Prioritise experiments by risk and past incidents",
+            "Report resilience improvements over time"
+          ],
+          "topics": ["risk-based-testing", "test-architecture-and-system-design", "capacity-planning-and-baselines", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["A fault injection tool or framework", "Kubernetes", "Docker", "Grafana and Prometheus-style metrics", "Load testing tools", "Incident management tooling"],
+      "exercises": [
+        "Write a full experiment plan for a dependency outage: hypothesis, metrics, scope, abort conditions, rollback and communication",
+        "In a local environment, inject 500 ms latency on a dependency and observe the effect on p95 latency and error rate",
+        "Design a game day agenda for a checkout service with roles and timeline",
+        "Turn three experiment findings into prioritised action items"
+      ],
+      "sampleProject": {
+        "title": "Game day kit for a microservice demo",
+        "description": "Run a small microservice application locally or in a cluster you control, with monitoring dashboards. Write three experiment plans (instance kill, dependency latency, database connection exhaustion), execute them with abort conditions, capture dashboards before and during each experiment, and write a blameless review with findings and follow-up actions."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is a steady-state hypothesis?",
+          "a": "A statement about measurable, normal system output that should hold during the experiment, for example 'checkout success rate stays above the agreed level and p99 latency stays under the target while one instance is terminated'. It focuses on user-visible outputs rather than internal details, and the experiment tries to disprove it."
+        },
+        {
+          "q": "How do you limit blast radius?",
+          "a": "Start in non-production, then target the smallest scope in production: a single instance, a small share of traffic or internal users. Define automatic abort conditions tied to the steady-state metrics, have a tested rollback, run during staffed hours with stakeholders informed, and expand only after earlier experiments are understood."
+        },
+        {
+          "q": "Is chaos engineering just breaking things randomly?",
+          "a": "No. It is disciplined experimentation: a hypothesis, controlled variables, minimal blast radius, monitoring and abort criteria, followed by analysis and fixes. Random breakage without observation or safeguards teaches little and causes avoidable incidents."
+        },
+        {
+          "q": "What happens after an experiment finds a weakness?",
+          "a": "Stop or roll back if needed, document what happened against the hypothesis in a blameless review, create prioritised action items with owners, such as adding timeouts, fixing alerts or updating runbooks, and rerun the experiment after the fix to confirm the improvement."
+        },
+        {
+          "q": "When should you not run a chaos experiment?",
+          "a": "When the system lacks the observability to see the effect, when there is no way to abort or roll back, during a live incident or peak business period, when known weaknesses have not been fixed (the outcome is already known), or without agreement from the owning teams."
+        }
+      ],
+      "codingRequirements": "Scripting and automation skills are needed for experiments and tooling, along with comfort with containers and infrastructure. Deep application development is not required.",
+      "commonMistakes": [
+        "Running experiments without a hypothesis or monitoring, so nothing is learned",
+        "Starting in production with a large blast radius",
+        "Skipping the follow-up so findings never lead to fixes",
+        "Not informing on-call teams, causing confusion with a real incident"
+      ],
+      "readinessCriteria": [
+        "Can write a complete experiment plan with hypothesis, scope and abort criteria",
+        "Has executed at least two controlled experiments in a non-production environment",
+        "Has facilitated or participated in a game day and written a blameless review",
+        "Can explain how to expand experiments safely toward production"
+      ],
+      "nextRoles": ["reliability-test-engineer", "observability-test-engineer", "quality-engineering-manager"]
+    }
+  ]
+}

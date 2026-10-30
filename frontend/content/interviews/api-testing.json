@@ -1,0 +1,364 @@
+{
+  "track": "api-testing",
+  "title": "API Testing",
+  "description": "Mock interview questions for API and backend testing roles: HTTP semantics, status codes, REST Assured, Postman, authentication, contract testing, idempotency, data validation and API security basics.",
+  "roles": [
+    "api-test-engineer",
+    "rest-api-tester",
+    "api-automation-engineer",
+    "backend-test-engineer",
+    "integration-test-engineer",
+    "contract-testing-specialist",
+    "microservices-test-engineer",
+    "database-test-engineer",
+    "sdet"
+  ],
+  "questions": [
+    {
+      "id": "int-api-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain the common HTTP methods and which of them are safe and which are idempotent.",
+      "followUps": [
+        "Why does it matter for testing that PUT is idempotent?",
+        "Is a POST that creates a resource ever idempotent?"
+      ],
+      "modelAnswer": "GET retrieves a representation, HEAD is GET without the body, POST submits data for processing, often creating a resource, PUT replaces the target resource with the supplied representation, PATCH applies a partial modification, DELETE removes the resource and OPTIONS describes communication options. RFC 9110 defines safe methods as those whose semantics are read-only: GET, HEAD, OPTIONS and TRACE. Idempotent methods are those where sending the same request several times has the same intended effect on the server as sending it once: all safe methods plus PUT and DELETE. POST and PATCH are not idempotent by definition. This matters for testing because clients and proxies may automatically retry idempotent requests after a network failure, so I verify that repeating a PUT or DELETE leaves the same state, though the response code can differ, for example a second DELETE returning 404. POST can be made effectively idempotent by the application, for example with an idempotency key header, and if a team claims that, I test duplicate submissions explicitly.",
+      "keyPoints": [
+        "Describes GET, POST, PUT, PATCH, DELETE correctly",
+        "Safe = read-only semantics (GET, HEAD, OPTIONS, TRACE)",
+        "Idempotent = safe methods plus PUT and DELETE",
+        "Distinguishes same server effect from same response code",
+        "Mentions idempotency keys for POST"
+      ],
+      "redFlags": [
+        "Claims PUT and PATCH are the same",
+        "Thinks idempotent means the response is identical every time"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-api-02",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Which HTTP status codes do you expect to see most when testing a REST API, and what does each tell you?",
+      "followUps": [
+        "What is the difference between 401 and 403?",
+        "When should an API return 409 or 422?"
+      ],
+      "modelAnswer": "In the 2xx range, 200 OK is a general success, 201 Created means a resource was created and should usually include a Location header, and 204 No Content means success with no body. In 3xx, 301 and 308 are permanent redirects and 304 Not Modified supports caching. In 4xx, 400 Bad Request means a malformed request, 401 Unauthorized means authentication is missing or invalid, 403 Forbidden means the client is authenticated but not allowed, 404 Not Found, 405 Method Not Allowed, 409 Conflict for a state conflict such as a duplicate or a version mismatch, 415 Unsupported Media Type, 422 Unprocessable Content when the syntax is fine but the content fails validation, and 429 Too Many Requests for rate limiting. In 5xx, 500 is an unexpected server error, 502 and 504 indicate gateway or upstream problems, and 503 means the service is temporarily unavailable. When testing I check not only the code but that it matches the documented contract and that error bodies are consistent and do not leak stack traces.",
+      "keyPoints": [
+        "Correct meaning of 200, 201, 204",
+        "401 vs 403 distinction",
+        "Knows 404, 405, 409, 415, 422, 429",
+        "Understands 5xx classes and gateway errors",
+        "Checks error bodies for consistency and information leakage"
+      ],
+      "redFlags": [
+        "Says APIs should return 200 with an error message in the body",
+        "Confuses 401 and 403"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-api-03",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "You are given a new endpoint, POST /orders, with a JSON body. Walk me through the tests you would design.",
+      "followUps": [
+        "How would you test concurrency on this endpoint?",
+        "Which of these would you automate first?"
+      ],
+      "modelAnswer": "I would start from the contract: the schema, required and optional fields, constraints, authentication and the documented responses. Positive tests cover a minimal valid order, a full order with all optional fields, and checking that the response is 201 with a Location header, the body matches the schema, and the order can be retrieved with GET and is stored correctly. Negative tests cover missing required fields, wrong types, values outside limits such as zero or negative quantities, unknown product ids, extra unexpected fields, malformed JSON, the wrong Content-Type and an empty body, each expecting a clear 4xx with a consistent error format. Security tests cover missing or expired tokens, a user creating an order on another user's account, and injection payloads in string fields. Business rules cover stock limits, pricing and discounts calculated server-side, and that the client cannot set the price. I would also test duplicate submission, ideally with an idempotency key, and concurrent orders for the last item in stock to check for overselling. Finally I would check response time against any agreed target and confirm side effects such as events or emails are produced.",
+      "keyPoints": [
+        "Starts from the contract/schema",
+        "Positive tests verifying status, headers, body and persistence",
+        "Negative validation tests with consistent 4xx errors",
+        "Authorization including cross-user access",
+        "Business rules: server-side pricing, stock",
+        "Duplicate submission and concurrency"
+      ],
+      "redFlags": [
+        "Only checks the status code",
+        "No authorization or negative tests"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-api-04",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a REST Assured test in Java that creates a user with POST /users, checks the response, and then verifies the user can be fetched.",
+      "followUps": [
+        "How would you share base URI and authentication across tests?",
+        "How would you validate the response against a JSON schema?"
+      ],
+      "modelAnswer": "I would use the given/when/then style, extract the generated id and use it in the follow-up request:\n\n```java\n@Test\nvoid createAndFetchUser() {\n    String email = \"user-\" + UUID.randomUUID() + \"@example.test\";\n    String id =\n        given().spec(requestSpec)\n            .contentType(ContentType.JSON)\n            .body(Map.of(\"name\", \"Ada\", \"email\", email))\n        .when().post(\"/users\")\n        .then().statusCode(201)\n            .header(\"Location\", containsString(\"/users/\"))\n            .body(\"email\", equalTo(email))\n            .body(\"id\", notNullValue())\n            .extract().path(\"id\");\n\n    given().spec(requestSpec)\n    .when().get(\"/users/{id}\", id)\n    .then().statusCode(200)\n        .body(\"name\", equalTo(\"Ada\"))\n        .body(\"email\", equalTo(email));\n}\n```\n\nThe unique email keeps the test independent and safe to run in parallel. The requestSpec is built once with RequestSpecBuilder, holding the base URI, auth header and logging on failure, so tests stay short. For schema validation I would add the json-schema-validator module and assert body(matchesJsonSchemaInClasspath(\"user.json\")). I would also clean up the created user afterwards or rely on a disposable test environment.",
+      "keyPoints": [
+        "Correct given/when/then structure",
+        "Asserts status, Location header and body fields",
+        "Extracts id and chains a GET",
+        "Unique test data for independence",
+        "Shared RequestSpecification and schema validation",
+        "Mentions clean-up"
+      ],
+      "redFlags": [
+        "Hard-codes ids or relies on pre-existing data",
+        "Only asserts the status code"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-api-05",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you test an API secured with OAuth 2.0 bearer tokens? What security checks do you include?",
+      "followUps": [
+        "How do you obtain tokens in automated tests?",
+        "What would you check in a JWT?"
+      ],
+      "modelAnswer": "In automation I obtain tokens the way a real client would for that flow, typically the client credentials grant for service-to-service tests or a test identity provider for user flows, with secrets stored in the CI secret store, and I cache the token until it expires rather than requesting one per test. Security checks include: requests with no token, a malformed token, an expired token and a token signed with a different key all return 401; a valid token without the required scope or role returns 403; and a user cannot read or change another user's resources by changing an id in the URL, which is broken object level authorization, the top item in the OWASP API Security Top 10. For JWTs I check the signature is verified, the alg value 'none' is rejected, the audience, issuer and expiry are validated, and no sensitive data sits in the payload since it is only encoded, not encrypted. I also check tokens never appear in URLs or logs and that refresh and revocation behave as documented.",
+      "keyPoints": [
+        "Realistic token acquisition with secrets in CI store",
+        "401 for missing, malformed, expired or wrongly signed tokens",
+        "403 for insufficient scope or role",
+        "Object-level authorization (BOLA) checks",
+        "JWT validation: signature, alg none, aud, iss, exp, no sensitive payload"
+      ],
+      "redFlags": [
+        "Hard-codes long-lived tokens in test code",
+        "Never tests access to other users' data"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-06",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "What is consumer-driven contract testing, and how does it differ from end-to-end integration testing?",
+      "followUps": [
+        "What does the Pact Broker add?",
+        "What can contract tests not catch?"
+      ],
+      "modelAnswer": "In consumer-driven contract testing, each consumer writes tests against a mock provider that record the interactions it relies on: the requests it sends and the parts of the responses it uses. With Pact these become a contract file, which the provider then verifies by replaying the requests against the real provider, using provider states to set up data. If the provider changes something a consumer depends on, provider verification fails in the provider's own pipeline, before deployment. End-to-end integration tests deploy all services together and exercise real flows; they catch configuration and environment problems but are slow, brittle and hard to diagnose, and they need everything deployed at once. The Pact Broker stores contracts and verification results and, with can-i-deploy, tells you whether a version is compatible with what is deployed in an environment. Contract tests check the shape and agreed semantics of interactions, not business correctness inside the provider or performance, so they complement rather than replace functional tests of each service and a small number of end-to-end checks.",
+      "keyPoints": [
+        "Consumer tests against a mock produce the contract",
+        "Provider verifies the contract with provider states",
+        "Fails fast in the provider pipeline",
+        "Pact Broker and can-i-deploy",
+        "Limitations: not business logic or performance; complements other tests"
+      ],
+      "redFlags": [
+        "Confuses contract testing with JSON schema validation alone",
+        "Claims contract tests remove the need for any functional tests"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-api-07",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "How would you test pagination, filtering and sorting on GET /products?",
+      "followUps": [
+        "What changes if the API uses cursor-based pagination?",
+        "What happens if data is inserted between page requests?"
+      ],
+      "modelAnswer": "For pagination I would check the default page size, the first, middle and last pages, a page beyond the end, and invalid values such as zero, negative or non-numeric page and size, plus the maximum allowed page size. I would collect all pages and confirm there are no duplicates or missing items and that the total count matches. For filtering I would test each filter alone and in combination, with values that match nothing, unknown filter names and case sensitivity. For sorting I would check each sortable field in both directions, ties broken consistently by a secondary key, null values and an invalid sort field. With offset pagination, inserting or deleting records between page requests can cause skipped or repeated items, so I would test that deliberately; cursor-based pagination should be stable under inserts, and I would check that cursors are opaque, expire as documented and cannot be tampered with to reach other users' data. I would seed known data so the expected results are deterministic.",
+      "keyPoints": [
+        "Boundary and invalid page/size values",
+        "Completeness: no duplicates or gaps across pages",
+        "Filters alone, combined and with no matches",
+        "Sort directions, ties, nulls",
+        "Offset vs cursor behaviour under concurrent changes",
+        "Deterministic seeded data"
+      ],
+      "redFlags": [
+        "Only checks that page 1 returns data"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-08",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you manage test data for API tests that run in parallel in CI?",
+      "followUps": [
+        "When would you seed data directly into the database instead of using the API?",
+        "How do you clean up?"
+      ],
+      "modelAnswer": "My default is that each test creates the data it needs, with unique identifiers such as a UUID in names and emails, so tests are independent, can run in any order and in parallel without colliding. I create data through the public API or dedicated test-support endpoints where possible, because that respects business rules. Seeding directly into the database is faster for large or complex setups, such as thousands of records for a pagination test, but it can bypass validation and couple tests to the schema, so I keep it for reference data or bulk fixtures in an isolated test database. For clean-up I prefer ephemeral environments or a database reset between pipeline runs; otherwise tests delete what they created in teardown, tolerating already-deleted resources. Shared read-only reference data is fine as long as no test mutates it. I never point tests at production data or at databases that are not explicitly meant for testing.",
+      "keyPoints": [
+        "Each test creates its own uniquely identified data",
+        "Prefers API creation to respect business rules",
+        "Database seeding trade-offs",
+        "Clean-up strategy: ephemeral environments or teardown",
+        "Read-only shared reference data; never production data"
+      ],
+      "redFlags": [
+        "Tests depend on hard-coded records that other tests modify",
+        "Uses production data"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-api-09",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is the difference between a JSON schema check and asserting on specific values? When do you need both?",
+      "followUps": [
+        "What does additionalProperties: false give you?",
+        "How do you handle fields that change every time, like timestamps?"
+      ],
+      "modelAnswer": "A JSON schema check validates structure: required fields, types, formats, enumerations, numeric ranges and whether additional properties are allowed. It catches contract drift such as a field renamed, a number becoming a string or a field going missing, across all responses with little code. Value assertions check behaviour: that the price is the one we set, the status moved to 'shipped', or the list contains the record we created. A response can match the schema perfectly and still be wrong, for example returning someone else's order, so I need both. Setting additionalProperties to false makes the schema strict and catches unexpected fields, which is useful for detecting accidental data exposure, though it can be too strict for APIs that add fields in a backward-compatible way. For dynamic fields like timestamps or generated ids I assert on format and plausibility, such as a valid ISO 8601 date within the last minute, rather than an exact value.",
+      "keyPoints": [
+        "Schema validates structure and types",
+        "Value assertions validate behaviour",
+        "A schema-valid response can still be wrong",
+        "additionalProperties trade-off and data exposure",
+        "Dynamic fields checked by format and plausibility"
+      ],
+      "redFlags": [
+        "Thinks schema validation alone proves correctness"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-api-10",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "An endpoint returns correct data but intermittently takes 8 seconds instead of 200 milliseconds. How do you investigate from the testing side?",
+      "followUps": [
+        "What would make you suspect the database?",
+        "How do you make sure this does not regress?"
+      ],
+      "modelAnswer": "First I would characterise the problem with data: run the request repeatedly, record the distribution of response times rather than an average, and see whether slow responses correlate with particular inputs, payload sizes, time intervals, the first request after idle, or concurrency. A very regular pattern, such as the first call after a quiet period, suggests cold starts, connection pool or cache expiry; correlation with certain filters or large accounts suggests a slow query or missing index; slowness under concurrent load suggests lock contention or pool exhaustion. With the request id or timestamps, I would work with developers to look at traces and logs to see which span takes the time, such as a database call or an upstream service timeout and retry. Once the cause is fixed, I would add a performance check in the pipeline with a realistic threshold on a high percentile, and a load test scenario covering the slow case, so the regression is caught before production.",
+      "keyPoints": [
+        "Measures distribution and percentiles, not averages",
+        "Looks for correlations with inputs, timing, concurrency",
+        "Hypotheses: cold start, cache, slow query, contention, upstream retries",
+        "Uses tracing/logs with developers",
+        "Adds a regression guard with percentile thresholds"
+      ],
+      "redFlags": [
+        "Reports 'API is slow sometimes' with no data",
+        "Uses only the average response time"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-11",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "Which API security issues would you check as part of functional API testing? Stay within what a QA engineer is authorised to do.",
+      "followUps": [
+        "How is mass assignment tested?",
+        "Where is the line between QA checks and a penetration test?"
+      ],
+      "modelAnswer": "I would only test systems I am authorised to test, normally our own test environments, and leave deep exploitation to authorised security specialists. Within that, I would use the OWASP API Security Top 10 as a checklist. For broken object level authorization, I change ids in requests to resources owned by another test user and expect 403 or 404. For broken authentication, I test missing, expired and tampered tokens. For mass assignment or broken object property level authorization, I send fields the client should not control, such as role: admin or a price, and check they are ignored or rejected, and I check responses do not expose properties like password hashes or internal flags. For resource consumption I check rate limits, payload size limits and maximum page sizes. I also check that error responses do not leak stack traces, that input validation rejects injection payloads safely, and that HTTPS and security headers are present. Anything that looks like a real vulnerability goes to the security team through the agreed process.",
+      "keyPoints": [
+        "States authorisation boundaries explicitly",
+        "Uses the OWASP API Security Top 10",
+        "Object-level authorization by swapping ids",
+        "Mass assignment and excessive data exposure",
+        "Rate limits, size limits and error leakage",
+        "Escalates findings through the agreed process"
+      ],
+      "redFlags": [
+        "Suggests testing systems without permission",
+        "Thinks authentication alone covers authorization"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-12",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you test an asynchronous API, for example POST /reports that returns 202 Accepted and builds the report in the background?",
+      "followUps": [
+        "How do you avoid flaky waits in the test?",
+        "What failure cases would you test?"
+      ],
+      "modelAnswer": "A 202 means the request was accepted for processing but not completed, so the API should return a way to track it, such as a Location header pointing to a status resource. My test would assert the 202 and the status link, then poll the status endpoint with a bounded timeout and short interval until it reaches a terminal state, and then fetch and verify the report content. I would implement polling with a library such as Awaitility in Java rather than fixed sleeps, so the test finishes as soon as the job is done and fails with a clear message on timeout. Failure cases include invalid parameters rejected up front with 400, a job that fails during processing reporting a failed status with a useful error, polling a non-existent job id, another user's job id, duplicate submissions, and cancellation if supported. If the system uses webhooks or messages instead of polling, I would run a test receiver or consume from the queue in the test environment and assert on the event.",
+      "keyPoints": [
+        "Understands 202 semantics and status resource",
+        "Bounded polling with a library such as Awaitility",
+        "Verifies the final result, not just completion",
+        "Failure, authorization and duplicate cases",
+        "Webhook or message-based alternatives"
+      ],
+      "redFlags": [
+        "Uses a fixed sleep and then checks once",
+        "Treats 202 as meaning the work is done"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-13",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "How do you use Postman effectively beyond sending single requests?",
+      "followUps": [
+        "How do you run Postman collections in CI?",
+        "When would you move from Postman to a code-based framework?"
+      ],
+      "modelAnswer": "I organise requests into collections and folders by feature, and use environments and variables for base URLs and credentials so the same collection runs against different environments without editing requests. I write test scripts in the Tests tab using pm.test and pm.expect to check status codes, headers, response times and body values, and pre-request scripts to generate data or fetch tokens. Values such as created ids are saved to variables with pm.collectionVariables.set and reused by later requests to chain a flow. The collection runner can iterate over a CSV or JSON data file for data-driven runs, and Newman, the command-line runner, lets the collection run in CI with reports. I keep secrets out of exported collections. When a suite grows large, needs complex logic, code review and reuse, or must live alongside the application code, I would move to a code-based framework such as REST Assured or a Playwright or pytest API suite.",
+      "keyPoints": [
+        "Collections, folders and environments/variables",
+        "Test and pre-request scripts with pm.test/pm.expect",
+        "Chaining via variables",
+        "Data-driven runs and Newman in CI",
+        "Secrets hygiene and when to move to code"
+      ],
+      "redFlags": [
+        "Only uses Postman manually with hard-coded values"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-api-14",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "A provider team wants to rename a field in a widely used API response. How do you make sure consumers do not break?",
+      "followUps": [
+        "How long would you keep the old field?",
+        "How do you know which consumers use the field?"
+      ],
+      "modelAnswer": "I would treat it as a breaking change and push for an expand-and-contract approach. First the provider adds the new field alongside the old one, which is backward compatible. Consumers migrate to the new field at their own pace. Only when no consumer uses the old field is it removed, potentially in a new API version if the API is versioned. To know who uses the field, consumer-driven contracts are ideal: the Pact Broker shows which consumers' contracts reference it, and provider verification will fail if it is removed while still needed. Without contracts, I would use access logs, API gateway analytics or field-level usage telemetry, plus direct communication and a deprecation notice with a timeline, for example using the Deprecation and Sunset headers. On the testing side, I would add tests asserting both fields are present and equal during the transition, and run consumer regression suites against the provider change before release.",
+      "keyPoints": [
+        "Identifies it as a breaking change",
+        "Expand-and-contract / parallel fields",
+        "Consumer discovery via contracts, logs or telemetry",
+        "Deprecation communication and timeline",
+        "Tests for both fields during transition"
+      ],
+      "redFlags": [
+        "Renames immediately and asks consumers to fix their side",
+        "No way of knowing who depends on the field"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-api-15",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How would you verify that an API correctly writes to the database? Should API tests query the database directly?",
+      "followUps": [
+        "How do you verify a transaction rolled back properly?",
+        "What about eventual consistency with a read replica?"
+      ],
+      "modelAnswer": "My first preference is to verify through the API itself: create with POST, then read back with GET, because that tests the behaviour consumers depend on and does not tie tests to the internal schema. I do query the database directly when the effect is not visible through the API, for example audit records, soft deletes, encrypted columns, or checking that a failed request left no partial rows behind. For rollback, I trigger a failure part way through, such as an invalid second item, and assert that no rows from the first part were persisted. Direct database checks need read-only credentials to a test database and should go through a small helper layer so schema changes are fixed in one place. With read replicas or event-driven updates, reads may lag behind writes, so I would poll with a timeout for the expected state instead of asserting immediately, and confirm with the team what consistency window is acceptable.",
+      "keyPoints": [
+        "Prefers API round-trip verification",
+        "Uses DB checks for effects not exposed by the API",
+        "Tests rollback / no partial writes",
+        "Read-only access and a helper layer for schema coupling",
+        "Handles eventual consistency with bounded polling"
+      ],
+      "redFlags": [
+        "Asserts every test against database tables, tightly coupling to schema",
+        "Ignores eventual consistency and asserts immediately"
+      ],
+      "minutes": 5
+    }
+  ]
+}

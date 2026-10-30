@@ -1,0 +1,1514 @@
+{
+  "category": "automation",
+  "roles": [
+    {
+      "slug": "automation-test-engineer",
+      "title": "Automation Test Engineer",
+      "category": "automation",
+      "overview": "An Automation Test Engineer turns repeatable test cases into reliable automated checks, typically at the UI and API levels. The role involves choosing what to automate, writing maintainable test code, running it in CI and analysing failures. It is the most common next step for manual testers who learn to program.",
+      "responsibilities": [
+        "Identify test cases that give the best return when automated",
+        "Write and maintain automated UI and API tests using an established framework",
+        "Run automated suites in CI and triage failures",
+        "Keep tests stable by fixing locators, waits and test data issues",
+        "Report automation coverage and results to the team",
+        "Work with manual testers to keep automated and manual coverage aligned"
+      ],
+      "skills": {
+        "essential": [
+          "One programming language (Java, Python, JavaScript or TypeScript)",
+          "A UI automation tool such as Selenium or Playwright",
+          "Locator strategies and synchronisation",
+          "A test runner such as TestNG, JUnit or pytest",
+          "Git",
+          "Testing fundamentals and test design"
+        ],
+        "roleSpecific": [
+          "Page Object Model",
+          "Running suites in CI",
+          "Analysing and reducing flaky failures"
+        ],
+        "optional": [
+          "API automation with REST Assured or a similar library",
+          "BDD with Cucumber",
+          "Docker"
+        ]
+      },
+      "prerequisites": [
+        "Solid manual testing fundamentals",
+        "Basic programming knowledge: variables, conditionals, loops and functions"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Programming and first scripts",
+          "goals": [
+            "Write small programs using classes, collections and exceptions",
+            "Automate a login test with stable locators",
+            "Use explicit waits instead of fixed sleeps",
+            "Commit test code to a Git repository"
+          ],
+          "topics": [
+            "java-basics-for-testers",
+            "java-oop-for-test-automation",
+            "locator-strategies",
+            "waits-and-synchronization",
+            "git-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Maintainable suites",
+          "goals": [
+            "Structure tests with the Page Object Model",
+            "Organise tests and assertions with a test runner",
+            "Parameterise tests with external data",
+            "Build the project with Maven"
+          ],
+          "topics": [
+            "page-object-model",
+            "testng-essentials",
+            "data-driven-testing",
+            "maven-for-test-projects",
+            "reporting-and-logging"
+          ]
+        },
+        "advanced": {
+          "title": "Automation in delivery",
+          "goals": [
+            "Run the suite in CI on every pull request",
+            "Execute tests in parallel safely",
+            "Diagnose and fix flaky tests with evidence"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "parallel-execution",
+            "flaky-test-reduction",
+            "debugging-failing-tests",
+            "restassured-fundamentals"
+          ]
+        }
+      },
+      "tools": ["Selenium WebDriver", "Playwright", "TestNG or JUnit 5", "Maven", "Git", "Jenkins or GitHub Actions"],
+      "exercises": [
+        "Automate five scenarios on a practice e-commerce site using page objects",
+        "Replace every Thread.sleep in a sample suite with appropriate explicit waits",
+        "Make a test data-driven from a CSV file and add negative cases",
+        "Configure a GitHub Actions workflow that runs the suite and publishes a report"
+      ],
+      "sampleProject": {
+        "title": "UI and API automation suite for a demo store",
+        "description": "Build a Java or TypeScript project that automates key journeys of a practice e-commerce site using page objects, plus a few API checks for the same features. Include data-driven tests, an HTML report, parallel execution and a CI workflow, with a README explaining design choices and how to run it."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you decide which test cases to automate?",
+          "a": "I prioritise tests that run frequently, cover high-risk or business-critical paths, have stable requirements and deterministic expected results. I avoid automating tests that change constantly, need human judgement such as visual aesthetics, or would cost more to maintain than they save. Where possible I automate at the API level because it is faster and more stable than UI."
+        },
+        {
+          "q": "What is the difference between implicit and explicit waits in Selenium?",
+          "a": "An implicit wait sets a global timeout for finding elements, applied to every lookup. An explicit wait waits for a specific condition, such as an element being clickable, for a specific element. Explicit waits are more precise, and mixing the two can produce unpredictable wait times, so I generally use explicit waits only."
+        },
+        {
+          "q": "Explain the Page Object Model and its benefits.",
+          "a": "Each page or component is represented by a class that holds its locators and exposes methods for user actions, such as login(user, password). Tests call these methods instead of using locators directly. When the UI changes, only the page object needs updating, which reduces duplication and makes tests readable."
+        },
+        {
+          "q": "Your suite passes locally but fails in CI. How do you investigate?",
+          "a": "I compare environments: browser and driver versions, headless mode, screen size, timing, test data and configuration. I review CI artefacts like screenshots, logs and traces from the failure. Common causes are timing differences, missing test data and tests that depend on execution order."
+        },
+        {
+          "q": "How do you choose a locator?",
+          "a": "I prefer stable, unique attributes such as dedicated test IDs, then accessible names or IDs, and use CSS selectors over long XPath where possible. I avoid locators tied to layout or generated class names. If no good locator exists, I ask developers to add a test attribute."
+        }
+      ],
+      "codingRequirements": "Working proficiency in one language (Java, Python or TypeScript): OOP basics, collections, exceptions, and reading stack traces.",
+      "commonMistakes": [
+        "Claiming automation should replace all manual testing",
+        "Using fixed sleeps and calling it synchronisation",
+        "Unable to explain the design of your own framework",
+        "Focusing only on tool syntax rather than what is worth automating"
+      ],
+      "readinessCriteria": [
+        "You have a public repository with at least 15 automated tests using page objects",
+        "Your suite runs in CI and you can show a passing run",
+        "You can write a new test for an unfamiliar page within 30 minutes",
+        "You can explain and fix at least two causes of flaky tests"
+      ],
+      "nextRoles": ["sdet", "api-automation-engineer", "test-framework-engineer"]
+    },
+    {
+      "slug": "selenium-automation-engineer",
+      "title": "Selenium Automation Engineer",
+      "category": "automation",
+      "overview": "A Selenium Automation Engineer specialises in browser automation with Selenium WebDriver, most often in Java with TestNG or JUnit and Maven. Many enterprise teams have large existing Selenium suites, so the role involves deep knowledge of the WebDriver protocol, synchronisation, Selenium Grid and keeping large suites maintainable. The title is tool-specific, but strong fundamentals transfer to other tools.",
+      "responsibilities": [
+        "Develop and maintain Selenium WebDriver tests for web applications",
+        "Handle complex UI elements including frames, windows, alerts and dynamic content",
+        "Run tests across browsers using Selenium Grid or a cloud grid",
+        "Maintain page objects and shared utilities",
+        "Integrate the suite with Maven, TestNG and CI",
+        "Investigate and fix flaky and failing tests"
+      ],
+      "skills": {
+        "essential": [
+          "Java (or another Selenium-supported language) with OOP",
+          "Selenium WebDriver API and architecture",
+          "Locators, waits and synchronisation",
+          "TestNG or JUnit 5",
+          "Maven and Git"
+        ],
+        "roleSpecific": [
+          "Handling frames, windows and alerts",
+          "Selenium Grid and remote execution",
+          "Cross-browser execution and driver management"
+        ],
+        "optional": [
+          "Cucumber BDD",
+          "Docker-based Selenium Grid",
+          "Cloud testing platforms"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Java basics or willingness to learn Java first"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Java and WebDriver basics",
+          "goals": [
+            "Write Java programs using classes and collections",
+            "Explain how WebDriver communicates with browsers",
+            "Automate a form using robust locators"
+          ],
+          "topics": [
+            "java-basics-for-testers",
+            "java-collections-and-exceptions",
+            "selenium-architecture",
+            "locator-strategies"
+          ]
+        },
+        "intermediate": {
+          "title": "Real-world UI handling",
+          "goals": [
+            "Handle iframes, multiple windows and JavaScript alerts",
+            "Synchronise with dynamic content using explicit waits",
+            "Organise tests with TestNG groups and data providers"
+          ],
+          "topics": [
+            "handling-frames-windows-alerts",
+            "waits-and-synchronization",
+            "testng-essentials",
+            "page-object-model",
+            "data-driven-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Scale the suite",
+          "goals": [
+            "Run tests in parallel across browsers on a grid",
+            "Containerise the grid with Docker",
+            "Reduce flakiness with measured evidence"
+          ],
+          "topics": [
+            "parallel-execution",
+            "cross-browser-testing",
+            "docker-for-testers",
+            "flaky-test-reduction",
+            "jenkins-pipelines-for-tests"
+          ]
+        }
+      },
+      "tools": ["Selenium WebDriver", "Selenium Grid", "Java", "TestNG", "Maven", "Jenkins", "Allure or ExtentReports"],
+      "exercises": [
+        "Automate a page with an embedded iframe and a popup window, switching contexts correctly",
+        "Set up Selenium Grid with Docker and run the same suite on Chrome and Firefox",
+        "Use TestNG data providers to drive a login test with valid and invalid credentials"
+      ],
+      "sampleProject": {
+        "title": "Cross-browser Selenium framework",
+        "description": "Create a Maven project using Selenium WebDriver, TestNG and page objects against a practice site. Include configuration for browser selection, a Docker Compose Selenium Grid, parallel execution, screenshots on failure, an HTML report and a Jenkins or GitHub Actions pipeline."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Describe the Selenium WebDriver architecture.",
+          "a": "Test code uses a language binding to send commands defined by the W3C WebDriver protocol over HTTP to a browser-specific driver, such as chromedriver or geckodriver. The driver translates them into native browser actions and returns results. With Selenium Grid, commands go to a hub or router that forwards them to nodes running browsers."
+        },
+        {
+          "q": "How do you handle a StaleElementReferenceException?",
+          "a": "It occurs when the element reference points to a DOM node that has been replaced, often after a re-render. I re-locate the element after the page updates, wait for the expected state rather than holding references for long, and keep element lookups inside page object methods. Blind retries hide the cause, so I use them sparingly."
+        },
+        {
+          "q": "How do you switch to an iframe and back?",
+          "a": "I use driver.switchTo().frame() with an index, name or WebElement, ideally after waiting with frameToBeAvailableAndSwitchToIt. After working inside the frame I call switchTo().defaultContent() or parentFrame() to return. Forgetting to switch back is a common cause of NoSuchElementException."
+        },
+        {
+          "q": "How would you run tests in parallel with TestNG?",
+          "a": "I configure parallel mode and thread count in testng.xml, for example parallel by methods or classes. Each thread must have its own WebDriver instance, typically managed with a ThreadLocal, and tests must not share mutable data. I also ensure test data is independent so tests can run in any order."
+        },
+        {
+          "q": "Why might XPath locators be problematic?",
+          "a": "Absolute or deeply nested XPaths break when layout changes and are harder to read. XPath can be appropriate, for example to locate by text or to traverse to a parent, but I prefer IDs, test attributes or concise CSS selectors. The goal is locators tied to meaning, not structure."
+        }
+      ],
+      "codingRequirements": "Solid Java: OOP, collections, exceptions, generics basics; comfortable with Maven builds and reading stack traces.",
+      "commonMistakes": [
+        "Mixing implicit and explicit waits",
+        "Sharing a single WebDriver across parallel threads",
+        "Not knowing what happens at the protocol level"
+      ],
+      "readinessCriteria": [
+        "You can explain the WebDriver protocol flow and Grid routing",
+        "You have run a suite in parallel on at least two browsers",
+        "You can handle frames, windows and alerts without looking up syntax",
+        "Your framework captures screenshots and logs on failure"
+      ],
+      "nextRoles": ["sdet", "test-framework-engineer", "web-automation-engineer"]
+    },
+    {
+      "slug": "sdet",
+      "title": "SDET (Software Development Engineer in Test)",
+      "category": "automation",
+      "overview": "An SDET is a software engineer whose product is testability and test infrastructure. SDETs write production-quality code for frameworks, tools and tests at all levels, review application code for testability, and design how testing fits into CI/CD. Interviews often resemble developer interviews, including coding problems and design questions.",
+      "responsibilities": [
+        "Design and build test frameworks, utilities and test data tooling",
+        "Write unit, integration, API and UI tests alongside developers",
+        "Review application code and designs for testability",
+        "Integrate tests into CI/CD and keep pipelines fast and reliable",
+        "Use test doubles to isolate components and dependencies",
+        "Mentor team members on test design and automation practices"
+      ],
+      "skills": {
+        "essential": [
+          "Strong programming in Java, Python, C# or TypeScript",
+          "Data structures and algorithms fundamentals",
+          "Object-oriented design and design patterns",
+          "Framework design for UI and API testing",
+          "CI/CD pipelines",
+          "Test strategy and the test pyramid"
+        ],
+        "roleSpecific": [
+          "Mocking, stubbing and dependency injection",
+          "Code review for testability",
+          "Containerised test environments"
+        ],
+        "optional": [
+          "Performance testing",
+          "Contract testing",
+          "Cloud infrastructure knowledge"
+        ]
+      },
+      "prerequisites": [
+        "Comfortable programming in at least one language",
+        "Understanding of testing fundamentals and test levels"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Engineering foundations",
+          "goals": [
+            "Solve common data-structure problems with arrays, maps and strings",
+            "Write unit tests with JUnit 5 or pytest",
+            "Apply OOP principles in test code",
+            "Use Git branches and pull requests"
+          ],
+          "topics": [
+            "java-oop-for-test-automation",
+            "java-collections-and-exceptions",
+            "junit-5-essentials",
+            "unit-and-component-testing",
+            "git-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Multi-level automation",
+          "goals": [
+            "Build an API test layer with REST Assured or similar",
+            "Build a UI test layer with Playwright or Selenium",
+            "Use mocks and stubs to isolate dependencies",
+            "Apply design patterns such as builder and factory in tests"
+          ],
+          "topics": [
+            "restassured-fundamentals",
+            "playwright-with-typescript",
+            "test-doubles-and-mocking",
+            "automation-design-patterns",
+            "test-pyramid-and-strategy"
+          ]
+        },
+        "advanced": {
+          "title": "Testing as a platform",
+          "goals": [
+            "Run the full suite in containers within a CI pipeline",
+            "Design a test architecture for a microservice system",
+            "Add contract tests between two services",
+            "Measure and reduce suite duration and flakiness"
+          ],
+          "topics": [
+            "test-architecture-and-system-design",
+            "docker-for-testers",
+            "github-actions-for-tests",
+            "contract-testing",
+            "flaky-test-reduction",
+            "microservices-testing"
+          ]
+        }
+      },
+      "tools": ["JUnit 5 or pytest", "Mockito or unittest.mock", "REST Assured", "Playwright or Selenium", "Docker and Testcontainers", "GitHub Actions or Jenkins"],
+      "exercises": [
+        "Solve ten easy and medium coding problems on strings, arrays and hash maps, with unit tests for each",
+        "Write unit tests with mocks for a service class that calls an external API",
+        "Design a framework with separate layers for configuration, clients, data builders and tests",
+        "Run API tests against a service started with Testcontainers in CI"
+      ],
+      "sampleProject": {
+        "title": "Full-stack test platform for a sample service",
+        "description": "Take a small open-source web service with a UI. Add unit tests with mocks, API tests with REST Assured or a Python HTTP client, a few Playwright end-to-end tests, and a contract test for one dependency. Run everything in GitHub Actions with Docker, publish reports, and document the architecture and test strategy."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is an SDET different from an automation test engineer?",
+          "a": "An automation engineer typically writes automated tests within an existing framework, mostly at UI and API level. An SDET is expected to design frameworks and tooling, work at every level including unit tests, contribute to application code testability, and own CI integration. The coding bar is closer to that of a software engineer."
+        },
+        {
+          "q": "Write a function to check whether a string is a palindrome, and how would you test it?",
+          "a": "Use two pointers from the start and end moving inward, comparing characters, optionally normalising case and skipping non-alphanumerics according to the requirement. That is O(n) time and O(1) extra space. Tests cover an empty string, a single character, even and odd lengths, mixed case, punctuation, and a non-palindrome differing only in the middle."
+        },
+        {
+          "q": "How would you design a test framework for a new product with web, API and mobile clients?",
+          "a": "I would separate layers: configuration and environment handling, API clients, UI drivers per platform, shared test data builders, and the tests themselves. Shared business-level helpers sit above the clients so tests read in domain terms. Most coverage goes into fast API and component tests, with a thin set of end-to-end journeys per client, all running in CI with clear reporting."
+        },
+        {
+          "q": "When would you use a mock rather than a real dependency?",
+          "a": "Use a mock when the dependency is slow, non-deterministic, costly or unavailable, or when you need to simulate errors that are hard to trigger. Use real dependencies, often in containers, when you need confidence in the actual integration. Too many mocks can make tests pass while real integration is broken, so I balance them with contract or integration tests."
+        },
+        {
+          "q": "How do you keep a large automated suite fast?",
+          "a": "Push tests down the pyramid, run independent tests in parallel, reuse expensive setup carefully, and create data through APIs rather than the UI. Split pipelines so fast checks run on every commit and slower suites run on merge or nightly. I measure duration per test and treat slow tests as defects."
+        },
+        {
+          "q": "What makes test code maintainable?",
+          "a": "Clear names that describe behaviour, no duplication of setup or locators, tests independent of each other, meaningful assertions with good failure messages, and abstraction layers that hide mechanics. It should be reviewed and refactored like production code."
+        }
+      ],
+      "codingRequirements": "Strong: production-quality code in Java, Python, C# or TypeScript; data structures and algorithms at a typical developer-interview level; OOP and design patterns.",
+      "commonMistakes": [
+        "Underpreparing for coding questions because the title includes 'test'",
+        "Describing only UI automation and ignoring unit and API levels",
+        "Not testing your own solution during a coding exercise",
+        "Overusing mocks without discussing integration risk"
+      ],
+      "readinessCriteria": [
+        "You can solve typical easy and medium coding problems in 30 minutes, including tests",
+        "You have built a framework with both API and UI layers running in CI",
+        "You can explain your framework architecture and its trade-offs on a whiteboard",
+        "You have written unit tests with mocks for real code"
+      ],
+      "nextRoles": ["test-architect", "test-infrastructure-engineer", "qa-technical-lead"]
+    },
+    {
+      "slug": "test-automation-developer",
+      "title": "Test Automation Developer",
+      "category": "automation",
+      "overview": "A Test Automation Developer focuses on writing high-quality automated test code at scale, often in teams with a dedicated framework owned by others. The emphasis is on clean, reviewable code, broad coverage of product features and fast turnaround as features ship. It sits between an automation engineer and an SDET in coding depth.",
+      "responsibilities": [
+        "Translate test cases and acceptance criteria into automated tests",
+        "Write clean, reviewed test code following team conventions",
+        "Extend shared helpers and page objects when needed",
+        "Create and manage test data programmatically",
+        "Keep automated tests up to date with product changes",
+        "Participate in code reviews of test and application code"
+      ],
+      "skills": {
+        "essential": [
+          "Proficient programming in one language",
+          "UI and API automation libraries",
+          "Clean code and refactoring",
+          "Git and code review workflows",
+          "Test design fundamentals"
+        ],
+        "roleSpecific": [
+          "Programmatic test data creation",
+          "Writing readable assertions and failure messages",
+          "Working within an existing framework's conventions"
+        ],
+        "optional": [
+          "BDD frameworks",
+          "Static analysis and linting for test code",
+          "Performance scripting"
+        ]
+      },
+      "prerequisites": [
+        "Programming fundamentals in one language",
+        "Testing fundamentals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Code and tests",
+          "goals": [
+            "Write automated tests that follow a consistent structure",
+            "Use Git branches, commits and pull requests confidently",
+            "Use a test runner's assertions and fixtures"
+          ],
+          "topics": [
+            "java-basics-for-testers",
+            "junit-5-essentials",
+            "git-for-testers",
+            "locator-strategies"
+          ]
+        },
+        "intermediate": {
+          "title": "Productive in a framework",
+          "goals": [
+            "Add tests to an existing page object framework",
+            "Generate test data through APIs",
+            "Refactor duplicated test code into helpers"
+          ],
+          "topics": [
+            "page-object-model",
+            "api-test-data-management",
+            "data-driven-testing",
+            "automation-design-patterns"
+          ]
+        },
+        "advanced": {
+          "title": "Quality of test code",
+          "goals": [
+            "Review peers' test code with actionable comments",
+            "Improve failure diagnostics with logs and reports",
+            "Reduce flakiness in owned tests"
+          ],
+          "topics": [
+            "reporting-and-logging",
+            "debugging-failing-tests",
+            "flaky-test-reduction",
+            "parallel-execution"
+          ]
+        }
+      },
+      "tools": ["Java or TypeScript", "Selenium or Playwright", "REST Assured or a similar HTTP client", "JUnit or TestNG", "Git with pull requests", "SonarQube or a linter"],
+      "exercises": [
+        "Refactor a messy 300-line test file into readable, reusable tests",
+        "Replace UI-based test setup with API-based data creation and measure the time saved",
+        "Review a sample pull request of test code and write five review comments"
+      ],
+      "sampleProject": {
+        "title": "Refactoring a legacy test suite",
+        "description": "Start from a deliberately messy automation suite (write one or take a small open-source example). Refactor it into clean page objects and helpers, move data setup to API calls, improve assertion messages, and document before and after metrics you actually measured, such as run time and lines of duplicated code."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What makes a good automated test?",
+          "a": "It tests one behaviour, has a descriptive name, sets up its own data, is independent of other tests and of execution order, and has assertions that explain what went wrong when they fail. It should be deterministic and as fast as possible for its level."
+        },
+        {
+          "q": "How do you create test data for UI tests efficiently?",
+          "a": "I create data through APIs or database seeding rather than clicking through the UI, which is faster and more reliable. Each test creates uniquely identified data so parallel runs do not collide, and cleans up where needed. The UI is then only used for the behaviour under test."
+        },
+        {
+          "q": "What do you look for when reviewing test code?",
+          "a": "Whether the test actually verifies the intended behaviour, whether assertions are meaningful, duplication that should be extracted, hard-coded waits or data, and readability. I also check it follows framework conventions and fails with a useful message."
+        },
+        {
+          "q": "How do you write a helpful assertion failure message?",
+          "a": "Include what was expected, what was observed and the relevant context such as the record ID or step. Libraries like AssertJ or Hamcrest produce descriptive messages by default and allow custom descriptions. A good message often lets you diagnose without rerunning."
+        }
+      ],
+      "codingRequirements": "Proficient in one language with clean code practices; comfortable with code review and refactoring.",
+      "commonMistakes": [
+        "Writing tests that depend on each other's data",
+        "Not mentioning code review as part of quality",
+        "Treating test code as second-class code"
+      ],
+      "readinessCriteria": [
+        "You can add a new automated test to an unfamiliar framework by following its conventions",
+        "You have refactored test code and can show before and after",
+        "You create test data via API rather than UI where possible"
+      ],
+      "nextRoles": ["sdet", "test-framework-engineer"]
+    },
+    {
+      "slug": "test-framework-engineer",
+      "title": "Test Framework Engineer",
+      "category": "automation",
+      "overview": "A Test Framework Engineer builds and evolves the internal libraries, conventions and tooling that other engineers use to write tests. The users of their work are other testers and developers, so API design, documentation, backwards compatibility and developer experience matter as much as test logic. It is a deeply technical role suited to people who enjoy building tools.",
+      "responsibilities": [
+        "Design and maintain the core automation framework and its extension points",
+        "Provide configuration, reporting, logging and retry mechanisms",
+        "Integrate the framework with CI, test management and reporting tools",
+        "Write documentation, examples and migration guides for framework users",
+        "Manage versions, dependencies and breaking changes",
+        "Support teams adopting the framework and gather feedback"
+      ],
+      "skills": {
+        "essential": [
+          "Strong programming and API design",
+          "Design patterns and modular architecture",
+          "Build tools and dependency management",
+          "Deep knowledge of at least one test runner",
+          "Reporting and logging"
+        ],
+        "roleSpecific": [
+          "Plugin and extension design for test runners",
+          "Versioning and backwards compatibility",
+          "Developer documentation"
+        ],
+        "optional": [
+          "Multiple UI automation tools",
+          "Packaging and publishing internal libraries",
+          "Observability for test runs"
+        ]
+      },
+      "prerequisites": [
+        "Experience writing automated tests in a framework",
+        "Strong command of one programming language"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand frameworks",
+          "goals": [
+            "Read and explain the structure of an existing framework",
+            "Use test runner lifecycle hooks and fixtures",
+            "Manage dependencies with Maven or npm"
+          ],
+          "topics": [
+            "testng-essentials",
+            "junit-5-essentials",
+            "maven-for-test-projects",
+            "page-object-model"
+          ]
+        },
+        "intermediate": {
+          "title": "Build reusable parts",
+          "goals": [
+            "Implement configuration management for multiple environments",
+            "Add reporting and logging with screenshots and traces",
+            "Apply factory, builder and strategy patterns"
+          ],
+          "topics": [
+            "automation-design-patterns",
+            "reporting-and-logging",
+            "data-driven-testing",
+            "parallel-execution"
+          ]
+        },
+        "advanced": {
+          "title": "Framework as a product",
+          "goals": [
+            "Version and release the framework as a library",
+            "Add built-in flakiness detection and quarantine support",
+            "Integrate with CI and publish results centrally"
+          ],
+          "topics": [
+            "test-architecture-and-system-design",
+            "flaky-test-reduction",
+            "ci-cd-for-test-engineers",
+            "jenkins-pipelines-for-tests"
+          ]
+        }
+      },
+      "tools": ["Java, Python or TypeScript", "JUnit 5, TestNG or pytest", "Maven, Gradle or npm", "Allure", "Selenium or Playwright", "An internal package registry"],
+      "exercises": [
+        "Write a JUnit 5 extension or pytest plugin that captures a screenshot on failure",
+        "Implement environment configuration loading with overrides from environment variables",
+        "Write a migration guide for a breaking change in a framework API"
+      ],
+      "sampleProject": {
+        "title": "Reusable automation library",
+        "description": "Build a small framework library that provides driver management, configuration, reporting hooks and a page component base class. Publish it as a versioned package in a local registry or repository, write a separate example test project that consumes it, and document the public API and extension points."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you design configuration for a framework used across several environments?",
+          "a": "I would use layered configuration: defaults in the repository, environment-specific files, and overrides from environment variables or CI parameters, with secrets coming only from a secret store. Configuration should be validated at start-up with clear errors. Tests should never hard-code URLs or credentials."
+        },
+        {
+          "q": "How do you introduce a breaking change in a shared framework?",
+          "a": "I version the framework semantically, deprecate the old API first with warnings and documentation, and provide a migration guide and ideally an automated fix. I communicate timelines to consuming teams and remove the old API in a later major version. Monitoring usage helps decide when it is safe."
+        },
+        {
+          "q": "Which design patterns are useful in test frameworks?",
+          "a": "Page Object and component objects for UI structure, Builder for test data, Factory for creating drivers or clients per configuration, Strategy for swapping behaviours like waiting or reporting, and Singleton only sparingly, since global state hurts parallel execution. Patterns should reduce complexity, not add it."
+        },
+        {
+          "q": "Should a framework retry failed tests automatically?",
+          "a": "Retries can reduce noise from known infrastructure issues, but they also hide real intermittent defects. If I add retries, they are limited, visible in reports, and failing-then-passing tests are tracked as flaky so they get fixed. Retry should never be the default answer to instability."
+        }
+      ],
+      "codingRequirements": "Strong programming and software design skills, including API design, packaging and dependency management.",
+      "commonMistakes": [
+        "Designing for features rather than for the people who will use the framework",
+        "Ignoring documentation and versioning",
+        "Treating automatic retries as a fix for flakiness"
+      ],
+      "readinessCriteria": [
+        "You have built a reusable library consumed by a separate test project",
+        "You can explain your framework's extension points and configuration model",
+        "You have written a runner extension or plugin"
+      ],
+      "nextRoles": ["test-architect", "test-infrastructure-engineer"]
+    },
+    {
+      "slug": "qa-software-developer",
+      "title": "QA Software Developer",
+      "category": "automation",
+      "overview": "A QA Software Developer builds software that supports testing: internal tools, simulators, test data generators, dashboards and harnesses, as well as automated tests. The role is closer to general software development than most testing roles, with the product's quality as its purpose. It suits developers who enjoy quality engineering problems.",
+      "responsibilities": [
+        "Build internal tools for test data generation, environment setup and reporting",
+        "Develop simulators and stub services for dependencies",
+        "Write automated tests across levels",
+        "Maintain test-related services and their deployment",
+        "Collaborate with product developers on testability hooks",
+        "Document and support tools used by the QA team"
+      ],
+      "skills": {
+        "essential": [
+          "General software development in at least one language",
+          "Building HTTP services and CLIs",
+          "Databases and SQL",
+          "Testing fundamentals",
+          "Version control and CI"
+        ],
+        "roleSpecific": [
+          "Building stub and simulator services",
+          "Test data generation at scale",
+          "Small internal dashboards and reports"
+        ],
+        "optional": [
+          "Frontend development for internal tools",
+          "Cloud deployment",
+          "Messaging systems"
+        ]
+      },
+      "prerequisites": [
+        "Software development experience or a strong programming background",
+        "Interest in quality engineering"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Developer and tester basics",
+          "goals": [
+            "Write a small HTTP API and test it",
+            "Query and seed a database with SQL",
+            "Understand the test pyramid"
+          ],
+          "topics": [
+            "http-fundamentals",
+            "sql-for-testers",
+            "test-pyramid-and-strategy",
+            "unit-and-component-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Tools for testers",
+          "goals": [
+            "Build a test data generator that respects business rules",
+            "Build a stub service that simulates error responses",
+            "Package tools in Docker"
+          ],
+          "topics": [
+            "test-data-design",
+            "api-test-data-management",
+            "test-doubles-and-mocking",
+            "docker-for-testers"
+          ]
+        },
+        "advanced": {
+          "title": "Platform contributions",
+          "goals": [
+            "Automate environment provisioning for tests",
+            "Build a results dashboard from CI data",
+            "Design testability hooks with product developers"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "qa-metrics-and-reporting",
+            "test-architecture-and-system-design",
+            "microservices-testing"
+          ]
+        }
+      },
+      "tools": ["Python, Java, Go or TypeScript", "A web framework such as FastAPI, Spring Boot or Express", "PostgreSQL or MongoDB", "Docker", "WireMock", "GitHub Actions"],
+      "exercises": [
+        "Write a CLI that generates valid and invalid customer records for a given schema",
+        "Build a stub payment service with configurable delays and error codes",
+        "Build a small page that summarises test results from JUnit XML reports"
+      ],
+      "sampleProject": {
+        "title": "Configurable dependency simulator",
+        "description": "Build a containerised stub service that simulates an external partner API, with endpoints to configure responses, latency and error rates per test. Include its own unit tests, API documentation, and an example automated test suite that uses it to test a client application's error handling."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you build a test data generator?",
+          "a": "I would model the domain rules explicitly, then generate data that satisfies them, plus deliberate invalid variants for negative tests. Generators should be deterministic when seeded so failures can be reproduced. I would create data through public APIs where possible so it is valid in the same way real data is."
+        },
+        {
+          "q": "Why build a simulator rather than use the real dependency in tests?",
+          "a": "A simulator gives control over responses, latency and failures, works offline, and avoids costs or rate limits of the real service. It enables testing of error paths that are difficult to trigger for real. It must be kept aligned with the real contract, which contract tests or periodic checks can verify."
+        },
+        {
+          "q": "What testability hooks would you ask product developers for?",
+          "a": "Stable test identifiers in the UI, ways to set time or feature flags in test environments, endpoints or scripts to seed and reset data, and correlation IDs in logs. These must be disabled or protected in production. They dramatically reduce test complexity and flakiness."
+        },
+        {
+          "q": "How do you test your own internal tools?",
+          "a": "The same way as product code: unit tests for logic, integration tests for I/O, and CI on every change. Tools used by many testers become critical infrastructure, and a broken tool can mislead the whole team."
+        }
+      ],
+      "codingRequirements": "Strong general development skills: building services and CLIs, databases, testing your own code.",
+      "commonMistakes": [
+        "Not testing the tools you build",
+        "Building tools without understanding testers' actual workflow",
+        "Leaving testability hooks unprotected in production"
+      ],
+      "readinessCriteria": [
+        "You have built and deployed at least one service with its own tests",
+        "You can design a simulator for an external API including failure modes",
+        "You can generate rule-compliant test data programmatically"
+      ],
+      "nextRoles": ["sdet", "test-infrastructure-engineer"]
+    },
+    {
+      "slug": "web-automation-engineer",
+      "title": "Web Automation Engineer",
+      "category": "automation",
+      "overview": "A Web Automation Engineer focuses on automating modern web front ends, often single-page applications, using tools such as Playwright, Cypress or WebdriverIO, usually in TypeScript. The role requires understanding of the DOM, browser events, network behaviour and front-end frameworks so tests are fast and stable. It often works closely with front-end developers.",
+      "responsibilities": [
+        "Automate end-to-end and component-level tests for web applications",
+        "Use network interception to control and verify API traffic",
+        "Run tests across browser engines and viewports",
+        "Add automated accessibility and visual checks where valuable",
+        "Maintain fixtures, test data and authentication state",
+        "Integrate tests into front-end CI pipelines"
+      ],
+      "skills": {
+        "essential": [
+          "JavaScript or TypeScript",
+          "A modern web automation tool (Playwright, Cypress or WebdriverIO)",
+          "DOM, CSS selectors and accessible locators",
+          "Browser network and asynchronous behaviour",
+          "Git and CI"
+        ],
+        "roleSpecific": [
+          "Network mocking and interception",
+          "Authentication state reuse",
+          "Cross-browser and responsive testing"
+        ],
+        "optional": [
+          "Visual regression testing",
+          "Component testing",
+          "Accessibility automation with axe"
+        ]
+      },
+      "prerequisites": [
+        "Basic HTML, CSS and JavaScript",
+        "Testing fundamentals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Web fundamentals",
+          "goals": [
+            "Write TypeScript functions using async and await",
+            "Locate elements by role, label and test ID",
+            "Automate a form in Playwright or Cypress"
+          ],
+          "topics": [
+            "playwright-with-typescript",
+            "cypress-fundamentals",
+            "locator-strategies",
+            "http-fundamentals"
+          ]
+        },
+        "intermediate": {
+          "title": "Stable, fast web tests",
+          "goals": [
+            "Mock and assert on network calls",
+            "Reuse authenticated state across tests",
+            "Structure tests with fixtures and page objects"
+          ],
+          "topics": [
+            "waits-and-synchronization",
+            "page-object-model",
+            "test-doubles-and-mocking",
+            "cross-browser-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Broader quality signals",
+          "goals": [
+            "Add automated accessibility scanning",
+            "Run tests in parallel and sharded in CI",
+            "Investigate failures using traces and videos"
+          ],
+          "topics": [
+            "accessibility-automation",
+            "parallel-execution",
+            "github-actions-for-tests",
+            "debugging-failing-tests",
+            "webdriverio-fundamentals"
+          ]
+        }
+      },
+      "tools": ["Playwright", "Cypress", "WebdriverIO", "TypeScript", "axe-core", "GitHub Actions"],
+      "exercises": [
+        "Write Playwright tests for a single-page app using only role-based locators",
+        "Mock an API response to test an empty state and an error state in the UI",
+        "Add an axe accessibility scan to three pages and triage findings"
+      ],
+      "sampleProject": {
+        "title": "Playwright suite for a single-page application",
+        "description": "Automate an open-source single-page app with Playwright and TypeScript: role-based locators, fixtures, reused authentication state, network mocking for error states, an accessibility scan, cross-browser projects, and a sharded GitHub Actions workflow that uploads traces on failure."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How does Playwright's auto-waiting work?",
+          "a": "Before performing an action, Playwright checks actionability conditions such as the element being attached, visible, stable, enabled and receiving events, retrying until a timeout. Web-first assertions like toBeVisible also retry. This removes most manual waits, though you still need to wait on the right condition, such as a network response, in some cases."
+        },
+        {
+          "q": "Why prefer role-based locators?",
+          "a": "Locators like getByRole with an accessible name reflect how users and assistive technology perceive the page, so they are resilient to markup and styling changes. They also encourage accessible markup. Test IDs remain a good fallback where no meaningful role or name exists."
+        },
+        {
+          "q": "When would you mock network responses in an end-to-end test?",
+          "a": "When I need to test UI behaviour for states that are hard to produce for real, such as server errors, empty results or slow responses, or to isolate the front end from an unstable backend. I keep some unmocked journeys so the real integration is also covered."
+        },
+        {
+          "q": "How is Cypress architecturally different from Selenium?",
+          "a": "Cypress runs test code inside the browser alongside the application, giving direct access to the DOM and network with automatic waiting. Selenium drives the browser externally via the WebDriver protocol. Cypress historically had restrictions around multiple tabs and cross-origin navigation; its support has changed across versions, so checking current documentation matters."
+        },
+        {
+          "q": "How do you debug a failure that only happens in CI?",
+          "a": "I enable trace or video capture on failure and inspect the trace for the DOM snapshot, network calls and console at the failing step. I check differences like viewport, headless mode, fonts, timezone and test data. Reproducing with the same container image locally often makes the cause obvious."
+        }
+      ],
+      "codingRequirements": "Solid JavaScript or TypeScript including async/await and promises; basic HTML, CSS and DOM knowledge.",
+      "commonMistakes": [
+        "Using CSS class selectors tied to styling frameworks",
+        "Mocking every network call so the real integration is never tested",
+        "Adding fixed timeouts instead of waiting on conditions"
+      ],
+      "readinessCriteria": [
+        "You can automate a new page using accessible locators without fixed waits",
+        "You have used network interception to test at least two error states",
+        "Your suite runs in parallel in CI and produces traces on failure"
+      ],
+      "nextRoles": ["sdet", "accessibility-test-engineer", "test-framework-engineer"]
+    },
+    {
+      "slug": "api-automation-engineer",
+      "title": "API Automation Engineer",
+      "category": "automation",
+      "overview": "An API Automation Engineer builds automated test suites for HTTP APIs, which are faster and more stable than UI tests and catch business logic defects early. The role requires solid HTTP knowledge, a programming language and libraries such as REST Assured, plus skill at chaining requests, validating schemas and managing test data. It is a high-value role in service-oriented systems.",
+      "responsibilities": [
+        "Design automated tests for API endpoints covering functional, negative and boundary cases",
+        "Validate status codes, headers, bodies and JSON schemas",
+        "Automate authentication flows and token handling",
+        "Manage test data creation and clean-up via APIs",
+        "Run API suites in CI on every change",
+        "Verify API results against the database where appropriate"
+      ],
+      "skills": {
+        "essential": [
+          "HTTP methods, status codes and headers",
+          "REST principles and JSON",
+          "One programming language with an HTTP test library",
+          "Authentication schemes such as tokens and OAuth flows",
+          "Test design for APIs"
+        ],
+        "roleSpecific": [
+          "JSON Schema validation",
+          "Request chaining and test data management",
+          "Testing pagination, idempotency and rate limiting"
+        ],
+        "optional": [
+          "Contract testing with Pact",
+          "Performance testing of APIs",
+          "GraphQL or gRPC testing"
+        ]
+      },
+      "prerequisites": [
+        "Programming basics",
+        "Understanding of client-server communication"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "HTTP and first API tests",
+          "goals": [
+            "Explain HTTP methods, status codes and headers",
+            "Build a Postman collection with tests",
+            "Read and write JSON confidently"
+          ],
+          "topics": [
+            "http-fundamentals",
+            "http-status-codes",
+            "rest-principles",
+            "json-and-xml-for-testers",
+            "postman-collections-and-environments"
+          ]
+        },
+        "intermediate": {
+          "title": "Code-based API suites",
+          "goals": [
+            "Write REST Assured or Python tests with reusable request specifications",
+            "Validate responses with JSON Schema",
+            "Automate token-based authentication"
+          ],
+          "topics": [
+            "restassured-fundamentals",
+            "json-schema-validation",
+            "authentication-and-authorization",
+            "api-test-data-management",
+            "api-negative-and-boundary-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Robust API quality",
+          "goals": [
+            "Test pagination, idempotency and rate limits",
+            "Add contract tests for a consumer",
+            "Run API tests in CI with environment configuration"
+          ],
+          "topics": [
+            "pagination-sorting-filtering",
+            "idempotency-retries-rate-limiting",
+            "contract-testing",
+            "api-testing-in-ci"
+          ]
+        }
+      },
+      "tools": ["REST Assured", "Postman and Newman", "pytest with requests or httpx", "JSON Schema validators", "Pact", "Jenkins or GitHub Actions"],
+      "exercises": [
+        "Write a REST Assured suite for a public practice API covering CRUD and error cases",
+        "Validate every response against a JSON Schema and break the schema to see failures",
+        "Automate an authentication flow and reuse the token across tests"
+      ],
+      "sampleProject": {
+        "title": "API test suite with schema validation",
+        "description": "Build an API test project for a locally run open-source REST service using REST Assured or pytest. Cover CRUD, authentication, validation errors, pagination and idempotency, validate schemas, create and clean up data through the API, and run everything in CI with environment-based configuration."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between PUT and PATCH?",
+          "a": "PUT replaces the target resource with the representation sent, so omitted fields may be removed or reset, and it is defined as idempotent. PATCH applies a partial modification and is not guaranteed to be idempotent. Tests should verify the API behaves according to its documented semantics for each."
+        },
+        {
+          "q": "What would you test for a POST /orders endpoint?",
+          "a": "Valid creation returns 201 with the created resource and a location or ID; required fields missing or wrong types return 400 with useful errors; unauthenticated requests return 401 and unauthorised ones 403. I would test boundary values, duplicates and idempotency keys if supported, and verify the order was persisted correctly. I would also check the response schema and that no sensitive data leaks."
+        },
+        {
+          "q": "What is the difference between 401 and 403?",
+          "a": "401 Unauthorized means the request lacks valid authentication credentials. 403 Forbidden means the server understood who the client is but refuses access to that resource. Testing both for each protected endpoint catches many authorisation defects."
+        },
+        {
+          "q": "How do you manage test data in API automation?",
+          "a": "Each test creates the data it needs through the API with unique identifiers, uses it, and cleans up where the system allows. Shared reference data is seeded once and treated as read-only. This makes tests independent and safe to run in parallel."
+        },
+        {
+          "q": "Why validate JSON schemas in addition to field assertions?",
+          "a": "Schema validation checks the structure of the whole response: required fields, types and formats, catching unexpected changes in fields you did not explicitly assert on. Field assertions check specific business values. Together they catch both contract drift and logic errors."
+        }
+      ],
+      "codingRequirements": "Moderate: one language (Java with REST Assured, Python with pytest, or JavaScript) including working with JSON, collections and HTTP clients.",
+      "commonMistakes": [
+        "Only checking status codes, not bodies and side effects",
+        "Confusing 401 with 403",
+        "Making tests depend on data created by previous tests"
+      ],
+      "readinessCriteria": [
+        "You can design tests for any CRUD endpoint covering positive, negative and authorisation cases",
+        "You have a code-based API suite with schema validation running in CI",
+        "You can explain HTTP method semantics and idempotency accurately"
+      ],
+      "nextRoles": ["sdet", "contract-testing-specialist", "backend-test-engineer"]
+    },
+    {
+      "slug": "mobile-automation-engineer",
+      "title": "Mobile Automation Engineer",
+      "category": "automation",
+      "overview": "A Mobile Automation Engineer automates tests for Android and iOS applications, commonly with Appium or native frameworks such as Espresso and XCUITest. Mobile brings extra challenges: device fragmentation, gestures, permissions, app lifecycle and slower, more variable execution. The role blends automation skill with solid mobile platform knowledge.",
+      "responsibilities": [
+        "Automate functional tests for native, hybrid or mobile web apps",
+        "Manage emulators, simulators and real devices for test execution",
+        "Handle gestures, permissions, notifications and app lifecycle events",
+        "Choose device and OS coverage for automated runs",
+        "Integrate mobile tests into CI, including device clouds where used",
+        "Investigate platform-specific failures"
+      ],
+      "skills": {
+        "essential": [
+          "One programming language (Java, Kotlin, Swift, Python or JavaScript)",
+          "Appium architecture and setup",
+          "Mobile locators and gestures",
+          "Android and iOS platform differences",
+          "Testing fundamentals"
+        ],
+        "roleSpecific": [
+          "Device and OS coverage strategy",
+          "Emulator, simulator and real device management",
+          "App lifecycle, permissions and interruption testing"
+        ],
+        "optional": [
+          "Espresso or XCUITest",
+          "Mobile performance profiling",
+          "Device cloud platforms"
+        ]
+      },
+      "prerequisites": [
+        "Automation fundamentals in one language",
+        "Experience using Android and iOS devices"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Mobile basics",
+          "goals": [
+            "Explain differences between native, hybrid and mobile web apps",
+            "Set up Appium with an Android emulator",
+            "Locate elements with the Appium Inspector"
+          ],
+          "topics": [
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing",
+            "appium-architecture-and-setup",
+            "java-basics-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Real-world mobile automation",
+          "goals": [
+            "Automate gestures such as swipe, scroll and long press",
+            "Handle permission dialogs and app backgrounding",
+            "Apply page objects to mobile screens"
+          ],
+          "topics": [
+            "appium-locators-and-gestures",
+            "page-object-model",
+            "waits-and-synchronization",
+            "testing-notifications"
+          ]
+        },
+        "advanced": {
+          "title": "Scale across devices",
+          "goals": [
+            "Define a device and OS coverage matrix",
+            "Run tests in parallel on several devices in CI",
+            "Reduce flakiness specific to mobile"
+          ],
+          "topics": [
+            "device-and-os-coverage-strategy",
+            "parallel-execution",
+            "flaky-test-reduction",
+            "ci-cd-for-test-engineers"
+          ]
+        }
+      },
+      "tools": ["Appium", "Appium Inspector", "Android Studio and emulators", "Xcode and simulators", "Espresso", "XCUITest"],
+      "exercises": [
+        "Automate login and a list scroll in a sample Android app with Appium",
+        "Test app behaviour when a permission is denied and later granted",
+        "Write a device coverage matrix for a consumer app and justify each choice"
+      ],
+      "sampleProject": {
+        "title": "Cross-platform Appium suite",
+        "description": "Automate an open-source mobile app on Android (and iOS if you have macOS) with Appium and page objects. Cover login, navigation, gestures, a permission prompt and backgrounding. Run on emulators in CI, document capabilities and setup, and include a device coverage rationale."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Explain the Appium architecture.",
+          "a": "Appium is a server that implements the WebDriver protocol. Client libraries send commands to the Appium server, which routes them to a platform driver, such as UiAutomator2 for Android or XCUITest for iOS, which in turn uses the platform's native automation framework. In Appium 2, drivers are installed separately as plugins to the server."
+        },
+        {
+          "q": "How do you decide which devices to test on?",
+          "a": "I use the product's own usage analytics where available to choose OS versions, screen sizes and manufacturers that cover most users, plus important edge cases like the minimum supported OS. Emulators handle broad coverage cheaply, while real devices cover hardware-specific behaviour. The matrix is reviewed as usage changes."
+        },
+        {
+          "q": "What mobile-specific scenarios would you test?",
+          "a": "Interruptions such as calls and notifications, backgrounding and resuming, rotation, network changes including offline, permissions granted and denied, low storage and battery, and app upgrades preserving data. These rarely exist on the web but often cause mobile defects."
+        },
+        {
+          "q": "When would you choose Espresso or XCUITest over Appium?",
+          "a": "Native frameworks run closer to the app, are typically faster and more stable, and integrate with the developers' build, which suits teams where developers co-own tests. Appium suits cross-platform suites with one codebase and teams testing apps as black boxes. Many organisations use both at different levels."
+        },
+        {
+          "q": "Why are mobile tests often flakier than web tests?",
+          "a": "Devices and emulators vary in speed, animations and system dialogs appear unpredictably, and network conditions fluctuate. Mitigations include disabling animations on test devices, waiting on explicit conditions, resetting app state between tests and keeping device setups consistent."
+        }
+      ],
+      "codingRequirements": "Working proficiency in one language used with Appium or native frameworks; Kotlin or Swift needed for native frameworks.",
+      "commonMistakes": [
+        "Assuming emulators reproduce all real-device behaviour",
+        "Ignoring interruptions and app lifecycle",
+        "Not knowing the difference between Appium 1 and Appium 2 driver model"
+      ],
+      "readinessCriteria": [
+        "You have an Appium suite running on at least one emulator in CI",
+        "You can automate common gestures and permission prompts",
+        "You can justify a device coverage matrix"
+      ],
+      "nextRoles": ["mobile-qa-engineer", "sdet", "device-testing-engineer"]
+    },
+    {
+      "slug": "test-infrastructure-engineer",
+      "title": "Test Infrastructure Engineer",
+      "category": "automation",
+      "overview": "A Test Infrastructure Engineer builds and runs the systems that execute tests: CI pipelines, browser and device grids, ephemeral environments, test data services and results storage. The role overlaps heavily with DevOps but is focused on making testing fast, reliable and observable at scale. Strong scripting, containers and CI skills matter more than UI automation.",
+      "responsibilities": [
+        "Design and maintain CI pipelines that run test suites efficiently",
+        "Provision ephemeral test environments with containers",
+        "Operate browser grids and device infrastructure",
+        "Implement test sharding, parallelism and caching",
+        "Collect, store and visualise test results and flakiness data",
+        "Manage secrets and configuration for test environments safely"
+      ],
+      "skills": {
+        "essential": [
+          "CI/CD systems such as GitHub Actions or Jenkins",
+          "Docker and container orchestration basics",
+          "Scripting in Bash and Python",
+          "Linux and networking fundamentals",
+          "Understanding of test suites and their needs"
+        ],
+        "roleSpecific": [
+          "Test parallelisation and sharding",
+          "Ephemeral environment provisioning",
+          "Test result analytics and flakiness tracking"
+        ],
+        "optional": [
+          "Kubernetes",
+          "Infrastructure as code such as Terraform",
+          "Cloud providers"
+        ]
+      },
+      "prerequisites": [
+        "Experience with automated test suites",
+        "Comfort with the command line"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "CI and containers",
+          "goals": [
+            "Write a CI workflow that builds and tests a project",
+            "Run an application and its database in Docker Compose",
+            "Use Git branching with CI triggers"
+          ],
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "github-actions-for-tests",
+            "docker-for-testers",
+            "git-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Fast pipelines",
+          "goals": [
+            "Shard a test suite across parallel jobs",
+            "Cache dependencies to reduce pipeline time",
+            "Run a Selenium or Playwright grid in containers"
+          ],
+          "topics": [
+            "parallel-execution",
+            "jenkins-pipelines-for-tests",
+            "selenium-architecture",
+            "reporting-and-logging"
+          ]
+        },
+        "advanced": {
+          "title": "Observable test platform",
+          "goals": [
+            "Track flaky tests automatically across runs",
+            "Provision per-pull-request environments",
+            "Report pipeline health metrics"
+          ],
+          "topics": [
+            "flaky-test-reduction",
+            "test-architecture-and-system-design",
+            "monitoring-with-influxdb-grafana",
+            "qa-metrics-and-reporting"
+          ]
+        }
+      },
+      "tools": ["GitHub Actions", "Jenkins", "Docker and Docker Compose", "Kubernetes", "Selenium Grid", "Grafana"],
+      "exercises": [
+        "Shard a Playwright or pytest suite across four CI jobs and merge the reports",
+        "Spin up an application, database and test runner in Docker Compose for each CI run",
+        "Write a script that parses JUnit XML from multiple runs and lists tests with inconsistent results"
+      ],
+      "sampleProject": {
+        "title": "Ephemeral test environment pipeline",
+        "description": "Build a CI pipeline that, for each pull request, starts an application stack in containers, seeds test data, runs API and UI tests in parallel shards, publishes merged reports, records results to a store, and tears everything down. Document timings you actually measured before and after optimisation."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you reduce a test pipeline from 60 minutes to 15?",
+          "a": "First measure where time goes: setup, build, individual slow tests. Then parallelise or shard test execution, cache dependencies and build outputs, reuse container images, and move slow or low-value tests to a later stage. Often test-level fixes such as API-based setup give big gains too."
+        },
+        {
+          "q": "How do you detect flaky tests systematically?",
+          "a": "Store results per test across runs and flag tests that both pass and fail on the same commit, or that pass on retry. Report a flakiness rate and owners, and quarantine visibly while fixes happen. Without historical data, flakiness is just anecdote."
+        },
+        {
+          "q": "How should secrets be handled in test pipelines?",
+          "a": "Secrets come from the CI system's secret store or a vault, are scoped to the jobs that need them, and are never committed or printed in logs. Test environments use separate credentials from production with least privilege. Forked pull requests should not get access to secrets."
+        },
+        {
+          "q": "What are the benefits of ephemeral test environments?",
+          "a": "Each run gets a clean, isolated environment, which removes interference between teams and stale data problems. Environments match the code under test exactly. The costs are provisioning time and infrastructure spend, so images and seeding need to be fast."
+        }
+      ],
+      "codingRequirements": "Strong scripting (Bash, Python) and CI configuration; comfortable with containers and Linux.",
+      "commonMistakes": [
+        "Optimising without measuring first",
+        "Treating retries as the solution to flakiness",
+        "Exposing secrets in logs or to untrusted pull requests"
+      ],
+      "readinessCriteria": [
+        "You have built a CI pipeline that runs tests in parallel shards",
+        "You can stand up an application stack in containers for testing",
+        "You have a script or dashboard that reports flaky tests from real run data"
+      ],
+      "nextRoles": ["devops-cicd-test-engineer", "test-architect", "cloud-qa-engineer"]
+    },
+    {
+      "slug": "test-architect",
+      "title": "Test Architect",
+      "category": "automation",
+      "overview": "A Test Architect defines how testing is structured across a product or organisation: which levels and types of testing exist, where they run, which tools are standard, and how quality signals flow into delivery decisions. The role is senior and technical, balancing hands-on prototyping with strategy and influence. Decisions are about trade-offs, not single tools.",
+      "responsibilities": [
+        "Define test strategy and architecture across teams and systems",
+        "Select and standardise tools and frameworks with documented trade-offs",
+        "Design test approaches for complex systems such as microservices",
+        "Guide teams on testability in system and service design",
+        "Define quality gates and metrics in CI/CD",
+        "Mentor engineers and review test designs"
+      ],
+      "skills": {
+        "essential": [
+          "Broad automation experience across UI, API and unit levels",
+          "Test strategy and the test pyramid",
+          "System design and distributed systems basics",
+          "CI/CD and environment strategy",
+          "Communication and influence"
+        ],
+        "roleSpecific": [
+          "Tool evaluation and decision records",
+          "Contract and integration test strategy for services",
+          "Quality metrics and gates"
+        ],
+        "optional": [
+          "Performance and reliability engineering",
+          "Security testing integration",
+          "Cloud architecture"
+        ]
+      },
+      "prerequisites": [
+        "Several years of hands-on automation or SDET experience",
+        "Experience across more than one product or system"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Strategic foundations",
+          "goals": [
+            "Write a test strategy for a single product",
+            "Map existing tests onto the test pyramid and find gaps",
+            "Document a tool choice with alternatives and trade-offs"
+          ],
+          "topics": [
+            "test-pyramid-and-strategy",
+            "test-strategy-vs-test-plan",
+            "risk-based-testing",
+            "automation-design-patterns"
+          ]
+        },
+        "intermediate": {
+          "title": "Architect for systems",
+          "goals": [
+            "Design testing for a microservice system with contract tests",
+            "Define environment and test data strategy",
+            "Design CI quality gates"
+          ],
+          "topics": [
+            "test-architecture-and-system-design",
+            "microservices-testing",
+            "contract-testing",
+            "ci-cd-for-test-engineers"
+          ]
+        },
+        "advanced": {
+          "title": "Organisation-wide quality",
+          "goals": [
+            "Define metrics that show the effectiveness of testing",
+            "Integrate performance and security testing into the strategy",
+            "Lead adoption across multiple teams"
+          ],
+          "topics": [
+            "qa-metrics-and-reporting",
+            "performance-testing-types",
+            "security-testing-fundamentals",
+            "test-management-and-leadership"
+          ]
+        }
+      },
+      "tools": ["Architecture decision records", "Diagramming tools", "Pact", "Playwright or Selenium", "REST Assured or equivalent", "CI platforms such as GitHub Actions or Jenkins"],
+      "exercises": [
+        "Write a test strategy for a system of five microservices and a web front end",
+        "Write an architecture decision record comparing two UI automation tools for your context",
+        "Design CI quality gates and explain what failures block a release"
+      ],
+      "sampleProject": {
+        "title": "Test architecture for a microservice demo",
+        "description": "Choose an open-source microservice demo application. Produce a test architecture document with diagrams covering levels, ownership, contract tests, environments, data strategy and CI gates, and implement a vertical slice: unit, contract, API and one end-to-end test running in a pipeline."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you design the test strategy for a system of many microservices?",
+          "a": "Most confidence should come from fast unit and component tests within each service, plus consumer-driven contract tests between services so teams can deploy independently. A small number of end-to-end tests cover critical journeys in an integrated environment, complemented by monitoring in production. I would define ownership, environments and CI gates for each level."
+        },
+        {
+          "q": "How do you evaluate a new testing tool?",
+          "a": "I define criteria from our context: languages, application technology, team skills, maintenance cost, CI integration, licensing and community health. I run a time-boxed proof of concept on a real, difficult part of our product, then record the decision and the alternatives considered. Tool popularity alone is not a reason."
+        },
+        {
+          "q": "What is the risk of relying heavily on end-to-end tests?",
+          "a": "They are slow, expensive to maintain and often flaky, and failures are hard to diagnose because many components are involved. Teams start ignoring red builds. They are valuable for critical journeys but should sit on top of strong lower-level coverage."
+        },
+        {
+          "q": "How do you know whether the test strategy is working?",
+          "a": "Look at outcomes: escaped defects and their severity, where defects are found, lead time and pipeline duration, and flakiness rates. Trends matter more than absolute values. I also gather qualitative feedback from teams about confidence and friction."
+        },
+        {
+          "q": "How do you get teams to adopt a new standard?",
+          "a": "Involve them in the decision, demonstrate value on a real problem, provide templates, documentation and support, and migrate incrementally. Mandates without support tend to fail. I measure adoption and address blockers openly."
+        }
+      ],
+      "codingRequirements": "Strong: able to prototype frameworks and review code at a senior engineering level, though day-to-day work is more design than coding.",
+      "commonMistakes": [
+        "Answering with one favourite tool for every context",
+        "Ignoring organisational and people factors",
+        "No measurable way to judge whether the strategy works"
+      ],
+      "readinessCriteria": [
+        "You have written and defended a test strategy for a multi-component system",
+        "You have led at least one tool evaluation with a documented decision",
+        "You can explain trade-offs of contract versus end-to-end testing clearly"
+      ],
+      "nextRoles": ["quality-engineering-manager", "test-strategy-consultant"]
+    },
+    {
+      "slug": "qa-technical-lead",
+      "title": "QA Technical Lead",
+      "category": "automation",
+      "overview": "A QA Technical Lead guides the technical direction of testing within a team or group of teams while remaining hands-on. They set coding and design standards for test code, unblock engineers, review pull requests and coordinate automation priorities with delivery leads. The role combines strong automation skills with mentoring and planning.",
+      "responsibilities": [
+        "Set technical standards and review test code across the team",
+        "Plan automation work and align it with release priorities",
+        "Mentor testers and automation engineers",
+        "Lead investigations into difficult failures and flaky suites",
+        "Represent QA in technical design discussions",
+        "Report automation health and quality risks to delivery leads"
+      ],
+      "skills": {
+        "essential": [
+          "Strong automation and programming skills",
+          "Code review and mentoring",
+          "Test strategy and risk-based planning",
+          "CI/CD knowledge",
+          "Clear communication with engineering and product"
+        ],
+        "roleSpecific": [
+          "Planning and estimating automation work",
+          "Technical decision-making for test tooling",
+          "Coordinating across several testers"
+        ],
+        "optional": [
+          "Performance and security testing knowledge",
+          "People management experience",
+          "Hiring and interviewing"
+        ]
+      },
+      "prerequisites": [
+        "Several years as an automation engineer or SDET",
+        "Experience reviewing others' code"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Lead by example",
+          "goals": [
+            "Write review guidelines for test code",
+            "Mentor one junior engineer on framework usage",
+            "Own the health of the team's CI suite"
+          ],
+          "topics": [
+            "automation-design-patterns",
+            "flaky-test-reduction",
+            "ci-cd-for-test-engineers",
+            "debugging-failing-tests"
+          ]
+        },
+        "intermediate": {
+          "title": "Plan and coordinate",
+          "goals": [
+            "Estimate and plan automation for a release",
+            "Prioritise automation backlog by risk and value",
+            "Report automation health metrics"
+          ],
+          "topics": [
+            "test-estimation",
+            "risk-based-testing",
+            "qa-metrics-and-reporting",
+            "test-pyramid-and-strategy"
+          ]
+        },
+        "advanced": {
+          "title": "Technical leadership",
+          "goals": [
+            "Drive a framework or tooling improvement across teams",
+            "Contribute testability input to system designs",
+            "Coach the team through a change in practice"
+          ],
+          "topics": [
+            "test-architecture-and-system-design",
+            "test-management-and-leadership",
+            "shift-left-and-continuous-testing"
+          ]
+        }
+      },
+      "tools": ["The team's automation stack (for example Playwright, Selenium or REST Assured)", "GitHub or GitLab pull requests", "Jira", "CI platforms", "Allure or similar reporting"],
+      "exercises": [
+        "Write a one-page code review checklist for automated tests",
+        "Plan automation for a release with ten stories and justify priorities",
+        "Prepare a 30-minute knowledge-sharing session on a framework feature"
+      ],
+      "sampleProject": {
+        "title": "Automation health improvement plan",
+        "description": "For an existing open-source or personal automation suite, measure current duration, failure and flakiness rates, write a prioritised improvement plan with owners and milestones, implement the top two improvements, and present the measured results and lessons as a short write-up."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you balance hands-on work with leading the team?",
+          "a": "I keep hands-on work to tasks that are not on the critical path, such as framework improvements or investigations, so I do not block others when I am in meetings. My priority is unblocking people and reviewing work quickly. I reassess the balance as the team grows."
+        },
+        {
+          "q": "A junior engineer keeps submitting flaky tests. How do you handle it?",
+          "a": "I pair with them on one example to understand the root cause, whether it is synchronisation, test data or design. Then I share a short guide with patterns to follow and add review checks for the common mistakes. The aim is to build their skill, not just fix the tests."
+        },
+        {
+          "q": "How do you prioritise an automation backlog?",
+          "a": "By risk and return: critical business flows, frequently run regression areas and tests that block releases come first. I also weigh maintenance cost and whether the check belongs at a lower level. Priorities are reviewed with the product and delivery leads."
+        },
+        {
+          "q": "How do you report automation health to management?",
+          "a": "With a few trends: pass rate excluding known issues, flaky test count, suite duration, and coverage of critical journeys. I explain what the numbers mean for release confidence and what actions we are taking. I avoid vanity metrics such as raw test counts."
+        }
+      ],
+      "codingRequirements": "Strong: senior-level coding in the team's automation language and the ability to review and refactor others' code.",
+      "commonMistakes": [
+        "Talking only about personal technical work and not about the team",
+        "Using test count as the main success metric",
+        "No examples of mentoring or resolving disagreements"
+      ],
+      "readinessCriteria": [
+        "You have mentored at least one engineer and can describe the outcome",
+        "You have planned automation work for a release and tracked delivery",
+        "You can present automation health with meaningful metrics"
+      ],
+      "nextRoles": ["test-architect", "qa-lead", "quality-engineering-manager"]
+    }
+  ]
+}

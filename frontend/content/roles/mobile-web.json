@@ -1,0 +1,1036 @@
+{
+  "category": "mobile-web",
+  "roles": [
+    {
+      "slug": "mobile-qa-engineer",
+      "title": "Mobile QA Engineer",
+      "category": "mobile-web",
+      "overview": "A Mobile QA Engineer tests native, hybrid or cross-platform apps on Android and iOS, covering functionality, interruptions, network conditions, permissions and store-release readiness. The role mixes manual and exploratory testing on real devices with growing amounts of automation. It is a broad, practical entry point into mobile testing.",
+      "responsibilities": [
+        "Test app features on a representative set of Android and iOS devices and OS versions",
+        "Test mobile-specific conditions: interruptions, backgrounding, rotation, low battery and poor network",
+        "Verify permission flows such as camera, location and notifications, including denial and revocation",
+        "Test installation, upgrade from previous versions and data migration",
+        "Report defects with device model, OS version, build number, logs and screen recordings",
+        "Contribute to mobile automation for smoke and regression suites",
+        "Check release builds against store submission checklists before release"
+      ],
+      "skills": {
+        "essential": [
+          "Test design techniques applied to mobile flows",
+          "Understanding of Android and iOS platform differences",
+          "Using emulators, simulators and real devices",
+          "Capturing device logs and screen recordings for defect reports"
+        ],
+        "roleSpecific": [
+          "Interruption, lifecycle and network-condition testing",
+          "Permission and privacy prompt testing",
+          "Upgrade and installation testing",
+          "Device and OS coverage planning"
+        ],
+        "optional": [
+          "Appium automation",
+          "Proxy tools for inspecting app traffic",
+          "Basic knowledge of push notification services"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Daily familiarity with Android or iOS devices",
+        "Basic understanding of client-server apps"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Test mobile apps manually with confidence",
+          "goals": [
+            "List mobile-specific risks such as interruptions, rotation and network loss and test each",
+            "Install a debug build on an emulator and a real device and capture logs",
+            "Write a defect report with device, OS, build, steps and a screen recording"
+          ],
+          "topics": [
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing",
+            "writing-a-great-defect-report",
+            "exploratory-and-ad-hoc-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Plan coverage and test deeper",
+          "goals": [
+            "Build a device and OS coverage matrix justified by risk and user data",
+            "Test upgrade from the previous app version with existing user data",
+            "Throttle network speed and test offline, slow and flaky connections",
+            "Test permission denial, later grant and revocation from system settings"
+          ],
+          "topics": [
+            "device-and-os-coverage-strategy",
+            "compatibility-and-installation-testing",
+            "testing-multi-browser-and-network-issues",
+            "risk-based-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Automate and own release quality",
+          "goals": [
+            "Automate a smoke suite for a sample app with Appium",
+            "Use a proxy to inspect and verify API calls made by the app",
+            "Run a release-readiness review for a mobile build including store checklist items"
+          ],
+          "topics": [
+            "appium-architecture-and-setup",
+            "appium-locators-and-gestures",
+            "api-security-testing",
+            "release-readiness"
+          ]
+        }
+      },
+      "tools": ["Android Studio emulator and adb", "Xcode Simulator (macOS only)", "Appium", "Charles Proxy or mitmproxy", "Jira or a similar tracker", "Real devices"],
+      "exercises": [
+        "Write and run an interruption checklist (call, notification, backgrounding, rotation, lock screen) against an open-source app",
+        "Use adb logcat to capture a crash log and attach it to a defect report",
+        "Create a device coverage matrix for a hypothetical app and justify each choice",
+        "Install version N-1 of an app with data, upgrade to version N and verify data is preserved"
+      ],
+      "sampleProject": {
+        "title": "Mobile test pack for an open-source app",
+        "description": "Pick an open-source Android or iOS app you can build locally. Produce a coverage matrix, a set of mobile-specific test charters (interruptions, network, permissions, upgrade), run them on an emulator and a real device, log real defects with evidence, and automate three smoke tests with Appium."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What do you test in mobile that you would not usually test in a web app?",
+          "a": "App lifecycle events like backgrounding and being killed by the OS, interruptions such as calls and notifications, orientation changes, permissions and their revocation, varied hardware and screen sizes, battery and storage constraints, network switching between Wi-Fi and cellular, installation and upgrades, and store review requirements. Each can break state or data in ways web apps rarely face."
+        },
+        {
+          "q": "How do you choose which devices to test on?",
+          "a": "I start from user analytics if available: the most-used device models, OS versions and screen sizes. I cover the minimum supported OS, the latest OS, and a spread of manufacturers, especially for Android where vendor customisations matter. I include low-end devices for performance and memory issues. Emulators cover breadth, while real devices cover hardware-specific behaviour like camera, sensors and performance."
+        },
+        {
+          "q": "What information makes a mobile defect report actionable?",
+          "a": "Device model, OS version, app version and build number, network type, exact steps, expected and actual result, frequency of reproduction, and evidence such as screen recordings and device logs. For crashes, the stack trace from logcat or the crash reporting tool is essential. I also note whether it reproduces on other devices."
+        },
+        {
+          "q": "How would you test an app's behaviour on a poor network?",
+          "a": "I use network throttling in emulators or a proxy to simulate slow, high-latency and lossy connections, and toggle airplane mode mid-action. I check loading indicators, timeouts, retry behaviour, offline messages, that no data is lost or duplicated, and that the app recovers when the connection returns."
+        },
+        {
+          "q": "What are the risks when a user upgrades the app?",
+          "a": "Local data migrations can fail or lose data, cached data may be in an old format, users may be logged out unexpectedly, settings may reset, and the new version may call APIs differently from the old one still in users' hands. I test upgrades from the previous release and from older supported versions with realistic data."
+        }
+      ],
+      "codingRequirements": "Low to moderate. Manual mobile testing needs no coding, but most teams expect growing automation skills, typically Java, Kotlin, JavaScript or Python with Appium.",
+      "commonMistakes": [
+        "Testing only on emulators and never on real devices",
+        "Ignoring upgrade paths and testing only fresh installs",
+        "Reporting a bug without device model, OS version and build number",
+        "Testing only on fast office Wi-Fi"
+      ],
+      "readinessCriteria": [
+        "Can run and document interruption, network and permission tests on both platforms",
+        "Can capture device logs and attach them to a well-structured defect report",
+        "Can justify a device and OS coverage matrix",
+        "Has automated at least a small smoke suite on one platform"
+      ],
+      "nextRoles": ["mobile-automation-engineer", "android-test-engineer", "ios-test-engineer"]
+    },
+    {
+      "slug": "android-test-engineer",
+      "title": "Android Test Engineer",
+      "category": "mobile-web",
+      "overview": "An Android Test Engineer specialises in testing Android apps across a fragmented landscape of manufacturers, OS versions and screen sizes. The role often includes automation with Espresso or UI Automator inside the app's codebase, plus Appium for black-box tests. Deep knowledge of Android lifecycle, permissions and tooling sets this role apart from a general mobile tester.",
+      "responsibilities": [
+        "Design and execute tests that cover Android device and OS fragmentation",
+        "Write and maintain instrumented UI tests with Espresso and UI Automator",
+        "Test activity and fragment lifecycle, process death and configuration changes",
+        "Verify runtime permissions, background execution limits and notification behaviour",
+        "Use adb and Android Studio tools to capture logs, inspect layouts and profile apps",
+        "Run tests on emulators and device farms in CI"
+      ],
+      "skills": {
+        "essential": [
+          "Android app lifecycle and configuration changes",
+          "adb, logcat and Android Studio",
+          "Kotlin or Java at a reading and test-writing level",
+          "Mobile test design"
+        ],
+        "roleSpecific": [
+          "Espresso and UI Automator",
+          "Testing process death and state restoration",
+          "Android runtime permissions and background limits",
+          "Gradle test tasks and test orchestration"
+        ],
+        "optional": [
+          "Jetpack Compose testing APIs",
+          "Appium for cross-platform suites",
+          "Firebase Test Lab or other device farms"
+        ]
+      },
+      "prerequisites": [
+        "Mobile testing fundamentals",
+        "Basic programming in Kotlin or Java",
+        "Familiarity with Android devices"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Know the platform",
+          "goals": [
+            "Install builds and capture logs using adb and logcat",
+            "Test rotation, backgrounding and 'Don't keep activities' developer option for state loss",
+            "Test runtime permission grant, deny and 'don't ask again' flows"
+          ],
+          "topics": [
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing",
+            "java-basics-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Write native Android tests",
+          "goals": [
+            "Write Espresso tests for a sample app's main flow",
+            "Use UI Automator to interact with system dialogs and notifications",
+            "Use idling resources or equivalent to avoid flaky waits",
+            "Run tests from Gradle on an emulator from the command line"
+          ],
+          "topics": [
+            "waits-and-synchronization",
+            "flaky-test-reduction",
+            "java-oop-for-test-automation",
+            "device-and-os-coverage-strategy"
+          ]
+        },
+        "advanced": {
+          "title": "Scale across devices",
+          "goals": [
+            "Run instrumented tests in CI on several emulator API levels",
+            "Combine Espresso suites with Appium end-to-end tests and justify the split",
+            "Profile memory and CPU in Android Studio during a test session to find a leak"
+          ],
+          "topics": [
+            "appium-architecture-and-setup",
+            "test-pyramid-and-strategy",
+            "github-actions-for-tests",
+            "parallel-execution"
+          ]
+        }
+      },
+      "tools": ["Android Studio", "adb and logcat", "Espresso", "UI Automator", "Appium", "Gradle", "Firebase Test Lab or similar device farms"],
+      "exercises": [
+        "Enable 'Don't keep activities', navigate through an app and record where state is lost",
+        "Write three Espresso tests for a sample app's login and list screens",
+        "Use UI Automator to accept a runtime permission dialog in a test",
+        "Configure a CI job that runs instrumented tests on an emulator"
+      ],
+      "sampleProject": {
+        "title": "Instrumented test suite for a sample Android app",
+        "description": "Clone an open-source Android sample app. Add Espresso tests for core flows, a UI Automator test for a permission dialog, a process-death test, and a GitHub Actions workflow that runs the suite on an emulator. Document a device coverage matrix and a short report of defects found."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is process death and how do you test for it?",
+          "a": "Android can kill a backgrounded app's process to reclaim memory. When the user returns, the app must restore its state from saved instance state or persistent storage. I test it by backgrounding the app and killing the process with adb or the 'Don't keep activities' option, then returning and checking that screens, form input and navigation are restored correctly."
+        },
+        {
+          "q": "When would you use Espresso versus Appium?",
+          "a": "Espresso runs inside the app's process, synchronises automatically with the UI thread and is fast and stable, making it ideal for in-app UI tests owned by the development team. Appium is black-box and cross-platform, useful for end-to-end flows across Android and iOS or when tests must not depend on app source. Many teams use Espresso for most UI tests and a smaller Appium suite for cross-platform journeys."
+        },
+        {
+          "q": "How does Android fragmentation affect your test strategy?",
+          "a": "Different manufacturers modify the OS, screen sizes and densities vary, and OS versions differ in permissions, background limits and notification behaviour. I base coverage on user analytics, include major manufacturers and the minimum and latest supported API levels, and pay special attention to features that touch system behaviour, such as background work and notifications."
+        },
+        {
+          "q": "How do you reduce flakiness in Espresso tests?",
+          "a": "Espresso already waits for the main thread and AsyncTask-style work, but custom background work needs idling resources or a test-friendly dispatcher. I avoid sleeps, disable animations on test devices, isolate test data, and make each test independent of order. For persistent flakiness I capture logs and screenshots on failure and fix root causes rather than adding retries."
+        },
+        {
+          "q": "How do you test the 'don't ask again' permission case?",
+          "a": "I deny the permission twice or select the option where offered, so the system will no longer show the dialog. Then I trigger the feature and verify the app explains why it needs the permission and offers a path to system settings, rather than failing silently. I also revoke a granted permission from settings while the app is in the background and confirm it handles that."
+        }
+      ],
+      "codingRequirements": "Moderate to high. Writing Espresso and UI Automator tests requires Kotlin or Java and working inside the app's Gradle project.",
+      "commonMistakes": [
+        "Leaving animations enabled on test devices, causing flaky UI tests",
+        "Never testing process death, so state loss bugs reach users",
+        "Testing only on one manufacturer's devices",
+        "Using fixed sleeps instead of synchronisation"
+      ],
+      "readinessCriteria": [
+        "Can write and run Espresso tests from the command line and in CI",
+        "Can reproduce and explain a process-death or configuration-change bug",
+        "Can use adb to install, capture logs, grant and revoke permissions",
+        "Can justify a device and API-level coverage plan"
+      ],
+      "nextRoles": ["mobile-automation-engineer", "device-testing-engineer", "sdet"]
+    },
+    {
+      "slug": "ios-test-engineer",
+      "title": "iOS Test Engineer",
+      "category": "mobile-web",
+      "overview": "An iOS Test Engineer focuses on testing apps for iPhone and iPad, using Apple's tooling such as Xcode, XCTest and XCUITest. The role covers Apple platform behaviours like app lifecycle, privacy prompts, TestFlight distribution and App Store review readiness. A Mac and familiarity with Swift are typically required.",
+      "responsibilities": [
+        "Test iOS app features across supported iPhone and iPad models and iOS versions",
+        "Write and maintain XCUITest UI tests and support XCTest unit tests",
+        "Test privacy permission prompts, app lifecycle and background behaviour",
+        "Distribute and validate builds through TestFlight",
+        "Check builds against App Store review guidelines before submission",
+        "Capture device logs, crash reports and screen recordings for defects"
+      ],
+      "skills": {
+        "essential": [
+          "iOS app lifecycle and platform conventions",
+          "Xcode and the iOS Simulator",
+          "Swift at a reading and test-writing level",
+          "Mobile test design"
+        ],
+        "roleSpecific": [
+          "XCTest and XCUITest",
+          "Accessibility identifiers for stable UI tests",
+          "TestFlight distribution and provisioning concepts",
+          "Privacy permission and usage description testing"
+        ],
+        "optional": [
+          "Appium with the XCUITest driver",
+          "Fastlane or similar build automation",
+          "Instruments for memory and performance profiling"
+        ]
+      },
+      "prerequisites": [
+        "Mobile testing fundamentals",
+        "Access to a Mac with Xcode",
+        "Basic programming knowledge, ideally Swift"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn the Apple toolchain",
+          "goals": [
+            "Build and run a sample app in the iOS Simulator from Xcode",
+            "Capture simulator and device logs and screen recordings",
+            "Test lifecycle events: backgrounding, termination, rotation and split view on iPad"
+          ],
+          "topics": [
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Write XCUITest suites",
+          "goals": [
+            "Write XCUITests for login and navigation using accessibility identifiers",
+            "Handle system permission alerts in UI tests",
+            "Run tests from the command line with xcodebuild",
+            "Pass launch arguments to put the app into a known test state"
+          ],
+          "topics": [
+            "locator-strategies",
+            "waits-and-synchronization",
+            "test-suites-and-test-data",
+            "flaky-test-reduction"
+          ]
+        },
+        "advanced": {
+          "title": "Release with confidence",
+          "goals": [
+            "Run XCUITests in CI on several simulator configurations",
+            "Use Instruments to find a memory leak during a test session",
+            "Run a pre-submission review against App Store guidelines and privacy requirements"
+          ],
+          "topics": [
+            "device-and-os-coverage-strategy",
+            "ci-cd-for-test-engineers",
+            "release-readiness",
+            "accessibility-testing-fundamentals"
+          ]
+        }
+      },
+      "tools": ["Xcode", "iOS Simulator", "XCTest and XCUITest", "TestFlight", "Instruments", "Appium XCUITest driver", "Console app for device logs"],
+      "exercises": [
+        "Write an XCUITest that logs in, navigates to a detail screen and verifies content using accessibility identifiers",
+        "Handle a location permission alert inside a UI test",
+        "Run the test suite on two simulator models via xcodebuild from the terminal",
+        "Profile an app with Instruments and document any leaks found"
+      ],
+      "sampleProject": {
+        "title": "XCUITest suite for an open-source iOS app",
+        "description": "Choose an open-source iOS app that builds in Xcode. Add accessibility identifiers where missing, write XCUITests for three core flows including a permission alert, run them via xcodebuild on two simulator configurations, and produce a short pre-release checklist based on the App Store Review Guidelines and Apple privacy requirements."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why are accessibility identifiers important for XCUITest?",
+          "a": "They give elements a stable, non-localised identifier that tests can query, independent of visible text, layout or language. Relying on labels or element positions breaks when copy changes or the app is localised. Identifiers are separate from accessibility labels read by VoiceOver, so setting them does not change the user experience."
+        },
+        {
+          "q": "How do you put an app into a known state for UI tests?",
+          "a": "I pass launch arguments or environment variables from the test to the app, and the app reads them to reset data, skip onboarding or point at a stub server. This avoids long setup through the UI and makes tests independent. The hooks must be compiled only into test or debug builds."
+        },
+        {
+          "q": "What do you check before an app goes to App Store review?",
+          "a": "That the build is stable on supported devices, privacy usage descriptions explain why each permission is needed, a privacy policy and any required disclosures are in place, there are no placeholder content or broken links, in-app purchases follow the platform rules, and demo credentials are provided if login is required. I refer to Apple's current guidelines because they change."
+        },
+        {
+          "q": "How do iOS and Android differ in ways that affect testing?",
+          "a": "iOS has a smaller device range and faster OS adoption, but stricter background execution rules and a review process. Permission prompts differ in wording and options, back navigation is gesture or button based rather than a system back button, and distribution for testing uses TestFlight rather than direct APK installs. Tests and expectations must reflect each platform's conventions."
+        },
+        {
+          "q": "What is the difference between XCTest unit tests and XCUITest?",
+          "a": "XCTest unit tests run inside the app process and can call code directly, so they are fast and precise. XCUITest runs in a separate process and drives the app through the user interface using accessibility information, so it tests real user flows but is slower and more brittle. A healthy suite has many unit tests and a focused set of UI tests."
+        }
+      ],
+      "codingRequirements": "Moderate to high. XCUITest requires writing Swift in Xcode projects; you should be comfortable reading app code to add identifiers and test hooks.",
+      "commonMistakes": [
+        "Locating elements by visible text, which breaks with copy changes and localisation",
+        "Testing only on the newest simulator and iOS version",
+        "Driving long setup through the UI instead of launch arguments",
+        "Discovering privacy and guideline problems only after submission"
+      ],
+      "readinessCriteria": [
+        "Can write and run XCUITests from Xcode and the command line",
+        "Can handle system alerts and set up app state for tests",
+        "Can capture logs and crash reports from simulators and devices",
+        "Can run a pre-submission checklist against current Apple guidelines"
+      ],
+      "nextRoles": ["mobile-automation-engineer", "accessibility-test-engineer", "sdet"]
+    },
+    {
+      "slug": "cross-browser-tester",
+      "title": "Cross-Browser Tester",
+      "category": "mobile-web",
+      "overview": "A Cross-Browser Tester ensures web applications look and behave correctly across the browsers, browser versions and viewport sizes that real users have. The role combines manual visual checks with automated runs across browser engines, and requires understanding of how HTML, CSS and JavaScript can behave differently. It is a focused web specialism that pairs well with automation skills.",
+      "responsibilities": [
+        "Define a browser and viewport support matrix based on user data and business needs",
+        "Test layout, interaction and functionality across browser engines and versions",
+        "Test responsive behaviour at key breakpoints, including touch input",
+        "Run automated suites across multiple browsers and analyse browser-specific failures",
+        "Isolate browser-specific defects to a minimal reproduction",
+        "Check visual regressions after style or framework changes"
+      ],
+      "skills": {
+        "essential": [
+          "HTML, CSS and JavaScript basics",
+          "Browser developer tools",
+          "Responsive design concepts",
+          "Test design and defect reporting"
+        ],
+        "roleSpecific": [
+          "Differences between Chromium, Gecko and WebKit engines",
+          "Creating minimal reproductions of browser-specific bugs",
+          "Running automation across browsers",
+          "Visual comparison testing"
+        ],
+        "optional": [
+          "Cloud browser grids",
+          "Checking feature support data before reporting",
+          "Selenium Grid configuration"
+        ]
+      },
+      "prerequisites": [
+        "Manual web testing experience",
+        "Basic HTML and CSS knowledge",
+        "Comfort using browser developer tools"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "See the differences",
+          "goals": [
+            "Build a browser and viewport matrix for a sample site",
+            "Use device emulation in developer tools to test responsive layouts",
+            "Compare the same page in Chromium, Firefox and WebKit-based browsers and log differences"
+          ],
+          "topics": [
+            "cross-browser-testing",
+            "compatibility-and-installation-testing",
+            "testing-multi-browser-and-network-issues"
+          ]
+        },
+        "intermediate": {
+          "title": "Automate across browsers",
+          "goals": [
+            "Run a Playwright suite against Chromium, Firefox and WebKit",
+            "Investigate a browser-specific failure and create a minimal HTML reproduction",
+            "Use pairwise techniques to reduce browser, OS and viewport combinations"
+          ],
+          "topics": [
+            "playwright-with-typescript",
+            "pairwise-and-combinatorial-testing",
+            "locator-strategies",
+            "debugging-failing-tests"
+          ]
+        },
+        "advanced": {
+          "title": "Run at scale",
+          "goals": [
+            "Run tests in parallel on a Selenium Grid or cloud grid",
+            "Add visual comparison checks with a controlled baseline",
+            "Run a cross-browser suite in CI and report results per browser"
+          ],
+          "topics": [
+            "parallel-execution",
+            "selenium-architecture",
+            "github-actions-for-tests",
+            "flaky-test-reduction"
+          ]
+        }
+      },
+      "tools": ["Playwright", "Selenium Grid", "Browser developer tools", "Cloud browser testing services", "Visual comparison tools (for example Playwright screenshot assertions)"],
+      "exercises": [
+        "Write a support matrix for a site using your own assumptions about its users and justify each entry",
+        "Run one Playwright test file against all three bundled browser engines and analyse any differences",
+        "Reduce a layout bug to a minimal HTML/CSS file that reproduces it in only one browser",
+        "Apply pairwise testing to browser, OS and viewport and compare the number of combinations with exhaustive testing"
+      ],
+      "sampleProject": {
+        "title": "Cross-browser regression pack for a demo web app",
+        "description": "Pick a demo web application you can run locally. Define a support matrix, write a Playwright suite that runs on Chromium, Firefox and WebKit at desktop and mobile viewports, add screenshot comparisons for key pages, and publish a CI report grouped by browser along with minimal reproductions of any browser-specific bugs."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you decide which browsers to support and test?",
+          "a": "I use the product's own analytics to see which browsers, versions and devices users have, then agree a support policy with the product owner, typically the latest versions of major browsers plus specific older versions if significant users depend on them. I test most heavily on the most-used combinations and the riskiest ones, such as Safari on iOS, which uses WebKit."
+        },
+        {
+          "q": "Does running Playwright's WebKit build mean you have tested Safari?",
+          "a": "Not fully. Playwright's WebKit build uses the same engine family as Safari and catches many engine-level differences, but it is not the branded Safari browser and may not match every Safari version or iOS-specific behaviour. For high-risk features I also verify on real Safari on macOS and iOS devices."
+        },
+        {
+          "q": "What makes a good browser-specific bug report?",
+          "a": "The exact browser, version and OS, viewport size, steps, and ideally a minimal reproduction that strips away unrelated code. Screenshots from an affected and an unaffected browser side by side help. I also check whether the feature is supported in that browser version before assuming it is an application bug."
+        },
+        {
+          "q": "How do you keep visual comparison tests from being flaky?",
+          "a": "Run them in a consistent environment such as a container, fix fonts, disable animations, mask dynamic content like dates and ads, and use sensible thresholds. Baselines must be generated in the same environment where comparisons run, and reviewed when deliberately updated."
+        },
+        {
+          "q": "What browser differences commonly cause bugs?",
+          "a": "Differences in CSS support and default styles, date and input control behaviour, font rendering, scrolling and viewport handling on mobile, cookie and storage policies, and event handling for touch versus mouse. Each engine also releases features at different times, so newer CSS or JavaScript features may be missing."
+        }
+      ],
+      "codingRequirements": "Moderate. Reading HTML, CSS and JavaScript is essential for isolating bugs; writing automation in TypeScript, JavaScript or Java is expected in most teams.",
+      "commonMistakes": [
+        "Testing every possible combination instead of a risk-based matrix",
+        "Treating a desktop browser's mobile emulation as equivalent to a real mobile browser",
+        "Reporting browser bugs without version numbers or a reproduction",
+        "Generating visual baselines on one machine and comparing on another"
+      ],
+      "readinessCriteria": [
+        "Can justify a browser support matrix from data and risk",
+        "Can run an automated suite across three browser engines and analyse failures",
+        "Can produce a minimal reproduction of a browser-specific bug",
+        "Can set up stable visual comparison checks"
+      ],
+      "nextRoles": ["web-automation-engineer", "compatibility-test-engineer", "accessibility-test-engineer"]
+    },
+    {
+      "slug": "compatibility-test-engineer",
+      "title": "Compatibility Test Engineer",
+      "category": "mobile-web",
+      "overview": "A Compatibility Test Engineer verifies that software works correctly across the environments it must support: operating systems, browsers, devices, hardware configurations, dependencies and previous versions of itself. The role is wider than cross-browser testing and includes installation, upgrade, backward and forward compatibility. It relies heavily on careful environment management and combinatorial test design.",
+      "responsibilities": [
+        "Define supported environment matrices with product and support teams",
+        "Design compatibility tests using combinatorial techniques to manage the number of combinations",
+        "Test installation, upgrade, downgrade and uninstall on supported platforms",
+        "Verify backward compatibility of file formats, APIs and stored data between versions",
+        "Manage virtual machines, containers and devices used as test environments",
+        "Report compatibility issues with full environment details"
+      ],
+      "skills": {
+        "essential": [
+          "Compatibility and installation testing concepts",
+          "Pairwise and combinatorial test design",
+          "Environment setup on several operating systems",
+          "Precise defect reporting"
+        ],
+        "roleSpecific": [
+          "Upgrade and data migration testing",
+          "Backward and forward compatibility of APIs and file formats",
+          "Virtual machine and container management for test environments",
+          "Dependency and runtime version testing"
+        ],
+        "optional": [
+          "Scripting environment setup",
+          "Cloud device and browser services",
+          "API versioning concepts"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Comfort installing and configuring software on Windows, macOS and Linux",
+        "Basic understanding of software versions and dependencies"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand compatibility dimensions",
+          "goals": [
+            "List the compatibility dimensions for a given product (OS, browser, device, dependencies, versions)",
+            "Install and uninstall an application on two operating systems and record issues",
+            "Write a supported environments matrix with explicit assumptions"
+          ],
+          "topics": [
+            "compatibility-and-installation-testing",
+            "cross-browser-testing",
+            "functional-vs-non-functional-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Control the combinations",
+          "goals": [
+            "Use pairwise testing to reduce a large configuration space",
+            "Test an upgrade from two previous versions with existing data",
+            "Set up reproducible test environments with containers or virtual machines"
+          ],
+          "topics": [
+            "pairwise-and-combinatorial-testing",
+            "docker-for-testers",
+            "risk-based-testing",
+            "test-data-design"
+          ]
+        },
+        "advanced": {
+          "title": "Guard compatibility over time",
+          "goals": [
+            "Test API backward compatibility between client and server versions",
+            "Automate a compatibility matrix run in CI",
+            "Define a support and deprecation policy proposal with test implications"
+          ],
+          "topics": [
+            "contract-testing",
+            "device-and-os-coverage-strategy",
+            "ci-cd-for-test-engineers",
+            "localization-and-internationalization"
+          ]
+        }
+      },
+      "tools": ["Virtual machines (for example VirtualBox or Hyper-V)", "Docker", "Pairwise generation tools (for example PICT)", "Playwright or Selenium", "Cloud device and browser services"],
+      "exercises": [
+        "Generate pairwise combinations for OS, browser, language and screen size and compare with the full combination count",
+        "Upgrade an open-source desktop or web app from an older release with existing data and verify migration",
+        "Use Docker to run the same test suite against two versions of a database",
+        "Test that an older API client still works against a newer server version"
+      ],
+      "sampleProject": {
+        "title": "Compatibility matrix for an open-source application",
+        "description": "Choose an open-source application with published releases. Define its compatibility dimensions, generate a pairwise matrix, test installation and upgrade from two previous releases with real data, run its test suite against two dependency versions in Docker, and write a compatibility report with clear environment details."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you handle a configuration space that is too large to test exhaustively?",
+          "a": "I combine risk-based selection with combinatorial techniques. Pairwise testing ensures every pair of parameter values is covered at least once, which catches many interaction bugs with far fewer tests. I then add specific combinations that are high-risk or most used. I document what is not covered so the risk is visible."
+        },
+        {
+          "q": "What is the difference between backward and forward compatibility?",
+          "a": "Backward compatibility means a newer version works with older data, clients or formats, for example a new server accepting requests from an older app version. Forward compatibility means an older version can handle data or messages from a newer one gracefully, for example ignoring unknown fields. Both matter where clients and servers are upgraded at different times."
+        },
+        {
+          "q": "What do you test in an upgrade scenario?",
+          "a": "That the upgrade completes from each supported previous version, existing data and settings are preserved and migrated correctly, the application starts and works with migrated data, and failure partway through can be recovered or rolled back. I also test that downgrade or rollback behaves as documented."
+        },
+        {
+          "q": "How do you make compatibility environments reproducible?",
+          "a": "I define them as code where possible: container images, virtual machine snapshots or scripts with pinned versions. Each run records the exact versions used. That way a failure can be reproduced by a developer and differences between runs are not due to environment drift."
+        },
+        {
+          "q": "How is compatibility testing different from cross-browser testing?",
+          "a": "Cross-browser testing is one dimension of compatibility, focused on web browsers and viewports. Compatibility testing also covers operating systems, hardware, dependencies, data formats, API versions, installation and upgrades. The skills overlap, but the scope and environment management are broader."
+        }
+      ],
+      "codingRequirements": "Low to moderate. Scripting for environment setup and automation helps a lot; you do not need to develop application features.",
+      "commonMistakes": [
+        "Testing only fresh installs and never upgrades",
+        "Not recording exact versions, making failures impossible to reproduce",
+        "Trying to test every combination instead of using combinatorial techniques",
+        "Ignoring dependency versions such as runtimes or databases"
+      ],
+      "readinessCriteria": [
+        "Can produce a pairwise compatibility matrix and explain its coverage",
+        "Has tested an upgrade path with real data from more than one previous version",
+        "Can set up reproducible environments with containers or virtual machines",
+        "Can explain backward and forward compatibility with examples"
+      ],
+      "nextRoles": ["device-testing-engineer", "test-analyst", "test-infrastructure-engineer"]
+    },
+    {
+      "slug": "device-testing-engineer",
+      "title": "Device Testing Engineer",
+      "category": "mobile-web",
+      "overview": "A Device Testing Engineer focuses on how software behaves on physical devices: phones, tablets, wearables, smart TVs or other consumer hardware. The work covers hardware-dependent features such as sensors, cameras, Bluetooth, battery and thermal behaviour, plus managing a real device lab or device farm. It is hands-on and requires careful logistics as well as testing skill.",
+      "responsibilities": [
+        "Maintain a physical device lab: inventory, charging, OS versions and resets",
+        "Test hardware-dependent features such as camera, GPS, Bluetooth, NFC and sensors",
+        "Measure battery drain, heat and resource usage during typical use",
+        "Test behaviour across screen sizes, densities, notches and foldable form factors",
+        "Run automated suites on real devices and device farms and triage device-specific failures",
+        "Advise on device coverage based on usage data and risk"
+      ],
+      "skills": {
+        "essential": [
+          "Mobile testing fundamentals on real devices",
+          "Device and OS coverage strategy",
+          "Capturing device logs and diagnostics",
+          "Structured exploratory testing"
+        ],
+        "roleSpecific": [
+          "Testing sensors, camera, location and connectivity hardware",
+          "Battery and thermal behaviour testing",
+          "Device lab and device farm management",
+          "Form factor testing including tablets and foldables"
+        ],
+        "optional": [
+          "Appium on real devices",
+          "Wearable or smart TV platforms",
+          "Bluetooth Low Energy concepts"
+        ]
+      },
+      "prerequisites": [
+        "Mobile QA experience",
+        "Comfort with adb and Xcode device tools",
+        "Organisational discipline for managing physical equipment"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Work with real hardware",
+          "goals": [
+            "Set up a small device inventory with model, OS version and capabilities",
+            "Capture logs from real Android and iOS devices",
+            "Test location, camera and orientation features on real devices"
+          ],
+          "topics": [
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing",
+            "exploratory-testing-charters"
+          ]
+        },
+        "intermediate": {
+          "title": "Test hardware-dependent behaviour",
+          "goals": [
+            "Measure battery drain for a feature over a fixed session and compare builds",
+            "Test Bluetooth or network handover scenarios such as walking out of Wi-Fi range",
+            "Test layouts on small, large, high-density and foldable screens",
+            "Build a device coverage strategy from usage data"
+          ],
+          "topics": [
+            "device-and-os-coverage-strategy",
+            "testing-multi-browser-and-network-issues",
+            "compatibility-and-installation-testing",
+            "recovery-reliability-availability-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Run a device lab at scale",
+          "goals": [
+            "Run Appium suites on real devices in parallel",
+            "Triage failures that occur only on specific devices and reduce them to root causes",
+            "Decide what belongs on emulators, real devices and device farms"
+          ],
+          "topics": [
+            "appium-architecture-and-setup",
+            "appium-locators-and-gestures",
+            "parallel-execution",
+            "root-cause-analysis"
+          ]
+        }
+      },
+      "tools": ["Real Android and iOS devices", "adb and Xcode device tools", "Android Studio profilers and Xcode Instruments", "Appium", "Cloud device farms", "USB hubs and device management tooling"],
+      "exercises": [
+        "Create a device inventory sheet and coverage rationale for a hypothetical app",
+        "Measure battery usage of a navigation-style app over 30 minutes on two devices",
+        "Test an app's camera permission and capture flow on three devices and record differences",
+        "Run the same Appium test on an emulator and a real device and explain any differences"
+      ],
+      "sampleProject": {
+        "title": "Real-device test campaign",
+        "description": "Using the devices you can access, plan and run a test campaign for an open-source app that uses location or camera. Include a coverage rationale, hardware-feature test charters, battery and thermal observations, Appium smoke tests on real devices, and a report that separates device-specific from general defects."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What can a real device reveal that an emulator cannot?",
+          "a": "Real hardware behaviour: camera, sensors, GPS accuracy, Bluetooth, NFC, actual CPU and GPU performance, thermal throttling, battery drain, manufacturer OS customisations and real network conditions. Emulators are excellent for breadth and speed, but these characteristics need real devices."
+        },
+        {
+          "q": "How would you test battery impact of a feature?",
+          "a": "I would use the platform's battery and energy profiling tools and run a defined, repeatable scenario for a fixed duration on a fully charged device, with the same brightness, network and background apps. I compare against a baseline build or with the feature disabled. I watch for wake locks, frequent location updates and background network calls."
+        },
+        {
+          "q": "How do you keep a device lab reliable?",
+          "a": "Keep an up-to-date inventory with OS versions, control OS updates so they happen deliberately, reset devices between test sessions, keep devices charged safely, label cables and ports, and check device health regularly. For automation, I monitor device connectivity and remove unreliable devices from the pool until fixed."
+        },
+        {
+          "q": "A crash happens only on one manufacturer's devices. How do you investigate?",
+          "a": "I capture full device logs and the crash stack trace, note the exact OS build and manufacturer version, and try to reproduce on other models from the same manufacturer and the same OS version from another manufacturer. That separates OS-version issues from vendor customisations. Then I share the minimal steps and logs with developers."
+        },
+        {
+          "q": "What are the testing considerations for foldable devices?",
+          "a": "Screen size and aspect ratio change while the app is running, which triggers configuration changes. I test folding and unfolding during key flows, state preservation, layout at each posture, multi-window use and whether content is hidden by the hinge area."
+        }
+      ],
+      "codingRequirements": "Low to moderate. Much of the role is hands-on device testing; scripting and Appium skills are needed for automation on real devices.",
+      "commonMistakes": [
+        "Letting devices auto-update and losing control of OS versions",
+        "Assuming emulator results apply to real hardware",
+        "Measuring battery or performance without controlling conditions",
+        "Not separating device-specific defects from general ones"
+      ],
+      "readinessCriteria": [
+        "Can plan device coverage from usage data and justify it",
+        "Can test and report hardware-dependent features with full device details",
+        "Can run a controlled battery or performance comparison",
+        "Can run automated tests on real devices and triage device-specific failures"
+      ],
+      "nextRoles": ["mobile-automation-engineer", "iot-test-engineer", "embedded-systems-test-engineer"]
+    },
+    {
+      "slug": "accessibility-test-engineer",
+      "title": "Accessibility Test Engineer",
+      "category": "mobile-web",
+      "overview": "An Accessibility Test Engineer checks that web and mobile products can be used by people with disabilities, using WCAG as the main reference. The role combines automated scanning with manual testing using keyboards, screen readers, zoom and contrast tools, and works closely with designers and developers on fixes. Automated tools find only part of the issues, so manual skill is central.",
+      "responsibilities": [
+        "Test pages and screens against WCAG success criteria at the agreed conformance level",
+        "Perform keyboard-only and screen reader testing on web and mobile platforms",
+        "Run automated accessibility scans and triage the results",
+        "Integrate automated accessibility checks into CI pipelines",
+        "Write defect reports that cite the relevant WCAG criterion and explain user impact",
+        "Review designs for colour contrast, focus order and content structure before build"
+      ],
+      "skills": {
+        "essential": [
+          "WCAG principles and success criteria",
+          "Keyboard and screen reader testing",
+          "HTML semantics and basic ARIA",
+          "Automated accessibility scanning and its limits"
+        ],
+        "roleSpecific": [
+          "Testing with NVDA, JAWS, VoiceOver and TalkBack",
+          "Accessibility automation with axe-core in test frameworks",
+          "Mobile accessibility settings such as dynamic type and switch access",
+          "Explaining user impact to designers and developers"
+        ],
+        "optional": [
+          "Accessibility conformance report formats",
+          "Usability testing with disabled participants",
+          "Legal and regulatory context in the markets the product serves"
+        ]
+      },
+      "prerequisites": [
+        "Web or mobile testing experience",
+        "Basic HTML knowledge",
+        "Willingness to learn assistive technologies"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn WCAG and manual techniques",
+          "goals": [
+            "Explain the four WCAG principles and give an example failure for each",
+            "Navigate a site using only the keyboard and log focus and trap issues",
+            "Check colour contrast and text resizing on a set of pages"
+          ],
+          "topics": [
+            "accessibility-testing-fundamentals",
+            "screen-reader-and-keyboard-testing",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Test with assistive technology",
+          "goals": [
+            "Complete core user journeys with a desktop screen reader and a mobile screen reader",
+            "Identify missing labels, wrong roles and announcement problems",
+            "Run axe scans and separate true issues from items needing manual review",
+            "Test forms for error identification and accessible instructions"
+          ],
+          "topics": [
+            "accessibility-automation",
+            "testing-data-validation",
+            "mobile-testing-fundamentals",
+            "android-vs-ios-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Embed accessibility in delivery",
+          "goals": [
+            "Add automated accessibility checks to a Playwright suite running in CI",
+            "Define accessibility acceptance criteria for user stories",
+            "Produce an audit report mapping issues to WCAG criteria with priorities"
+          ],
+          "topics": [
+            "playwright-with-typescript",
+            "acceptance-criteria-dor-dod",
+            "ci-cd-for-test-engineers",
+            "qa-metrics-and-reporting"
+          ]
+        }
+      },
+      "tools": ["axe DevTools and axe-core", "Lighthouse", "NVDA", "VoiceOver (macOS and iOS)", "TalkBack (Android)", "Colour contrast analysers", "Playwright with axe integration"],
+      "exercises": [
+        "Audit a form-heavy page with keyboard only and a screen reader and log issues with WCAG references",
+        "Run axe on five pages and classify each finding as confirmed, false positive or needs manual review",
+        "Test a mobile app with TalkBack or VoiceOver and with the largest system font size",
+        "Add an axe check to an existing Playwright test and make it fail on serious violations"
+      ],
+      "sampleProject": {
+        "title": "Accessibility audit and automation for a demo site",
+        "description": "Audit a demo web application you can run locally against WCAG 2.2 AA for three key journeys, using keyboard, a screen reader, zoom and contrast tools plus axe. Write prioritised findings with WCAG references and user impact, then add axe-based Playwright checks in CI to prevent regressions of the automatable issues."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why can't automated tools alone confirm accessibility?",
+          "a": "Automated tools reliably detect only a subset of issues, such as missing alt attributes, contrast failures or invalid ARIA. They cannot judge whether alt text is meaningful, whether focus order makes sense, whether a screen reader announcement is understandable, or whether a complex widget is operable. Manual testing with keyboards and assistive technologies is required to assess real usability."
+        },
+        {
+          "q": "What do you check when testing with only a keyboard?",
+          "a": "That every interactive element can be reached and operated, focus is always visible, the focus order follows a logical reading order, there are no keyboard traps, modals manage focus correctly when opening and closing, and skip links or landmarks help users bypass repeated content."
+        },
+        {
+          "q": "How would you explain the impact of a missing form label to a developer?",
+          "a": "A screen reader user tabbing into the field hears only 'edit text' with no indication of what to type, so they have to guess or give up. Voice control users also cannot target the field by name. The fix is a programmatically associated label, for example a label element linked to the input, which also increases the click target for mouse users."
+        },
+        {
+          "q": "When should ARIA be used?",
+          "a": "When native HTML cannot express the semantics needed. Native elements like buttons and inputs come with built-in keyboard and screen reader support, so they should be preferred. Incorrect ARIA can make things worse by announcing wrong roles or states, so I test every ARIA-heavy component with real assistive technology."
+        },
+        {
+          "q": "How does mobile accessibility testing differ from web?",
+          "a": "Mobile screen readers use gestures rather than keys, so I test swipe navigation, focus order and custom actions with TalkBack and VoiceOver. I also test system settings like large text, bold text, reduced motion and colour inversion, touch target sizes, and orientation support. The underlying principles from WCAG still apply."
+        }
+      ],
+      "codingRequirements": "Low to moderate. You need to read HTML, CSS and ARIA to diagnose issues, and write small amounts of test code for automated checks. You do not need to build applications.",
+      "commonMistakes": [
+        "Treating a clean automated scan as proof of accessibility",
+        "Reporting issues without WCAG references or a description of user impact",
+        "Testing screen readers with a mouse instead of the screen reader's own navigation",
+        "Recommending ARIA where a native HTML element would solve the problem"
+      ],
+      "readinessCriteria": [
+        "Can complete a WCAG-based audit of a journey using keyboard, screen reader and automated tools",
+        "Can write defect reports that cite criteria and explain user impact",
+        "Can operate at least one desktop and one mobile screen reader confidently",
+        "Has added automated accessibility checks to a CI pipeline"
+      ],
+      "nextRoles": ["accessibility-qa-specialist", "usability-test-engineer", "web-automation-engineer"]
+    },
+    {
+      "slug": "usability-test-engineer",
+      "title": "Usability Test Engineer",
+      "category": "mobile-web",
+      "overview": "A Usability Test Engineer evaluates how easily real users can achieve their goals with a product, combining testing discipline with user-research methods. The role plans and runs usability sessions, applies heuristic evaluation, and turns observations into prioritised, evidence-based recommendations. It sits between QA and UX and focuses on effectiveness, efficiency and satisfaction rather than functional correctness alone.",
+      "responsibilities": [
+        "Plan usability tests with clear goals, tasks, participant criteria and success measures",
+        "Moderate sessions and observe without leading participants",
+        "Perform heuristic evaluations of designs and builds",
+        "Analyse findings, rate severity and recommend changes",
+        "Collaborate with designers, product owners and testers on fixes",
+        "Handle participant consent and recordings according to privacy rules"
+      ],
+      "skills": {
+        "essential": [
+          "Usability principles and heuristic evaluation",
+          "Task design and session moderation",
+          "Observation and note-taking",
+          "Clear, evidence-based reporting"
+        ],
+        "roleSpecific": [
+          "Usability metrics such as task success, time on task and error rate",
+          "Standardised questionnaires such as the System Usability Scale",
+          "Remote and in-person test setup",
+          "Participant consent and privacy handling"
+        ],
+        "optional": [
+          "Prototyping tools for testing designs early",
+          "Analytics for finding where users struggle",
+          "A/B test interpretation"
+        ]
+      },
+      "prerequisites": [
+        "Testing or UX experience",
+        "Strong communication and listening skills",
+        "Understanding of the product's users and goals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn to evaluate usability",
+          "goals": [
+            "Apply a set of usability heuristics to an app and log issues with severity",
+            "Explain the difference between usability testing and acceptance testing",
+            "Write realistic tasks for a key user journey"
+          ],
+          "topics": [
+            "acceptance-alpha-beta-testing",
+            "use-case-testing",
+            "functional-vs-non-functional-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Run usability sessions",
+          "goals": [
+            "Plan and moderate five usability sessions with a written script",
+            "Measure task success, time on task and errors for each task",
+            "Synthesise findings into themes and prioritise them by impact and frequency",
+            "Include accessibility considerations in task design"
+          ],
+          "topics": [
+            "exploratory-testing-charters",
+            "accessibility-testing-fundamentals",
+            "requirements-analysis-for-testers",
+            "test-execution-and-closure-reports"
+          ]
+        },
+        "advanced": {
+          "title": "Influence product decisions",
+          "goals": [
+            "Test prototypes before development to reduce rework",
+            "Compare usability metrics between two versions of a flow",
+            "Present findings to stakeholders with clips, metrics and clear recommendations"
+          ],
+          "topics": [
+            "shift-left-and-continuous-testing",
+            "qa-metrics-and-reporting",
+            "acceptance-criteria-dor-dod"
+          ]
+        }
+      },
+      "tools": ["Screen and audio recording software", "Video conferencing for remote sessions", "Prototyping tools", "Survey tools for questionnaires", "Spreadsheets for analysis"],
+      "exercises": [
+        "Run a heuristic evaluation of a sign-up flow and rate each issue's severity",
+        "Write a usability test script with five tasks, an introduction and consent wording",
+        "Run three informal sessions with volunteers who agreed to take part and record task success and time",
+        "Score a System Usability Scale questionnaire and explain what the score does and does not tell you"
+      ],
+      "sampleProject": {
+        "title": "Usability study of a checkout or sign-up flow",
+        "description": "Choose a flow in a demo or open-source app. Run a heuristic evaluation, write a test plan and script, run sessions with at least five consenting volunteers, measure task success, time and errors, and write a findings report with severity ratings and recommendations, keeping all recordings anonymised and stored according to the consent given."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is usability testing different from functional testing?",
+          "a": "Functional testing checks whether the system does what the requirements say. Usability testing checks whether real users can achieve their goals effectively, efficiently and with satisfaction. A feature can pass every functional test yet be confusing, slow to use or error-prone for users."
+        },
+        {
+          "q": "How do you avoid leading participants during a session?",
+          "a": "I give goal-based tasks rather than step instructions, avoid using the interface's own labels in task wording, ask open questions like 'what are you expecting here?', and resist helping when they struggle unless they are completely stuck. I stay neutral in tone and body language."
+        },
+        {
+          "q": "How many participants do you need?",
+          "a": "For qualitative studies looking for major problems, a small number of participants per distinct user group often surfaces the most serious issues, and iterating with small rounds is more effective than one large study. For quantitative comparisons, such as measuring a change in task success, you need larger samples to draw reliable conclusions."
+        },
+        {
+          "q": "How do you prioritise usability findings?",
+          "a": "I consider how many participants hit the issue, how badly it affected task completion, whether it affects a critical journey, and whether users can recover. I combine those into a severity rating, and support each finding with evidence such as quotes, clips or metrics so the team can see the impact."
+        },
+        {
+          "q": "What ethical considerations apply to usability testing?",
+          "a": "Participants must give informed consent for the session and for any recordings, know they can stop at any time, and know they are testing the product, not being tested themselves. Personal data and recordings must be stored securely, used only for the agreed purpose and deleted according to policy."
+        }
+      ],
+      "codingRequirements": "None to low. Strong research, observation and communication skills matter far more than coding.",
+      "commonMistakes": [
+        "Writing tasks that tell participants exactly which buttons to press",
+        "Treating a single participant's opinion as a finding without other evidence",
+        "Testing only with colleagues who already know the product",
+        "Delivering long reports without clear priorities or recommendations"
+      ],
+      "readinessCriteria": [
+        "Can plan and moderate a usability session from a written script",
+        "Can measure and report task success, time on task and errors",
+        "Can run a heuristic evaluation and rate severity consistently",
+        "Can present findings with evidence and prioritised recommendations"
+      ],
+      "nextRoles": ["accessibility-test-engineer", "uat-tester", "qa-analyst"]
+    }
+  ]
+}

@@ -1,62 +1,70 @@
 # Implementation status
 
-_Last updated: 2026-10-16. Phases 0–1._
-
-## Environment (inspected 2026-10-16)
-| Tool | Version | Notes |
-|---|---|---|
-| Node.js / npm | 24.12.0 / 11.6.2 | |
-| Python | 3.12.10 | backend venv at `backend/.venv` |
-| Git | 2.53.0 | |
-| Docker | 29.2.1 | Docker Desktop was stopped and was started for this session |
-| MongoDB | 8.2.3 | **already running as a Windows service on 127.0.0.1:27017**, so it is used directly; `docker-compose.yml` is the alternative for machines without it |
-| Claude Code | 2.1.273 | |
+_Last updated: 2026-10-30._
 
 ## Phase checklist
 | Phase | Scope | Status |
 |---|---|---|
 | 0 | Inspection, CLAUDE.md, architecture docs, checklist | ✅ Done |
-| 1 | Shell, design system, FastAPI, DB, health checks, auth foundation, test infra | ✅ Done (see test results) |
-| 2 | Curriculum & learning engine: roles, paths, lessons, search, Markdown/Mermaid, bookmarks, progress, seeds | ⏳ Next |
-| 3 | Practice labs and QA toolkit | ☐ |
-| 4 | Assessment engine | ☐ |
-| 5 | Interview preparation | ☐ |
-| 6 | Projects, resource library, admin CMS | ☐ |
-| 7 | Personalization and analytics | ☐ |
-| 8 | Security and production hardening, deployment | ☐ |
+| 1 | Shell, design system, FastAPI, DB, health checks, auth foundation, test infra | ✅ Done |
+| 2 | Curriculum & learning engine | 🟡 Engine done; content ~75% (see below) |
+| 3 | Practice labs and QA toolkit | 🟡 In progress (SQL lab data + checker done; UI not yet) |
+| 4 | Assessment engine | 🟡 Scoring engine + question UI done; mock-test flow not yet |
+| 5 | Interview preparation | 🟡 Content in progress (6 of 8 tracks); flow not yet |
+| 6 | Projects, resource library, content admin | 🟡 2 example projects started, unverified |
+| 7 | Personalization and analytics | 🟡 Local data store done (progress, bookmarks, notes, plan, attempts); planner/analytics UI not yet |
+| 8 | Security and production hardening | ☐ |
 | 9 | Content and quality audit | ☐ |
 
-## Completed (Phase 1)
-- **Backend:** FastAPI app factory, pydantic-settings config with production guards, PyMongo async connection, startup index creation, `GET /health`, `GET /ready` (503 + no credential leakage when the DB is down), security-headers and request-ID middleware, sanitized validation and 500 errors, restricted CORS.
-- **Auth:** owner bootstrap script (`scripts.create_owner`, with `--reset-password`, which also revokes sessions), Argon2id hashing, opaque HMAC-stored sessions with a TTL index, `POST /api/auth/login`, `POST /api/auth/logout` (CSRF-protected), `GET /api/auth/me`, per-account login rate limiting, no registration endpoint.
-- **Frontend:** dark design tokens; UI components (Button, Card, Badge, Input/Label/FieldError, Alert, Skeleton, Spinner, EmptyState, Kbd, CodeBlock with copy, ConfirmDialog, Toast); AppShell with grouped collapsible sidebar, mobile drawer, top bar, breadcrumbs, Ctrl+K section search, skip link; login page (RHF + Zod, safe `?next=` redirect); proxy-based route protection; dashboard (real user, live system status, honest empty state); settings (account, status, sign-out confirm); admin UI gate; all 19 navigation sections routed.
-- **Tooling:** pinned dependencies (`requirements.txt`, `requirements-dev.txt`, `requirements.lock.txt`, exact npm versions), ruff, ESLint, tsc strict, Vitest, Playwright config with an isolated e2e stack.
+## Architecture decision: learner data and content (recorded 2026-10-29)
+Login is disabled at the owner's request, and the hosted backend is not reachable from the live site. So:
+- **Content** (lessons, roles, question banks, interviews, projects) lives in `frontend/content/`, is validated by `src/content/content.test.ts`, and is bundled at build time. It works on Vercel with no backend.
+- **Learner data** (progress, bookmarks, notes, quiz/assessment attempts, interview sessions, study plan, activity) is stored in the browser's localStorage via `src/lib/store.ts`. It is schema-validated, versioned, and can be exported and imported.
+- **Trade-off:** data is per-browser, and assessment answer keys ship to the client, so scoring is **not authoritative** (the spec asks for server-side scoring). `src/lib/scoring.ts` is pure and can move server-side unchanged once a backend and login are re-enabled. MongoDB remains the intended store for that mode.
 
-## In progress / blocked
-- **Playwright E2E is blocked by disk space on C:** (0.43 GB free). MongoDB refuses `createIndexes` below 500 MB free (`OutOfDiskSpace`, code 14031), so the e2e backend cannot seed its database. Chromium is installed on D: (`PLAYWRIGHT_BROWSERS_PATH=D:\ms-playwright`; set `TEMP`/`TMP` to `D:\tmp` when installing). Free space on C:, then run `npm run test:e2e` with `PLAYWRIGHT_BROWSERS_PATH` set.
-- Fixed as a result: an index-creation failure at startup no longer crashes the backend; `/ready` reports an `indexes` check instead.
+## Completed since Phase 1
+- **Content pipeline:** zod schemas, a curriculum map (7 tracks, 152 topics), a role catalogue (80 roles from spec §8), a validator with per-folder mode, an authoring guide (`docs/content-authoring.md`) and an exemplar lesson.
+- **Learning Center:**
+  - track catalogue and track pages (core vs optional modules, per-topic status)
+  - lesson reader: objectives, prerequisites, Markdown with tables/code/Mermaid, practice tasks, interactive quiz, interview Q&A, takeaways, references, related lessons, previous/next, table of contents
+  - mark complete, bookmark, per-lesson notes
+  - unwritten topics are shown honestly as "not written yet"
+- **Role Roadmaps:** a filterable catalogue and a detail page per role (skills split into essential, role-specific and optional, a 3-stage roadmap linked to lessons, tools, exercises, sample project, interview Q&A, common mistakes, readiness criteria, next roles, and an ethics boundary for penetration testing). There is also a "set as target role" action.
+- **Search:** a static index built at build time (lessons, roles, sections), the Ctrl+K palette, and a `/search` page with type/track/level/duration filters. Interview, project, tool and practice entries will be added to the index once their pages exist.
+- **Bookmarks and Notes** pages (Markdown preview, search, delete confirmation).
+- **Engines:** the scoring engine (exact-set match, negative marking, per-topic breakdown, seeded shuffle), the local data store, and the SQL lab dataset with 12 graded exercises verified against real SQLite.
 
-## Outstanding (not yet built; pages say "Planned · Phase N")
-Everything in Phases 2–9: curriculum content and role roadmaps, lesson rendering (Markdown/Mermaid), content search, bookmarks/notes, practice labs, toolkit, assessments, interviews, projects, planner, analytics, admin CMS, data export/deletion, deployment.
-Phase 1 components still to come with their features: diagram viewer, screenshot gallery, video embed, quiz question, assessment timer, results summary, progress charts, bookmark control, note editor, study checklist, search filters.
-
-## Tests executed
-| Suite | Command | Result |
+## Content inventory
+| Content | Done | Target |
 |---|---|---|
-| Backend (unit + integration + security) | `python -m pytest` | **37 passed** |
-| Backend lint/format | `ruff check .` / `ruff format --check .` | clean |
-| Frontend unit/component | `npm test` | **27 passed** (4 files) |
-| Frontend types / lint | `npm run typecheck` / `npm run lint` | clean |
-| Frontend production build | `npm run build` | success; 24 routes prerendered as static shells |
-| E2E | `npm run test:e2e` | **not run: blocked** by low disk space on C: (see above). 10 specs written; desktop + mobile projects |
+| Lessons | 114 | 152 topics |
+| Role roadmaps | 68 | 80 |
+| Interview questions | 88 (6 tracks) | 8 tracks |
+| Assessment question bank | 60 (manual testing) | 7 banks |
+| Example projects | 2 started (RestAssured, Selenium), **not yet verified** | 7 |
+
+Content agents stopped mid-task when the API usage limit was reached. Four lessons cut off mid-write sit in `frontend/content-drafts/`; they are not loaded by the site and must be fixed and revalidated before being moved back.
+
+## Tests executed (2026-10-30)
+| Suite | Result |
+|---|---|
+| Frontend unit + content validation (`npx vitest run`) | **191 passed** (9 files) |
+| Type-check / lint | clean |
+| Production build (`next build`) | success, 270 pages pre-rendered |
+| Browser smoke test (production build) | Learning Center, a lesson (incl. Mermaid diagram), a role page and lesson completion → progress all work; no page errors |
+| Backend (`pytest`) | 38 passed (last run 2026-10-16; backend unchanged since) |
+| E2E (Playwright) | not run: needs local MongoDB, and C: is low on disk |
 
 ## Known limitations
-- **Sign-in is currently OFF by the owner's choice (open access).** The frontend runs in guest mode unless it is built with `NEXT_PUBLIC_AUTH_REQUIRED=true`. Anyone with the URL can browse. Backend auth (login, sessions, CSRF, admin guard) is unchanged and fully tested, and E2E always runs with sign-in required. Re-enable it before adding personal data (Phase 7) or deploying privately (Phase 8).
-- The login rate limiter is in-memory (single backend process).
-- `npm audit` reports 5 high-severity advisories in the **dev-only** ESLint toolchain (`braces` via `eslint-config-next`). `npm audit --omit=dev` reports 0. The suggested fix is a breaking downgrade, so it is deferred until upstream updates.
-- No Content-Security-Policy yet (needs nonce support with Next.js inline scripts); planned for Phase 8.
-- Global search covers sections only until Phase 2 adds content search.
+- **Login is OFF** at the owner's request (open guest access). Backend auth code is kept and tested.
+- Learner data is per-browser (see the architecture decision above).
+- The live site's backend connection is blocked by Vercel Deployment Protection (dashboard System status shows "Unreachable"). Learning features don't need it.
+- `npm audit`: dev-only ESLint advisories; production dependencies are clean.
+- Reference links in agent-written lessons have not yet been link-checked (Phase 9).
 
 ## Next actions
-1. Free disk space on C:, then run the E2E suite and fix any failures.
-2. Phase 2: content schema + validator, idempotent seeding, role catalogue (all roles in spec §8), full Manual Testing curriculum, lesson reader, search, bookmarks, progress.
+1. Resume the content agents to finish the missing lessons, roles, question banks, interviews and example projects.
+2. Phase 3 UI: practice labs (SQL, API mock, test design, defect report, code, performance) and the QA toolkit.
+3. Phase 4–5 flows: timed mock tests with results/revision/history, and mock interviews with rubric self-evaluation.
+4. Phase 6–7: the projects library, planner and analytics, and a real dashboard.
+5. Phases 8–9: hardening, link check and content audit.

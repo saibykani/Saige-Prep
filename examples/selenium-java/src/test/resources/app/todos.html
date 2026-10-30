@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Saige Todo - My list</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <header class="row">
+        <h1 id="welcome" data-testid="welcome"></h1>
+        <a id="logout" href="login.html" data-testid="logout">Sign out</a>
+      </header>
+
+      <form id="todo-form" class="row" novalidate>
+        <label for="new-todo" class="sr-only">New todo</label>
+        <input id="new-todo" placeholder="What needs testing?" maxlength="80" data-testid="new-todo" />
+        <button id="add-todo" type="submit" data-testid="add-todo">Add</button>
+      </form>
+      <p id="todo-error" class="error" role="alert" data-testid="todo-error" hidden></p>
+
+      <ul id="todo-list" data-testid="todo-list"></ul>
+      <p id="todo-count" class="muted" data-testid="todo-count">0 items left</p>
+    </main>
+    <script src="app.js"></script>
+    <script>
+      SaigeTodo.initTodos();
+    </script>
+  </body>
+</html>

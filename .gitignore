@@ -37,3 +37,7 @@ Thumbs.db
 # Local backups / exports
 backups/
 *.archive.gz
+
+# Java build output
+target/
+*.class

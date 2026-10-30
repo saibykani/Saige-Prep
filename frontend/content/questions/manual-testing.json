@@ -1,0 +1,1047 @@
+{
+  "bank": "manual-testing",
+  "title": "Manual Testing",
+  "track": "manual-testing",
+  "questions": [
+    {
+      "id": "mt-001",
+      "type": "single",
+      "topic": "what-is-software-testing",
+      "difficulty": "beginner",
+      "prompt": "Which statement best describes software testing?",
+      "options": [
+        "A set of activities to find defects and evaluate the quality of software work products",
+        "Proving that the software contains no defects",
+        "Locating and fixing the cause of a failure in the code",
+        "Writing code that satisfies the requirements"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testing finds defects and provides information about quality, and it includes static activities such as reviews as well as executing software. It cannot prove the absence of defects, and locating and fixing the cause of a failure is debugging, which developers do."
+    },
+    {
+      "id": "mt-002",
+      "type": "single",
+      "topic": "qa-qc-and-testing",
+      "difficulty": "intermediate",
+      "prompt": "Which activity is an example of quality assurance (QA) rather than quality control (QC)?",
+      "options": [
+        "Introducing a peer-review checklist and improving the team's test process after a retrospective",
+        "Logging a defect found during system testing",
+        "Executing the regression suite on a release candidate",
+        "Inspecting a finished build for visual defects before release"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "QA is process-oriented and preventive: it improves how work is done so fewer defects are introduced. Running tests, logging defects and inspecting a build are product-oriented QC activities that detect problems in a specific work product."
+    },
+    {
+      "id": "mt-003",
+      "type": "single",
+      "topic": "verification-vs-validation",
+      "difficulty": "beginner",
+      "prompt": "A reviewer checks that the design document correctly implements every item in the requirements specification. What is this an example of?",
+      "options": [
+        "User acceptance testing",
+        "Regression testing",
+        "Validation",
+        "Verification"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Verification asks \"are we building the product right?\" by checking a work product against its specified requirements. Validation asks \"are we building the right product?\" by checking that it meets the users' real needs, which a document-to-document comparison cannot show."
+    },
+    {
+      "id": "mt-004",
+      "type": "scenario",
+      "topic": "error-defect-bug-failure",
+      "difficulty": "intermediate",
+      "prompt": "A developer misreads a requirement and writes `<` instead of `<=`. The code ships, and a customer whose order is exactly at the limit is wrongly rejected. Which mapping is correct?",
+      "options": [
+        "Failure: the wrong operator; Defect: the customer being rejected; Error: the misreading",
+        "Error: the misreading; Defect: the wrong operator in the code; Failure: the customer being rejected",
+        "Error: the customer being rejected; Defect: the misreading; Failure: the wrong operator",
+        "Defect: the misreading; Error: the wrong operator; Failure: the customer being rejected"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A human error (the misreading) introduces a defect (the faulty operator) in the code, and executing that defect causes an observable failure (the wrong rejection). The swapped mappings confuse the human action, the flaw in the work product and the visible symptom."
+    },
+    {
+      "id": "mt-005",
+      "type": "single",
+      "topic": "sdlc-and-stlc",
+      "difficulty": "beginner",
+      "prompt": "Which sequence shows the phases of the software testing life cycle (STLC) in the usual order?",
+      "options": [
+        "Test planning, test closure, test case development, test execution",
+        "Requirement analysis, test planning, test case development, test execution, test closure",
+        "Test execution, test planning, requirement analysis, test closure",
+        "Test case development, requirement analysis, test execution, test planning"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The STLC starts by analysing what is testable, plans the effort, designs test cases, executes them and finishes with closure activities such as reporting and lessons learned. The other sequences execute or close before the work they depend on has been done."
+    },
+    {
+      "id": "mt-006",
+      "type": "single",
+      "topic": "seven-testing-principles",
+      "difficulty": "beginner",
+      "prompt": "A team has run the same regression tests unchanged for a year and they no longer find new defects. Which testing principle explains this?",
+      "options": [
+        "Tests wear out (the pesticide paradox)",
+        "Defects cluster together",
+        "Exhaustive testing is impossible",
+        "Absence-of-defects fallacy"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Repeating identical tests eventually stops finding new defects, so tests and test data need to be reviewed and varied. Defect clustering is about defects concentrating in a few modules, which does not explain why unchanged tests lose effectiveness."
+    },
+    {
+      "id": "mt-007",
+      "type": "scenario",
+      "topic": "testing-objectives-and-limitations",
+      "difficulty": "intermediate",
+      "prompt": "A manager asks you to test every possible combination of inputs on a form with a 50-character username and a 64-character password so the release is \"guaranteed bug-free\". What is the best response?",
+      "options": [
+        "Explain that exhaustive testing is impossible and propose risk-based selection using techniques such as equivalence partitioning and boundary value analysis",
+        "Refuse to start testing until the requirements are 100% complete",
+        "Test only the happy path, since the remaining combinations are unlikely",
+        "Agree, because exhaustive testing will guarantee there are no defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The number of possible inputs is astronomically large, so testing must sample intelligently and report the remaining risk. Testing only the happy path ignores the most defect-prone inputs, and no amount of testing can guarantee the absence of defects."
+    },
+    {
+      "id": "mt-008",
+      "type": "single",
+      "topic": "static-vs-dynamic-testing",
+      "difficulty": "beginner",
+      "prompt": "Which of the following is static testing?",
+      "options": [
+        "Executing an exploratory testing session on a build",
+        "Running the unit test suite",
+        "Running a load test against the staging environment",
+        "Reviewing a user story for ambiguous acceptance criteria"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Static testing examines work products such as requirements, designs or code without executing them, and a review is a classic example. Running unit tests, exploring a build and load testing all execute the software, which makes them dynamic testing."
+    },
+    {
+      "id": "mt-009",
+      "type": "scenario",
+      "topic": "black-white-gray-box-testing",
+      "difficulty": "intermediate",
+      "prompt": "A tester does not read the application source code but knows the database schema, so they verify each API response by querying the relevant tables. Which approach is this?",
+      "options": [
+        "Black-box testing",
+        "Gray-box testing",
+        "Static testing",
+        "White-box testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Gray-box testing combines external, behaviour-based testing with partial knowledge of internals such as the data model. It is not white-box testing, because the tester is not designing tests from the code structure itself."
+    },
+    {
+      "id": "mt-010",
+      "type": "single",
+      "topic": "unit-and-component-testing",
+      "difficulty": "beginner",
+      "prompt": "What is the main focus of unit (component) testing?",
+      "options": [
+        "Verifying an individual component in isolation from its dependencies",
+        "Checking that independently developed systems exchange data correctly",
+        "Letting real users try the product before release",
+        "Verifying that the whole system meets business requirements"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unit testing exercises the smallest testable parts, such as a function or class, usually isolated with test doubles. Checking how components or systems exchange data is integration testing, and confirming business requirements belongs to system and acceptance testing."
+    },
+    {
+      "id": "mt-011",
+      "type": "single",
+      "topic": "integration-testing",
+      "difficulty": "intermediate",
+      "prompt": "In top-down integration testing, which test doubles replace lower-level modules that are not yet available?",
+      "options": [
+        "Stubs",
+        "Production data snapshots",
+        "Drivers",
+        "Load generators"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In top-down integration the higher-level modules exist and call lower-level ones, so stubs return canned responses in place of the missing callees. Drivers are used in bottom-up integration, where they call lower-level modules that already exist."
+    },
+    {
+      "id": "mt-012",
+      "type": "scenario",
+      "topic": "system-and-end-to-end-testing",
+      "difficulty": "beginner",
+      "prompt": "Which test is the best example of an end-to-end test for an online shop?",
+      "options": [
+        "Calling the price-calculation function with a discount code",
+        "A user searches, adds an item to the cart, pays in the payment sandbox and receives the confirmation email",
+        "Checking that the order service writes a row to the orders table",
+        "Comparing the checkout button's colour with the design file"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "An end-to-end test follows a complete user journey through all the integrated parts: UI, services, payment and email. Calling a single function is a unit test and checking one service's database write is an integration-level check, so neither covers the whole flow."
+    },
+    {
+      "id": "mt-013",
+      "type": "single",
+      "topic": "acceptance-alpha-beta-testing",
+      "difficulty": "beginner",
+      "prompt": "What is the main difference between alpha and beta testing?",
+      "options": [
+        "Beta testing is performed only by the development team",
+        "Alpha testing is automated and beta testing is manual",
+        "Alpha testing is done by internal staff or invited users at the developer's site; beta testing is done by real users in their own environments",
+        "Alpha testing happens after release and beta testing before it"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Both are forms of acceptance testing with users, but alpha takes place at the developing organisation's site while beta happens at the users' own locations before general release. Neither is defined by automation, and beta testing specifically involves people outside the development team."
+    },
+    {
+      "id": "mt-014",
+      "type": "multiple",
+      "topic": "functional-vs-non-functional-testing",
+      "difficulty": "beginner",
+      "prompt": "Which of these requirements would be verified by non-functional testing? Select all that apply.",
+      "options": [
+        "The search page responds within 2 seconds with 500 concurrent users",
+        "Clicking \"Forgot password\" sends a reset email",
+        "A screen-reader user can complete the sign-up form",
+        "A valid coupon reduces the order total by 10%",
+        "Personal data is encrypted in transit"
+      ],
+      "answer": [
+        0,
+        2,
+        4
+      ],
+      "explanation": "Performance, accessibility and security are quality characteristics that describe how well the system behaves, so they are tested non-functionally. Sending a reset email and applying a coupon describe what the system does, which makes them functional requirements."
+    },
+    {
+      "id": "mt-015",
+      "type": "single",
+      "topic": "regression-testing",
+      "difficulty": "beginner",
+      "prompt": "What is the purpose of regression testing?",
+      "options": [
+        "To check that the build is stable enough for further testing",
+        "To confirm that a specific reported defect has been fixed",
+        "To measure the system's maximum capacity",
+        "To check that a change has not broken parts of the system that previously worked"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Regression testing looks for unintended side effects of changes in areas that were working before. Confirming that a specific defect is fixed is confirmation testing (retesting), which is usually followed by regression testing."
+    },
+    {
+      "id": "mt-016",
+      "type": "scenario",
+      "topic": "retesting-and-confirmation-testing",
+      "difficulty": "beginner",
+      "prompt": "Defect #42 is marked Fixed. You repeat the exact steps from the defect report on the new build and the expected result now appears. What type of testing did you just perform?",
+      "options": [
+        "Exploratory testing",
+        "Smoke testing",
+        "Confirmation testing (retesting)",
+        "Regression testing"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Re-running the steps that originally failed to verify the fix is confirmation testing, also called retesting. Regression testing is different: it checks the rest of the system for side effects of the fix."
+    },
+    {
+      "id": "mt-017",
+      "type": "single",
+      "topic": "smoke-and-sanity-testing",
+      "difficulty": "beginner",
+      "prompt": "A new build is deployed to the test environment. Before deeper testing you run a short set of checks: the app starts, login works and the main pages load. What is this?",
+      "options": [
+        "Full regression testing",
+        "Smoke testing",
+        "Soak testing",
+        "User acceptance testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Smoke testing is a broad, shallow check that a build is stable enough to be worth testing further. Full regression testing is much larger and runs after the build has passed this gate, and soak testing is a long-duration performance test."
+    },
+    {
+      "id": "mt-018",
+      "type": "single",
+      "topic": "exploratory-and-ad-hoc-testing",
+      "difficulty": "intermediate",
+      "prompt": "What most clearly distinguishes exploratory testing from ad hoc testing?",
+      "options": [
+        "Exploratory testing can only be performed by developers",
+        "Exploratory testing combines learning, test design and execution, guided by a charter and time-box with notes; ad hoc testing is informal and unstructured",
+        "Ad hoc testing always uses written test cases",
+        "Exploratory testing never produces any documentation"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Exploratory testing is disciplined: a charter sets the mission, a time-box limits the session and the tester records notes and findings. Ad hoc testing has no such structure, and the idea that exploratory testing produces no documentation is a common misconception."
+    },
+    {
+      "id": "mt-019",
+      "type": "truefalse",
+      "topic": "compatibility-and-installation-testing",
+      "difficulty": "intermediate",
+      "prompt": "Checking that upgrading an application from version 2.3 to 3.0 keeps the user's existing settings and data is part of installation testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Installation testing covers fresh installs, upgrades, uninstalls and rollbacks, including whether data and configuration survive an upgrade. Compatibility testing is a related but different activity that checks behaviour across environments such as browsers or operating systems."
+    },
+    {
+      "id": "mt-020",
+      "type": "single",
+      "topic": "recovery-reliability-availability-testing",
+      "difficulty": "advanced",
+      "prompt": "Over a 30-day month (720 hours), a service had 3.6 hours of total unplanned downtime. What was its availability?",
+      "options": [
+        "99.0%",
+        "99.5%",
+        "99.9%",
+        "99.95%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Availability is uptime divided by total time: (720 - 3.6) / 720 = 716.4 / 720 = 0.995, or 99.5%. A 99.9% target would allow only 0.72 hours of downtime in the same month, so this service missed that level."
+    },
+    {
+      "id": "mt-021",
+      "type": "single",
+      "topic": "risk-based-testing",
+      "difficulty": "intermediate",
+      "prompt": "In risk-based testing, the level of a product risk is usually determined by combining which two factors?",
+      "options": [
+        "Severity and priority of open defects",
+        "Likelihood of the problem occurring and its impact if it does",
+        "Code size and number of developers",
+        "Number of test cases and number of testers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Risk level is commonly assessed by combining likelihood with impact, and it guides how much to test and in what order. Severity and priority describe individual defects that have already been found, not the risk of failures that have not happened yet."
+    },
+    {
+      "id": "mt-022",
+      "type": "scenario",
+      "topic": "equivalence-partitioning",
+      "difficulty": "beginner",
+      "prompt": "A ticket-pricing field accepts ages 0 to 120. Ages 0-12 pay the child price, 13-64 the adult price and 65-120 the senior price; anything outside 0-120 is rejected. Which set covers every equivalence partition exactly once?",
+      "options": [
+        "5, 30, 70",
+        "-1, 5, 30, 70",
+        "-1, 5, 30, 70, 121",
+        "0, 12, 13, 64, 65, 120"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "There are five partitions: invalid below 0, child, adult, senior and invalid above 120, so one value from each gives -1, 5, 30, 70 and 121. The set \"0, 12, 13, 64, 65, 120\" is a set of boundary values for the valid partitions and covers neither invalid partition."
+    },
+    {
+      "id": "mt-023",
+      "type": "debugging",
+      "topic": "boundary-value-analysis",
+      "difficulty": "intermediate",
+      "prompt": "The requirement says \"a discount applies to order totals from 100 to 500 inclusive\". Which boundary test exposes the defect in this code?",
+      "code": "boolean discountApplies(int total) {\n    return total >= 100 && total < 500;\n}\n",
+      "codeLanguage": "java",
+      "options": [
+        "99",
+        "100",
+        "500",
+        "501"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The code uses `< 500` instead of `<= 500`, so a total of exactly 500 is wrongly denied the discount. The value 100 behaves correctly because `>= 100` matches the requirement, which is why only the exact upper boundary reveals the defect."
+    },
+    {
+      "id": "mt-024",
+      "type": "single",
+      "topic": "decision-table-testing",
+      "difficulty": "intermediate",
+      "prompt": "A business rule depends on three independent yes/no conditions. How many rules (columns) does the full, unminimised decision table have?",
+      "options": [
+        "3",
+        "6",
+        "8",
+        "9"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Each boolean condition doubles the number of combinations, so the full table has 2 x 2 x 2 = 8 rules. Six would come from adding the conditions' values (2 + 2 + 2) instead of multiplying them."
+    },
+    {
+      "id": "mt-025",
+      "type": "scenario",
+      "topic": "state-transition-testing",
+      "difficulty": "intermediate",
+      "prompt": "A bank card has the states Active, Locked and Blocked, and the spec says no transactions are allowed while it is Blocked. Which test targets an invalid transition?",
+      "options": [
+        "Unlocking a Locked card through customer support",
+        "Entering three wrong PINs to move the card from Active to Blocked",
+        "Attempting a withdrawal while the card is Blocked and checking it is refused with no state change",
+        "Entering the correct PIN while the card is Active"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "An invalid transition is an event that the model does not allow in a given state, and the test checks that the system rejects it safely. The other options exercise valid transitions that the model permits."
+    },
+    {
+      "id": "mt-026",
+      "type": "single",
+      "topic": "use-case-testing",
+      "difficulty": "beginner",
+      "prompt": "When designing tests from a use case, which flows should you cover?",
+      "options": [
+        "Only the flows the developer says are risky",
+        "Only the main success scenario",
+        "The main success scenario plus the alternative and exception flows",
+        "Only the exception flows, since the main flow is obvious"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Use-case testing derives tests from the basic flow and from each alternative and exception flow, because defects often hide in the less common paths. Testing only the main scenario would miss cases such as a declined card or a timeout during checkout."
+    },
+    {
+      "id": "mt-027",
+      "type": "single",
+      "topic": "pairwise-and-combinatorial-testing",
+      "difficulty": "advanced",
+      "prompt": "A configuration has three parameters: Browser (Chrome, Firefox, Safari), OS (Windows, macOS) and Language (EN, DE). How many tests does full combinatorial testing need, and what is the minimum number needed to cover every pair of values?",
+      "options": [
+        "12 full, 6 pairwise",
+        "12 full, 4 pairwise",
+        "7 full, 6 pairwise",
+        "12 full, 3 pairwise"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Full combination is 3 x 2 x 2 = 12, and pairwise can never need fewer tests than the product of the two largest parameter sizes (3 x 2 = 6), because every Browser-OS pair needs its own test. Six tests are enough, for example Chrome-Win-EN, Chrome-Mac-DE, Firefox-Win-DE, Firefox-Mac-EN, Safari-Win-DE and Safari-Mac-EN, which also cover every Browser-Language and OS-Language pair."
+    },
+    {
+      "id": "mt-028",
+      "type": "single",
+      "topic": "exploratory-testing-charters",
+      "difficulty": "intermediate",
+      "prompt": "Which of these is the best-written exploratory testing charter?",
+      "options": [
+        "Run test cases TC-01 to TC-40",
+        "Test the app",
+        "Make sure nothing is broken",
+        "Explore checkout discount codes with expired, stacked and mixed-case codes to discover pricing errors"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "A good charter names a target, the resources or techniques to use and the information to discover, which gives the session focus without scripting it. \"Test the app\" and \"Make sure nothing is broken\" are too vague to guide a time-boxed session, and running TC-01 to TC-40 is scripted testing."
+    },
+    {
+      "id": "mt-029",
+      "type": "multiple",
+      "topic": "positive-and-negative-testing",
+      "difficulty": "beginner",
+      "prompt": "An email field on a sign-up form is required and accepts up to 254 characters. Which of these are negative tests? Select all that apply.",
+      "options": [
+        "Entering user@example.com",
+        "Entering user@ with no domain",
+        "Leaving the field empty",
+        "Entering first.last+tag@example.co.uk",
+        "Entering a 300-character address"
+      ],
+      "answer": [
+        1,
+        2,
+        4
+      ],
+      "explanation": "Negative tests use invalid input or conditions and check that the system rejects them gracefully: an address with no domain, an empty required field and an over-length value. The two well-formed addresses are positive tests, even though the plus-tag address is an unusual valid case."
+    },
+    {
+      "id": "mt-030",
+      "type": "scenario",
+      "topic": "risk-based-scenario-selection",
+      "difficulty": "advanced",
+      "prompt": "A release goes out tomorrow and you have time for about five test scenarios. The changes are: a new payment-provider integration, a new tax rule applied to every order, a help-page typo fix, an avatar-upload tweak and a rarely used internal admin export. Which plan best reflects risk?",
+      "options": [
+        "Skip the payment and tax changes, because developers wrote unit tests for them",
+        "Concentrate on the payment integration and the tax rule, add light checks on the avatar upload and admin export, and confirm the typo fix with a quick look",
+        "Start with the admin export, because internal users complain the loudest",
+        "Spend equal time on every change so that nothing is favoured"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Payments and tax affect money on every order and have just changed, so both likelihood and impact are high and they deserve most of the time. Splitting time equally ignores risk, and skipping changed high-impact areas because unit tests exist leaves integration risks untested."
+    },
+    {
+      "id": "mt-031",
+      "type": "single",
+      "topic": "test-data-design",
+      "difficulty": "intermediate",
+      "prompt": "Why should test environments avoid using a raw copy of production customer data?",
+      "options": [
+        "Production data is always too small for testing",
+        "Test tools cannot read production data formats",
+        "Copying personal data into less-protected environments creates privacy and legal risk, so masked, anonymised or synthetic data should be used",
+        "Production data never contains edge cases"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Test environments are usually less protected than production, and regulations such as the GDPR limit how personal data may be used, so masking, anonymisation or synthetic data reduces the risk. Production data actually tends to contain realistic edge cases, which is why teams mask it rather than simply discard it."
+    },
+    {
+      "id": "mt-032",
+      "type": "single",
+      "topic": "test-strategy-vs-test-plan",
+      "difficulty": "intermediate",
+      "prompt": "Which statement best describes the difference between a test strategy and a test plan?",
+      "options": [
+        "A test strategy describes the general testing approach, often across an organisation or product; a test plan applies it to a specific project or release with scope, schedule, resources and responsibilities",
+        "A test plan is written after testing ends, and a strategy before it begins",
+        "They are two names for the same document",
+        "A test strategy is the list of individual test cases"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The strategy is the high-level, longer-lived approach (levels, types, tools, risk approach), and the plan details how a particular project will carry it out. Neither document is a list of individual test cases, which belong in test specifications or a test management tool."
+    },
+    {
+      "id": "mt-033",
+      "type": "single",
+      "topic": "test-scenarios-and-test-cases",
+      "difficulty": "beginner",
+      "prompt": "Which of these is a test case rather than a test scenario?",
+      "options": [
+        "Precondition: registered user \"ana\". Steps: enter her email and a wrong password, click Sign in. Expected: \"Invalid email or password\" is shown and no session is created",
+        "Test the search feature",
+        "Verify login functionality",
+        "Check that checkout works"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A test case has specific preconditions, inputs, steps and an expected result that anyone can execute and judge. The other options are scenarios: one-line statements of what to test that still need to be expanded into concrete test cases."
+    },
+    {
+      "id": "mt-034",
+      "type": "single",
+      "topic": "traceability-matrix-and-coverage",
+      "difficulty": "intermediate",
+      "prompt": "There are five requirements, R1 to R5. The tests trace as follows: TC1 to R1, TC2 to R1, TC3 to R2 and TC4 to R4. What is the requirements coverage?",
+      "options": [
+        "40%",
+        "60%",
+        "80%",
+        "100%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Only R1, R2 and R4 have at least one test, so coverage is 3 / 5 = 60%, and the matrix shows R3 and R5 as gaps. 80% comes from wrongly dividing the number of tests (4) by the number of requirements (5)."
+    },
+    {
+      "id": "mt-035",
+      "type": "single",
+      "topic": "test-estimation",
+      "difficulty": "advanced",
+      "prompt": "Using three-point (PERT) estimation, a test activity has an optimistic estimate of 4 days, a most likely estimate of 6 days and a pessimistic estimate of 14 days. What is the estimate?",
+      "options": [
+        "6 days",
+        "7 days",
+        "8 days",
+        "9 days"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The PERT formula weights the most likely value: (optimistic + 4 x most likely + pessimistic) / 6 = (4 + 24 + 14) / 6 = 42 / 6 = 7 days. Eight days is the simple average (4 + 6 + 14) / 3, which gives the pessimistic value too much weight."
+    },
+    {
+      "id": "mt-036",
+      "type": "multiple",
+      "topic": "entry-and-exit-criteria",
+      "difficulty": "beginner",
+      "prompt": "Which of these are typical exit criteria for system testing? Select all that apply.",
+      "options": [
+        "All planned tests have been executed or consciously descoped",
+        "No open critical or high-severity defects remain",
+        "The test environment is set up and available",
+        "The agreed level of requirements coverage has been reached",
+        "The test cases have been reviewed"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Exit criteria define when testing can stop: tests executed, defects at an acceptable level and coverage achieved. An available environment and reviewed test cases are entry criteria, because they must be true before execution starts."
+    },
+    {
+      "id": "mt-037",
+      "type": "single",
+      "topic": "test-execution-and-closure-reports",
+      "difficulty": "intermediate",
+      "prompt": "Which content belongs in a test closure report but not usually in a daily test execution status report?",
+      "options": [
+        "Defects raised since yesterday",
+        "Tests blocked by the environment this morning",
+        "The number of tests passed and failed today",
+        "An evaluation against the exit criteria and the lessons learned for future projects"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "A closure report summarises the whole effort, evaluates it against the exit criteria and records lessons learned and archived testware. Daily counts of passes, failures, new defects and blockers are progress information for a status report."
+    },
+    {
+      "id": "mt-038",
+      "type": "scenario",
+      "topic": "release-sign-off",
+      "difficulty": "advanced",
+      "prompt": "The exit criteria require zero open high-severity defects. One high-severity defect remains in a rarely used export feature, and the business wants to release on schedule. What should the test lead do?",
+      "options": [
+        "Sign off without mentioning the defect to avoid delaying the release",
+        "Lower the severity so the exit criteria are met",
+        "Block the release alone, because QA owns the go/no-go decision",
+        "Present the risk clearly (impact, affected users, workaround) so the accountable stakeholders can make and record a decision, for example release with a known issue or disable the feature"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Testers provide the information for a release decision, and when exit criteria are not met a documented, risk-informed decision by the accountable stakeholders is the honest path. Changing the severity to pass the gate hides the risk, and in most organisations QA advises on rather than owns the business decision."
+    },
+    {
+      "id": "mt-039",
+      "type": "single",
+      "topic": "defect-lifecycle",
+      "difficulty": "beginner",
+      "prompt": "A developer marks a defect as Fixed. When you retest on the new build, the problem still occurs. What is the usual next status?",
+      "options": [
+        "Closed",
+        "Deferred",
+        "Reopened",
+        "Rejected"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "If confirmation testing shows the problem still occurs, the defect is reopened and returned to the developer. Closed is only used after the fix is verified, and Rejected means the defect was judged not to be a valid problem."
+    },
+    {
+      "id": "mt-040",
+      "type": "scenario",
+      "topic": "severity-vs-priority",
+      "difficulty": "intermediate",
+      "prompt": "The company name in the homepage header is misspelled. No functionality is affected, but every visitor sees it. How is this defect typically classified?",
+      "options": [
+        "High severity, low priority",
+        "Low severity, high priority",
+        "High severity, high priority",
+        "Low severity, low priority"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Severity measures technical impact on the system, which is low because nothing is broken. Priority measures business urgency, which is high because the error damages the brand for every visitor, so the defect should be fixed quickly despite its low severity."
+    },
+    {
+      "id": "mt-041",
+      "type": "multiple",
+      "topic": "writing-a-great-defect-report",
+      "difficulty": "beginner",
+      "prompt": "Which of these belong in a good defect report? Select all that apply.",
+      "options": [
+        "A clear title that summarises the problem",
+        "Exact steps to reproduce",
+        "Expected result and actual result",
+        "Your opinion of the developer's code quality",
+        "Environment details such as build, browser and OS"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "A developer needs a clear summary, reproducible steps, the expected and actual behaviour and the environment to act on a report quickly. Personal opinions about a developer are unprofessional and do not help anyone reproduce or fix the defect."
+    },
+    {
+      "id": "mt-042",
+      "type": "scenario",
+      "topic": "defect-triage",
+      "difficulty": "intermediate",
+      "prompt": "During triage, your new defect is found to describe the same problem, with the same root cause, as defect #311 that is already open. What normally happens to your report?",
+      "options": [
+        "Both defects are kept open and fixed separately",
+        "It is marked Rejected because it is not a bug",
+        "It is marked Duplicate and linked to #311, and any useful new details are added there",
+        "It is deferred to the next release"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A duplicate is closed with a link to the original so the work is tracked in one place, and new information such as an extra reproduction path is added to that original. Rejected is for reports judged not to be valid defects, which is not the case here because the problem is real."
+    },
+    {
+      "id": "mt-043",
+      "type": "single",
+      "topic": "root-cause-analysis",
+      "difficulty": "advanced",
+      "prompt": "Several production defects have been traced back to requirements that were ambiguous about how currency amounts are rounded. Which action addresses the root cause?",
+      "options": [
+        "Add explicit rounding rules with worked examples to the requirements and acceptance criteria, review future stories for this gap and add regression tests",
+        "Fix each defect as it is reported",
+        "Ask testers to run more exploratory sessions before each release",
+        "Increase the severity of all rounding defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Root cause analysis looks past the symptoms to why the defects were introduced, here unclear requirements, and changes the process so similar defects are prevented. Fixing each defect individually treats only the symptoms, and more exploratory testing detects the problems later without stopping them being created."
+    },
+    {
+      "id": "mt-044",
+      "type": "single",
+      "topic": "defect-metrics",
+      "difficulty": "advanced",
+      "prompt": "In a release, testing found 45 defects and customers found 5 more after release. What is the defect detection percentage (DDP) of the testing?",
+      "options": [
+        "10%",
+        "11.1%",
+        "90%",
+        "100%"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "DDP is defects found by testing divided by all defects found, including those found later: 45 / (45 + 5) = 90%. The 10% figure is the share of defects that escaped to production (often reported as leakage), and 11.1% divides the escaped defects by those found in testing (5 / 45), which some teams use as an alternative leakage ratio but which is not DDP."
+    },
+    {
+      "id": "mt-045",
+      "type": "single",
+      "topic": "agile-principles-for-testers",
+      "difficulty": "beginner",
+      "prompt": "Which of these is one of the four value statements of the Agile Manifesto?",
+      "options": [
+        "Following a plan over responding to change",
+        "Contract negotiation over customer collaboration",
+        "Processes and tools over individuals and interactions",
+        "Working software over comprehensive documentation"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "The manifesto values working software over comprehensive documentation, while still recognising that documentation has value. The other three options reverse the actual statements, which value individuals and interactions, responding to change and customer collaboration more."
+    },
+    {
+      "id": "mt-046",
+      "type": "single",
+      "topic": "scrum-roles-and-ceremonies",
+      "difficulty": "beginner",
+      "prompt": "According to the 2020 Scrum Guide, which are the three accountabilities in a Scrum Team?",
+      "options": [
+        "Product Owner, Team Lead and QA Lead",
+        "Product Owner, Scrum Master and Developers",
+        "Project Manager, Scrum Master and Developers",
+        "Product Owner, Scrum Master and Testers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Scrum Guide defines exactly three accountabilities: Product Owner, Scrum Master and Developers. Testers are not a separate Scrum role; people who test are part of the Developers, who share accountability for quality."
+    },
+    {
+      "id": "mt-047",
+      "type": "single",
+      "topic": "acceptance-criteria-dor-dod",
+      "difficulty": "intermediate",
+      "prompt": "What is the key difference between acceptance criteria and the Definition of Done?",
+      "options": [
+        "The Definition of Done is written by the customer for each story",
+        "Acceptance criteria are specific to one backlog item, while the Definition of Done is a shared quality standard that applies to every item or increment",
+        "Acceptance criteria apply to the whole sprint",
+        "They are the same thing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Acceptance criteria describe the conditions a particular story must satisfy, such as \"a locked account shows a reset link\". The Definition of Done applies to all work, for example \"code reviewed, tests automated, deployed to staging\", so a story is complete only when both are met."
+    },
+    {
+      "id": "mt-048",
+      "type": "multiple",
+      "topic": "shift-left-and-continuous-testing",
+      "difficulty": "intermediate",
+      "prompt": "Which practices are examples of shifting testing left? Select all that apply.",
+      "options": [
+        "Testers reviewing user stories and acceptance criteria during refinement",
+        "Running unit and API tests automatically on every commit",
+        "Writing BDD examples together before development starts",
+        "Waiting until the full system is built before designing tests",
+        "Monitoring production error rates after release"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Shift-left moves testing activities earlier, so reviewing stories, testing on every commit and agreeing examples before coding all qualify. Waiting for a full build is the traditional late approach, and production monitoring is a shift-right practice that complements shift-left."
+    },
+    {
+      "id": "mt-049",
+      "type": "truefalse",
+      "topic": "jira-workflows-and-test-management-tools",
+      "difficulty": "beginner",
+      "prompt": "In Jira, a workflow defines the statuses an issue can be in and the transitions allowed between those statuses.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A Jira workflow is the set of statuses (for example To Do, In Progress, Done) and the transitions that move an issue between them, optionally with conditions and validators. Test management tools that integrate with Jira often rely on these workflows to track defects and test execution."
+    },
+    {
+      "id": "mt-050",
+      "type": "multiple",
+      "topic": "testing-login-and-authentication",
+      "difficulty": "intermediate",
+      "prompt": "Which of these are valid checks for a login feature? Select all that apply.",
+      "options": [
+        "The error for a wrong password does not reveal whether the username exists",
+        "Repeated failed attempts trigger throttling or a temporary lockout",
+        "The password field masks the characters typed",
+        "Credentials appear in the URL query string so they can be audited",
+        "The session cookie has the Secure and HttpOnly flags"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "explanation": "Generic error messages, throttling, masked input and secure cookie flags all protect accounts and are standard login checks. Credentials must never appear in the URL, because URLs are stored in browser history, proxy logs and server logs."
+    },
+    {
+      "id": "mt-051",
+      "type": "scenario",
+      "topic": "testing-registration-and-password-reset",
+      "difficulty": "advanced",
+      "prompt": "You are testing the password reset flow. Which observation is a security defect?",
+      "options": [
+        "The reset link expires after 30 minutes",
+        "The reset link still works a second time after it was used to change the password",
+        "The page says \"If an account exists for this email, we have sent a link\" for every address",
+        "The reset email is sent only to the registered address"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Reset tokens must be single-use, so a link that works again lets anyone who obtains it (for example from a shared mailbox) take over the account. The generic message is deliberately vague to prevent account enumeration, so it is correct behaviour rather than a defect."
+    },
+    {
+      "id": "mt-052",
+      "type": "single",
+      "topic": "testing-search-and-filtering",
+      "difficulty": "intermediate",
+      "prompt": "A product list supports filtering by category and sorting by price, with 20 results per page. Which test is most likely to find a defect in how these features interact?",
+      "options": [
+        "Filter by a category, sort by price, and check that every result on pages 1 and 2 belongs to the category and that the order continues correctly across the page break",
+        "Filter by a category without sorting",
+        "Search for an empty string",
+        "Sort all products by price with no filter applied"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Defects often appear where features combine, such as a filter being dropped when the sort or page changes. Testing each feature on its own cannot reveal those interaction defects, which is why the combined test on more than one page is the strongest choice."
+    },
+    {
+      "id": "mt-053",
+      "type": "scenario",
+      "topic": "testing-cart-and-checkout",
+      "difficulty": "intermediate",
+      "prompt": "A user adds an item priced 20.00 to the cart. Before checkout, an administrator changes the price to 25.00. What should you verify?",
+      "options": [
+        "That the item is silently removed from the cart",
+        "That the old price is always charged, whatever the business rules say",
+        "That the system follows the documented rule, for example showing the updated price before payment, and that the amount charged equals the amount confirmed by the user",
+        "Nothing, because price changes are an administrative concern"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The correct behaviour is a business rule, so the test checks that rule and, critically, that the user is never charged an amount different from the one they confirmed. Assuming the old price always applies replaces the specification with a guess."
+    },
+    {
+      "id": "mt-054",
+      "type": "scenario",
+      "topic": "testing-payments-refunds-cancellations",
+      "difficulty": "advanced",
+      "prompt": "On a slow network, a user double-clicks \"Pay now\". Which risk are you probing, and how should you verify it?",
+      "options": [
+        "A session timeout; wait 30 minutes and refresh the page",
+        "A slow page; measure how long the confirmation page takes to load",
+        "A duplicate charge or order; check the payment provider sandbox and the order records to confirm that exactly one authorisation and one order were created",
+        "A layout issue; check the button styling after the click"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Double submission can create two charges unless the system disables the button and the backend handles the request idempotently. Seeing one confirmation page is not enough evidence, so you check the payment sandbox and order data directly."
+    },
+    {
+      "id": "mt-055",
+      "type": "scenario",
+      "topic": "testing-user-permissions",
+      "difficulty": "advanced",
+      "prompt": "For users with the Viewer role, the Delete button is hidden in the UI. Which additional test is essential?",
+      "options": [
+        "Send the delete request directly (for example by replaying the API call with the Viewer's session) and verify the server refuses it with 403 and nothing is deleted",
+        "Check that the hidden button does not affect the page layout",
+        "Check the tooltip text on the button",
+        "Log in as an Admin and confirm the button is visible"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Hiding a control is only a UI convenience; authorization must be enforced on the server, so the request itself must be rejected. Checking the Admin view confirms the positive case but says nothing about whether a Viewer can bypass the UI."
+    },
+    {
+      "id": "mt-056",
+      "type": "multiple",
+      "topic": "testing-file-uploads-and-downloads",
+      "difficulty": "intermediate",
+      "prompt": "An upload field accepts PDF files up to 10 MB. Which of these tests should you include? Select all that apply.",
+      "options": [
+        "A PDF of exactly 10 MB",
+        "A PDF just over 10 MB",
+        "An executable file renamed with a .pdf extension",
+        "A 0-byte file",
+        "No size tests, because the browser file picker enforces the limit"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Boundary sizes, a disguised file type and an empty file all probe validation that must happen on the server. The file picker filter is only a client-side convenience that a user or script can bypass, so it never replaces server-side checks."
+    },
+    {
+      "id": "mt-057",
+      "type": "single",
+      "topic": "testing-notifications",
+      "difficulty": "beginner",
+      "prompt": "An app sends an order confirmation email. Apart from checking that an email arrives, what is most important to verify?",
+      "options": [
+        "That the email arrives within one second",
+        "That the email uses the newest font",
+        "That it goes to the right recipient once, with the correct order number, items and total, and working links",
+        "That it is also sent to the support team"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A notification is only correct if the right person receives it once with accurate content and working links, since duplicates or wrong totals confuse customers. Exact delivery time is usually not guaranteed for email, so a one-second requirement is not a sensible default check."
+    },
+    {
+      "id": "mt-058",
+      "type": "scenario",
+      "topic": "testing-sessions-and-concurrency",
+      "difficulty": "advanced",
+      "prompt": "Two admins open the same product record. Admin A saves the price as 10. Admin B, still viewing the old page, then saves the price as 12. The system uses optimistic locking. What is the expected result?",
+      "options": [
+        "A's change is rolled back automatically",
+        "B's save silently overwrites A's change",
+        "B's save is rejected with a conflict message (for example HTTP 409) asking B to reload the latest version",
+        "Both prices are stored and shown together"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Optimistic locking detects that the record version changed since B loaded it and refuses the stale update, preventing a lost update. A silent overwrite is exactly the lost-update defect that this test is designed to find."
+    },
+    {
+      "id": "mt-059",
+      "type": "truefalse",
+      "topic": "testing-data-validation",
+      "difficulty": "beginner",
+      "prompt": "Client-side validation in the browser is enough on its own, because users cannot send requests that bypass the web page.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Anyone can bypass client-side checks with browser developer tools, a proxy or a direct API call, so the server must validate every input again. Client-side validation is still useful for fast feedback, but it is not a security or data-integrity control."
+    },
+    {
+      "id": "mt-060",
+      "type": "scenario",
+      "topic": "testing-multi-browser-and-network-issues",
+      "difficulty": "advanced",
+      "prompt": "A user submits a long form, the network drops during the request and then comes back. What should you verify?",
+      "options": [
+        "That the browser shows its default offline page",
+        "Only that the page eventually loads",
+        "That the user sees a clear error or retry option, that no duplicate or partial record is created, and that their entered data is not lost unexpectedly",
+        "Nothing, because network failures are outside the application's control"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Network interruptions are normal, especially on mobile, and the application must handle them without losing data or creating duplicates when the user retries. The network itself is outside the application's control, but its response to the failure is very much in scope for testing."
+    }
+  ]
+}

@@ -34,8 +34,9 @@ describe("SidebarNav", () => {
 });
 
 describe("CommandPalette", () => {
-  it("filters sections and navigates with the keyboard", async () => {
+  it("falls back to sections while the index loads, and navigates with the keyboard", async () => {
     router.push.mockReset();
+    vi.spyOn(globalThis, "fetch").mockReturnValue(new Promise(() => {}));
     const onOpenChange = vi.fn();
     renderWithProviders(<CommandPalette open onOpenChange={onOpenChange} isAdmin={false} />);
 
@@ -49,10 +50,21 @@ describe("CommandPalette", () => {
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
-  it("shows an empty state for no matches", async () => {
+  it("searches the loaded index and shows an empty state for no matches", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify([
+          { id: "lesson:bva", kind: "lesson", title: "Boundary Value Analysis", text: "edges", href: "/learn/manual-testing/boundary-value-analysis", tags: [] },
+        ]),
+        { headers: { "Content-Type": "application/json" } },
+      ),
+    );
     renderWithProviders(<CommandPalette open onOpenChange={() => {}} isAdmin={false} />);
+    await userEvent.type(screen.getByRole("combobox"), "boundary");
+    expect(await screen.findByRole("option", { name: /Boundary Value Analysis/ })).toBeInTheDocument();
+    await userEvent.clear(screen.getByRole("combobox"));
     await userEvent.type(screen.getByRole("combobox"), "zzzz");
-    expect(screen.getByText(/No sections match/)).toBeInTheDocument();
+    expect(screen.getByText(/Nothing matches/)).toBeInTheDocument();
   });
 });
 

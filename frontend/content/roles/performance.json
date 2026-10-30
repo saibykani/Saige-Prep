@@ -1,0 +1,1137 @@
+{
+  "category": "performance",
+  "roles": [
+    {
+      "slug": "performance-test-engineer",
+      "title": "Performance Test Engineer",
+      "category": "performance",
+      "overview": "A Performance Test Engineer designs, scripts, runs and reports on tests that show how an application behaves under expected and peak load. The work turns vague goals like 'it should be fast' into measurable targets, realistic workload models and evidence-based findings. It is the most common entry point into performance work and sits between functional QA and deeper performance engineering.",
+      "responsibilities": [
+        "Gather and clarify non-functional requirements such as response-time percentiles, throughput and error-rate targets",
+        "Build workload models from production analytics, business forecasts or stakeholder estimates",
+        "Script realistic user journeys with correlation, parameterization and assertions",
+        "Run load, stress, soak and spike tests in an agreed, authorized test environment",
+        "Monitor client and server metrics during tests and correlate them with response times",
+        "Write clear test reports that compare results against targets and baselines",
+        "Raise performance defects with enough evidence for developers to reproduce them"
+      ],
+      "skills": {
+        "essential": [
+          "Performance testing types (load, stress, soak, spike) and when to use each",
+          "Throughput, latency and percentile metrics",
+          "HTTP fundamentals and how browsers and APIs exchange requests",
+          "Scripting with at least one load tool, with correlation and parameterization",
+          "Reading graphs and spotting trends in test results"
+        ],
+        "roleSpecific": [
+          "Workload modeling and think-time / pacing design",
+          "Test data preparation at volume",
+          "Basic server resource monitoring (CPU, memory, disk, network)",
+          "Writing a performance test plan and results report"
+        ],
+        "optional": [
+          "A second load tool (for example k6 or Gatling alongside JMeter)",
+          "Groovy or JavaScript scripting inside load tools",
+          "Running load generators in containers or CI"
+        ]
+      },
+      "prerequisites": [
+        "Solid understanding of functional testing and the SDLC",
+        "Comfort with HTTP requests, status codes and cookies",
+        "Basic spreadsheet or data-analysis skills"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn the vocabulary and your first tool",
+          "goals": [
+            "Explain the difference between load, stress, soak and spike tests",
+            "Calculate and interpret average, median, p90, p95 and p99 response times",
+            "Record and clean up a simple JMeter script against a local demo application",
+            "Run a test in non-GUI mode and read the generated HTML report"
+          ],
+          "topics": [
+            "performance-testing-types",
+            "throughput-latency-and-percentiles",
+            "http-fundamentals",
+            "jmeter-fundamentals"
+          ]
+        },
+        "intermediate": {
+          "title": "Script realistic workloads",
+          "goals": [
+            "Correlate dynamic values such as session tokens and CSRF tokens",
+            "Parameterize users and data from CSV files without data collisions",
+            "Shape throughput with timers to match a target requests-per-second",
+            "Build a workload model with transaction mix and pacing derived from requirements",
+            "Add assertions so errors are counted, not silently passed"
+          ],
+          "topics": [
+            "workload-modeling",
+            "jmeter-correlation-and-parameterization",
+            "jmeter-assertions-and-extractors",
+            "jmeter-timers-and-throughput-shaping",
+            "littles-law"
+          ]
+        },
+        "advanced": {
+          "title": "Run, monitor and report like a professional",
+          "goals": [
+            "Run distributed tests and verify the load generators are not the bottleneck",
+            "Stream results to InfluxDB and build a Grafana dashboard for live monitoring",
+            "Correlate response-time degradation with server resource usage",
+            "Write a results report with clear pass/fail against targets and recommendations"
+          ],
+          "topics": [
+            "jmeter-non-gui-and-distributed",
+            "monitoring-with-influxdb-grafana",
+            "resource-utilization-and-bottlenecks",
+            "analyzing-performance-results"
+          ]
+        }
+      },
+      "tools": [
+        "Apache JMeter",
+        "k6",
+        "Gatling",
+        "Grafana",
+        "InfluxDB",
+        "Browser developer tools"
+      ],
+      "exercises": [
+        "Script a login-search-checkout journey against a locally hosted demo shop with correlation and CSV data",
+        "Design a workload model for a target of 50 orders per minute using Little's Law to estimate concurrent users",
+        "Run the same test with and without think time and explain the difference in throughput and concurrency",
+        "Run a one-hour soak test locally and look for memory growth or slowly rising response times",
+        "Turn a raw results file into a one-page report with percentiles, error rate and a pass/fail verdict"
+      ],
+      "sampleProject": {
+        "title": "Load test suite for a self-hosted demo store",
+        "description": "Run an open-source demo e-commerce app in Docker on your own machine. Build a JMeter test plan with three weighted journeys (browse, search, checkout), CSV-driven users, correlation, assertions and a throughput timer. Run baseline, load and stress profiles in non-GUI mode, stream results to InfluxDB/Grafana, and write a report comparing each run to stated targets."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why do you report percentiles rather than just average response time?",
+          "a": "Averages hide the tail. A handful of very slow requests can be masked by many fast ones, or a few outliers can pull the average up even when most users are fine. Percentiles like p95 or p99 tell you what the slowest meaningful share of users experience, which is what SLAs and user complaints usually reflect. I report several percentiles together with the error rate and throughput so the numbers can be interpreted in context."
+        },
+        {
+          "q": "How would you build a workload model when there is no production data yet?",
+          "a": "I would start from business inputs: expected number of users, peak hour behaviour, and the key transactions. I would ask product owners for expected volumes per transaction, look at analogous systems if they exist, and document every assumption explicitly. Then I would use Little's Law to convert target throughput and session duration into concurrency, define a transaction mix and pacing, and agree the model with stakeholders before scripting. Once the system is live, I would revisit the model with real analytics."
+        },
+        {
+          "q": "Your test shows response times rising steadily while throughput stays flat. What does that suggest?",
+          "a": "It usually means the system has reached a saturation point: requests are queuing somewhere, so adding more load only increases waiting time, not completed work. I would check which resource is saturated by looking at CPU, connection pools, thread pools, database waits and queue depth during that period. I would also confirm the load generator itself is not saturated, because a struggling generator can produce a similar pattern."
+        },
+        {
+          "q": "What is correlation in a load script and what happens if you forget it?",
+          "a": "Correlation means capturing a dynamic value from one response, such as a session ID, CSRF token or order ID, and reusing it in later requests instead of the hard-coded value that was recorded. If you forget it, requests often fail authentication or validation, or worse, they appear to succeed but all virtual users share one session, so the test does not represent real behaviour. I add assertions to catch those silent failures."
+        },
+        {
+          "q": "How do you make sure a performance test is ethical and safe to run?",
+          "a": "I only run load against environments I am explicitly authorized to test, with an agreed time window and stakeholders informed. I never point load at third-party services such as payment gateways or external APIs without their permission; I stub or virtualize them instead. I also check the environment is isolated enough that the test will not degrade shared systems or real users."
+        }
+      ],
+      "codingRequirements": "Light to moderate. You need to read and write small scripts (Groovy in JMeter, JavaScript in k6, or Scala/Java in Gatling) for correlation, data handling and custom logic. You do not need to build applications, but you must be comfortable editing code and debugging scripts.",
+      "commonMistakes": [
+        "Reporting only the average response time and ignoring percentiles and error rate",
+        "Running tests without think time or pacing, producing unrealistic load patterns",
+        "Not checking that load generators have enough CPU and network headroom",
+        "Testing against a tiny dataset so caching makes everything look fast"
+      ],
+      "readinessCriteria": [
+        "Can script a multi-step authenticated journey with correlation and CSV data from scratch",
+        "Can derive concurrent users from a throughput target using Little's Law and explain the assumptions",
+        "Has produced a results report with percentiles, error rate and a clear verdict against targets",
+        "Can explain at least two likely causes when response time rises while throughput plateaus"
+      ],
+      "nextRoles": [
+        "performance-engineer",
+        "load-test-engineer",
+        "observability-test-engineer"
+      ]
+    },
+    {
+      "slug": "performance-engineer",
+      "title": "Performance Engineer",
+      "category": "performance",
+      "overview": "A Performance Engineer goes beyond running tests: they find out why a system is slow and help fix it. The role combines load testing with profiling, code and query analysis, infrastructure tuning and architecture advice, often working directly with developers. Performance Engineers are expected to diagnose root causes, not just report symptoms.",
+      "responsibilities": [
+        "Diagnose bottlenecks across application code, databases, caches, networks and infrastructure",
+        "Profile CPU, memory, garbage collection and thread behaviour in running services",
+        "Review designs and pull requests for performance risks such as N+1 queries or unbounded loops",
+        "Define performance budgets and non-functional requirements with architects and product owners",
+        "Tune configuration such as connection pools, thread pools, JVM settings and cache policies",
+        "Verify fixes with targeted before-and-after experiments",
+        "Coach developers and testers on performance-aware design and testing"
+      ],
+      "skills": {
+        "essential": [
+          "Strong programming ability in at least one backend language",
+          "Profiling and reading flame graphs or profiler output",
+          "Database query analysis, indexing and execution plans",
+          "Queueing concepts, Little's Law and saturation behaviour",
+          "Load testing with at least one tool"
+        ],
+        "roleSpecific": [
+          "Thread pool, connection pool and garbage collection tuning",
+          "Caching strategies and their failure modes",
+          "Analysing distributed traces to locate slow spans",
+          "Designing controlled experiments that change one variable at a time"
+        ],
+        "optional": [
+          "Operating system level tools for CPU, I/O and network analysis",
+          "Frontend performance tooling such as Lighthouse and browser performance panels",
+          "Cloud cost and right-sizing analysis"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a performance tester or backend developer",
+        "Comfort reading application code and SQL",
+        "Understanding of how web services are deployed and scaled"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Master measurement before tuning",
+          "goals": [
+            "Explain throughput, latency, utilization and saturation and how they relate",
+            "Run a load test and identify the first resource to saturate",
+            "Profile a small local service and identify its hottest method"
+          ],
+          "topics": [
+            "throughput-latency-and-percentiles",
+            "littles-law",
+            "resource-utilization-and-bottlenecks",
+            "performance-testing-types"
+          ]
+        },
+        "intermediate": {
+          "title": "Diagnose common bottleneck families",
+          "goals": [
+            "Reproduce and fix connection-pool exhaustion in a demo service",
+            "Find and fix an N+1 query pattern using query logs and execution plans",
+            "Measure the effect of adding a cache, including cold-start and invalidation behaviour",
+            "Use a Grafana dashboard to correlate latency with GC pauses or thread counts"
+          ],
+          "topics": [
+            "thread-and-connection-pools",
+            "database-and-caching-bottlenecks",
+            "sql-joins-and-aggregates",
+            "monitoring-with-influxdb-grafana"
+          ]
+        },
+        "advanced": {
+          "title": "Engineer performance into the system",
+          "goals": [
+            "Set performance budgets and wire automated regression checks into CI",
+            "Diagnose latency in a multi-service system using distributed tracing",
+            "Lead a performance review of a new architecture and document risks and mitigations",
+            "Build a capacity baseline and explain how it should change as the system grows"
+          ],
+          "topics": [
+            "analyzing-performance-results",
+            "capacity-planning-and-baselines",
+            "microservices-testing",
+            "test-architecture-and-system-design",
+            "ci-cd-for-test-engineers"
+          ]
+        }
+      },
+      "tools": [
+        "Apache JMeter or k6",
+        "A language profiler (for example async-profiler, VisualVM or py-spy)",
+        "Database execution-plan tools (EXPLAIN)",
+        "OpenTelemetry",
+        "Grafana and Prometheus",
+        "Browser performance tools and Lighthouse"
+      ],
+      "exercises": [
+        "Build a small API with a deliberately unindexed query, load test it, then fix it and prove the improvement with before/after percentiles",
+        "Reduce a connection pool to a very small size, reproduce the resulting latency pattern, and document the signature in metrics",
+        "Capture a CPU flame graph of a local service under load and explain the top three hotspots",
+        "Add a cache in front of a slow endpoint and test cold-cache, warm-cache and invalidation scenarios"
+      ],
+      "sampleProject": {
+        "title": "Bottleneck hunt in a deliberately slow service",
+        "description": "Build or adapt a small multi-endpoint service backed by PostgreSQL with three seeded problems: an N+1 query, an undersized connection pool and a CPU-heavy serialization step. Load test it, use profiling, query plans and Grafana dashboards to find each issue, fix them one at a time, and publish a write-up showing the evidence and measured impact of every change."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Walk me through how you would investigate an API whose p99 latency doubled after a release.",
+          "a": "First I confirm the regression is real by comparing like-for-like runs or production windows with similar traffic. Then I narrow down where time is spent: distributed traces or APM show which span grew. I check the release diff for new queries, loops, external calls or config changes. Then I look at resources at that layer: database waits and execution plans, pool usage, GC pauses, CPU. I form a hypothesis, reproduce it in a controlled test, apply one change, and verify p99 recovers without moving the bottleneck elsewhere."
+        },
+        {
+          "q": "How do you recognise connection-pool exhaustion?",
+          "a": "Response times climb sharply while database CPU stays modest, because requests are waiting to borrow a connection rather than running queries. Pool metrics show active connections pinned at the maximum and a growing number of pending acquisitions or acquisition timeouts. The fix might be resizing the pool, but often it is shortening how long connections are held, for example avoiding external calls inside a transaction."
+        },
+        {
+          "q": "When is adding a cache the wrong answer?",
+          "a": "When the data changes frequently and staleness is unacceptable, when hit rates would be low because access is highly unique, or when the cache hides a fixable inefficiency like a missing index. Caches also add failure modes: stampedes on expiry, cold-start latency after deploys and invalidation bugs. I measure the underlying cost first and only cache when the trade-off is clear."
+        },
+        {
+          "q": "What is the difference between a performance tester and a performance engineer in your view?",
+          "a": "A performance tester's main output is evidence: does the system meet its targets under a defined load? A performance engineer also owns the 'why' and the 'how to fix', so they profile, read code, tune configuration and influence design. In practice the roles overlap, but the engineer is accountable for improving performance rather than only measuring it."
+        },
+        {
+          "q": "How do you prevent performance regressions from reaching production?",
+          "a": "I combine cheap, frequent checks with deeper periodic tests. Small benchmark or API latency tests run in CI against a stable environment with thresholds that fail the build on clear regressions. Larger load tests run on a schedule or before major releases. Production monitoring with SLO-based alerts catches what slips through. Thresholds need noise margins, otherwise people learn to ignore them."
+        }
+      ],
+      "codingRequirements": "High. You must read and change production code, write SQL, use profilers and build test harnesses. Expect to work fluently in at least one backend language and script in another.",
+      "commonMistakes": [
+        "Tuning several settings at once so nobody knows which change helped",
+        "Optimising code that is not on the critical path because it looked inefficient",
+        "Trusting results from an environment with a very different data volume or topology than production",
+        "Fixing a bottleneck without re-testing to see where the next one appears"
+      ],
+      "readinessCriteria": [
+        "Has diagnosed and fixed at least three distinct bottleneck types with documented before/after measurements",
+        "Can read a flame graph and a SQL execution plan and explain what they show",
+        "Can explain how pool sizes, concurrency and latency interact using Little's Law",
+        "Has added an automated performance check to a CI pipeline with a justified threshold"
+      ],
+      "nextRoles": [
+        "capacity-planning-engineer",
+        "apm-testing-specialist",
+        "test-architect"
+      ]
+    },
+    {
+      "slug": "load-test-engineer",
+      "title": "Load Test Engineer",
+      "category": "performance",
+      "overview": "A Load Test Engineer specialises in generating realistic, controlled traffic at scale and keeping the test harness itself trustworthy. The focus is on scripting, data, load-generator infrastructure and execution discipline, so that results reflect the system under test rather than the tooling. It is a hands-on role often found in teams that run frequent or very large load tests.",
+      "responsibilities": [
+        "Build and maintain reusable load scripts for key business journeys",
+        "Provision and manage load-generator infrastructure, including distributed and containerised injectors",
+        "Prepare large volumes of unique, valid test data and reset it between runs",
+        "Execute scheduled load tests and keep a run log with environment and build versions",
+        "Validate that the injectors are healthy and are not the bottleneck",
+        "Integrate load tests into CI pipelines with pass/fail thresholds"
+      ],
+      "skills": {
+        "essential": [
+          "Load scripting with correlation, parameterization and assertions",
+          "Open versus closed workload models and throughput shaping",
+          "HTTP, cookies and authentication flows",
+          "Command-line execution and result-file handling"
+        ],
+        "roleSpecific": [
+          "Distributed load generation and injector health monitoring",
+          "Bulk test-data generation and cleanup",
+          "Containerising load tools with Docker",
+          "Running load tests from CI pipelines"
+        ],
+        "optional": [
+          "Protocol-level testing beyond HTTP (for example WebSockets or message queues)",
+          "Scripting in a second load tool",
+          "Infrastructure-as-code for spinning up injectors"
+        ]
+      },
+      "prerequisites": [
+        "Basic performance testing knowledge",
+        "Comfort with the command line and editing scripts",
+        "Understanding of HTTP request/response flows"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Script reliable journeys",
+          "goals": [
+            "Script a three-step journey with a working login and correlated session",
+            "Drive users from a CSV file so no two threads share credentials",
+            "Add response assertions and confirm failing requests are reported as errors"
+          ],
+          "topics": [
+            "jmeter-fundamentals",
+            "jmeter-correlation-and-parameterization",
+            "jmeter-assertions-and-extractors",
+            "http-fundamentals"
+          ]
+        },
+        "intermediate": {
+          "title": "Control the load precisely",
+          "goals": [
+            "Hit a target throughput using timers and pacing, and verify it in the results",
+            "Explain and demonstrate the difference between open and closed workload models",
+            "Write Groovy logic for dynamic data and conditional flows",
+            "Generate and reset a large dataset between test runs"
+          ],
+          "topics": [
+            "jmeter-timers-and-throughput-shaping",
+            "workload-modeling",
+            "jmeter-groovy-jsr223",
+            "test-data-design"
+          ]
+        },
+        "advanced": {
+          "title": "Scale and automate the harness",
+          "goals": [
+            "Run a distributed test across several containerised injectors",
+            "Monitor injector CPU, memory and network to prove they are not saturated",
+            "Trigger a load test from a CI pipeline and fail the build on threshold breaches",
+            "Stream live results to a dashboard during execution"
+          ],
+          "topics": [
+            "jmeter-non-gui-and-distributed",
+            "docker-for-testers",
+            "ci-cd-for-test-engineers",
+            "monitoring-with-influxdb-grafana"
+          ]
+        }
+      },
+      "tools": [
+        "Apache JMeter",
+        "k6",
+        "Gatling",
+        "Docker",
+        "Jenkins or GitHub Actions",
+        "InfluxDB and Grafana"
+      ],
+      "exercises": [
+        "Run the same test from one injector and from three containerised injectors and compare the injector resource usage",
+        "Write a data-generation script that creates 10,000 unique test accounts in a local database and a matching CSV",
+        "Configure a k6 or JMeter threshold that fails a pipeline when p95 exceeds a set limit",
+        "Deliberately overload a single injector and document how the results become misleading"
+      ],
+      "sampleProject": {
+        "title": "Containerised load-test harness in CI",
+        "description": "Package a JMeter or k6 test suite for a locally hosted demo API in Docker, with data generation and reset scripts. Add a GitHub Actions or Jenkins pipeline that starts the app, seeds data, runs a short load profile, publishes the HTML report as an artifact and fails when error rate or p95 thresholds are breached."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you know your load generators are not the bottleneck?",
+          "a": "I monitor the injectors during every run: CPU, memory, network throughput and, for JVM tools, heap and GC. If an injector is near saturation, its own timings become inflated and it cannot send the requested rate. I also check that achieved throughput matches the target, and I sometimes run the same profile from more injectors to confirm results stay the same."
+        },
+        {
+          "q": "Explain open versus closed workload models.",
+          "a": "In a closed model a fixed number of virtual users loop through a journey, so when the system slows down, the arrival rate drops because each user waits for responses. In an open model new requests arrive at a set rate regardless of how the system is coping, which better reflects public web traffic. Closed models can hide overload problems because the load backs off automatically; open models expose queuing and failure behaviour more honestly."
+        },
+        {
+          "q": "How do you handle test data for a test with thousands of concurrent users?",
+          "a": "Each virtual user needs its own valid data so we do not get artificial lock contention or caching benefits. I generate accounts and entities in bulk, export them to CSV or a data service, and configure the tool so values are not reused across threads unless that is intended. I also plan for consumption: data like orders or one-time tokens get used up, so I script a reset or regeneration step between runs."
+        },
+        {
+          "q": "A test passed yesterday and fails today with many 401 errors. How do you debug it?",
+          "a": "401s point at authentication. I would check whether tokens or test credentials expired, whether the login flow changed in the new build so my correlation extractor no longer matches, and whether any users in the CSV were locked or deleted. I would run a single virtual user with full logging to see the exact request and response, fix the script or data, then rerun."
+        },
+        {
+          "q": "What listeners or reporting settings do you use for a large distributed run, and why?",
+          "a": "For large runs I execute in non-GUI mode, disable heavy listeners such as View Results Tree, and write results to a CSV result file with only the fields I need, or stream aggregated metrics to a backend like InfluxDB. Heavy listeners hold every sample in memory and consume injector CPU, which distorts timings. After the run I generate the HTML dashboard from the results file, so reporting does not compete with load generation."
+        }
+      ],
+      "codingRequirements": "Moderate. Expect to write Groovy, JavaScript or Scala inside load tools, plus shell or Python scripts for data generation and Docker/CI configuration. Application development skills are not required.",
+      "commonMistakes": [
+        "Reusing the same login for all virtual users, which creates unrealistic caching and locking",
+        "Leaving listeners such as 'View Results Tree' enabled during large runs and starving the injector",
+        "Not resetting consumed data, so later runs fail for reasons unrelated to performance",
+        "Treating 'no errors' as success when the target throughput was never achieved"
+      ],
+      "readinessCriteria": [
+        "Can run a distributed test and show evidence that injectors were within safe resource limits",
+        "Can hit a specified requests-per-second target within a small tolerance and prove it from results",
+        "Has a load test running from a CI pipeline with documented thresholds",
+        "Can explain open versus closed models and pick the right one for a given system"
+      ],
+      "nextRoles": [
+        "performance-test-engineer",
+        "scalability-test-engineer",
+        "test-infrastructure-engineer"
+      ]
+    },
+    {
+      "slug": "scalability-test-engineer",
+      "title": "Scalability Test Engineer",
+      "category": "performance",
+      "overview": "A Scalability Test Engineer checks whether a system can handle growth in users, data or transactions by adding resources, and how efficiently it does so. The role tests horizontal and vertical scaling, autoscaling behaviour and the limits where adding capacity stops helping. It is common in cloud-native and high-growth products.",
+      "responsibilities": [
+        "Design step-load experiments that increase load while varying the number of instances or resources",
+        "Measure how throughput and latency change as capacity is added",
+        "Test autoscaling policies, including scale-out delay and scale-in behaviour",
+        "Identify shared components that limit scaling, such as a single database or lock",
+        "Test performance with growing data volumes, not just growing traffic",
+        "Report scaling efficiency and recommend architectural or configuration changes"
+      ],
+      "skills": {
+        "essential": [
+          "Load testing with ramp and step profiles",
+          "Throughput, latency and resource utilization analysis",
+          "Understanding of horizontal versus vertical scaling",
+          "Basic cloud and container concepts"
+        ],
+        "roleSpecific": [
+          "Autoscaling policies and their metrics and cooldowns",
+          "Identifying serialisation points (shared databases, locks, single-threaded components)",
+          "Data-volume scaling tests",
+          "Calculating scaling efficiency from experiment results"
+        ],
+        "optional": [
+          "Kubernetes resource requests, limits and Horizontal Pod Autoscaler",
+          "Database replication and sharding concepts",
+          "Infrastructure-as-code to create repeatable environments"
+        ]
+      },
+      "prerequisites": [
+        "Experience running load tests",
+        "Familiarity with containers or cloud virtual machines",
+        "Understanding of basic web architecture"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand load and capacity",
+          "goals": [
+            "Explain scalability versus performance with an example",
+            "Run a step-load test and plot throughput against concurrency",
+            "Identify the knee point where latency starts rising sharply"
+          ],
+          "topics": [
+            "performance-testing-types",
+            "throughput-latency-and-percentiles",
+            "littles-law"
+          ]
+        },
+        "intermediate": {
+          "title": "Experiment with scaling",
+          "goals": [
+            "Run the same step test with one, two and four instances and compare peak throughput",
+            "Find the shared resource that stops linear scaling in a demo system",
+            "Test how performance changes as a table grows from thousands to millions of rows"
+          ],
+          "topics": [
+            "resource-utilization-and-bottlenecks",
+            "database-and-caching-bottlenecks",
+            "docker-for-testers",
+            "workload-modeling"
+          ]
+        },
+        "advanced": {
+          "title": "Validate elastic, distributed systems",
+          "goals": [
+            "Test an autoscaling policy with a spike and measure the time until capacity catches up",
+            "Verify scale-in does not drop in-flight requests",
+            "Produce a scaling model that predicts instances needed for a forecast load",
+            "Test a microservice system where one service scales and its dependency does not"
+          ],
+          "topics": [
+            "recovery-reliability-availability-testing",
+            "microservices-testing",
+            "capacity-planning-and-baselines",
+            "analyzing-performance-results"
+          ]
+        }
+      },
+      "tools": [
+        "k6 or Apache JMeter",
+        "Docker and Docker Compose",
+        "Kubernetes (local clusters such as kind or minikube)",
+        "Prometheus and Grafana",
+        "Database monitoring views (for example pg_stat_statements)"
+      ],
+      "exercises": [
+        "Run a stateless demo service with Docker Compose at 1, 2 and 4 replicas behind a load balancer and chart peak throughput for each",
+        "Seed a table with increasing volumes and measure how a search endpoint's p95 changes",
+        "On a local Kubernetes cluster, configure a Horizontal Pod Autoscaler and record the delay between a load spike and new pods becoming ready",
+        "Introduce a shared lock in a demo app and show how it caps throughput no matter how many replicas you add"
+      ],
+      "sampleProject": {
+        "title": "Scaling curve report for a containerised API",
+        "description": "Deploy a demo API and database on a local Kubernetes cluster. Run step-load tests at several replica counts, plot throughput and p95 against replicas, calculate scaling efficiency, then test autoscaling with a spike profile. Identify the component that limits scaling and document a recommendation with evidence."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What does it mean if doubling the number of instances gives only a 20% throughput increase?",
+          "a": "Scaling efficiency is poor, which means something shared is limiting the system. Common causes are a single database or cache that is saturated, lock contention, a downstream service with fixed capacity, or the load balancer itself. I would look at which resource is at its limit while the application instances have headroom, then target that component."
+        },
+        {
+          "q": "How would you test an autoscaling policy?",
+          "a": "I define what success looks like, such as p95 staying within target during a spike or recovering within a set time. Then I run spike and gradual ramp profiles and record when scaling triggered, how long new instances took to become ready, and what users experienced in between. I also test scale-in to ensure connections are drained and that the policy does not oscillate. Cooldown and metric choice usually matter more than the thresholds."
+        },
+        {
+          "q": "Why should scalability testing include data growth?",
+          "a": "Many systems handle more users fine but slow down as data accumulates: indexes stop fitting in memory, queries that scanned small tables now scan large ones, and backups or maintenance jobs take longer. Testing only traffic growth on a small dataset gives false confidence. I seed realistic future volumes and compare against the current baseline."
+        },
+        {
+          "q": "What is the difference between vertical and horizontal scaling and their testing concerns?",
+          "a": "Vertical scaling adds resources to one machine, which is simple but has a ceiling and may need downtime. Horizontal scaling adds more instances, which requires the application to be stateless or share state correctly. For horizontal scaling I test session handling, cache consistency, load balancing fairness and any singleton jobs; for vertical scaling I check whether the application can actually use the extra cores or memory."
+        },
+        {
+          "q": "How do you make scalability experiments comparable from run to run?",
+          "a": "I fix everything except the variable I am testing: same build, same dataset size, same configuration, same load profile and warm-up period, and the same injector capacity. I reset or reseed data between runs, record environment details in a run log, and repeat key runs to see how much natural variation there is. Without that discipline, differences between runs can come from noise rather than from the number of instances."
+        }
+      ],
+      "codingRequirements": "Moderate. You need load scripting, YAML for containers and Kubernetes, and enough scripting (Python or shell) to automate experiments and process results. Deep application coding is not usually required.",
+      "commonMistakes": [
+        "Testing only with traffic growth and ignoring data growth",
+        "Ignoring scale-in and only testing scale-out",
+        "Comparing runs from environments with different database sizes or configuration",
+        "Assuming linear scaling without measuring it"
+      ],
+      "readinessCriteria": [
+        "Can produce a throughput-versus-instances chart and calculate scaling efficiency",
+        "Has tested an autoscaling policy and reported time-to-scale and user impact",
+        "Can identify and explain at least one scaling limit from experiment evidence",
+        "Can design a data-volume test that reflects forecast growth"
+      ],
+      "nextRoles": [
+        "capacity-planning-engineer",
+        "performance-engineer",
+        "cloud-qa-engineer"
+      ]
+    },
+    {
+      "slug": "reliability-test-engineer",
+      "title": "Reliability Test Engineer",
+      "category": "performance",
+      "overview": "A Reliability Test Engineer checks that a system keeps working correctly over time and recovers predictably from failures. The work covers soak tests, failover and recovery tests, resilience patterns such as retries and timeouts, and controlled fault injection. It sits close to Site Reliability Engineering and often uses service level objectives as test targets.",
+      "responsibilities": [
+        "Design soak and endurance tests that detect leaks and slow degradation",
+        "Test failover, restart and recovery procedures and measure recovery time",
+        "Verify retries, timeouts, circuit breakers and idempotency under fault conditions",
+        "Run controlled fault-injection experiments in agreed environments",
+        "Define reliability test targets from service level objectives",
+        "Document failure modes and feed findings into runbooks and design reviews"
+      ],
+      "skills": {
+        "essential": [
+          "Recovery, reliability and availability testing concepts",
+          "Soak testing and trend analysis",
+          "Understanding of timeouts, retries and idempotency",
+          "Reading logs and metrics to reconstruct incidents"
+        ],
+        "roleSpecific": [
+          "Fault injection and chaos experiment design",
+          "Service level indicators, objectives and error budgets",
+          "Failover and backup/restore testing",
+          "Resilience patterns such as circuit breakers and bulkheads"
+        ],
+        "optional": [
+          "Kubernetes failure behaviours (pod eviction, readiness probes)",
+          "Message-queue redelivery and dead-letter handling",
+          "Writing runbooks and post-incident reviews"
+        ]
+      },
+      "prerequisites": [
+        "Performance or system testing experience",
+        "Comfort with logs, metrics and the command line",
+        "Basic knowledge of distributed systems"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn how systems fail",
+          "goals": [
+            "Explain reliability, availability and recoverability with examples",
+            "Run a multi-hour soak test locally and chart memory and response time over time",
+            "Stop a dependency during a test and document how the application behaves"
+          ],
+          "topics": [
+            "recovery-reliability-availability-testing",
+            "performance-testing-types",
+            "resource-utilization-and-bottlenecks"
+          ]
+        },
+        "intermediate": {
+          "title": "Test resilience mechanisms",
+          "goals": [
+            "Verify that retries are bounded, use backoff, and do not create duplicate side effects",
+            "Test timeout behaviour when a dependency becomes slow rather than down",
+            "Validate a circuit breaker opens and closes under the expected conditions",
+            "Measure recovery time after restarting a database"
+          ],
+          "topics": [
+            "idempotency-retries-rate-limiting",
+            "microservices-testing",
+            "thread-and-connection-pools",
+            "monitoring-with-influxdb-grafana"
+          ]
+        },
+        "advanced": {
+          "title": "Run controlled chaos and own reliability targets",
+          "goals": [
+            "Plan and run a chaos experiment with a hypothesis, blast radius and abort conditions",
+            "Translate SLOs into automated reliability checks",
+            "Test backup and restore end to end, including data verification",
+            "Lead a review of failure modes for a new service"
+          ],
+          "topics": [
+            "chaos-engineering-basics",
+            "release-readiness",
+            "analyzing-performance-results",
+            "test-architecture-and-system-design"
+          ]
+        }
+      },
+      "tools": [
+        "k6 or Apache JMeter for soak tests",
+        "Toxiproxy or similar network fault proxies",
+        "Chaos tooling for Kubernetes (for example Chaos Mesh or LitmusChaos)",
+        "Prometheus and Grafana",
+        "Docker Compose"
+      ],
+      "exercises": [
+        "Run a four-hour soak test on a local service and detect a seeded memory leak from metrics",
+        "Use a fault proxy to add latency to a database connection and verify the application's timeout and error handling",
+        "Kill a service instance mid-test and measure error count and recovery time",
+        "Write a chaos experiment plan with steady-state hypothesis, blast radius and rollback steps"
+      ],
+      "sampleProject": {
+        "title": "Resilience test pack for a two-service demo",
+        "description": "Build or reuse a demo where an order service calls a payment stub and a database, all in Docker Compose. Add a fault proxy, then write automated tests for slow dependency, dependency down, database restart and duplicate request scenarios. Report observed behaviour against expected retry, timeout and idempotency rules, with metrics screenshots you produced yourself."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What can a soak test find that a one-hour load test usually cannot?",
+          "a": "Slow-building problems: memory leaks, file handle or connection leaks, growing queues, log or disk filling, cache bloat, and scheduled jobs that interfere with traffic. These show up as gradually rising latency or resource usage. I look at trends over time rather than averages and compare the first and last hour."
+        },
+        {
+          "q": "Why can retries make an outage worse?",
+          "a": "If every client retries immediately when a service is struggling, they multiply the load on it exactly when it has least capacity, a retry storm. Retries should be bounded, use exponential backoff with jitter, respect rate limits and only apply to idempotent or safely deduplicated operations. Circuit breakers help by stopping calls entirely when failure is clear."
+        },
+        {
+          "q": "How would you run a chaos experiment safely?",
+          "a": "Start with a steady-state hypothesis based on measurable metrics, choose the smallest blast radius, run in a non-production environment first, and get agreement from the owning team. Define abort conditions and a rollback method before starting, monitor closely, and stop immediately if the abort criteria are hit. Afterwards, document findings and turn fixes into regression checks."
+        },
+        {
+          "q": "How do SLOs influence your test design?",
+          "a": "SLOs give objective targets, for example 99.9% of requests succeed and p95 latency stays under a threshold. I design tests that measure the same indicators the SLO uses, so test results speak the same language as production. During failure tests I check how much of the error budget a given fault would consume, which helps prioritise fixes."
+        },
+        {
+          "q": "How would you test that a payment-style operation is safe to retry?",
+          "a": "I send the same request twice with the same idempotency key, including concurrently, and verify only one side effect occurs and both calls return a consistent result. Then I simulate a timeout after the server has processed the request but before the client receives the response, and confirm the client retry does not create a duplicate. I check the database or downstream stub to count actual side effects rather than trusting the responses."
+        }
+      ],
+      "codingRequirements": "Moderate. Scripting in Python, Go or JavaScript to drive experiments and analyse results, plus YAML for containers and chaos tools. Reading application code helps when verifying retry and timeout logic.",
+      "commonMistakes": [
+        "Only testing 'service is down' and never 'service is slow', which is often more damaging",
+        "Running fault injection without abort conditions or stakeholder agreement",
+        "Judging a soak test by its averages instead of looking at trends over time",
+        "Assuming backups work without ever testing a restore"
+      ],
+      "readinessCriteria": [
+        "Has detected a seeded leak through a soak test and explained the evidence",
+        "Can verify retry, timeout and idempotency behaviour under injected faults",
+        "Has written a chaos experiment plan with hypothesis, blast radius and abort conditions",
+        "Can relate test results to SLOs and error budgets"
+      ],
+      "nextRoles": [
+        "chaos-engineering-practitioner",
+        "observability-test-engineer",
+        "performance-engineer"
+      ]
+    },
+    {
+      "slug": "capacity-planning-engineer",
+      "title": "Capacity Planning Engineer",
+      "category": "performance",
+      "overview": "A Capacity Planning Engineer forecasts how much infrastructure a system will need to meet future demand at acceptable performance and cost. The role combines performance test results, production utilization data and business forecasts into models and recommendations. It is more analytical than hands-on testing and works closely with finance, operations and architecture teams.",
+      "responsibilities": [
+        "Establish performance and utilization baselines for key services",
+        "Build capacity models that relate business volumes to resource usage",
+        "Combine load test results with production metrics to estimate headroom",
+        "Forecast resource needs for growth, seasonal peaks and planned launches",
+        "Recommend scaling, right-sizing or architecture changes with cost trade-offs",
+        "Track forecast accuracy and update models as reality diverges"
+      ],
+      "skills": {
+        "essential": [
+          "Little's Law and basic queueing theory",
+          "Resource utilization metrics and saturation",
+          "Data analysis with spreadsheets, SQL or Python",
+          "Interpreting load test results"
+        ],
+        "roleSpecific": [
+          "Building and validating capacity models",
+          "Translating business forecasts into transaction volumes",
+          "Headroom and peak-to-average analysis",
+          "Communicating uncertainty and assumptions to non-technical stakeholders"
+        ],
+        "optional": [
+          "Cloud pricing models and cost optimisation",
+          "Time-series forecasting techniques",
+          "Statistics for confidence intervals"
+        ]
+      },
+      "prerequisites": [
+        "Experience in performance testing or operations",
+        "Comfort with data analysis",
+        "Basic understanding of infrastructure and cloud resources"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn the core relationships",
+          "goals": [
+            "Apply Little's Law to relate throughput, response time and concurrency",
+            "Explain utilization, saturation and why systems slow down sharply near full utilization",
+            "Read a load test report and identify the maximum sustainable throughput"
+          ],
+          "topics": [
+            "littles-law",
+            "throughput-latency-and-percentiles",
+            "resource-utilization-and-bottlenecks"
+          ]
+        },
+        "intermediate": {
+          "title": "Build baselines and simple models",
+          "goals": [
+            "Create a baseline of CPU and memory per transaction from test results",
+            "Use SQL to aggregate historical traffic by hour and identify peaks",
+            "Build a spreadsheet model that predicts instances needed for a given volume",
+            "Validate the model against a new load test"
+          ],
+          "topics": [
+            "capacity-planning-and-baselines",
+            "workload-modeling",
+            "sql-joins-and-aggregates",
+            "analyzing-performance-results"
+          ]
+        },
+        "advanced": {
+          "title": "Plan for the business",
+          "goals": [
+            "Produce a capacity plan for a seasonal peak with documented assumptions and headroom",
+            "Include data growth and dependency limits in the model",
+            "Compare scaling options by cost and risk",
+            "Report forecast versus actual and refine the model"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "database-and-caching-bottlenecks",
+            "qa-metrics-and-reporting",
+            "test-strategy-vs-test-plan"
+          ]
+        }
+      },
+      "tools": [
+        "Spreadsheets",
+        "SQL",
+        "Python with pandas",
+        "Prometheus and Grafana",
+        "Load testing tool results (JMeter, k6)",
+        "Cloud provider cost calculators"
+      ],
+      "exercises": [
+        "Given hourly request counts for a month (generate your own sample), find the peak hour and the peak-to-average ratio",
+        "From a load test, calculate CPU cost per request and predict instances needed for three times the current peak",
+        "Build a model with explicit assumptions and run a sensitivity analysis on the two most uncertain inputs",
+        "Validate a prediction by running a new load test at the predicted volume and comparing results"
+      ],
+      "sampleProject": {
+        "title": "Seasonal peak capacity plan",
+        "description": "Using self-generated traffic data and load test results from a local demo system, build a capacity model that maps orders per minute to instances and database utilization. Produce a plan for a hypothetical seasonal peak with headroom targets, risks, cost comparison of two scaling options, and a validation test that checks the model's prediction."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why not plan to run servers at 100% utilization to save cost?",
+          "a": "As utilization approaches 100%, queueing delay grows sharply, so response times become long and unpredictable. Real traffic is also bursty, and failures or deployments remove capacity temporarily. Planning for headroom, for example a target utilization that leaves room for spikes and losing an instance, keeps latency within targets. The right target depends on the service and its SLOs."
+        },
+        {
+          "q": "How do you turn a business forecast into a capacity requirement?",
+          "a": "I convert the business metric, for example expected orders per day, into transactions per second at peak using historical peak-to-average ratios. Then I use resource cost per transaction from load tests or production data to estimate CPU, memory, database and network needs. I add headroom, factor in data growth and dependencies, and document every assumption so the plan can be revisited."
+        },
+        {
+          "q": "How do you handle uncertainty in a capacity forecast?",
+          "a": "I make it explicit. I present ranges rather than single numbers, show which inputs the result is most sensitive to, and define triggers that tell us when to revisit the plan, such as traffic growing faster than expected. Where possible I prefer elastic options that reduce the cost of being wrong."
+        },
+        {
+          "q": "What data do you need before you can build a useful capacity model?",
+          "a": "Traffic volumes over time with peaks, transaction mix, resource usage per transaction, the maximum sustainable throughput per instance from testing, known limits of shared dependencies such as databases, and business growth expectations. Without load test data, the model relies on production observation only, which cannot show behaviour beyond current peaks."
+        },
+        {
+          "q": "How do you validate a capacity model?",
+          "a": "I use it to make a specific prediction, for example that four instances will sustain a given throughput at a target p95 with a certain CPU utilization, and then run a load test at exactly that point. If the measured results differ, I look at which assumption was wrong, such as cost per transaction or a dependency limit, and update the model. In production I keep comparing forecast and actual usage on a schedule."
+        }
+      ],
+      "codingRequirements": "Low to moderate. Strong spreadsheet and SQL skills are essential; Python for data analysis is very useful. You rarely write application code.",
+      "commonMistakes": [
+        "Using average traffic instead of peak traffic in the model",
+        "Ignoring shared dependencies such as databases that do not scale with application instances",
+        "Presenting a single number with no assumptions or uncertainty",
+        "Never checking the forecast against what actually happened"
+      ],
+      "readinessCriteria": [
+        "Can build a capacity model with documented assumptions and validate it against a test",
+        "Can explain why headroom is needed using utilization and queueing concepts",
+        "Can calculate peak-to-average ratios and resource cost per transaction from data",
+        "Has produced a capacity plan that a non-technical stakeholder can follow"
+      ],
+      "nextRoles": [
+        "performance-engineer",
+        "test-strategy-consultant"
+      ]
+    },
+    {
+      "slug": "apm-testing-specialist",
+      "title": "Application Performance Testing Specialist",
+      "category": "performance",
+      "overview": "An Application Performance Testing Specialist uses application performance monitoring (APM) and tracing data to test, diagnose and protect user-facing performance. The role connects load tests to transaction-level insight inside the application and often includes frontend performance such as page rendering. It suits testers who enjoy investigation and work closely with development and operations teams.",
+      "responsibilities": [
+        "Instrument test environments with APM agents or OpenTelemetry so tests produce trace-level data",
+        "Correlate load test transactions with traces to pinpoint slow components",
+        "Measure frontend performance metrics such as Core Web Vitals in lab conditions",
+        "Compare transaction profiles between builds to detect regressions",
+        "Define transaction-level performance budgets with product and engineering teams",
+        "Present findings to developers with trace evidence and suggested next steps"
+      ],
+      "skills": {
+        "essential": [
+          "Load testing fundamentals",
+          "Reading distributed traces and span timings",
+          "Understanding of web request lifecycles from browser to database",
+          "Percentile analysis and baselining"
+        ],
+        "roleSpecific": [
+          "APM and OpenTelemetry instrumentation concepts",
+          "Frontend performance metrics and browser performance tooling",
+          "Tagging test traffic so it can be filtered in monitoring",
+          "Build-to-build performance comparison"
+        ],
+        "optional": [
+          "Real user monitoring concepts",
+          "Profiling within APM tools",
+          "Writing custom dashboards and alerts"
+        ]
+      },
+      "prerequisites": [
+        "Experience with performance or API testing",
+        "Basic understanding of how web applications are built",
+        "Comfort with browser developer tools"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand what monitoring shows",
+          "goals": [
+            "Explain the difference between metrics, logs and traces",
+            "Use browser developer tools to break down page load time",
+            "Run a simple load test and read the response time percentiles"
+          ],
+          "topics": [
+            "http-fundamentals",
+            "throughput-latency-and-percentiles",
+            "performance-testing-types"
+          ]
+        },
+        "intermediate": {
+          "title": "Connect tests to traces",
+          "goals": [
+            "Instrument a local demo service with OpenTelemetry and view traces in a local backend",
+            "Tag load test requests with a header so test traffic can be filtered",
+            "Identify the slowest span in a transaction during a load test",
+            "Measure Lighthouse performance scores for key pages and note the main contributors"
+          ],
+          "topics": [
+            "monitoring-with-influxdb-grafana",
+            "resource-utilization-and-bottlenecks",
+            "database-and-caching-bottlenecks",
+            "analyzing-performance-results"
+          ]
+        },
+        "advanced": {
+          "title": "Guard performance continuously",
+          "goals": [
+            "Compare trace profiles between two builds and report regressions by component",
+            "Set transaction-level budgets and automate checks in CI",
+            "Diagnose a latency issue spanning multiple services using trace evidence"
+          ],
+          "topics": [
+            "microservices-testing",
+            "ci-cd-for-test-engineers",
+            "capacity-planning-and-baselines"
+          ]
+        }
+      },
+      "tools": [
+        "OpenTelemetry",
+        "Jaeger or Grafana Tempo",
+        "Commercial APM tools (concepts transfer between vendors)",
+        "Lighthouse and Chrome DevTools Performance panel",
+        "k6 or Apache JMeter",
+        "Grafana"
+      ],
+      "exercises": [
+        "Instrument a two-service demo with OpenTelemetry and find the span responsible for most latency",
+        "Add a custom header to load test requests and filter traces to only test traffic",
+        "Run Lighthouse on a page before and after a change and explain the metric differences",
+        "Introduce a slow query in one build and show the regression using trace comparisons"
+      ],
+      "sampleProject": {
+        "title": "Trace-driven performance regression check",
+        "description": "Instrument a small multi-service demo with OpenTelemetry and a local trace backend. Write a k6 test that tags its traffic, run it against two builds where one contains a seeded regression, and produce a report that pinpoints the regressed span with trace evidence. Add a Lighthouse check for one key page."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do traces help during a load test compared with just response times?",
+          "a": "Response times from the load tool tell you that a transaction is slow but not where. Traces break the transaction into spans across services, databases and external calls, so you can see which component consumed the time and whether it was waiting or working. That turns a symptom into an actionable lead for developers."
+        },
+        {
+          "q": "How do you separate test traffic from other traffic in monitoring?",
+          "a": "I add a recognizable header, user agent or test-run identifier to every request the load tool sends, and make sure it is propagated as a trace attribute or tag. Then dashboards and trace searches can filter by that value. This matters in shared environments where other users or jobs generate traffic."
+        },
+        {
+          "q": "What are Core Web Vitals and why might a backend load test miss frontend problems?",
+          "a": "Core Web Vitals are browser-side metrics defined by Google for loading, interactivity and visual stability. A backend load test measures server response times but not how long the browser takes to download, parse and render resources. A page can have fast APIs and still feel slow because of large scripts, render-blocking resources or layout shifts, so I test both layers."
+        },
+        {
+          "q": "What overhead does instrumentation add and how do you account for it?",
+          "a": "Agents and tracing add some CPU, memory and latency, usually small but not zero, and high sampling rates increase it. I keep the same instrumentation and sampling configuration across compared runs so results are consistent, and I check the overhead once by comparing a run with and without instrumentation."
+        },
+        {
+          "q": "Two builds show the same average response time but users report the new one feels slower. What would you check?",
+          "a": "I would compare percentiles rather than averages, since the tail may have grown while the mean stayed flat. I would compare trace profiles per transaction to see if time moved between components, and check frontend metrics, because a larger script bundle or render-blocking resource can slow perceived load without changing API times. I would also check whether specific transactions or user segments regressed while others improved."
+        }
+      ],
+      "codingRequirements": "Moderate. You need to add instrumentation configuration, read application code to understand spans, and write load scripts. Basic JavaScript helps for frontend performance work.",
+      "commonMistakes": [
+        "Comparing traces from builds with different sampling or instrumentation settings",
+        "Focusing only on backend times and ignoring rendering in the browser",
+        "Treating the slowest span as the root cause without checking whether it is waiting on something else",
+        "Leaving test traffic untagged in shared environments"
+      ],
+      "readinessCriteria": [
+        "Can instrument a demo service and locate the slowest span under load",
+        "Can tag and filter test traffic in a tracing backend",
+        "Can explain Core Web Vitals and run lab measurements for a page",
+        "Has demonstrated a build-to-build regression comparison with trace evidence"
+      ],
+      "nextRoles": [
+        "observability-test-engineer",
+        "performance-engineer"
+      ]
+    },
+    {
+      "slug": "observability-test-engineer",
+      "title": "Observability-Focused Test Engineer",
+      "category": "performance",
+      "overview": "An Observability-Focused Test Engineer makes sure systems can be understood when they misbehave, and uses telemetry as a testing tool. The role tests that logs, metrics, traces and alerts are correct and useful, and builds checks that verify behaviour through production-like signals. It bridges QA, performance testing and SRE practices.",
+      "responsibilities": [
+        "Define observability acceptance criteria for new features (what must be logged, measured and traced)",
+        "Test that alerts fire on the right conditions and do not fire on normal behaviour",
+        "Verify log quality, including structure, correlation IDs and absence of sensitive data",
+        "Build dashboards that support test analysis and incident diagnosis",
+        "Use telemetry to validate behaviour during load, failure and release tests",
+        "Contribute to synthetic monitoring and post-release verification checks"
+      ],
+      "skills": {
+        "essential": [
+          "Metrics, logs and traces and what each is good for",
+          "Basic query languages for metrics or logs",
+          "Test design for non-functional requirements",
+          "Understanding of HTTP services and distributed systems"
+        ],
+        "roleSpecific": [
+          "Alert testing, including thresholds, durations and noise",
+          "Structured logging and correlation ID propagation",
+          "Sensitive-data checks in logs and telemetry",
+          "Synthetic monitoring design"
+        ],
+        "optional": [
+          "SLO and error budget definitions",
+          "Dashboard-as-code",
+          "Log pipeline and retention concepts"
+        ]
+      },
+      "prerequisites": [
+        "Experience with functional or performance testing",
+        "Basic command-line and scripting skills",
+        "Awareness of how services are deployed"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn the three signals",
+          "goals": [
+            "Explain when to use metrics, logs and traces",
+            "Read service logs during a test to explain a failure",
+            "Create a simple Grafana dashboard from test metrics"
+          ],
+          "topics": [
+            "monitoring-with-influxdb-grafana",
+            "reporting-and-logging",
+            "debugging-failing-tests"
+          ]
+        },
+        "intermediate": {
+          "title": "Test the telemetry itself",
+          "goals": [
+            "Verify that every request carries a correlation ID across two services",
+            "Write a test that scans logs for passwords, tokens or personal data",
+            "Trigger an alert condition deliberately and confirm it fires and resolves",
+            "Correlate load test results with service metrics on one dashboard"
+          ],
+          "topics": [
+            "resource-utilization-and-bottlenecks",
+            "microservices-testing",
+            "analyzing-performance-results",
+            "security-testing-fundamentals"
+          ]
+        },
+        "advanced": {
+          "title": "Make observability part of quality",
+          "goals": [
+            "Define observability acceptance criteria in user stories",
+            "Build synthetic checks that run after each deployment",
+            "Use telemetry to verify a chaos experiment's steady-state hypothesis",
+            "Review alerting for a service and remove noisy or untested alerts"
+          ],
+          "topics": [
+            "acceptance-criteria-dor-dod",
+            "chaos-engineering-basics",
+            "ci-cd-for-test-engineers",
+            "release-readiness"
+          ]
+        }
+      },
+      "tools": [
+        "Prometheus",
+        "Grafana",
+        "OpenTelemetry",
+        "A log platform (for example Grafana Loki or the Elastic Stack)",
+        "k6 for synthetic and load checks"
+      ],
+      "exercises": [
+        "Add a correlation ID to a two-service demo and write an automated check that it appears in both services' logs",
+        "Write a Prometheus alert rule for high error rate and test it by injecting errors",
+        "Scan a log file produced by a test run for email addresses and tokens using a script",
+        "Build a dashboard showing load test throughput next to service CPU and error rate"
+      ],
+      "sampleProject": {
+        "title": "Observability test suite for a demo service",
+        "description": "Run a demo service with Prometheus, Grafana and a log backend locally. Write automated tests that verify correlation IDs, structured log fields and the absence of secrets in logs, plus a script that injects errors and confirms an alert fires and later resolves. Document observability acceptance criteria for one feature."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you test an alert?",
+          "a": "I check both directions. First I create the condition the alert is meant to detect, for example raising the error rate above the threshold for longer than the configured duration, and confirm the alert fires, reaches the right channel and contains useful context. Then I confirm it resolves when the condition clears, and that normal fluctuations or short spikes do not trigger it. An alert that has never been tested should be treated as unknown."
+        },
+        {
+          "q": "What makes a log line useful during an incident?",
+          "a": "Structured fields such as timestamp, level, service, correlation or trace ID, and a clear event description. It should include the identifiers needed to follow a request but never secrets or unnecessary personal data. Consistent fields across services make searching and correlating possible."
+        },
+        {
+          "q": "How can observability data improve your testing?",
+          "a": "It gives visibility inside the system during tests, so I can verify not just the response but what happened behind it: retries, cache hits, queue depth, downstream calls. During load and failure tests it explains why results look the way they do. It also helps catch issues that do not show up in API responses, like background job failures."
+        },
+        {
+          "q": "What observability requirements would you add to a new payment feature's acceptance criteria?",
+          "a": "Metrics for request count, latency and failure count by reason; a trace that spans the payment call including the external provider; logs with a correlation ID and payment reference but no card data; and an alert for an elevated failure rate. I would also ask for a dashboard panel and a runbook entry so on-call engineers can act."
+        },
+        {
+          "q": "What is synthetic monitoring and how does it differ from a regular automated test?",
+          "a": "Synthetic monitoring runs scripted checks against a deployed environment on a schedule, from one or more locations, and records availability and latency over time. A regular automated test runs once in a pipeline and gives a pass/fail result. Synthetic checks must be lightweight, safe to repeat against a live system, use dedicated test accounts and feed into alerting, so their design priorities differ from functional tests."
+        }
+      ],
+      "codingRequirements": "Moderate. Scripting in Python or JavaScript to drive tests and scan logs, plus query languages such as PromQL. Reading instrumentation code is helpful.",
+      "commonMistakes": [
+        "Assuming alerts work because they are configured, without triggering them",
+        "Logging sensitive data such as tokens or personal information",
+        "Building dashboards with many charts but no clear question they answer",
+        "Ignoring correlation IDs, which makes cross-service debugging slow"
+      ],
+      "readinessCriteria": [
+        "Can write and test an alert rule end to end, including resolution",
+        "Has automated a check for sensitive data in logs",
+        "Can trace a request across services using a correlation or trace ID",
+        "Can write observability acceptance criteria for a feature"
+      ],
+      "nextRoles": [
+        "reliability-test-engineer",
+        "devops-cicd-test-engineer",
+        "chaos-engineering-practitioner"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1513 @@
+{
+  "category": "core-qa",
+  "roles": [
+    {
+      "slug": "manual-qa-engineer",
+      "title": "Manual QA Engineer",
+      "category": "core-qa",
+      "overview": "A Manual QA Engineer verifies that software behaves as intended by designing and executing tests by hand, without relying on automation code. The role centres on understanding requirements, choosing good test conditions, finding defects and reporting them so developers can act quickly. It is the most common entry point into software testing and the foundation every later testing role builds on.",
+      "responsibilities": [
+        "Review requirements and user stories and raise questions about ambiguities before development starts",
+        "Design test scenarios and test cases using techniques such as equivalence partitioning and boundary value analysis",
+        "Execute planned and exploratory tests across the features assigned in each release",
+        "Log clear, reproducible defect reports with steps, expected and actual results, and evidence",
+        "Retest fixed defects and run regression checks on affected areas",
+        "Prepare and maintain test data, including simple SQL queries to set up or verify records",
+        "Report test progress and open risks to the team at stand-ups and before release"
+      ],
+      "skills": {
+        "essential": [
+          "Test design techniques (equivalence partitioning, boundary values, decision tables)",
+          "Writing clear test cases and defect reports",
+          "Understanding of the defect lifecycle, severity and priority",
+          "Basic SQL for checking and preparing data",
+          "Product and business domain understanding",
+          "Attention to detail and written communication"
+        ],
+        "roleSpecific": [
+          "Exploratory testing with charters and session notes",
+          "Using browser developer tools to inspect network calls and console errors",
+          "Working inside a test management tool and an issue tracker"
+        ],
+        "optional": [
+          "Basic API checks with Postman",
+          "Introductory knowledge of a scripting language",
+          "Awareness of accessibility checks"
+        ]
+      },
+      "prerequisites": [
+        "Comfort using web and mobile applications and describing what you observe precisely",
+        "Basic computer literacy, including spreadsheets and file handling"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Learn how testing works",
+          "goals": [
+            "Explain the difference between an error, a defect and a failure",
+            "Describe the STLC phases and where a tester contributes in each",
+            "Write ten test cases for a login form with clear expected results",
+            "Log three realistic defect reports against a practice application"
+          ],
+          "topics": [
+            "what-is-software-testing",
+            "error-defect-bug-failure",
+            "sdlc-and-stlc",
+            "seven-testing-principles",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Design tests deliberately",
+          "goals": [
+            "Apply equivalence partitioning and boundary value analysis to numeric and text fields",
+            "Build a decision table for a business rule with at least three conditions",
+            "Run a time-boxed exploratory session and write up findings",
+            "Write SQL SELECT queries with filters and joins to verify stored data"
+          ],
+          "topics": [
+            "equivalence-partitioning",
+            "boundary-value-analysis",
+            "decision-table-testing",
+            "exploratory-testing-charters",
+            "sql-for-testers",
+            "severity-vs-priority"
+          ]
+        },
+        "advanced": {
+          "title": "Own quality for a feature",
+          "goals": [
+            "Write a lightweight test plan with scope, risks and entry and exit criteria",
+            "Prioritise regression tests using risk",
+            "Produce a test execution summary that supports a release decision"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "test-strategy-vs-test-plan",
+            "entry-and-exit-criteria",
+            "test-execution-and-closure-reports",
+            "regression-testing"
+          ]
+        }
+      },
+      "tools": [
+        "Jira",
+        "TestRail or Zephyr",
+        "Browser developer tools",
+        "Postman",
+        "A SQL client such as DBeaver",
+        "Screen capture tools"
+      ],
+      "exercises": [
+        "Write a full set of test cases for a registration form, labelling each with the technique used",
+        "Reproduce a vague bug report from a colleague and rewrite it so anyone could reproduce it",
+        "Run a 45-minute exploratory session on a shopping cart and record bugs, questions and coverage notes",
+        "Write SQL queries that confirm an order placed in the UI was saved with the correct totals"
+      ],
+      "sampleProject": {
+        "title": "Test pack for a demo e-commerce site",
+        "description": "Pick a public practice e-commerce application and produce a complete test pack: a one-page test plan, around 40 test cases for search, cart and checkout derived with named techniques, an exploratory session report, and at least five well-written defect reports with screenshots and severity justification."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you test a field that accepts ages from 18 to 65?",
+          "a": "I would use equivalence partitioning to split inputs into below 18, 18 to 65, and above 65, plus invalid types such as letters, decimals and empty input. Then boundary value analysis gives 17, 18, 65 and 66 as the key values. I would also confirm the error message wording and that the backend rejects invalid values, not just the UI."
+        },
+        {
+          "q": "What is the difference between severity and priority? Give an example where they differ.",
+          "a": "Severity is the technical impact of a defect on the system; priority is how urgently the business wants it fixed. A misspelt company name on the home page is low severity but high priority because it damages trust. A crash in a rarely used admin export is high severity but may be lower priority if a workaround exists."
+        },
+        {
+          "q": "A developer says your bug cannot be reproduced. What do you do?",
+          "a": "I first re-run it myself on a clean session and note exact environment details such as browser, build, test data and user role. I add anything missing to the report, for example a screen recording, console errors or the network response. If it still only happens for me, I pair with the developer to compare environments rather than arguing in comments."
+        },
+        {
+          "q": "How do you decide what to test when there is not enough time to test everything?",
+          "a": "I prioritise by risk: likelihood of failure multiplied by impact on users and the business. Areas that changed, are complex, or handle money and personal data come first. I make the trade-off visible to the team so the release decision is made knowing what was not covered."
+        },
+        {
+          "q": "What makes a good defect report?",
+          "a": "A good report has a short, specific title, the environment and build, precise numbered steps, the expected result, the actual result, and evidence such as screenshots or logs. It describes one problem only and includes severity with a reason. The goal is that a developer can reproduce it without asking me a question."
+        }
+      ],
+      "codingRequirements": "None required. Basic SQL (SELECT, WHERE, JOIN) is strongly helpful for verifying data.",
+      "commonMistakes": [
+        "Listing tool names instead of explaining how you choose test cases",
+        "Describing testing as only 'clicking around' without mentioning techniques or risk",
+        "Giving vague bug report examples without expected versus actual results",
+        "Claiming automation experience you cannot discuss in detail"
+      ],
+      "readinessCriteria": [
+        "You can derive boundary and partition test cases for any input field within a few minutes",
+        "You have written at least ten defect reports that a peer could reproduce without questions",
+        "You can write a SQL query with a JOIN and WHERE clause to verify application data",
+        "You can explain the STLC and the defect lifecycle without notes"
+      ],
+      "nextRoles": ["qa-analyst", "automation-test-engineer", "api-test-engineer"]
+    },
+    {
+      "slug": "software-test-engineer",
+      "title": "Software Test Engineer",
+      "category": "core-qa",
+      "overview": "A Software Test Engineer plans, designs and executes tests across levels, from component checks with developers to full system tests. Compared with a purely manual role, it usually blends manual testing with some scripting, API checks and the ability to read code. Employers use the title broadly, so the role rewards a solid grasp of testing fundamentals plus enough technical depth to test below the user interface.",
+      "responsibilities": [
+        "Analyse requirements and design test conditions at unit, integration and system level",
+        "Execute manual tests and maintain a small set of automated or scripted checks",
+        "Test APIs and verify backend data alongside UI behaviour",
+        "Investigate failures using logs and developer tools to narrow down root causes",
+        "Track and report defects and coverage against requirements",
+        "Collaborate with developers on testability and unit test coverage"
+      ],
+      "skills": {
+        "essential": [
+          "Test design techniques and test levels",
+          "Defect reporting and triage",
+          "Reading code in at least one language",
+          "HTTP and API testing basics",
+          "SQL for data verification"
+        ],
+        "roleSpecific": [
+          "Log analysis and basic debugging",
+          "Writing simple automated checks in Python, Java or JavaScript",
+          "Traceability between requirements and tests"
+        ],
+        "optional": [
+          "UI automation framework experience",
+          "CI pipeline familiarity",
+          "Performance testing basics"
+        ]
+      },
+      "prerequisites": [
+        "Understanding of how web applications work: client, server and database",
+        "Some exposure to a programming language"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Testing fundamentals and levels",
+          "goals": [
+            "Explain unit, integration, system and acceptance testing with an example of each",
+            "Distinguish black-box, white-box and gray-box testing",
+            "Write test cases with expected results for a small feature"
+          ],
+          "topics": [
+            "unit-and-component-testing",
+            "integration-testing",
+            "system-and-end-to-end-testing",
+            "black-white-gray-box-testing",
+            "test-scenarios-and-test-cases"
+          ]
+        },
+        "intermediate": {
+          "title": "Test below the UI",
+          "goals": [
+            "Send and assert on API requests with Postman",
+            "Interpret HTTP status codes and response bodies when a test fails",
+            "Verify API results directly in the database with SQL",
+            "Write a short script that automates a repetitive check"
+          ],
+          "topics": [
+            "http-fundamentals",
+            "http-status-codes",
+            "postman-collections-and-environments",
+            "api-database-validation",
+            "sql-joins-and-aggregates"
+          ]
+        },
+        "advanced": {
+          "title": "Engineer quality into the process",
+          "goals": [
+            "Map coverage to requirements with a traceability matrix",
+            "Perform root cause analysis on an escaped defect and propose prevention",
+            "Run automated checks from a CI pipeline"
+          ],
+          "topics": [
+            "traceability-matrix-and-coverage",
+            "root-cause-analysis",
+            "test-pyramid-and-strategy",
+            "ci-cd-for-test-engineers"
+          ]
+        }
+      },
+      "tools": ["Jira", "Postman", "Git", "A SQL client", "Browser developer tools", "pytest or JUnit"],
+      "exercises": [
+        "Test a public REST API: write ten requests covering positive, negative and boundary cases",
+        "Take a failing UI flow and use the network tab and server logs to identify which layer is at fault",
+        "Build a traceability matrix for five user stories and identify gaps",
+        "Automate one repetitive data setup step with a short script"
+      ],
+      "sampleProject": {
+        "title": "Layered test suite for a to-do application",
+        "description": "Take an open-source to-do app with an API and database. Produce manual system tests for the UI, a Postman collection covering CRUD and error cases, SQL checks that confirm persisted data, and a short report mapping each test to a requirement with notes on coverage gaps."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between integration testing and system testing?",
+          "a": "Integration testing focuses on the interfaces between components or services, checking that data and control pass correctly between them. System testing evaluates the complete, integrated system against its requirements, usually in a production-like environment. Integration tests isolate interaction faults; system tests check end-to-end behaviour and non-functional qualities."
+        },
+        {
+          "q": "A form saves successfully in the UI but the data looks wrong later. How do you investigate?",
+          "a": "I would capture the request payload in the network tab to see what the client actually sent, then check the API response and server logs. Next I would query the database to see what was stored. Comparing those three points tells me whether the fault is in the UI mapping, the API logic or the persistence layer."
+        },
+        {
+          "q": "What does gray-box testing mean in practice?",
+          "a": "It means testing through external interfaces while using partial knowledge of the internals, such as the database schema, API contracts or architecture. For example, knowing a value is cached lets me design a test that checks stale data after an update. It helps target tests without needing full access to source code."
+        },
+        {
+          "q": "How do you decide whether a test belongs at the unit, API or UI level?",
+          "a": "I push each check to the lowest level that can reliably detect the failure. Business rules and calculations fit unit or API tests because they are fast and stable; the UI level is reserved for a few critical user journeys and visual integration. This keeps the suite fast and failures easy to diagnose."
+        },
+        {
+          "q": "How do you handle a requirement that is ambiguous?",
+          "a": "I write down the specific question with concrete examples of the competing interpretations and raise it with the product owner before testing. Meanwhile I note the assumption I am testing against. Ambiguities found early are cheaper to resolve than defects found late."
+        }
+      ],
+      "codingRequirements": "Ability to read code and write simple scripts in one language (Python, Java or JavaScript). SQL at a working level.",
+      "commonMistakes": [
+        "Treating every check as a UI test and ignoring the API and data layers",
+        "Not explaining how you narrow down which layer a defect lives in",
+        "Confusing test levels with test types"
+      ],
+      "readinessCriteria": [
+        "You can test an API with Postman including assertions on status, body and headers",
+        "You can trace a failure from UI to API to database and identify the faulty layer",
+        "You have written at least one script that automates a real testing task",
+        "You can explain each test level with an example from your own practice"
+      ],
+      "nextRoles": ["sdet", "api-test-engineer", "integration-tester"]
+    },
+    {
+      "slug": "qa-analyst",
+      "title": "QA Analyst",
+      "category": "core-qa",
+      "overview": "A QA Analyst focuses on the analytical side of quality: understanding business requirements, turning them into testable conditions and checking that the delivered product meets real user needs. The role sits close to business analysts and product owners. Strong questioning, documentation and domain knowledge matter more here than programming.",
+      "responsibilities": [
+        "Analyse business requirements and user stories for gaps, contradictions and testability",
+        "Define acceptance criteria together with product owners",
+        "Design test scenarios that reflect real business workflows",
+        "Maintain traceability between requirements, tests and defects",
+        "Execute functional tests and report results in business terms",
+        "Support stakeholders during acceptance testing"
+      ],
+      "skills": {
+        "essential": [
+          "Requirements analysis and questioning",
+          "Test scenario and test case design",
+          "Business domain understanding",
+          "Clear written and verbal communication",
+          "Defect reporting"
+        ],
+        "roleSpecific": [
+          "Writing acceptance criteria in Given-When-Then form",
+          "Traceability and coverage reporting",
+          "Process and workflow modelling"
+        ],
+        "optional": [
+          "SQL for data checks",
+          "Basic BDD tooling",
+          "Familiarity with reporting dashboards"
+        ]
+      },
+      "prerequisites": [
+        "Interest in how businesses operate and why software features exist",
+        "Ability to read and write structured documents"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand testing and requirements",
+          "goals": [
+            "Explain verification versus validation with examples",
+            "Review a user story and list at least five clarifying questions",
+            "Write test scenarios for a business workflow"
+          ],
+          "topics": [
+            "verification-vs-validation",
+            "qa-qc-and-testing",
+            "requirements-analysis-for-testers",
+            "test-scenarios-and-test-cases"
+          ]
+        },
+        "intermediate": {
+          "title": "Model business rules",
+          "goals": [
+            "Write acceptance criteria for three user stories",
+            "Model a business rule as a decision table and a use case",
+            "Build a traceability matrix and report coverage"
+          ],
+          "topics": [
+            "acceptance-criteria-dor-dod",
+            "decision-table-testing",
+            "use-case-testing",
+            "traceability-matrix-and-coverage"
+          ]
+        },
+        "advanced": {
+          "title": "Influence quality decisions",
+          "goals": [
+            "Lead a requirements review and capture outcomes",
+            "Prepare metrics that help stakeholders decide on release",
+            "Coordinate a user acceptance test cycle"
+          ],
+          "topics": [
+            "qa-metrics-and-reporting",
+            "acceptance-alpha-beta-testing",
+            "release-readiness",
+            "risk-based-testing"
+          ]
+        }
+      },
+      "tools": ["Jira", "Confluence", "TestRail or Xray", "Spreadsheet tools", "Diagramming tools such as draw.io"],
+      "exercises": [
+        "Rewrite three vague user stories into stories with testable acceptance criteria",
+        "Model a loan eligibility rule as a decision table and derive test cases",
+        "Produce a traceability matrix for a feature and highlight untested requirements",
+        "Write a one-page quality summary for a non-technical stakeholder"
+      ],
+      "sampleProject": {
+        "title": "Requirements-to-test pack for a booking system",
+        "description": "Choose a hotel or appointment booking workflow. Document the user stories with acceptance criteria, a list of open questions you would raise, decision tables for pricing and cancellation rules, traceable test scenarios, and a stakeholder-facing coverage and risk summary."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you review a user story before development starts?",
+          "a": "I check it is clear, testable and complete: who the user is, what outcome they need, and what acceptance criteria prove it is done. I look for missing error cases, undefined terms and conflicting rules, and I write concrete example scenarios to test my understanding. Questions go to the product owner before sprint planning so they do not become defects later."
+        },
+        {
+          "q": "What is the difference between verification and validation?",
+          "a": "Verification asks whether we built the product right, meaning it conforms to its specification, often via reviews and testing against requirements. Validation asks whether we built the right product, meaning it meets the user's actual needs in their context. A feature can pass verification and still fail validation if the requirement itself was wrong."
+        },
+        {
+          "q": "How would you explain test coverage to a business stakeholder?",
+          "a": "I avoid percentages without context and instead show which business requirements and risks have been tested, which passed, and which are untested or blocked. I describe the impact of untested areas in business terms, for example which customer journeys could be affected. That lets them make an informed release decision."
+        },
+        {
+          "q": "Describe how you would write acceptance criteria for a password reset feature.",
+          "a": "I would use Given-When-Then scenarios: a registered user requesting a reset receives an email with a time-limited link, an expired or reused link is rejected, and an unknown email shows a neutral message that does not reveal whether an account exists. I would also cover password rules and what happens to active sessions after reset. Each criterion must be observable and testable."
+        },
+        {
+          "q": "When is a traceability matrix worth maintaining?",
+          "a": "It is most valuable where requirements are formal or regulated, or where changes are frequent and you need to know which tests are affected. In small agile teams a lighter form, such as linking tests to stories in the tracker, often gives the same benefit at lower cost. The goal is answering what is covered, not producing a document."
+        }
+      ],
+      "codingRequirements": "None required. Basic SQL is helpful for checking data in reports and workflows.",
+      "commonMistakes": [
+        "Answering only with process vocabulary and no concrete examples",
+        "Not showing how you would challenge an unclear requirement",
+        "Presenting metrics without explaining what decision they support"
+      ],
+      "readinessCriteria": [
+        "You can turn a one-line feature request into a story with at least four testable acceptance criteria",
+        "You can build and explain a decision table for a realistic business rule",
+        "You have produced a coverage summary that a non-technical reader understood"
+      ],
+      "nextRoles": ["test-analyst", "uat-tester", "qa-lead"]
+    },
+    {
+      "slug": "quality-assurance-engineer",
+      "title": "Quality Assurance Engineer",
+      "category": "core-qa",
+      "overview": "A Quality Assurance Engineer looks beyond finding defects to improving the process that produces them. Alongside testing, the role contributes to standards, reviews, definitions of done and quality metrics so that fewer defects are introduced in the first place. It typically combines hands-on testing with some automation and a strong voice in team practices.",
+      "responsibilities": [
+        "Plan and execute functional and regression testing for team deliverables",
+        "Contribute to definitions of ready and done and to review checklists",
+        "Analyse escaped defects and propose process changes",
+        "Maintain regression suites, including some automated checks",
+        "Track quality metrics and share trends with the team",
+        "Promote shift-left practices such as early test design and pairing with developers"
+      ],
+      "skills": {
+        "essential": [
+          "Test design and execution",
+          "Understanding of QA versus QC and process improvement",
+          "Defect analysis and root cause analysis",
+          "Agile team practices",
+          "Basic SQL and API testing"
+        ],
+        "roleSpecific": [
+          "Quality metrics and their limitations",
+          "Static testing: reviews of requirements and code changes",
+          "Maintaining a regression suite"
+        ],
+        "optional": [
+          "UI or API automation",
+          "CI pipeline configuration",
+          "Standards awareness such as ISTQB terminology"
+        ]
+      },
+      "prerequisites": [
+        "Experience or study of manual testing fundamentals",
+        "Familiarity with working in a team that ships software"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Quality concepts",
+          "goals": [
+            "Explain QA, QC and testing and how they differ",
+            "Describe static versus dynamic testing with examples",
+            "Execute a regression cycle and report results"
+          ],
+          "topics": [
+            "qa-qc-and-testing",
+            "static-vs-dynamic-testing",
+            "regression-testing",
+            "defect-lifecycle"
+          ]
+        },
+        "intermediate": {
+          "title": "Prevent defects",
+          "goals": [
+            "Run root cause analysis on three escaped defects",
+            "Propose updates to the definition of done based on findings",
+            "Introduce test design earlier in the sprint"
+          ],
+          "topics": [
+            "root-cause-analysis",
+            "acceptance-criteria-dor-dod",
+            "shift-left-and-continuous-testing",
+            "defect-triage"
+          ]
+        },
+        "advanced": {
+          "title": "Measure and improve",
+          "goals": [
+            "Define a small set of quality metrics and explain what each can and cannot show",
+            "Automate the most valuable regression checks",
+            "Lead a retrospective focused on quality"
+          ],
+          "topics": [
+            "defect-metrics",
+            "qa-metrics-and-reporting",
+            "test-pyramid-and-strategy",
+            "flaky-test-reduction"
+          ]
+        }
+      },
+      "tools": ["Jira", "Confluence", "Postman", "Git", "A test management tool", "A CI system such as GitHub Actions"],
+      "exercises": [
+        "Pick three defects from an open-source project's issue tracker and write a root cause and prevention note for each",
+        "Draft a definition of done for a team that keeps shipping untested edge cases",
+        "Design a quality dashboard of four metrics and write one risk of misreading each"
+      ],
+      "sampleProject": {
+        "title": "Quality improvement case study",
+        "description": "Using an open-source project, analyse a sample of closed bug reports, categorise them by root cause, and write a short improvement proposal covering review checklist changes, new regression tests, and a metric to track whether the change worked. Include the regression tests you would add."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between quality assurance and quality control?",
+          "a": "Quality assurance is process-oriented and preventive: it defines and improves how work is done so defects are less likely. Quality control is product-oriented and detective: it examines the output, for example through testing, to find defects. Testing is a major QC activity, while QA includes things like reviews, standards and retrospectives."
+        },
+        {
+          "q": "A defect escaped to production. What do you do after it is fixed?",
+          "a": "I run a blameless root cause analysis to find why it was introduced and why our tests did not catch it. Typical outcomes are a new regression test, a missing acceptance criterion, or a review checklist change. I share the finding with the team and track whether similar defects recur."
+        },
+        {
+          "q": "Which quality metrics would you track, and what are their risks?",
+          "a": "Useful ones include escaped defects by severity, defect reopen rate and time to detect. Each can be gamed or misread: counting bugs can discourage reporting, and coverage percentages can rise without better tests. I use metrics to start conversations and look at trends, not as targets for individuals."
+        },
+        {
+          "q": "How do you practise shift-left testing in a sprint?",
+          "a": "I join refinement to question stories and agree acceptance criteria, write test ideas before code exists, and pair with developers on unit and API test coverage. I test small increments as they become available rather than waiting for a finished feature. This reduces late surprises."
+        },
+        {
+          "q": "What is static testing and why is it valuable?",
+          "a": "Static testing examines work products without executing code, for example reviewing requirements, designs or code changes, or using static analysis tools. It finds problems like ambiguity, missing cases and coding standard violations very early, when they are cheapest to fix. It complements rather than replaces dynamic testing."
+        }
+      ],
+      "codingRequirements": "Light: ability to read code for reviews and write simple automated checks. SQL basics expected.",
+      "commonMistakes": [
+        "Describing QA as only testing at the end of the sprint",
+        "Proposing metrics as performance targets for individuals",
+        "Lacking a concrete example of a process change you drove"
+      ],
+      "readinessCriteria": [
+        "You can explain QA versus QC with a concrete example of each",
+        "You have completed a root cause analysis that resulted in a specific preventive action",
+        "You can name three quality metrics and a misuse risk for each"
+      ],
+      "nextRoles": ["senior-qa-engineer", "agile-qa-engineer", "automation-test-engineer"]
+    },
+    {
+      "slug": "functional-tester",
+      "title": "Functional Tester",
+      "category": "core-qa",
+      "overview": "A Functional Tester verifies that each feature does what its requirements say, focusing on inputs, outputs and business rules rather than performance or security. The role is test-design heavy: choosing the right data and conditions to expose incorrect behaviour efficiently. It is common in projects with well-defined specifications such as banking, insurance and enterprise systems.",
+      "responsibilities": [
+        "Derive functional test conditions from specifications and user stories",
+        "Design positive and negative test cases with appropriate test data",
+        "Execute functional test cycles and record results",
+        "Validate business rules, calculations and field validations",
+        "Report defects with precise reproduction steps",
+        "Support regression testing after fixes"
+      ],
+      "skills": {
+        "essential": [
+          "Black-box test design techniques",
+          "Positive and negative testing",
+          "Test data design",
+          "Defect reporting",
+          "Reading functional specifications"
+        ],
+        "roleSpecific": [
+          "Validating calculations and business rules",
+          "Testing form and data validation",
+          "State transition testing for workflows"
+        ],
+        "optional": [
+          "SQL for data checks",
+          "Basic API testing",
+          "Spreadsheet skills for building expected results"
+        ]
+      },
+      "prerequisites": [
+        "Comfort with logical reasoning and arithmetic",
+        "Basic familiarity with software applications"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Functional testing basics",
+          "goals": [
+            "Distinguish functional and non-functional testing",
+            "Write positive and negative cases for a form",
+            "Execute and record a small test cycle"
+          ],
+          "topics": [
+            "functional-vs-non-functional-testing",
+            "positive-and-negative-testing",
+            "test-scenarios-and-test-cases",
+            "testing-data-validation"
+          ]
+        },
+        "intermediate": {
+          "title": "Systematic test design",
+          "goals": [
+            "Apply partitioning and boundaries to every input on a screen",
+            "Model an order status workflow as a state transition diagram",
+            "Design test data that covers rule combinations"
+          ],
+          "topics": [
+            "equivalence-partitioning",
+            "boundary-value-analysis",
+            "state-transition-testing",
+            "test-data-design",
+            "decision-table-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Complex functional areas",
+          "goals": [
+            "Test a checkout flow including discounts, tax and refunds",
+            "Use pairwise testing to reduce a large combination space",
+            "Validate role-based permissions across user types"
+          ],
+          "topics": [
+            "testing-cart-and-checkout",
+            "testing-payments-refunds-cancellations",
+            "pairwise-and-combinatorial-testing",
+            "testing-user-permissions"
+          ]
+        }
+      },
+      "tools": ["Jira", "TestRail", "Spreadsheet tools", "A pairwise generator such as PICT", "Browser developer tools"],
+      "exercises": [
+        "Derive tests for an insurance premium calculator with age, region and cover-level rules",
+        "Draw the state diagram for an order lifecycle and list valid and invalid transitions to test",
+        "Use a pairwise tool to reduce a browser, OS and language matrix and justify the result"
+      ],
+      "sampleProject": {
+        "title": "Functional test design for a discount engine",
+        "description": "Specify a small discount engine with coupon codes, minimum basket values, member tiers and exclusions. Produce decision tables, boundary analyses, a state diagram for coupon redemption, the resulting test cases with expected values calculated in a spreadsheet, and defect reports for any issues found in a practice implementation."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you test a discount rule of 10 percent off orders over 100?",
+          "a": "I would test boundaries around 100, such as 99.99, 100 and 100.01, and confirm whether 'over' means strictly greater. I would check rounding, how the discount interacts with tax, shipping and other promotions, and what happens if items are removed after the discount applies. I would also verify the discount is recalculated server-side, not just displayed."
+        },
+        {
+          "q": "When would you use state transition testing?",
+          "a": "When behaviour depends on the current state and events move the object between states, such as an order going from placed to paid to shipped, or an account being locked after failed logins. I draw the states and transitions, then test every valid transition and important invalid ones, like shipping an unpaid order."
+        },
+        {
+          "q": "What is negative testing and why does it matter?",
+          "a": "Negative testing checks that the system handles invalid input or unexpected actions gracefully, for example rejecting a past date of travel or a malformed email with a clear message. Many real defects and security issues sit in these paths because developers focus on the happy path. Good negative tests also confirm no partial or corrupt data is saved."
+        },
+        {
+          "q": "How do you test a screen with many combinations of options?",
+          "a": "Exhaustive testing is usually impossible, so I identify which parameters interact. Pairwise testing covers every pair of values with far fewer cases, and I add specific high-risk combinations by hand. I also check whether some parameters are independent and can be tested separately."
+        }
+      ],
+      "codingRequirements": "None required. Spreadsheet skills and basic SQL help with building and checking expected results.",
+      "commonMistakes": [
+        "Testing only happy paths in example answers",
+        "Not clarifying ambiguous rule wording such as 'over' versus 'at least'",
+        "Ignoring how features interact with each other"
+      ],
+      "readinessCriteria": [
+        "You can produce a decision table and state diagram for an unfamiliar business rule",
+        "You consistently include negative and boundary cases without prompting",
+        "You can explain pairwise testing and when it is appropriate"
+      ],
+      "nextRoles": ["regression-test-engineer", "test-analyst", "automation-test-engineer"]
+    },
+    {
+      "slug": "regression-test-engineer",
+      "title": "Regression Test Engineer",
+      "category": "core-qa",
+      "overview": "A Regression Test Engineer protects existing functionality as the product changes. The role owns the regression suite: selecting, maintaining and prioritising tests, deciding what to automate, and keeping execution time within release windows. It suits people who like order, efficiency and spotting how a change in one place can break another.",
+      "responsibilities": [
+        "Maintain and prune the regression test suite as features change",
+        "Select regression scope for each release based on change impact and risk",
+        "Execute or trigger regression runs and analyse results",
+        "Identify candidates for automation and track automated coverage",
+        "Investigate intermittent failures and separate product defects from test issues",
+        "Report regression status clearly before release"
+      ],
+      "skills": {
+        "essential": [
+          "Regression and confirmation testing concepts",
+          "Risk-based test selection",
+          "Change impact analysis",
+          "Test suite organisation",
+          "Defect reporting"
+        ],
+        "roleSpecific": [
+          "Smoke and sanity suite design",
+          "Analysing automated run results",
+          "Flaky test identification"
+        ],
+        "optional": [
+          "Writing UI or API automation",
+          "CI scheduling of test runs",
+          "Version control for test assets"
+        ]
+      },
+      "prerequisites": [
+        "Solid manual testing fundamentals",
+        "Experience using a test management tool"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Regression foundations",
+          "goals": [
+            "Explain regression testing versus retesting",
+            "Design a smoke suite for a web application",
+            "Run a regression cycle and report results"
+          ],
+          "topics": [
+            "regression-testing",
+            "retesting-and-confirmation-testing",
+            "smoke-and-sanity-testing",
+            "test-suites-and-test-data"
+          ]
+        },
+        "intermediate": {
+          "title": "Select and maintain",
+          "goals": [
+            "Choose regression scope for a change using impact analysis",
+            "Remove or merge redundant tests and document the reasoning",
+            "Tag tests by priority and area"
+          ],
+          "topics": [
+            "risk-based-testing",
+            "risk-based-scenario-selection",
+            "traceability-matrix-and-coverage",
+            "test-estimation"
+          ]
+        },
+        "advanced": {
+          "title": "Automate and stabilise",
+          "goals": [
+            "Automate the highest-value regression checks",
+            "Diagnose and reduce flaky failures",
+            "Schedule regression runs in CI and report trends"
+          ],
+          "topics": [
+            "flaky-test-reduction",
+            "debugging-failing-tests",
+            "ci-cd-for-test-engineers",
+            "reporting-and-logging"
+          ]
+        }
+      },
+      "tools": ["TestRail or Xray", "Jira", "Selenium or Playwright", "Jenkins or GitHub Actions", "Git"],
+      "exercises": [
+        "Audit a 200-case regression suite description and propose which to keep, merge, automate or delete",
+        "Given a code change summary, choose a regression scope and justify it",
+        "Analyse a set of automated run results and classify each failure as product defect, test defect or environment issue"
+      ],
+      "sampleProject": {
+        "title": "Risk-tiered regression suite",
+        "description": "For a practice web application, build a regression suite organised into smoke, critical-path and extended tiers, tagged by feature and risk. Automate the smoke tier with a UI or API tool, run it on a schedule in CI, and write a short guide on how to choose scope for a release."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between retesting and regression testing?",
+          "a": "Retesting, or confirmation testing, checks that a specific reported defect is fixed by rerunning the failing case. Regression testing checks that the change has not broken anything that previously worked, often in other areas. Both are usually needed after a fix."
+        },
+        {
+          "q": "The full regression takes three days but releases are weekly. What do you do?",
+          "a": "I would tier the suite by risk so critical paths always run, and use change impact analysis to select the rest per release. I would automate stable, repetitive cases, prioritising API-level checks because they are faster. I would also remove duplicated or obsolete tests, which often recovers a surprising amount of time."
+        },
+        {
+          "q": "How do you decide which regression tests to automate?",
+          "a": "Good candidates run often, are stable, have clear expected results and cover high-risk functionality. Poor candidates change frequently, require human judgement, or are very expensive to set up. I estimate maintenance cost, not just execution savings."
+        },
+        {
+          "q": "An automated regression test fails intermittently. How do you handle it?",
+          "a": "I first check whether the failure reveals a real race condition in the product, because intermittent bugs are real bugs. If it is a test problem, I look for timing assumptions, shared test data or environment dependencies. Meanwhile I quarantine it visibly rather than letting the team learn to ignore red builds."
+        },
+        {
+          "q": "What belongs in a smoke suite?",
+          "a": "A small set of fast checks that confirm the build is stable enough to test: the application starts, users can log in, and the most critical journeys work at a basic level. If smoke fails, deeper testing stops. It should run in minutes, not hours."
+        }
+      ],
+      "codingRequirements": "Not strictly required, but basic automation scripting (Python, Java or JavaScript) significantly increases effectiveness.",
+      "commonMistakes": [
+        "Assuming the answer to a slow regression is always 'automate everything'",
+        "Never mentioning deleting obsolete tests",
+        "Treating intermittent failures as noise rather than potential defects"
+      ],
+      "readinessCriteria": [
+        "You can design a three-tier regression suite and justify what goes in each tier",
+        "You can choose regression scope from a change description and explain the risk you accept",
+        "You have automated at least a smoke suite and run it in CI"
+      ],
+      "nextRoles": ["automation-test-engineer", "senior-qa-engineer"]
+    },
+    {
+      "slug": "exploratory-tester",
+      "title": "Exploratory Tester",
+      "category": "core-qa",
+      "overview": "An Exploratory Tester learns, designs and executes tests simultaneously, using each observation to choose the next test. The role is skilled, structured investigation rather than random clicking: sessions have charters, time boxes and notes that make the work accountable. It is especially valuable for new features, complex products and finding problems scripted tests miss.",
+      "responsibilities": [
+        "Plan exploratory sessions with charters targeting risks and unknowns",
+        "Investigate new features quickly to uncover defects and questions",
+        "Record session notes, coverage, bugs and open issues",
+        "Use heuristics and oracles to recognise problems",
+        "Debrief findings with developers and product owners",
+        "Feed discoveries back into regression and automation suites"
+      ],
+      "skills": {
+        "essential": [
+          "Session-based exploratory testing with charters",
+          "Test heuristics and oracles",
+          "Critical thinking and curiosity",
+          "Clear note-taking and bug reporting",
+          "Product and user understanding"
+        ],
+        "roleSpecific": [
+          "Error guessing based on common failure patterns",
+          "Using developer tools, logs and proxies during exploration",
+          "Testing sessions, concurrency and network conditions"
+        ],
+        "optional": [
+          "Accessibility checking",
+          "Basic security testing awareness",
+          "Scripting to generate data or states quickly"
+        ]
+      },
+      "prerequisites": [
+        "Grounding in testing fundamentals",
+        "Comfort using applications and noticing unexpected behaviour"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Structured exploration",
+          "goals": [
+            "Write charters in the form explore target with resources to discover information",
+            "Run three 60-minute sessions and record notes",
+            "Distinguish exploratory testing from ad hoc testing"
+          ],
+          "topics": [
+            "exploratory-and-ad-hoc-testing",
+            "exploratory-testing-charters",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Heuristics and techniques",
+          "goals": [
+            "Apply error guessing using a personal fault catalogue",
+            "Combine formal techniques with exploration",
+            "Use browser tools to observe network and console during sessions"
+          ],
+          "topics": [
+            "error-guessing",
+            "boundary-value-analysis",
+            "state-transition-testing",
+            "testing-sessions-and-concurrency"
+          ]
+        },
+        "advanced": {
+          "title": "Explore risky areas",
+          "goals": [
+            "Explore under poor network and multi-tab conditions",
+            "Target security-sensitive flows with authorised, non-destructive checks",
+            "Report session coverage in a way stakeholders can use"
+          ],
+          "topics": [
+            "testing-multi-browser-and-network-issues",
+            "security-testing-fundamentals",
+            "testing-file-uploads-and-downloads",
+            "risk-based-testing"
+          ]
+        }
+      },
+      "tools": ["Browser developer tools", "Session note templates or a mind-mapping tool", "Screen recording tools", "A web proxy such as Fiddler or Charles", "Jira"],
+      "exercises": [
+        "Write five charters for a file-sharing app and run one, producing a session sheet",
+        "Explore a form under network throttling and report what breaks",
+        "Build a personal list of 20 error-guessing heuristics from bugs you have seen"
+      ],
+      "sampleProject": {
+        "title": "Exploratory testing portfolio",
+        "description": "Run five chartered sessions on different areas of an open-source web app. Publish the charters, session notes, a coverage mind map, the defects found with evidence, and a debrief summary explaining what you would test next and why."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is exploratory testing different from ad hoc testing?",
+          "a": "Exploratory testing is structured: it has a charter stating the mission, a time box, and notes recording what was covered and found, and it is guided by risk and heuristics. Ad hoc testing is informal and usually undocumented. Exploratory testing is accountable and repeatable in intent, even though individual steps are not scripted."
+        },
+        {
+          "q": "Write a charter for exploring a new password reset feature.",
+          "a": "Explore the password reset flow with expired, reused and tampered links and multiple concurrent requests, to discover whether accounts can be reset incorrectly or reveal information. I would time box it to 60 minutes, note which conditions I covered, and capture any questions about intended behaviour."
+        },
+        {
+          "q": "How do you know something is a bug when there is no specification?",
+          "a": "I use oracles such as consistency with similar features in the product, comparable products, user expectations, claims in help text or marketing, and standards. If the behaviour is inconsistent with a reasonable oracle, I report it as a question or a potential issue and explain my reasoning. The product owner decides on intent."
+        },
+        {
+          "q": "How do you report the value of an exploratory session?",
+          "a": "I share the charter, the areas and conditions covered, bugs found, open questions and remaining risks. A short debrief with the team is often more useful than a long document. Over time, session sheets show which areas have been explored and which have not."
+        },
+        {
+          "q": "Can exploratory testing and automation work together?",
+          "a": "Yes. Automation checks known expectations repeatedly, which frees time for exploration of unknowns. Discoveries from exploration often become new automated regression checks, and tools can also support exploration by generating data or setting up complex states."
+        }
+      ],
+      "codingRequirements": "None required. Light scripting is helpful for generating data and states.",
+      "commonMistakes": [
+        "Describing exploratory testing as unplanned clicking",
+        "Unable to show any notes or evidence from sessions",
+        "Not explaining oracles or how you recognise a problem"
+      ],
+      "readinessCriteria": [
+        "You can write a clear charter for any feature within a few minutes",
+        "You have at least five completed session sheets with findings",
+        "You can name and apply at least five testing heuristics or oracles"
+      ],
+      "nextRoles": ["senior-qa-engineer", "security-test-engineer", "usability-test-engineer"]
+    },
+    {
+      "slug": "uat-tester",
+      "title": "UAT Tester",
+      "category": "core-qa",
+      "overview": "A UAT Tester coordinates and performs user acceptance testing, confirming that a system supports real business processes before it goes live. The role often sits on the business or client side and works closely with end users, business analysts and project managers. Domain knowledge and stakeholder communication matter more than technical depth.",
+      "responsibilities": [
+        "Prepare UAT scenarios based on real business processes",
+        "Organise UAT sessions and support business users through them",
+        "Prepare realistic test data with the business",
+        "Record outcomes and raise defects or change requests",
+        "Distinguish defects from requirement changes and route them correctly",
+        "Provide input to the go-live acceptance decision"
+      ],
+      "skills": {
+        "essential": [
+          "Business process and domain knowledge",
+          "Writing end-to-end business scenarios",
+          "Stakeholder communication and facilitation",
+          "Defect reporting",
+          "Understanding acceptance and sign-off criteria"
+        ],
+        "roleSpecific": [
+          "Planning UAT schedules and environments",
+          "Separating defects from change requests",
+          "Training users to log clear issues"
+        ],
+        "optional": [
+          "Basic SQL for checking data",
+          "Experience with enterprise systems such as ERP or CRM",
+          "Test management tooling"
+        ]
+      },
+      "prerequisites": [
+        "Experience with the business domain or end-user role",
+        "Basic understanding of how software projects are delivered"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Acceptance testing basics",
+          "goals": [
+            "Explain how UAT differs from system testing",
+            "Write five business-process scenarios for a familiar workflow",
+            "Log issues with clear steps and business impact"
+          ],
+          "topics": [
+            "acceptance-alpha-beta-testing",
+            "use-case-testing",
+            "writing-a-great-defect-report"
+          ]
+        },
+        "intermediate": {
+          "title": "Plan and run UAT",
+          "goals": [
+            "Define entry and exit criteria for UAT",
+            "Prepare realistic, anonymised test data",
+            "Run a UAT session and summarise outcomes"
+          ],
+          "topics": [
+            "entry-and-exit-criteria",
+            "test-data-design",
+            "acceptance-criteria-dor-dod",
+            "test-execution-and-closure-reports"
+          ]
+        },
+        "advanced": {
+          "title": "Support go-live decisions",
+          "goals": [
+            "Triage UAT findings into defects, changes and training issues",
+            "Present residual risks for sign-off",
+            "Coordinate UAT across multiple business teams"
+          ],
+          "topics": [
+            "release-sign-off",
+            "release-readiness",
+            "defect-triage",
+            "risk-based-testing"
+          ]
+        }
+      },
+      "tools": ["Jira or Azure DevOps", "Spreadsheet tools", "Confluence or SharePoint", "Screen recording tools", "Video conferencing for remote sessions"],
+      "exercises": [
+        "Write UAT scenarios for month-end invoicing from a finance user's point of view",
+        "Classify a list of 15 UAT findings into defects, change requests and user training needs",
+        "Draft UAT exit criteria and a sign-off summary template"
+      ],
+      "sampleProject": {
+        "title": "UAT plan for a leave management system",
+        "description": "Create a UAT pack for an employee leave system: business-process scenarios for employees, managers and HR, a data preparation plan, a session schedule, an issue log template with classification rules, exit criteria, and a sample sign-off report with residual risks."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is UAT different from system testing?",
+          "a": "System testing is usually done by the delivery team to verify the system meets its specified requirements. UAT is done by or for the business to validate that the system supports real work in realistic conditions. UAT focuses on business processes and fitness for use, and its outcome feeds the acceptance decision."
+        },
+        {
+          "q": "A business user says the system is wrong, but it matches the specification. What do you do?",
+          "a": "I log it and classify it as a potential change request rather than a defect, while capturing the business impact clearly. I bring it to the business analyst and product owner so they can decide whether it must be addressed before go-live. The important thing is that it is not lost and the decision is explicit."
+        },
+        {
+          "q": "How do you prepare test data for UAT?",
+          "a": "I work with business users to identify representative cases, including unusual but real scenarios like part-time staff or year-end transactions. Data must be realistic but must not expose personal information, so I use anonymised or synthetic data that follows the same rules. I check the data is loaded and correct before sessions start."
+        },
+        {
+          "q": "What exit criteria would you use for UAT?",
+          "a": "Typical criteria are that all critical business scenarios have been executed, there are no open critical defects, agreed workarounds exist for remaining major issues, and business owners have formally accepted the residual risks. Criteria are agreed before UAT starts so they are not negotiated under deadline pressure."
+        }
+      ],
+      "codingRequirements": "None required.",
+      "commonMistakes": [
+        "Treating UAT as a repeat of system testing",
+        "Not distinguishing defects from change requests",
+        "Ignoring the importance of realistic, privacy-safe data"
+      ],
+      "readinessCriteria": [
+        "You can write end-to-end business scenarios that a domain user recognises as realistic",
+        "You can define UAT entry and exit criteria for a project",
+        "You can classify findings correctly and explain your reasoning"
+      ],
+      "nextRoles": ["qa-analyst", "test-analyst", "erp-enterprise-application-tester"]
+    },
+    {
+      "slug": "system-tester",
+      "title": "System Tester",
+      "category": "core-qa",
+      "overview": "A System Tester evaluates the complete, integrated system against its functional and non-functional requirements in an environment close to production. The role covers end-to-end flows, configuration, installation and basic reliability checks. It often appears in larger or more formal projects where system testing is a distinct phase.",
+      "responsibilities": [
+        "Plan system test cycles based on requirements and architecture",
+        "Execute end-to-end tests across the full system",
+        "Test installation, configuration and compatibility",
+        "Perform basic recovery and reliability checks",
+        "Manage test environments and test data for system testing",
+        "Report system test results and residual risks"
+      ],
+      "skills": {
+        "essential": [
+          "End-to-end test design",
+          "Functional and non-functional testing concepts",
+          "Test environment understanding",
+          "Defect reporting and triage",
+          "SQL and log reading"
+        ],
+        "roleSpecific": [
+          "Installation and configuration testing",
+          "Recovery and availability checks",
+          "Coordinating test cycles and environments"
+        ],
+        "optional": [
+          "Basic performance testing",
+          "Scripting for environment checks",
+          "Container familiarity"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Basic understanding of client-server architecture"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "System-level thinking",
+          "goals": [
+            "Describe the test levels and where system testing fits",
+            "Write end-to-end scenarios crossing multiple components",
+            "Define entry criteria for a system test phase"
+          ],
+          "topics": [
+            "system-and-end-to-end-testing",
+            "functional-vs-non-functional-testing",
+            "entry-and-exit-criteria",
+            "test-strategy-vs-test-plan"
+          ]
+        },
+        "intermediate": {
+          "title": "Beyond functionality",
+          "goals": [
+            "Test installation and upgrade paths",
+            "Run a recovery test such as service restart during a transaction",
+            "Check compatibility across supported platforms"
+          ],
+          "topics": [
+            "compatibility-and-installation-testing",
+            "recovery-reliability-availability-testing",
+            "testing-sessions-and-concurrency",
+            "sql-for-testers"
+          ]
+        },
+        "advanced": {
+          "title": "Run the system test phase",
+          "goals": [
+            "Estimate and plan a system test cycle",
+            "Manage environment and data dependencies",
+            "Produce a closure report supporting release"
+          ],
+          "topics": [
+            "test-estimation",
+            "test-execution-and-closure-reports",
+            "docker-for-testers",
+            "performance-testing-types"
+          ]
+        }
+      },
+      "tools": ["Jira", "A test management tool", "A SQL client", "Log viewers such as Kibana or a terminal", "Virtual machines or Docker"],
+      "exercises": [
+        "Write end-to-end scenarios for an order flow that touches UI, payment, inventory and email",
+        "Test what happens when a service is restarted midway through a transaction in a local setup",
+        "Write an installation test checklist for a desktop or self-hosted application"
+      ],
+      "sampleProject": {
+        "title": "System test plan for a self-hosted app",
+        "description": "Install an open-source self-hosted application using Docker. Write and execute a system test plan covering installation, configuration, end-to-end functional flows, a restart and recovery scenario, and basic compatibility. Publish results with a closure report and environment notes."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What does system testing cover that integration testing does not?",
+          "a": "System testing evaluates the whole integrated system against requirements, including end-to-end flows and non-functional qualities like reliability, usability and installation. Integration testing concentrates on the interfaces between components. System testing is closer to how users and operations will experience the product."
+        },
+        {
+          "q": "How would you test recovery?",
+          "a": "I would interrupt the system deliberately, for example by stopping a service or dropping the database connection during a transaction, in a test environment. Then I would verify the system recovers within expectations, that no data is lost or duplicated, and that users receive sensible messages. I would check logs and data integrity afterwards."
+        },
+        {
+          "q": "The test environment differs from production. How do you handle that?",
+          "a": "I document the differences and assess which test results they could invalidate, such as configuration, data volume or integrations replaced by stubs. I flag high-risk gaps to the team and suggest mitigations like a production-like staging run. Results are reported with those caveats."
+        },
+        {
+          "q": "What goes into a system test closure report?",
+          "a": "Scope tested and not tested, execution results, open defects by severity, deviations from the plan, environment notes, and residual risks with a recommendation. It should let a reader decide on release without digging through raw results."
+        }
+      ],
+      "codingRequirements": "None strictly required. SQL and comfort with command-line tools and logs are expected.",
+      "commonMistakes": [
+        "Confusing system testing with integration testing",
+        "Ignoring non-functional aspects like installation and recovery",
+        "Not mentioning environment differences when reporting results"
+      ],
+      "readinessCriteria": [
+        "You can design end-to-end tests across at least three components",
+        "You have run an installation and a recovery test in a lab",
+        "You can write a closure report with clear residual risks"
+      ],
+      "nextRoles": ["integration-tester", "performance-test-engineer", "test-analyst"]
+    },
+    {
+      "slug": "integration-tester",
+      "title": "Integration Tester",
+      "category": "core-qa",
+      "overview": "An Integration Tester verifies the interactions between components, services and external systems, where many serious defects hide. The work involves understanding interfaces, data mappings and message flows, and testing what happens when a dependency is slow, unavailable or returns unexpected data. It bridges manual testing and the more technical API and backend roles.",
+      "responsibilities": [
+        "Identify integration points and the data exchanged across them",
+        "Design tests for interface contracts, data mappings and error handling",
+        "Test interactions with third-party systems using sandboxes or stubs",
+        "Verify data consistency across systems after transactions",
+        "Investigate failures across logs from multiple components",
+        "Coordinate integration environments with other teams"
+      ],
+      "skills": {
+        "essential": [
+          "Integration testing approaches (big bang, incremental, top-down, bottom-up)",
+          "API and HTTP basics",
+          "SQL for data consistency checks",
+          "Reading interface specifications",
+          "Defect isolation across components"
+        ],
+        "roleSpecific": [
+          "Using stubs and mocks for unavailable dependencies",
+          "Data mapping and transformation checks",
+          "Testing timeouts, retries and error propagation"
+        ],
+        "optional": [
+          "Contract testing awareness",
+          "Message queue familiarity",
+          "Scripting in Python or JavaScript"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Basic understanding of APIs and databases"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand interfaces",
+          "goals": [
+            "Explain integration testing strategies with examples",
+            "Draw a diagram of components and data flows for a sample system",
+            "Send API requests and read JSON responses"
+          ],
+          "topics": [
+            "integration-testing",
+            "http-fundamentals",
+            "json-and-xml-for-testers",
+            "rest-principles"
+          ]
+        },
+        "intermediate": {
+          "title": "Test the seams",
+          "goals": [
+            "Verify data mapping between an API and its database",
+            "Test error handling when a dependency returns errors",
+            "Use a stub to simulate an unavailable partner service"
+          ],
+          "topics": [
+            "api-database-validation",
+            "api-negative-and-boundary-testing",
+            "test-doubles-and-mocking",
+            "idempotency-retries-rate-limiting"
+          ]
+        },
+        "advanced": {
+          "title": "Distributed integrations",
+          "goals": [
+            "Test integrations in a microservice setup",
+            "Explain how contract tests reduce integration risk",
+            "Diagnose a failure using logs from multiple services"
+          ],
+          "topics": [
+            "microservices-testing",
+            "contract-testing",
+            "testing-notifications",
+            "docker-for-testers"
+          ]
+        }
+      },
+      "tools": ["Postman", "WireMock or a similar stub server", "A SQL client", "Docker", "Log aggregation such as Kibana or Grafana Loki"],
+      "exercises": [
+        "Map the data flow of an order through three services and list integration test cases at each boundary",
+        "Use WireMock to simulate a payment provider returning timeouts and errors, and test the caller's behaviour",
+        "Check that a record created via API is consistent in two downstream data stores"
+      ],
+      "sampleProject": {
+        "title": "Integration test harness with stubs",
+        "description": "Run a small two-service application locally with Docker Compose. Stub an external dependency with WireMock, write integration tests that cover successful calls, timeouts, malformed responses and retries, and verify data consistency in the database. Document the interfaces and test design."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What integration testing strategies do you know?",
+          "a": "Big bang integrates everything at once, which is simple but makes faults hard to isolate. Incremental approaches add components step by step: top-down starts from the higher-level modules using stubs for lower ones, and bottom-up starts from the lower-level modules using drivers. Incremental strategies localise faults better."
+        },
+        {
+          "q": "How would you test an integration with a third-party service you cannot control?",
+          "a": "I would use the provider's sandbox for realistic happy-path tests and a stub or mock server to simulate errors, timeouts and unusual responses that the sandbox cannot easily produce. I would verify our system handles each case gracefully and that retries are safe. I would also keep a small set of checks against the real sandbox to detect contract drift."
+        },
+        {
+          "q": "What is a stub versus a mock?",
+          "a": "A stub provides canned responses so the system under test can proceed. A mock also records interactions and lets the test verify how it was called, such as the number of calls or their arguments. Both are test doubles used to isolate components."
+        },
+        {
+          "q": "How do you check data consistency across systems?",
+          "a": "After a transaction I query each system that should hold related data and compare key fields, totals and statuses. I pay attention to asynchronous updates by waiting on observable conditions rather than fixed delays. I also test partial-failure cases to ensure the systems do not drift apart."
+        },
+        {
+          "q": "A test fails and three services are involved. How do you find the fault?",
+          "a": "I follow the request using a correlation ID across service logs, checking each hop's input and output. Comparing what was sent with what was received at each boundary usually pinpoints the faulty mapping or service. I then reproduce it at the narrowest boundary before reporting."
+        }
+      ],
+      "codingRequirements": "Basic scripting and SQL. Ability to read JSON and API specifications is essential.",
+      "commonMistakes": [
+        "Testing only successful responses from dependencies",
+        "Using fixed sleeps when waiting for asynchronous updates",
+        "Not describing how to isolate a fault across components"
+      ],
+      "readinessCriteria": [
+        "You can draw a data flow diagram for a system and derive integration tests from it",
+        "You have used a stub server to simulate dependency failures",
+        "You can trace a request across services using logs"
+      ],
+      "nextRoles": ["integration-test-engineer", "api-test-engineer", "microservices-test-engineer"]
+    },
+    {
+      "slug": "test-analyst",
+      "title": "Test Analyst",
+      "category": "core-qa",
+      "overview": "A Test Analyst specialises in test analysis and design: working out what to test and how, and producing well-structured test conditions, cases and data. The ISTQB distinguishes this from the Technical Test Analyst, which focuses on non-functional and white-box aspects. It suits methodical people who enjoy techniques, coverage and clear documentation.",
+      "responsibilities": [
+        "Analyse the test basis and identify test conditions",
+        "Select and apply appropriate test design techniques",
+        "Design test cases, test data and expected results",
+        "Estimate test design and execution effort",
+        "Maintain traceability and coverage measures",
+        "Review requirements and other test work products"
+      ],
+      "skills": {
+        "essential": [
+          "Full range of black-box test design techniques",
+          "Test analysis and coverage reasoning",
+          "Requirements review",
+          "Test data design",
+          "Structured documentation"
+        ],
+        "roleSpecific": [
+          "Combinatorial and pairwise test design",
+          "Use case and scenario-based testing",
+          "Test estimation"
+        ],
+        "optional": [
+          "ISTQB certification knowledge",
+          "SQL",
+          "BDD scenario writing"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Comfort with structured, logical documentation"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Analysis basics",
+          "goals": [
+            "Identify test conditions from a requirement document",
+            "Apply partitioning and boundaries consistently",
+            "Write test cases with traceable conditions"
+          ],
+          "topics": [
+            "requirements-analysis-for-testers",
+            "equivalence-partitioning",
+            "boundary-value-analysis",
+            "test-scenarios-and-test-cases"
+          ]
+        },
+        "intermediate": {
+          "title": "Full technique toolkit",
+          "goals": [
+            "Apply decision tables, state transitions and use cases to one feature",
+            "Use pairwise testing for configuration combinations",
+            "Design reusable test data sets"
+          ],
+          "topics": [
+            "decision-table-testing",
+            "state-transition-testing",
+            "use-case-testing",
+            "pairwise-and-combinatorial-testing",
+            "test-data-design"
+          ]
+        },
+        "advanced": {
+          "title": "Plan and measure",
+          "goals": [
+            "Estimate test design effort for a release",
+            "Report coverage of conditions and risks",
+            "Lead test design reviews"
+          ],
+          "topics": [
+            "test-estimation",
+            "traceability-matrix-and-coverage",
+            "risk-based-testing",
+            "test-strategy-vs-test-plan"
+          ]
+        }
+      },
+      "tools": ["TestRail, Xray or Zephyr", "Jira", "Spreadsheet tools", "PICT or another pairwise generator", "Diagramming tools"],
+      "exercises": [
+        "Apply four different techniques to a single feature and compare the resulting cases",
+        "Estimate test design effort for ten user stories and explain assumptions",
+        "Review a peer's test cases and write constructive review comments"
+      ],
+      "sampleProject": {
+        "title": "Technique showcase for a loan application",
+        "description": "Specify a loan application feature and produce a test analysis document showing test conditions, then cases derived via partitioning, boundaries, decision tables, state transitions and pairwise, each labelled. Include test data sets, a traceability matrix and an effort estimate with assumptions."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you choose which test design technique to use?",
+          "a": "I look at the nature of the test basis. Ranges and input classes suggest partitioning and boundaries; combinations of conditions suggest decision tables; behaviour depending on history suggests state transitions; user workflows suggest use cases. Usually I combine several and choose based on risk and available time."
+        },
+        {
+          "q": "What is the difference between a test condition and a test case?",
+          "a": "A test condition is something that could be tested, such as 'age at the upper boundary'. A test case is a concrete set of preconditions, inputs, actions and expected results that exercises one or more conditions, such as entering 65 and expecting acceptance. Conditions drive coverage; cases drive execution."
+        },
+        {
+          "q": "How would you estimate test design effort?",
+          "a": "I would break the scope into features, assess complexity and risk, and use past data where available, such as average conditions per story. I might use a three-point estimate for uncertain items. I state assumptions clearly, because the estimate is only as good as them."
+        },
+        {
+          "q": "What does 100 percent decision table coverage mean?",
+          "a": "It means every column, or rule, of the decision table has been exercised by at least one test case. It does not mean the system is defect-free, since the table itself could be incomplete or the conditions wrong. It is coverage of the model, not of all possible behaviour."
+        }
+      ],
+      "codingRequirements": "None required. SQL and spreadsheet skills help with data and expected results.",
+      "commonMistakes": [
+        "Naming techniques without demonstrating them on an example",
+        "Confusing test conditions with test cases",
+        "Treating coverage of a model as proof of quality"
+      ],
+      "readinessCriteria": [
+        "You can apply five distinct test design techniques to an unfamiliar feature",
+        "You can produce and justify a test effort estimate",
+        "You can explain the coverage achieved by your test set and its limits"
+      ],
+      "nextRoles": ["senior-qa-engineer", "test-lead", "qa-analyst"]
+    },
+    {
+      "slug": "agile-qa-engineer",
+      "title": "QA Engineer in Agile Teams",
+      "category": "core-qa",
+      "overview": "A QA Engineer in an Agile team is embedded in a cross-functional squad and shares responsibility for quality with developers and the product owner. Testing happens continuously inside each sprint rather than in a separate phase. The role mixes test design, collaboration, some automation and constant risk conversations.",
+      "responsibilities": [
+        "Take part in refinement to shape stories and acceptance criteria",
+        "Test stories within the sprint as they are completed",
+        "Pair with developers on unit, API and UI test coverage",
+        "Maintain automated checks in the team's pipeline",
+        "Raise quality risks in stand-ups, planning and retrospectives",
+        "Help decide when an increment is releasable"
+      ],
+      "skills": {
+        "essential": [
+          "Agile principles and Scrum events",
+          "Writing and refining acceptance criteria",
+          "Exploratory and risk-based testing",
+          "Collaboration and communication",
+          "Basic API testing and SQL"
+        ],
+        "roleSpecific": [
+          "Testing in short iterations with incomplete information",
+          "Behaviour-driven development collaboration",
+          "Continuous testing in a CI pipeline"
+        ],
+        "optional": [
+          "UI automation with Playwright or Cypress",
+          "Feature flag and canary release awareness",
+          "Kanban metrics"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Familiarity with the basics of Scrum or Kanban"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Agile foundations",
+          "goals": [
+            "Explain the Agile Manifesto values and their impact on testing",
+            "Describe Scrum roles and events and where testing happens",
+            "Write acceptance criteria for a story"
+          ],
+          "topics": [
+            "agile-principles-for-testers",
+            "scrum-roles-and-ceremonies",
+            "acceptance-criteria-dor-dod",
+            "exploratory-and-ad-hoc-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Test continuously",
+          "goals": [
+            "Test a story the day it is ready, not at sprint end",
+            "Write BDD scenarios together with a developer",
+            "Run automated checks on every pull request"
+          ],
+          "topics": [
+            "shift-left-and-continuous-testing",
+            "cucumber-bdd",
+            "postman-tests-and-request-chaining",
+            "github-actions-for-tests"
+          ]
+        },
+        "advanced": {
+          "title": "Whole-team quality",
+          "goals": [
+            "Shape the team's test strategy using the test pyramid",
+            "Run a quality-focused retrospective",
+            "Define release readiness for continuous delivery"
+          ],
+          "topics": [
+            "test-pyramid-and-strategy",
+            "release-readiness",
+            "risk-based-testing",
+            "playwright-with-typescript"
+          ]
+        }
+      },
+      "tools": ["Jira or Azure Boards", "Postman", "Playwright or Cypress", "GitHub Actions or GitLab CI", "Confluence", "Cucumber"],
+      "exercises": [
+        "Take three stories and run a mock 'three amigos' session, writing out the agreed examples",
+        "Create a sprint test plan that fits on one page",
+        "Add an automated API check to a pipeline so it runs on every pull request"
+      ],
+      "sampleProject": {
+        "title": "Sprint-sized quality workflow",
+        "description": "Simulate two sprints on a small open-source app: write stories with acceptance criteria, BDD scenarios, an exploratory charter per story, a handful of automated API and UI checks running in GitHub Actions, and a retrospective note on what you would change in the team's quality practices."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How does testing differ in an Agile team compared with a waterfall project?",
+          "a": "Testing is continuous and integrated into each iteration rather than a separate phase after development. Testers work on small increments, collaborate daily with developers and the product owner, and rely heavily on automation for fast feedback. Documentation is lighter, but acceptance criteria and examples carry much of the specification."
+        },
+        {
+          "q": "It is the last day of the sprint and a story has not been tested. What do you do?",
+          "a": "I raise it openly rather than rushing a superficial test. The story is not done if it does not meet the definition of done, so the team should either finish testing or carry it over. In the retrospective I would look at why testing was squeezed, for example by limiting work in progress or testing smaller slices earlier."
+        },
+        {
+          "q": "What is a three amigos session?",
+          "a": "It is a short conversation between a product perspective, a development perspective and a testing perspective about a story before it is built. They agree concrete examples and acceptance criteria, and surface edge cases and questions early. It reduces misunderstandings that would otherwise become defects."
+        },
+        {
+          "q": "Who owns quality in an Agile team?",
+          "a": "The whole team does. The tester brings testing expertise, risk thinking and coaching, but developers write unit tests and fix issues, and the product owner owns acceptance. My job is to make quality visible and to help the team build it in, not to be the only safety net."
+        },
+        {
+          "q": "How do you test when requirements are still changing?",
+          "a": "I keep test artefacts lightweight and tied to examples in the story, so they are cheap to update. I focus exploratory effort on the newest and riskiest changes and rely on automated regression for stable areas. I raise any change that affects agreed criteria immediately."
+        }
+      ],
+      "codingRequirements": "Light to moderate: able to write and maintain some API or UI automated checks; SQL basics.",
+      "commonMistakes": [
+        "Describing yourself as a gatekeeper rather than a collaborator",
+        "Accepting 'test it next sprint' without addressing the definition of done",
+        "No examples of influencing stories before development"
+      ],
+      "readinessCriteria": [
+        "You can explain how you contribute to every Scrum event",
+        "You have written BDD scenarios with a developer or in a realistic simulation",
+        "You have added at least one automated check to a CI pipeline"
+      ],
+      "nextRoles": ["senior-qa-engineer", "sdet", "qa-lead"]
+    }
+  ]
+}

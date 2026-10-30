@@ -1,0 +1,1122 @@
+{
+  "category": "api-backend",
+  "roles": [
+    {
+      "slug": "api-test-engineer",
+      "title": "API Test Engineer",
+      "category": "api-backend",
+      "overview": "An API Test Engineer verifies application programming interfaces directly, below the user interface, where most business logic lives. The role combines manual exploration of APIs with tools like Postman and, increasingly, automated suites. It is a natural step for manual testers who want more technical depth without starting with complex UI automation.",
+      "responsibilities": [
+        "Read API specifications such as OpenAPI documents and derive test cases",
+        "Test endpoints for functional behaviour, validation, errors and authorisation",
+        "Build and maintain Postman collections with environments and assertions",
+        "Verify API side effects in the database",
+        "Run collections in CI with Newman or automated code-based tests",
+        "Report API defects with full request and response evidence"
+      ],
+      "skills": {
+        "essential": [
+          "HTTP methods, status codes and headers",
+          "REST principles and JSON",
+          "Postman collections, environments and tests",
+          "Authentication and authorisation concepts",
+          "SQL for verifying data"
+        ],
+        "roleSpecific": [
+          "Reading OpenAPI specifications",
+          "Negative and boundary testing of APIs",
+          "Request chaining with variables"
+        ],
+        "optional": [
+          "Code-based API automation with REST Assured or pytest",
+          "Contract testing",
+          "API performance testing"
+        ]
+      },
+      "prerequisites": [
+        "Manual testing fundamentals",
+        "Basic understanding of how web applications communicate"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "HTTP and Postman",
+          "goals": [
+            "Explain each HTTP method and when it is used",
+            "Interpret common status codes correctly",
+            "Send requests and write basic tests in Postman"
+          ],
+          "topics": [
+            "http-fundamentals",
+            "http-status-codes",
+            "rest-principles",
+            "json-and-xml-for-testers",
+            "postman-collections-and-environments"
+          ]
+        },
+        "intermediate": {
+          "title": "Thorough API testing",
+          "goals": [
+            "Chain requests using variables and scripts",
+            "Test authentication and authorisation for each endpoint",
+            "Design negative and boundary cases for payloads",
+            "Verify persisted data with SQL"
+          ],
+          "topics": [
+            "postman-tests-and-request-chaining",
+            "authentication-and-authorization",
+            "api-negative-and-boundary-testing",
+            "api-database-validation"
+          ]
+        },
+        "advanced": {
+          "title": "Automate and integrate",
+          "goals": [
+            "Run collections in CI with Newman",
+            "Validate responses against JSON Schema",
+            "Begin a code-based API suite"
+          ],
+          "topics": [
+            "newman-command-line-runs",
+            "json-schema-validation",
+            "api-testing-in-ci",
+            "restassured-fundamentals"
+          ]
+        }
+      },
+      "tools": ["Postman", "Newman", "Swagger UI or another OpenAPI viewer", "A SQL client", "curl", "REST Assured"],
+      "exercises": [
+        "Build a Postman collection for a public practice API with tests on status, body and response time",
+        "Write ten negative payload tests for a create-user endpoint",
+        "Test that a regular user cannot access or modify another user's resources"
+      ],
+      "sampleProject": {
+        "title": "Postman suite for a bookstore API",
+        "description": "Run an open-source REST API locally and build a Postman collection covering CRUD, validation errors, authentication and authorisation, with environments for local and CI. Add schema checks, SQL verification notes, a Newman run in GitHub Actions, and defect reports for any issues found."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you test a GET /users/{id} endpoint?",
+          "a": "I would check a valid ID returns 200 with the correct user and schema, a non-existent ID returns 404, and malformed IDs return 400 or 404 as documented. I would test that unauthenticated calls return 401 and that a user cannot fetch another user's data unless permitted. I would also confirm sensitive fields like password hashes are never returned."
+        },
+        {
+          "q": "What does idempotent mean, and which methods are idempotent?",
+          "a": "An idempotent operation has the same effect on server state whether it is performed once or several times. GET, HEAD, PUT, DELETE and OPTIONS are defined as idempotent; POST is not, and PATCH is not guaranteed to be. Testing this matters for retries after network failures."
+        },
+        {
+          "q": "How do you chain requests in Postman?",
+          "a": "In a test or post-response script I extract a value from the response, such as an ID or token, and store it with pm.collectionVariables.set or pm.environment.set. Later requests reference it with double curly braces. This lets a collection create, read, update and delete the same resource in sequence."
+        },
+        {
+          "q": "Why test APIs instead of only testing through the UI?",
+          "a": "APIs expose business logic directly, so tests are faster, more stable and pinpoint failures more precisely. They also reach cases the UI prevents, such as invalid payloads that a malicious client could send. The UI still needs some testing, but API tests catch many defects earlier and cheaper."
+        },
+        {
+          "q": "What would you include in an API defect report?",
+          "a": "The method, full URL, relevant headers with secrets redacted, request body, actual status and response body, expected result with reference to the specification, environment and timestamp or correlation ID. A curl command or exported Postman request lets developers reproduce it immediately."
+        }
+      ],
+      "codingRequirements": "Light: Postman scripting in JavaScript and basic SQL. Code-based automation is a plus, not a requirement.",
+      "commonMistakes": [
+        "Only testing happy paths with valid tokens",
+        "Not knowing which methods are idempotent",
+        "Including real secrets in shared collections or reports"
+      ],
+      "readinessCriteria": [
+        "You can design positive, negative and authorisation tests for any endpoint from its specification",
+        "You have a Postman collection with chained requests running via Newman in CI",
+        "You can verify an API's database side effects with SQL"
+      ],
+      "nextRoles": ["api-automation-engineer", "backend-test-engineer", "contract-testing-specialist"]
+    },
+    {
+      "slug": "rest-api-tester",
+      "title": "REST API Tester",
+      "category": "api-backend",
+      "overview": "A REST API Tester specialises in the conventions and pitfalls of RESTful HTTP APIs: resource modelling, method semantics, status codes, caching, pagination and error formats. Beyond checking that endpoints work, they check that APIs behave consistently and according to HTTP standards, which matters greatly for API consumers. It is common in teams that publish APIs to partners or the public.",
+      "responsibilities": [
+        "Verify endpoints follow REST and HTTP semantics consistently",
+        "Test pagination, sorting, filtering and query parameters",
+        "Validate error response formats and messages",
+        "Check caching, content negotiation and relevant headers",
+        "Test versioning and backwards compatibility of API changes",
+        "Review API documentation against actual behaviour"
+      ],
+      "skills": {
+        "essential": [
+          "Detailed HTTP semantics (methods, status codes, headers)",
+          "REST resource design principles",
+          "JSON and schema validation",
+          "Postman or an equivalent API client",
+          "API test design"
+        ],
+        "roleSpecific": [
+          "Pagination, filtering and sorting edge cases",
+          "Idempotency, retries and rate limiting",
+          "API documentation and versioning review"
+        ],
+        "optional": [
+          "Code-based automation",
+          "OpenAPI tooling",
+          "API security testing basics"
+        ]
+      },
+      "prerequisites": [
+        "Basic API testing experience",
+        "Understanding of HTTP requests and responses"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "REST fundamentals",
+          "goals": [
+            "Explain resources, representations and statelessness",
+            "Map CRUD operations to HTTP methods and status codes",
+            "Test a simple REST API with Postman"
+          ],
+          "topics": [
+            "rest-principles",
+            "http-fundamentals",
+            "http-status-codes",
+            "postman-collections-and-environments"
+          ]
+        },
+        "intermediate": {
+          "title": "REST details",
+          "goals": [
+            "Test pagination boundaries and stable ordering",
+            "Test filter and sort parameter combinations",
+            "Validate consistent error formats across endpoints"
+          ],
+          "topics": [
+            "pagination-sorting-filtering",
+            "json-schema-validation",
+            "api-negative-and-boundary-testing",
+            "json-and-xml-for-testers"
+          ]
+        },
+        "advanced": {
+          "title": "Consumer-grade APIs",
+          "goals": [
+            "Test idempotency keys and retry behaviour",
+            "Verify rate limiting responses and headers",
+            "Assess backwards compatibility of an API change"
+          ],
+          "topics": [
+            "idempotency-retries-rate-limiting",
+            "contract-testing",
+            "api-security-testing",
+            "newman-command-line-runs"
+          ]
+        }
+      },
+      "tools": ["Postman", "Newman", "curl", "OpenAPI or Swagger tooling", "JSON Schema validators"],
+      "exercises": [
+        "Test a paginated endpoint for first, last, empty and out-of-range pages, and for duplicates across pages",
+        "Compare error responses across five endpoints and report inconsistencies",
+        "Verify an endpoint's documented behaviour against actual responses and list mismatches"
+      ],
+      "sampleProject": {
+        "title": "REST conformance review of an API",
+        "description": "Choose an open-source REST API you can run locally. Produce a conformance test suite covering method semantics, status codes, pagination, filtering, error formats and caching headers, plus a short review report listing deviations from REST conventions and documentation mismatches with evidence."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What status code should a successful POST that creates a resource return?",
+          "a": "Typically 201 Created, with the new resource or its identifier in the body and often a Location header pointing to it. Some APIs return 200 or 202 for valid reasons, such as asynchronous creation with 202 Accepted. I test against the documented contract and flag inconsistency across endpoints."
+        },
+        {
+          "q": "How do you test pagination?",
+          "a": "I check page size defaults and limits, the first and last pages, empty results, invalid values such as negative or very large page numbers, and that total counts are correct. I also verify ordering is stable, so items are not duplicated or skipped across pages, including when data changes between requests."
+        },
+        {
+          "q": "What does 'stateless' mean in REST?",
+          "a": "Each request contains all the information the server needs to process it; the server does not rely on stored client session context between requests. Authentication is therefore sent with each request, for example as a token. It simplifies scaling and makes each request independently testable."
+        },
+        {
+          "q": "How would you test rate limiting?",
+          "a": "Send requests above the documented limit within the window in a controlled test environment and verify the API returns 429 Too Many Requests, ideally with a Retry-After header or rate limit headers if documented. Then confirm requests succeed again after the window. I also check limits apply per the intended key, such as per user or per token."
+        },
+        {
+          "q": "What makes an API change backwards incompatible?",
+          "a": "Removing or renaming fields, changing types or formats, making optional fields required, changing status codes or error formats, or changing default behaviour. Adding optional fields is usually compatible, provided clients ignore unknown fields. Contract tests and versioning policies help catch breaking changes."
+        }
+      ],
+      "codingRequirements": "Light: Postman scripting; code-based automation helpful but not required.",
+      "commonMistakes": [
+        "Treating any 2xx response as correct",
+        "Ignoring ordering stability when testing pagination",
+        "Not checking error response bodies"
+      ],
+      "readinessCriteria": [
+        "You can explain correct status codes for common CRUD scenarios with exceptions",
+        "You have tested pagination, filtering and rate limiting on a real API",
+        "You can identify breaking versus non-breaking API changes"
+      ],
+      "nextRoles": ["api-automation-engineer", "contract-testing-specialist", "api-test-engineer"]
+    },
+    {
+      "slug": "backend-test-engineer",
+      "title": "Backend Test Engineer",
+      "category": "api-backend",
+      "overview": "A Backend Test Engineer tests server-side systems as a whole: services, APIs, databases, caches, queues and scheduled jobs. The role needs enough programming to write automated tests and harnesses, and enough systems knowledge to reason about concurrency, transactions and failure. It is typically code-heavy and close to backend development teams.",
+      "responsibilities": [
+        "Design and automate tests for backend services and their data stores",
+        "Test business logic, data integrity and transactional behaviour",
+        "Test background jobs, scheduled tasks and asynchronous processing",
+        "Use containers to run dependencies for integration tests",
+        "Investigate defects using logs, metrics and database state",
+        "Collaborate with developers on unit and integration test coverage"
+      ],
+      "skills": {
+        "essential": [
+          "Programming in a backend language such as Java or Python",
+          "API testing and automation",
+          "SQL and database concepts including transactions",
+          "Docker for dependencies",
+          "Reading logs and debugging"
+        ],
+        "roleSpecific": [
+          "Testing asynchronous and scheduled processing",
+          "Concurrency and data integrity testing",
+          "Test doubles for external dependencies"
+        ],
+        "optional": [
+          "Message brokers",
+          "Caching systems",
+          "Performance testing"
+        ]
+      },
+      "prerequisites": [
+        "Programming in one language",
+        "API testing fundamentals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Backend foundations",
+          "goals": [
+            "Automate API tests in code",
+            "Write SQL with joins and aggregates to verify results",
+            "Run a service and its database in Docker"
+          ],
+          "topics": [
+            "restassured-fundamentals",
+            "sql-joins-and-aggregates",
+            "docker-for-testers",
+            "api-database-validation"
+          ]
+        },
+        "intermediate": {
+          "title": "Integrity and isolation",
+          "goals": [
+            "Test transactional behaviour and rollback on failure",
+            "Simulate external dependencies with stubs",
+            "Test concurrent updates to the same record"
+          ],
+          "topics": [
+            "database-testing",
+            "test-doubles-and-mocking",
+            "testing-sessions-and-concurrency",
+            "idempotency-retries-rate-limiting"
+          ]
+        },
+        "advanced": {
+          "title": "Distributed backends",
+          "goals": [
+            "Test services that communicate asynchronously",
+            "Identify database and caching bottlenecks",
+            "Run backend suites in CI with containerised dependencies"
+          ],
+          "topics": [
+            "microservices-testing",
+            "database-and-caching-bottlenecks",
+            "api-testing-in-ci",
+            "contract-testing"
+          ]
+        }
+      },
+      "tools": ["REST Assured or pytest", "Testcontainers", "Docker", "PostgreSQL or MySQL", "WireMock", "A log tool such as Kibana or Grafana Loki"],
+      "exercises": [
+        "Write an integration test that starts a database with Testcontainers and verifies a service's repository layer",
+        "Send two concurrent updates to the same resource and check for lost updates",
+        "Force a dependency failure mid-transaction and verify nothing partial is committed"
+      ],
+      "sampleProject": {
+        "title": "Backend integration suite with Testcontainers",
+        "description": "For an open-source backend service, build automated tests that start real dependencies with Testcontainers, cover API behaviour, transactional integrity, a concurrency scenario and an external dependency stubbed with WireMock, and run in CI. Document the test design and any defects found."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you test that a money transfer is atomic?",
+          "a": "I would cause a failure partway through, such as the credit step failing after the debit, using a stub or fault injection in a test environment. Then I verify neither account changed and no partial records exist. I would also test concurrent transfers on the same account to check balances stay consistent."
+        },
+        {
+          "q": "How do you test a scheduled job?",
+          "a": "I prefer to trigger the job directly or control the clock in a test environment rather than waiting for the schedule. I prepare data covering normal, boundary and invalid cases, run the job, and verify outputs, side effects and logs. I also test re-running the job to ensure it is safe and does not duplicate work."
+        },
+        {
+          "q": "What is a lost update and how would you test for it?",
+          "a": "A lost update occurs when two concurrent transactions read the same value and both write, so one change overwrites the other. I test by sending concurrent updates to the same record and checking the final state reflects both or that one is rejected, for example via optimistic locking returning a conflict."
+        },
+        {
+          "q": "Why use Testcontainers rather than an in-memory database?",
+          "a": "Testcontainers runs the real database engine, so SQL dialect, constraints and transaction behaviour match production. In-memory substitutes can behave differently and hide defects. The trade-off is slower start-up, which can be reduced by reusing containers across tests."
+        },
+        {
+          "q": "How do you debug a failing backend test?",
+          "a": "Reproduce it in isolation, then inspect the request, response, application logs around the correlation ID, and database state at the point of failure. I check whether test data or timing is responsible before concluding it is a product defect."
+        }
+      ],
+      "codingRequirements": "Moderate to strong: backend language proficiency (Java, Python, C# or Go), SQL including transactions, and comfort with Docker.",
+      "commonMistakes": [
+        "Testing only through APIs without checking data integrity",
+        "Using fixed sleeps for asynchronous processing",
+        "Ignoring concurrency entirely"
+      ],
+      "readinessCriteria": [
+        "You have written integration tests with real dependencies in containers",
+        "You can design and run a concurrency test and explain the result",
+        "You can verify transactional integrity after an injected failure"
+      ],
+      "nextRoles": ["sdet", "microservices-test-engineer", "performance-test-engineer"]
+    },
+    {
+      "slug": "integration-test-engineer",
+      "title": "Integration Test Engineer",
+      "category": "api-backend",
+      "overview": "An Integration Test Engineer builds automated tests for the interactions between services, databases, message brokers and third-party systems. Compared with a manual integration tester, this role engineers the harnesses, stubs and environments that make integration tests reliable and repeatable. It is central in systems with many moving parts.",
+      "responsibilities": [
+        "Automate tests that cover service-to-service and service-to-dependency interactions",
+        "Build stubs and simulators for third-party systems",
+        "Manage integration environments and test data across systems",
+        "Test failure handling such as timeouts, retries and partial failures",
+        "Integrate tests into CI with containerised dependencies",
+        "Work with teams on interface agreements and contract tests"
+      ],
+      "skills": {
+        "essential": [
+          "Programming in one language",
+          "API automation",
+          "Docker and Docker Compose",
+          "Test doubles: stubs, mocks and fakes",
+          "Understanding of integration patterns"
+        ],
+        "roleSpecific": [
+          "Fault injection for timeouts and errors",
+          "Multi-system test data management",
+          "Distributed tracing and log correlation"
+        ],
+        "optional": [
+          "Contract testing with Pact",
+          "Message queue testing",
+          "Kubernetes"
+        ]
+      },
+      "prerequisites": [
+        "API testing experience",
+        "Programming basics"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Integration basics",
+          "goals": [
+            "Explain integration test approaches and scopes",
+            "Automate API calls across two services",
+            "Run multiple services with Docker Compose"
+          ],
+          "topics": [
+            "integration-testing",
+            "restassured-fundamentals",
+            "docker-for-testers",
+            "http-fundamentals"
+          ]
+        },
+        "intermediate": {
+          "title": "Control dependencies",
+          "goals": [
+            "Stub a third-party API with configurable responses",
+            "Test retries and timeouts deterministically",
+            "Manage test data across services"
+          ],
+          "topics": [
+            "test-doubles-and-mocking",
+            "idempotency-retries-rate-limiting",
+            "api-test-data-management",
+            "api-database-validation"
+          ]
+        },
+        "advanced": {
+          "title": "Reliable integration at scale",
+          "goals": [
+            "Replace brittle end-to-end tests with contract tests where appropriate",
+            "Run integration suites in CI",
+            "Trace failures across services"
+          ],
+          "topics": [
+            "contract-testing",
+            "microservices-testing",
+            "api-testing-in-ci",
+            "chaos-engineering-basics"
+          ]
+        }
+      },
+      "tools": ["Docker Compose", "Testcontainers", "WireMock", "REST Assured or pytest", "Pact", "OpenTelemetry-compatible tracing tools such as Jaeger"],
+      "exercises": [
+        "Stub a payment provider and test success, decline, timeout and malformed responses",
+        "Test a retry policy by making a stub fail twice then succeed, and verify exactly one side effect",
+        "Use correlation IDs to trace a failing request across two services"
+      ],
+      "sampleProject": {
+        "title": "Integration harness for a two-service system",
+        "description": "Build a Docker Compose environment with two services, a database and a WireMock stub for an external API. Write automated integration tests for success paths, timeouts, retries and partial failures, verify data consistency, and run the suite in CI with logs collected as artefacts."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you test retry logic without flaky tests?",
+          "a": "Use a stub that can be scripted to fail a set number of times and then succeed, so the scenario is deterministic. Verify the number of attempts, the backoff behaviour if observable, and that the side effect happens exactly once. Avoid relying on real network failures."
+        },
+        {
+          "q": "What are the trade-offs of end-to-end integration environments?",
+          "a": "They give realistic confidence but are expensive, shared, slow to set up and often unstable because many services and data sets change at once. Containerised, per-run environments and contract tests reduce the reliance on shared environments. A small set of tests in a full environment remains useful."
+        },
+        {
+          "q": "What is the difference between a fake and a stub?",
+          "a": "A stub returns predefined responses to specific calls. A fake is a working but simplified implementation, such as an in-memory repository, that behaves realistically for many inputs. Fakes support more varied tests, but must be kept behaviourally close to the real thing."
+        },
+        {
+          "q": "How do you handle test data across several services?",
+          "a": "Create data through each service's public API in the correct order, use unique identifiers per test, and avoid relying on shared mutable records. For reference data, seed known fixtures at environment start-up. Clean-up should be automated or environments should be ephemeral."
+        }
+      ],
+      "codingRequirements": "Moderate: one language for automation, plus Docker and configuration skills.",
+      "commonMistakes": [
+        "Depending on shared, unstable integration environments for everything",
+        "Not testing failure modes of dependencies",
+        "Verifying responses but not side effects"
+      ],
+      "readinessCriteria": [
+        "You have built a containerised integration environment with at least one stubbed dependency",
+        "You can test retries and timeouts deterministically",
+        "You can explain when to use contract tests instead of integration tests"
+      ],
+      "nextRoles": ["microservices-test-engineer", "contract-testing-specialist", "test-architect"]
+    },
+    {
+      "slug": "contract-testing-specialist",
+      "title": "Contract Testing Specialist",
+      "category": "api-backend",
+      "overview": "A Contract Testing Specialist helps teams verify that services agree on their interfaces without needing all services deployed together. They introduce and run consumer-driven contract testing, usually with Pact, and set up the workflow that lets teams deploy independently with confidence. The role mixes technical implementation with coaching multiple teams.",
+      "responsibilities": [
+        "Introduce consumer-driven contract testing between services",
+        "Write consumer tests that generate contracts and provider verification tests",
+        "Set up a broker to share contracts and verification results",
+        "Integrate contract checks into CI and deployment gates",
+        "Coach teams on writing focused, maintainable contracts",
+        "Analyse contract failures and help teams resolve breaking changes"
+      ],
+      "skills": {
+        "essential": [
+          "HTTP APIs and JSON",
+          "Programming in at least one language used by the services",
+          "Pact or a similar contract testing tool",
+          "CI/CD pipelines",
+          "Understanding of service versioning and deployment"
+        ],
+        "roleSpecific": [
+          "Consumer-driven contract workflow",
+          "Provider states and verification",
+          "Deployment safety checks with a contract broker"
+        ],
+        "optional": [
+          "Message-based contract testing",
+          "OpenAPI-based or schema-based contract approaches",
+          "Multiple programming languages"
+        ]
+      },
+      "prerequisites": [
+        "API automation experience",
+        "Familiarity with microservice architectures"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Why contracts",
+          "goals": [
+            "Explain what a contract is and how it differs from a schema",
+            "Describe the consumer-driven contract workflow",
+            "Validate responses against JSON Schema"
+          ],
+          "topics": [
+            "contract-testing",
+            "rest-principles",
+            "json-schema-validation",
+            "microservices-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Implement Pact",
+          "goals": [
+            "Write a consumer test that generates a pact",
+            "Verify the pact against a provider using provider states",
+            "Publish pacts and results to a broker"
+          ],
+          "topics": [
+            "contract-testing",
+            "test-doubles-and-mocking",
+            "api-testing-in-ci",
+            "github-actions-for-tests"
+          ]
+        },
+        "advanced": {
+          "title": "Contracts in delivery",
+          "goals": [
+            "Gate deployments on contract compatibility",
+            "Roll out contract testing across several teams",
+            "Handle breaking changes safely"
+          ],
+          "topics": [
+            "test-architecture-and-system-design",
+            "ci-cd-for-test-engineers",
+            "test-pyramid-and-strategy"
+          ]
+        }
+      },
+      "tools": ["Pact", "Pact Broker or a hosted broker", "JUnit, Jest or pytest", "GitHub Actions or Jenkins", "OpenAPI tooling"],
+      "exercises": [
+        "Write a Pact consumer test for a client that calls GET /orders/{id}",
+        "Verify that pact against a provider and use a provider state to set up data",
+        "Introduce a breaking change in the provider and observe the verification failure"
+      ],
+      "sampleProject": {
+        "title": "Consumer-driven contracts between two services",
+        "description": "Build or take two small services where one consumes the other's API. Add Pact consumer tests, provider verification with provider states, a broker running in Docker, and CI pipelines that publish and verify contracts and check compatibility before deployment. Document the workflow."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What problem does contract testing solve?",
+          "a": "It verifies that a consumer and provider agree on their interface without running both in a shared integrated environment. Each side tests independently against the contract, so incompatibilities are caught early and teams can deploy independently. It replaces many slow, brittle end-to-end tests for interface checking."
+        },
+        {
+          "q": "What is consumer-driven contract testing?",
+          "a": "The consumer writes tests against a mock provider that record the interactions it needs, generating a contract. The provider then verifies it can satisfy those interactions by replaying them against the real provider. Contracts therefore only include what consumers actually use, so providers know which changes are safe."
+        },
+        {
+          "q": "What are provider states?",
+          "a": "They are named preconditions in a contract, such as 'an order with ID 10 exists', that the provider sets up before verifying an interaction. They let the provider control test data without the consumer knowing implementation details."
+        },
+        {
+          "q": "How is contract testing different from schema validation?",
+          "a": "Schema validation checks that responses match a declared structure, usually the provider's view of the API. Contract testing checks specific interactions that real consumers depend on, including request shapes and example values, and verifies them against the provider. Both are useful; contracts capture actual usage."
+        },
+        {
+          "q": "What should not go in a contract?",
+          "a": "Business logic and exhaustive validation scenarios belong in the provider's own functional tests. Contracts should capture the shape and essential values consumers rely on, using matchers rather than exact values where possible. Over-specified contracts break on harmless changes."
+        }
+      ],
+      "codingRequirements": "Moderate: able to write unit-test-level code in the services' languages (commonly Java, JavaScript or Python).",
+      "commonMistakes": [
+        "Using contracts to test provider business logic",
+        "Hard-coding exact values instead of matchers",
+        "Not explaining how contracts enable independent deployment"
+      ],
+      "readinessCriteria": [
+        "You have implemented a consumer and provider Pact flow end to end",
+        "You can explain provider states and matchers with examples",
+        "You have a CI pipeline that fails on an incompatible provider change"
+      ],
+      "nextRoles": ["microservices-test-engineer", "test-architect"]
+    },
+    {
+      "slug": "microservices-test-engineer",
+      "title": "Microservices Test Engineer",
+      "category": "api-backend",
+      "overview": "A Microservices Test Engineer designs and implements testing for systems composed of many independently deployed services. The challenges are distributed: network failures, eventual consistency, versioning, asynchronous messaging and observability. The role spans component tests, contract tests, a small set of end-to-end tests and resilience testing.",
+      "responsibilities": [
+        "Define a test approach for each service and for interactions between services",
+        "Automate component tests with dependencies stubbed or containerised",
+        "Implement contract tests between services",
+        "Test resilience patterns such as timeouts, retries and circuit breakers",
+        "Test eventually consistent and asynchronous flows",
+        "Use logs, metrics and traces to diagnose distributed failures"
+      ],
+      "skills": {
+        "essential": [
+          "Programming and API automation",
+          "Microservice architecture concepts",
+          "Docker and container orchestration basics",
+          "Contract testing",
+          "Observability: logs, metrics and traces"
+        ],
+        "roleSpecific": [
+          "Testing resilience patterns",
+          "Testing eventual consistency",
+          "Service virtualisation"
+        ],
+        "optional": [
+          "Kubernetes",
+          "Chaos engineering",
+          "Message brokers such as Kafka or RabbitMQ"
+        ]
+      },
+      "prerequisites": [
+        "API automation experience",
+        "Basic understanding of distributed systems"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Service-level testing",
+          "goals": [
+            "Explain how testing microservices differs from testing a monolith",
+            "Automate API tests for a single service",
+            "Run services locally with Docker Compose"
+          ],
+          "topics": [
+            "microservices-testing",
+            "restassured-fundamentals",
+            "docker-for-testers",
+            "integration-testing"
+          ]
+        },
+        "intermediate": {
+          "title": "Between services",
+          "goals": [
+            "Write component tests with dependencies stubbed",
+            "Add contract tests between two services",
+            "Test retries and timeouts"
+          ],
+          "topics": [
+            "contract-testing",
+            "test-doubles-and-mocking",
+            "idempotency-retries-rate-limiting",
+            "test-pyramid-and-strategy"
+          ]
+        },
+        "advanced": {
+          "title": "Distributed resilience",
+          "goals": [
+            "Inject faults and verify graceful degradation",
+            "Test eventually consistent flows without fixed sleeps",
+            "Use traces to diagnose cross-service failures"
+          ],
+          "topics": [
+            "chaos-engineering-basics",
+            "recovery-reliability-availability-testing",
+            "monitoring-with-influxdb-grafana",
+            "test-architecture-and-system-design"
+          ]
+        }
+      },
+      "tools": ["Docker Compose", "Kubernetes", "Pact", "WireMock", "Testcontainers", "Jaeger or another tracing tool", "Grafana"],
+      "exercises": [
+        "Write a component test for one service with all downstream services stubbed",
+        "Stop a downstream service and verify the circuit breaker opens and the caller degrades gracefully",
+        "Test an eventually consistent update by polling for the expected state with a timeout"
+      ],
+      "sampleProject": {
+        "title": "Test strategy and suite for a microservice demo",
+        "description": "Run an open-source microservice demo application locally. Implement component tests for two services, contract tests between them, a few end-to-end journeys, and a fault-injection test showing graceful degradation. Document the test pyramid you chose and how failures are diagnosed with traces."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How is testing microservices different from testing a monolith?",
+          "a": "Failures happen over the network, so timeouts, partial failures and retries become normal scenarios. Services deploy independently, so interface compatibility needs continuous checking through contract tests. End-to-end tests become more expensive, and observability is essential to locate failures."
+        },
+        {
+          "q": "How do you test eventual consistency?",
+          "a": "After triggering the change, I poll the downstream state until it matches the expectation or a reasonable timeout expires, rather than sleeping for a fixed time. I also test what users see in the meantime and what happens when the propagation fails, such as messages being retried or sent to a dead-letter queue."
+        },
+        {
+          "q": "What is a circuit breaker and how would you test it?",
+          "a": "It stops calls to a failing dependency after a threshold of failures, returning a fallback quickly, and periodically allows trial calls to see if the dependency has recovered. I would make a stubbed dependency fail, verify the breaker opens after the threshold and fallbacks are returned, then restore the dependency and verify it closes."
+        },
+        {
+          "q": "How many end-to-end tests should a microservice system have?",
+          "a": "As few as needed to cover critical user journeys across the system, because they are slow and fragile. Most confidence should come from service-level and contract tests. The exact number depends on risk, but end-to-end tests should not be the main safety net."
+        },
+        {
+          "q": "How do you diagnose a failure that spans five services?",
+          "a": "Use distributed tracing or correlation IDs to see the request path, latency and errors at each hop. Then examine logs and metrics for the service where the error originated. Reproduce at the narrowest scope, such as a component test, before reporting."
+        }
+      ],
+      "codingRequirements": "Moderate to strong: automation in a backend language, Docker, and comfort reading service code and configuration.",
+      "commonMistakes": [
+        "Proposing a large end-to-end suite as the main strategy",
+        "Using fixed sleeps for asynchronous flows",
+        "Ignoring observability in failure diagnosis"
+      ],
+      "readinessCriteria": [
+        "You have tested a multi-service system with component and contract tests",
+        "You have run a fault-injection test and verified graceful degradation",
+        "You can explain your test pyramid choices for a distributed system"
+      ],
+      "nextRoles": ["test-architect", "chaos-engineering-practitioner", "reliability-test-engineer"]
+    },
+    {
+      "slug": "database-test-engineer",
+      "title": "Database Test Engineer",
+      "category": "api-backend",
+      "overview": "A Database Test Engineer verifies the correctness, integrity and behaviour of databases and the code that uses them: schemas, constraints, stored procedures, migrations, queries and transactions. Strong SQL is the core skill. The role is common where data accuracy is critical, such as finance, healthcare and enterprise systems.",
+      "responsibilities": [
+        "Verify schemas, constraints, indexes and relationships match design",
+        "Test stored procedures, functions, triggers and views",
+        "Test schema migrations and rollback scripts",
+        "Validate data integrity after application operations",
+        "Test transactional behaviour and isolation",
+        "Identify slow queries and support performance analysis"
+      ],
+      "skills": {
+        "essential": [
+          "Advanced SQL: joins, aggregates, subqueries and window functions",
+          "Relational data modelling and normalisation",
+          "Constraints, keys and referential integrity",
+          "Transactions and isolation levels",
+          "Test design for data"
+        ],
+        "roleSpecific": [
+          "Migration and rollback testing",
+          "Stored procedure and trigger testing",
+          "Query plan reading"
+        ],
+        "optional": [
+          "NoSQL databases",
+          "Scripting in Python for data checks",
+          "Database unit testing frameworks such as pgTAP or tSQLt"
+        ]
+      },
+      "prerequisites": [
+        "Working SQL knowledge",
+        "Testing fundamentals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "SQL for testing",
+          "goals": [
+            "Write SELECT queries with filters, joins and grouping",
+            "Explain primary keys, foreign keys and constraints",
+            "Verify application data with SQL"
+          ],
+          "topics": [
+            "sql-for-testers",
+            "sql-joins-and-aggregates",
+            "api-database-validation",
+            "testing-data-validation"
+          ]
+        },
+        "intermediate": {
+          "title": "Test the database itself",
+          "goals": [
+            "Test constraints by attempting invalid inserts",
+            "Test a stored procedure with boundary inputs",
+            "Test a migration on a copy of realistic data"
+          ],
+          "topics": [
+            "database-testing",
+            "boundary-value-analysis",
+            "test-data-design",
+            "docker-for-testers"
+          ]
+        },
+        "advanced": {
+          "title": "Integrity and performance",
+          "goals": [
+            "Test transaction isolation behaviour",
+            "Identify missing indexes using query plans",
+            "Automate database checks in CI"
+          ],
+          "topics": [
+            "database-and-caching-bottlenecks",
+            "testing-sessions-and-concurrency",
+            "ci-cd-for-test-engineers",
+            "etl-and-data-warehouse-testing"
+          ]
+        }
+      },
+      "tools": ["PostgreSQL", "MySQL or SQL Server", "DBeaver or another SQL client", "pgTAP or tSQLt", "Flyway or Liquibase", "Docker"],
+      "exercises": [
+        "Write queries that find orphaned records, duplicates and invalid statuses in a sample database",
+        "Test a migration that splits a column into two, including rollback",
+        "Run two transactions concurrently at different isolation levels and record the anomalies observed"
+      ],
+      "sampleProject": {
+        "title": "Database test suite for a sample schema",
+        "description": "Use a publicly available sample database (such as a PostgreSQL sample schema) in Docker. Write automated tests for constraints, a stored function, data integrity queries and a migration with rollback, run them in CI, and document query plans for two slow queries with the indexes you tested."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you find duplicate records in a table?",
+          "a": "Group by the columns that define uniqueness and filter groups with HAVING COUNT(*) > 1. To see the full rows, join back to the table or use a window function like ROW_NUMBER() partitioned by those columns. Then I would check whether a unique constraint should prevent this."
+        },
+        {
+          "q": "How do you test a database migration?",
+          "a": "Run it on a copy of realistic data, verify the schema changes, check data was transformed correctly with row counts and spot checks, and confirm the application works against the new schema. Test the rollback script too, and measure execution time on representative data volumes because long locks can cause outages."
+        },
+        {
+          "q": "What is the difference between INNER JOIN and LEFT JOIN?",
+          "a": "INNER JOIN returns only rows with matches in both tables. LEFT JOIN returns all rows from the left table, with NULLs where there is no match on the right. LEFT JOIN with a WHERE right.id IS NULL is a common test query to find orphaned or missing records."
+        },
+        {
+          "q": "Explain a dirty read and which isolation level prevents it.",
+          "a": "A dirty read is when a transaction reads data written by another transaction that has not yet committed and might be rolled back. The Read Committed isolation level and stricter levels prevent it. Note that some databases, such as PostgreSQL, never allow dirty reads even at Read Uncommitted."
+        },
+        {
+          "q": "How do you test referential integrity?",
+          "a": "Attempt to insert a child row with a non-existent parent and delete a parent with existing children, and check the database rejects or cascades as designed. I also run queries to find any existing orphans, since constraints may have been added after data was loaded."
+        }
+      ],
+      "codingRequirements": "Strong SQL is mandatory. Light scripting (Python or shell) is useful for automation.",
+      "commonMistakes": [
+        "Only verifying data through the UI",
+        "Forgetting to test migration rollback and duration",
+        "Confusing join types under pressure"
+      ],
+      "readinessCriteria": [
+        "You can write queries with joins, grouping and window functions without reference",
+        "You have tested a migration including rollback on realistic data",
+        "You can explain isolation levels and demonstrate one anomaly"
+      ],
+      "nextRoles": ["data-qa-engineer", "etl-test-engineer", "backend-test-engineer"]
+    },
+    {
+      "slug": "data-validation-tester",
+      "title": "Data Validation Tester",
+      "category": "api-backend",
+      "overview": "A Data Validation Tester checks that data is accurate, complete and consistent as it moves between systems: through imports, APIs, integrations and migrations. The work is reconciliation-heavy, comparing sources and targets and validating business rules on data. It is an accessible role for SQL-strong testers and a stepping stone towards data QA.",
+      "responsibilities": [
+        "Validate data imports and exports against source files and rules",
+        "Reconcile record counts, totals and key fields between systems",
+        "Check data formats, ranges and mandatory fields",
+        "Test data migrations for completeness and correctness",
+        "Investigate and report data discrepancies with evidence",
+        "Maintain reusable validation queries and scripts"
+      ],
+      "skills": {
+        "essential": [
+          "SQL for reconciliation and aggregation",
+          "Data validation rules and formats",
+          "Attention to detail",
+          "Spreadsheet skills",
+          "Defect reporting with data evidence"
+        ],
+        "roleSpecific": [
+          "Source-to-target reconciliation",
+          "File format validation (CSV, JSON, XML)",
+          "Migration testing"
+        ],
+        "optional": [
+          "Python with pandas for comparisons",
+          "ETL concepts",
+          "Data quality tools such as Great Expectations"
+        ]
+      },
+      "prerequisites": [
+        "Basic SQL",
+        "Testing fundamentals"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Validate data",
+          "goals": [
+            "Write SQL to count, sum and filter records",
+            "Validate field formats and mandatory values",
+            "Read CSV, JSON and XML files confidently"
+          ],
+          "topics": [
+            "sql-for-testers",
+            "testing-data-validation",
+            "json-and-xml-for-testers",
+            "test-data-design"
+          ]
+        },
+        "intermediate": {
+          "title": "Reconcile",
+          "goals": [
+            "Reconcile counts and totals between two systems",
+            "Find missing and extra records with joins",
+            "Validate data written by an API"
+          ],
+          "topics": [
+            "sql-joins-and-aggregates",
+            "api-database-validation",
+            "database-testing",
+            "testing-file-uploads-and-downloads"
+          ]
+        },
+        "advanced": {
+          "title": "Migrations and pipelines",
+          "goals": [
+            "Plan and execute migration validation",
+            "Automate reconciliation checks",
+            "Validate transformations in an ETL flow"
+          ],
+          "topics": [
+            "etl-and-data-warehouse-testing",
+            "risk-based-testing",
+            "ci-cd-for-test-engineers"
+          ]
+        }
+      },
+      "tools": ["A SQL client", "Spreadsheet tools", "Python with pandas", "Great Expectations", "File diff tools"],
+      "exercises": [
+        "Reconcile a CSV import against the database table, reporting missing, extra and mismatched rows",
+        "Write validation queries for dates, ranges, null mandatory fields and invalid codes",
+        "Validate a simulated migration by comparing aggregated totals by category"
+      ],
+      "sampleProject": {
+        "title": "Reconciliation toolkit for a data import",
+        "description": "Create a sample source CSV and load it into a database with a deliberately imperfect import script. Build SQL and Python reconciliation checks covering counts, totals, key matches, formats and business rules, then produce a discrepancy report with evidence and suggested fixes."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you reconcile source and target data?",
+          "a": "Start with counts and aggregate totals by meaningful groups, which find large problems quickly. Then compare at key level to find missing, extra and mismatched records, using joins on business keys. Finally, sample detailed field comparisons, especially for transformed fields."
+        },
+        {
+          "q": "How do you find records in table A that are missing from table B?",
+          "a": "Use a LEFT JOIN from A to B on the business key and filter where B's key IS NULL, or use NOT EXISTS. EXCEPT works for comparing full rows in databases that support it. I watch out for NULLs in keys and differences in data types or whitespace that break matching."
+        },
+        {
+          "q": "What data quality dimensions do you check?",
+          "a": "Completeness, accuracy, consistency, validity against formats and rules, uniqueness and timeliness. For each, I define concrete checks, such as no null mandatory fields or no duplicate customer IDs. This turns 'data looks wrong' into measurable findings."
+        },
+        {
+          "q": "How do you validate a large migration when you cannot check every row?",
+          "a": "Combine full-volume automated checks, such as counts, totals and key matching, with targeted sampling of high-risk records like edge cases and records with special characters or unusual histories. I also confirm key business processes work on migrated data."
+        }
+      ],
+      "codingRequirements": "Solid SQL required; Python with pandas is a strong advantage.",
+      "commonMistakes": [
+        "Checking only row counts",
+        "Ignoring NULL handling and data type differences in comparisons",
+        "Reporting discrepancies without query evidence"
+      ],
+      "readinessCriteria": [
+        "You can write reconciliation queries finding missing, extra and mismatched records",
+        "You have validated a file import end to end with documented results",
+        "You can name data quality dimensions with a concrete check for each"
+      ],
+      "nextRoles": ["etl-test-engineer", "data-qa-engineer", "database-test-engineer"]
+    },
+    {
+      "slug": "event-driven-systems-tester",
+      "title": "Messaging and Event-Driven Systems Tester",
+      "category": "api-backend",
+      "overview": "A Messaging and Event-Driven Systems Tester verifies systems that communicate through message brokers and event streams such as Kafka, RabbitMQ or cloud queues. Testing focuses on asynchronous behaviour: ordering, duplicates, retries, dead-letter handling, schema evolution and eventual consistency. It requires a different mindset from request-response API testing.",
+      "responsibilities": [
+        "Test producers and consumers of messages and events",
+        "Verify message schemas and their evolution",
+        "Test delivery guarantees, duplicates and idempotent consumers",
+        "Test ordering, retries and dead-letter queue behaviour",
+        "Verify end-to-end asynchronous flows and eventual consistency",
+        "Build tooling to publish and inspect messages in test environments"
+      ],
+      "skills": {
+        "essential": [
+          "Programming in one language with a messaging client",
+          "Messaging concepts: topics, queues, partitions and consumer groups",
+          "Delivery semantics (at-most-once, at-least-once, exactly-once claims)",
+          "JSON and schema validation",
+          "Asynchronous test design without fixed sleeps"
+        ],
+        "roleSpecific": [
+          "Idempotent consumer testing",
+          "Dead-letter and retry testing",
+          "Schema evolution and compatibility testing"
+        ],
+        "optional": [
+          "Schema registries and Avro or Protobuf",
+          "Message contract testing",
+          "Stream processing frameworks"
+        ]
+      },
+      "prerequisites": [
+        "API automation experience",
+        "Programming basics"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Messaging fundamentals",
+          "goals": [
+            "Explain queues versus topics and consumer groups",
+            "Publish and consume messages locally in Docker",
+            "Validate message payloads against a schema"
+          ],
+          "topics": [
+            "integration-testing",
+            "json-schema-validation",
+            "docker-for-testers",
+            "json-and-xml-for-testers"
+          ]
+        },
+        "intermediate": {
+          "title": "Asynchronous behaviour",
+          "goals": [
+            "Test that consumers handle duplicate messages safely",
+            "Test retries and dead-letter routing for poison messages",
+            "Assert on eventual outcomes by polling with timeouts"
+          ],
+          "topics": [
+            "idempotency-retries-rate-limiting",
+            "testing-notifications",
+            "microservices-testing",
+            "waits-and-synchronization"
+          ]
+        },
+        "advanced": {
+          "title": "Robust event systems",
+          "goals": [
+            "Test schema evolution for backwards and forwards compatibility",
+            "Add message contract tests",
+            "Test behaviour under consumer failure and broker restarts"
+          ],
+          "topics": [
+            "contract-testing",
+            "recovery-reliability-availability-testing",
+            "chaos-engineering-basics",
+            "throughput-latency-and-percentiles"
+          ]
+        }
+      },
+      "tools": ["Apache Kafka", "RabbitMQ", "Testcontainers", "Kafka UI tools or command-line clients", "A schema registry", "Pact (message pacts)"],
+      "exercises": [
+        "Publish the same event twice and verify the consumer's side effect happens once",
+        "Send a malformed message and verify it lands in the dead-letter queue after the configured retries",
+        "Change an event schema by adding a field and test that existing consumers still work"
+      ],
+      "sampleProject": {
+        "title": "Event-driven order pipeline tests",
+        "description": "Build or run a small order system where an order service publishes events to Kafka or RabbitMQ and a fulfilment service consumes them. Using Testcontainers, write automated tests for happy path, duplicates, poison messages and dead-lettering, ordering within a key, and schema evolution, asserting on eventual outcomes without fixed sleeps."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What does at-least-once delivery mean for testing?",
+          "a": "A message may be delivered more than once, for example after a consumer crashes before acknowledging. Consumers must therefore be idempotent, and I test this by delivering duplicate messages and verifying the side effect happens only once. Ignoring duplicates is a common source of double charges or duplicate records."
+        },
+        {
+          "q": "How do you test asynchronous processing without flaky sleeps?",
+          "a": "I poll for the expected outcome, such as a database record or an output message, at short intervals until it appears or a timeout expires, using a library like Awaitility or a simple retry loop. The timeout reflects the agreed processing expectation. This is both faster and more reliable than fixed sleeps."
+        },
+        {
+          "q": "What is a dead-letter queue and how do you test it?",
+          "a": "It is a destination for messages that cannot be processed after a configured number of attempts, so they do not block the main flow. I send a poison message, verify the retries occur as configured, the message lands in the dead-letter queue with useful metadata, and that subsequent valid messages still process."
+        },
+        {
+          "q": "How does Kafka ordering work, and what would you test?",
+          "a": "Kafka guarantees ordering only within a partition, and messages with the same key go to the same partition by default. I would test that events for one entity, keyed consistently, are processed in order, and check behaviour if a consumer must handle out-of-order events across keys or during rebalancing."
+        },
+        {
+          "q": "How do you test schema evolution?",
+          "a": "I verify the compatibility rules in use, for example that adding an optional field does not break old consumers and that new consumers can read old messages. With a schema registry I test that incompatible changes are rejected. I also run consumers of the previous version against messages from the new producer."
+        }
+      ],
+      "codingRequirements": "Moderate: programming in a language with messaging clients (Java, Python or JavaScript), Docker, and asynchronous test patterns.",
+      "commonMistakes": [
+        "Assuming exactly-once delivery without verifying how it is achieved",
+        "Using fixed sleeps in asynchronous tests",
+        "Assuming global ordering across Kafka partitions"
+      ],
+      "readinessCriteria": [
+        "You have automated tests against a real broker running in containers",
+        "You can demonstrate tests for duplicates, poison messages and dead-lettering",
+        "You can explain delivery semantics and partition ordering accurately"
+      ],
+      "nextRoles": ["microservices-test-engineer", "reliability-test-engineer", "data-qa-engineer"]
+    }
+  ]
+}

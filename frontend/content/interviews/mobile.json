@@ -1,0 +1,332 @@
+{
+  "track": "mobile",
+  "title": "Mobile Testing",
+  "description": "Mock interview questions for mobile QA and automation roles: Android and iOS specifics, Appium 2, Espresso and XCUITest, device coverage, interruptions, network conditions, app lifecycle and release processes.",
+  "roles": [
+    "mobile-qa-engineer",
+    "android-test-engineer",
+    "ios-test-engineer",
+    "mobile-automation-engineer",
+    "device-testing-engineer",
+    "compatibility-test-engineer",
+    "accessibility-test-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-mb-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is the difference between native, hybrid and mobile web apps, and how does it affect how you test them?",
+      "followUps": [
+        "How do you switch context to a WebView in Appium?",
+        "What extra risks does a hybrid app have?"
+      ],
+      "modelAnswer": "A native app is built with the platform's own SDK, such as Kotlin or Java on Android and Swift on iOS, and uses native UI components. A mobile web app runs in the device browser and is really a responsive website. A hybrid app is a native shell that renders some or all of its UI in a WebView, and cross-platform frameworks such as React Native or Flutter sit somewhere between, rendering their own or native components from shared code. For native apps I test platform-specific behaviour like permissions, gestures, background states and OS versions, and automate with Espresso, XCUITest or Appium. For mobile web I focus on browsers, responsive layouts and touch, often with browser automation tools on real mobile browsers. For hybrid apps I test both layers and the bridge between them; in Appium I list contexts with getContextHandles and switch to the WEBVIEW context to use web locators, then back to NATIVE_APP. Extra hybrid risks include WebView version differences, slow rendering and broken communication between web code and native features.",
+      "keyPoints": [
+        "Correct definitions of native, hybrid and mobile web",
+        "Notes cross-platform frameworks",
+        "Testing focus differs per type",
+        "Appium context switching for WebViews",
+        "Hybrid-specific risks"
+      ],
+      "redFlags": [
+        "Thinks hybrid apps can be tested exactly like websites"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-mb-02",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "How do you decide which devices and OS versions to test on when there are thousands of Android devices?",
+      "followUps": [
+        "When would you use emulators and simulators instead of real devices?",
+        "How often do you revisit the matrix?"
+      ],
+      "modelAnswer": "I build a device matrix from data, not guesses. The main input is our own analytics: which devices, OS versions, screen sizes and manufacturers our users actually have, plus the app's minimum supported OS version. I group devices by risk factors: OS version, manufacturer customisations, screen size and density, and hardware tier, because low-memory devices expose different problems. I then pick a small set of real devices covering the most-used combinations and the edges, such as the oldest supported OS, the newest OS and beta, a small screen, a tablet and a low-end device. Emulators and simulators are fast, cheap and good for most functional automation and early feedback, but real devices are needed for performance, battery, camera, biometrics, push notifications, sensors and manufacturer-specific behaviour. A cloud device farm extends coverage for broader compatibility runs. I review the matrix regularly, at least when analytics shift or a new major OS version is released.",
+      "keyPoints": [
+        "Uses user analytics and minimum supported OS",
+        "Groups by risk factors: OS, OEM, screen, hardware tier",
+        "Covers common combinations plus edges",
+        "Emulators vs real devices trade-offs",
+        "Cloud farms and regular review"
+      ],
+      "redFlags": [
+        "Tests only on their own personal phone",
+        "Claims emulators are sufficient for everything"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mb-03",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Explain the architecture of Appium 2. How does a test command reach the device?",
+      "followUps": [
+        "What changed from Appium 1 to Appium 2?",
+        "Which capabilities are required to start a session?"
+      ],
+      "modelAnswer": "Appium is a server that implements the W3C WebDriver protocol. A client library, for example the Appium Java client, sends HTTP WebDriver commands to the Appium server, which routes them to a driver for the target platform. In Appium 2 drivers are installed separately as extensions, for example with appium driver install uiautomator2 or xcuitest. The UiAutomator2 driver installs a server on the Android device that uses Google's UiAutomator2 framework, and the XCUITest driver uses WebDriverAgent on the device to drive Apple's XCTest framework. The main Appium 2 changes were this decoupling of drivers and plugins from the server, W3C-only capabilities, so vendor-specific capabilities need the appium: prefix, and the base path changing from /wd/hub to / by default. A session needs at least platformName and appium:automationName, plus the app or the package and activity or bundle id, and usually appium:deviceName or appium:udid to target a device. In Java I would build these with UiAutomator2Options or XCUITestOptions.",
+      "keyPoints": [
+        "Client → Appium server over W3C WebDriver → platform driver",
+        "Drivers installed separately in Appium 2",
+        "UiAutomator2 and XCUITest/WebDriverAgent roles",
+        "appium: capability prefix and default base path change",
+        "Required capabilities and options classes"
+      ],
+      "redFlags": [
+        "Thinks Appium requires modifying the app's source code",
+        "Unaware drivers are separate in Appium 2"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mb-04",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "What interruptions and lifecycle events would you test for a mobile banking app's payment screen?",
+      "followUps": [
+        "How would you automate some of these?",
+        "What should happen to sensitive data when the app goes to the background?"
+      ],
+      "modelAnswer": "I would test what happens when the user is interrupted mid-payment: an incoming call, a notification, an alarm, switching to another app and back, locking and unlocking the screen, rotating the device, low battery warnings, and the app being killed by the OS while in the background due to memory pressure. Network changes matter too: switching between Wi-Fi and mobile data, airplane mode during submission and a slow connection, where the key check is that a payment is never submitted twice and the user sees a clear status. Permission prompts, such as biometrics or camera for scanning, are another interruption. For a banking app, when it goes to the background the screen content should be hidden in the app switcher, for example with FLAG_SECURE on Android or a privacy overlay on iOS, and the session should time out according to policy. Some of these can be automated: Appium can background the app, change orientation and lock the device, and Android emulators and adb can simulate calls, SMS and network changes, while real-device manual testing covers the rest.",
+      "keyPoints": [
+        "Calls, notifications, app switching, lock, rotation",
+        "Process death by OS and state restoration",
+        "Network changes with no duplicate payment",
+        "Background privacy and session timeout",
+        "Automation options: Appium, adb, emulator controls"
+      ],
+      "redFlags": [
+        "Only tests the screen in a stable foreground state"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mb-05",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "When would you choose Espresso or XCUITest over Appium, and when Appium over them?",
+      "followUps": [
+        "How does Espresso synchronise with the UI thread?",
+        "Who usually owns these tests in a team?"
+      ],
+      "modelAnswer": "Espresso on Android and XCUITest on iOS are the platform vendors' own UI testing frameworks. They live in the app's codebase, are written in the app's language, run fast and are tightly synchronised with the app: Espresso waits for the main thread's message queue to be idle and for registered idling resources before acting, which makes tests very stable. They are ideal when developers write and maintain UI tests together with features and need fast feedback in pull requests. Their downside is that you need two separate suites for two platforms and they need access to the source. Appium works with the compiled app, supports many languages, and allows a single framework, sometimes with shared test logic, across Android and iOS; it suits QA teams testing as a black box and cross-app flows such as system settings. It is slower and needs more explicit synchronisation. Many teams combine them: native frameworks for component and screen-level tests by developers, and a smaller Appium suite for end-to-end journeys.",
+      "keyPoints": [
+        "Espresso/XCUITest: in-repo, fast, well synchronised",
+        "Espresso synchronisation via main thread idle and idling resources",
+        "Appium: black-box, multi-language, cross-platform",
+        "Trade-offs in speed and maintenance",
+        "Combined strategy"
+      ],
+      "redFlags": [
+        "Says Appium is always better because it is cross-platform"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mb-06",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a Java Appium snippet that starts an Android session and performs a swipe up to scroll a list using W3C actions.",
+      "followUps": [
+        "How would you scroll until a specific element is visible?",
+        "Why are TouchAction methods no longer recommended?"
+      ],
+      "modelAnswer": "I would build the session with UiAutomator2Options and use the W3C Actions API with a touch pointer for the swipe:\n\n```java\nUiAutomator2Options options = new UiAutomator2Options()\n    .setDeviceName(\"Android Emulator\")\n    .setApp(\"/path/to/app.apk\");\nAndroidDriver driver = new AndroidDriver(new URL(\"http://127.0.0.1:4723\"), options);\n\nDimension size = driver.manage().window().getSize();\nint x = size.width / 2;\nint startY = (int) (size.height * 0.8);\nint endY = (int) (size.height * 0.2);\n\nPointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, \"finger\");\nSequence swipe = new Sequence(finger, 1)\n    .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, startY))\n    .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))\n    .addAction(finger.createPointerMove(Duration.ofMillis(600), PointerInput.Origin.viewport(), x, endY))\n    .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));\ndriver.perform(List.of(swipe));\n```\n\nThe URL has no /wd/hub because that is Appium 2's default base path. The old TouchAction and MultiTouchAction classes were based on the non-standard JSON Wire protocol and are deprecated in favour of W3C actions. To scroll to an element I would loop the swipe with a maximum attempt count until the element is found, or on Android use the UiAutomator2 driver's mobile: scrollGesture extension or a UiScrollable selector.",
+      "keyPoints": [
+        "Correct session creation with options and Appium 2 URL",
+        "Swipe via W3C PointerInput and Sequence",
+        "Uses relative coordinates from screen size",
+        "Knows TouchAction is deprecated",
+        "Bounded scroll-until-visible or driver gesture extensions"
+      ],
+      "redFlags": [
+        "Hard-codes absolute pixel coordinates for one device",
+        "Unbounded scroll loop"
+      ],
+      "minutes": 9
+    },
+    {
+      "id": "int-mb-07",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What are the most important differences between testing on Android and on iOS?",
+      "followUps": [
+        "How do app permissions differ?",
+        "How do you distribute test builds on each platform?"
+      ],
+      "modelAnswer": "Android is fragmented across many manufacturers, screen sizes and OS versions, and manufacturers customise the OS, so compatibility testing is broader. iOS has fewer device models and users tend to update faster, but each major release can change behaviour, so testing on the latest version and betas matters. Navigation differs: Android has system back navigation by button or gesture that every screen must handle, while iOS relies on in-app navigation and swipe-back gestures. Both platforms ask for sensitive permissions at runtime, and both allow users to grant limited access such as approximate location or selected photos, so I test each choice and revocation in settings. Background execution and notification behaviour differ and are restricted by battery optimisation, especially on some Android manufacturers. For test builds, iOS typically uses TestFlight and requires signing with provisioning profiles, while Android can install APKs directly or use Play Console testing tracks. Store review guidelines also differ, which affects release testing.",
+      "keyPoints": [
+        "Android fragmentation and OEM customisations",
+        "iOS fast adoption and major-release changes",
+        "Back navigation differences",
+        "Runtime and limited permissions on both",
+        "Background restrictions and build distribution (TestFlight, Play testing tracks)"
+      ],
+      "redFlags": [
+        "Says the platforms behave the same so one suffices"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-mb-08",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "How would you test an app's offline mode, where users can create notes offline and they sync when the connection returns?",
+      "followUps": [
+        "How do you test conflict resolution?",
+        "How do you simulate poor networks reliably?"
+      ],
+      "modelAnswer": "I would first clarify the expected behaviour: what works offline, how sync is triggered, and the rule for conflicts. Then I would test creating, editing and deleting notes offline and confirm they persist after the app is killed and restarted while still offline. When the connection returns, I check everything syncs once, in the correct order, with no duplicates, and that the UI shows sync status honestly. Conflict cases are the most important: edit the same note on two devices while one is offline, delete on one and edit on the other, and check the outcome matches the agreed rule, such as last write wins or a conflict copy, with no silent data loss. I would also test partial failures: connection dropping mid-sync, server errors, and a large backlog. To simulate networks, I use airplane mode on real devices, Android emulator network settings, the Network Link Conditioner on Apple platforms, or a proxy that throttles or drops traffic, so conditions are repeatable.",
+      "keyPoints": [
+        "Clarifies offline scope and conflict rules",
+        "Persistence across app restarts offline",
+        "Sync once, ordered, no duplicates, honest status",
+        "Conflict scenarios across devices",
+        "Interrupted sync and backlog",
+        "Repeatable network simulation tools"
+      ],
+      "redFlags": [
+        "Only toggles airplane mode once and checks the happy path"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mb-09",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you test push notifications end to end?",
+      "followUps": [
+        "What changes when the app is killed versus in the background?",
+        "How would you automate any of it?"
+      ],
+      "modelAnswer": "Push on Android goes through Firebase Cloud Messaging and on iOS through the Apple Push Notification service, so I need test builds and credentials configured for the right environment, for example the APNs sandbox for development builds. I test the permission flow first: granting, denying, and enabling later from settings, since Android 13 and later and iOS both require the user to grant notification permission. Then I test delivery and display with the app in the foreground, in the background and terminated, because the app handles each case differently; for example in the foreground the app may show an in-app banner instead. I test tapping the notification opens the correct screen through deep linking, including when the user is logged out, plus notification channels on Android, grouping, badges, sounds, and localisation of the text. Edge cases include expired content, notifications for a different account on a shared device and very long text. Automation can trigger pushes from a backend test endpoint and then use Appium to open the notification shade on Android, or use simulator tooling such as xcrun simctl push for iOS simulators, while delivery on real devices is still worth checking manually.",
+      "keyPoints": [
+        "FCM and APNs with environment-specific setup",
+        "Permission grant/deny flows",
+        "Foreground, background and terminated states",
+        "Deep linking from notification taps",
+        "Channels, badges, localisation and edge cases",
+        "Automation options and limits"
+      ],
+      "redFlags": [
+        "Only checks that a notification appears"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mb-10",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How do you measure and test mobile app performance, for example startup time, memory and battery usage?",
+      "followUps": [
+        "What is the difference between cold, warm and hot start?",
+        "How do you catch performance regressions automatically?"
+      ],
+      "modelAnswer": "I define the metrics that matter for users: startup time, screen render and scrolling smoothness, memory usage, battery and network consumption, and app size. A cold start begins with no app process in memory, a warm start has some state but the activity must be recreated, and a hot start just brings an existing activity to the foreground; cold start is the most expensive and the one I track most closely. On Android I use Android Studio profilers, adb shell am start -W for launch timing, Perfetto traces and the Jetpack Macrobenchmark library for repeatable startup and scrolling benchmarks; on iOS, Xcode Instruments for time, allocations, leaks and energy, and XCTest performance metrics such as XCTApplicationLaunchMetric. Measurements must run on real, representative devices including a low-end one, with consistent conditions, several iterations and comparison of percentiles. For regressions I run benchmarks in CI on dedicated devices and compare against a baseline, and use production telemetry such as Android vitals or Xcode Organizer metrics to see real-world performance.",
+      "keyPoints": [
+        "User-centred metrics: startup, rendering, memory, battery, network, size",
+        "Cold/warm/hot start definitions",
+        "Platform tools: Android profilers, Macrobenchmark, Perfetto; Instruments, XCTest metrics",
+        "Real low-end devices, repeated runs",
+        "CI baselines and production telemetry"
+      ],
+      "redFlags": [
+        "Measures once on an emulator and reports the result"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-mb-11",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How would you check the accessibility of a mobile app?",
+      "followUps": [
+        "What do you check with TalkBack or VoiceOver?",
+        "Which automated tools exist for mobile accessibility?"
+      ],
+      "modelAnswer": "I would combine automated scans with manual testing using assistive technology, against WCAG success criteria applied to mobile and the platform guidelines. With TalkBack on Android and VoiceOver on iOS, I check every interactive element has a meaningful label, the reading and focus order is logical, custom controls announce their role and state, images that convey information have descriptions and decorative ones are ignored, and announcements are made for dynamic changes such as errors. I test with the largest system font sizes, checking text is not truncated and layouts reflow, and with display zoom. I check touch targets are large enough, colour contrast meets the requirement, nothing relies only on colour, and the app works in both orientations unless an orientation is essential. I also check switch access or external keyboard navigation. Automated tools such as Android's Accessibility Scanner, Espresso accessibility checks and Xcode's Accessibility Inspector and audits catch missing labels, small targets and contrast issues, but they miss much of what manual screen reader testing finds.",
+      "keyPoints": [
+        "Combines automated scans and manual assistive tech testing",
+        "Screen reader labels, roles, focus order, announcements",
+        "Large text and reflow",
+        "Touch target size, contrast, orientation",
+        "Names real tools and their limits"
+      ],
+      "redFlags": [
+        "Relies only on an automated scanner"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mb-12",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Your Appium suite takes three hours on a device farm and is flaky. How would you make it faster and more reliable?",
+      "followUps": [
+        "How would you set up app state without going through the UI?",
+        "What would you move out of the Appium suite?"
+      ],
+      "modelAnswer": "First I would analyse where the time and failures go: per-test duration, session start overhead, and failure categories. Speed improvements include running in parallel across devices with independent sessions, reusing an installed app and avoiding full reinstall between tests where safe, using capabilities like noReset deliberately, and skipping UI steps by setting state directly: deep links to open a screen, API calls to create data or log in, or test-only launch arguments. Locators matter too: accessibility ids are fast and stable, while long XPath queries over the whole hierarchy are slow on mobile. For reliability I replace sleeps with explicit waits, disable animations on test devices, make each test independent with its own data, and handle system dialogs explicitly, for example by granting permissions with the autoGrantPermissions capability on Android. Finally I would shrink the suite: move screen-level checks to Espresso or XCUITest, push business logic tests to the API layer, and keep Appium for a smaller set of critical end-to-end journeys.",
+      "keyPoints": [
+        "Analyses duration and failure categories first",
+        "Parallelism and session/install reuse",
+        "State setup via deep links, APIs or launch arguments",
+        "Accessibility id locators instead of XPath",
+        "Waits, disabled animations, independent tests, system dialog handling",
+        "Moves tests down to native frameworks or API layer"
+      ],
+      "redFlags": [
+        "Only suggests buying more devices",
+        "Adds retries without investigating"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-mb-13",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you test app upgrades and data migration between versions?",
+      "followUps": [
+        "What about users who skip several versions?",
+        "How do you test a forced update mechanism?"
+      ],
+      "modelAnswer": "Upgrades are risky because real users never start from a clean install. I would install the version currently in production, create realistic data and settings, such as being logged in, saved items, preferences and offline drafts, then install the new build over it and check the data is preserved and migrated correctly, the user stays logged in if expected, and the app does not crash on first launch. On Android this means installing the update without uninstalling, for example adb install -r; on iOS, installing the new build over the old one through TestFlight or Xcode. I test upgrades from several older supported versions, not just the previous one, because users skip releases and database migrations must chain correctly. I also check a downgrade or reinstall scenario and what happens if the migration is interrupted. For a forced or flexible update mechanism, I check the minimum-version rule from the backend, that blocked versions see a clear prompt, that the store link works, and that the app behaves if the version check fails due to no network.",
+      "keyPoints": [
+        "Installs over existing production version with real data",
+        "Checks data, session and settings survive",
+        "Tests upgrades from multiple older versions",
+        "Interrupted migration and reinstall cases",
+        "Forced update logic and offline behaviour"
+      ],
+      "redFlags": [
+        "Only tests fresh installs"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mb-14",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "What security checks would you perform on a mobile app as part of QA, within an authorised test scope?",
+      "followUps": [
+        "How would you inspect the app's network traffic?",
+        "What does certificate pinning change for your testing?"
+      ],
+      "modelAnswer": "I would work on our own app in a test environment with the security team's agreement, using the OWASP Mobile Application Security Verification Standard and the Mobile Top 10 as a guide. I check sensitive data storage: no tokens, passwords or personal data in plain text in shared preferences, plist files, logs, the clipboard or backups; secrets should be in the Android Keystore or iOS Keychain. I check network traffic goes over TLS by routing a test device through an intercepting proxy with our own test certificate, verifying there is no plain HTTP and that the app rejects invalid certificates. Certificate pinning means the app rejects the proxy's certificate, so we need a debug build or configuration that allows our test certificate, while release builds must keep pinning enabled, which I verify separately. I also check authentication and session behaviour, screenshots of sensitive screens in the app switcher, exported Android components and deep links that could be abused, and that debug flags and test endpoints are not in release builds. Findings go to the security team for deeper assessment.",
+      "keyPoints": [
+        "Explicit authorised scope and OWASP MASVS/Mobile Top 10",
+        "Insecure data storage checks and secure storage APIs",
+        "TLS verification with an intercepting proxy",
+        "Certificate pinning implications for test vs release builds",
+        "Exported components, deep links, debug flags in release",
+        "Escalation to security team"
+      ],
+      "redFlags": [
+        "Suggests testing apps or backends they are not authorised to test"
+      ],
+      "minutes": 6
+    }
+  ]
+}

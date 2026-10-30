@@ -1,16 +1,25 @@
 "use client";
 
-import { CornerDownLeft, Search } from "lucide-react";
+import { BookOpen, Briefcase, CornerDownLeft, FlaskConical, FolderGit2, LayoutGrid, MessagesSquare, Search, Wrench, type LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Kbd } from "@/components/ui/feedback";
+import { useSearchIndex } from "@/features/search/use-search-index";
 import { searchNav } from "@/lib/navigation";
+import { KIND_LABEL, searchDocs, type SearchDoc, type SearchKind } from "@/lib/search";
 import { cn } from "@/lib/utils";
 
-/**
- * Global search (Ctrl/Cmd+K). Phase 1 searches sections; Phase 2 extends it to
- * lessons, roles, questions and projects via the backend search API.
- */
+const KIND_ICON: Record<SearchKind, LucideIcon> = {
+  lesson: BookOpen,
+  role: Briefcase,
+  interview: MessagesSquare,
+  project: FolderGit2,
+  tool: Wrench,
+  practice: FlaskConical,
+  section: LayoutGrid,
+};
+
+/** Global search (Ctrl/Cmd+K) over lessons, roles, interview questions, practice, projects, tools and sections. */
 export function CommandPalette({
   open,
   onOpenChange,
@@ -25,7 +34,20 @@ export function CommandPalette({
   const [query, setQuery] = useState("");
   const [index, setIndex] = useState(0);
   const listId = useId();
-  const results = searchNav(query, isAdmin);
+  const { data: docs, isPending } = useSearchIndex();
+
+  const results: SearchDoc[] = useMemo(() => {
+    if (docs) return searchDocs(docs, query, {}, 12);
+    // Index not loaded yet: fall back to navigation sections.
+    return searchNav(query, isAdmin).map((item) => ({
+      id: item.href,
+      kind: "section" as const,
+      title: item.label,
+      text: item.description,
+      href: item.href,
+      tags: [],
+    }));
+  }, [docs, query, isAdmin]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -56,7 +78,7 @@ export function CommandPalette({
       onClick={(event) => {
         if (event.target === dialogRef.current) close();
       }}
-      className="mx-auto mt-[12vh] w-[min(94vw,560px)] rounded-xl border border-border bg-surface p-0 text-foreground shadow-2xl shadow-black/60 backdrop:bg-black/70"
+      className="mx-auto mt-[12vh] w-[min(94vw,620px)] rounded-xl border border-border bg-surface p-0 text-foreground shadow-2xl shadow-black/60 backdrop:bg-black/70"
     >
       {open && (
         <div>
@@ -76,12 +98,13 @@ export function CommandPalette({
                 } else if (event.key === "ArrowUp") {
                   event.preventDefault();
                   setIndex((i) => Math.max(i - 1, 0));
-                } else if (event.key === "Enter" && results[index]) {
+                } else if (event.key === "Enter") {
                   event.preventDefault();
-                  go(results[index].href);
+                  if (results[index]) go(results[index].href);
+                  else if (query.trim()) go(`/search?q=${encodeURIComponent(query.trim())}`);
                 }
               }}
-              placeholder="Search sections…"
+              placeholder="Search lessons, roles, interview questions, tools…"
               role="combobox"
               aria-expanded
               aria-controls={listId}
@@ -90,38 +113,45 @@ export function CommandPalette({
             />
             <Kbd>Esc</Kbd>
           </div>
-          <ul id={listId} role="listbox" className="max-h-[50vh] overflow-y-auto p-2">
+          <ul id={listId} role="listbox" className="max-h-[55vh] overflow-y-auto p-2">
             {results.length === 0 && (
-              <li className="px-3 py-8 text-center text-sm text-muted">No sections match “{query}”.</li>
+              <li className="px-3 py-8 text-center text-sm text-muted">
+                {isPending ? "Loading search index…" : <>Nothing matches “{query}”.</>}
+              </li>
             )}
             {results.map((item, i) => {
-              const Icon = item.icon;
+              const Icon = KIND_ICON[item.kind];
               return (
                 <li
-                  key={item.href}
+                  key={item.id}
                   id={`${listId}-${i}`}
                   role="option"
                   aria-selected={i === index}
                   onMouseEnter={() => setIndex(i)}
                   onClick={() => go(item.href)}
-                  className={cn(
-                    "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2",
-                    i === index ? "bg-surface-raised" : "",
-                  )}
+                  className={cn("flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2", i === index && "bg-surface-raised")}
                 >
                   <Icon className="h-4 w-4 shrink-0 text-accent" aria-hidden />
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm text-foreground">{item.label}</p>
-                    <p className="truncate text-xs text-muted">{item.description}</p>
+                    <p className="truncate text-sm text-foreground">{item.title}</p>
+                    <p className="truncate text-xs text-muted">
+                      {KIND_LABEL[item.kind]} · {item.text}
+                    </p>
                   </div>
                   {i === index && <CornerDownLeft className="h-3.5 w-3.5 text-subtle" aria-hidden />}
                 </li>
               );
             })}
           </ul>
-          <p className="border-t border-border px-4 py-2 text-[11px] text-subtle">
-            Searches sections today. Lesson, role and question search arrives with the curriculum (Phase 2).
-          </p>
+          {query.trim() && (
+            <button
+              type="button"
+              onClick={() => go(`/search?q=${encodeURIComponent(query.trim())}`)}
+              className="w-full border-t border-border px-4 py-2.5 text-left text-xs text-muted hover:bg-surface-raised hover:text-foreground"
+            >
+              See all results with filters →
+            </button>
+          )}
         </div>
       )}
     </dialog>

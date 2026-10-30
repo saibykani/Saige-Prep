@@ -1,0 +1,817 @@
+{
+  "category": "leadership",
+  "roles": [
+    {
+      "slug": "senior-qa-engineer",
+      "title": "Senior QA Engineer",
+      "category": "leadership",
+      "overview": "A Senior QA Engineer is an experienced individual contributor who owns quality for complex features or an entire product area. They lead by example rather than by managing people: shaping test approaches, mentoring others, influencing design decisions early and handling the hardest testing problems.",
+      "responsibilities": [
+        "Own the test approach for complex features from requirements review to release",
+        "Identify product and technical risks early in refinement and design discussions",
+        "Design and review test cases, automation and test data written by others",
+        "Mentor junior and mid-level testers through pairing and feedback",
+        "Investigate difficult defects across front end, API and database layers",
+        "Improve team practices such as defect triage, automation reliability or test data management",
+        "Communicate quality status and residual risk clearly to the team"
+      ],
+      "skills": {
+        "essential": [
+          "Advanced test design techniques and risk-based testing",
+          "Automation competence in at least one stack",
+          "API and database testing",
+          "Clear written and verbal communication"
+        ],
+        "roleSpecific": [
+          "Mentoring and constructive code and test review",
+          "Influencing without authority",
+          "Root cause analysis across system layers"
+        ],
+        "optional": [
+          "Performance or security testing depth",
+          "CI/CD pipeline ownership",
+          "A domain specialisation such as payments or healthcare"
+        ]
+      },
+      "prerequisites": [
+        "Several years of hands-on testing experience",
+        "Working automation and API testing skills"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Owning a feature's quality",
+          "goals": [
+            "Write a risk-based test approach for a feature and review it with the developers",
+            "Raise testability and ambiguity issues during refinement before development starts",
+            "Debug a defect down to the failing layer and propose the likely cause",
+            "Review a colleague's test cases with specific, actionable feedback"
+          ],
+          "topics": ["risk-based-testing", "requirements-analysis-for-testers", "acceptance-criteria-dor-dod", "root-cause-analysis"]
+        },
+        "intermediate": {
+          "title": "Raising the team's level",
+          "goals": [
+            "Mentor a junior tester through a full feature cycle",
+            "Lead a defect triage session and settle severity disagreements with evidence",
+            "Reduce flaky tests or slow suites in a measurable way",
+            "Define exploratory charters for a high-risk release"
+          ],
+          "topics": ["defect-triage", "flaky-test-reduction", "exploratory-testing-charters", "test-pyramid-and-strategy"]
+        },
+        "advanced": {
+          "title": "Technical quality leadership",
+          "goals": [
+            "Propose and drive a practice change across the team with a measured outcome",
+            "Contribute to test architecture decisions for a new service",
+            "Present residual risk and a release recommendation to stakeholders",
+            "Act as backup for the QA lead on planning and coordination"
+          ],
+          "topics": ["test-architecture-and-system-design", "release-readiness", "qa-metrics-and-reporting", "test-strategy-vs-test-plan"]
+        }
+      },
+      "tools": ["Jira or another tracker", "A test management tool", "Postman or REST Assured", "Selenium, Playwright or Cypress", "SQL clients", "Git", "CI systems"],
+      "exercises": [
+        "Write a one-page risk-based test approach for a password reset redesign",
+        "Review a pull request of automation code and give five prioritised comments",
+        "Prepare a 15-minute mentoring session on writing defect reports",
+        "Analyse three months of escaped defects and propose one process change"
+      ],
+      "sampleProject": {
+        "title": "Quality improvement case study",
+        "description": "On a project you work on or a realistic demo app, identify one quality problem (such as flaky UI tests or late defect discovery), measure the baseline, introduce a change (stabilised waits, earlier requirement reviews or API-level tests), and document the before-and-after measurements, trade-offs and what you would do next."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Tell me about a time you found a significant risk early. What did you do?",
+          "a": "A strong answer follows situation, task, action and result: for example, noticing during refinement that a refund feature had no defined behaviour for partial refunds after currency conversion, raising it with concrete examples, getting the product owner to decide the rule before coding, and adding decision-table tests. The result is described honestly, including what was learned."
+        },
+        {
+          "q": "How do you mentor a junior tester who writes vague defect reports?",
+          "a": "I pair on a few defects, showing what a developer needs: clear steps, environment, expected versus actual, evidence and impact. I give a simple checklist, review their next reports with specific feedback and recognise improvement. I focus on why each element helps reproduction and prioritisation rather than imposing a template."
+        },
+        {
+          "q": "How do you handle a developer who disagrees that something is a defect?",
+          "a": "I return to the requirement, acceptance criteria or user impact, show evidence, and ask what they understand the expected behaviour to be. If it is genuinely ambiguous, it becomes a product decision, so I bring in the product owner. The goal is the right outcome for users, not winning the argument."
+        },
+        {
+          "q": "How do you decide what not to test?",
+          "a": "Using risk: likelihood of failure and impact if it fails, informed by change scope, complexity, past defects and usage. Low-risk, stable areas get lighter coverage or rely on existing automation. I make the decision explicit and communicate the residual risk rather than silently skipping."
+        },
+        {
+          "q": "What separates a senior QA engineer from a mid-level one?",
+          "a": "Scope and influence: a senior engineer handles ambiguous problems independently, sees risk across features and layers, improves how the whole team works, mentors others and communicates trade-offs to stakeholders, while still doing hands-on testing."
+        }
+      ],
+      "codingRequirements": "Expected to write and review automation code competently in the team's stack. The depth varies by company, but a senior QA engineer should be able to debug tests and read application code.",
+      "commonMistakes": [
+        "Doing all the hard testing alone instead of growing others",
+        "Reporting only test counts rather than risk and impact",
+        "Joining a feature only after development, missing the chance to prevent defects",
+        "Pushing personal preferences in reviews without explaining reasons"
+      ],
+      "readinessCriteria": [
+        "Has owned the test approach for at least one complex feature end to end",
+        "Has mentored at least one colleague with visible improvement",
+        "Can explain a release recommendation in terms of residual risk",
+        "Has led a measurable practice improvement"
+      ],
+      "nextRoles": ["qa-lead", "test-architect", "qa-technical-lead"]
+    },
+    {
+      "slug": "qa-lead",
+      "title": "QA Lead",
+      "category": "leadership",
+      "overview": "A QA Lead coordinates quality work for a team or product so that testing is planned, prioritised and delivered on time. They still do hands-on testing in many organisations, but their main value is in planning, assigning and unblocking work, keeping quality visible and being the quality voice in day-to-day delivery decisions.",
+      "responsibilities": [
+        "Plan testing activities for sprints and releases and align them with the delivery plan",
+        "Assign and balance testing work across the QA team members",
+        "Run or facilitate defect triage and track critical defects to resolution",
+        "Agree entry and exit criteria and quality gates with the product and engineering leads",
+        "Report test progress, defect status and risks to stakeholders",
+        "Coach team members and support their day-to-day development",
+        "Identify process bottlenecks such as environment instability and drive fixes"
+      ],
+      "skills": {
+        "essential": [
+          "Test planning and estimation",
+          "Risk-based prioritisation",
+          "Stakeholder communication and reporting",
+          "Hands-on testing competence"
+        ],
+        "roleSpecific": [
+          "Coordinating work across testers and squads",
+          "Facilitating triage and resolving priority conflicts",
+          "Agile delivery practices and ceremonies"
+        ],
+        "optional": [
+          "Automation strategy input",
+          "Test management tool administration",
+          "Release management experience"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a senior or experienced tester",
+        "Familiarity with agile delivery"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Planning and coordination",
+          "goals": [
+            "Write a release test plan with scope, approach, schedule and risks",
+            "Estimate testing effort for a release and explain assumptions",
+            "Run a daily defect triage with clear outcomes",
+            "Produce a concise weekly quality status report"
+          ],
+          "topics": ["test-strategy-vs-test-plan", "test-estimation", "defect-triage", "test-execution-and-closure-reports"]
+        },
+        "intermediate": {
+          "title": "Leading delivery quality",
+          "goals": [
+            "Define and apply entry and exit criteria for a release",
+            "Rebalance team work when priorities change mid-sprint",
+            "Run a retrospective focused on escaped defects",
+            "Make a release recommendation with residual risk"
+          ],
+          "topics": ["entry-and-exit-criteria", "release-sign-off", "scrum-roles-and-ceremonies", "defect-metrics"]
+        },
+        "advanced": {
+          "title": "Improving team effectiveness",
+          "goals": [
+            "Introduce a quality metric that drives a decision and retire one that does not",
+            "Plan the balance of manual, exploratory and automated testing for the team",
+            "Grow a team member into a senior role",
+            "Coordinate testing across multiple dependent teams for a release"
+          ],
+          "topics": ["qa-metrics-and-reporting", "test-management-and-leadership", "test-pyramid-and-strategy", "release-readiness"]
+        }
+      },
+      "tools": ["Jira or another tracker", "Test management tools", "Dashboards and reporting tools", "Confluence or another wiki", "CI reports"],
+      "exercises": [
+        "Write a test plan for a three-sprint release of a checkout redesign",
+        "Given 40 open defects and two days to release, run a mock triage and decide what blocks release",
+        "Design a one-page weekly status report that a product manager can read in two minutes",
+        "Plan work allocation for three testers with different skills across five stories"
+      ],
+      "sampleProject": {
+        "title": "Release quality pack",
+        "description": "For a realistic release scenario, produce a test plan, an estimation with assumptions, entry and exit criteria, a risk register, a triage log for a sample defect list and a final release recommendation explaining residual risks. Present it as a short document a delivery team could use."
+      },
+      "interviewQuestions": [
+        {
+          "q": "The release date is fixed and testing is behind. What do you do?",
+          "a": "I make the situation visible early with facts: what is tested, what is not and the associated risk. Then I re-prioritise remaining testing by risk, look for ways to add capacity such as developer help or focusing automation, and propose options to stakeholders: release with documented residual risk, reduce scope, or move the date. The decision belongs to the business owner, but it must be informed."
+        },
+        {
+          "q": "How do you run an effective defect triage?",
+          "a": "With the right people (product, development and QA), a prepared list, and a time box. For each defect we confirm reproducibility, agree severity and priority, assign an owner and a target, and mark duplicates or rejects with reasons. Outcomes are recorded so decisions are traceable."
+        },
+        {
+          "q": "Tell me about a conflict in your team and how you resolved it.",
+          "a": "A strong answer describes a real situation, such as two testers disagreeing about test ownership, how the lead listened to both, clarified the goal and responsibilities, agreed a working arrangement, followed up and what changed. It shows fairness and a focus on outcomes rather than blame."
+        },
+        {
+          "q": "How do you decide what goes in a quality status report?",
+          "a": "I ask what decisions the readers need to make. Typically: progress against plan, open critical defects and their trend, risks and blockers with owners, and a clear statement of readiness. Raw counts without context get removed."
+        },
+        {
+          "q": "How much hands-on testing should a QA lead do?",
+          "a": "It depends on team size. In a small team, a lead tests regularly and stays close to the product. As the team grows, coordination, coaching and stakeholder work take more time, but some hands-on work keeps judgement grounded. I would not hold the critical path alone, because lead duties interrupt testing."
+        }
+      ],
+      "codingRequirements": "Coding depth depends on the team. Leads of automation-heavy teams are expected to review automation code; others focus on planning and coordination. Reading CI results and basic SQL is broadly useful.",
+      "commonMistakes": [
+        "Becoming the bottleneck by testing the critical path personally",
+        "Reporting optimistic status and surprising stakeholders late",
+        "Treating every defect as a release blocker without risk-based prioritisation",
+        "Neglecting team members' development under delivery pressure"
+      ],
+      "readinessCriteria": [
+        "Has written a release test plan with estimates and risks",
+        "Has run defect triage and made release recommendations",
+        "Can describe a conflict or priority clash they resolved",
+        "Can present quality status that leads to decisions"
+      ],
+      "nextRoles": ["test-manager", "qa-manager"]
+    },
+    {
+      "slug": "test-lead",
+      "title": "Test Lead",
+      "category": "leadership",
+      "overview": "A Test Lead leads the testing effort for a project, programme or test phase, often in structured or contract-based delivery where formal test planning and reporting are expected. They define the test approach for their scope, coordinate test execution across testers and sometimes vendors, and report against agreed criteria. The title overlaps heavily with QA Lead; Test Lead tends to emphasise test-phase delivery while QA Lead often implies broader process quality.",
+      "responsibilities": [
+        "Write the test plan for a project or test phase from the organisational test strategy",
+        "Plan test phases such as system, integration and user acceptance testing and their dependencies",
+        "Coordinate test environments, test data and access with other teams",
+        "Lead daily test execution, track progress and manage defects",
+        "Maintain traceability between requirements, tests and defects",
+        "Produce test progress and test completion reports",
+        "Support user acceptance testing with business users"
+      ],
+      "skills": {
+        "essential": [
+          "Formal test planning and documentation",
+          "Requirements traceability",
+          "Test execution management and reporting",
+          "Defect management"
+        ],
+        "roleSpecific": [
+          "Coordinating test environments and data across teams",
+          "Managing UAT with business stakeholders",
+          "Working with test vendors or distributed teams"
+        ],
+        "optional": [
+          "ISTQB Advanced Test Manager or similar certification",
+          "Domain knowledge such as finance or public sector",
+          "Automation and non-functional test coordination"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a test analyst or tester on structured projects",
+        "Understanding of test levels and test documentation"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Test phase planning",
+          "goals": [
+            "Write a phase test plan including scope, approach, environments, entry and exit criteria",
+            "Build a traceability matrix from requirements to tests",
+            "Plan test data and environment needs with lead times",
+            "Report daily execution progress against plan"
+          ],
+          "topics": ["test-strategy-vs-test-plan", "traceability-matrix-and-coverage", "entry-and-exit-criteria", "test-suites-and-test-data"]
+        },
+        "intermediate": {
+          "title": "Running test execution",
+          "goals": [
+            "Coordinate system integration testing across two dependent teams",
+            "Plan and support a UAT cycle with business users",
+            "Manage defect flow and escalation for blocking issues",
+            "Write a test completion report with recommendation"
+          ],
+          "topics": ["integration-testing", "acceptance-alpha-beta-testing", "defect-lifecycle", "test-execution-and-closure-reports"]
+        },
+        "advanced": {
+          "title": "Leading complex test programmes",
+          "goals": [
+            "Estimate and schedule multiple test phases with dependencies",
+            "Manage test risk and issue logs at programme level",
+            "Coordinate vendor or offshore testers with clear deliverables",
+            "Contribute to organisational test strategy"
+          ],
+          "topics": ["test-estimation", "risk-based-testing", "release-sign-off", "test-management-and-leadership"]
+        }
+      },
+      "tools": ["Test management tools", "Jira or another tracker", "Spreadsheets for planning", "Wiki or document tools", "Defect dashboards"],
+      "exercises": [
+        "Write a system integration test plan for a payment service integrating with a bank gateway simulator",
+        "Build a traceability matrix for 15 requirements and identify coverage gaps",
+        "Prepare a UAT kick-off agenda and briefing for business users",
+        "Write a test completion report from a provided set of execution and defect data"
+      ],
+      "sampleProject": {
+        "title": "Test phase documentation set",
+        "description": "For a realistic system integration scenario, produce a phase test plan, environment and data plan, traceability matrix, daily progress report template and a test completion report with an exit recommendation, using sample execution data you generate and label as illustrative."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What goes into a test plan for a test phase?",
+          "a": "Scope and out-of-scope items, test approach and techniques, test items and features, entry and exit criteria, environments and test data, schedule and dependencies, roles and responsibilities, risks with mitigations, deliverables and how progress will be reported. It should derive from the organisation's test strategy and be specific enough to act on."
+        },
+        {
+          "q": "Exit criteria say no open high-severity defects, but two remain and the business wants to go live. What do you do?",
+          "a": "I present the facts: what the two defects are, their impact, workarounds and fix timelines. Exit criteria inform the decision but the business owner decides whether to accept the risk. If they accept, I make sure the acceptance is documented with owners and dates for the fixes, and that support teams know about the workarounds."
+        },
+        {
+          "q": "How do you prepare business users for UAT?",
+          "a": "Agree the scope and acceptance criteria with them, provide scenarios based on their real processes, set up environments and data in advance, give a short briefing on how to log issues, and provide daily support. UAT checks fitness for business use, so I avoid turning it into a repeat of system testing."
+        },
+        {
+          "q": "How do you handle a test environment that is constantly unavailable?",
+          "a": "Log the downtime and its impact on the schedule so the problem is visible with facts, escalate to the environment owner with that data, agree a booking or support arrangement, and replan around it by prioritising tests that can run elsewhere, for example API tests against mocks."
+        },
+        {
+          "q": "Describe how you use a traceability matrix.",
+          "a": "It links requirements to tests and to defects. I use it to find requirements without tests, to assess impact when a requirement changes, and to report coverage and outcomes per requirement in the completion report. It needs to be maintained during the project, not created at the end."
+        }
+      ],
+      "codingRequirements": "Coding is usually not required for a Test Lead, though understanding automation and being able to read test reports from CI is valuable. Spreadsheet and reporting skills are used heavily.",
+      "commonMistakes": [
+        "Writing a generic test plan copied from another project",
+        "Underestimating environment and test data lead times",
+        "Treating UAT as a second round of system testing",
+        "Creating traceability at the end instead of maintaining it"
+      ],
+      "readinessCriteria": [
+        "Has written a phase test plan with entry and exit criteria",
+        "Can build and use a traceability matrix to find coverage gaps",
+        "Has coordinated or supported a UAT cycle",
+        "Can produce a test completion report with a recommendation"
+      ],
+      "nextRoles": ["test-manager", "test-strategy-consultant"]
+    },
+    {
+      "slug": "test-manager",
+      "title": "Test Manager",
+      "category": "leadership",
+      "overview": "A Test Manager is accountable for testing across multiple projects or a test function, including the people, process and budget involved. They set test strategy within their scope, staff and develop the test team, manage test vendors and environments, and represent testing at programme and management level.",
+      "responsibilities": [
+        "Define and maintain test strategy and policy for the projects or function they own",
+        "Hire, line-manage and develop testers and test leads",
+        "Plan testing budgets, resourcing and tool investments",
+        "Manage relationships with test vendors and outsourced teams",
+        "Oversee test planning, progress and reporting across projects",
+        "Manage test risks and escalate them at programme level",
+        "Drive test process improvement using measured outcomes"
+      ],
+      "skills": {
+        "essential": [
+          "Test strategy and test management practices",
+          "People management: hiring, performance and development",
+          "Budgeting and resource planning",
+          "Stakeholder management at management level"
+        ],
+        "roleSpecific": [
+          "Vendor and contract management for testing services",
+          "Test process assessment and improvement",
+          "Programme-level risk management"
+        ],
+        "optional": [
+          "ISTQB Advanced Test Manager or similar",
+          "Project management qualifications",
+          "Regulatory or audit experience"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a test lead or QA lead",
+        "Experience reporting to senior stakeholders"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "From lead to manager",
+          "goals": [
+            "Write a test strategy covering several projects with shared standards",
+            "Run regular one-to-ones and set development goals with team members",
+            "Build a resource plan for the next quarter across projects",
+            "Report testing status across projects in one consistent format"
+          ],
+          "topics": ["test-strategy-vs-test-plan", "test-management-and-leadership", "test-estimation", "qa-metrics-and-reporting"]
+        },
+        "intermediate": {
+          "title": "Managing the test function",
+          "goals": [
+            "Build a business case for a test tool or automation investment with honest costs and benefits",
+            "Hire for a role using a structured interview process",
+            "Set up a vendor engagement with clear deliverables and quality measures",
+            "Run a process improvement with before-and-after measurements"
+          ],
+          "topics": ["defect-metrics", "risk-based-testing", "jira-workflows-and-test-management-tools", "root-cause-analysis"]
+        },
+        "advanced": {
+          "title": "Strategic test management",
+          "goals": [
+            "Align test strategy with organisational delivery and risk priorities",
+            "Plan capability development such as automation or performance skills across the team",
+            "Handle underperformance fairly and constructively",
+            "Represent testing in governance and release boards"
+          ],
+          "topics": ["test-pyramid-and-strategy", "release-sign-off", "shift-left-and-continuous-testing", "release-readiness"]
+        }
+      },
+      "tools": ["Test management tools", "Jira or another tracker", "Spreadsheets for budgets and resourcing", "Reporting dashboards", "HR and performance systems"],
+      "exercises": [
+        "Write a test strategy for an organisation running three projects of different risk levels",
+        "Draft a business case for an automation investment, listing costs, assumptions and how benefits will be measured",
+        "Design a structured interview plan for a mid-level tester",
+        "Prepare a one-to-one plan for a tester who wants to move into automation"
+      ],
+      "sampleProject": {
+        "title": "Test function plan",
+        "description": "For a fictional organisation with clearly invented details, produce a test strategy, a team structure and hiring plan, a quarterly resource and budget plan with stated assumptions, a vendor engagement outline and a set of quality metrics with the decisions each metric supports."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you build the business case for test automation?",
+          "a": "Start with the problem, such as long regression cycles delaying releases. Estimate costs honestly: tools, framework build, maintenance, training and the time before benefits appear. Estimate benefits as measurable changes, such as regression time, release frequency or escaped defects, with assumptions stated. Propose a pilot with success criteria rather than a large up-front commitment."
+        },
+        {
+          "q": "How do you handle a tester who is consistently underperforming?",
+          "a": "First understand the cause through a private conversation: unclear expectations, skills gaps, workload or personal issues. Set clear, specific expectations, provide support such as training or pairing, agree a timeline and check in regularly with documented feedback. If there is no improvement despite support, follow the organisation's formal process fairly."
+        },
+        {
+          "q": "How do you decide between in-house testers and a testing vendor?",
+          "a": "Consider the work's nature: long-term product knowledge and fast feedback favour in-house; peak capacity, specialist skills or well-defined repeatable work can suit a vendor. I weigh communication overhead, knowledge retention, contract flexibility and quality control, and define measurable deliverables in any vendor engagement."
+        },
+        {
+          "q": "What metrics would you report to senior management about testing?",
+          "a": "Metrics tied to outcomes and decisions: escaped defects by severity, release readiness against criteria, test cycle time, automation stability and coverage of high-risk areas. I avoid vanity metrics like raw test case counts, and always provide context and trends rather than isolated numbers."
+        },
+        {
+          "q": "Tell me about a time you had to push back on a release decision.",
+          "a": "A strong answer explains the risk evidence presented, the stakeholders involved, the options offered, the decision taken (which may have been to release with mitigations) and the outcome, showing that the manager informs decisions with data rather than acting as a gatekeeper."
+        }
+      ],
+      "codingRequirements": "Coding is not usually required. Understanding automation, CI and technical risks well enough to make sound investment and staffing decisions is expected.",
+      "commonMistakes": [
+        "Measuring testers by test case or defect counts, which encourages the wrong behaviour",
+        "Promising automation savings without accounting for maintenance",
+        "Acting as the sole release gatekeeper instead of informing business decisions",
+        "Neglecting people development under delivery pressure"
+      ],
+      "readinessCriteria": [
+        "Has written a multi-project test strategy",
+        "Has line-managed or formally mentored testers with documented development goals",
+        "Can build a resource and budget plan with stated assumptions",
+        "Can explain how they would handle underperformance and vendor management"
+      ],
+      "nextRoles": ["qa-manager", "quality-engineering-manager", "test-strategy-consultant"]
+    },
+    {
+      "slug": "qa-manager",
+      "title": "QA Manager",
+      "category": "leadership",
+      "overview": "A QA Manager leads a quality assurance team and owns quality processes for a product or department, covering people, process and budget. Compared with a Test Manager, the role usually places more weight on preventive quality practices, process standards and continuous delivery, rather than only managing test execution.",
+      "responsibilities": [
+        "Hire, line-manage and develop QA engineers and leads",
+        "Define quality processes and standards such as definition of done, review practices and release criteria",
+        "Own the QA budget, tooling and headcount planning",
+        "Align QA priorities with product and engineering leadership",
+        "Embed QA engineers effectively in cross-functional teams",
+        "Track quality outcomes and lead improvement initiatives",
+        "Handle escalations about quality issues and customer-impacting defects"
+      ],
+      "skills": {
+        "essential": [
+          "People leadership and coaching",
+          "Quality process design for agile delivery",
+          "Budget and headcount planning",
+          "Cross-functional stakeholder management"
+        ],
+        "roleSpecific": [
+          "Designing team structures for embedded QA",
+          "Quality metrics and continuous improvement",
+          "Incident and escaped-defect review processes"
+        ],
+        "optional": [
+          "Compliance or audit experience",
+          "Automation and CI/CD strategy knowledge",
+          "Customer support and operations collaboration"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a QA lead or test manager",
+        "Experience in agile teams"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Leading a QA team",
+          "goals": [
+            "Set clear role expectations and career levels for QA engineers",
+            "Run one-to-ones and give regular feedback",
+            "Agree a definition of done that includes quality activities with engineering leads",
+            "Report quality outcomes monthly to product and engineering leadership"
+          ],
+          "topics": ["test-management-and-leadership", "acceptance-criteria-dor-dod", "agile-principles-for-testers", "qa-metrics-and-reporting"]
+        },
+        "intermediate": {
+          "title": "Quality processes",
+          "goals": [
+            "Introduce an escaped-defect review with action tracking",
+            "Plan headcount and tooling budget for the next year with assumptions",
+            "Balance embedded QA engineers with shared quality practices",
+            "Improve release readiness criteria with measurable gates"
+          ],
+          "topics": ["defect-metrics", "root-cause-analysis", "release-readiness", "shift-left-and-continuous-testing"]
+        },
+        "advanced": {
+          "title": "Department-level quality",
+          "goals": [
+            "Define a quality roadmap aligned with product goals",
+            "Develop QA leads as future managers",
+            "Lead quality through organisational change such as a move to continuous delivery",
+            "Represent quality in executive discussions using outcome metrics"
+          ],
+          "topics": ["test-pyramid-and-strategy", "test-strategy-vs-test-plan", "ci-cd-for-test-engineers", "risk-based-testing"]
+        }
+      },
+      "tools": ["Jira or another tracker", "Test management tools", "Quality dashboards", "CI reports", "Budget spreadsheets", "HR and performance systems"],
+      "exercises": [
+        "Write a career framework for QA engineers at three levels with observable behaviours",
+        "Design an escaped-defect review process with roles, cadence and outputs",
+        "Plan a year's QA budget with headcount, tools and training, listing assumptions",
+        "Prepare a monthly quality report for leadership using three outcome metrics"
+      ],
+      "sampleProject": {
+        "title": "QA operating model",
+        "description": "For a fictional product organisation with clearly invented details, document a QA operating model: team structure and embedding approach, career levels, quality processes (definition of done, release criteria, escaped-defect reviews), a metrics set with the decision each metric informs, and a 12-month improvement roadmap."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you structure QA in an organisation with eight product teams?",
+          "a": "Usually by embedding QA engineers in teams so quality work happens alongside development, with a QA chapter or practice that shares standards, tools and learning. The ratio depends on risk, automation maturity and how much testing developers own. I would revisit the structure as teams mature rather than fixing a ratio permanently."
+        },
+        {
+          "q": "Customers report a severe bug that QA missed. What do you do?",
+          "a": "First support the fix and customer communication. Then run a blameless review: how the defect was introduced, why reviews and tests did not catch it, and which change would prevent similar escapes, such as a missing test type, unclear requirement or environment gap. Actions get owners and dates. The aim is system improvement, not finding someone to blame."
+        },
+        {
+          "q": "How do you justify QA headcount to leadership?",
+          "a": "By linking it to outcomes and risks they care about: release frequency, escaped defects, customer-impacting incidents and engineering time spent on rework, with honest assumptions. I also show the alternatives, such as investing in automation or shifting testing work into development teams, and their trade-offs."
+        },
+        {
+          "q": "How do you develop a QA engineer who wants to become a lead?",
+          "a": "Agree the skills involved, then give progressively bigger opportunities: running triage, planning a release, mentoring a new hire. I give regular feedback and visibility with stakeholders, and make sure they also have the support to succeed rather than just extra work."
+        },
+        {
+          "q": "What is the difference between quality assurance and testing in your view?",
+          "a": "Testing evaluates the product to find defects and provide information. Quality assurance is broader: the processes that prevent defects and give confidence that quality requirements will be met, such as requirement reviews, coding standards, definition of done and improvement loops. A QA manager owns both but should push effort toward prevention."
+        }
+      ],
+      "codingRequirements": "Coding is not normally required. Enough technical understanding to evaluate automation strategy, CI pipelines and engineering trade-offs is expected.",
+      "commonMistakes": [
+        "Positioning QA as the only team responsible for quality",
+        "Using metrics such as defect counts per tester to compare individuals",
+        "Hiring before clarifying what the team needs QA engineers to do",
+        "Treating every escaped defect as an individual's failure"
+      ],
+      "readinessCriteria": [
+        "Has led a team with responsibility for hiring or development decisions",
+        "Can design quality processes for agile teams with measurable outcomes",
+        "Has planned a budget or headcount request with assumptions",
+        "Can describe running a blameless escaped-defect review"
+      ],
+      "nextRoles": ["quality-engineering-manager", "test-strategy-consultant"]
+    },
+    {
+      "slug": "quality-engineering-manager",
+      "title": "Quality Engineering Manager",
+      "category": "leadership",
+      "overview": "A Quality Engineering Manager owns quality strategy across engineering, treating quality as an engineering discipline rather than a separate testing phase. They lead quality engineers and SDETs, invest in test infrastructure and developer-owned testing, and use delivery and reliability data to decide where quality effort will have the most impact.",
+      "responsibilities": [
+        "Define the engineering-wide quality strategy, including test layering, ownership and tooling",
+        "Lead and grow quality engineers, SDETs and test infrastructure engineers",
+        "Invest in shared test platforms, environments and CI capabilities",
+        "Enable developers to own testing through frameworks, guidance and coaching",
+        "Partner with engineering and SRE leadership on reliability, incidents and release practices",
+        "Use delivery metrics and escaped-defect data to target improvements",
+        "Make build-versus-buy decisions for quality tooling"
+      ],
+      "skills": {
+        "essential": [
+          "Test architecture and strategy across services and platforms",
+          "Engineering management: hiring, coaching and performance",
+          "CI/CD and delivery practices",
+          "Data-driven prioritisation"
+        ],
+        "roleSpecific": [
+          "Developer enablement and influencing engineering culture",
+          "Test platform and infrastructure investment decisions",
+          "Reliability practices such as service level objectives and incident reviews"
+        ],
+        "optional": [
+          "Performance, security or chaos engineering background",
+          "AI system evaluation knowledge",
+          "Budget ownership for tooling and cloud costs"
+        ]
+      },
+      "prerequisites": [
+        "Strong technical background in automation or software engineering",
+        "Experience leading engineers"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Quality engineering foundations",
+          "goals": [
+            "Assess current test layering and identify the biggest feedback-time or reliability gap",
+            "Agree testing ownership between developers and quality engineers",
+            "Establish a flaky-test and pipeline-health process",
+            "Set up regular one-to-ones and growth plans for the team"
+          ],
+          "topics": ["test-pyramid-and-strategy", "ci-cd-for-test-engineers", "flaky-test-reduction", "test-management-and-leadership"]
+        },
+        "intermediate": {
+          "title": "Platforms and enablement",
+          "goals": [
+            "Deliver a shared test framework or environment capability with adoption measured",
+            "Introduce contract testing or other techniques that reduce reliance on end-to-end tests",
+            "Partner with SRE on incident reviews and resulting test improvements",
+            "Make a documented build-versus-buy decision for a quality tool"
+          ],
+          "topics": ["test-architecture-and-system-design", "contract-testing", "microservices-testing", "docker-for-testers"]
+        },
+        "advanced": {
+          "title": "Engineering-wide quality strategy",
+          "goals": [
+            "Publish a quality strategy with measurable goals aligned to business priorities",
+            "Integrate non-functional quality (performance, security, resilience) into delivery",
+            "Report quality outcomes to engineering leadership with clear trade-offs",
+            "Grow quality engineering leaders"
+          ],
+          "topics": ["shift-left-and-continuous-testing", "chaos-engineering-basics", "risk-based-testing", "qa-metrics-and-reporting"]
+        }
+      },
+      "tools": ["CI/CD platforms", "Test frameworks across the stack", "Observability tools", "Contract testing tools such as Pact", "Containers and orchestration", "Engineering metrics dashboards"],
+      "exercises": [
+        "Assess a described system and propose a test layering strategy with ownership per layer",
+        "Write a build-versus-buy analysis for a visual regression tool",
+        "Design a quarterly plan to cut pipeline feedback time with measurable milestones",
+        "Map three recent incidents to test or process changes that would have prevented or detected them"
+      ],
+      "sampleProject": {
+        "title": "Quality engineering strategy document",
+        "description": "For a fictional microservice-based product with clearly invented details, write a quality engineering strategy: current-state assessment, target test layering and ownership, platform investments, non-functional quality integration, metrics with targets and decision rules, team structure and a phased roadmap with trade-offs stated."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you move an organisation from a separate QA phase to developer-owned quality?",
+          "a": "Make it easier to do the right thing: provide frameworks, fast reliable pipelines and examples, pair quality engineers with developers, include testing in the definition of done and code review, and measure outcomes such as escaped defects and lead time. Quality engineers shift from executing tests to enabling, coaching and building infrastructure. It is a gradual change, started with willing teams."
+        },
+        {
+          "q": "How do you decide where to invest quality engineering effort?",
+          "a": "Use data: escaped defects and incidents by area, pipeline duration and flakiness, change frequency and business criticality. I prioritise investments that reduce the largest risks or delays, estimate effort and expected impact, and review the outcomes after delivery."
+        },
+        {
+          "q": "When would you build an internal test tool rather than buy one?",
+          "a": "Build when needs are specific to the organisation, no product fits, and the team can afford to maintain it long term. Buy or adopt open source when a mature tool meets most needs, since maintenance cost is often underestimated. I write down the total cost, the lock-in and exit options, and who will own it."
+        },
+        {
+          "q": "How do you work with SRE or operations teams on quality?",
+          "a": "Share data from incidents and testing, join incident reviews to identify test gaps, align on reliability goals such as service level objectives, and collaborate on practices like canary releases, game days and production monitoring that complement pre-release testing."
+        },
+        {
+          "q": "Tell me about a strategy you introduced that did not work as planned.",
+          "a": "A strong answer describes the decision and the assumptions behind it, what signals showed it was not working, how they adjusted or reversed it, and what they learned, showing comfort with evidence-based course correction rather than defending a plan."
+        }
+      ],
+      "codingRequirements": "A strong technical background is expected: able to review test architecture and framework code, understand CI/CD and system design, and make credible technical decisions. Day-to-day coding varies by organisation size.",
+      "commonMistakes": [
+        "Building a large central automation suite that developers do not own or trust",
+        "Measuring success by number of automated tests instead of outcomes",
+        "Building internal tools without planning for long-term maintenance",
+        "Ignoring non-functional quality until late in delivery"
+      ],
+      "readinessCriteria": [
+        "Has led a technical quality initiative across multiple teams with measured results",
+        "Can design a test layering strategy for a distributed system with ownership",
+        "Has managed or mentored engineers",
+        "Can make and document a build-versus-buy decision"
+      ],
+      "nextRoles": ["test-strategy-consultant", "test-architect"]
+    },
+    {
+      "slug": "test-strategy-consultant",
+      "title": "Test Strategy Consultant",
+      "category": "leadership",
+      "overview": "A Test Strategy Consultant advises organisations on how to test and assure quality, usually as an external or internal advisor rather than a delivery manager. They assess current practices, identify risks and gaps, recommend a target strategy and roadmap, and help teams adopt it, with success depending on credibility, evidence and communication.",
+      "responsibilities": [
+        "Run test process and maturity assessments through interviews, artefact reviews and observation",
+        "Identify gaps and risks in current testing practices with supporting evidence",
+        "Recommend test strategies, operating models and tooling suited to the client's context",
+        "Build phased improvement roadmaps with priorities and measurable outcomes",
+        "Present findings and recommendations to technical and executive audiences",
+        "Coach teams and leaders during adoption",
+        "Define the scope of engagements and manage expectations"
+      ],
+      "skills": {
+        "essential": [
+          "Broad testing knowledge across levels, types and techniques",
+          "Assessment and interviewing techniques",
+          "Structured written recommendations",
+          "Executive communication and facilitation"
+        ],
+        "roleSpecific": [
+          "Test process improvement and maturity models",
+          "Adapting strategy to different delivery models and regulatory contexts",
+          "Change management and stakeholder influence"
+        ],
+        "optional": [
+          "ISTQB Advanced or Expert level certifications",
+          "Domain expertise in a regulated industry",
+          "Specialist depth in automation, performance or security"
+        ]
+      },
+      "prerequisites": [
+        "Substantial experience leading testing or quality engineering",
+        "Exposure to several organisations, teams or delivery models"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Assessment skills",
+          "goals": [
+            "Prepare an assessment plan with interview questions and artefacts to review",
+            "Map a team's current test process and identify bottlenecks",
+            "Write findings backed by evidence rather than opinion",
+            "Distinguish symptoms from root causes in quality problems"
+          ],
+          "topics": ["test-strategy-vs-test-plan", "test-pyramid-and-strategy", "root-cause-analysis", "requirements-analysis-for-testers"]
+        },
+        "intermediate": {
+          "title": "Recommendations and roadmaps",
+          "goals": [
+            "Write a target test strategy tailored to context, including what not to change",
+            "Prioritise recommendations by impact, effort and dependency",
+            "Define measurable outcomes for each roadmap phase",
+            "Present findings to senior stakeholders and handle challenge"
+          ],
+          "topics": ["risk-based-testing", "qa-metrics-and-reporting", "shift-left-and-continuous-testing", "test-architecture-and-system-design"]
+        },
+        "advanced": {
+          "title": "Advisory leadership",
+          "goals": [
+            "Lead a multi-team assessment and roadmap engagement",
+            "Coach client leaders through adoption and adjust based on results",
+            "Advise on strategy for specialist areas such as AI systems, data or regulated releases",
+            "Define engagement scope, deliverables and success measures with clients"
+          ],
+          "topics": ["test-management-and-leadership", "testing-ai-applications", "release-sign-off", "test-estimation"]
+        }
+      },
+      "tools": ["Document and presentation tools", "Survey and interview templates", "Process mapping and diagramming tools", "Test management and tracker tools for review", "Spreadsheets for analysis"],
+      "exercises": [
+        "Write an interview guide for assessing a team's test practice covering planning, design, automation, environments and reporting",
+        "Given a described organisation, write five findings with evidence, impact and recommendation",
+        "Build a phased 6-month improvement roadmap with outcomes and dependencies",
+        "Prepare a 10-minute executive summary presentation of an assessment"
+      ],
+      "sampleProject": {
+        "title": "Test practice assessment report",
+        "description": "For a fictional organisation with clearly invented details, produce a complete assessment: scope and method, current-state summary, evidence-backed findings, risks, a tailored target test strategy, a prioritised roadmap with measurable outcomes and an executive summary. State assumptions and limits of the assessment."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you run a test process assessment?",
+          "a": "Agree scope and goals with the sponsor, then gather evidence from several sources: interviews across roles, reviews of plans, test cases, defect data and pipelines, and observation of real ceremonies. I compare against the organisation's goals rather than a one-size-fits-all ideal, validate findings with the people involved, and present evidence-backed findings with prioritised recommendations."
+        },
+        {
+          "q": "How do you avoid giving generic recommendations?",
+          "a": "By tying every recommendation to a specific finding, its evidence and the client's goals and constraints, such as regulation, team skills and release model. I also say what should stay the same and why, and size recommendations to what the organisation can absorb."
+        },
+        {
+          "q": "A senior stakeholder strongly disagrees with your findings. What do you do?",
+          "a": "Listen to understand their perspective and any evidence I might have missed, walk through the evidence behind the finding, and separate facts from interpretation. If they bring new information I update the finding; if not, I keep it, possibly reframed, and record the disagreement. Credibility depends on being evidence-led, not on agreement."
+        },
+        {
+          "q": "What would you recommend to a team that wants to 'automate everything'?",
+          "a": "I would ask what problem they are trying to solve, such as slow regression or escaped defects, then recommend automation where it gives fast, reliable, valuable feedback, mostly at unit, API and contract levels, with a small set of end-to-end tests, while keeping exploratory testing for discovery. I would also plan for maintenance and skills."
+        },
+        {
+          "q": "How do you measure whether your recommendations worked?",
+          "a": "Agree outcome measures and baselines at the start, such as release cycle time, escaped defects by severity or pipeline duration, then review them after each roadmap phase. I also gather qualitative feedback from teams, because adoption problems often show there first."
+        }
+      ],
+      "codingRequirements": "Coding is not required day to day, but enough technical depth to evaluate automation, CI/CD and architecture credibly is expected. Many consultants have a hands-on engineering or automation background.",
+      "commonMistakes": [
+        "Applying a favourite framework or maturity model without adapting it to context",
+        "Making findings without evidence, which undermines credibility",
+        "Delivering a report and leaving without supporting adoption",
+        "Recommending too many changes at once"
+      ],
+      "readinessCriteria": [
+        "Has conducted or co-led a test practice assessment with written findings",
+        "Can produce a context-specific test strategy and phased roadmap",
+        "Has presented recommendations to senior stakeholders and handled challenge",
+        "Can explain how recommendation outcomes will be measured"
+      ],
+      "nextRoles": ["quality-engineering-manager", "test-architect"]
+    }
+  ]
+}

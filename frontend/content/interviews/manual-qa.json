@@ -1,0 +1,362 @@
+{
+  "track": "manual-qa",
+  "title": "Manual QA",
+  "description": "Mock interview questions for manual and functional testing roles: test design techniques, defect management, exploratory testing, test planning and the judgement calls interviewers probe in scenario rounds.",
+  "roles": [
+    "manual-qa-engineer",
+    "software-test-engineer",
+    "qa-analyst",
+    "quality-assurance-engineer",
+    "functional-tester",
+    "regression-test-engineer",
+    "exploratory-tester",
+    "uat-tester",
+    "system-tester",
+    "integration-tester",
+    "test-analyst",
+    "agile-qa-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-mq-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is the difference between verification and validation? Give me an example of each from a project you know.",
+      "followUps": [
+        "Which activities in your current process are verification and which are validation?",
+        "Can a product pass verification and still fail validation?"
+      ],
+      "modelAnswer": "Verification asks 'are we building the product right?': it checks work products against their specification, usually without running the software, through reviews, walkthroughs and static analysis. Validation asks 'are we building the right product?': it checks that the software meets the user's actual needs, typically by executing it, for example in system testing or UAT. On a login feature, reviewing the requirements and test cases against the acceptance criteria is verification. Having real users try the login flow on their own devices and confirm it fits how they work is validation. A product can absolutely pass verification and fail validation if the specification itself was wrong, which is why I like to involve users or product owners early rather than only at the end.",
+      "keyPoints": [
+        "Verification: conformance to specification, often static (reviews, inspections)",
+        "Validation: fitness for the user's real need, usually dynamic (execution, UAT)",
+        "Gives a concrete example of each",
+        "Notes that a correct build of a wrong spec passes verification but fails validation"
+      ],
+      "redFlags": [
+        "Swaps the two definitions",
+        "Says they are the same thing"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-mq-02",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain the difference between severity and priority, and give an example of a defect that is high severity but low priority.",
+      "followUps": [
+        "Who usually sets severity, and who sets priority?",
+        "Give me the opposite case: low severity, high priority."
+      ],
+      "modelAnswer": "Severity describes the technical impact of a defect on the system, for example a crash or data loss is high severity. Priority describes how urgently the business wants it fixed, which depends on release plans, customer exposure and risk. Testers usually propose severity because they observed the impact, while priority is typically decided by the product owner or triage group. A high-severity, low-priority example is a crash in a rarely used admin export that only occurs on a legacy browser the company is about to drop: it is serious when it happens but almost nobody will hit it. The opposite case is a misspelled company name on the home page: functionally trivial, but very visible, so it gets fixed immediately.",
+      "keyPoints": [
+        "Severity = impact on the system; priority = urgency of the fix",
+        "Testers typically set severity; product/triage sets priority",
+        "Valid high-severity/low-priority example with reasoning",
+        "Valid low-severity/high-priority example"
+      ],
+      "redFlags": [
+        "Treats severity and priority as always equal",
+        "Cannot give an example with reasoning"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-mq-03",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "A field accepts an integer age between 18 and 65 inclusive. Walk me through how you would apply equivalence partitioning and boundary value analysis to it.",
+      "followUps": [
+        "What about non-numeric input, decimals or leading zeros?",
+        "When would you use three-value boundary analysis instead of two-value?"
+      ],
+      "modelAnswer": "With equivalence partitioning I split the input into classes that the system should treat the same way: below 18 is invalid, 18 to 65 is valid and above 65 is invalid. I would also add invalid classes for non-integer input such as letters, decimals, empty and whitespace. For boundary value analysis using the two-value approach, I test each boundary and its nearest neighbour outside the partition: 17 and 18 on the lower edge, 65 and 66 on the upper edge. Three-value BVA adds the value just inside as well, so 19 and 64, which is useful when I suspect off-by-one errors in comparisons like using greater-than instead of greater-than-or-equal. I would pick one representative from the middle of the valid partition, such as 40, rather than testing many values that add no new information. Finally I check how the field handles format edge cases such as '018', '18.0' and very large numbers, because those often reveal parsing bugs rather than range bugs.",
+      "keyPoints": [
+        "Identifies valid and invalid partitions, including non-numeric input",
+        "Lists boundary values 17, 18, 65, 66",
+        "Explains two-value vs three-value BVA",
+        "Uses one representative per partition rather than exhaustive values",
+        "Mentions parsing/format edge cases"
+      ],
+      "redFlags": [
+        "Only tests valid values",
+        "Misses one side of a boundary",
+        "Proposes testing every value from 1 to 100"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mq-04",
+      "kind": "scenario",
+      "difficulty": "beginner",
+      "question": "How would you test a login page? Assume there is a username, a password, a 'remember me' checkbox and a 'forgot password' link.",
+      "followUps": [
+        "What security checks would you include without specialised tools?",
+        "How would you prioritise if you only had 30 minutes?"
+      ],
+      "modelAnswer": "I would start by clarifying requirements: lockout rules, password policy, session length and what 'remember me' actually persists. Functionally I would cover valid login, invalid username, invalid password, empty fields, case sensitivity and leading or trailing spaces. For security I would check that the error message does not reveal whether the username exists, that the password field is masked, that repeated failures trigger lockout or throttling, that the page is served over HTTPS, and that the session cookie is set with Secure and HttpOnly flags. For 'remember me' I would close and reopen the browser, check expiry and confirm logging out clears it. The forgot-password flow needs its own checks: the reset link expires, works only once and does not confirm whether an account exists. I would also cover usability and accessibility basics, such as keyboard navigation, labels for screen readers and the Enter key submitting the form. With only 30 minutes I would focus on valid login, invalid credentials, lockout and logout, because those carry the highest risk.",
+      "keyPoints": [
+        "Clarifies requirements before testing",
+        "Positive and negative functional cases",
+        "Security basics: generic errors, lockout, HTTPS, cookie flags",
+        "Covers remember-me and forgot-password flows",
+        "Accessibility/usability and risk-based prioritisation"
+      ],
+      "redFlags": [
+        "Only tests the happy path",
+        "No mention of security or session behaviour"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mq-05",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What should a good defect report contain? Tell me how you write one so a developer can act on it immediately.",
+      "followUps": [
+        "What do you do when a developer marks your bug as 'cannot reproduce'?",
+        "How do you handle intermittent defects?"
+      ],
+      "modelAnswer": "A good defect report has a short, specific title that says what is wrong and where, for example 'Checkout total ignores discount code when cart has more than 10 items'. It contains the environment and build, precise steps to reproduce starting from a known state, the expected result with a reference to the requirement, and the actual result. I attach evidence such as screenshots, a screen recording, console errors, network request details or log extracts. I include severity, any workaround, and how often it reproduces. I keep it to one defect per report and remove personal opinion from the description. Before filing I try to narrow the conditions, for example whether it happens with nine items or only with eleven, because a minimal reproduction saves the developer the most time.",
+      "keyPoints": [
+        "Clear, specific title",
+        "Environment/build and reproducible steps from a known state",
+        "Expected vs actual with requirement reference",
+        "Evidence: screenshots, logs, network details",
+        "One defect per report, narrowed to minimal reproduction"
+      ],
+      "redFlags": [
+        "Vague titles like 'checkout broken'",
+        "No expected result or steps"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-mq-06",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "A developer marks your defect 'cannot reproduce' and closes it, but you can still reproduce it on the test environment. What do you do?",
+      "followUps": [
+        "What if it only reproduces on your machine?",
+        "When would you escalate, and to whom?"
+      ],
+      "modelAnswer": "First I re-check my own report: I reproduce it again from a clean state, confirm the build number and environment, and add anything I left out, such as test data, browser version or a particular user role. I then reopen it with the new evidence, ideally a short screen recording and the relevant network request or log entry with a timestamp. If it is still disputed, I offer to reproduce it together with the developer, because a five-minute pairing session usually reveals the difference, for example cached data, a feature flag or a configuration difference between their local setup and the shared environment. If it only reproduces on my machine, that is itself useful information and I would compare browser extensions, locale, time zone and stored data. I would only escalate to the lead if the defect is high impact and we cannot agree, and I would present it as a shared problem rather than a complaint about the developer.",
+      "keyPoints": [
+        "Re-verifies and enriches the report before reopening",
+        "Provides objective evidence (recording, logs, timestamps)",
+        "Offers to pair with the developer",
+        "Investigates environment differences",
+        "Escalates only when needed, collaboratively"
+      ],
+      "redFlags": [
+        "Reopens without adding information",
+        "Escalates immediately or makes it personal"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-07",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is exploratory testing, and how do you make it structured and accountable rather than just clicking around?",
+      "followUps": [
+        "What goes into a charter?",
+        "How do you report coverage from exploratory sessions?"
+      ],
+      "modelAnswer": "Exploratory testing is simultaneous learning, test design and test execution: I use what I learn from each action to decide the next test, instead of following a pre-written script. To keep it structured I use session-based test management. Each session has a charter that states the area, the resources and the information I am looking for, for example 'Explore the refund flow with partially shipped orders to discover how totals are recalculated'. Sessions are time-boxed, typically 60 to 90 minutes, and I take notes as I go: what I covered, the questions raised, bugs found and any setup problems. Afterwards a short debrief with the lead reviews what was covered and what still needs a session. I also use heuristics and tours, such as boundaries, interruptions, data lifecycle (create, read, update, delete) and different user roles, to generate ideas. This produces evidence of coverage while keeping the adaptability that makes exploratory testing good at finding unexpected defects.",
+      "keyPoints": [
+        "Defines exploratory testing as simultaneous learning, design and execution",
+        "Charters with a clear mission",
+        "Time-boxed sessions with notes",
+        "Debriefs to report coverage",
+        "Uses heuristics or tours to generate ideas"
+      ],
+      "redFlags": [
+        "Describes it as random or ad hoc testing without structure",
+        "Says it replaces all scripted testing"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-08",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you decide what goes into a regression suite, and how do you stop it from growing forever?",
+      "followUps": [
+        "How do you choose a subset when a hotfix needs to go out in two hours?",
+        "Which regression tests would you hand over to automation first?"
+      ],
+      "modelAnswer": "I build the regression suite around risk: core business flows such as sign-up, search, checkout and payments; areas with a history of defects; integration points; and functionality that changes often or sits next to recent changes. Each test should earn its place, so I review the suite regularly and remove or merge tests that duplicate coverage, cover retired features or have never found a defect in a low-risk area. I tag tests by feature and priority so I can run a smoke set, a targeted set based on the change, or the full suite. For a two-hour hotfix I would run the smoke set plus tests around the changed component and its direct dependents, using the change description and the developer's input to pick them. For automation I start with stable, high-value, frequently executed checks with deterministic data, because those give the best return, and I leave volatile UI areas and judgement-heavy checks for manual or exploratory testing.",
+      "keyPoints": [
+        "Risk-based selection: critical flows, defect history, change areas",
+        "Regular pruning of duplicate or obsolete tests",
+        "Tagging for smoke, targeted and full runs",
+        "Change-based selection under time pressure",
+        "Sensible automation candidates (stable, repetitive, high value)"
+      ],
+      "redFlags": [
+        "Adds every test ever written to regression",
+        "Proposes running the full suite regardless of time"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-09",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "You join a team where there are no written requirements, only a few user stories with one-line descriptions. How do you test?",
+      "followUps": [
+        "What test oracles can you use when there is no spec?",
+        "How do you document what you tested?"
+      ],
+      "modelAnswer": "I would treat clarifying the requirements as part of testing. I would talk to the product owner and developers to turn the one-liners into acceptance criteria, using examples: 'what should happen if the user enters a past date?'. Where there is no answer I would use other test oracles: the behaviour of the previous version, comparable products, platform conventions, regulations, consistency within the product itself and common user expectations, which are the ideas behind the HICCUPPS heuristic. I would run exploratory sessions with charters to learn the product and raise questions, and record those questions as well as bugs, because ambiguity is a risk worth surfacing. I would write lightweight test notes or a mind map so coverage is visible, and propose that new stories carry acceptance criteria going forward, ideally agreed in a three-amigos conversation before development starts.",
+      "keyPoints": [
+        "Collaborates to derive acceptance criteria with examples",
+        "Uses alternative test oracles (previous version, comparable products, consistency)",
+        "Exploratory sessions to learn and surface questions",
+        "Makes coverage visible with lightweight documentation",
+        "Suggests a process improvement such as three amigos"
+      ],
+      "redFlags": [
+        "Refuses to test until full specs exist",
+        "Tests only what is obvious without raising ambiguities"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-10",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What are smoke testing and sanity testing, and when do you use each?",
+      "followUps": [
+        "Who decides whether a build passes smoke?",
+        "Can smoke tests be automated in CI?"
+      ],
+      "modelAnswer": "A smoke test is a broad, shallow check that a new build is stable enough to test further: the application deploys, starts, users can log in and the main flows open without crashing. If smoke fails, the build is rejected and deeper testing would waste time. A sanity test is a narrow, focused check after a specific change or fix, confirming that the changed area works and the fix is reasonable before investing in fuller regression. So smoke is wide and shallow on every new build, while sanity is narrow and targeted on a particular change. Terminology varies between organisations, so I usually confirm what the team means by each term. Smoke tests are excellent candidates for automation in the CI pipeline so every deployment is checked automatically.",
+      "keyPoints": [
+        "Smoke: broad, shallow build-stability check",
+        "Sanity: narrow check of a specific change or fix",
+        "Failed smoke means the build is rejected",
+        "Notes that terminology varies by organisation",
+        "Smoke is a good CI automation candidate"
+      ],
+      "redFlags": [
+        "Says smoke testing is the same as full regression"
+      ],
+      "minutes": 3
+    },
+    {
+      "id": "int-mq-11",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "When would you use a decision table, and how would you build one for a discount rule: members get 10% off, orders over 100 get free shipping, and members with orders over 100 also get a gift?",
+      "followUps": [
+        "How many rules does the full table have, and can you collapse any?",
+        "How does state transition testing differ from decision table testing?"
+      ],
+      "modelAnswer": "Decision tables are useful when the outcome depends on combinations of conditions, because they make every combination explicit and expose missing or contradictory rules. Here there are two conditions, 'is member' and 'order over 100', so the full table has 2 to the power of 2, which is four rules. Member and over 100: 10% discount, free shipping and a gift. Member and not over 100: 10% discount only. Non-member and over 100: free shipping only. Non-member and not over 100: no benefits. Each rule becomes at least one test case, and I would combine it with boundary values on 100, because 'over 100' needs clarifying: is exactly 100 included, and is it measured before or after the 10% discount? That second question often finds a real ambiguity. Rules can be collapsed when a condition does not affect the outcome, but here every condition matters. State transition testing is different: it models how behaviour changes with a sequence of events, such as an order moving from placed to shipped to refunded.",
+      "keyPoints": [
+        "Uses decision tables for combinations of conditions",
+        "Builds the four rules correctly",
+        "Combines with boundary analysis at 100",
+        "Raises the before/after discount ambiguity",
+        "Distinguishes decision tables from state transition testing"
+      ],
+      "redFlags": [
+        "Misses a combination",
+        "Does not question the boundary definition"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-mq-12",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "It is the day before release. You have found a medium-severity defect in the payment confirmation email, and there is no time to fix and retest everything. What do you do?",
+      "followUps": [
+        "Who makes the go/no-go decision?",
+        "What information do you give them?"
+      ],
+      "modelAnswer": "My job is to make the risk visible and clear, not to make the business decision alone. I would quickly characterise the defect: which users and payment types are affected, whether payments themselves are correct and only the email is wrong, whether there is a workaround such as the order page showing correct details, and whether there are any legal or compliance implications for receipts. I would report this immediately to the product owner and release manager with evidence and options: release with the known issue and a support note, release with the feature behind a flag, ship a targeted fix with focused retesting of the email and payment flow, or delay. I would estimate how long the targeted retest would take. The go/no-go decision belongs to the product owner or release authority, and I would make sure the decision and the known issue are recorded in the release notes. After release I would check the fix gets scheduled and add a regression test for it.",
+      "keyPoints": [
+        "Analyses impact, scope and workaround quickly",
+        "Communicates promptly with evidence",
+        "Presents options rather than a single demand",
+        "Recognises the business owns the go/no-go decision",
+        "Documents the known issue and follows up"
+      ],
+      "redFlags": [
+        "Hides or downplays the defect to avoid conflict",
+        "Insists on blocking the release without assessing impact"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-13",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What goes into a test plan, and how is it different from a test strategy?",
+      "followUps": [
+        "How do you define entry and exit criteria that are actually useful?",
+        "How detailed should a test plan be in an agile team?"
+      ],
+      "modelAnswer": "A test strategy is the higher-level approach, often organisation or product wide: test levels and types, risk approach, tools, environments and how quality is measured. A test plan applies that to a specific release or project. It covers scope and what is out of scope, the features and risks to test, the approach for each, resources and responsibilities, schedule, environments and test data, entry and exit criteria, deliverables, and risks to testing itself with mitigations. Useful exit criteria are measurable and tied to risk, for example 'all critical-path tests executed and passed, no open critical or high defects without an agreed waiver', rather than an arbitrary pass percentage. In an agile team I keep the plan lightweight, often a single page or a wiki section per release, and put story-level detail in acceptance criteria. The value of a plan is mostly in the thinking and agreement it forces, so it should be kept current rather than written once and forgotten.",
+      "keyPoints": [
+        "Strategy is the overall approach; plan applies it to a release or project",
+        "Lists core plan contents: scope, approach, resources, schedule, environments, criteria, risks",
+        "Measurable, risk-based entry and exit criteria",
+        "Lightweight living plan in agile"
+      ],
+      "redFlags": [
+        "Treats plan and strategy as identical",
+        "Exit criteria based only on an arbitrary percentage"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-mq-14",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Users report that the application is 'slow sometimes' and occasionally shows wrong totals, but nobody can reproduce it. How would you investigate as a tester?",
+      "followUps": [
+        "What would make you suspect a concurrency problem?",
+        "What information would you ask support to collect?"
+      ],
+      "modelAnswer": "I would start by gathering data rather than guessing: exact times, user accounts, browsers, regions and what the user was doing, plus any request ids that support can capture. With timestamps I can work with developers to look at server logs, error rates and monitoring dashboards for that window, and I would look for patterns such as peak hours, particular data, or users sharing an account. 'Sometimes slow' plus 'wrong totals' makes me suspect a race condition or stale cache, for example two tabs updating the same cart or a cached price not invalidated after a change. I would try to reproduce by deliberately varying timing: two browsers acting on the same record, slow network throttling in DevTools, double-clicking submit, and refreshing mid-request. I would also check rounding and currency conversion with unusual amounts. Once I find a reproduction, I write it up with the minimal steps and suggest a regression test, and if I cannot reproduce it I would recommend adding logging around the totals calculation so the next occurrence leaves evidence.",
+      "keyPoints": [
+        "Collects concrete data: timestamps, users, environment, request ids",
+        "Correlates with logs and monitoring together with developers",
+        "Forms hypotheses such as race conditions or stale cache",
+        "Varies timing and concurrency deliberately to reproduce",
+        "Recommends added observability if not reproducible"
+      ],
+      "redFlags": [
+        "Closes it as not reproducible without investigating",
+        "Only retries the same steps repeatedly"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-mq-15",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you use SQL as a manual tester? Show me a query you might write to verify data after a test.",
+      "followUps": [
+        "How would you find duplicate records?",
+        "Why should you be careful running SQL on shared environments?"
+      ],
+      "modelAnswer": "I use SQL to verify that what the UI shows matches what was persisted, to set up or find test data, and to check side effects the UI does not expose, such as audit rows or status changes. For example, after placing an order I might check the order and its items:\n\n```sql\nSELECT o.id, o.status, o.total, SUM(i.quantity * i.unit_price) AS item_total\nFROM orders o\nJOIN order_items i ON i.order_id = o.id\nWHERE o.customer_id = 42\nGROUP BY o.id, o.status, o.total;\n```\n\nIf total differs from item_total, that points to a calculation or persistence defect. To find duplicates I would group by the natural key and use HAVING COUNT(*) > 1. On shared environments I mostly run read-only queries, avoid unbounded updates or deletes, and use a read-only account where possible, because a careless statement can destroy other people's test data.",
+      "keyPoints": [
+        "Explains why testers use SQL: verification, test data, side effects",
+        "Writes a correct join with aggregation",
+        "Knows GROUP BY ... HAVING COUNT(*) > 1 for duplicates",
+        "Cautious about writes on shared environments"
+      ],
+      "redFlags": [
+        "Cannot write a basic join",
+        "Suggests running UPDATE or DELETE without a WHERE clause"
+      ],
+      "minutes": 5
+    }
+  ]
+}

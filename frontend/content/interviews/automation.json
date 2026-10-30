@@ -1,0 +1,367 @@
+{
+  "track": "automation",
+  "title": "Test Automation",
+  "description": "Mock interview questions for UI and web automation roles: Selenium 4, Playwright, TestNG, framework design, waits, locators, flaky tests, CI integration and practical coding tasks.",
+  "roles": [
+    "automation-test-engineer",
+    "selenium-automation-engineer",
+    "web-automation-engineer",
+    "test-automation-developer",
+    "qa-software-developer",
+    "sdet",
+    "test-framework-engineer",
+    "cross-browser-tester"
+  ],
+  "questions": [
+    {
+      "id": "int-au-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain implicit waits, explicit waits and fluent waits in Selenium. Which do you use and why?",
+      "followUps": [
+        "Why is mixing implicit and explicit waits a problem?",
+        "Why is Thread.sleep a bad idea?"
+      ],
+      "modelAnswer": "An implicit wait is a global setting on the driver that makes every findElement poll for up to the given time before throwing NoSuchElementException. An explicit wait, WebDriverWait with ExpectedConditions, waits for a specific condition on a specific element or state, such as element to be clickable or text to be present. A fluent wait is the configurable form of an explicit wait where you set the timeout, polling interval and which exceptions to ignore; WebDriverWait is itself a FluentWait specialised for WebDriver. I use explicit waits because they express the actual condition the test depends on and fail with a meaningful message. The Selenium documentation warns against mixing implicit and explicit waits because the timeouts can interact and produce unpredictable wait times. Thread.sleep always waits the full time, slowing passing runs, and still fails when the page is slower than the hard-coded value, so it makes tests both slow and flaky.",
+      "keyPoints": [
+        "Implicit: global polling for element lookup",
+        "Explicit: condition-based via WebDriverWait/ExpectedConditions",
+        "Fluent: configurable timeout, polling and ignored exceptions",
+        "Do not mix implicit and explicit waits",
+        "Thread.sleep is slow and still flaky"
+      ],
+      "redFlags": [
+        "Relies on Thread.sleep as the main synchronisation",
+        "Sets a large implicit wait and also uses explicit waits"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-02",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What makes a good locator? Compare ID, CSS selectors and XPath, and tell me how you deal with dynamic attributes.",
+      "followUps": [
+        "When is XPath genuinely the better choice?",
+        "How do you convince developers to add test ids?"
+      ],
+      "modelAnswer": "A good locator is unique, stable across releases and tied to something meaningful rather than to layout. A unique ID or a dedicated test attribute such as data-testid is best because it is fast and deliberately stable. CSS selectors are concise, fast and readable, and they cover most needs such as attributes, classes and child relationships. XPath is more powerful: it can move up to a parent, select by visible text and use axes like following-sibling, which helps with tables or legacy markup with no good attributes. I avoid absolute paths such as /html/body/div[3]/div[2] and auto-generated classes because any layout change breaks them. For dynamic attributes like 'user-48213' I use partial matches such as starts-with in XPath or the ^= operator in CSS, or better, anchor to stable nearby text. The long-term fix is agreeing with developers on test ids, which I frame as reducing false failures and maintenance time for the whole team.",
+      "keyPoints": [
+        "Criteria: unique, stable, meaningful",
+        "Prefers IDs or dedicated test attributes",
+        "Explains CSS vs XPath trade-offs, including XPath axes and text",
+        "Avoids absolute XPath and generated classes",
+        "Handles dynamic attributes with partial matching or anchors"
+      ],
+      "redFlags": [
+        "Copies absolute XPath from browser DevTools",
+        "Claims XPath is always slower and must never be used"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-03",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Describe the Page Object Model. What belongs in a page object and what does not?",
+      "followUps": [
+        "Should page objects contain assertions?",
+        "How do you handle components that appear on many pages, like a header?"
+      ],
+      "modelAnswer": "The Page Object Model wraps each page or significant component in a class that exposes the services the page offers, such as login(user, password) or searchFor(term), and hides the locators and WebDriver calls behind them. Tests then read as user intent, and a UI change is fixed in one place. A page object should contain locators, interactions and methods that return the next page object or data the test needs to check. It should not contain test logic or test data decisions. The Selenium documentation recommends keeping assertions out of page objects, with the possible exception of checking the page has loaded correctly, so that tests own the verification. Shared parts such as the header or a date picker become component objects that page objects compose, which avoids duplicating them across pages. I also keep waits inside the page object methods so tests do not need to know about synchronisation.",
+      "keyPoints": [
+        "Encapsulates locators and interactions behind intent-level methods",
+        "Methods return page objects or data",
+        "Assertions belong in tests, except load checks",
+        "Component objects for shared parts",
+        "Waits handled inside page methods"
+      ],
+      "redFlags": [
+        "Exposes raw WebElements or locators to tests",
+        "Puts all assertions and test flow inside page classes"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-04",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Your UI suite has about 10% of tests failing intermittently in CI but passing locally. How do you diagnose and fix this?",
+      "followUps": [
+        "Would you add automatic retries?",
+        "How do you stop new flaky tests from being merged?"
+      ],
+      "modelAnswer": "First I would measure rather than guess: collect failure history per test, failure messages, screenshots, videos or traces, and look for clusters by test, by worker, by time or by environment. The common causes are synchronisation problems such as clicking before an element is ready, shared or leaking test data when tests run in parallel, order dependence, environment differences like a smaller headless viewport or slower CI machines, and real application race conditions. I would try to reproduce by running the failing tests repeatedly with the same parallelism and browser settings as CI. Fixes follow the cause: replace sleeps with condition-based waits, give each test its own data and clean state, remove dependencies between tests, and pin viewport and browser versions. Flaky tests that cannot be fixed immediately get quarantined out of the blocking pipeline with an owner and a ticket, so the main signal stays trustworthy. I treat retries as a diagnostic aid, not a cure: a retry that passes should still be reported as flaky, otherwise real intermittent product bugs get hidden. To prevent new flakiness I would run new or changed tests several times in CI before merge.",
+      "keyPoints": [
+        "Gathers data and artifacts before acting",
+        "Names common root causes: waits, shared data, order dependence, environment, real races",
+        "Reproduces under CI-like conditions",
+        "Quarantine with ownership to protect pipeline signal",
+        "Retries only as a reported diagnostic, not to hide failures",
+        "Prevention: repeated runs of new tests before merge"
+      ],
+      "redFlags": [
+        "Adds retries everywhere and calls it fixed",
+        "Increases all timeouts as the only fix",
+        "Never considers that the product itself may be flaky"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-au-05",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How does TestNG support data-driven and parallel testing? Show me a DataProvider example.",
+      "followUps": [
+        "How do you make WebDriver safe when tests run in parallel?",
+        "What is the difference between @BeforeMethod and @BeforeClass?"
+      ],
+      "modelAnswer": "TestNG supports data-driven tests with @DataProvider, a method returning Object[][] or an Iterator<Object[]>, where each row becomes one invocation of the test method:\n\n```java\n@DataProvider(name = \"logins\")\npublic Object[][] logins() {\n    return new Object[][] {\n        {\"valid@example.com\", \"Correct1!\", true},\n        {\"valid@example.com\", \"wrong\", false}\n    };\n}\n\n@Test(dataProvider = \"logins\")\npublic void login(String email, String password, boolean ok) {\n    assertEquals(loginPage.login(email, password).isLoggedIn(), ok);\n}\n```\n\nParallelism is configured in testng.xml with the parallel attribute set to methods, classes, tests or instances and a thread-count; data providers can also run in parallel with parallel = true. With parallel execution, a shared static WebDriver breaks immediately, so I keep one driver per thread, typically in a ThreadLocal<WebDriver> created in @BeforeMethod and quit and removed in @AfterMethod. @BeforeMethod runs before each test method, while @BeforeClass runs once before the first test method of the class.",
+      "keyPoints": [
+        "@DataProvider returning Object[][] or Iterator<Object[]>",
+        "Correct linking via dataProvider attribute",
+        "Parallel modes and thread-count in testng.xml",
+        "ThreadLocal driver per thread, cleaned up after each test",
+        "Distinguishes @BeforeMethod and @BeforeClass"
+      ],
+      "redFlags": [
+        "Uses a static shared WebDriver with parallel execution",
+        "Forgets to quit drivers, leaking browser sessions"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-au-06",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Compare Selenium and Playwright. When would you choose each for a new project?",
+      "followUps": [
+        "What does Playwright's auto-waiting actually check?",
+        "How does Selenium 4 BiDi change things?"
+      ],
+      "modelAnswer": "Selenium implements the W3C WebDriver standard, supports many languages and real branded browsers including Safari through safaridriver, and integrates with a large ecosystem of grids and cloud providers. Playwright drives Chromium, Firefox and WebKit through its own protocol, ships its own browser builds, and includes a test runner for Node.js with auto-waiting, web-first assertions, tracing, network interception and isolated browser contexts out of the box. Playwright's actions wait for actionability checks such as the element being attached, visible, stable, enabled and receiving events, which removes a lot of synchronisation code. Selenium 4 added relative locators, an improved Grid and growing WebDriver BiDi support for events like console logs and network interception, narrowing some gaps. For a new web project with a JavaScript or TypeScript team I would usually lean toward Playwright for speed of authoring and debugging. I would choose Selenium when the team is invested in Java tooling and existing frameworks, when it needs real Safari on macOS or a specific grid vendor, or when standards compliance across many browsers matters most. Either is a valid choice; the bigger success factor is good test design.",
+      "keyPoints": [
+        "Selenium: W3C WebDriver, many languages, real browsers, large ecosystem",
+        "Playwright: bundled browsers, auto-waiting, tracing, contexts, test runner",
+        "Accurately describes actionability checks",
+        "Mentions Selenium 4 features such as BiDi and relative locators",
+        "Decision based on team, language and browser needs"
+      ],
+      "redFlags": [
+        "Claims Playwright cannot test Firefox or that Selenium is obsolete",
+        "Picks a tool without considering team context"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-au-07",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design a UI automation framework from scratch for a web application with around 300 planned tests and three teams contributing.",
+      "followUps": [
+        "How would you manage test data and environments?",
+        "How do you keep contributions consistent across three teams?",
+        "What reporting would you build?"
+      ],
+      "modelAnswer": "I would start from the needs: the stack the teams know, target browsers, how fast feedback must be and where tests run. Assuming a Java team, I would use Selenium 4 or Playwright for Java with TestNG or JUnit 5, Maven or Gradle, and a layered design. The bottom layer handles driver lifecycle and configuration through a factory with one driver per thread, configurable browser, headless mode and remote grid URL from environment variables. Above that sit page and component objects, then reusable business flows, and finally thin tests that read as scenarios. Test data is created through APIs or fixtures per test rather than shared accounts, with unique ids and clean-up, so tests can run in parallel and in any order; I would also use API calls to set up state instead of clicking through the UI. Configuration is externalised per environment, and secrets come from the CI secret store. Reporting includes per-test logs, screenshots and traces on failure, an aggregated HTML report such as Allure, and trend data to spot flaky tests. For consistency across teams I would publish coding conventions, a sample test, linting, code review by framework owners and a contribution guide. CI runs a fast smoke subset on every pull request and the full suite in parallel on a schedule or before release. Finally I would keep the UI suite small relative to API and unit tests, following the test pyramid, because UI tests are the slowest and most brittle layer.",
+      "keyPoints": [
+        "Starts from requirements and team skills",
+        "Layered architecture: driver management, page/components, flows, tests",
+        "Parallel-safe, independent test data created via API",
+        "Externalised config and secrets handling",
+        "Failure artifacts and trend reporting",
+        "Governance for multiple contributing teams and CI tiers",
+        "Keeps the UI layer lean per the test pyramid"
+      ],
+      "redFlags": [
+        "Jumps straight to tool names without design",
+        "Shared accounts and order-dependent tests",
+        "No plan for parallelism or reporting"
+      ],
+      "minutes": 18
+    },
+    {
+      "id": "int-au-08",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a Selenium method in Java that reads all rows of an HTML table and returns the price for a product name, or throws if the product is not found.",
+      "followUps": [
+        "How would this change if the table is paginated?",
+        "How would you make it robust against column reordering?"
+      ],
+      "modelAnswer": "I would locate the header cells first so I find columns by name instead of by position, then scan the rows:\n\n```java\npublic BigDecimal priceFor(WebDriver driver, String product) {\n    WebElement table = new WebDriverWait(driver, Duration.ofSeconds(10))\n        .until(ExpectedConditions.visibilityOfElementLocated(By.id(\"products\")));\n    List<String> headers = table.findElements(By.cssSelector(\"thead th\"))\n        .stream().map(WebElement::getText).map(String::trim).toList();\n    int nameCol = headers.indexOf(\"Product\");\n    int priceCol = headers.indexOf(\"Price\");\n    for (WebElement row : table.findElements(By.cssSelector(\"tbody tr\"))) {\n        List<WebElement> cells = row.findElements(By.tagName(\"td\"));\n        if (cells.get(nameCol).getText().trim().equals(product)) {\n            return new BigDecimal(cells.get(priceCol).getText().replaceAll(\"[^0-9.]\", \"\"));\n        }\n    }\n    throw new NoSuchElementException(\"Product not found: \" + product);\n}\n```\n\nLooking up columns by header text survives column reordering, and BigDecimal avoids floating-point rounding for money. The currency stripping is simplistic and would need care for locales that use commas as decimal separators. For pagination I would loop: search the current page, then click Next until it is disabled. For large tables, a single XPath that finds the row by text is faster than reading every cell, because each getText is a round-trip to the browser.",
+      "keyPoints": [
+        "Waits for the table before reading",
+        "Finds columns by header name, not fixed index",
+        "Iterates rows and cells correctly",
+        "Uses BigDecimal for money and handles not-found explicitly",
+        "Discusses pagination and round-trip cost"
+      ],
+      "redFlags": [
+        "Hard-coded column indexes and Thread.sleep",
+        "Uses double for currency without comment"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-au-09",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you handle iframes, multiple windows and JavaScript alerts in Selenium?",
+      "followUps": [
+        "What happens if you forget to switch back from a frame?",
+        "How does Playwright handle the same situations?"
+      ],
+      "modelAnswer": "For iframes I switch into the frame with driver.switchTo().frame(), passing an index, name or id, or preferably a WebElement, and ideally I wait with ExpectedConditions.frameToBeAvailableAndSwitchToIt. After working inside I return with switchTo().defaultContent() or parentFrame(); if I forget, every later locator searches the frame and fails with NoSuchElementException. For windows, each has a handle; I store the original with getWindowHandle(), wait for the new window to appear, switch to the handle that differs from the original with switchTo().window(handle), and switch back when done. Selenium 4 also offers switchTo().newWindow(WindowType.TAB) to open one. For JavaScript alerts I wait with ExpectedConditions.alertIsPresent(), then call accept(), dismiss(), getText() or sendKeys() on the Alert. In Playwright, frames are addressed with frameLocator, new pages are captured with waitForEvent('popup') or the context's 'page' event, and dialogs are handled with a page.on('dialog') listener, because Playwright dismisses dialogs automatically if no handler is registered.",
+      "keyPoints": [
+        "Frame switching and returning with defaultContent/parentFrame",
+        "Window handles: store original, switch to new, return",
+        "Alert handling with alertIsPresent and accept/dismiss",
+        "Uses waits for frames, windows and alerts",
+        "Knows the Playwright equivalents"
+      ],
+      "redFlags": [
+        "Does not know elements inside an iframe need a context switch"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-10",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "Your manager asks you to automate all 1,200 manual regression test cases. How do you respond?",
+      "followUps": [
+        "How would you measure whether automation is paying off?",
+        "Which tests would you deliberately not automate?"
+      ],
+      "modelAnswer": "I would welcome the goal of faster regression but propose a prioritised approach instead of a one-to-one conversion. Many manual cases are redundant, outdated or better checked at a lower level. I would review the suite with the team, classify cases by business risk, execution frequency, stability of the feature and how deterministic the expected result is, and identify which checks can move to API or unit level, which are faster and less brittle than the UI. I would start with a thin slice of high-value, stable flows such as login, search and checkout to prove the framework, then expand in priority order. I would not automate one-off checks, rapidly changing UI areas, or tests that need human judgement such as visual polish, usability and exploratory work. To show value I would track time to feedback, regression cycle duration, escaped defects in the covered areas and the maintenance effort spent per sprint, rather than counting the number of automated tests.",
+      "keyPoints": [
+        "Pushes back constructively on one-to-one conversion",
+        "Prioritises by risk, frequency, stability and determinism",
+        "Moves checks to API/unit level where possible",
+        "Names what should stay manual",
+        "Measures outcomes, not test counts"
+      ],
+      "redFlags": [
+        "Agrees to convert all 1,200 test cases as written",
+        "Uses number of automated tests as the main success metric"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-11",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you integrate UI tests into a CI pipeline such as GitHub Actions or Jenkins?",
+      "followUps": [
+        "Which tests run on pull requests versus nightly?",
+        "How do you run browsers in containers?"
+      ],
+      "modelAnswer": "The pipeline checks out the code, sets up the language runtime with dependency caching, deploys or starts the application under test, and then runs the tests with a single command such as mvn test or npx playwright test, passing the environment URL and credentials from the CI secret store. Browsers run headless on the agent, in Docker containers such as the official Selenium images, or on Selenium Grid or a cloud provider for wider coverage. Tests produce JUnit XML so the CI server shows results per test, and on failure the job uploads artifacts such as screenshots, videos, traces and logs. I split suites by cost: a fast smoke set gates every pull request, and the full regression runs in parallel shards nightly or before release. I set timeouts on jobs, make the pipeline fail on test failure rather than ignoring the exit code, and keep flaky tests quarantined so the gating suite stays trustworthy.",
+      "keyPoints": [
+        "Pipeline stages: checkout, setup, deploy/start app, run tests",
+        "Secrets from CI secret store, not code",
+        "Headless browsers, containers or grid",
+        "JUnit XML results and failure artifacts",
+        "Tiered suites and sharding",
+        "Pipeline fails on test failures; flaky tests quarantined"
+      ],
+      "redFlags": [
+        "Hard-codes credentials in the repository",
+        "Only runs tests manually on a local machine"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-au-12",
+      "kind": "coding",
+      "difficulty": "beginner",
+      "question": "Write a Java method that takes a list of strings scraped from a page, for example product names, and returns true if they are sorted alphabetically, ignoring case.",
+      "followUps": [
+        "How would you check descending order or numeric prices?",
+        "What is the time complexity?"
+      ],
+      "modelAnswer": "I would compare each adjacent pair instead of sorting a copy, because a single pass is enough:\n\n```java\npublic static boolean isSortedIgnoreCase(List<String> items) {\n    for (int i = 1; i < items.size(); i++) {\n        if (String.CASE_INSENSITIVE_ORDER.compare(items.get(i - 1), items.get(i)) > 0) {\n            return false;\n        }\n    }\n    return true;\n}\n```\n\nThis runs in O(n) time and O(1) extra space, while copying and sorting would be O(n log n). Empty and single-element lists are sorted by definition and the loop handles them. For descending order I would reverse the comparison, and for prices I would parse to BigDecimal and use compareTo. I would also clarify whether the application sorts with locale-aware rules, because accented characters may need a java.text.Collator to match the application's behaviour.",
+      "keyPoints": [
+        "Adjacent-pair comparison in a single pass",
+        "Case-insensitive comparator",
+        "States O(n) time and O(1) space",
+        "Handles empty and single-element lists",
+        "Mentions locale-aware sorting or numeric parsing"
+      ],
+      "redFlags": [
+        "Compares strings with == or ignores case requirement",
+        "Cannot state complexity"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-au-13",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "What is Selenium Grid in Selenium 4, and how would you scale cross-browser execution?",
+      "followUps": [
+        "What are the trade-offs between a self-hosted grid and a cloud provider?",
+        "How do you decide which browser and OS combinations to cover?"
+      ],
+      "modelAnswer": "Selenium Grid lets tests send WebDriver sessions to remote nodes, so tests run in parallel across browsers and machines. In Selenium 4 the Grid was redesigned into components: router, distributor, session map, session queue, event bus and nodes. It can run in standalone mode, hub and node mode, or fully distributed, and it supports Docker-based nodes with dynamic container creation. Tests connect with RemoteWebDriver and browser options such as ChromeOptions, and the grid matches capabilities to a free slot. To scale I would run nodes in containers, size concurrency to available CPU and memory, shard the suite, and make tests independent so parallelism is safe. A self-hosted grid gives control and keeps traffic internal but needs maintenance and capacity planning; a cloud provider offers many browser and OS combinations and real devices with less upkeep but costs more and needs the application to be reachable. I choose browser coverage from the product's actual usage analytics and supported-browser policy, running everything on the primary browser and a smaller, risk-based set on the others.",
+      "keyPoints": [
+        "Purpose: remote, parallel execution across browsers",
+        "Selenium 4 Grid components and modes",
+        "RemoteWebDriver with capabilities/options",
+        "Scaling with containers and independent tests",
+        "Self-hosted vs cloud trade-offs",
+        "Browser matrix based on usage data and policy"
+      ],
+      "redFlags": [
+        "Thinks the grid alone fixes slow or dependent tests",
+        "Tests every combination with the full suite regardless of value"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-au-14",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How would you test a feature that depends on an unreliable third-party service, such as an address lookup, in your UI automation?",
+      "followUps": [
+        "Does mocking the service reduce confidence?",
+        "Where would you test the real integration?"
+      ],
+      "modelAnswer": "For the bulk of UI tests I would isolate the third party so tests are fast and deterministic. Options include intercepting the network call in the browser, which Playwright does with page.route and Selenium 4 can do on Chromium-based browsers through DevTools or BiDi network interception, or pointing the application at a stub server such as WireMock in the test environment. With control over responses I can also test cases that are hard to trigger for real: timeouts, 500 errors, empty results and malformed data, and check the UI degrades gracefully. Mocking does reduce confidence in the real integration, so I would cover it separately: contract tests or a small set of tests against the provider's sandbox, run on a schedule rather than blocking every pull request, plus production monitoring of the integration. That way a third-party outage does not block our releases, but we still find out quickly if the provider changes its behaviour.",
+      "keyPoints": [
+        "Isolates the dependency for deterministic UI tests",
+        "Concrete mechanisms: browser network interception or stub server",
+        "Uses mocks to test error and edge responses",
+        "Covers the real integration separately with contract or sandbox tests",
+        "Monitoring for third-party changes"
+      ],
+      "redFlags": [
+        "Accepts flaky tests because the service is 'not our problem'",
+        "Mocks everything with no real integration coverage"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-au-15",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What are soft assertions and hard assertions, and when would you use soft assertions?",
+      "followUps": [
+        "What happens if you forget to call assertAll() in TestNG?",
+        "Can soft assertions hide problems?"
+      ],
+      "modelAnswer": "A hard assertion, such as TestNG's Assert.assertEquals, throws immediately when it fails and stops the test. A soft assertion records the failure and lets the test continue; in TestNG you create a SoftAssert, call its assert methods and then call assertAll() at the end, which throws an error listing all collected failures. If you forget assertAll(), the failures are recorded but never reported, so the test passes incorrectly. I use soft assertions when checking several independent attributes of the same state, such as all fields on a profile page, so one run tells me every mismatch instead of fixing them one at a time. I use hard assertions for preconditions and steps where continuing makes no sense, for example if login failed there is no point checking the dashboard. Overusing soft assertions can produce long, confusing failure output and hide the first real cause, so I keep them for genuinely independent checks.",
+      "keyPoints": [
+        "Hard assertions stop the test immediately",
+        "Soft assertions collect failures and report at assertAll()",
+        "Forgetting assertAll() silently passes the test",
+        "Uses soft for independent checks of one state, hard for preconditions"
+      ],
+      "redFlags": [
+        "Uses soft assertions everywhere without understanding assertAll()"
+      ],
+      "minutes": 3
+    }
+  ]
+}

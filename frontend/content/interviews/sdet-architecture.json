@@ -1,0 +1,376 @@
+{
+  "track": "sdet-architecture",
+  "title": "SDET and Test Architecture",
+  "description": "Mock interview questions for SDET, framework and test architecture roles: coding rounds with Java solutions and complexity, test system design, flaky-test management at scale, test strategy for distributed systems and engineering trade-offs.",
+  "roles": [
+    "sdet",
+    "test-framework-engineer",
+    "test-architect",
+    "test-infrastructure-engineer",
+    "qa-technical-lead",
+    "qa-software-developer",
+    "test-automation-developer",
+    "devops-cicd-test-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-sd-01",
+      "kind": "coding",
+      "difficulty": "beginner",
+      "question": "Write a Java method that reverses the order of words in a sentence, for example 'quality is everyone's job' becomes 'job everyone's is quality'. Handle extra spaces.",
+      "followUps": [
+        "What is the time and space complexity?",
+        "How would you test this method?",
+        "Can you do it in place on a char array?"
+      ],
+      "modelAnswer": "I would trim the input, split on one or more whitespace characters so repeated spaces do not produce empty words, and join the words in reverse:\n\n```java\npublic static String reverseWords(String s) {\n    if (s == null) return null;\n    String trimmed = s.trim();\n    if (trimmed.isEmpty()) return \"\";\n    String[] words = trimmed.split(\"\\\\s+\");\n    StringBuilder sb = new StringBuilder(trimmed.length());\n    for (int i = words.length - 1; i >= 0; i--) {\n        sb.append(words[i]);\n        if (i > 0) sb.append(' ');\n    }\n    return sb.toString();\n}\n```\n\nThis is O(n) time and O(n) space in the length of the string, since the split array and the builder each hold the characters once. Tests I would write: a normal sentence, a single word, empty and whitespace-only strings, null, leading, trailing and multiple internal spaces, tabs, and punctuation attached to words. An in-place version on a char array reverses the whole array and then reverses each word, which uses O(1) extra space, though Java strings are immutable so you need the array copy anyway.",
+      "keyPoints": [
+        "Correct output, including multiple and leading/trailing spaces",
+        "Handles null and empty input",
+        "Uses StringBuilder rather than string concatenation in a loop",
+        "States O(n) time and space",
+        "Lists meaningful test cases",
+        "Knows the reverse-all-then-each-word in-place approach"
+      ],
+      "redFlags": [
+        "Splits on a single space and produces empty words",
+        "Cannot state complexity or list edge-case tests"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-sd-02",
+      "kind": "coding",
+      "difficulty": "beginner",
+      "question": "Given an array of integers, return the values that appear more than once, each reported once. Write it in Java and tell me the complexity.",
+      "followUps": [
+        "Can you solve it without extra memory?",
+        "How would the solution change if the input were a stream too large for memory?"
+      ],
+      "modelAnswer": "I would use two hash sets: one for values seen and one for duplicates:\n\n```java\npublic static Set<Integer> findDuplicates(int[] nums) {\n    Set<Integer> seen = new HashSet<>();\n    Set<Integer> dupes = new LinkedHashSet<>();\n    for (int n : nums) {\n        if (!seen.add(n)) {\n            dupes.add(n);\n        }\n    }\n    return dupes;\n}\n```\n\nSet.add returns false when the value is already present, so each element is processed once: O(n) average time and O(n) extra space. LinkedHashSet keeps duplicates in the order they were first detected, which makes test assertions predictable. Without extra memory I can sort the array first, in place, and compare neighbours, which is O(n log n) time and O(1) extra space apart from the sort itself, but it modifies the input. For a stream too large for memory, I would partition values by hash into files and process each partition separately, or accept approximate answers with a probabilistic structure such as a Bloom filter if false positives are acceptable.",
+      "keyPoints": [
+        "Correct single-pass hash set solution",
+        "Each duplicate reported once",
+        "O(n) average time, O(n) space",
+        "Sorting alternative with its trade-offs",
+        "Reasonable approach for data larger than memory"
+      ],
+      "redFlags": [
+        "Nested loops without acknowledging O(n squared)",
+        "Reports the same duplicate multiple times"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-sd-03",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a Java method that checks whether a string of brackets such as '{[()()]}' is balanced.",
+      "followUps": [
+        "Why is Deque preferred over Stack in Java?",
+        "What test cases would you write?"
+      ],
+      "modelAnswer": "A stack is the natural fit: push each opening bracket, and for each closing bracket check that the top of the stack is the matching opener:\n\n```java\npublic static boolean isBalanced(String s) {\n    Deque<Character> stack = new ArrayDeque<>();\n    for (char c : s.toCharArray()) {\n        switch (c) {\n            case '(', '[', '{' -> stack.push(c);\n            case ')' -> { if (stack.isEmpty() || stack.pop() != '(') return false; }\n            case ']' -> { if (stack.isEmpty() || stack.pop() != '[') return false; }\n            case '}' -> { if (stack.isEmpty() || stack.pop() != '{') return false; }\n            default -> { }\n        }\n    }\n    return stack.isEmpty();\n}\n```\n\nIt runs in O(n) time and O(n) space in the worst case, when all characters are openers. The final isEmpty check catches unclosed openers such as '((', and the isEmpty check before pop catches a closer with nothing open, such as ')'. Deque with ArrayDeque is preferred over java.util.Stack because Stack extends Vector, is synchronised and is a legacy class. Tests: empty string, a single pair of each type, nested and sequential pairs, wrong order like '(]', interleaved like '([)]', only openers, only closers, and non-bracket characters which this version ignores.",
+      "keyPoints": [
+        "Stack-based algorithm with matching check",
+        "Handles closer on empty stack and leftover openers",
+        "O(n) time and space",
+        "Uses ArrayDeque and knows why",
+        "Good edge-case test list including '([)]'"
+      ],
+      "redFlags": [
+        "Only counts brackets, so '([)]' is accepted",
+        "Pops without checking for empty"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-sd-04",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "You have a log file where each line looks like '2026-03-01T10:15:02Z ERROR PaymentService Timeout calling bank'. Write Java code that returns the top three services by number of ERROR lines.",
+      "followUps": [
+        "How would you handle a 20 GB log file?",
+        "What about malformed lines?"
+      ],
+      "modelAnswer": "I would stream the file line by line so memory stays bounded, count errors per service in a map, then sort the counts:\n\n```java\npublic static List<Map.Entry<String, Long>> topErrorServices(Path log, int k) throws IOException {\n    Map<String, Long> counts = new HashMap<>();\n    try (Stream<String> lines = Files.lines(log)) {\n        lines.map(line -> line.split(\"\\\\s+\", 4))\n             .filter(parts -> parts.length >= 3 && parts[1].equals(\"ERROR\"))\n             .forEach(parts -> counts.merge(parts[2], 1L, Long::sum));\n    }\n    return counts.entrySet().stream()\n        .sorted(Map.Entry.<String, Long>comparingByValue().reversed()\n            .thenComparing(Map.Entry.comparingByKey()))\n        .limit(k)\n        .toList();\n}\n```\n\nSplitting with a limit of four keeps the message intact and avoids extra work. Lines with fewer than three fields are skipped; in a real tool I would count and report malformed lines rather than ignore them silently. Time is O(n) to read the lines plus O(s log s) to sort s distinct services, which is small; a min-heap of size k would make the selection O(s log k). Memory is O(s), independent of file size, because Files.lines reads lazily, so a 20 GB file works as long as the number of services is reasonable. The tie-break by service name makes the result deterministic for tests.",
+      "keyPoints": [
+        "Streams the file instead of loading it all",
+        "Parses fields robustly with a split limit",
+        "Counts with a map (merge or getOrDefault)",
+        "Correct top-k selection with deterministic tie-break",
+        "States complexity and heap alternative",
+        "Handles malformed lines and try-with-resources"
+      ],
+      "redFlags": [
+        "Reads the whole file into memory with readAllLines for a huge file",
+        "Uses contains(\"ERROR\") anywhere in the line, counting messages that mention ERROR"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-sd-05",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design a test automation platform that serves 20 product teams, running UI, API and integration tests on every pull request and nightly.",
+      "followUps": [
+        "How do you keep pull request feedback under ten minutes?",
+        "How do teams get results and debug failures?",
+        "What would you build versus buy?"
+      ],
+      "modelAnswer": "I would start with requirements: number of tests and runs per day, target feedback time, supported languages and frameworks, environments, and compliance needs. The platform has four parts. First, a shared libraries layer: a supported framework template per stack with conventions for configuration, test data, logging and reporting, so teams own their tests but do not reinvent infrastructure. Second, execution: CI pipelines trigger runs, and a scheduler shards tests across containerised workers, with browser grids or device farms for UI and ephemeral environments or service virtualisation for dependencies; workers autoscale with demand. Third, results: every run publishes JUnit XML or a common schema plus artifacts such as logs, screenshots and traces into a results service and object storage, which powers dashboards for pass rate, duration and flakiness per test and per team. Fourth, governance: test ownership metadata, quarantine workflow, and service level objectives for the platform itself. For PR feedback under ten minutes I would use test impact analysis to select tests affected by the change, parallel sharding balanced by historical duration, and keep the PR tier to unit, component, contract and a thin smoke of UI tests, with full suites nightly. For debugging, failure pages link directly to the trace, logs and the commit. I would buy commodity pieces such as CI, device farms and reporting tools where they fit, and build the thin glue: impact analysis, flakiness tracking and the results schema. Risks I would call out are cost, shared-platform outages blocking all teams, and data isolation between parallel runs.",
+      "keyPoints": [
+        "Clarifies requirements and scale first",
+        "Shared frameworks with team ownership of tests",
+        "Sharded, containerised, autoscaling execution with isolated environments",
+        "Central results and artifacts with flakiness analytics",
+        "Fast PR tier via test selection and duration-based sharding",
+        "Governance: ownership, quarantine, platform SLOs",
+        "Build vs buy reasoning and risks"
+      ],
+      "redFlags": [
+        "Describes only a single framework, not a platform",
+        "No answer for feedback time, isolation or results",
+        "Ignores ownership and governance across teams"
+      ],
+      "minutes": 20
+    },
+    {
+      "id": "int-sd-06",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design a test strategy for a checkout flow built from microservices: cart, pricing, inventory, payment and order services communicating over REST and a message broker.",
+      "followUps": [
+        "How do you test the asynchronous parts?",
+        "What runs on every pull request versus before release?",
+        "How do you test failure of the payment provider?"
+      ],
+      "modelAnswer": "I would first identify the business risks: wrong prices charged, overselling stock, double charging, lost orders and inconsistent state when a step fails. Each service gets unit tests for its logic, such as pricing rules and discount combinations, and component tests that run the service with its own database in a container and stub its neighbours. Between services I would use consumer-driven contract tests for the REST APIs and for message schemas, so changes to cart, pricing or order payloads break the provider's build instead of production. The asynchronous flow, for example order placed leading to inventory reserved and payment captured, needs tests that publish events and wait with bounded polling for the resulting state, and checks for idempotent consumers, duplicate and out-of-order messages, and dead-letter handling. The distributed transaction, typically a saga with compensations, needs explicit failure tests: payment declined releases reserved stock, payment provider timeout does not create a charge without an order, and a retry after a timeout does not double charge, which depends on idempotency keys. The payment provider is replaced with a configurable stub for timeouts, errors and slow responses, with a small set of sandbox tests run on schedule. On every PR: unit, component and contract tests. Before release: a handful of end-to-end journeys in an integrated environment, a performance test of checkout at peak load, and resilience tests that kill or slow a service. In production: synthetic checkout monitoring and alerts on business metrics such as order failure rate.",
+      "keyPoints": [
+        "Starts from business risks",
+        "Layered: unit, component, contract, few end-to-end",
+        "Contract tests for REST and messages",
+        "Async testing with idempotency, duplicates, ordering, DLQ",
+        "Saga/compensation and payment timeout failure tests",
+        "Pipeline placement and production monitoring"
+      ],
+      "redFlags": [
+        "Relies mainly on full end-to-end tests of all services",
+        "Ignores failure modes and double charging"
+      ],
+      "minutes": 18
+    },
+    {
+      "id": "int-sd-07",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Thousands of tests run every day across many repositories and a few percent are flaky. Design a system to detect, manage and reduce flaky tests at scale.",
+      "followUps": [
+        "How do you define 'flaky' precisely?",
+        "Who fixes flaky tests and how do you make sure it happens?",
+        "How do you avoid quarantining a test that is catching a real intermittent bug?"
+      ],
+      "modelAnswer": "I would define a flaky test as one that both passes and fails on the same code revision and environment. Detection starts with data: every test result from every CI run is ingested with test id, commit, outcome, duration, worker and failure message into a results store. A test is flagged when it has mixed outcomes on the same commit, or when it fails and then passes on automatic rerun; I would also run new or changed tests several times before merge, and run scheduled reruns of suspicious tests on unchanged code to confirm. Management: flagged tests go into quarantine automatically, meaning they still run and report but do not block merges, and a ticket is created and assigned to the owning team from ownership metadata, with an age limit after which the test is fixed or deleted. Dashboards show flakiness rate per team and per test, and the top offenders by impact on developer time. To reduce flakiness, the failure messages are clustered to spot shared causes, such as one slow environment, a shared fixture or a framework wait helper, which fixes many tests at once. To avoid hiding real bugs, quarantined tests keep running and their failures are reviewed; intermittent failures that correlate with product code, not the test, are routed to developers as product defects, since race conditions often appear first as flaky tests. Success is measured by flaky rate, time in quarantine and reruns per merge going down.",
+      "keyPoints": [
+        "Precise definition: mixed results on the same revision",
+        "Central ingestion of all test results",
+        "Detection via reruns, same-commit analysis and pre-merge repetition",
+        "Automatic quarantine with owner, ticket and time limit",
+        "Clustering failures to find shared root causes",
+        "Keeps quarantined tests running; recognises product races",
+        "Success metrics"
+      ],
+      "redFlags": [
+        "Solution is just 'add retries'",
+        "Quarantine with no ownership or expiry",
+        "Assumes all flakiness is the test's fault"
+      ],
+      "minutes": 18
+    },
+    {
+      "id": "int-sd-08",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Explain the test pyramid. Is it still the right model for modern systems, and what alternatives have you seen?",
+      "followUps": [
+        "How would the shape differ for a frontend-heavy app versus a data pipeline?",
+        "How do you measure whether your mix is right?"
+      ],
+      "modelAnswer": "The test pyramid says to have many fast, isolated unit tests at the base, fewer service or integration tests in the middle and a small number of slow end-to-end UI tests at the top, because cost, run time and brittleness grow as you go up while precision of failure diagnosis falls. The core idea, push tests to the lowest level that can detect the problem, is still right. The exact shape depends on where the risk is. For frontend-heavy applications the 'testing trophy' idea emphasises integration tests of components with realistic rendering, since many bugs live in how parts fit together. For microservices, contract tests become a key layer because the main risk is integration between services. For data pipelines, data quality checks on real-shaped data matter more than many unit tests. The anti-pattern to avoid in any model is the ice-cream cone: mostly manual and UI tests with few lower-level tests. I would judge the mix by outcomes: pipeline duration, flakiness rate, defects escaping to later stages and which layer they should have been caught at, and the cost of maintaining each layer.",
+      "keyPoints": [
+        "Explains pyramid layers and why cost increases upward",
+        "Principle: test at the lowest level that detects the problem",
+        "Shape varies by architecture: trophy, contract layer, data checks",
+        "Names the ice-cream cone anti-pattern",
+        "Measures with escape analysis, duration, flakiness"
+      ],
+      "redFlags": [
+        "Treats the pyramid as fixed percentages to hit"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-sd-09",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "How do you use mocks, stubs and fakes in tests, and when does mocking become harmful?",
+      "followUps": [
+        "When would you use Testcontainers instead of a mock?",
+        "What is the difference between verifying state and verifying interactions?"
+      ],
+      "modelAnswer": "These are all test doubles. A stub returns canned answers to calls, a mock is pre-programmed with expectations and lets you verify that interactions happened, for example with Mockito's verify, and a fake is a lightweight working implementation, like an in-memory repository. A spy wraps a real object and records calls. I use doubles to isolate the unit from slow or non-deterministic dependencies and to simulate errors that are hard to trigger. Mocking becomes harmful when tests mock types they do not own, such as a database driver or HTTP client, because the mock encodes my assumptions about the library rather than its real behaviour; when tests verify internal call sequences instead of observable outcomes, making refactoring break tests; and when mocks are so extensive that the test passes while the real integration is broken. I prefer state verification, checking the result, over interaction verification unless the interaction is the behaviour, such as sending an email exactly once. For databases and message brokers I would use Testcontainers to run the real dependency in Docker for integration tests, because it catches SQL, mapping and configuration problems that a mock never would.",
+      "keyPoints": [
+        "Correct definitions of stub, mock, fake, spy",
+        "Legitimate uses: isolation, error simulation",
+        "Harms: mocking types you don't own, over-specified interactions, false confidence",
+        "Prefers state verification where possible",
+        "Testcontainers for real dependencies"
+      ],
+      "redFlags": [
+        "Mocks everything including the class under test's own logic"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-sd-10",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Implement a generic retry helper in Java that calls a Supplier up to N times with a delay between attempts, retrying only on specified exceptions. Then tell me why you would or would not use it in tests.",
+      "followUps": [
+        "How would you add exponential backoff with jitter?",
+        "How do you unit test the helper itself without real sleeps?"
+      ],
+      "modelAnswer": "I would keep it small and make the retryable exception type explicit so real failures are not swallowed:\n\n```java\npublic static <T> T retry(Supplier<T> action, int maxAttempts, Duration delay,\n                          Class<? extends RuntimeException> retryOn) {\n    if (maxAttempts < 1) throw new IllegalArgumentException(\"maxAttempts must be >= 1\");\n    RuntimeException last = null;\n    for (int attempt = 1; attempt <= maxAttempts; attempt++) {\n        try {\n            return action.get();\n        } catch (RuntimeException e) {\n            if (!retryOn.isInstance(e)) throw e;\n            last = e;\n            if (attempt < maxAttempts) {\n                try {\n                    Thread.sleep(delay.toMillis());\n                } catch (InterruptedException ie) {\n                    Thread.currentThread().interrupt();\n                    throw new IllegalStateException(\"Interrupted while retrying\", ie);\n                }\n            }\n        }\n    }\n    throw last;\n}\n```\n\nIt restores the interrupt flag rather than swallowing InterruptedException, and rethrows the last cause so the failure stays diagnosable. Exponential backoff multiplies the delay each attempt up to a cap, and jitter randomises it so many clients do not retry in lockstep. To unit test it without real sleeps I would inject a sleeper or Clock abstraction and use a fake. In tests, I would use such a helper for polling legitimately eventual operations, like waiting for an async job, but not to rerun whole failing tests or assertions, because that hides flakiness and real intermittent product bugs.",
+      "keyPoints": [
+        "Correct loop with bounded attempts and only retryable exceptions",
+        "Rethrows last exception with cause preserved",
+        "Handles InterruptedException correctly",
+        "Explains backoff and jitter",
+        "Testability via injected sleeper or clock",
+        "Distinguishes polling eventual state from hiding flaky tests"
+      ],
+      "redFlags": [
+        "Catches Exception or Throwable and retries everything",
+        "Swallows InterruptedException",
+        "Recommends retrying failing assertions to make tests pass"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-sd-11",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Your CI pipeline now takes 75 minutes and developers are bypassing it. How would you bring it down to under 15 minutes without losing meaningful coverage?",
+      "followUps": [
+        "How does test impact analysis work in practice?",
+        "How do you prove you haven't lost coverage?"
+      ],
+      "modelAnswer": "I would start by profiling the pipeline: time per stage, per test suite and per test, queue time waiting for agents, and setup time such as dependency downloads, image builds and environment provisioning. Usually the big wins are structural. Caching dependencies and Docker layers and reusing build outputs often removes a lot of setup time. Running independent stages in parallel and sharding test suites across workers, balanced by historical duration, reduces wall-clock time. Tests themselves can be sped up by replacing sleeps with waits, creating data through APIs instead of UI, sharing expensive fixtures such as a container per suite rather than per test, and moving checks down from UI to API or unit level. Then I would tier the pipeline: the PR gate runs unit, component, contract and a thin smoke suite, plus tests selected by test impact analysis, which maps tests to the code they exercise using coverage data or build dependency graphs and runs only those affected by the change. Full suites run after merge and nightly, with fast notification and easy revert if they catch something. To show coverage was not lost, I would track escaped defects and post-merge failures that the PR gate missed, and compare their rate before and after the change.",
+      "keyPoints": [
+        "Profiles the pipeline before acting",
+        "Caching, parallel stages, duration-balanced sharding",
+        "Speeds up slow tests and moves tests to lower levels",
+        "Tiered pipeline with test impact analysis",
+        "Post-merge full runs with quick feedback",
+        "Measures escaped defects to validate coverage"
+      ],
+      "redFlags": [
+        "Simply deletes slow tests",
+        "Moves everything to nightly with no PR gate"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-sd-12",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How would you design test data management for a large automated suite running against shared environments?",
+      "followUps": [
+        "How do you handle personal data from production?",
+        "What is synthetic data generation good and bad at?"
+      ],
+      "modelAnswer": "I would separate data into three kinds. Reference data, such as countries or product catalogues, is versioned, loaded by scripts and treated as read-only by tests. Test-owned data is created by each test through APIs or a data builder library, tagged with a unique run id, and cleaned up by the test or by a scheduled janitor job that removes data older than a threshold with that tag. Scenario data that is expensive to build, such as an account with two years of transactions, is produced by seeding scripts into dedicated, reset-able datasets or snapshots. A data builder pattern with sensible defaults lets tests specify only what matters, which keeps them readable and stable when models change. Production data should not be copied into test environments as-is; if production-shaped data is needed, it must be anonymised or masked in line with privacy law and company policy, and preferably replaced with synthetic data. Synthetic data is safe and can target edge cases deliberately, but it can miss the messy distributions and combinations found in real data, so I would use it together with data profiling to make it realistic.",
+      "keyPoints": [
+        "Separates reference, test-owned and complex scenario data",
+        "Unique tagging and automated clean-up",
+        "Builders with sensible defaults",
+        "Privacy: no raw production personal data; masking or synthetic",
+        "Synthetic data strengths and limits"
+      ],
+      "redFlags": [
+        "Copies production databases with personal data into test",
+        "Shared mutable accounts used by many tests"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-sd-13",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Write a Java method that returns the first non-repeating character in a string, or an empty Optional if there is none.",
+      "followUps": [
+        "What is the complexity, and can you do it in one pass?",
+        "How would you handle Unicode characters outside the Basic Multilingual Plane?"
+      ],
+      "modelAnswer": "Two passes are simplest: count characters, then find the first with a count of one, using a LinkedHashMap or a second scan over the string:\n\n```java\npublic static Optional<Character> firstUnique(String s) {\n    Map<Character, Integer> counts = new HashMap<>();\n    for (char c : s.toCharArray()) {\n        counts.merge(c, 1, Integer::sum);\n    }\n    for (char c : s.toCharArray()) {\n        if (counts.get(c) == 1) return Optional.of(c);\n    }\n    return Optional.empty();\n}\n```\n\nThis is O(n) time and O(k) space where k is the number of distinct characters. A single pass is possible with a LinkedHashMap of counts and then scanning the map, which is O(k) rather than O(n) for the second phase. Java chars are UTF-16 code units, so characters outside the Basic Multilingual Plane, such as many emoji, are two chars; to handle them correctly I would iterate s.codePoints() and use Integer code points as keys. Tests: empty string, all repeated, unique at start, middle and end, case sensitivity, and a string with emoji.",
+      "keyPoints": [
+        "Correct counting and ordered lookup",
+        "Returns Optional.empty() when none",
+        "O(n) time, O(k) space",
+        "Knows UTF-16 surrogate pairs and codePoints()",
+        "Lists edge-case tests"
+      ],
+      "redFlags": [
+        "Uses nested loops without acknowledging O(n squared)",
+        "Returns a magic value like a space instead of an empty result"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-sd-14",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How do you design a test framework so it is extensible and maintainable over several years? Which design patterns do you rely on?",
+      "followUps": [
+        "How do you version and release a shared framework to many teams?",
+        "What would you deliberately keep out of the framework?"
+      ],
+      "modelAnswer": "I aim for clear layers with narrow interfaces: configuration, drivers and clients, domain abstractions such as page objects and API clients, business-level steps, and tests. Patterns that help: Factory for creating drivers or clients by configuration, Builder for test data and requests so tests set only what matters, Page Object and component objects for UI, Strategy for swapping behaviour such as different authentication methods or environments, and Decorator or listeners for cross-cutting concerns like logging, screenshots and retries of infrastructure calls. Dependency injection, even simple constructor injection, keeps components replaceable and testable. Configuration comes from layered sources such as defaults, files and environment variables, never hard-coded. The framework itself has unit tests, documentation with examples, and semantic versioning, released as a library so teams upgrade deliberately, with a changelog and deprecation period for breaking changes. I keep business-specific logic, test data for particular products and anything that only one team needs out of the core, offering extension points instead, because a framework that tries to do everything becomes the bottleneck it was meant to remove.",
+      "keyPoints": [
+        "Layered architecture with narrow interfaces",
+        "Relevant patterns: Factory, Builder, Page Object, Strategy, Decorator/listeners",
+        "Dependency injection and externalised config",
+        "Framework has its own tests and docs",
+        "Semantic versioning, changelog and deprecation",
+        "Keeps team-specific logic out of the core"
+      ],
+      "redFlags": [
+        "Lists patterns with no reason for using them",
+        "One giant base class all tests inherit from"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-sd-15",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is the difference between code coverage metrics such as line and branch coverage, and how much do you trust them as a quality signal?",
+      "followUps": [
+        "What does mutation testing tell you that coverage does not?",
+        "Would you enforce a coverage threshold in CI?"
+      ],
+      "modelAnswer": "Line or statement coverage measures which lines were executed by tests; branch coverage measures whether each decision outcome, such as both sides of an if, was executed, so it is stricter. Tools such as JaCoCo for Java report both. Coverage tells me what code was not exercised at all, which is useful for finding untested areas, but high coverage does not mean the code is well tested, because a test can execute a line without asserting anything meaningful about it. Mutation testing, with tools such as PIT for Java, makes small changes to the code, like flipping a condition, and checks whether any test fails; surviving mutants reveal weak assertions, so it measures the quality of the tests rather than just execution. I would not enforce a single global threshold, because teams then write assertion-free tests to hit the number. I prefer a rule that coverage on changed code should not drop, combined with reviewing uncovered critical paths and occasional mutation testing on the most important modules.",
+      "keyPoints": [
+        "Distinguishes line/statement from branch coverage",
+        "Coverage shows what is untested, not test quality",
+        "Explains mutation testing and surviving mutants",
+        "Caution about global thresholds and gaming",
+        "Prefers diff coverage and critical-path review"
+      ],
+      "redFlags": [
+        "Treats 100% coverage as proof of quality"
+      ],
+      "minutes": 5
+    }
+  ]
+}

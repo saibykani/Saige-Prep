@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!--
+  parallel="classes": each test class runs on its own thread with its own browser.
+  DriverFactory keeps one WebDriver per thread (ThreadLocal), so tests never share a browser.
+-->
+<suite name="Saige Todo UI suite" parallel="classes" thread-count="2" verbose="1">
+  <listeners>
+    <listener class-name="com.saigeprep.ui.framework.ScreenshotOnFailureListener" />
+  </listeners>
+
+  <test name="Smoke and regression">
+    <classes>
+      <class name="com.saigeprep.ui.tests.LoginTest" />
+      <class name="com.saigeprep.ui.tests.TodoTest" />
+    </classes>
+  </test>
+</suite>

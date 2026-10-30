@@ -1,0 +1,335 @@
+{
+  "track": "performance",
+  "title": "Performance Testing",
+  "description": "Mock interview questions for performance and load testing roles: test types, workload modelling, JMeter 5.x, percentiles, bottleneck analysis, capacity planning and running performance tests responsibly.",
+  "roles": [
+    "performance-test-engineer",
+    "performance-engineer",
+    "load-test-engineer",
+    "scalability-test-engineer",
+    "reliability-test-engineer",
+    "capacity-planning-engineer",
+    "apm-testing-specialist",
+    "observability-test-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-pf-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain the difference between load, stress, spike, soak and scalability testing.",
+      "followUps": [
+        "Which one would you run first on a new system?",
+        "What kinds of defects does soak testing find that a one-hour load test misses?"
+      ],
+      "modelAnswer": "Load testing checks behaviour under the expected workload, for example normal and peak business traffic, against agreed response time and error targets. Stress testing pushes beyond expected load to find the breaking point and see how the system fails and recovers, for example whether it degrades gracefully or corrupts data. Spike testing applies a sudden, sharp increase in load, like a flash sale or a notification sent to all users, to see how quickly the system and autoscaling react. Soak or endurance testing runs a realistic load for a long period, often many hours, to find problems that build up over time such as memory leaks, connection or file handle leaks, growing queues, log or disk growth and slow degradation. Scalability testing measures how throughput and response times change as load or resources increase, to see whether adding instances gives a proportional gain. On a new system I usually start with a baseline and a load test at expected peak, because that gives the reference point for every other test.",
+      "keyPoints": [
+        "Correct definitions for all five types",
+        "Stress includes failure and recovery behaviour",
+        "Soak finds leaks and gradual degradation",
+        "Scalability relates resources to throughput",
+        "Starts with a baseline/load test"
+      ],
+      "redFlags": [
+        "Uses load and stress interchangeably",
+        "Cannot name issues soak testing finds"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-pf-02",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Why do performance engineers prefer percentiles over averages? How would you write a response time requirement?",
+      "followUps": [
+        "Why can't you average p95 values from several load generators?",
+        "What is coordinated omission?"
+      ],
+      "modelAnswer": "Response time distributions are usually skewed with a long tail, so the average hides the experience of the slowest users: a few very slow requests can be masked by many fast ones, or a few outliers can drag the average in ways that describe no real user. Percentiles describe the distribution: p95 of 800 milliseconds means 95% of requests completed within 800 milliseconds. A good requirement is specific and testable, for example: under 500 requests per second of the defined checkout mix, p95 response time of the 'place order' transaction is below 800 milliseconds, p99 is below 2 seconds, and the error rate is below an agreed small percentage, measured over a 30-minute steady state. Percentiles cannot be averaged across generators or time windows because the result is not a percentile of the combined data; you need to merge the raw data or histograms. Coordinated omission is a measurement error where a load generator waiting on a slow response sends fewer requests, so the slow period is under-sampled and reported latencies look better than reality; tools with constant arrival rates or correction help avoid it.",
+      "keyPoints": [
+        "Distributions are skewed; averages hide the tail",
+        "Correct interpretation of p95/p99",
+        "Testable requirement: load level, transaction, percentile, error rate, duration",
+        "Percentiles cannot be averaged",
+        "Understands coordinated omission"
+      ],
+      "redFlags": [
+        "Uses only average response time",
+        "Requirement like 'the system should be fast'"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-pf-03",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "How would you build a workload model for an e-commerce site ahead of a seasonal sale?",
+      "followUps": [
+        "Where would you get the data from?",
+        "How do you account for think time and pacing?"
+      ],
+      "modelAnswer": "I would base the model on production data rather than guesses: web analytics and access logs or APM data from the previous peak give the mix of user journeys, the arrival rate per journey, the peak hour profile and the ratio of browsers to buyers. From that I define the main scenarios, for example browsing, searching, adding to cart and checking out, each as a percentage of traffic, and the target throughput in transactions per hour at peak, scaled by the business forecast for this year plus a safety margin agreed with the business. I would include realistic think times between steps and pacing so each virtual user does not hammer the system unrealistically, and use parameterised, varied data such as many products and accounts so caches behave as in production. I would also model special events like the sale start, where many users arrive at once, as a separate spike test. Finally I would document the assumptions and get the business and operations teams to agree them, because the model is only as good as its assumptions.",
+      "keyPoints": [
+        "Uses production analytics, logs or APM data",
+        "Defines scenario mix and target throughput",
+        "Applies a forecast and safety margin",
+        "Think time, pacing and varied data",
+        "Models the sale start as a spike",
+        "Documents and agrees assumptions"
+      ],
+      "redFlags": [
+        "Chooses a round number of users without justification",
+        "Every virtual user runs checkout in a tight loop with no think time"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-pf-04",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Walk me through the main building blocks of a JMeter 5.x test plan and how you would make it realistic.",
+      "followUps": [
+        "Why should you not run load tests in GUI mode?",
+        "How do you handle dynamic values like CSRF tokens or session ids?"
+      ],
+      "modelAnswer": "A test plan contains thread groups, which define the number of virtual users, ramp-up and duration; samplers such as the HTTP Request sampler that send requests; config elements such as HTTP Request Defaults, the HTTP Cookie Manager, the HTTP Header Manager and CSV Data Set Config for parameterised data; timers for think time, such as the Uniform or Gaussian Random Timer, and the Constant Throughput Timer for controlling rate; logic controllers such as Transaction Controller to group requests into business transactions; and assertions to check responses are actually correct. Dynamic values are captured with post-processors like the Regular Expression Extractor, JSON Extractor or Boundary Extractor and reused as variables, which is called correlation. To make it realistic I use realistic think times, varied data, the cookie manager for sessions, and assertions so that errors are not counted as fast successes. I run load tests in non-GUI mode, jmeter -n -t plan.jmx -l results.jtl -e -o report, because the GUI consumes significant resources and distorts results; listeners like View Results Tree are only for debugging. For higher load I would use distributed testing with several load generators, watching their own CPU and network so the generator is not the bottleneck.",
+      "keyPoints": [
+        "Thread groups, samplers, config elements, timers, controllers, assertions",
+        "Correlation with extractors",
+        "Think time and data variety",
+        "Non-GUI execution with HTML report",
+        "Monitoring load generators and distributed testing"
+      ],
+      "redFlags": [
+        "Runs the load test in GUI mode with View Results Tree enabled",
+        "No assertions, so error pages count as successes"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-pf-05",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "During a load test, response times climb sharply after 300 concurrent users while CPU on the application servers is only at 40%. What could be going on and how would you find out?",
+      "followUps": [
+        "How would you tell a connection pool problem from a slow query?",
+        "Could the load generator be the problem?"
+      ],
+      "modelAnswer": "Low CPU with rising latency means the requests are waiting rather than working, so I would look for a constrained resource or a queue. Candidates include an exhausted database connection pool or HTTP client pool, a thread pool limit in the application server, lock contention in the database, a slow downstream dependency or rate-limited third party, garbage collection pauses, network or bandwidth limits, or a bottleneck in a shared component such as a cache or message broker. I would also rule out the load generator itself by checking its CPU, memory and network. To find out I would correlate the time the latency starts with metrics: pool usage and wait times, thread pool queue length, database active sessions, lock waits and slow query logs, GC logs, and distributed traces showing where the time goes in a slow request. If traces show most time waiting to acquire a connection, it is the pool; if the time is spent inside a query, it is the database. Then I would change one thing at a time and rerun to confirm, rather than changing several settings at once.",
+      "keyPoints": [
+        "Interprets low CPU + high latency as waiting/queuing",
+        "Lists plausible constraints: pools, threads, locks, dependencies, GC, network",
+        "Checks the load generator",
+        "Correlates timeline with metrics and traces",
+        "Changes one variable at a time"
+      ],
+      "redFlags": [
+        "Immediately recommends adding more servers",
+        "Does not consider the test tool as a possible bottleneck"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-pf-06",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is the difference between a closed workload model and an open workload model, and why does it matter?",
+      "followUps": [
+        "Which JMeter elements help you approximate an open model?",
+        "How does Little's Law relate users, throughput and response time?"
+      ],
+      "modelAnswer": "In a closed model a fixed number of virtual users each wait for a response, optionally think, and then send the next request, so when the system slows down the arrival rate drops automatically. In an open model new requests or users arrive at a defined rate regardless of how the system is coping, which is how public web traffic behaves: users do not wait for each other. This matters because a closed model can hide overload: as the system slows, the test generates less load, and queues never build up as they would in production. A plain JMeter thread group is a closed model; to approximate an open model you can use throughput controlling timers such as the Precise Throughput Timer, or the Open Model Thread Group introduced in JMeter 5.5. Little's Law states that the average number of requests in the system equals throughput multiplied by the average time in the system, so for a closed test, users equals throughput times the sum of response time and think time, which lets me calculate how many virtual users I need for a target throughput.",
+      "keyPoints": [
+        "Closed: fixed users, arrival rate depends on response time",
+        "Open: arrival rate independent of system response",
+        "Closed models can hide overload",
+        "JMeter options for approximating open models",
+        "Little's Law and how to size virtual users"
+      ],
+      "redFlags": [
+        "Thinks number of virtual users alone defines load"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-pf-07",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "The only environment available for performance testing is half the size of production. How do you make your results useful?",
+      "followUps": [
+        "Can you just double the results?",
+        "What production checks would you add?"
+      ],
+      "modelAnswer": "I would be explicit that results from a smaller environment cannot simply be multiplied up, because systems do not scale linearly: shared components like the database, caches, network and external dependencies may behave very differently. I would first document every difference: instance count and size, database size and data volume, configuration, and which dependencies are stubbed. Then I would focus on tests where a scaled environment still gives valid answers: per-instance capacity, finding the bottleneck component, comparing builds against a baseline to detect regressions, soak tests for leaks, and checking autoscaling and failover behaviour. Data volume matters as much as hardware, so I would make sure the database holds production-like volumes, since query plans change with data size. I would present results as relative and per-unit, with clear caveats, and recommend complementary production practices: performance monitoring with alerting on percentiles, gradual rollouts, and, if the business approves, carefully controlled tests in production during low traffic.",
+      "keyPoints": [
+        "States non-linear scaling; no simple multiplication",
+        "Documents environment differences",
+        "Focuses on valid uses: per-node capacity, regression comparison, soak, bottlenecks",
+        "Production-like data volumes",
+        "Clear caveats and production monitoring"
+      ],
+      "redFlags": [
+        "Doubles the numbers and reports them as production capacity"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-pf-08",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How would you integrate performance testing into a CI/CD pipeline without making every build slow?",
+      "followUps": [
+        "How do you set pass/fail thresholds that are not flaky?",
+        "Where do results go so trends are visible?"
+      ],
+      "modelAnswer": "I would use tiers. On every pull request or merge, a short, low-load performance smoke test of a few key endpoints catches big regressions in minutes. Nightly, a longer load test at expected peak runs against a stable, dedicated environment. Before major releases or capacity events, the full stress, spike and soak tests run, often scheduled. Thresholds should be based on a measured baseline with tolerance, for example fail if p95 of a transaction regresses by more than an agreed percentage compared with the baseline or exceeds the SLO, rather than an exact millisecond value, and they should use enough samples to be statistically stable. Tools like k6 thresholds, Gatling assertions or a JMeter results analysis step can fail the job automatically. Results should be stored in a time-series database such as InfluxDB and visualised in Grafana, or in the tool's own reporting, so trends across builds are visible. A dedicated, consistent environment is important, because noisy shared environments make automated thresholds unreliable.",
+      "keyPoints": [
+        "Tiered approach: smoke per change, nightly load, scheduled full tests",
+        "Baseline-relative thresholds on percentiles",
+        "Automatic fail via tool thresholds",
+        "Results stored for trend analysis",
+        "Consistent dedicated environment"
+      ],
+      "redFlags": [
+        "Runs a full hour-long load test on every commit",
+        "Uses fixed thresholds on a noisy shared environment"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-pf-09",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What server-side metrics do you monitor during a load test, and why?",
+      "followUps": [
+        "What does the USE method stand for?",
+        "What would rising memory after each test hour suggest?"
+      ],
+      "modelAnswer": "On every tier I watch CPU utilisation and saturation (run queue), memory usage and, for managed runtimes, heap usage and garbage collection pause time and frequency, disk I/O and network throughput and errors. At the application level I watch request rate, error rate and latency per endpoint, thread pool and connection pool usage and queueing, and cache hit ratios. For the database I watch active connections, slow queries, lock waits and buffer or cache hit ratios. For queues I watch depth and consumer lag. The USE method, from Brendan Gregg, checks Utilisation, Saturation and Errors for every resource, which is a systematic way to find the bottleneck; the RED method, Rate, Errors and Duration, covers request-driven services. Memory that rises steadily across hours and does not come back down after garbage collection suggests a leak, which is exactly what a soak test is designed to expose. I also monitor the load generators to make sure they are not the bottleneck.",
+      "keyPoints": [
+        "Infrastructure: CPU, memory, GC, disk, network",
+        "Application: rate, errors, latency, pools, caches",
+        "Database and queue metrics",
+        "USE and/or RED methods",
+        "Identifies leak pattern; monitors load generators"
+      ],
+      "redFlags": [
+        "Only looks at client-side response times"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-pf-10",
+      "kind": "scenario",
+      "difficulty": "beginner",
+      "question": "A product manager asks you to 'load test the payment provider's API' to see how much it can handle. How do you respond?",
+      "followUps": [
+        "How would you still test your own payment flow under load?",
+        "What if the provider offers a sandbox?"
+      ],
+      "modelAnswer": "I would explain that we must not load test a third-party system without the provider's explicit, written authorisation; it could breach the terms of service, look like an attack, affect their other customers and get our account blocked. The right first step is to read the provider's documented rate limits and service levels and, if more is needed, ask the provider whether they support or schedule load testing. Sandboxes are usually not sized for load and often have their own limits, so I would check the provider's guidance before sending any volume to it. To test our own payment flow under load, I would replace the provider with a stub or service virtualisation tool that returns realistic responses with realistic latency and occasional errors, so we can see how our system handles the provider being slow, failing or rate-limiting us. That tells us what we actually control: our timeouts, retries, circuit breakers and queues.",
+      "keyPoints": [
+        "No load testing of third parties without written authorisation",
+        "Reads documented limits and contacts the provider",
+        "Sandbox caveats",
+        "Uses stubs/service virtualisation with realistic latency and errors",
+        "Focuses on own resilience: timeouts, retries, circuit breakers"
+      ],
+      "redFlags": [
+        "Agrees to send heavy load to the provider without permission"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-pf-11",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How do you identify and analyse a memory leak found during a soak test of a Java service?",
+      "followUps": [
+        "What is the difference between a heap dump and a GC log for this purpose?",
+        "How would you confirm the fix?"
+      ],
+      "modelAnswer": "The symptom is that heap usage after each full garbage collection, the baseline, keeps rising over hours, often with GC running more frequently and eventually an OutOfMemoryError or long pauses. GC logs, enabled with -Xlog:gc* on modern JDKs, show this trend over time with little overhead. To find the cause I would take heap dumps at intervals, for example with jcmd <pid> GC.heap_dump, or enable -XX:+HeapDumpOnOutOfMemoryError, and compare them in a tool such as Eclipse MAT, looking at the dominator tree and which object types are growing and what is retaining them. Common causes are unbounded caches or maps, listeners never deregistered, ThreadLocal values on pooled threads, and resources such as connections not closed. JDK Flight Recorder can also show allocation and old-object samples with low overhead. Once developers fix it, I rerun the same soak test with the same workload and duration and confirm the post-GC baseline stays flat.",
+      "keyPoints": [
+        "Recognises rising post-GC baseline as the leak signal",
+        "Uses GC logs for trends and heap dumps for causes",
+        "Analyses dumps with a tool such as Eclipse MAT (dominator tree, retainers)",
+        "Names common leak causes",
+        "Confirms the fix with an identical soak rerun"
+      ],
+      "redFlags": [
+        "Treats high memory usage alone as proof of a leak",
+        "Recommends just increasing heap size"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-pf-12",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "How would you plan capacity for a service expected to triple its traffic over the next year?",
+      "followUps": [
+        "How much headroom would you keep, and why?",
+        "What is the risk of relying only on autoscaling?"
+      ],
+      "modelAnswer": "I would start by measuring current capacity per unit: through load tests, find the throughput a single instance or node handles while still meeting the latency SLO, and identify which resource limits it. Then I would find the shared bottlenecks that do not scale by adding instances, typically the database, caches, message brokers or third-party limits, because tripling front-end instances does not help if the database saturates first. With the business forecast, including peak-to-average ratios and seasonal peaks rather than just average growth, I calculate required capacity and add headroom for failure of an instance or availability zone and for forecast error; the right amount depends on how quickly capacity can be added and the cost of being wrong. Autoscaling helps with short-term variation, but it has lag, depends on correct metrics and limits, and cannot scale stateful components like a primary database instantly, so a spike can outrun it. I would validate the plan with a scalability test at the projected load, review monthly against real traffic, and set alerts on leading indicators such as saturation of the known bottleneck.",
+      "keyPoints": [
+        "Measures per-unit capacity against SLO",
+        "Identifies shared non-scaling bottlenecks",
+        "Uses peak and seasonal forecasts, not averages",
+        "Headroom for failures and forecast error",
+        "Autoscaling limitations",
+        "Validates with tests and reviews against real traffic"
+      ],
+      "redFlags": [
+        "Multiplies current server count by three",
+        "Assumes autoscaling solves everything"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-pf-13",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is the difference between response time, latency and throughput, and how do they relate as load increases?",
+      "followUps": [
+        "What is the 'knee' in a response time curve?",
+        "Why can throughput fall when load keeps increasing?"
+      ],
+      "modelAnswer": "Throughput is the amount of work completed per unit of time, for example requests or transactions per second. Response time is the total time from the client sending a request to receiving the complete response, including network time, queuing and processing. Latency is used in different ways, but often means the delay before processing starts or until the first byte arrives; JMeter, for example, reports latency as time to first byte, while elapsed time is the full response time. As load increases, throughput rises roughly in line with load while response time stays fairly flat. As a resource nears saturation, queues form and response time starts to climb steeply; that bend is often called the knee. Beyond saturation throughput levels off, and it can even fall, because of contention, thrashing, timeouts and retries that add work without completing more requests. Good capacity targets keep normal operation comfortably below the knee.",
+      "keyPoints": [
+        "Correct definitions of throughput and response time",
+        "Notes latency has varying definitions (e.g. time to first byte)",
+        "Describes the knee as resources saturate",
+        "Explains throughput plateau or drop beyond saturation"
+      ],
+      "redFlags": [
+        "Thinks throughput keeps rising linearly with users forever"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-pf-14",
+      "kind": "behavioral",
+      "difficulty": "intermediate",
+      "question": "Tell me about a time your performance test results were challenged by developers or operations. How did you handle it?",
+      "followUps": [
+        "What would you do differently now?",
+        "How do you build trust in your test results?"
+      ],
+      "modelAnswer": "Situation: on a previous project, my load test showed the order service missing its p95 target at expected peak, and the development team said the test was unrealistic. Task: I needed to either prove the problem was real or find the flaw in my test, quickly, before the release decision. Action: instead of defending the result, I walked them through the workload model, the data and the environment differences, and asked them to point to what they thought was unrealistic. They were right that my script reused a small set of product ids, which affected caching; I fixed the data variety and reran, and the problem remained, now with a clearer trace showing a slow query under concurrent writes. I shared the traces and database metrics so the discussion moved to evidence. Result: the team added an index and changed a transaction scope, the rerun met the target, and we agreed that future workload models would be reviewed with developers before testing. What I learned is that involving people in the model up front prevents most disputes about results.",
+      "keyPoints": [
+        "Uses STAR structure",
+        "Listens and checks own test for flaws",
+        "Moves the discussion to evidence such as traces and metrics",
+        "Shows a concrete result",
+        "States a lesson and process improvement"
+      ],
+      "redFlags": [
+        "Blames developers without examining own work",
+        "No measurable outcome"
+      ],
+      "minutes": 5
+    }
+  ]
+}
