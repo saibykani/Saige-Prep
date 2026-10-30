@@ -77,15 +77,6 @@ export function SettingsView() {
           </Card>
         )}
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Your data</CardTitle>
-            <CardDescription>Export and account deletion are delivered with security hardening.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Badge tone="warning">Planned · Phase 8</Badge>
-          </CardContent>
-        </Card>
       </div>
 
       <ConfirmDialog
