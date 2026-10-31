@@ -40,6 +40,14 @@
     radial-gradient(120% 140% at 0% 0%, rgb(163 148 245 / 0.16), transparent 55%),
     radial-gradient(90% 120% at 100% 100%, rgb(79 191 143 / 0.09), transparent 60%);
   --grid-line: rgb(255 255 255 / 0.035);
+  --aurora-1: rgb(139 122 238 / 0.2);
+  --aurora-2: rgb(79 191 143 / 0.11);
+  --aurora-3: rgb(196 120 230 / 0.11);
+  --glass: rgb(10 10 11 / 0.66);
+  --spotlight: rgb(163 148 245 / 0.13);
+  --text-gradient: linear-gradient(100deg, #f4f2ff 10%, #c3b8ff 50%, #8fe0bd 100%);
+  --shimmer: rgb(255 255 255 / 0.3);
+  --skeleton-sheen: rgb(255 255 255 / 0.06);
   color-scheme: dark;
 }
 
@@ -77,6 +85,15 @@
     radial-gradient(120% 140% at 0% 0%, rgb(98 72 224 / 0.1), transparent 55%),
     radial-gradient(90% 120% at 100% 100%, rgb(19 122 82 / 0.07), transparent 60%);
   --grid-line: rgb(22 20 31 / 0.05);
+  --aurora-1: rgb(98 72 224 / 0.13);
+  --aurora-2: rgb(19 122 82 / 0.08);
+  --aurora-3: rgb(190 80 200 / 0.08);
+  --glass: rgb(247 246 251 / 0.72);
+  --spotlight: rgb(98 72 224 / 0.08);
+  /* Every stop keeps AA contrast (>= 4.5:1) on the light canvas. */
+  --text-gradient: linear-gradient(100deg, #16141f 10%, #4f36cc 55%, #0f6644 100%);
+  --shimmer: rgb(255 255 255 / 0.35);
+  --skeleton-sheen: rgb(255 255 255 / 0.7);
   color-scheme: light;
 }
 
@@ -160,6 +177,8 @@ p {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
 }
@@ -369,4 +388,232 @@ p {
 @media (prefers-reduced-motion: reduce) {
   .lift:hover { transform: none; }
   .confetti-piece, .xp-float { display: none; }
+}
+
+/* =====================================================================
+ * Modern polish layer: aurora canvas, glass chrome, stagger, spotlight,
+ * shimmer, gradient text, skeletons and page transitions.
+ * Everything animates transform/opacity only and stops for reduced motion.
+ * ===================================================================== */
+
+/* Fixed, GPU-composited aurora behind the app. Purely decorative. */
+.app-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.app-aurora::before,
+.app-aurora::after {
+  content: "";
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.app-aurora::before {
+  top: -35vmax;
+  left: -20vmax;
+  background: radial-gradient(closest-side, var(--aurora-1), transparent);
+  animation: aurora-drift-a 28s ease-in-out infinite alternate;
+}
+.app-aurora::after {
+  bottom: -40vmax;
+  right: -25vmax;
+  background:
+    radial-gradient(closest-side at 40% 40%, var(--aurora-2), transparent),
+    radial-gradient(closest-side at 70% 60%, var(--aurora-3), transparent);
+  animation: aurora-drift-b 34s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(12vw, 8vh, 0) scale(1.12); }
+}
+@keyframes aurora-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.05); }
+  to { transform: translate3d(-10vw, -10vh, 0) scale(0.95); }
+}
+
+/* Translucent header/sidebar. Falls back to a solid surface without blur support. */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  backdrop-filter: saturate(160%) blur(14px);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: var(--background); }
+}
+
+/* Gradient hero headings. Solid colour fallback keeps text readable. */
+.text-gradient {
+  color: var(--foreground);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .text-gradient {
+    background-image: var(--text-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+@media (forced-colors: active) {
+  .text-gradient { background: none; color: CanvasText; }
+}
+
+/* Staggered entrance for grids: children fade up one after another. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+.stagger > * {
+  /* backwards (not both): once finished, hover transforms such as .lift apply again. */
+  animation: rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 55ms + 40ms);
+}
+.stagger > :nth-child(2) { --stagger-i: 1; }
+.stagger > :nth-child(3) { --stagger-i: 2; }
+.stagger > :nth-child(4) { --stagger-i: 3; }
+.stagger > :nth-child(5) { --stagger-i: 4; }
+.stagger > :nth-child(6) { --stagger-i: 5; }
+.stagger > :nth-child(7) { --stagger-i: 6; }
+.stagger > :nth-child(8) { --stagger-i: 7; }
+.stagger > :nth-child(9) { --stagger-i: 8; }
+.stagger > :nth-child(n + 10) { --stagger-i: 9; }
+
+/*
+ * Cursor spotlight. useSpotlight() sets --mx/--my on the hovered .spotlight
+ * element; a radial glow fades in at that point (opacity-only transition).
+ */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--spotlight), transparent 60%);
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+.spotlight:hover::after,
+.spotlight:focus-visible::after {
+  opacity: 1;
+}
+
+/* Sweep of light across primary buttons on hover/focus. */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, var(--shimmer) 50%, transparent 70%);
+  transform: translate3d(-120%, 0, 0);
+}
+.shimmer:not(:disabled):hover::after,
+.shimmer:not(:disabled):focus-visible::after {
+  animation: shimmer-sweep 900ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes shimmer-sweep {
+  to { transform: translate3d(120%, 0, 0); }
+}
+
+/* Skeleton sheen. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--skeleton-sheen), transparent);
+  transform: translate3d(-100%, 0, 0);
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-sweep {
+  to { transform: translate3d(100%, 0, 0); }
+}
+
+/* Sidebar: active indicator bar springs in next to the current page. */
+.nav-link { position: relative; }
+.nav-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -0.75rem;
+  top: 50%;
+  width: 3px;
+  height: 1.1rem;
+  margin-top: -0.55rem;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(var(--accent), var(--success));
+  animation: indicator-in 360ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes indicator-in {
+  from { opacity: 0; transform: scaleY(0.2); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+
+/* Native checkboxes/radios: brand colour and a tactile press. */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent);
+  transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+input[type="checkbox"]:active,
+input[type="radio"]:active {
+  transform: scale(0.86);
+}
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  animation: pop-in 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Segmented toggle buttons: springy press. */
+.press { transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 200ms, color 200ms; }
+.press:active { transform: scale(0.9); }
+
+/* Route change crossfade + rise (React <ViewTransition default="page">). */
+::view-transition-old(.page) {
+  animation: page-out 160ms ease-in both;
+}
+::view-transition-new(.page) {
+  animation: page-in 320ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+}
+@keyframes page-out {
+  to { opacity: 0; transform: translate3d(0, -4px, 0); }
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-aurora::before,
+  .app-aurora::after,
+  .skeleton::after,
+  .shimmer::after,
+  .stagger > *,
+  .nav-link[aria-current="page"]::before,
+  input[type="checkbox"]:checked,
+  input[type="radio"]:checked,
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  .press:active,
+  input[type="checkbox"]:active,
+  input[type="radio"]:active {
+    transform: none;
+  }
 }

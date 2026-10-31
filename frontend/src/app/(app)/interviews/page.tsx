@@ -17,10 +17,10 @@ export default function Page() {
         title="Interview Prep"
         description="15, 30 or 60-minute mock interviews with model answers, follow-ups and a self-evaluation rubric."
       />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-4 sm:grid-cols-2">
         {tracks.map((t) => (
-          <Link key={t.track} href={`/interviews/${t.track}`} className="lift block">
-            <Card className="h-full transition-colors hover:border-accent">
+          <Link key={t.track} href={`/interviews/${t.track}`} className="lift block rounded-2xl">
+            <Card className="spotlight h-full transition-colors hover:border-accent">
               <CardHeader>
                 <CardTitle>{t.title}</CardTitle>
                 <CardDescription>

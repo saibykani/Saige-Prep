@@ -39,12 +39,15 @@ export function ThemeToggle({ showLabels = false, className }: { showLabels?: bo
             title={`${label} theme`}
             onClick={() => setThemePreference(value)}
             className={cn(
-              "inline-flex h-7 items-center justify-center gap-1.5 rounded-md text-xs font-medium transition-all duration-200",
+              "press inline-flex h-7 items-center justify-center gap-1.5 rounded-md text-xs font-medium",
               showLabels ? "px-3" : "w-7",
               active ? "bg-accent-soft text-accent shadow-sm" : "text-subtle hover:bg-surface-raised hover:text-foreground",
             )}
           >
-            <Icon className="h-3.5 w-3.5" aria-hidden />
+            <Icon
+              className={cn("h-3.5 w-3.5 transition-transform duration-300 motion-reduce:transition-none", active && "rotate-[360deg]")}
+              aria-hidden
+            />
             {showLabels && <span>{label}</span>}
           </button>
         );

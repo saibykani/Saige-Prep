@@ -45,14 +45,14 @@ export function SidebarNav({ isAdmin, onNavigate }: { isAdmin: boolean; onNaviga
                       onClick={onNavigate}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors",
+                        "nav-link group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors duration-200",
                         isActive
                           ? "bg-accent-soft text-foreground"
                           : "text-muted hover:bg-surface-raised hover:text-foreground",
                       )}
                     >
                       <Icon
-                        className={cn("h-4 w-4 shrink-0", isActive ? "text-accent" : "text-subtle group-hover:text-muted")}
+                        className={cn("h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110 motion-reduce:group-hover:scale-100", isActive ? "text-accent" : "text-subtle group-hover:text-muted")}
                         aria-hidden
                       />
                       <span className="truncate">{item.label}</span>

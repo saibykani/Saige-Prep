@@ -3,7 +3,7 @@
 import { LogOut, Menu, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useState, useSyncExternalStore, ViewTransition, type ReactNode } from "react";
 import { BrandMark } from "@/components/layout/brand-mark";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { CommandPalette } from "@/components/navigation/command-palette";
@@ -15,6 +15,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
 import { ApiError } from "@/lib/api";
 import { isGuest } from "@/lib/auth-mode";
+import { useSpotlight } from "@/lib/use-spotlight";
 
 const subscribeNoop = () => () => {};
 
@@ -39,6 +40,8 @@ export function AppShell({ children }: { children: ReactNode }) {
     () => true,
     () => false,
   );
+
+  useSpotlight();
 
   const unauthorized = error instanceof ApiError && error.status === 401;
 
@@ -82,7 +85,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const isAdmin = user.role === "admin";
 
   return (
-    <div className="flex min-h-screen">
+    <div className="relative flex min-h-screen">
+      <div className="app-aurora" aria-hidden />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-foreground"
@@ -90,7 +94,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         Skip to content
       </a>
 
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-border bg-background lg:flex">
+      <aside className="glass sticky top-0 z-10 hidden h-screen w-64 shrink-0 flex-col border-r border-border/70 lg:flex">
         <div className="flex h-14 items-center border-b border-border px-3">
           <Brand />
         </div>
@@ -107,7 +111,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             className="absolute inset-0 bg-overlay"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="animate-fade-in relative flex h-full w-72 max-w-[85vw] flex-col border-r border-border bg-background">
+          <div className="animate-slide-up relative flex h-full w-72 max-w-[85vw] flex-col border-r border-border bg-background">
             <div className="flex h-14 items-center justify-between border-b border-border px-3">
               <Brand />
               <Button variant="ghost" size="icon" aria-label="Close navigation" onClick={() => setMobileOpen(false)}>
@@ -124,8 +128,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/85 px-4 backdrop-blur sm:px-6">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-3 glass border-b border-border/70 px-4 sm:px-6">
           <Button
             variant="ghost"
             size="icon"
@@ -142,7 +146,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex h-9 w-full max-w-64 items-center gap-2 rounded-lg border border-border bg-surface px-3 text-sm text-subtle transition-colors hover:border-border-strong hover:text-muted sm:w-56"
+              className="flex h-9 w-full max-w-64 items-center gap-2 rounded-lg border border-border bg-surface/70 px-3 text-sm text-subtle transition-[color,border-color,box-shadow] duration-200 hover:border-border-strong hover:text-muted hover:shadow-card sm:w-56"
             >
               <Search className="h-4 w-4" aria-hidden />
               <span className="flex-1 text-left">Search…</span>
@@ -172,7 +176,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </header>
 
         <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 lg:px-10">
-          {children}
+          <ViewTransition default="page">{children}</ViewTransition>
         </main>
       </div>
 

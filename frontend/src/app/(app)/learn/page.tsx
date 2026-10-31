@@ -33,7 +33,7 @@ export default function LearningCenterPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="stagger grid gap-4 md:grid-cols-2">
         {summaries.map((track) => {
           const slugs = TRACKS.find((t) => t.slug === track.slug)!
             .modules.flatMap((m) => m.topics.map((t) => t.slug))
@@ -42,7 +42,7 @@ export default function LearningCenterPage() {
             <Link
               key={track.slug}
               href={track.href}
-              className="group flex flex-col gap-4 rounded-xl border border-border bg-surface p-5 transition-colors hover:border-border-strong hover:bg-surface-raised"
+              className="spotlight lift group flex flex-col gap-4 rounded-2xl border border-border bg-surface/90 p-5 hover:border-border-strong"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>

@@ -40,8 +40,8 @@ export function PracticeHub() {
           </Badge>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {PRACTICE.map((p, i) => {
+      <div className="stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {PRACTICE.map((p) => {
           const lab = LABS[p.slug];
           if (!lab) return null;
           const Icon = lab.icon;
@@ -51,9 +51,8 @@ export function PracticeHub() {
             <Link
               key={p.slug}
               href={`/practice/${p.slug}`}
-              style={{ animationDelay: `${i * 50}ms` }}
               className={cn(
-                "lift animate-slide-up group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-surface p-5 hover:border-border-strong",
+                "spotlight lift group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-surface p-5 hover:border-border-strong",
               )}
             >
               <div className={cn("pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b to-transparent opacity-70 transition-opacity group-hover:opacity-100", lab.tint)} aria-hidden />

@@ -14,13 +14,13 @@ export function MockHub({ banks }: { banks: BankSummary[] }) {
   const attempts = useStore((d) => d.assessments);
   return (
     <div className="space-y-8">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-4 sm:grid-cols-2">
         {banks.map((b) => {
           const mine = attempts.filter((a) => a.banks.includes(b.bank));
           const best = mine.reduce((m, a) => Math.max(m, a.maxScore ? a.score / a.maxScore : 0), 0);
           return (
-            <Link key={b.bank} href={`/mock-tests/${b.bank}`} className="lift block">
-              <Card className="h-full transition-colors hover:border-accent">
+            <Link key={b.bank} href={`/mock-tests/${b.bank}`} className="lift block rounded-2xl">
+              <Card className="spotlight h-full transition-colors hover:border-accent">
                 <CardHeader>
                   <CardTitle>{b.title}</CardTitle>
                   <CardDescription>{b.count} questions · timed, with flags and topic-wise review</CardDescription>

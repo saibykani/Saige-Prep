@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 const variants = {
-  primary: "bg-accent text-accent-foreground shadow-soft hover:bg-accent-strong hover:shadow-card disabled:bg-accent/50 disabled:shadow-none",
+  primary: "shimmer bg-accent text-accent-foreground shadow-soft hover:bg-accent-strong hover:shadow-card hover:shadow-accent/25 disabled:bg-accent/50 disabled:shadow-none",
   secondary: "bg-surface-raised text-foreground border border-border hover:border-border-strong hover:bg-surface-hover",
   ghost: "text-muted hover:text-foreground hover:bg-surface-raised",
   danger: "bg-danger-soft text-danger border border-danger/30 hover:bg-danger/20",

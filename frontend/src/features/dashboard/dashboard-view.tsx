@@ -6,6 +6,7 @@ import {
   CircleCheck,
   CircleDashed,
   FlaskConical,
+  GraduationCap,
   History,
   MessagesSquare,
   Timer,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
+import { CountUp } from "@/components/ui/count-up";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/feedback";
 import { useCurrentUser } from "@/features/auth/hooks";
@@ -98,11 +100,12 @@ export function DashboardView() {
   const recent = [...data.activity].reverse().slice(0, 8);
 
   const stats = [
-    { label: "Lessons completed", value: completedLessons },
-    { label: "Practice exercises", value: practiceDone },
-    { label: "Mock tests taken", value: data.assessments.length },
-    { label: "Interviews done", value: data.interviews.length },
+    { label: "Lessons completed", value: completedLessons, icon: GraduationCap },
+    { label: "Practice exercises", value: practiceDone, icon: FlaskConical },
+    { label: "Mock tests taken", value: data.assessments.length, icon: Timer },
+    { label: "Interviews done", value: data.interviews.length, icon: MessagesSquare },
   ];
+  const stepPct = Math.round((doneCount / steps.length) * 100);
 
   return (
     <div className="animate-fade-in">
@@ -111,20 +114,27 @@ export function DashboardView() {
         description="Learn. Practice. Test. Get Hired. Your progress here is based only on what you actually complete."
       />
 
-      <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.map((s) => (
-          <Card key={s.label}>
-            <CardContent className="py-5">
-              <p className="text-3xl font-semibold tracking-tight">{s.value}</p>
-              <p className="text-sm text-muted">{s.label}</p>
+      <div className="stagger mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {stats.map(({ label, value, icon: Icon }) => (
+          <Card key={label} className="spotlight lift group overflow-hidden">
+            <CardContent className="flex items-start justify-between gap-3 py-5">
+              <div>
+                <p className="text-3xl font-semibold tracking-tight">
+                  <CountUp value={value} />
+                </p>
+                <p className="text-sm text-muted">{label}</p>
+              </div>
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transform-none">
+                <Icon className="h-4 w-4" aria-hidden />
+              </span>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="stagger grid gap-6 lg:grid-cols-[1fr_340px]">
         <div className="space-y-6">
-          <Card>
+          <Card className="spotlight">
             <CardHeader>
               <CardTitle>Next steps</CardTitle>
               <CardDescription>
@@ -132,6 +142,19 @@ export function DashboardView() {
                   ? "All done. Keep going with your study plan."
                   : `${doneCount} of ${steps.length} done. Each step ticks itself off as you complete it.`}
               </CardDescription>
+              <div
+                className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-raised"
+                role="progressbar"
+                aria-label="Next steps completed"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={stepPct}
+              >
+                <div
+                  className="h-full origin-left rounded-full bg-gradient-to-r from-accent to-success transition-transform duration-700 ease-out"
+                  style={{ transform: `scaleX(${stepPct / 100})` }}
+                />
+              </div>
             </CardHeader>
             <CardContent>
               <ol className="divide-y divide-border">
@@ -139,7 +162,7 @@ export function DashboardView() {
                   <li key={step.label}>
                     <Link
                       href={step.href}
-                      className="-mx-2 flex items-center gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-surface-raised"
+                      className="group -mx-2 flex items-center gap-3 rounded-lg px-2 py-3 transition-colors hover:bg-surface-raised"
                     >
                       {step.done ? (
                         <CircleCheck className="h-5 w-5 shrink-0 text-success" aria-label="Done" />
@@ -154,7 +177,7 @@ export function DashboardView() {
                         </p>
                         <p className="text-xs text-muted">{step.detail}</p>
                       </div>
-                      <ArrowRight className="h-4 w-4 text-subtle" aria-hidden />
+                      <ArrowRight className="h-4 w-4 text-subtle transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-accent motion-reduce:transform-none" aria-hidden />
                     </Link>
                   </li>
                 ))}
@@ -193,7 +216,7 @@ export function DashboardView() {
           )}
         </div>
 
-        <Card>
+        <Card className="spotlight self-start">
           <CardHeader>
             <CardTitle>Jump back in</CardTitle>
           </CardHeader>
@@ -202,9 +225,11 @@ export function DashboardView() {
               <Link
                 key={href}
                 href={href}
-                className="lift flex items-center gap-3 rounded-xl border border-border p-3 transition-colors hover:border-accent"
+                className="lift group flex items-center gap-3 rounded-xl border border-border p-3 transition-colors hover:border-accent"
               >
-                <Icon className="h-5 w-5 shrink-0 text-accent" aria-hidden />
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-soft transition-transform duration-300 group-hover:scale-110 motion-reduce:transform-none">
+                  <Icon className="h-[18px] w-[18px] text-accent" aria-hidden />
+                </span>
                 <div className="min-w-0">
                   <p className="text-sm font-medium">{label}</p>
                   <p className="text-xs text-muted">{detail}</p>

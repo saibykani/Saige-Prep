@@ -19,10 +19,10 @@ export default function Page() {
         title="Real-World Projects"
         description="Guided portfolio projects that prove you can do the job: build them, push them to GitHub and talk through them in interviews."
       />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-4 sm:grid-cols-2">
         {projects.map((p) => (
-          <Link key={p.slug} href={`/projects/${p.slug}`} className="lift block">
-            <Card className="h-full transition-colors hover:border-accent">
+          <Link key={p.slug} href={`/projects/${p.slug}`} className="lift block rounded-2xl">
+            <Card className="spotlight h-full transition-colors hover:border-accent">
               <CardHeader>
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge tone="accent" className="capitalize">

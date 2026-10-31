@@ -40,12 +40,6 @@ test.describe("application shell", () => {
     await expect(page).toHaveURL(/\/learn\/performance$/);
   });
 
-  test("planned sections say so instead of faking content", async ({ page }) => {
-    await page.goto("/mock-tests");
-    await expect(page.getByText("Planned · Phase 4")).toBeVisible();
-    await expect(page.getByText("Mock Tests is not built yet")).toBeVisible();
-  });
-
   test("no horizontal overflow on the dashboard", async ({ page }) => {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow).toBeLessThanOrEqual(0);
