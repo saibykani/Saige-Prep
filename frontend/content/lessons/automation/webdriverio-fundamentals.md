@@ -217,7 +217,7 @@ Exact formatting depends on the WebdriverIO version.
 
 - **Session not created / driver mismatch**: update WebdriverIO so it can fetch a matching driver, or check the Grid capabilities.
 - **Element not interactable**: wait with `waitForClickable`, or check for overlays.
-- **Appium service fails to start**: confirm Appium 2 and the needed driver (for example UiAutomator2) are installed.
+- **Appium service fails to start**: confirm Appium 2 or later and the needed driver (for example UiAutomator2) are installed.
 - **TypeScript cannot find `browser` or `$` types**: make sure `@wdio/globals/types` is listed in `tsconfig.json` types.
 
 ## Key takeaways summary

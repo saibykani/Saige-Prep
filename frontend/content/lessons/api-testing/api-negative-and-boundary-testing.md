@@ -17,13 +17,13 @@ prerequisites:
 related: [http-status-codes, json-schema-validation, restassured-fundamentals, boundary-value-analysis, positive-and-negative-testing, testing-data-validation]
 references:
   - title: MDN Web Docs — HTTP response status codes
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
   - title: RFC 9457 — Problem Details for HTTP APIs
     url: https://www.rfc-editor.org/rfc/rfc9457
   - title: REST Assured documentation
     url: https://rest-assured.io/
   - title: OWASP API Security Top 10
-    url: https://owasp.org/API-Security/
+    url: https://owasp.org/API-Security/editions/2023/en/0x11-t10/
 interview:
   - q: What negative tests would you write for a POST /users endpoint?
     a: Layer by layer. Transport and headers - missing or wrong Content-Type, missing or invalid auth. Body structure - empty body, malformed JSON, an array instead of an object, unknown extra fields. Fields - each required field missing, null, wrong type, empty string, too short, too long, invalid format. Business rules - duplicate email, age below the minimum. For each I assert the status code, a structured error body that names the field, that nothing was created, and that no internal details like stack traces leak.
@@ -49,7 +49,7 @@ quiz:
     prompt: You send malformed JSON to POST /orders and receive 500 Internal Server Error. Is this correct?
     options: ["Yes, the server failed to parse it", "No, a client error like malformed JSON should return a 4xx such as 400", "Yes, if the body is empty", "It depends on the database"]
     answer: [1]
-    explanation: 5xx means the server failed while handling a valid request. Malformed input is the client's fault and should give a 4xx with a helpful error. A 500 suggests unhandled exceptions.
+    explanation: 5xx means the server erred or cannot perform the request (RFC 9110). Malformed input is the client's fault and should give a 4xx with a helpful error. A 500 suggests unhandled exceptions.
   - id: apineg-q2
     type: multiple
     topic: api-negative-and-boundary-testing

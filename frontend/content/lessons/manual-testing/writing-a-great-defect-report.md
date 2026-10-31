@@ -16,7 +16,7 @@ prerequisites:
 related: [defect-lifecycle, severity-vs-priority, defect-triage, root-cause-analysis, error-defect-bug-failure]
 references:
   - title: ISTQB Certified Tester Foundation Level Syllabus v4.0 (section 5.5, Defect Management)
-    url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
+    url: https://istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: Atlassian Jira guides (issue types and fields)
     url: https://www.atlassian.com/software/jira/guides
 interview:

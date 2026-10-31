@@ -16,13 +16,13 @@ prerequisites:
 related: [authentication-and-authorization, api-negative-and-boundary-testing, testing-user-permissions, idempotency-retries-rate-limiting, http-status-codes]
 references:
   - title: OWASP API Security Top 10
-    url: https://owasp.org/API-Security/
+    url: https://owasp.org/API-Security/editions/2023/en/0x11-t10/
   - title: OWASP Web Security Testing Guide
-    url: https://owasp.org/www-project-web-security-testing-guide/
+    url: https://owasp.org/projects/web-security-testing-guide
   - title: OWASP Cheat Sheet Series
     url: https://cheatsheetseries.owasp.org/
   - title: MDN Web Docs — HTTP authentication
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication
 interview:
   - q: What is BOLA and how do you test for it?
     a: Broken Object Level Authorization, the first item in the OWASP API Security Top 10. The API checks that you are logged in but not that the object you are asking for belongs to you. I test it with two users of the same role - user A creates or owns a resource, then user B requests, updates and deletes it by ID with B's token. Any success is a defect. I repeat for every endpoint that takes an object ID, including nested ones like /accounts/{id}/statements.

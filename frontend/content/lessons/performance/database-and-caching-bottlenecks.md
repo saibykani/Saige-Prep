@@ -19,11 +19,11 @@ references:
   - title: PostgreSQL Documentation — Using EXPLAIN
     url: https://www.postgresql.org/docs/current/using-explain.html
   - title: MySQL Reference Manual — Optimization
-    url: https://dev.mysql.com/doc/refman/8.0/en/optimization.html
+    url: https://dev.mysql.com/doc/refman/8.4/en/optimization.html
   - title: Redis documentation
     url: https://redis.io/docs/latest/
   - title: MDN Web Docs — HTTP caching
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching
 interview:
   - q: What database problems do you look for when an API slows down under load?
     a: Slow individual queries, usually from missing or unused indexes causing full scans; N+1 query patterns where one request triggers many small queries; lock contention and deadlocks on hot rows; connection-pool exhaustion where threads wait for a connection; and resource saturation on the database server itself - CPU, disk I/O or memory. I check slow-query logs, execution plans, pool metrics and database wait statistics alongside the load test timeline.

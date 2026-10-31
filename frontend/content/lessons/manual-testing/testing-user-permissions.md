@@ -16,11 +16,11 @@ prerequisites:
 related: [testing-login-and-authentication, decision-table-testing, authentication-and-authorization, api-security-testing, positive-and-negative-testing]
 references:
   - title: OWASP Top 10 (A01 Broken Access Control)
-    url: https://owasp.org/www-project-top-ten/
+    url: https://owasp.org/projects/top-ten
   - title: OWASP Web Security Testing Guide
-    url: https://owasp.org/www-project-web-security-testing-guide/
+    url: https://owasp.org/projects/web-security-testing-guide
   - title: MDN Web Docs — HTTP 401 and 403 status codes
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
 interview:
   - q: How do you approach testing a feature with several user roles?
     a: I build a permission matrix of roles against actions from the requirements, and get it confirmed by the product owner because gaps are common. Then I test every cell — allowed actions succeed, denied actions are blocked. For denied actions I check the UI hides or disables them, and separately that the server rejects them when called directly by URL or API, because UI hiding is not security.

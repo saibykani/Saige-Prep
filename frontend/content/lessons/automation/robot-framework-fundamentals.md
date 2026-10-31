@@ -105,7 +105,7 @@ Cells are separated by **two or more spaces** (or a tab, or ` | ` in pipe format
 
 ### Libraries
 
-- **BuiltIn**: always available (`Log`, `Should Be Equal`, `Sleep`, `Run Keyword If`, `Set Variable`).
+- **BuiltIn**: always available (`Log`, `Should Be Equal`, `Sleep`, `Set Variable`; native `IF`/`FOR` syntax replaces the older `Run Keyword If`).
 - **Standard libraries**: `Collections`, `String`, `OperatingSystem`, `DateTime`, `Process`.
 - **External libraries**: `SeleniumLibrary` (Selenium WebDriver), `Browser` (Playwright), `RequestsLibrary` (HTTP APIs), `AppiumLibrary`, `DatabaseLibrary`.
 - **Custom**: any Python class or module can become a library.

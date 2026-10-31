@@ -18,7 +18,7 @@ references:
   - title: OWASP Input Validation Cheat Sheet
     url: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
   - title: MDN Web Docs — Client-side form validation
-    url: https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
+    url: https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Form_validation
   - title: W3C WCAG overview (error identification and suggestions)
     url: https://www.w3.org/WAI/standards-guidelines/wcag/
 interview:

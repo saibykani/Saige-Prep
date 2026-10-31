@@ -18,9 +18,9 @@ references:
   - title: OWASP File Upload Cheat Sheet
     url: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
   - title: MDN Web Docs — input type="file"
-    url: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+    url: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/file
   - title: MDN Web Docs — Content-Disposition header
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Disposition
 interview:
   - q: How would you test a profile-picture upload that accepts JPG and PNG up to 5 MB?
     a: I partition by type, size, name and content. For size I test just under, exactly at and just over 5 MB, plus a 0-byte file. For type I test JPG, PNG, uppercase extensions, a disallowed type like GIF or PDF, and a file renamed to .jpg that is really something else, to see whether the server checks content and not just the extension. I also test long and special-character file names, corrupt images, cancelling and re-uploading, network interruption, and that the stored image is shown correctly and cannot be accessed by other users if it should be private.

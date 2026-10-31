@@ -21,7 +21,7 @@ references:
   - title: Jenkins User Documentation
     url: https://www.jenkins.io/doc/
   - title: Postman Learning Center — Newman
-    url: https://learning.postman.com/docs/collections/using-newman-cli/command-line-integration-with-newman/
+    url: https://learning.postman.com/docs/reference/newman-cli/command-line-integration-with-newman/
   - title: Apache Maven Surefire Plugin
     url: https://maven.apache.org/surefire/maven-surefire-plugin/
 interview:
@@ -144,10 +144,10 @@ jobs:
   newman:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
       - name: Run API tests
         env:
           API_KEY: ${{ secrets.API_TEST_KEY }}
@@ -159,7 +159,7 @@ jobs:
           --reporter-junit-export results/newman.xml
       - name: Upload report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: newman-report
           path: results/

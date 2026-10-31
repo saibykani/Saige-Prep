@@ -17,8 +17,8 @@ related: [testng-essentials, junit-5-essentials, page-object-model, flaky-test-r
 references:
   - title: TestNG documentation — Parallelism and time-outs
     url: https://testng.org/
-  - title: JUnit 5 User Guide — Parallel execution
-    url: https://junit.org/junit5/docs/current/user-guide/
+  - title: JUnit User Guide — Parallel execution
+    url: https://docs.junit.org/current/writing-tests/parallel-execution.html
   - title: Selenium documentation — Grid
     url: https://www.selenium.dev/documentation/grid/
 interview:

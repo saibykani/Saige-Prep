@@ -18,7 +18,7 @@ references:
   - title: Chrome DevTools — Network features reference (throttling)
     url: https://developer.chrome.com/docs/devtools/network/reference
   - title: MDN Web Docs — Cross browser testing
-    url: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing
+    url: https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Testing
   - title: Can I use (browser support tables)
     url: https://caniuse.com/
 interview:

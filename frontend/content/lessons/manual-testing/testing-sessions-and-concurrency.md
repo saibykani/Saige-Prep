@@ -18,9 +18,9 @@ references:
   - title: OWASP Session Management Cheat Sheet
     url: https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
   - title: MDN Web Docs — HTTP conditional requests (ETag, If-Match)
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Conditional_requests
   - title: MDN Web Docs — Using HTTP cookies
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies
 interview:
   - q: How would you test session timeout?
     a: I find out the idle timeout and the absolute timeout from the requirements or config, ideally shortened in a test environment. I then go idle past the limit and confirm the next action redirects to login without data loss beyond what the requirement allows, that activity just before the limit extends an idle session, that the absolute limit ends the session regardless of activity, and that an expired session cookie replayed via the API is rejected. I also check what happens to an unsaved form and whether the user is returned to where they were after logging in again.
