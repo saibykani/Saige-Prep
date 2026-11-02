@@ -1,42 +1,61 @@
 "use client";
 
-import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ListChecks, Tags, Timer } from "lucide-react";
+import { CourseCard } from "@/components/ui/course-card";
+import { ProgressMeter } from "@/components/ui/progress-meter";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { useStore } from "@/lib/store";
 
 export interface BankSummary {
   bank: string;
   title: string;
   count: number;
+  topics: number;
+  level: string | null;
 }
 
 export function MockHub({ banks }: { banks: BankSummary[] }) {
   const attempts = useStore((d) => d.assessments);
   return (
     <div className="space-y-8">
-      <div className="stagger grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {banks.map((b) => {
           const mine = attempts.filter((a) => a.banks.includes(b.bank));
           const best = mine.reduce((m, a) => Math.max(m, a.maxScore ? a.score / a.maxScore : 0), 0);
           return (
-            <Link key={b.bank} href={`/mock-tests/${b.bank}`} className="lift block rounded-2xl">
-              <Card className="spotlight h-full transition-colors hover:border-accent">
-                <CardHeader>
-                  <CardTitle>{b.title}</CardTitle>
-                  <CardDescription>{b.count} questions · timed, with flags and topic-wise review</CardDescription>
-                </CardHeader>
-                <CardContent className="text-sm text-muted">
-                  {mine.length
-                    ? `${mine.length} attempt${mine.length > 1 ? "s" : ""} · best ${Math.round(best * 100)}%`
-                    : "Not attempted yet"}
-                </CardContent>
-              </Card>
-            </Link>
+            <CourseCard
+              key={b.bank}
+              href={`/mock-tests/${b.bank}`}
+              title={b.title}
+              themeKey={b.bank}
+              kind="mock"
+              level={b.level}
+              cta="Start test"
+              meta={[
+                <>
+                  <ListChecks className="h-3.5 w-3.5" aria-hidden /> {b.count} questions
+                </>,
+                <>
+                  <Tags className="h-3.5 w-3.5" aria-hidden /> {b.topics} topics
+                </>,
+                <>
+                  <Timer className="h-3.5 w-3.5" aria-hidden /> timed, with flags
+                </>,
+              ]}
+              progress={
+                mine.length ? (
+                  <ProgressMeter value={best} label={`${mine.length} attempt${mine.length > 1 ? "s" : ""} · best ${Math.round(best * 100)}%`} />
+                ) : (
+                  <p className="text-xs text-muted">Not attempted yet</p>
+                )
+              }
+            />
           );
         })}
       </div>
-      <section>
-        <h2 className="mb-3 text-lg font-semibold">Your attempts</h2>
+      <Reveal as="section">
+        <SectionHeading title="Your attempts" />
         {attempts.length === 0 ? (
           <p className="text-sm text-muted">No attempts yet. Results are saved in this browser only.</p>
         ) : (
@@ -52,7 +71,7 @@ export function MockHub({ banks }: { banks: BankSummary[] }) {
             ))}
           </ul>
         )}
-      </section>
+      </Reveal>
     </div>
   );
 }

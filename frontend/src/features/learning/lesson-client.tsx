@@ -91,7 +91,7 @@ export function LessonQuiz({ slug, questions }: { slug: string; questions: Choic
       <CardHeader>
         <CardTitle>Check your understanding</CardTitle>
         <CardDescription>
-          {questions.length} questions. Wrong answers are added to your revision list.
+          {questions.length} questions. Each answer comes with an explanation.
           {lastScore !== undefined && ` Last attempt: ${Math.round(lastScore * 100)}%.`}
         </CardDescription>
       </CardHeader>

@@ -2,7 +2,8 @@
 
 import { ArrowRight, Bug, ClipboardCheck, CodeXml, Database, FileSearch, Gauge, Sparkles, Webhook, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { PageHeader } from "@/components/layout/page-header";
+import { HubHero } from "@/components/layout/hub-hero";
+import { ProgressMeter } from "@/components/ui/progress-meter";
 import { Badge } from "@/components/ui/badge";
 import { PRACTICE } from "@/lib/registry";
 import { useStore } from "@/lib/store";
@@ -27,18 +28,26 @@ const LABS: Record<string, { icon: LucideIcon; ids: string[]; tint: string; chec
 export function PracticeHub() {
   const practice = useStore((d) => d.practice);
   const total = Object.values(LABS).reduce((n, l) => n + l.ids.length, 0);
+  const labCount = PRACTICE.filter((p) => LABS[p.slug]).length;
   const solved = Object.entries(LABS).reduce((n, [lab, l]) => n + l.ids.filter((id) => practice[`${lab}:${id}`]).length, 0);
 
   return (
     <div className="animate-fade-in">
-      <PageHeader
+      <HubHero
+        tone="emerald"
         title="Practice Lab"
-        description="Learn by doing. Short, hands-on exercises with instant feedback — and an explanation every time, so mistakes turn into understanding."
+        subtitle="Learn by doing. Short, hands-on exercises with instant feedback — and an explanation every time, so mistakes turn into understanding."
         eyebrow={
-          <Badge tone="accent">
-            <Sparkles className="h-3 w-3" aria-hidden /> {solved * 10} XP · {solved}/{total} solved
-          </Badge>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs">
+            <Sparkles className="h-3 w-3" aria-hidden /> {solved * 10} XP earned
+          </span>
         }
+        stats={[
+          { value: labCount, label: "labs" },
+          { value: total, label: "exercises" },
+          { value: solved, label: "solved by you" },
+        ]}
+        actions={[{ href: `/practice/${PRACTICE[0].slug}`, label: `Start with the ${PRACTICE[0].title}`, primary: true }]}
       />
       <div className="stagger grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {PRACTICE.map((p) => {
@@ -46,7 +55,6 @@ export function PracticeHub() {
           if (!lab) return null;
           const Icon = lab.icon;
           const done = lab.ids.filter((id) => practice[`${p.slug}:${id}`]).length;
-          const pct = Math.round((done / lab.ids.length) * 100);
           return (
             <Link
               key={p.slug}
@@ -75,9 +83,7 @@ export function PracticeHub() {
                     {done === 0 ? "Start" : done === lab.ids.length ? "Review" : "Continue"} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-surface-raised">
-                  <div className="h-full rounded-full bg-gradient-to-r from-accent to-success transition-[width] duration-700" style={{ width: `${pct}%` }} />
-                </div>
+                <ProgressMeter value={done / lab.ids.length} label={`${p.title} progress`} showLabel={false} />
               </div>
             </Link>
           );

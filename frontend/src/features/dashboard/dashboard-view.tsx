@@ -5,6 +5,8 @@ import {
   BookOpen,
   CircleCheck,
   CircleDashed,
+  Clock,
+  PlayCircle,
   FlaskConical,
   GraduationCap,
   History,
@@ -13,13 +15,18 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { PageHeader } from "@/components/layout/page-header";
+import { HubHero } from "@/components/layout/hub-hero";
+import { ProgressMeter } from "@/components/ui/progress-meter";
+import { CourseThumb } from "@/components/ui/course-card";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { CountUp } from "@/components/ui/count-up";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/feedback";
 import { useCurrentUser } from "@/features/auth/hooks";
 import { isGuest } from "@/lib/auth-mode";
-import { useStore, type ActivityKind } from "@/lib/store";
+import { useStore, type ActivityKind, type StoreData } from "@/lib/store";
+import { cn } from "@/lib/utils";
 
 interface NextStep {
   label: string;
@@ -58,7 +65,81 @@ function prettyRef(ref: string) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-export function DashboardView() {
+export interface LessonRef {
+  title: string;
+  href: string;
+  track: string;
+  trackTitle: string;
+  duration: number;
+  level: string;
+}
+
+/** Horizontal, scroll-snapping row of the learner's real in-progress lessons (most recent first). */
+function ContinueLearningRow({ lessons, index }: { lessons: StoreData["lessons"]; index: Record<string, LessonRef> }) {
+  const items = Object.entries(lessons)
+    .filter(([slug, p]) => p.status === "in-progress" && index[slug])
+    .sort(([, a], [, b]) => b.lastViewedAt.localeCompare(a.lastViewedAt))
+    .slice(0, 10)
+    .map(([slug]) => ({ slug, ...index[slug] }));
+
+  return (
+    <Reveal as="section" className="mb-8" aria-labelledby="continue-learning">
+      <SectionHeading
+        id="continue-learning"
+        title="Continue learning"
+        description={items.length ? "Lessons you have opened but not marked complete, most recent first." : undefined}
+      />
+      {items.length === 0 ? (
+        <div className="flex flex-col items-start gap-3 rounded-2xl border border-dashed border-border-strong bg-surface/70 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-medium">Nothing in progress yet</p>
+            <p className="text-sm text-muted">Lessons you open will line up here so you can pick up where you left off.</p>
+          </div>
+          <Link
+            href="/learn/manual-testing"
+            className="ripple press-fx inline-flex h-10 shrink-0 items-center gap-2 overflow-hidden rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-strong"
+          >
+            Open your first lesson <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
+      ) : (
+        <ul className="snap-row -mx-4 flex gap-4 overflow-x-auto px-4 pb-3 sm:mx-0 sm:px-0">
+          {items.map((item, i) => (
+            <li key={item.slug} className={cn("w-[78%] max-w-[300px] shrink-0 sm:w-[280px]", i === 0 && "featured-ring rounded-2xl")}>
+              <Link href={item.href} className="course-card group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft">
+                <CourseThumb themeKey={item.track} size="sm">
+                  <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold capitalize text-[#1f1147]">
+                    {item.level}
+                  </span>
+                </CourseThumb>
+                <div className="flex flex-1 flex-col gap-2 p-4">
+                  <p className="text-xs font-medium text-accent">{item.trackTitle}</p>
+                  <p className="line-clamp-2 text-sm font-semibold leading-snug">{item.title}</p>
+                  <div className="mt-auto flex items-center justify-between pt-1 text-xs text-muted">
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5" aria-hidden /> {item.duration} min
+                    </span>
+                    <span className="inline-flex items-center gap-1 font-semibold text-foreground transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none">
+                      <PlayCircle className="h-4 w-4 text-accent" aria-hidden /> Resume
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Reveal>
+  );
+}
+
+export function DashboardView({
+  lessonIndex,
+  content,
+}: {
+  lessonIndex: Record<string, LessonRef>;
+  content: { tracks: number; lessons: number; hours: number };
+}) {
   const { data: user } = useCurrentUser();
   const data = useStore((d) => d);
 
@@ -109,15 +190,25 @@ export function DashboardView() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader
+      <HubHero
+        tone="violet"
         title={`${greeting()}${user && !isGuest(user) ? `, ${user.display_name}` : ""}`}
-        description="Learn. Practice. Test. Get Hired. Your progress here is based only on what you actually complete."
+        subtitle="Learn. Practice. Test. Get Hired. Your progress here is based only on what you actually complete."
+        stats={[
+          { value: content.tracks, label: "tracks" },
+          { value: content.lessons, label: "lessons to explore" },
+          { value: content.hours, label: "hours of study" },
+        ]}
+        actions={[
+          { href: "/learn", label: "Browse all tracks", primary: true },
+          { href: "/planner", label: "Open my study plan" },
+        ]}
       />
 
       <div className="stagger mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {stats.map(({ label, value, icon: Icon }) => (
           <Card key={label} className="spotlight lift group overflow-hidden">
-            <CardContent className="flex items-start justify-between gap-3 py-5">
+            <CardContent className="flex items-start justify-between gap-3 pt-5 sm:pt-5">
               <div>
                 <p className="text-3xl font-semibold tracking-tight">
                   <CountUp value={value} />
@@ -132,7 +223,9 @@ export function DashboardView() {
         ))}
       </div>
 
-      <div className="stagger grid gap-6 lg:grid-cols-[1fr_340px]">
+      <ContinueLearningRow lessons={data.lessons} index={lessonIndex} />
+
+      <Reveal className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <div className="space-y-6">
           <Card className="spotlight">
             <CardHeader>
@@ -142,19 +235,7 @@ export function DashboardView() {
                   ? "All done. Keep going with your study plan."
                   : `${doneCount} of ${steps.length} done. Each step ticks itself off as you complete it.`}
               </CardDescription>
-              <div
-                className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-raised"
-                role="progressbar"
-                aria-label="Next steps completed"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={stepPct}
-              >
-                <div
-                  className="h-full origin-left rounded-full bg-gradient-to-r from-accent to-success transition-transform duration-700 ease-out"
-                  style={{ transform: `scaleX(${stepPct / 100})` }}
-                />
-              </div>
+              <ProgressMeter className="mt-2" value={stepPct / 100} label="Next steps completed" showLabel={false} />
             </CardHeader>
             <CardContent>
               <ol className="divide-y divide-border">
@@ -238,7 +319,7 @@ export function DashboardView() {
             ))}
           </CardContent>
         </Card>
-      </div>
+      </Reveal>
     </div>
   );
 }

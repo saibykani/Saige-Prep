@@ -1,8 +1,7 @@
+import { Clock, Code, Wrench } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { PageHeader } from "@/components/layout/page-header";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { HubHero } from "@/components/layout/hub-hero";
+import { CourseCard } from "@/components/ui/course-card";
 import { getProjects } from "@/content/loader";
 import { ProjectDoneBadge } from "@/features/projects/project-done";
 
@@ -13,30 +12,52 @@ export const metadata: Metadata = { title: "Real-World Projects" };
 
 export default function Page() {
   const projects = getProjects();
+  const hours = projects.reduce((n, p) => n + p.hours, 0);
+  const starters = projects.filter((p) => p.sourceDir).length;
   return (
     <div className="animate-fade-in">
-      <PageHeader
+      <HubHero
+        tone="emerald"
         title="Real-World Projects"
-        description="Guided portfolio projects that prove you can do the job: build them, push them to GitHub and talk through them in interviews."
+        subtitle="Guided portfolio projects that prove you can do the job: build them, push them to GitHub and talk through them in interviews."
+        stats={[
+          { value: projects.length, label: "projects" },
+          { value: hours, label: "hours of building" },
+          { value: starters, label: "with starter code" },
+        ]}
+        actions={[
+          { href: "/learn/automation", label: "Learn automation first", primary: true },
+          { href: "/interviews", label: "Practise talking about them" },
+        ]}
       />
-      <div className="stagger grid gap-4 sm:grid-cols-2">
+      <div className="stagger grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {projects.map((p) => (
-          <Link key={p.slug} href={`/projects/${p.slug}`} className="lift block rounded-2xl">
-            <Card className="spotlight h-full transition-colors hover:border-accent">
-              <CardHeader>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge tone="accent" className="capitalize">
-                    {p.level}
-                  </Badge>
-                  <Badge>~{p.hours} h</Badge>
-                  {p.sourceDir && <Badge>Starter code</Badge>}
-                  <ProjectDoneBadge slug={p.slug} />
-                </div>
-                <CardTitle>{p.title}</CardTitle>
-                <CardDescription>{p.skills.join(" · ")}</CardDescription>
-              </CardHeader>
-            </Card>
-          </Link>
+          <CourseCard
+            key={p.slug}
+            href={`/projects/${p.slug}`}
+            title={p.title}
+            description={p.summary}
+            themeKey={p.slug}
+            kind="project"
+            level={p.level.charAt(0).toUpperCase() + p.level.slice(1)}
+            cta="Start project"
+            meta={[
+              <>
+                <Clock className="h-3.5 w-3.5" aria-hidden /> ~{p.hours} h
+              </>,
+              <>
+                <Wrench className="h-3.5 w-3.5" aria-hidden /> {p.skills.slice(0, 3).join(" · ")}
+              </>,
+              ...(p.sourceDir
+                ? [
+                    <>
+                      <Code className="h-3.5 w-3.5" aria-hidden /> Starter code
+                    </>,
+                  ]
+                : []),
+            ]}
+            badges={<ProjectDoneBadge slug={p.slug} />}
+          />
         ))}
       </div>
     </div>

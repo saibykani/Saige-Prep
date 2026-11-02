@@ -33,9 +33,24 @@ export function useSpotlight() {
       if (!frame) frame = requestAnimationFrame(flush);
     }
 
+    /** Ripple: restart a CSS animation at the press point on `.ripple` elements. */
+    function onDown(event: PointerEvent) {
+      if (reduced.matches || !(event.target instanceof Element)) return;
+      const el = event.target.closest<HTMLElement>(".ripple");
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty("--rx", `${event.clientX - rect.left}px`);
+      el.style.setProperty("--ry", `${event.clientY - rect.top}px`);
+      el.classList.remove("rippling");
+      void el.offsetWidth; // restart the animation
+      el.classList.add("rippling");
+    }
+
     document.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("pointerdown", onDown, { passive: true });
     return () => {
       document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerdown", onDown);
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

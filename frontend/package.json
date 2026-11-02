@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",
+    "help:screenshots": "node scripts/help-screenshots.mjs",
     "check": "npm run typecheck && npm run lint && npm run test",
     "validate:content": "vitest run src/content"
   },

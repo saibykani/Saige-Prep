@@ -209,7 +209,7 @@ export function MockTest({ bank, title, questions, topicTitles, backHref }: { ba
           </Button>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[minmax(0,1fr)_220px]">
           <div key={q.id} className="animate-slide-up space-y-4 rounded-xl border border-border bg-surface p-5">
             <QuestionCard
               question={q}

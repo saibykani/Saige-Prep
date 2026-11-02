@@ -3,6 +3,7 @@
 import { CircleCheck, CircleDashed, CircleDot, Clock, Lock } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { ProgressMeter } from "@/components/ui/progress-meter";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -15,33 +16,11 @@ export interface TopicRow {
   level?: string;
 }
 
-function ProgressBar({ value, label }: { value: number; label: string }) {
-  const pct = Math.round(value * 100);
-  return (
-    <div>
-      <div className="mb-1.5 flex justify-between text-xs text-muted">
-        <span>{label}</span>
-        <span>{pct}%</span>
-      </div>
-      <div
-        className="h-1.5 overflow-hidden rounded-full bg-surface-raised"
-        role="progressbar"
-        aria-valuenow={pct}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={label}
-      >
-        <div className="h-full rounded-full bg-gradient-to-r from-accent to-success transition-[width] duration-500" style={{ width: `${pct}%` }} />
-      </div>
-    </div>
-  );
-}
-
 /** Completion across a set of lesson slugs, from this browser's progress data. */
 export function CompletionBar({ slugs, label = "Completed" }: { slugs: string[]; label?: string }) {
   const lessons = useStore((d) => d.lessons);
   const done = slugs.filter((s) => lessons[s]?.status === "completed").length;
-  return <ProgressBar value={slugs.length ? done / slugs.length : 0} label={`${label} · ${done}/${slugs.length}`} />;
+  return <ProgressMeter value={slugs.length ? done / slugs.length : 0} label={`${label} · ${done}/${slugs.length}`} />;
 }
 
 export function TopicList({ topics }: { topics: TopicRow[] }) {

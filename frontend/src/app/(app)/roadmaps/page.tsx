@@ -1,7 +1,6 @@
 import { Map as MapIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/page-header";
-import { Badge } from "@/components/ui/badge";
+import { HubHero } from "@/components/layout/hub-hero";
 import { EmptyState } from "@/components/ui/feedback";
 import { getRoles } from "@/content/loader";
 import { ROLE_CATALOG } from "@/content/role-catalog";
@@ -27,10 +26,19 @@ export default function RoadmapsPage() {
 
   return (
     <div className="animate-fade-in">
-      <PageHeader
+      <HubHero
+        tone="plum"
         title="Testing Role Roadmaps"
-        description="Beginner-to-advanced paths for every major testing role. Each roadmap separates essential skills from role-specific and optional ones — roles really do differ."
-        eyebrow={<Badge tone="accent">{roles.length} of {total} roles</Badge>}
+        subtitle="Beginner-to-advanced paths for every major testing role. Each roadmap separates essential skills from role-specific and optional ones — roles really do differ."
+        stats={[
+          { value: roles.length, label: `of ${total} roles mapped` },
+          { value: new Set(roles.map((r) => r.category)).size, label: "role families" },
+          { value: cards.filter((c) => !c.codingRequired).length, label: "need no coding" },
+        ]}
+        actions={[
+          { href: "/planner", label: "Build a study plan", primary: true },
+          { href: "/learn", label: "Browse the Learning Center" },
+        ]}
       />
       {cards.length === 0 ? (
         <EmptyState icon={MapIcon} title="Role roadmaps are being written" description="They will appear here as soon as they pass content validation." />
