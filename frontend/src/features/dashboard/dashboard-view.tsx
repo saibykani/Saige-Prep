@@ -15,7 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { HubHero } from "@/components/layout/hub-hero";
+import { CinematicHero } from "./cinematic-hero";
 import { ProgressMeter } from "@/components/ui/progress-meter";
 import { CourseThumb } from "@/components/ui/course-card";
 import { Reveal } from "@/components/ui/reveal";
@@ -190,19 +190,12 @@ export function DashboardView({
 
   return (
     <div className="animate-fade-in">
-      <HubHero
-        tone="violet"
+      <CinematicHero
         title={`${greeting()}${user && !isGuest(user) ? `, ${user.display_name}` : ""}`}
-        subtitle="Learn. Practice. Test. Get Hired. Your progress here is based only on what you actually complete."
-        stats={[
-          { value: content.tracks, label: "tracks" },
-          { value: content.lessons, label: "lessons to explore" },
-          { value: content.hours, label: "hours of study" },
-        ]}
-        actions={[
-          { href: "/learn", label: "Browse all tracks", primary: true },
-          { href: "/planner", label: "Open my study plan" },
-        ]}
+        readiness={{ done: doneCount, total: steps.length }}
+        nextStep={steps.find((s) => !s.done)}
+        activity={data.activity}
+        content={content}
       />
 
       <div className="stagger mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
