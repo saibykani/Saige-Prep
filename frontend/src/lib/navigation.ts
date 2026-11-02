@@ -8,6 +8,7 @@ import {
   FlaskConical,
   FolderGit2,
   Gauge,
+  LifeBuoy,
   GraduationCap,
   LayoutDashboard,
   Map,
@@ -258,6 +259,15 @@ export const NAV_GROUPS: NavGroup[] = [
     id: "system",
     label: "System",
     items: [
+      {
+        href: "/help",
+        label: "Help & User Guide",
+        icon: LifeBuoy,
+        description: "How to use Saige-Prep and how to study with it.",
+        phase: 9,
+        planned: [],
+        keywords: ["help", "guide", "manual", "how to", "faq", "study"],
+      },
       {
         href: "/settings",
         label: "Settings",
