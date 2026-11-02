@@ -148,7 +148,9 @@ describe('login', () => {
 
   it('valid user reaches the dashboard', () => {
     cy.get('[data-cy=email]').type('demo@example.test');
-    cy.get('[data-cy=password]').type(Cypress.env('DEMO_PASSWORD'), { log: false });
+    cy.env(['DEMO_PASSWORD']).then(({ DEMO_PASSWORD }) => {
+      cy.get('[data-cy=password]').type(DEMO_PASSWORD, { log: false });
+    });
     cy.get('[data-cy=submit]').click();
 
     cy.location('pathname').should('eq', '/dashboard');
@@ -215,7 +217,7 @@ Cypress.Commands.add('login', (email, password) => {
 - **"Timed out retrying after 4000ms"**: the element never matched; check the selector in the runner's selector playground or increase the timeout for that query only.
 - **Cross-origin error**: use `cy.origin()` for steps on another domain.
 - **Element detached from DOM**: the app re-rendered; re-query rather than storing elements.
-- **Environment variables undefined**: pass with `--env` or `CYPRESS_` prefixed variables and read with `Cypress.env()`.
+- **Environment variables undefined**: pass with `--env` or `CYPRESS_` prefixed variables and read with `cy.env(['NAME'])` (`Cypress.env()` was deprecated in 15.10 and removed in 16).
 
 ## Key takeaways summary
 

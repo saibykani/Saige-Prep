@@ -157,7 +157,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               {user.display_name}
             </span>
             {isGuest(user) ? (
-              <Badge tone="accent" title="Login is turned off; the portal opens directly">
+              <Badge tone="accent" className="shrink-0 whitespace-nowrap" title="Login is turned off; the portal opens directly">
                 Open access
               </Badge>
             ) : (

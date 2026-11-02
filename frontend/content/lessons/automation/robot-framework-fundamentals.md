@@ -205,7 +205,7 @@ Valid User Reaches Dashboard                                          | PASS |
 Wrong Password Shows Error                                            | PASS |
 ------------------------------------------------------------------------------
 Login                                                                 | PASS |
-2 tests, 2 passed, 0 failed
+2 tests, 2 passed, 0 failed, 0 skipped
 ==============================================================================
 Output:  .../output.xml
 Log:     .../log.html
@@ -226,7 +226,7 @@ Report:  .../report.html
 - **"No keyword with name ... found"**: check spacing, spelling and that the library is imported.
 - **Element not found**: confirm the locator prefix (`id:`, `css:`, `xpath:`) and wait for visibility.
 - **Browser fails to start**: update Selenium and the browser; check that Selenium Manager can download a driver on your network.
-- **Variables not overridden**: command-line `--variable` overrides file values, but check the exact name and case.
+- **Variables not overridden**: command-line `--variable` overrides file values, but check the exact name (variable names ignore case, spaces and underscores, so a typo is the usual cause).
 
 ## Key takeaways summary
 
