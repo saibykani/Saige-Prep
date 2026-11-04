@@ -89,6 +89,11 @@ export const ROLE_CATALOG = {
     ["devops-cicd-test-engineer", "DevOps and CI/CD Test Engineer"],
     ["cloud-qa-engineer", "Cloud QA Engineer"],
     ["chaos-engineering-practitioner", "Chaos Engineering Practitioner"],
+    ["ai-engineer", "AI Engineer"],
+    ["ai-test-engineer", "AI Test Engineer"],
+    ["ai-specialist", "AI Specialist"],
+    ["ai-scientist", "AI Scientist"],
+    ["ai-ml-engineer", "AI/ML Engineer"],
   ],
   leadership: [
     ["senior-qa-engineer", "Senior QA Engineer"],

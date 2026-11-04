@@ -46,7 +46,12 @@
             "Profile a table: row count, distinct counts, min/max and null percentage per column",
             "Log a data defect with the query, expected result and actual result"
           ],
-          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "database-testing", "testing-data-validation"]
+          "topics": [
+            "sql-for-testers",
+            "sql-joins-and-aggregates",
+            "database-testing",
+            "testing-data-validation"
+          ]
         },
         "intermediate": {
           "title": "Automated data checks in pipelines",
@@ -56,7 +61,12 @@
             "Use window functions to detect gaps and duplicates in time-series data",
             "Run data checks from a CI job and fail the build on violations"
           ],
-          "topics": ["etl-and-data-warehouse-testing", "test-data-design", "boundary-value-analysis", "ci-cd-for-test-engineers"]
+          "topics": [
+            "etl-and-data-warehouse-testing",
+            "test-data-design",
+            "boundary-value-analysis",
+            "ci-cd-for-test-engineers"
+          ]
         },
         "advanced": {
           "title": "Data quality strategy and incident handling",
@@ -66,10 +76,23 @@
             "Define data quality metrics and a reporting cadence for stakeholders",
             "Review schema change proposals for downstream breakage"
           ],
-          "topics": ["risk-based-testing", "root-cause-analysis", "qa-metrics-and-reporting", "test-pyramid-and-strategy"]
+          "topics": [
+            "risk-based-testing",
+            "root-cause-analysis",
+            "qa-metrics-and-reporting",
+            "test-pyramid-and-strategy"
+          ]
         }
       },
-      "tools": ["SQL clients (DBeaver or similar)", "dbt tests", "Great Expectations", "Apache Airflow", "PostgreSQL", "Git", "Python with pandas"],
+      "tools": [
+        "SQL clients (DBeaver or similar)",
+        "dbt tests",
+        "Great Expectations",
+        "Apache Airflow",
+        "PostgreSQL",
+        "Git",
+        "Python with pandas"
+      ],
       "exercises": [
         "Given an orders and customers schema, write five queries that each expose a different data quality problem",
         "Write dbt tests for a staging model: unique and not-null on the key, accepted values on status, relationship to customers",
@@ -115,7 +138,11 @@
         "Can explain each data quality dimension with a concrete check",
         "Has performed a source-to-target reconciliation and explained the discrepancies found"
       ],
-      "nextRoles": ["etl-test-engineer", "data-warehouse-tester", "analytics-qa-engineer"]
+      "nextRoles": [
+        "etl-test-engineer",
+        "data-warehouse-tester",
+        "analytics-qa-engineer"
+      ]
     },
     {
       "slug": "etl-test-engineer",
@@ -162,7 +189,12 @@
             "Compare source and target with EXCEPT queries in both directions",
             "Validate data type conversions and truncation on boundary values"
           ],
-          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "etl-and-data-warehouse-testing", "test-scenarios-and-test-cases"]
+          "topics": [
+            "sql-for-testers",
+            "sql-joins-and-aggregates",
+            "etl-and-data-warehouse-testing",
+            "test-scenarios-and-test-cases"
+          ]
         },
         "intermediate": {
           "title": "Incremental loads and error paths",
@@ -172,7 +204,12 @@
             "Test that rerunning a failed job does not duplicate data",
             "Validate that rejected records land in an error table with a reason"
           ],
-          "topics": ["database-testing", "test-data-design", "boundary-value-analysis", "positive-and-negative-testing"]
+          "topics": [
+            "database-testing",
+            "test-data-design",
+            "boundary-value-analysis",
+            "positive-and-negative-testing"
+          ]
         },
         "advanced": {
           "title": "Automating ETL verification",
@@ -182,10 +219,24 @@
             "Define entry and exit criteria for ETL releases",
             "Estimate ETL test effort from mapping complexity"
           ],
-          "topics": ["regression-testing", "docker-for-testers", "ci-cd-for-test-engineers", "entry-and-exit-criteria", "test-estimation"]
+          "topics": [
+            "regression-testing",
+            "docker-for-testers",
+            "ci-cd-for-test-engineers",
+            "entry-and-exit-criteria",
+            "test-estimation"
+          ]
         }
       },
-      "tools": ["SQL clients", "Apache Airflow", "dbt", "Python with pandas", "Docker", "PostgreSQL", "Jira or another defect tracker"],
+      "tools": [
+        "SQL clients",
+        "Apache Airflow",
+        "dbt",
+        "Python with pandas",
+        "Docker",
+        "PostgreSQL",
+        "Jira or another defect tracker"
+      ],
       "exercises": [
         "Write a mapping-based test case set for a customer table with concatenated names, a lookup-coded country and a derived age band",
         "Simulate two incremental loads and verify inserts, updates and deletes are applied exactly once",
@@ -231,7 +282,10 @@
         "Can write two-way EXCEPT and anti-join reconciliation queries from memory",
         "Can explain and test SCD Type 1 and Type 2 behaviour"
       ],
-      "nextRoles": ["data-warehouse-tester", "data-qa-engineer"]
+      "nextRoles": [
+        "data-warehouse-tester",
+        "data-qa-engineer"
+      ]
     },
     {
       "slug": "data-warehouse-tester",
@@ -278,7 +332,12 @@
             "Validate that every fact row joins to a dimension row, including an unknown member",
             "Recompute a summary table from detail and compare"
           ],
-          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "database-testing", "etl-and-data-warehouse-testing"]
+          "topics": [
+            "sql-for-testers",
+            "sql-joins-and-aggregates",
+            "database-testing",
+            "etl-and-data-warehouse-testing"
+          ]
         },
         "intermediate": {
           "title": "Facts, history and metrics",
@@ -288,7 +347,12 @@
             "Document and test metric definitions with the business owner",
             "Test late-arriving facts and backfills"
           ],
-          "topics": ["test-data-design", "traceability-matrix-and-coverage", "decision-table-testing", "testing-data-validation"]
+          "topics": [
+            "test-data-design",
+            "traceability-matrix-and-coverage",
+            "decision-table-testing",
+            "testing-data-validation"
+          ]
         },
         "advanced": {
           "title": "Warehouse regression and performance",
@@ -298,10 +362,22 @@
             "Define freshness and completeness service levels per subject area",
             "Lead a data release sign-off"
           ],
-          "topics": ["regression-testing", "database-and-caching-bottlenecks", "release-sign-off", "risk-based-testing"]
+          "topics": [
+            "regression-testing",
+            "database-and-caching-bottlenecks",
+            "release-sign-off",
+            "risk-based-testing"
+          ]
         }
       },
-      "tools": ["SQL clients", "dbt", "A cloud or on-premise data warehouse", "Apache Airflow", "BI tools for report verification", "Git"],
+      "tools": [
+        "SQL clients",
+        "dbt",
+        "A cloud or on-premise data warehouse",
+        "Apache Airflow",
+        "BI tools for report verification",
+        "Git"
+      ],
       "exercises": [
         "Write a query that proves or disproves the stated grain of a sales fact table",
         "Find fact rows referencing dimension keys that do not exist",
@@ -343,7 +419,10 @@
         "Has built a before/after regression comparison for a model change",
         "Can reconcile an aggregate table against detail facts"
       ],
-      "nextRoles": ["analytics-qa-engineer", "data-qa-engineer"]
+      "nextRoles": [
+        "analytics-qa-engineer",
+        "data-qa-engineer"
+      ]
     },
     {
       "slug": "analytics-qa-engineer",
@@ -389,7 +468,12 @@
             "Test daily metrics around midnight in different time zones",
             "Write a defect report for a missing or duplicated event"
           ],
-          "topics": ["sql-for-testers", "sql-joins-and-aggregates", "testing-data-validation", "writing-a-great-defect-report"]
+          "topics": [
+            "sql-for-testers",
+            "sql-joins-and-aggregates",
+            "testing-data-validation",
+            "writing-a-great-defect-report"
+          ]
         },
         "intermediate": {
           "title": "Dashboard and experiment testing",
@@ -399,7 +483,12 @@
             "Verify unique-user counts are not double counted across devices or sessions",
             "Test row-level security on a report with two user roles"
           ],
-          "topics": ["equivalence-partitioning", "boundary-value-analysis", "testing-user-permissions", "etl-and-data-warehouse-testing"]
+          "topics": [
+            "equivalence-partitioning",
+            "boundary-value-analysis",
+            "testing-user-permissions",
+            "etl-and-data-warehouse-testing"
+          ]
         },
         "advanced": {
           "title": "Analytics quality ownership",
@@ -409,10 +498,21 @@
             "Run root cause analysis on a metric discrepancy across systems",
             "Report analytics quality status to product leadership"
           ],
-          "topics": ["playwright-with-typescript", "root-cause-analysis", "qa-metrics-and-reporting"]
+          "topics": [
+            "playwright-with-typescript",
+            "root-cause-analysis",
+            "qa-metrics-and-reporting"
+          ]
         }
       },
-      "tools": ["Browser developer tools", "SQL clients", "BI and dashboard tools", "Product analytics platforms", "Playwright for event assertions", "Spreadsheets for reconciliation"],
+      "tools": [
+        "Browser developer tools",
+        "SQL clients",
+        "BI and dashboard tools",
+        "Product analytics platforms",
+        "Playwright for event assertions",
+        "Spreadsheets for reconciliation"
+      ],
       "exercises": [
         "Compare five events fired during a sign-up flow against a tracking plan and list discrepancies",
         "Recompute daily active users with SQL and explain any difference from the dashboard",
@@ -454,7 +554,10 @@
         "Can explain sample ratio mismatch and how to check for it",
         "Has tested row-level security for at least two roles"
       ],
-      "nextRoles": ["data-qa-engineer", "ml-model-testing-specialist"]
+      "nextRoles": [
+        "data-qa-engineer",
+        "ml-model-testing-specialist"
+      ]
     },
     {
       "slug": "ai-quality-engineer",
@@ -501,7 +604,12 @@
             "Create a small labelled evaluation set covering typical, edge and adversarial inputs",
             "Compute precision and recall for a simple classifier"
           ],
-          "topics": ["testing-ai-applications", "test-data-design", "positive-and-negative-testing", "functional-vs-non-functional-testing"]
+          "topics": [
+            "testing-ai-applications",
+            "test-data-design",
+            "positive-and-negative-testing",
+            "functional-vs-non-functional-testing"
+          ]
         },
         "intermediate": {
           "title": "Evaluation pipelines",
@@ -511,7 +619,12 @@
             "Calibrate an automated grader against a sample of human labels",
             "Test for prompt injection and data leakage"
           ],
-          "topics": ["llm-evaluation", "rag-evaluation", "ci-cd-for-test-engineers", "security-testing-fundamentals"]
+          "topics": [
+            "llm-evaluation",
+            "rag-evaluation",
+            "ci-cd-for-test-engineers",
+            "security-testing-fundamentals"
+          ]
         },
         "advanced": {
           "title": "AI quality strategy",
@@ -521,10 +634,23 @@
             "Design a feedback loop from production failures into evaluation sets",
             "Report AI quality with confidence intervals rather than single numbers"
           ],
-          "topics": ["test-strategy-vs-test-plan", "risk-based-testing", "qa-metrics-and-reporting", "test-architecture-and-system-design"]
+          "topics": [
+            "test-strategy-vs-test-plan",
+            "risk-based-testing",
+            "qa-metrics-and-reporting",
+            "test-architecture-and-system-design"
+          ]
         }
       },
-      "tools": ["Python", "pytest", "Jupyter notebooks", "pandas", "An LLM evaluation framework", "Experiment tracking tools", "Git and CI"],
+      "tools": [
+        "Python",
+        "pytest",
+        "Jupyter notebooks",
+        "pandas",
+        "An LLM evaluation framework",
+        "Experiment tracking tools",
+        "Git and CI"
+      ],
       "exercises": [
         "Write a 30-item evaluation set for a support-ticket classifier and compute per-class precision and recall",
         "List ten failure modes for a summarisation feature and say how each would be detected",
@@ -570,7 +696,11 @@
         "Can describe at least three limitations of LLM-as-judge and mitigations",
         "Has written test cases for prompt injection and fallback behaviour"
       ],
-      "nextRoles": ["llm-application-tester", "ml-model-testing-specialist", "ai-agent-testing-engineer"]
+      "nextRoles": [
+        "llm-application-tester",
+        "ml-model-testing-specialist",
+        "ai-agent-testing-engineer"
+      ]
     },
     {
       "slug": "llm-application-tester",
@@ -617,7 +747,12 @@
             "Create a rubric with three to five scored criteria for one feature",
             "Report an LLM defect with full reproduction context"
           ],
-          "topics": ["testing-ai-applications", "exploratory-testing-charters", "writing-a-great-defect-report", "error-guessing"]
+          "topics": [
+            "testing-ai-applications",
+            "exploratory-testing-charters",
+            "writing-a-great-defect-report",
+            "error-guessing"
+          ]
         },
         "intermediate": {
           "title": "Systematic LLM evaluation",
@@ -627,7 +762,12 @@
             "Run a prompt injection test suite including indirect injection through retrieved or uploaded content",
             "Compare two prompt versions with the same test set"
           ],
-          "topics": ["llm-evaluation", "json-schema-validation", "security-testing-fundamentals", "regression-testing"]
+          "topics": [
+            "llm-evaluation",
+            "json-schema-validation",
+            "security-testing-fundamentals",
+            "regression-testing"
+          ]
         },
         "advanced": {
           "title": "Automated and production evaluation",
@@ -637,10 +777,23 @@
             "Define monitoring signals for production, such as user feedback and refusal rates",
             "Test retrieval-augmented features for grounding"
           ],
-          "topics": ["rag-evaluation", "api-testing-in-ci", "qa-metrics-and-reporting", "risk-based-testing"]
+          "topics": [
+            "rag-evaluation",
+            "api-testing-in-ci",
+            "qa-metrics-and-reporting",
+            "risk-based-testing"
+          ]
         }
       },
-      "tools": ["Model provider playgrounds and APIs", "Python", "pytest", "JSON Schema validators", "Postman", "An LLM evaluation framework", "Spreadsheets for rubric scoring"],
+      "tools": [
+        "Model provider playgrounds and APIs",
+        "Python",
+        "pytest",
+        "JSON Schema validators",
+        "Postman",
+        "An LLM evaluation framework",
+        "Spreadsheets for rubric scoring"
+      ],
       "exercises": [
         "Write 15 prompt injection test cases, including instructions hidden in a document the assistant summarises",
         "Run the same prompt ten times and categorise the variation in outputs",
@@ -686,7 +839,11 @@
         "Can explain why property-based assertions are used for non-deterministic outputs",
         "Has automated schema validation for structured model outputs"
       ],
-      "nextRoles": ["rag-application-evaluator", "ai-agent-testing-engineer", "ai-quality-engineer"]
+      "nextRoles": [
+        "rag-application-evaluator",
+        "ai-agent-testing-engineer",
+        "ai-quality-engineer"
+      ]
     },
     {
       "slug": "ml-model-testing-specialist",
@@ -733,7 +890,12 @@
             "Identify target leakage in a feature list",
             "Write unit tests for feature transformation functions"
           ],
-          "topics": ["testing-ai-applications", "unit-and-component-testing", "test-data-design", "sql-for-testers"]
+          "topics": [
+            "testing-ai-applications",
+            "unit-and-component-testing",
+            "test-data-design",
+            "sql-for-testers"
+          ]
         },
         "intermediate": {
           "title": "Slices, fairness and robustness",
@@ -743,7 +905,12 @@
             "Test model behaviour on missing values, extreme values and unseen categories",
             "Test that offline and served predictions match for the same inputs"
           ],
-          "topics": ["equivalence-partitioning", "boundary-value-analysis", "testing-data-validation", "integration-testing"]
+          "topics": [
+            "equivalence-partitioning",
+            "boundary-value-analysis",
+            "testing-data-validation",
+            "integration-testing"
+          ]
         },
         "advanced": {
           "title": "Production model quality",
@@ -753,10 +920,23 @@
             "Run statistically sound comparisons between model versions",
             "Automate model evaluation in a CI pipeline"
           ],
-          "topics": ["risk-based-testing", "entry-and-exit-criteria", "ci-cd-for-test-engineers", "qa-metrics-and-reporting"]
+          "topics": [
+            "risk-based-testing",
+            "entry-and-exit-criteria",
+            "ci-cd-for-test-engineers",
+            "qa-metrics-and-reporting"
+          ]
         }
       },
-      "tools": ["Python", "scikit-learn", "pandas", "Jupyter notebooks", "pytest", "Experiment tracking tools", "Data validation libraries"],
+      "tools": [
+        "Python",
+        "scikit-learn",
+        "pandas",
+        "Jupyter notebooks",
+        "pytest",
+        "Experiment tracking tools",
+        "Data validation libraries"
+      ],
       "exercises": [
         "Train a simple classifier on an imbalanced public dataset and show why accuracy is misleading",
         "Evaluate the model on three slices and identify the weakest one",
@@ -802,7 +982,10 @@
         "Can explain data drift versus concept drift and how each is detected",
         "Has automated model metric thresholds in tests"
       ],
-      "nextRoles": ["ai-quality-engineer", "rag-application-evaluator"]
+      "nextRoles": [
+        "ai-quality-engineer",
+        "rag-application-evaluator"
+      ]
     },
     {
       "slug": "rag-application-evaluator",
@@ -849,7 +1032,12 @@
             "Manually judge whether answers are supported by retrieved chunks",
             "Test questions whose answer is absent from the corpus"
           ],
-          "topics": ["testing-ai-applications", "llm-evaluation", "test-data-design", "exploratory-testing-charters"]
+          "topics": [
+            "testing-ai-applications",
+            "llm-evaluation",
+            "test-data-design",
+            "exploratory-testing-charters"
+          ]
         },
         "intermediate": {
           "title": "Measuring retrieval and generation",
@@ -859,7 +1047,12 @@
             "Score faithfulness with an automated grader and check it against manual judgments",
             "Test that permission filters prevent retrieval of restricted documents"
           ],
-          "topics": ["rag-evaluation", "testing-user-permissions", "authentication-and-authorization", "regression-testing"]
+          "topics": [
+            "rag-evaluation",
+            "testing-user-permissions",
+            "authentication-and-authorization",
+            "regression-testing"
+          ]
         },
         "advanced": {
           "title": "Continuous RAG evaluation",
@@ -869,10 +1062,22 @@
             "Define production signals such as unanswered rate and citation click-through for review",
             "Write an evaluation strategy that separates retrieval and generation ownership"
           ],
-          "topics": ["security-testing-fundamentals", "ci-cd-for-test-engineers", "test-strategy-vs-test-plan", "qa-metrics-and-reporting"]
+          "topics": [
+            "security-testing-fundamentals",
+            "ci-cd-for-test-engineers",
+            "test-strategy-vs-test-plan",
+            "qa-metrics-and-reporting"
+          ]
         }
       },
-      "tools": ["Python", "A vector database or search engine", "An open-source RAG evaluation framework", "pytest", "Jupyter notebooks", "Spreadsheets for human review"],
+      "tools": [
+        "Python",
+        "A vector database or search engine",
+        "An open-source RAG evaluation framework",
+        "pytest",
+        "Jupyter notebooks",
+        "Spreadsheets for human review"
+      ],
       "exercises": [
         "Compute recall at 5 and MRR by hand for five questions with given retrieved lists",
         "Create ten questions with no answer in the corpus and check whether the system declines",
@@ -918,7 +1123,10 @@
         "Has tested retrieval permissions and indirect prompt injection",
         "Can explain how to localise a bad answer to retrieval or generation"
       ],
-      "nextRoles": ["ai-agent-testing-engineer", "ai-quality-engineer"]
+      "nextRoles": [
+        "ai-agent-testing-engineer",
+        "ai-quality-engineer"
+      ]
     },
     {
       "slug": "ai-agent-testing-engineer",
@@ -965,7 +1173,12 @@
             "Write five tasks with clear, checkable end states",
             "Test agent behaviour when a tool returns an error"
           ],
-          "topics": ["testing-ai-applications", "json-schema-validation", "test-doubles-and-mocking", "http-fundamentals"]
+          "topics": [
+            "testing-ai-applications",
+            "json-schema-validation",
+            "test-doubles-and-mocking",
+            "http-fundamentals"
+          ]
         },
         "intermediate": {
           "title": "Task suites and safety tests",
@@ -975,7 +1188,12 @@
             "Test that destructive actions require confirmation and stay within permitted scope",
             "Run indirect prompt injection tests through tool outputs"
           ],
-          "topics": ["llm-evaluation", "docker-for-testers", "security-testing-fundamentals", "api-security-testing"]
+          "topics": [
+            "llm-evaluation",
+            "docker-for-testers",
+            "security-testing-fundamentals",
+            "api-security-testing"
+          ]
         },
         "advanced": {
           "title": "Agent evaluation at scale",
@@ -985,10 +1203,23 @@
             "Design guardrail and monitoring requirements for production agents",
             "Write a risk-based test strategy for an agent with access to real systems"
           ],
-          "topics": ["test-architecture-and-system-design", "risk-based-testing", "ci-cd-for-test-engineers", "rag-evaluation"]
+          "topics": [
+            "test-architecture-and-system-design",
+            "risk-based-testing",
+            "ci-cd-for-test-engineers",
+            "rag-evaluation"
+          ]
         }
       },
-      "tools": ["Python or TypeScript", "pytest", "Docker", "Mock servers", "JSON Schema validators", "Tracing and logging tools", "Playwright for browser-based agents"],
+      "tools": [
+        "Python or TypeScript",
+        "pytest",
+        "Docker",
+        "Mock servers",
+        "JSON Schema validators",
+        "Tracing and logging tools",
+        "Playwright for browser-based agents"
+      ],
       "exercises": [
         "Write a mock tool server that injects errors and latency, and observe how the agent recovers",
         "Define success checks for a 'book a meeting' task using the final calendar state rather than the agent's message",
@@ -1034,7 +1265,10 @@
         "Can report agent results as success rates with categorised failures",
         "Can explain least-privilege design for agent tools"
       ],
-      "nextRoles": ["ai-quality-engineer", "test-architect"]
+      "nextRoles": [
+        "ai-quality-engineer",
+        "test-architect"
+      ]
     },
     {
       "slug": "devops-cicd-test-engineer",
@@ -1081,7 +1315,12 @@
             "Run a dependency such as a database in a container for tests",
             "Explain the test pyramid in terms of pipeline stages"
           ],
-          "topics": ["ci-cd-for-test-engineers", "github-actions-for-tests", "docker-for-testers", "git-for-testers"]
+          "topics": [
+            "ci-cd-for-test-engineers",
+            "github-actions-for-tests",
+            "docker-for-testers",
+            "git-for-testers"
+          ]
         },
         "intermediate": {
           "title": "Fast and reliable pipelines",
@@ -1091,7 +1330,12 @@
             "Add post-deployment smoke tests",
             "Cache dependencies safely"
           ],
-          "topics": ["parallel-execution", "flaky-test-reduction", "smoke-and-sanity-testing", "jenkins-pipelines-for-tests"]
+          "topics": [
+            "parallel-execution",
+            "flaky-test-reduction",
+            "smoke-and-sanity-testing",
+            "jenkins-pipelines-for-tests"
+          ]
         },
         "advanced": {
           "title": "Delivery quality strategy",
@@ -1101,10 +1345,24 @@
             "Track pipeline metrics such as duration, failure causes and flake rate",
             "Plan testing for staged rollouts and rollback"
           ],
-          "topics": ["shift-left-and-continuous-testing", "test-pyramid-and-strategy", "release-readiness", "qa-metrics-and-reporting"]
+          "topics": [
+            "shift-left-and-continuous-testing",
+            "test-pyramid-and-strategy",
+            "release-readiness",
+            "qa-metrics-and-reporting"
+          ]
         }
       },
-      "tools": ["GitHub Actions", "Jenkins", "Docker", "Docker Compose", "Git", "Playwright or Selenium", "Terraform (reading plans)", "Grafana"],
+      "tools": [
+        "GitHub Actions",
+        "Jenkins",
+        "Docker",
+        "Docker Compose",
+        "Git",
+        "Playwright or Selenium",
+        "Terraform (reading plans)",
+        "Grafana"
+      ],
       "exercises": [
         "Write a GitHub Actions workflow that runs API tests against a service and database started with Docker Compose",
         "Take a 20-minute test suite and design a sharding plan to bring feedback under 10 minutes",
@@ -1150,7 +1408,11 @@
         "Has diagnosed and fixed at least one flaky test with a documented cause",
         "Can read a CI configuration and explain its triggers, jobs and caching"
       ],
-      "nextRoles": ["test-infrastructure-engineer", "cloud-qa-engineer", "chaos-engineering-practitioner"]
+      "nextRoles": [
+        "test-infrastructure-engineer",
+        "cloud-qa-engineer",
+        "chaos-engineering-practitioner"
+      ]
     },
     {
       "slug": "cloud-qa-engineer",
@@ -1197,7 +1459,12 @@
             "Find a request in logs using a correlation id",
             "Verify a service account cannot access resources outside its role"
           ],
-          "topics": ["docker-for-testers", "http-fundamentals", "authentication-and-authorization", "integration-testing"]
+          "topics": [
+            "docker-for-testers",
+            "http-fundamentals",
+            "authentication-and-authorization",
+            "integration-testing"
+          ]
         },
         "intermediate": {
           "title": "Distributed behaviour and resilience",
@@ -1207,7 +1474,12 @@
             "Test message queue handling for duplicates and poison messages",
             "Create ephemeral environments from infrastructure definitions"
           ],
-          "topics": ["microservices-testing", "idempotency-retries-rate-limiting", "performance-testing-types", "recovery-reliability-availability-testing"]
+          "topics": [
+            "microservices-testing",
+            "idempotency-retries-rate-limiting",
+            "performance-testing-types",
+            "recovery-reliability-availability-testing"
+          ]
         },
         "advanced": {
           "title": "Cloud quality strategy",
@@ -1217,10 +1489,23 @@
             "Use observability data for test oracles and release decisions",
             "Plan controlled failure experiments with the reliability team"
           ],
-          "topics": ["chaos-engineering-basics", "test-architecture-and-system-design", "monitoring-with-influxdb-grafana", "release-readiness"]
+          "topics": [
+            "chaos-engineering-basics",
+            "test-architecture-and-system-design",
+            "monitoring-with-influxdb-grafana",
+            "release-readiness"
+          ]
         }
       },
-      "tools": ["A major cloud provider console and CLI", "Docker", "Kubernetes (kubectl)", "Terraform (reading plans)", "Postman or REST Assured", "Grafana", "Log and trace viewers"],
+      "tools": [
+        "A major cloud provider console and CLI",
+        "Docker",
+        "Kubernetes (kubectl)",
+        "Terraform (reading plans)",
+        "Postman or REST Assured",
+        "Grafana",
+        "Log and trace viewers"
+      ],
       "exercises": [
         "Compare two environment configurations and list differences that could affect test results",
         "Simulate a slow downstream dependency and verify timeout and retry behaviour",
@@ -1262,7 +1547,11 @@
         "Can verify least-privilege permissions with positive and negative tests",
         "Has performed and measured a restore test"
       ],
-      "nextRoles": ["chaos-engineering-practitioner", "reliability-test-engineer", "devops-cicd-test-engineer"]
+      "nextRoles": [
+        "chaos-engineering-practitioner",
+        "reliability-test-engineer",
+        "devops-cicd-test-engineer"
+      ]
     },
     {
       "slug": "chaos-engineering-practitioner",
@@ -1309,7 +1598,12 @@
             "Terminate a container in a local environment and observe recovery",
             "Define abort conditions for an experiment"
           ],
-          "topics": ["chaos-engineering-basics", "recovery-reliability-availability-testing", "docker-for-testers", "microservices-testing"]
+          "topics": [
+            "chaos-engineering-basics",
+            "recovery-reliability-availability-testing",
+            "docker-for-testers",
+            "microservices-testing"
+          ]
         },
         "intermediate": {
           "title": "Structured experiments",
@@ -1319,7 +1613,12 @@
             "Verify alerts fire and runbooks are accurate during a failure",
             "Document findings and action items in a blameless review"
           ],
-          "topics": ["idempotency-retries-rate-limiting", "monitoring-with-influxdb-grafana", "resource-utilization-and-bottlenecks", "root-cause-analysis"]
+          "topics": [
+            "idempotency-retries-rate-limiting",
+            "monitoring-with-influxdb-grafana",
+            "resource-utilization-and-bottlenecks",
+            "root-cause-analysis"
+          ]
         },
         "advanced": {
           "title": "Resilience programme",
@@ -1329,10 +1628,22 @@
             "Prioritise experiments by risk and past incidents",
             "Report resilience improvements over time"
           ],
-          "topics": ["risk-based-testing", "test-architecture-and-system-design", "capacity-planning-and-baselines", "qa-metrics-and-reporting"]
+          "topics": [
+            "risk-based-testing",
+            "test-architecture-and-system-design",
+            "capacity-planning-and-baselines",
+            "qa-metrics-and-reporting"
+          ]
         }
       },
-      "tools": ["A fault injection tool or framework", "Kubernetes", "Docker", "Grafana and Prometheus-style metrics", "Load testing tools", "Incident management tooling"],
+      "tools": [
+        "A fault injection tool or framework",
+        "Kubernetes",
+        "Docker",
+        "Grafana and Prometheus-style metrics",
+        "Load testing tools",
+        "Incident management tooling"
+      ],
       "exercises": [
         "Write a full experiment plan for a dependency outage: hypothesis, metrics, scope, abort conditions, rollback and communication",
         "In a local environment, inject 500 ms latency on a dependency and observe the effect on p95 latency and error rate",
@@ -1378,7 +1689,749 @@
         "Has facilitated or participated in a game day and written a blameless review",
         "Can explain how to expand experiments safely toward production"
       ],
-      "nextRoles": ["reliability-test-engineer", "observability-test-engineer", "quality-engineering-manager"]
+      "nextRoles": [
+        "reliability-test-engineer",
+        "observability-test-engineer",
+        "quality-engineering-manager"
+      ]
+    },
+    {
+      "slug": "ai-engineer",
+      "title": "AI Engineer",
+      "category": "data-ai",
+      "overview": "An AI Engineer builds software products on top of pre-trained models, most often large language models accessed through APIs or self-hosted. The work is application engineering: prompt and context design, retrieval-augmented generation, tool use and agents, structured output, evaluation, and the reliability, cost and latency concerns of running probabilistic components in production. It is distinct from training models from scratch, although a working understanding of how models are trained helps.",
+      "responsibilities": [
+        "Design and build LLM-powered features such as assistants, extraction pipelines, search and agents",
+        "Write and version prompts, system instructions and few-shot examples",
+        "Build retrieval pipelines: document ingestion, chunking, embeddings, vector search and reranking",
+        "Integrate tool calling and validate structured model output against schemas",
+        "Build evaluation sets and automated evals that gate prompt and model changes",
+        "Handle failure modes: timeouts, rate limits, malformed output, refusals and fallbacks",
+        "Monitor quality, latency and token cost in production and optimise them"
+      ],
+      "skills": {
+        "essential": [
+          "Python (or TypeScript) software engineering, including async I/O and testing",
+          "How LLMs work at a practical level: tokens, context windows, sampling, temperature",
+          "Prompt engineering and structured output",
+          "Embeddings, vector search and retrieval-augmented generation",
+          "Evaluation design for non-deterministic outputs"
+        ],
+        "roleSpecific": [
+          "Tool use and agent loops, including guarding against runaway or unsafe actions",
+          "Prompt injection risks and defences for applications that read untrusted content",
+          "Caching, batching, streaming and model selection to control cost and latency"
+        ],
+        "optional": [
+          "Fine-tuning or parameter-efficient adaptation such as LoRA",
+          "Self-hosting open-weight models",
+          "Basic PyTorch and transformer internals"
+        ]
+      },
+      "prerequisites": [
+        "Comfortable programming in Python or another backend language",
+        "Experience calling HTTP APIs and handling JSON"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Foundations and first LLM features",
+          "goals": [
+            "Explain tokens, context windows and why the same prompt can give different outputs",
+            "Call an LLM API, handle errors and retries, and stream a response",
+            "Write clear prompts with instructions, examples and an output format",
+            "Get JSON output that validates against a schema and handle the cases where it does not"
+          ],
+          "topics": [
+            "ai-landscape-and-roles",
+            "python-for-ai",
+            "llm-fundamentals-and-tokens",
+            "prompt-engineering",
+            "llm-apis-and-structured-output"
+          ]
+        },
+        "intermediate": {
+          "title": "Retrieval, tools and evaluation",
+          "goals": [
+            "Build a RAG pipeline with chunking, embeddings, vector search and cited answers",
+            "Implement a tool-calling loop with validated arguments and a step limit",
+            "Create an evaluation set and an automated eval that runs in CI",
+            "Measure retrieval quality separately from answer quality"
+          ],
+          "topics": [
+            "embeddings-and-vector-search",
+            "building-rag-pipelines",
+            "tool-use-and-ai-agents",
+            "llm-evaluation-and-evals",
+            "transformers-and-attention"
+          ]
+        },
+        "advanced": {
+          "title": "Production AI systems",
+          "goals": [
+            "Defend against prompt injection with least-privilege tools and output handling",
+            "Monitor quality, latency and cost in production and feed failures back into evals",
+            "Choose between prompting, RAG and fine-tuning with evidence",
+            "Design an architecture that degrades gracefully when the model or provider fails"
+          ],
+          "topics": [
+            "red-teaming-and-prompt-injection",
+            "monitoring-ai-in-production",
+            "ai-cost-latency-and-scaling",
+            "fine-tuning-and-adaptation",
+            "mlops-and-model-deployment"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "An LLM provider SDK",
+        "A vector database or pgvector",
+        "pydantic or JSON Schema",
+        "pytest",
+        "An LLM evaluation framework",
+        "Docker",
+        "Git and CI"
+      ],
+      "exercises": [
+        "Build a command-line tool that extracts invoice fields into a validated JSON schema and reports how often validation fails",
+        "Compare three chunk sizes for a RAG pipeline using recall@5 on a labelled question set",
+        "Add a timeout, retry with backoff and a non-LLM fallback to an existing LLM feature",
+        "Write an eval that fails CI when a prompt change drops accuracy below a threshold"
+      ],
+      "sampleProject": {
+        "title": "Documentation assistant with retrieval and evals",
+        "description": "Build a question-answering assistant over a public documentation set: ingestion, chunking, embeddings, vector search, answers with citations, refusal when the context does not contain the answer, and an evaluation suite measuring retrieval recall, faithfulness and answer correctness that runs on every change."
+      },
+      "interviewQuestions": [
+        {
+          "q": "When would you use RAG instead of fine-tuning?",
+          "a": "RAG suits knowledge that changes, must be cited or is too large or private to bake into weights: you update the index rather than retrain. Fine-tuning suits changing behaviour, style or format, or teaching a narrow task where prompting is unreliable or too long. They combine well. I would start with prompting plus RAG, measure on an eval set, and fine-tune only when evidence shows a gap that retrieval and prompting cannot close."
+        },
+        {
+          "q": "How do you get reliable structured output from an LLM?",
+          "a": "Use the provider's structured output or tool-calling feature where available, give a schema and examples, then validate the result with a schema library rather than trusting it. On validation failure, retry with the error message or fall back. Keep schemas small and fields clearly described, and track the validation failure rate as a metric."
+        },
+        {
+          "q": "What is prompt injection and how do you reduce its impact?",
+          "a": "It is when untrusted content such as a web page, email or document contains instructions the model follows, overriding the developer's intent. There is no complete fix at the prompt level, so I limit impact: least-privilege tools, human confirmation for consequential actions, treating model output as untrusted (no direct execution or unescaped rendering), separating trusted and untrusted content clearly, and red-team tests in CI."
+        },
+        {
+          "q": "Your RAG system gives wrong answers. How do you debug it?",
+          "a": "Split the problem. First check retrieval: for failing questions, was the right passage retrieved in the top k? If not, look at chunking, embeddings, query rewriting, hybrid search or reranking. If retrieval was right, the problem is generation: prompt, context ordering, context length or model choice. Measure each stage with its own metric on a labelled set rather than reading individual outputs."
+        },
+        {
+          "q": "How do you reduce cost and latency of an LLM feature?",
+          "a": "Measure first, per request: input and output tokens, time to first token and total latency. Then use the smallest model that passes the eval, trim context, cache repeated prompt prefixes or full responses where valid, stream output, batch offline work, and route easy requests to cheaper models. Every change is checked against the eval set so savings do not silently reduce quality."
+        },
+        {
+          "q": "How do you test an agent that calls tools?",
+          "a": "Unit test each tool deterministically. Then evaluate the agent on scenarios with expected tool sequences or end states, checking argument validity, step limits, error handling when a tool fails, and that it refuses or asks for confirmation on risky actions. Use mocked tools for repeatability and a smaller set of end-to-end runs against real sandboxes, repeated several times because behaviour varies."
+        }
+      ],
+      "codingRequirements": "Strong programming is required. AI Engineers write production services, data ingestion code, evaluation harnesses and tests, usually in Python or TypeScript. Training models from scratch is not usually required.",
+      "commonMistakes": [
+        "Judging prompt changes by reading a few outputs instead of running an evaluation set",
+        "Trusting model output and passing it straight to code execution, SQL or HTML",
+        "Debugging RAG answer quality without first checking whether retrieval found the right content",
+        "Ignoring token cost and latency until the feature is in production"
+      ],
+      "readinessCriteria": [
+        "Has built and deployed an LLM feature with structured output, error handling and fallbacks",
+        "Has built a RAG pipeline and measured retrieval and answer quality separately",
+        "Can explain prompt injection and at least three mitigations",
+        "Has an automated evaluation that runs on prompt or model changes"
+      ],
+      "nextRoles": [
+        "ai-specialist",
+        "ai-ml-engineer",
+        "ai-scientist"
+      ]
+    },
+    {
+      "slug": "ai-test-engineer",
+      "title": "AI Test Engineer",
+      "category": "data-ai",
+      "overview": "An AI Test Engineer tests systems that contain machine learning or LLM components and uses AI to make testing itself more effective. The role covers functional testing of AI-powered features, building evaluation datasets and automated evals, red-teaming for prompt injection and unsafe output, checking bias and robustness, and responsibly adopting AI-assisted test generation while reviewing what it produces.",
+      "responsibilities": [
+        "Write test strategies for AI features covering deterministic code, model behaviour and production monitoring",
+        "Build and version evaluation datasets with typical, edge and adversarial cases",
+        "Automate evals and wire them into CI with thresholds that block regressions",
+        "Red-team AI features for prompt injection, data leakage and harmful output",
+        "Calibrate LLM-as-judge graders against human labels",
+        "Test robustness and fairness across input variations and user groups",
+        "Use AI assistants to draft tests and review the output critically before adopting it"
+      ],
+      "skills": {
+        "essential": [
+          "Test design fundamentals and risk-based testing",
+          "Python for test automation and data analysis",
+          "Evaluation metrics for classifiers and generative output",
+          "Understanding of how LLM applications fail, including hallucination and non-determinism"
+        ],
+        "roleSpecific": [
+          "Prompt injection and jailbreak testing techniques",
+          "LLM-as-judge design and its biases",
+          "Statistical comparison of model or prompt versions"
+        ],
+        "optional": [
+          "Fairness metrics and responsible AI frameworks",
+          "Experiment tracking tools",
+          "Production monitoring and observability"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a tester or SDET",
+        "Basic Python"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Understand AI systems as a tester",
+          "goals": [
+            "Explain how ML models and LLMs produce output and why it varies",
+            "Separate deterministic parts of an AI feature from model behaviour when designing tests",
+            "Compute precision, recall and F1 from a confusion matrix",
+            "Write test cases for timeouts, malformed model output and fallbacks"
+          ],
+          "topics": [
+            "ai-landscape-and-roles",
+            "machine-learning-fundamentals",
+            "model-evaluation-metrics",
+            "llm-fundamentals-and-tokens",
+            "testing-ai-systems-strategy"
+          ]
+        },
+        "intermediate": {
+          "title": "Evals and adversarial testing",
+          "goals": [
+            "Build an evaluation set and an automated eval harness that runs in CI",
+            "Design and calibrate an LLM-as-judge rubric against human labels",
+            "Run a prompt-injection test suite against an application that reads untrusted content",
+            "Evaluate a RAG feature's retrieval and answer faithfulness separately"
+          ],
+          "topics": [
+            "llm-evaluation-and-evals",
+            "llm-as-judge-and-human-review",
+            "red-teaming-and-prompt-injection",
+            "building-rag-pipelines",
+            "ai-assisted-test-automation"
+          ]
+        },
+        "advanced": {
+          "title": "AI quality ownership",
+          "goals": [
+            "Define release gates combining eval thresholds, safety checks and human review",
+            "Test for bias across groups and document metric trade-offs",
+            "Set up production quality monitoring and drift alerts",
+            "Report results with variance and confidence rather than single scores"
+          ],
+          "topics": [
+            "bias-fairness-and-responsible-ai",
+            "monitoring-ai-in-production",
+            "ai-governance-and-regulation",
+            "experiment-design-for-ai-research",
+            "tool-use-and-ai-agents"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "pytest",
+        "pandas",
+        "An LLM evaluation framework",
+        "An LLM provider SDK",
+        "Jupyter notebooks",
+        "Git and CI"
+      ],
+      "exercises": [
+        "Write 20 prompt-injection test cases for a summariser that reads emails and check which succeed",
+        "Label 50 outputs by hand, run an LLM judge on them and compute agreement",
+        "Run the same eval five times and measure how much the score varies between runs",
+        "Ask an AI assistant to generate tests for a function, then list which are wrong, redundant or missing"
+      ],
+      "sampleProject": {
+        "title": "Eval and red-team suite for a support chatbot",
+        "description": "Create a versioned evaluation set for a support chatbot, an automated eval that scores correctness and groundedness with a calibrated judge, a prompt-injection and data-leakage test suite, and a CI job that blocks merges when scores fall below agreed thresholds. Document what the suite cannot detect."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How do you write a pass/fail test for output that differs every run?",
+          "a": "Assert on properties instead of exact text: schema validity, required facts present, forbidden content absent, citations pointing at real sources, length limits. For quality, score against an evaluation set and compare aggregate metrics to a threshold, running multiple samples if variance is high. Deterministic parts such as parsing and fallbacks still get normal exact assertions."
+        },
+        {
+          "q": "How would you test a chatbot for prompt injection?",
+          "a": "Identify every path untrusted text enters: user messages, retrieved documents, tool results. Build cases for direct injection, indirect injection hidden in documents, attempts to reveal the system prompt or other users' data, and attempts to trigger tools. Check outcomes, not just text: were tools called, was data leaked. Keep the suite in CI and add every new bypass found."
+        },
+        {
+          "q": "What are the risks of using AI to generate test cases?",
+          "a": "Generated tests can assert the current, possibly wrong behaviour, duplicate each other, miss important risks, hallucinate APIs, or pass trivially. I review them like a junior colleague's work, check that each test fails when the behaviour is broken, for example via mutation testing, and keep human ownership of test design."
+        },
+        {
+          "q": "How do you know an LLM judge is trustworthy?",
+          "a": "Compare it against human labels on a representative sample and measure agreement, looking at where they disagree. Check for known biases such as position, verbosity and self-preference. Use specific rubrics and, where possible, binary criteria. Re-check calibration when the judge model or rubric changes."
+        },
+        {
+          "q": "A model passes your offline evals but users complain. What happened?",
+          "a": "Likely the eval set does not reflect real usage: distribution shift, missing edge cases, or metrics that do not capture what users care about. I would sample failing production conversations, categorise failures, add them to the eval set, and check whether the metric correlates with user satisfaction."
+        }
+      ],
+      "codingRequirements": "Python is required for eval harnesses, data analysis and test automation. You need to read and modify application code that calls models, but not to train models.",
+      "commonMistakes": [
+        "Using exact string matching for generative output",
+        "Running an eval once and treating a small score difference as real",
+        "Only testing direct prompt injection and ignoring injected content in retrieved documents or tool results",
+        "Accepting AI-generated tests without checking that they can fail"
+      ],
+      "readinessCriteria": [
+        "Has built an automated eval with thresholds running in CI",
+        "Has run a prompt-injection test suite and documented findings",
+        "Can explain precision, recall and LLM-as-judge limitations",
+        "Can describe a test strategy for an AI feature from design to production monitoring"
+      ],
+      "nextRoles": [
+        "ai-quality-engineer",
+        "llm-application-tester",
+        "ai-agent-testing-engineer",
+        "ai-engineer"
+      ]
+    },
+    {
+      "slug": "ai-specialist",
+      "title": "AI Specialist",
+      "category": "data-ai",
+      "overview": "An AI Specialist is the person a team or organisation relies on to apply AI well: identifying where AI genuinely helps, choosing approaches and vendors, prototyping solutions, setting up evaluation and governance, and helping teams adopt AI tools safely. The title is used loosely across employers; this roadmap treats it as a hands-on, broad role sitting between AI engineering, product and risk, with deep enough technical knowledge to judge trade-offs.",
+      "responsibilities": [
+        "Assess business problems and decide whether AI, conventional software or a process change fits best",
+        "Prototype solutions with LLM APIs, retrieval and classic ML and evaluate them against a baseline",
+        "Compare models and vendors on quality, cost, latency, privacy and licensing",
+        "Define evaluation criteria and acceptance thresholds with stakeholders",
+        "Establish responsible AI practices: risk assessment, documentation, human oversight",
+        "Track regulatory and policy requirements relevant to the organisation's AI use",
+        "Train and support teams adopting AI tools"
+      ],
+      "skills": {
+        "essential": [
+          "Broad understanding of ML, deep learning and LLMs and their limitations",
+          "Python for prototyping and analysis",
+          "Evaluation design and interpreting metrics",
+          "Communicating trade-offs to non-technical stakeholders"
+        ],
+        "roleSpecific": [
+          "Model and vendor selection, including data handling and licensing considerations",
+          "AI risk assessment and governance frameworks such as the NIST AI RMF and the EU AI Act",
+          "Cost and latency estimation for AI features"
+        ],
+        "optional": [
+          "Fine-tuning and adaptation",
+          "MLOps fundamentals",
+          "Reading research papers to evaluate new techniques"
+        ]
+      },
+      "prerequisites": [
+        "Experience in software engineering, data or technical product work",
+        "Basic Python"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Broad AI literacy",
+          "goals": [
+            "Describe the main families of AI techniques and what problems each suits",
+            "Explain how LLMs generate text and where they fail",
+            "Build a working prototype with an LLM API and a prompt",
+            "Choose and explain appropriate metrics for a classification problem"
+          ],
+          "topics": [
+            "ai-landscape-and-roles",
+            "python-for-ai",
+            "machine-learning-fundamentals",
+            "model-evaluation-metrics",
+            "llm-fundamentals-and-tokens",
+            "prompt-engineering"
+          ]
+        },
+        "intermediate": {
+          "title": "Building and evaluating solutions",
+          "goals": [
+            "Prototype a RAG or tool-using assistant and evaluate it against a baseline",
+            "Compare two models on the same eval set including cost and latency",
+            "Decide between prompting, RAG and fine-tuning for a given problem",
+            "Run a basic red-team exercise and document risks"
+          ],
+          "topics": [
+            "embeddings-and-vector-search",
+            "building-rag-pipelines",
+            "tool-use-and-ai-agents",
+            "llm-evaluation-and-evals",
+            "fine-tuning-and-adaptation",
+            "red-teaming-and-prompt-injection"
+          ]
+        },
+        "advanced": {
+          "title": "Adoption, governance and strategy",
+          "goals": [
+            "Write an AI use policy and risk assessment process for an organisation",
+            "Map an AI system to applicable regulatory obligations with legal input",
+            "Plan production rollout with monitoring, human oversight and cost controls",
+            "Evaluate claims in new research or vendor material critically"
+          ],
+          "topics": [
+            "ai-governance-and-regulation",
+            "bias-fairness-and-responsible-ai",
+            "ai-cost-latency-and-scaling",
+            "monitoring-ai-in-production",
+            "reading-ai-research-papers",
+            "advanced-topics-in-modern-ai"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "Jupyter notebooks",
+        "LLM provider SDKs and consoles",
+        "A vector database",
+        "An LLM evaluation framework",
+        "Spreadsheets for cost modelling"
+      ],
+      "exercises": [
+        "Write a one-page assessment of whether an AI solution suits a given business problem, including a non-AI alternative",
+        "Compare two LLMs on a 30-item eval set and recommend one with cost and latency figures you measured",
+        "Draft a risk assessment for an internal HR chatbot covering privacy, bias and human oversight",
+        "Summarise a recent AI paper in plain language, including its limitations"
+      ],
+      "sampleProject": {
+        "title": "AI opportunity assessment and prototype",
+        "description": "Pick a realistic workflow, such as triaging support emails, and produce a short assessment with baseline, success metrics and risks, a working prototype using an LLM API, an evaluation comparing it to the baseline, a cost estimate based on measured token usage, and a governance note on data handling and human oversight."
+      },
+      "interviewQuestions": [
+        {
+          "q": "A stakeholder wants to 'add AI' to a process. How do you respond?",
+          "a": "I start with the problem, not the technology: what outcome they want, current baseline, volume, error tolerance and what a wrong answer costs. Sometimes rules or a form fix it. If AI fits, I propose a small prototype with a clear evaluation against the baseline and an explicit go/no-go criterion, including human oversight for consequential decisions."
+        },
+        {
+          "q": "How do you choose between two LLM vendors?",
+          "a": "Run both on an evaluation set that reflects the real task, and compare quality, latency, cost per request at expected volume, context limits, data retention and privacy terms, regional availability, licensing and support. A public benchmark is only a starting signal; the decision rests on my own eval and the non-functional requirements."
+        },
+        {
+          "q": "What does the EU AI Act mean for a company using AI?",
+          "a": "It takes a risk-based approach: some practices are prohibited, high-risk systems such as some used in employment or credit have obligations around risk management, data governance, documentation, human oversight and accuracy, and some systems have transparency obligations, with separate rules for general-purpose AI models. Obligations depend on the use case and whether you are a provider or deployer, so I classify each system with legal advice rather than assuming."
+        },
+        {
+          "q": "How do you explain a model's limitations to non-technical leaders?",
+          "a": "Concretely: show real examples of failures, give error rates in terms of business impact, such as one in twenty invoices needing correction, explain that quality can drift, and describe the controls in place. Avoid both hype and vague caveats; tie each limitation to a mitigation and an owner."
+        },
+        {
+          "q": "How do you measure whether an AI tool rollout succeeded?",
+          "a": "Define metrics before rollout: task time, quality or error rates, adoption, user satisfaction and cost, compared with a baseline or a control group. Collect qualitative feedback, watch for over-reliance and new error types, and be willing to scale back if the evidence is weak."
+        }
+      ],
+      "codingRequirements": "Working Python is expected for prototypes, evaluation and analysis. Production-grade engineering depth is helpful but often shared with AI Engineers.",
+      "commonMistakes": [
+        "Starting from a technology rather than a measured problem and baseline",
+        "Selecting models from public leaderboards without evaluating on the actual task",
+        "Treating governance as paperwork after launch instead of a design input",
+        "Overstating what a prototype demo shows about production quality"
+      ],
+      "readinessCriteria": [
+        "Can explain ML, deep learning and LLM concepts accurately at different depths for different audiences",
+        "Has built and evaluated at least one AI prototype against a baseline",
+        "Can produce a model comparison including quality, cost, latency and data terms",
+        "Can outline a risk assessment for an AI system"
+      ],
+      "nextRoles": [
+        "ai-engineer",
+        "ai-scientist",
+        "ai-quality-engineer"
+      ]
+    },
+    {
+      "slug": "ai-scientist",
+      "title": "AI Scientist",
+      "category": "data-ai",
+      "overview": "An AI Scientist, often titled research scientist or applied scientist, advances what models can do: forming hypotheses, designing experiments, developing or adapting model architectures and training methods, and reporting results rigorously. Applied scientists focus on solving product problems with new modelling approaches; research scientists publish and push the state of the art. Both depend on strong mathematics, deep learning practice and careful experimental methodology.",
+      "responsibilities": [
+        "Formulate research questions and testable hypotheses",
+        "Design experiments with baselines, ablations, controls and appropriate statistics",
+        "Implement and train models, typically in PyTorch, and analyse their behaviour",
+        "Read and reproduce published work and assess its claims",
+        "Develop evaluation methods and benchmarks that measure the intended capability",
+        "Write up results clearly, including negative results and limitations",
+        "Collaborate with engineers to move successful methods into production"
+      ],
+      "skills": {
+        "essential": [
+          "Linear algebra, calculus, probability and statistics",
+          "Deep learning theory and practice, including optimisation and regularisation",
+          "PyTorch or JAX for implementing and training models",
+          "Experimental design and statistical analysis of results"
+        ],
+        "roleSpecific": [
+          "Transformer architectures and modern training techniques",
+          "Reproducing papers and running ablations",
+          "Scientific writing and communicating uncertainty"
+        ],
+        "optional": [
+          "Distributed training at scale",
+          "A specialist area such as interpretability, reinforcement learning or multimodal models",
+          "Benchmark design"
+        ]
+      },
+      "prerequisites": [
+        "Strong programming in Python",
+        "University-level mathematics; many employers expect a graduate degree or equivalent research experience"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Mathematical and ML foundations",
+          "goals": [
+            "Explain gradient descent, loss functions and the bias-variance trade-off",
+            "Implement and train a small model with a correct train/validation/test split",
+            "Use vectors, matrices, derivatives and probability fluently in ML contexts",
+            "Choose and interpret evaluation metrics correctly"
+          ],
+          "topics": [
+            "python-for-ai",
+            "math-for-machine-learning",
+            "machine-learning-fundamentals",
+            "model-evaluation-metrics"
+          ]
+        },
+        "intermediate": {
+          "title": "Deep learning practice",
+          "goals": [
+            "Implement a neural network training loop in PyTorch from scratch",
+            "Explain and implement self-attention and the transformer block",
+            "Reproduce a result from a published paper and document discrepancies",
+            "Fine-tune a pre-trained model and compare it to a baseline"
+          ],
+          "topics": [
+            "neural-networks-and-deep-learning",
+            "pytorch-essentials",
+            "transformers-and-attention",
+            "fine-tuning-and-adaptation",
+            "reading-ai-research-papers"
+          ]
+        },
+        "advanced": {
+          "title": "Independent research",
+          "goals": [
+            "Design an experiment with ablations, multiple seeds and confidence intervals",
+            "Detect and avoid data leakage and benchmark contamination",
+            "Propose, test and write up an original method or analysis",
+            "Evaluate model behaviour beyond accuracy, including robustness and safety"
+          ],
+          "topics": [
+            "experiment-design-for-ai-research",
+            "advanced-topics-in-modern-ai",
+            "llm-evaluation-and-evals",
+            "bias-fairness-and-responsible-ai"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "PyTorch",
+        "NumPy",
+        "Jupyter notebooks",
+        "Experiment tracking tools",
+        "GPUs and a cluster or cloud scheduler",
+        "LaTeX"
+      ],
+      "exercises": [
+        "Implement scaled dot-product attention in PyTorch and verify it against the library implementation",
+        "Train the same model with five random seeds and report mean and standard deviation",
+        "Run an ablation removing one component of a model and explain the result",
+        "Reproduce one table from a paper on a small scale and list every assumption you had to make"
+      ],
+      "sampleProject": {
+        "title": "Small-scale paper reproduction with ablations",
+        "description": "Choose a published result that can be reproduced on modest hardware, reimplement the method in PyTorch, run it with multiple seeds against the paper's baseline, add at least two ablations, track all runs with an experiment tracker, and write a short report with confidence intervals and an honest discussion of discrepancies."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Your new method beats the baseline by 0.5% accuracy. Is it better?",
+          "a": "Not necessarily. I would check run-to-run variance across multiple seeds and compute confidence intervals or a significance test, confirm the baseline was tuned with comparable effort, ensure no test-set tuning or leakage, and check whether the gain holds across datasets. A small, unstable gain with an under-tuned baseline is not evidence."
+        },
+        {
+          "q": "Explain self-attention.",
+          "a": "Each token is projected into query, key and value vectors. Attention weights are the softmax of query-key dot products scaled by the square root of the key dimension, and each output is the weighted sum of values. Multi-head attention runs this in parallel in several subspaces. It lets every position draw on every other position, at a cost quadratic in sequence length."
+        },
+        {
+          "q": "What is the purpose of an ablation study?",
+          "a": "To find which components of a method actually cause the improvement, by removing or replacing them one at a time and measuring the effect. It guards against crediting the headline idea for gains that came from other changes such as better tuning or more data."
+        },
+        {
+          "q": "How can benchmark results mislead?",
+          "a": "Through test-set contamination in pre-training data, overfitting to the benchmark through repeated evaluation, saturated benchmarks with label noise, metrics that do not capture the intended capability, and unequal tuning effort between methods. I check for contamination, use held-out sets and report several evaluations."
+        },
+        {
+          "q": "What causes training loss to diverge and how do you investigate?",
+          "a": "Common causes are too high a learning rate, missing warmup, numerical issues in mixed precision, bad data batches, or exploding gradients. I log gradient norms and loss per step, try a lower learning rate or warmup, apply gradient clipping, check for NaNs or extreme inputs in data, and reproduce on a small run to iterate quickly."
+        }
+      ],
+      "codingRequirements": "Strong Python and deep learning framework skills are required to implement and debug models and training pipelines. Research code must be correct and reproducible, not just runnable.",
+      "commonMistakes": [
+        "Reporting a single run without variance across seeds",
+        "Comparing against a poorly tuned baseline",
+        "Tuning hyperparameters on the test set",
+        "Overclaiming generality from results on one dataset"
+      ],
+      "readinessCriteria": [
+        "Has implemented and trained a transformer-based model in PyTorch",
+        "Has reproduced a published result and documented discrepancies",
+        "Can design an experiment with baselines, ablations and statistical reporting",
+        "Can explain the mathematics of backpropagation and attention"
+      ],
+      "nextRoles": [
+        "ai-ml-engineer",
+        "ai-specialist"
+      ]
+    },
+    {
+      "slug": "ai-ml-engineer",
+      "title": "AI/ML Engineer",
+      "category": "data-ai",
+      "overview": "An AI/ML Engineer takes machine learning models from data to production and keeps them working: building data pipelines and features, training and tuning models, packaging and serving them, automating retraining, and monitoring for drift and degradation. Compared with an AI Engineer, who mostly builds applications on pre-trained LLMs, the AI/ML Engineer owns the full model lifecycle, including training on the organisation's own data.",
+      "responsibilities": [
+        "Build reliable data pipelines and feature engineering for training and inference",
+        "Train, tune and evaluate models, choosing algorithms suited to the data and the problem",
+        "Track experiments, data versions and model versions so results are reproducible",
+        "Package and deploy models as batch jobs or low-latency services",
+        "Automate training, validation and deployment pipelines with quality gates",
+        "Monitor production models for data drift, prediction drift and performance decay",
+        "Ensure training and serving use consistent feature logic"
+      ],
+      "skills": {
+        "essential": [
+          "Python, SQL and software engineering practices",
+          "Classical ML algorithms and evaluation, including cross-validation",
+          "Deep learning with PyTorch",
+          "Data processing with pandas and a distributed tool where needed",
+          "Containerisation and CI/CD"
+        ],
+        "roleSpecific": [
+          "MLOps: experiment tracking, model registries and reproducible pipelines",
+          "Model serving, batching and inference optimisation",
+          "Drift detection and production model monitoring"
+        ],
+        "optional": [
+          "Kubernetes",
+          "Feature stores",
+          "Fine-tuning large pre-trained models",
+          "Distributed training"
+        ]
+      },
+      "prerequisites": [
+        "Comfortable programming in Python",
+        "Basic statistics and SQL"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "ML foundations",
+          "goals": [
+            "Prepare a dataset, split it correctly and train a baseline model",
+            "Explain overfitting and use cross-validation and regularisation",
+            "Choose metrics that match the business cost of errors",
+            "Use NumPy and pandas for data cleaning and feature engineering"
+          ],
+          "topics": [
+            "python-for-ai",
+            "math-for-machine-learning",
+            "machine-learning-fundamentals",
+            "model-evaluation-metrics"
+          ]
+        },
+        "intermediate": {
+          "title": "Deep learning and reproducible training",
+          "goals": [
+            "Train and debug a neural network in PyTorch",
+            "Track experiments, parameters, data versions and artefacts",
+            "Fine-tune a pre-trained model for a specific task",
+            "Package a model behind an API with input validation and tests"
+          ],
+          "topics": [
+            "neural-networks-and-deep-learning",
+            "pytorch-essentials",
+            "transformers-and-attention",
+            "fine-tuning-and-adaptation",
+            "experiment-design-for-ai-research"
+          ]
+        },
+        "advanced": {
+          "title": "Production ML systems",
+          "goals": [
+            "Build an automated pipeline from data validation to training, evaluation and deployment",
+            "Deploy with canary or shadow releases and roll back on regression",
+            "Monitor drift and performance and trigger retraining with safeguards",
+            "Optimise inference cost and latency through batching, quantisation and right-sizing"
+          ],
+          "topics": [
+            "mlops-and-model-deployment",
+            "monitoring-ai-in-production",
+            "ai-cost-latency-and-scaling",
+            "testing-ai-systems-strategy",
+            "bias-fairness-and-responsible-ai"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "scikit-learn",
+        "PyTorch",
+        "pandas",
+        "MLflow or a similar experiment tracker",
+        "Docker",
+        "Kubernetes",
+        "Git and CI"
+      ],
+      "exercises": [
+        "Train a gradient-boosted model and a logistic regression baseline and compare them with cross-validation",
+        "Find and fix a data leakage bug where a feature uses information from after the prediction time",
+        "Serve a model behind a REST API with input validation and measure p95 latency under load",
+        "Simulate data drift on a feature and show that your monitoring detects it"
+      ],
+      "sampleProject": {
+        "title": "End-to-end ML pipeline with drift monitoring",
+        "description": "Build a pipeline that validates incoming data, trains and evaluates a model with tracked experiments, registers the best version only if it beats the current one, serves it behind an API in a container, and monitors feature and prediction drift with an alert and a documented retraining procedure."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is training-serving skew and how do you prevent it?",
+          "a": "It is when features or preprocessing differ between training and production, so the model sees different inputs live than it learned from. Prevent it by sharing one feature implementation or a feature store, versioning preprocessing with the model, logging serving features and comparing their distribution with training data, and testing the full pipeline end to end."
+        },
+        {
+          "q": "How do you detect that a production model is degrading?",
+          "a": "If labels arrive, track performance metrics over time. Labels are often delayed, so also monitor input feature distributions and prediction distributions against a reference using tests such as population stability index or KS statistics, plus data quality checks. Alerts lead to investigation, not automatic retraining by default."
+        },
+        {
+          "q": "What is data leakage? Give an example.",
+          "a": "Leakage is when training uses information that would not be available at prediction time, making offline results unrealistically good. Examples: a feature computed after the outcome, scaling fitted on the full dataset before splitting, or random splits of time-series data. Fix it with time-aware splits and fitting preprocessing only on training folds."
+        },
+        {
+          "q": "How would you deploy a new model version safely?",
+          "a": "Gate it on offline evaluation against the current model on the same data, then use shadow mode or a canary with a small share of traffic, compare online metrics and latency, and keep the previous version in the registry for fast rollback. Log model version with every prediction."
+        },
+        {
+          "q": "When would you choose a simple model over a deep network?",
+          "a": "For tabular data, small datasets, strict latency or interpretability requirements, gradient-boosted trees or linear models are often as accurate and much cheaper. I always train a simple baseline first and only add complexity when it measurably improves the target metric."
+        }
+      ],
+      "codingRequirements": "Strong programming is required: data pipelines, training code, services, tests and infrastructure as code, mostly in Python with SQL.",
+      "commonMistakes": [
+        "Evaluating on data that leaked from training or the future",
+        "Skipping a simple baseline",
+        "Deploying without a way to roll back or to know which model version produced a prediction",
+        "Assuming a model stays accurate after deployment without monitoring"
+      ],
+      "readinessCriteria": [
+        "Has trained, evaluated and deployed a model behind an API with tests",
+        "Can explain data leakage, overfitting and training-serving skew with examples",
+        "Has set up experiment tracking and a model registry workflow",
+        "Has implemented drift monitoring for a deployed model"
+      ],
+      "nextRoles": [
+        "ai-engineer",
+        "ai-scientist",
+        "ml-model-testing-specialist"
+      ]
     }
   ]
 }

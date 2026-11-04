@@ -148,7 +148,7 @@ export function DashboardView({
   const steps: NextStep[] = [
     {
       label: "Pick a target role",
-      detail: "Choose from 80 testing role roadmaps, then build a study plan for it.",
+      detail: "Choose from 85 testing and AI role roadmaps, then build a study plan for it.",
       href: data.profile.targetRole ? "/planner" : "/roadmaps",
       done: Boolean(data.profile.targetRole) || data.plan.tasks.length > 0,
     },

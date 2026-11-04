@@ -59,6 +59,8 @@ const KNOWN: Record<string, { tone: Tone; icon: LucideIcon }> = {
   sdet: { tone: "plum", icon: Code },
   "sdet-architecture": { tone: "plum", icon: Code },
   "data-ai-testing": { tone: "teal", icon: Brain },
+  "ai-engineering": { tone: "plum", icon: Brain },
+  "ai-engineering-interview": { tone: "plum", icon: Brain },
 };
 
 function hash(text: string) {

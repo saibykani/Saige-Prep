@@ -81,5 +81,41 @@
     "hours": 8,
     "skills": ["Test planning", "Test design techniques", "Exploratory testing", "Bug reporting"],
     "roles": ["manual-qa-engineer", "qa-analyst", "software-test-engineer", "exploratory-tester"]
+  },
+  {
+    "slug": "rag-chatbot-with-eval-suite",
+    "title": "RAG chatbot with an evaluation suite",
+    "summary": "Build a question-answering chatbot over a public documentation set: ingestion, chunking, embeddings, vector search, cited answers and a refusal when the context lacks the answer. Create a labelled question set and measure retrieval recall at k separately from answer faithfulness and correctness, then compare two chunking strategies with the numbers.",
+    "level": "intermediate",
+    "hours": 24,
+    "skills": ["Python", "Embeddings and vector search", "Retrieval-augmented generation", "LLM APIs", "Evaluation design"],
+    "roles": ["ai-engineer", "ai-specialist", "rag-application-evaluator", "ai-test-engineer"]
+  },
+  {
+    "slug": "llm-eval-harness-in-ci",
+    "title": "LLM evaluation harness that gates CI",
+    "summary": "Write a Python harness that runs a versioned evaluation set against a prompt and model configuration, scores outputs with deterministic checks and a rubric-based LLM judge calibrated against your own hand labels, compares results with a stored baseline per category, and fails the CI pipeline when quality drops below agreed thresholds. Repeat runs to measure variance and document what the harness cannot detect.",
+    "level": "intermediate",
+    "hours": 18,
+    "skills": ["Python", "pytest", "LLM-as-judge", "CI pipelines", "Statistics for comparing runs"],
+    "roles": ["ai-test-engineer", "ai-engineer", "ai-quality-engineer", "llm-application-tester"]
+  },
+  {
+    "slug": "prompt-injection-red-team-suite",
+    "title": "Prompt-injection red-team suite for your own LLM app",
+    "summary": "Build a small LLM app you own, such as an assistant that reads documents and can call one harmless tool, then write an automated suite of direct and indirect prompt-injection, system-prompt extraction and data-leakage cases. Check actual side effects such as tool calls, apply defences like least privilege and confirmation, and rerun to show which attacks they stop. Only test systems you own or are authorised to test.",
+    "level": "advanced",
+    "hours": 16,
+    "skills": ["Prompt injection", "Threat modelling", "Tool use and agents", "Python", "Security test automation"],
+    "roles": ["ai-test-engineer", "ai-engineer", "ai-agent-testing-engineer", "llm-application-tester"]
+  },
+  {
+    "slug": "ml-training-tracking-and-drift-monitoring",
+    "title": "ML model training, experiment tracking and drift monitoring",
+    "summary": "Train a baseline and an improved model on a public tabular dataset with correct, leakage-free splits, track every run's parameters, data version and metrics in an experiment tracker, register the best model, serve it behind an API in a container, and monitor feature and prediction drift against the training reference with an alert when a simulated shift occurs.",
+    "level": "advanced",
+    "hours": 30,
+    "skills": ["Python", "scikit-learn", "Experiment tracking", "Docker", "Drift monitoring"],
+    "roles": ["ai-ml-engineer", "ai-scientist", "ml-model-testing-specialist", "ai-engineer"]
   }
 ]

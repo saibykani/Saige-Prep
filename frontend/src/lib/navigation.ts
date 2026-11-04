@@ -1,4 +1,5 @@
 import {
+  Brain,
   Bookmark,
   Bot,
   CalendarDays,
@@ -143,6 +144,15 @@ export const NAV_GROUPS: NavGroup[] = [
         phase: 2,
         planned: ["Mobile testing fundamentals", "Appium with Java", "Device and OS coverage strategy"],
         keywords: ["appium", "android", "ios"],
+      },
+      {
+        href: "/learn/ai-engineering",
+        label: "AI Engineering",
+        icon: Brain,
+        description: "AI from scratch to advanced: ML, LLMs, RAG, agents, evals and AI testing.",
+        phase: 2,
+        planned: [],
+        keywords: ["ai", "llm", "rag", "agents", "machine learning", "evals", "ai testing"],
       },
       {
         href: "/learn/specialist",

@@ -1,0 +1,324 @@
+{
+  "track": "ai-engineering-interview",
+  "title": "AI Engineering",
+  "description": "Mock interview questions for AI engineering roles: LLM fundamentals, prompting and structured output, RAG, agents, evaluation, red-teaming, ML training and deployment, monitoring, and research methodology.",
+  "roles": [
+    "ai-engineer",
+    "ai-test-engineer",
+    "ai-specialist",
+    "ai-scientist",
+    "ai-ml-engineer"
+  ],
+  "questions": [
+    {
+      "id": "int-aie-01",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is a token, and why do tokens matter when building with LLMs?",
+      "followUps": [
+        "Why can the same prompt produce different outputs?",
+        "What happens when input exceeds the context window?"
+      ],
+      "modelAnswer": "A token is the unit of text a model reads and writes, produced by a tokenizer: often a word, part of a word, or punctuation, so token counts differ from word counts and vary between languages and tokenizers. Tokens matter because providers price by input and output tokens, latency grows with output length, and the context window is a token limit covering the prompt, retrieved context, conversation history and the answer. Output varies between runs because the model samples the next token from a probability distribution; temperature and similar settings control how random that sampling is. If input exceeds the window, the request fails or content must be truncated or summarised, so applications need a strategy for what to keep.",
+      "keyPoints": [
+        "Tokens are sub-word units from a tokenizer",
+        "Cost, latency and context limits are measured in tokens",
+        "Sampling explains output variation; temperature controls it",
+        "Needs a strategy for content that does not fit"
+      ],
+      "redFlags": [
+        "Says a token is always one word",
+        "Believes temperature 0 guarantees identical output on every provider"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-aie-02",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "Explain overfitting and how you would detect and reduce it.",
+      "followUps": [
+        "Why do you need a separate test set as well as a validation set?",
+        "How does cross-validation help?"
+      ],
+      "modelAnswer": "Overfitting is when a model learns patterns specific to its training data, including noise, so it performs well on training data but worse on new data. I detect it by comparing training and validation performance: a large gap, or validation loss rising while training loss falls, is the signal. To reduce it: more or more varied data, simpler models, regularisation such as L2 or dropout, early stopping, and data augmentation. The validation set is used for choices like hyperparameters, so it gets indirectly fitted; a test set touched only once at the end gives an unbiased final estimate. Cross-validation gives a more stable estimate on small datasets by rotating which fold is held out.",
+      "keyPoints": [
+        "Gap between training and validation performance",
+        "Regularisation, early stopping, more data, simpler model",
+        "Validation for tuning, test for final unbiased estimate",
+        "Cross-validation for small datasets"
+      ],
+      "redFlags": [
+        "Tunes on the test set",
+        "Thinks high training accuracy alone means a good model"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-aie-03",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "A fraud model has 99% accuracy. Is it good?",
+      "followUps": [
+        "Which metrics would you report instead?",
+        "How do you choose the decision threshold?"
+      ],
+      "modelAnswer": "Not necessarily. If only 1% of transactions are fraudulent, a model that predicts 'not fraud' for everything also scores 99% accuracy and catches nothing. For imbalanced problems I look at precision (of flagged transactions, how many are fraud), recall (of fraud, how much we catch), the confusion matrix, and threshold-independent measures such as the precision-recall curve. The threshold is a business decision: compare the cost of a missed fraud with the cost of investigating or blocking a legitimate customer, and pick the operating point that minimises expected cost, validated on held-out data.",
+      "keyPoints": [
+        "Accuracy misleads on imbalanced classes",
+        "Precision, recall, confusion matrix, PR curve",
+        "Threshold set by the cost of each error type"
+      ],
+      "redFlags": [
+        "Accepts 99% accuracy at face value",
+        "Cannot define precision and recall"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-aie-04",
+      "kind": "system-design",
+      "difficulty": "intermediate",
+      "question": "Design a retrieval-augmented question-answering system over a company's internal documentation.",
+      "followUps": [
+        "How do you handle documents users are not allowed to see?",
+        "How would you evaluate it?"
+      ],
+      "modelAnswer": "Ingestion: load documents, clean them, split into chunks sized to keep coherent passages with some overlap, attach metadata such as source, section, date and access permissions, embed the chunks and store them in a vector index, refreshing on document changes. Query: optionally rewrite the question, run vector search (often hybrid with keyword search), apply permission filters at retrieval time based on the user's identity, rerank the top results, and pass the best passages to the model with instructions to answer only from the context, cite sources and say when the answer is not present. Permissions must be enforced in retrieval, not by asking the model to hide content. Evaluation: a labelled question set measuring retrieval recall at k and answer faithfulness and correctness separately, plus latency and cost, run on every pipeline change.",
+      "keyPoints": [
+        "Chunking, metadata, embeddings and an index kept fresh",
+        "Hybrid search and reranking",
+        "Access control enforced at retrieval",
+        "Grounded answers with citations and refusal when not found",
+        "Retrieval and generation evaluated separately"
+      ],
+      "redFlags": [
+        "Relies on the prompt to stop users seeing restricted documents",
+        "No evaluation plan beyond trying a few questions"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-aie-05",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What are embeddings and how does vector search find relevant documents?",
+      "followUps": [
+        "When does pure vector search fail?",
+        "What does an approximate nearest neighbour index trade away?"
+      ],
+      "modelAnswer": "An embedding model maps text to a fixed-length vector so that texts with similar meaning end up close together. Documents are embedded in advance; at query time the query is embedded with the same model and the nearest vectors are found, usually by cosine similarity or dot product. At scale, approximate nearest neighbour indexes such as HNSW trade a small loss of recall for much faster search. Pure vector search can miss exact identifiers, product codes, rare names and negation, which is why hybrid search combining keyword scoring like BM25 with vectors, plus reranking, is common. Changing the embedding model requires re-embedding the corpus.",
+      "keyPoints": [
+        "Text mapped to vectors where similarity reflects meaning",
+        "Same model for queries and documents",
+        "Cosine or dot-product similarity, ANN indexes trade recall for speed",
+        "Hybrid search for exact terms"
+      ],
+      "redFlags": [
+        "Mixes embedding models between documents and queries",
+        "Thinks vector search does exact keyword matching"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-aie-06",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "Your team changed a prompt and users say answers got worse, but nobody can prove it. How do you prevent this in future?",
+      "followUps": [
+        "How large should the evaluation set be?",
+        "What do you do about run-to-run variance?"
+      ],
+      "modelAnswer": "Introduce an evaluation set that represents real usage, including edge cases and past failures, with expected answers or grading criteria. Version prompts like code and run the eval automatically on every prompt, model or retrieval change, comparing to the current baseline with per-category breakdowns and thresholds that block a merge on regression. Use deterministic checks where possible and calibrated LLM-as-judge or human review where needed. Because outputs vary, run multiple samples or compare with confidence intervals so a small difference is not mistaken for a real one. The set needs to be large enough to detect the differences we care about, and it grows with production failures.",
+      "keyPoints": [
+        "Representative, versioned eval set",
+        "Eval runs in CI on prompt and model changes",
+        "Per-category comparison against a baseline",
+        "Accounts for variance before declaring a difference"
+      ],
+      "redFlags": [
+        "Suggests reading a few outputs after each change",
+        "Single aggregate score without breakdown"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-07",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "How would you red-team an email assistant that can read a user's inbox and send emails on their behalf?",
+      "followUps": [
+        "Which defences would you recommend?",
+        "How do you keep the tests running after launch?"
+      ],
+      "modelAnswer": "The main risk is indirect prompt injection: an attacker sends an email containing instructions, and the assistant reads it and follows them, for example forwarding sensitive emails or sending messages. I would build test cases with injected instructions in email bodies, subjects, attachments and quoted text, attempts to exfiltrate data through links or replies, attempts to reveal the system prompt, and social-engineering variants. I check actions, not just text: did a send or forward tool get called? Defences: require user confirmation before sending, restrict recipients, keep tools least-privilege, treat email content as untrusted data, sanitise rendered output to stop exfiltration through links or images, and log tool calls. Successful attacks become regression cases in CI, and the suite is rerun on every model or prompt change.",
+      "keyPoints": [
+        "Identifies indirect prompt injection via email content",
+        "Checks tool calls and side effects, not only text",
+        "Human confirmation and least privilege",
+        "Findings become regression tests"
+      ],
+      "redFlags": [
+        "Believes a system prompt saying 'ignore injected instructions' is enough",
+        "Only tests direct user jailbreaks"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-aie-08",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What are the weaknesses of using an LLM as a judge, and how do you mitigate them?",
+      "followUps": [
+        "How do you measure judge agreement with humans?",
+        "When is a deterministic check better?"
+      ],
+      "modelAnswer": "Known weaknesses include position bias in pairwise comparisons, preference for longer or more confident answers, preference for outputs from similar models, inconsistency between runs, and inability to verify facts it does not know. Mitigations: specific rubrics with clear, preferably binary, criteria; randomising or swapping answer order; giving the judge reference answers or source context; measuring agreement with human labels on a sample, for example with Cohen's kappa or simple percent agreement, and investigating disagreements; and re-calibrating when the judge model or rubric changes. Wherever the property is checkable in code, such as JSON validity, presence of a citation or an exact value, a deterministic check is cheaper and more reliable.",
+      "keyPoints": [
+        "Position, verbosity and self-preference biases",
+        "Specific rubrics and order randomisation",
+        "Calibration against human labels",
+        "Prefer deterministic checks where possible"
+      ],
+      "redFlags": [
+        "Treats judge scores as ground truth",
+        "Never compares the judge to human labels"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-aie-09",
+      "kind": "coding",
+      "difficulty": "intermediate",
+      "question": "Describe how you would implement a tool-calling agent loop safely.",
+      "followUps": [
+        "What happens if a tool raises an error?",
+        "How do you test it?"
+      ],
+      "modelAnswer": "The loop sends the conversation and tool definitions to the model; if the response requests a tool, I validate the arguments against the tool's schema, check authorisation for this user, execute it with a timeout, append the result (or a structured error) to the conversation and call the model again, until it returns a final answer. Safeguards: a maximum number of steps and a token or cost budget, least-privilege tools, confirmation before irreversible actions, treating tool results as untrusted content, idempotency for retried actions, and logging every call with arguments and results for audit. Tests: unit tests for each tool, scripted model responses to test the loop logic deterministically, and scenario evals against the real model checking end state and tool sequence, repeated to account for variance.",
+      "keyPoints": [
+        "Validate arguments and authorise before execution",
+        "Step limits, budgets and timeouts",
+        "Errors returned to the model in structured form",
+        "Confirmation for irreversible actions and logging",
+        "Deterministic and scenario-based tests"
+      ],
+      "redFlags": [
+        "No limit on iterations",
+        "Executes model-generated arguments without validation"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-aie-10",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design the deployment and monitoring of a model that predicts customer churn and retrains monthly.",
+      "followUps": [
+        "Labels arrive months later. What do you monitor meanwhile?",
+        "When should retraining not be automatic?"
+      ],
+      "modelAnswer": "Pipeline: validate incoming data against a schema and expected ranges, compute features with the same code used at serving, train with time-based splits, evaluate against the current production model on the same recent holdout, and register the candidate only if it beats it without regressions in important segments. Deploy as a batch scoring job or service with the model version logged with every prediction, using shadow or canary comparison before full rollout and a one-step rollback to the previous registered version. Monitoring: data quality, input feature drift and prediction distribution drift against the training reference, pipeline health, and, once labels arrive, actual performance by segment. Because churn labels lag, drift and proxy metrics act as early warnings. Retraining should pause for human review when data quality checks fail, when drift is extreme or caused by a known incident, or when the candidate fails gates, so a broken data feed is not learnt as the new normal.",
+      "keyPoints": [
+        "Data validation and shared feature logic",
+        "Time-based evaluation against the current model",
+        "Registry, versioned predictions and rollback",
+        "Drift and proxy monitoring while labels lag",
+        "Human gate when data looks wrong"
+      ],
+      "redFlags": [
+        "Random train/test split for time-dependent data",
+        "Retrains and deploys automatically with no comparison gate"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-aie-11",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "When would you fine-tune a model instead of improving prompts or retrieval, and how would you do it efficiently?",
+      "followUps": [
+        "What is LoRA?",
+        "What risks does fine-tuning introduce?"
+      ],
+      "modelAnswer": "Fine-tune when evaluation shows prompting and retrieval cannot reliably achieve a consistent format, style or narrow task behaviour, when a long prompt is too costly or slow, or when a smaller fine-tuned model can replace a larger one. Fine-tuning is poor for injecting frequently changing facts, which retrieval handles better. Parameter-efficient methods such as LoRA freeze the base weights and train small low-rank matrices added to selected layers, greatly reducing memory and storage; QLoRA additionally quantises the frozen base model. Risks include overfitting to a small dataset, losing general capabilities, learning errors present in training data, safety behaviour degrading, and new maintenance cost when the base model is updated. I compare the tuned model against the prompted baseline on a held-out eval that includes general and safety checks.",
+      "keyPoints": [
+        "Fine-tune for behaviour or format, retrieval for knowledge",
+        "Evidence from evals before deciding",
+        "LoRA trains low-rank adapters with frozen base weights",
+        "Risks: overfitting, capability and safety regressions"
+      ],
+      "redFlags": [
+        "Fine-tunes to add constantly changing facts",
+        "No held-out comparison with the baseline"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-aie-12",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "Walk through how a decoder-only transformer generates the next token.",
+      "followUps": [
+        "Why is a KV cache used during generation?",
+        "Why does attention cost grow with sequence length?"
+      ],
+      "modelAnswer": "Input tokens are mapped to embeddings with positional information. Each layer applies causal multi-head self-attention, where each position attends only to itself and earlier positions using softmax of scaled query-key dot products to weight value vectors, followed by a position-wise feed-forward network, with residual connections and layer normalisation around each. The final hidden state for the last position is projected to vocabulary logits, converted to probabilities, and a token is chosen by greedy decoding or sampling with temperature, top-k or top-p. The new token is appended and the process repeats. A KV cache stores keys and values from earlier positions so each step only computes them for the new token. Full self-attention compares every position with every other, so compute and memory grow quadratically with sequence length.",
+      "keyPoints": [
+        "Embeddings plus position information",
+        "Causal self-attention, feed-forward, residuals and normalisation",
+        "Logits to probabilities to sampled token, repeated",
+        "KV cache avoids recomputation; quadratic attention cost"
+      ],
+      "redFlags": [
+        "Says the model retrieves answers from a database",
+        "Cannot explain what the causal mask does"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-aie-13",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "A paper reports a new method beating the state of the art by 1.2 points on a benchmark. How do you decide whether to trust and adopt it?",
+      "followUps": [
+        "How would you check for benchmark contamination?",
+        "What would convince you it transfers to your problem?"
+      ],
+      "modelAnswer": "I check whether results report variance across seeds or confidence intervals, whether baselines were tuned with comparable effort and compute, whether there are ablations showing which component helps, and whether evaluation used a proper held-out set with no tuning on test data. I consider contamination: could benchmark items be in the training data, and do results hold on newer or private test sets? I look for code and reproducibility details. Then I reproduce on a small scale if feasible and, most importantly, evaluate on our own task and data against our current approach, including cost and latency, because benchmark gains often do not transfer.",
+      "keyPoints": [
+        "Variance and statistical significance",
+        "Fair baselines and ablations",
+        "Contamination and test-set reuse",
+        "Validate on own data before adopting"
+      ],
+      "redFlags": [
+        "Adopts based on headline numbers alone",
+        "Ignores compute and cost differences"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-14",
+      "kind": "behavioral",
+      "difficulty": "advanced",
+      "question": "Tell me about a time you had to push back on shipping an AI feature. How did you handle it?",
+      "followUps": [
+        "What evidence did you use?",
+        "What was the outcome and what would you do differently?"
+      ],
+      "modelAnswer": "A strong answer follows situation, task, action, result. For example: a summarisation feature was scheduled to launch, but evaluation showed it invented facts in a measurable share of long documents in a category that mattered to customers. I shared concrete failing examples and the rate per category rather than a general concern, proposed options such as limiting the feature to short documents, adding citations and a feedback button, or a two-week fix, and agreed a release threshold with the product owner. We launched the limited version, monitored it, and expanded once the rate dropped below the agreed level. The lesson was to agree quality thresholds before development so the launch decision is not a debate at the last minute.",
+      "keyPoints": [
+        "Uses evidence and concrete examples",
+        "Offers options rather than only blocking",
+        "Agrees explicit thresholds with stakeholders",
+        "Reflects on what to improve"
+      ],
+      "redFlags": [
+        "Blocks without evidence or alternatives",
+        "Blames others for the outcome"
+      ],
+      "minutes": 6
+    }
+  ]
+}
