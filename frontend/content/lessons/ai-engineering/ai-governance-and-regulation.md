@@ -106,7 +106,7 @@ Regulation (EU) 2024/1689 entered into force on 1 August 2024. It is **risk-base
 
 There are also obligations for **general-purpose AI (GPAI) models**, with additional duties for models deemed to pose systemic risk.
 
-**Phased application.** Obligations apply in stages. As published, prohibitions and AI-literacy provisions applied from February 2025, GPAI model obligations from August 2025, most remaining provisions from August 2026, and some high-risk obligations linked to regulated products later still. The EU has since proposed changes that could shift some dates, so treat any date list, including this one, as something to verify against EUR-Lex and the official implementation pages before relying on it.
+**Phased application.** Obligations apply in stages. Prohibitions and AI-literacy provisions have applied since 2 February 2025, and the obligations for general-purpose AI (GPAI) models since 2 August 2025. Most remaining provisions apply from 2 August 2026. Following later amendments, the official implementation timeline (checked November 2026) lists the core high-risk requirements as applying from 2 December 2027 for Annex III systems and from 2 August 2028 for Annex I systems (high-risk AI in products that are already regulated). Dates have changed before, so verify them against EUR-Lex and the official implementation pages before relying on them.
 
 Roles matter: **providers** (who develop or place a system on the market) and **deployers** (who use it) have different duties.
 

@@ -56,7 +56,9 @@ test.describe("learner pages", () => {
       await expect(main.getByText(label, { exact: true })).toBeVisible();
     }
     await expect(main.getByText("0 of 5 done. Each step ticks itself off as you complete it.")).toBeVisible();
-    await expect(main.getByRole("link", { name: /Pick a target role/ })).toHaveAttribute("href", "/roadmaps");
+    // The hero's "next mission" and the next-steps list both point at the first unfinished step.
+    await expect(main.getByRole("link", { name: /Your next mission\s*Pick a target role/ })).toHaveAttribute("href", "/roadmaps");
+    await expect(main.getByRole("listitem").getByRole("link", { name: /Pick a target role/ })).toHaveAttribute("href", "/roadmaps");
     await expect(main.getByRole("link", { name: /Take a baseline mock test/ })).toHaveAttribute("href", "/mock-tests");
     await expect(main.getByText("Jump back in")).toBeVisible();
     for (const [label, href] of [
@@ -85,7 +87,7 @@ test.describe("learner pages", () => {
       "Specialist Testing",
     ];
     const cards = main.locator('a[href^="/mock-tests/"]');
-    await expect(cards).toHaveCount(8);
+    await expect(cards).toHaveCount(9);
     for (const t of titles) await expect(main.getByText(t, { exact: true })).toBeVisible();
     await expect(main.getByText("No attempts yet. Results are saved in this browser only.")).toBeVisible();
 
@@ -101,7 +103,7 @@ test.describe("learner pages", () => {
   test("interview: 15-minute session through to completion", async ({ page }) => {
     await signIn(page, "/interviews");
     const main = page.getByRole("main");
-    await expect(main.locator('a[href^="/interviews/"]')).toHaveCount(8);
+    await expect(main.locator('a[href^="/interviews/"]')).toHaveCount(9);
     await main.getByRole("link", { name: /Manual QA/ }).click();
     await expect(page).toHaveURL(/\/interviews\/manual-qa$/, { timeout: 60_000 });
     await expect(page.getByRole("heading", { level: 1, name: "Manual QA interview" })).toBeVisible();
@@ -134,7 +136,7 @@ test.describe("learner pages", () => {
     await signIn(page, "/projects");
     const main = page.getByRole("main");
     const cards = main.locator('a[href^="/projects/"]');
-    await expect(cards).toHaveCount(9);
+    await expect(cards).toHaveCount(13);
     await main.getByRole("link", { name: /Selenium \+ TestNG UI automation framework/ }).click();
     await expect(page).toHaveURL(/\/projects\/selenium-testng-framework$/, { timeout: 60_000 });
     await expect(page.getByRole("heading", { level: 1, name: "Selenium + TestNG UI automation framework" })).toBeVisible();
