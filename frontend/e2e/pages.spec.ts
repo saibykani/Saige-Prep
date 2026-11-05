@@ -74,6 +74,8 @@ test.describe("learner pages", () => {
   });
 
   test("mock test: hub, take a short test, results, attempt listed", async ({ page }) => {
+    // Clicks through a full 10-question test; under a loaded machine this exceeds the default 30s budget.
+    test.slow();
     await signIn(page, "/mock-tests");
     const main = page.getByRole("main");
     const titles = [
@@ -174,6 +176,8 @@ test.describe("learner pages", () => {
   });
 
   test("progress: honest empty states, then data after a mock test", async ({ page }) => {
+    // Clicks through a full 10-question test; under a loaded machine this exceeds the default 30s budget.
+    test.slow();
     await signIn(page, "/progress");
     const main = page.getByRole("main");
     await expect(main.getByText("No activity yet. Open a lesson, take a quiz or finish a lab and it will show up here.")).toBeVisible();
