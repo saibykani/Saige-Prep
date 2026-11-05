@@ -5,8 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { findNavItem } from "@/lib/navigation";
 
+/** Acronyms that appear in URL slugs and should keep their capitals in labels. */
+const ACRONYMS: Record<string, string> = {
+  ...Object.fromEntries(
+    ["ai", "ml", "llm", "llms", "rag", "api", "apis", "sql", "ui", "ux", "qa", "ci", "cd", "etl", "http", "rest", "json", "xml", "jwt", "sdet", "bdd", "tdd", "iot", "erp", "wcag", "owasp", "aws", "nist", "eu", "pom"].map((w) => [w, w.toUpperCase()]),
+  ),
+  ios: "iOS",
+  mlops: "MLOps",
+};
+
 function titleCase(segment: string) {
-  return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return segment
+    .split("-")
+    .map((w) => ACRONYMS[w] ?? w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 }
 
 export function buildCrumbs(pathname: string) {

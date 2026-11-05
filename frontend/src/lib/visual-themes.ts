@@ -92,6 +92,7 @@ export const TRACK_CATEGORIES = [
   { id: "api", label: "API" },
   { id: "performance", label: "Performance" },
   { id: "mobile", label: "Mobile" },
+  { id: "ai", label: "AI & ML" },
   { id: "specialist", label: "Specialist" },
 ] as const;
 
@@ -106,6 +107,7 @@ const TRACK_CATEGORY: Record<string, TrackCategory> = {
   jmeter: "performance",
   mobile: "mobile",
   specialist: "specialist",
+  "ai-engineering": "ai",
 };
 
 export function trackCategory(slug: string): TrackCategory {

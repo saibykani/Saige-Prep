@@ -50,6 +50,11 @@ describe("navigation registry", () => {
 });
 
 describe("buildCrumbs", () => {
+  it("keeps acronyms in capitals", () => {
+    expect(buildCrumbs("/learn/ai-engineering/building-rag-pipelines").at(-1)?.label).toBe("Building RAG Pipelines");
+    expect(buildCrumbs("/learn/specialist/sql-for-testers").at(-1)?.label).toBe("SQL For Testers");
+  });
+
   it("uses nav labels and title-cases unknown segments", () => {
     expect(buildCrumbs("/learn/manual-testing/boundary-value-analysis")).toEqual([
       { href: "/learn", label: "Learning Center" },
