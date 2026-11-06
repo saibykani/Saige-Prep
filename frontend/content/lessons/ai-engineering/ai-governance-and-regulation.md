@@ -178,6 +178,10 @@ def render_model_card(meta: dict, metrics: dict, slices: dict) -> str:
     ]
     return "\n\n".join(lines)
 
+# model_meta.json is written by the team; eval_results.json by the eval job. Illustrative shapes:
+#   model_meta.json:   {"name": "cv-ranker", "version": "2.3.0", "intended_use": "...", "out_of_scope": "...",
+#                       "training_data": "...", "evaluation_data": "...", "limitations": "..."}
+#   eval_results.json: {"overall": {"auc": 0.874}, "slices": {"group_a": {"selection_rate": 0.31}}}
 meta = json.load(open("model_meta.json"))
 results = json.load(open("eval_results.json"))
 open("MODEL_CARD.md", "w").write(render_model_card(meta, results["overall"], results["slices"]))

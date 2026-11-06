@@ -152,8 +152,23 @@ for each epoch:
 Save the `state_dict` (parameter tensors), not the whole pickled object:
 
 ```python
+import torch
+from torch import nn
+
+class Net(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layers = nn.Sequential(nn.Linear(64, 32), nn.ReLU(), nn.Linear(32, 10))
+
+    def forward(self, x):
+        return self.layers(x)
+
+model = Net()  # in practice: the model you just trained
 torch.save(model.state_dict(), "model.pt")
-model = Net(); model.load_state_dict(torch.load("model.pt", weights_only=True)); model.eval()
+
+restored = Net()  # rebuild the same architecture, then load the weights into it
+restored.load_state_dict(torch.load("model.pt", weights_only=True))
+restored.eval()  # switch off dropout/batch-norm training behaviour before inference
 ```
 
 Only load checkpoint files from sources you trust; `weights_only=True` restricts unpickling to tensors and basic types.
