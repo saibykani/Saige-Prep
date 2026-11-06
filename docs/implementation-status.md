@@ -7,14 +7,14 @@ _Last updated: 2026-10-30._
 |---|---|---|
 | 0 | Inspection, CLAUDE.md, architecture docs, checklist | ✅ Done |
 | 1 | Shell, design system, FastAPI, DB, health checks, auth foundation, test infra | ✅ Done |
-| 2 | Curriculum & learning engine | ✅ Done (every curriculum topic has a lesson; all 85 role roadmaps) |
+| 2 | Curriculum & learning engine | ✅ Done (9 tracks incl. AI Engineering, 203 lessons = every curriculum topic; 85 role roadmaps incl. 5 AI roles) |
 | 3 | Practice labs and QA toolkit | ✅ Done (7 labs, 15 tools) |
-| 4 | Assessment engine | ✅ Done (mock-test hub + runner; 8 banks, 384 questions: manual, JMeter, API, automation, performance, mobile, SDET, specialist) |
-| 5 | Interview preparation | ✅ Done (8 tracks; 15/30/60-min runner with self-rated rubric) |
-| 6 | Projects, resource library, content admin | 🟡 9 guided projects done; content admin not built (no login) |
+| 4 | Assessment engine | ✅ Done (mock-test hub + runner; 9 banks, 428 questions: manual, JMeter, API, automation, performance, mobile, SDET, specialist, AI engineering) |
+| 5 | Interview preparation | ✅ Done (9 tracks, 128 questions; 15/30/60-min runner with self-rated rubric) |
+| 6 | Projects, resource library, content admin | 🟡 13 guided projects done; content admin not built (site stays open with no login, by owner decision 2026-11-05) |
 | 7 | Personalization and analytics | ✅ Done (study planner, progress analytics, light/dark/system theme) |
 | 8 | Security and production hardening | 🟡 CSP/HSTS/COOP headers, data export/import/delete; backend auth unused while login is off |
-| 9 | Content and quality audit | 🟡 JMeter audit done (1 fix); 38 newer lessons written without a live source check, audit pending |
+| 9 | Content and quality audit | 🟡 JMeter audit and 15-lesson audit done; AI track: EU AI Act dates checked against the official timeline, Python examples executed where possible (2 fixed; API-key/network/model-download examples only syntax-checked). Full live source check of all lessons still pending |
 
 ## Architecture decision: learner data and content (recorded 2026-10-29)
 Login is disabled at the owner's request, and the hosted backend is not reachable from the live site. So:
@@ -37,13 +37,22 @@ Login is disabled at the owner's request, and the hosted backend is not reachabl
 ## Content inventory
 | Content | Done | Target |
 |---|---|---|
-| Lessons | 114 | 152 topics |
-| Role roadmaps | 68 | 80 |
-| Interview questions | 88 (6 tracks) | 8 tracks |
-| Assessment question bank | 60 (manual testing) | 7 banks |
-| Example projects | 2 started (RestAssured, Selenium), **not yet verified** | 7 |
+| Lessons | 203 | 203 topics |
+| Role roadmaps | 85 | 85 |
+| Interview questions | 128 (9 tracks) | 9 tracks |
+| Assessment question bank | 428 (9 banks) | 9 banks |
+| Guided projects | 13 (2 with runnable example code, not yet verified end to end) | 13 |
 
 Content agents stopped mid-task when the API usage limit was reached. Four lessons cut off mid-write sit in `frontend/content-drafts/`; they are not loaded by the site and must be fixed and revalidated before being moved back.
+
+## Tests executed (2026-11-05)
+| Suite | Result |
+|---|---|
+| Content validation (`npx vitest run src/content`) | **238 passed** |
+| Other frontend unit tests | all passed (one sidebar test timed out under load, passed on rerun) |
+| Type-check / lint | clean |
+| Production build (`next build`) | success, 389 pages |
+| Playwright e2e (desktop + mobile) | **29 passed, 1 skipped** (desktop-only shortcut) |
 
 ## Tests executed (2026-10-30)
 | Suite | Result |
