@@ -14,8 +14,8 @@ prerequisites:
   - Java basics and OOP for test automation
 related: [testng-essentials, data-driven-testing, maven-for-test-projects, test-doubles-and-mocking]
 references:
-  - title: JUnit 5 User Guide
-    url: https://junit.org/junit5/docs/current/user-guide/
+  - title: JUnit User Guide
+    url: https://docs.junit.org/current/overview.html
   - title: Maven Surefire Plugin — Using JUnit 5 Platform
     url: https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit-platform.html
   - title: Selenium documentation
@@ -100,7 +100,9 @@ The good news: once you understand one, the other is mostly a change of vocabula
 
 - **JUnit Platform** launches test engines and integrates with Maven, Gradle and IDEs.
 - **JUnit Jupiter** is the programming and extension model you write tests with (`org.junit.jupiter.api`).
-- **JUnit Vintage** runs JUnit 3/4 tests on the Platform during migrations.
+- **JUnit Vintage** runs JUnit 3/4 tests on the Platform during migrations (deprecated since JUnit 6).
+
+JUnit 6 (released 2025, Java 17+) keeps the same Platform/Jupiter model and `org.junit.jupiter` packages, so everything below applies to it as well.
 
 ### Lifecycle
 

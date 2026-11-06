@@ -17,7 +17,7 @@ related: [functional-vs-non-functional-testing, cross-browser-testing, device-an
 references:
   - title: ISTQB Certified Tester Foundation Level Syllabus v4.0 (section 2.2.2, Test types)
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
-  - title: ISO/IEC 25010 Systems and software quality models
+  - title: ISO/IEC 25010:2011 Systems and software quality models
     url: https://www.iso.org/standard/35733.html
   - title: Docker documentation
     url: https://docs.docker.com/

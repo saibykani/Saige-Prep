@@ -100,12 +100,12 @@ RestAssured is an open-source Java DSL for testing HTTP APIs. It integrates with
 <dependency>
   <groupId>io.rest-assured</groupId>
   <artifactId>rest-assured</artifactId>
-  <version>5.5.0</version>
+  <version>6.3.0</version>
   <scope>test</scope>
 </dependency>
 ```
 
-Check the official site for the current version; the API shown here is stable across 5.x.
+Check the official site for the current version; the API shown here is the same in 5.x and 6.x.
 
 ### The three parts
 

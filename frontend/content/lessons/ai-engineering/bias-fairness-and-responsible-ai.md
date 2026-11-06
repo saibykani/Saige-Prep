@@ -276,7 +276,7 @@ Group y is selected far less often, and qualified members of group y are missed 
 
 - **No group labels available.** Discuss lawful options such as voluntary self-identification for evaluation only, or use counterfactual tests that do not require real group data.
 - **Metrics disagree.** That is expected when base rates differ; return to the harm analysis and decide which error matters most.
-- **Counterfactual spread is noisy.** Increase runs, pin model and temperature, and use a paired comparison per template.
+- **Counterfactual spread is noisy.** Increase runs, pin the model version (and temperature, where the API still accepts it), and use a paired comparison per template.
 
 ## Key takeaways summary
 

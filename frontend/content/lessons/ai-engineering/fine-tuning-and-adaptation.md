@@ -18,7 +18,7 @@ prerequisites:
 related: [pytorch-essentials, transformers-and-attention, llm-fundamentals-and-tokens, building-rag-pipelines, llm-evaluation-and-evals, mlops-and-model-deployment, advanced-topics-in-modern-ai]
 references:
   - title: Hugging Face — PEFT documentation
-    url: https://huggingface.co/docs/peft
+    url: https://huggingface.co/docs/peft/index
   - title: Hu et al. — LoRA, Low-Rank Adaptation of Large Language Models (arXiv 2106.09685)
     url: https://arxiv.org/abs/2106.09685
   - title: Dettmers et al. — QLoRA, Efficient Finetuning of Quantized LLMs (arXiv 2305.14314)

@@ -98,7 +98,7 @@ But a marker you have never checked could be marking randomly. Before trusting i
 - **Anchored levels**: describe exactly what a 1, 2, 3 and 4 look like, or use pass/fail with explicit failure conditions.
 - **Give the judge what humans had**: the question, the retrieved context, the reference answer or required facts.
 - **Reasoning before score**: ask for a short justification and then the verdict, in structured JSON, so you can audit decisions.
-- **Pin the judge model and temperature** and version the judge prompt like code.
+- **Pin the judge model version (and temperature, where the API still accepts it)** and version the judge prompt like code.
 
 ### Known judge biases
 

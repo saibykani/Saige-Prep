@@ -17,7 +17,7 @@ prerequisites:
 related: [postman-collections-and-environments, postman-tests-and-request-chaining, api-testing-in-ci, api-test-data-management]
 references:
   - title: Postman Learning Center — Overview
-    url: https://learning.postman.com/docs/introduction/overview/
+    url: https://learning.postman.com/docs/getting-started/overview/
   - title: Newman source and README (postmanlabs/newman)
     url: https://github.com/postmanlabs/newman
   - title: Newman on npm

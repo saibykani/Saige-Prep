@@ -185,14 +185,14 @@ CMD ["mvn", "-B", "test"]
 
 Copying `pom.xml` first means the dependency layer is cached and only rebuilt when dependencies change.
 
-A Testcontainers (Java, JUnit 5) test that gets its own PostgreSQL:
+A Testcontainers 2.x (Java, JUnit 5) test that gets its own PostgreSQL, using `org.testcontainers.postgresql.PostgreSQLContainer`:
 
 ```java
 @Testcontainers
 class OrderRepositoryIT {
 
     @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
+    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:16");
 
     @Test
     void savesAndLoadsAnOrder() {

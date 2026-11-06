@@ -20,7 +20,7 @@ references:
   - title: OWASP Authentication Cheat Sheet
     url: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
   - title: NIST SP 800-63B Digital Identity Guidelines - Authentication
-    url: https://pages.nist.gov/800-63-3/sp800-63b.html
+    url: https://pages.nist.gov/800-63-4/sp800-63b.html
   - title: OWASP Web Security Testing Guide
     url: https://owasp.org/www-project-web-security-testing-guide/
 interview:
@@ -28,8 +28,8 @@ interview:
     a: I test the request step, the token and the reset step separately. For the request, the response must be identical for registered and unregistered emails, and requests should be rate limited. For the token, it must be random, single use, expire after the stated time, and be invalidated when a newer token is issued or the password changes. The link must point at the real site domain regardless of request headers. For the reset step, password rules apply, the old password stops working, and depending on policy other sessions are signed out and the user is notified. All of this on an environment I am authorised to test.
   - q: What is wrong with a sign-up form that says "This email is already registered"?
     a: It confirms which emails have accounts, which is user enumeration. A safer pattern is to show the same "check your email" confirmation for all submissions, and send the existing account holder an email saying someone tried to register with their address, with a link to sign in or reset. The team may still choose the inline message for usability, but it should be a conscious, documented decision with rate limiting in place.
-  - q: Which boundaries would you test for a password rule of 12 to 64 characters?
-    a: Lengths 11, 12, 64 and 65, plus empty, keeping the content otherwise valid. I would also test multi-byte characters near the limits, because length might be counted in bytes instead of characters, leading spaces, and whether a very long input is silently truncated - truncation can let a user set a password they can never type again.
+  - q: Which boundaries would you test for a password rule of 15 to 64 characters?
+    a: Lengths 14, 15, 64 and 65, plus empty, keeping the content otherwise valid. I would also test multi-byte characters near the limits, because length might be counted in bytes instead of characters, leading spaces, and whether a very long input is silently truncated - truncation can let a user set a password they can never type again.
   - q: Two registration requests for the same email arrive at the same moment. What could go wrong and how would you test it?
     a: Both requests might pass the "email not taken" check before either is saved, creating duplicate accounts. I would send two near-simultaneous requests, for example from two browser windows or an API client, then check the database or admin view for one account only. The robust fix is a unique constraint on the normalised email, not only an application check.
 practice:
@@ -89,7 +89,7 @@ Security checks here are for your own or explicitly authorised test environments
 
 ## Requirements
 
-1. Registration fields: email (required, max 254 characters), display name (2–50 characters), password (12–64 characters), terms checkbox (required).
+1. Registration fields: email (required, max 254 characters), display name (2–50 characters), password (15–64 characters, the NIST SP 800-63B minimum for a password used without MFA), terms checkbox (required).
 2. Emails are trimmed and compared case-insensitively; one account per email.
 3. After sign-up the account is **unverified** until the user clicks a verification link valid for 24 hours.
 4. Sign-up and reset requests always show: "If this email can be used, we've sent you a message." An existing account holder receives a "someone tried to register" email.
@@ -99,7 +99,7 @@ Security checks here are for your own or explicitly authorised test environments
 
 ## Assumptions
 
-- Passwords are checked against a list of commonly used or breached passwords (a practice recommended in NIST SP 800-63B); confirm which list and message.
+- Passwords are checked against a list of commonly used or breached passwords (a requirement in NIST SP 800-63B); confirm which list and message.
 - The test environment routes all email to a test mailbox; no real users are contacted.
 - Time can be advanced or token expiry configured for testing.
 
@@ -131,7 +131,7 @@ Only the Issued state may lead to a password change. Every other state must reje
 |---|---|---|---|---|---|
 | RG-01 | Successful sign-up and verification | Positive | new.user@example.test, valid fields | Register, open email, click link | Account becomes verified; can log in |
 | RG-02 | Duplicate email with different case | Negative | Existing Asha@Example.test, register asha@example.test | Submit | Neutral message shown; no second account; owner gets notice email |
-| RG-03 | Password length boundaries | Boundary | Lengths 11, 12, 64, 65 | Submit each with otherwise valid data | 11 and 65 rejected with clear message; 12 and 64 accepted; no truncation |
+| RG-03 | Password length boundaries | Boundary | Lengths 14, 15, 64, 65 | Submit each with otherwise valid data | 14 and 65 rejected with clear message; 15 and 64 accepted; no truncation |
 | RG-04 | Verification link expiry | Boundary | Link aged 23:59 and 24:01 | Open link | First verifies; second shows expired with resend option |
 | RG-05 | Reset for unregistered email | Security | nobody@example.test | Request reset | Same message, status and timing as for a registered email |
 | RG-06 | Reset link single use | Negative | Valid link | Reset password, open link again | Second use rejected |

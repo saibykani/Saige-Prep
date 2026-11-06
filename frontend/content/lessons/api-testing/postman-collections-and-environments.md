@@ -16,7 +16,7 @@ prerequisites:
 related: [postman-tests-and-request-chaining, newman-command-line-runs, authentication-and-authorization, api-test-data-management]
 references:
   - title: Postman Learning Center — Overview
-    url: https://learning.postman.com/docs/introduction/overview/
+    url: https://learning.postman.com/docs/getting-started/overview/
   - title: Postman Learning Center
     url: https://learning.postman.com/
 interview:

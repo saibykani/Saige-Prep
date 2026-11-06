@@ -20,7 +20,7 @@ references:
   - title: Microsoft PICT (Pairwise Independent Combinatorial Testing) on GitHub
     url: https://github.com/microsoft/pict
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
-    url: https://www.iso.org/standard/60245.html
+    url: https://www.iso.org/standard/79430.html
 interview:
   - q: What is pairwise testing and why does it work?
     a: Pairwise testing selects a set of tests in which every possible pair of values for every pair of parameters appears at least once. It works because many configuration and input defects are triggered by a single value or by the interaction of two values, so covering all pairs catches them with far fewer tests than the full Cartesian product. It does not guarantee finding defects that need three or more specific values together.

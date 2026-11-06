@@ -16,7 +16,7 @@ prerequisites:
 related: [testing-ai-applications, rag-evaluation, test-data-design, qa-metrics-and-reporting, regression-testing]
 references:
   - title: Anthropic — Define success criteria and build evaluations
-    url: https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests
+    url: https://platform.claude.com/docs/en/test-and-evaluate/develop-tests
   - title: OpenAI — Evaluation best practices
     url: https://platform.openai.com/docs/guides/evaluation-best-practices
   - title: Stanford CRFM — HELM

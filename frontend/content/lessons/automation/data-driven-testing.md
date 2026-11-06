@@ -18,8 +18,8 @@ related: [testng-essentials, junit-5-essentials, cucumber-bdd, parallel-executio
 references:
   - title: TestNG documentation (Parameters and DataProviders)
     url: https://testng.org/
-  - title: JUnit 5 User Guide — Parameterized tests
-    url: https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests
+  - title: JUnit User Guide — Parameterized tests
+    url: https://docs.junit.org/current/writing-tests/parameterized-classes-and-tests.html
   - title: Cucumber documentation — Scenario outlines and data tables
     url: https://cucumber.io/docs/gherkin/reference/
 interview:
@@ -44,10 +44,10 @@ quiz:
     type: single
     topic: data-driven-testing
     difficulty: beginner
-    prompt: What must a TestNG @DataProvider method return?
+    prompt: Which is a standard return type for a TestNG @DataProvider method?
     options: ["A List of Strings", "Object[][] or an Iterator of Object[]", "A Map of String to Object", "void"]
     answer: [1]
-    explanation: "Each Object[] is one set of arguments for the test method. TestNG also accepts Iterator<Object[]> for lazily produced rows. Lists of strings and maps are not supported return types for a DataProvider."
+    explanation: "Each Object[] is one set of arguments for the test method. TestNG also accepts Iterator<Object[]> for lazily produced rows, and Object[] or Iterator<Object> for single-parameter methods. A List or Map is not one of the documented return types, and void supplies no data."
   - id: ddt-q2
     type: code-output
     topic: data-driven-testing

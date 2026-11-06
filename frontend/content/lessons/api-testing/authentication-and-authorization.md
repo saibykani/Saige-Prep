@@ -25,7 +25,7 @@ references:
   - title: RFC 7519 — JSON Web Token (JWT)
     url: https://datatracker.ietf.org/doc/html/rfc7519
   - title: MDN Web Docs — HTTP authentication
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication
 interview:
   - q: Which OAuth 2.0 flow would you use for a nightly job calling another service, and which for a mobile app acting for a user?
     a: "The nightly job has no user, so client credentials — the job authenticates with its own client id and secret at the token endpoint and receives an access token for its own permissions. A mobile app is a public client that cannot keep a secret, so authorization code with PKCE — the user signs in at the authorization server, the app receives a short-lived code and exchanges it together with the code_verifier. Implicit and resource owner password grants are discouraged by current OAuth security guidance."
@@ -115,7 +115,7 @@ sequenceDiagram
     participant App as Client app
     participant AS as Authorization server
     participant API as Resource server (API)
-    App->>App: create code_verifier and code_challenge = SHA256(verifier)
+    App->>App: create code_verifier and code_challenge = BASE64URL(SHA256(verifier))
     App->>AS: GET /authorize (response_type=code, code_challenge, S256, state)
     AS->>U: login and consent page
     U->>AS: credentials and consent

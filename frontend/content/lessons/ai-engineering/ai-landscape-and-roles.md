@@ -22,7 +22,7 @@ references:
   - title: scikit-learn — Getting Started
     url: https://scikit-learn.org/stable/getting_started.html
   - title: PyTorch — Learn the Basics
-    url: https://pytorch.org/tutorials/beginner/basics/intro.html
+    url: https://docs.pytorch.org/tutorials/beginner/basics/intro.html
 interview:
   - q: What is the difference between machine learning and traditional programming?
     a: In traditional programming a developer writes explicit rules that turn inputs into outputs. In machine learning the developer supplies example inputs, often with known outputs, and a training algorithm finds the parameters of a model that maps inputs to outputs. The rules are learned from data rather than written by hand, so behaviour depends on data quality and is probabilistic rather than exactly specified.

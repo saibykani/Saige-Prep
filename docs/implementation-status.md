@@ -14,7 +14,7 @@ _Last updated: 2026-10-30._
 | 6 | Projects, resource library, content admin | 🟡 13 guided projects done; content admin not built (site stays open with no login, by owner decision 2026-11-05) |
 | 7 | Personalization and analytics | ✅ Done (study planner, progress analytics, light/dark/system theme) |
 | 8 | Security and production hardening | 🟡 CSP/HSTS/COOP headers, data export/import/delete; backend auth unused while login is off |
-| 9 | Content and quality audit | 🟡 JMeter audit and 15-lesson audit done; AI track: EU AI Act dates checked against the official timeline, Python examples executed where possible (2 fixed; API-key/network/model-download examples only syntax-checked). Full live source check of all lessons still pending |
+| 9 | Content and quality audit | ✅ Done (2026-11-06): all 203 lessons fact-checked (JMeter earlier; 174 more in this audit) — quizzes, arithmetic, code and every reference URL; ~50 lessons corrected (current Claude API constraints, NIST SP 800-63-4, ISTQB v4.0.1 wording, OWASP 2025, TestNG/Selenium/JUnit 6/Testcontainers 2/Actions v7, SQL and SCD logic). AI Python examples run for real, on tiny models, or against stubs/a fake Claude client (live API not called). Some checks relied on agent knowledge where sources block bots (iso.org, ISTQB glossary) |
 
 ## Architecture decision: learner data and content (recorded 2026-10-29)
 Login is disabled at the owner's request, and the hosted backend is not reachable from the live site. So:

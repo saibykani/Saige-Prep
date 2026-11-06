@@ -191,7 +191,7 @@ print("F1 95% CI:", np.percentile(f1s, [2.5, 97.5]).round(3))
 
 ## Expected output
 
-Accuracy in the classification report is high mainly because negatives dominate. Recall for class 1 at threshold 0.5 is noticeably lower than accuracy. ROC AUC is typically higher than average precision on this imbalanced data. The chosen threshold is below 0.5 and trades precision for recall. The F1 interval shows the uncertainty from a finite test set.
+Accuracy in the classification report is high mainly because negatives dominate. Recall for class 1 at threshold 0.5 is noticeably lower than accuracy. ROC AUC is typically higher than average precision on this imbalanced data. The chosen threshold is likely below 0.5, trading precision for recall. The F1 interval shows the uncertainty from a finite test set.
 
 ## Common mistakes
 

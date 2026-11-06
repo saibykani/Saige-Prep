@@ -27,7 +27,7 @@ interview:
   - q: What factors affect likelihood and impact?
     a: Likelihood is driven by things like complexity, amount of change, new technology or third-party integrations, team unfamiliarity and defect history in that area. Impact covers financial loss, number of users affected, legal or regulatory consequences, safety, data loss and reputational damage. I gather both with developers, product owners and support, because no single person sees all of them.
   - q: What is a weakness of multiplying likelihood by impact?
-    a: It can flatten very different risks to the same number. A rare but catastrophic failure such as login being broken for everyone can score lower than a frequent cosmetic issue. I use a matrix with a rule that any maximum-impact item gets at least a smoke test regardless of score, and I review the ranking with stakeholders rather than trusting the arithmetic blindly.
+    a: It can flatten very different risks to the same number. A rare but catastrophic failure such as login being broken for everyone can score the same as, or on wider scales even lower than, a frequent cosmetic issue. I use a matrix with a rule that any maximum-impact item gets at least a smoke test regardless of score, and I review the ranking with stakeholders rather than trusting the arithmetic blindly.
   - q: How does ISTQB describe the purpose of product risk analysis?
     a: In CTFL v4.0, product risk analysis aims to focus test effort to minimise residual product risk. Its results are used to decide test scope and thoroughness, test levels and test types, the techniques and coverage to apply, effort estimates and the prioritisation of tests, and whether other activities beyond testing are needed to reduce risk.
 practice:

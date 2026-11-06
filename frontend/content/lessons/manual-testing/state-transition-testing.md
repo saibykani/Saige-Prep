@@ -29,7 +29,7 @@ interview:
   - q: Why is a state table useful when you already have a diagram?
     a: A diagram shows only valid transitions. A state table lists every state against every event, so the empty cells are the invalid transitions. It makes them visible and countable, which is how you find untested behaviour such as cancelling an order that has already shipped.
   - q: Why should invalid transitions be tested one per test case?
-    a: Once an invalid event is attempted, the system might move into an unexpected state. Any further steps in that test are then running from an unknown state, so a second invalid attempt could be masked or misinterpreted. ISTQB recommends one invalid transition per test to avoid this fault masking.
+    a: Once an invalid event is attempted, the system might move into an unexpected state. Any further steps in that test are then running from an unknown state, so a second invalid attempt could be masked or misinterpreted. ISTQB recommends one invalid transition per test to avoid this defect masking.
 practice:
   - "A login screen locks an account after three consecutive wrong passwords; a correct password resets the counter; an admin unlock returns a locked account to the start. Draw the state diagram and list tests for 0-switch coverage."
   - "Build the full state table for a traffic light with a pedestrian button and identify every invalid transition."
@@ -38,7 +38,7 @@ takeaways:
   - A state model has states, events, transitions, guards and actions.
   - The diagram shows valid transitions; the state table also reveals invalid ones as empty cells.
   - Valid transitions coverage is also called 0-switch coverage; all transitions coverage adds every invalid transition.
-  - Test each invalid transition in its own test to avoid fault masking.
+  - Test each invalid transition in its own test to avoid defect masking.
   - Start every test from a known state, and state the expected end state, not only the screen message.
 quiz:
   - id: stt-q1
@@ -101,7 +101,7 @@ Coverage criteria in CTFL v4.0:
 | Valid transitions coverage (0-switch) | Every valid transition is exercised at least once |
 | All transitions coverage | Every valid transition is exercised and every invalid transition is attempted |
 
-Valid transitions coverage guarantees all states coverage, and all transitions coverage guarantees valid transitions coverage. Invalid transitions should be tested **one per test case** to avoid fault masking. **N-switch** coverage extends the idea to sequences: 1-switch covers every valid pair of consecutive transitions.
+Valid transitions coverage guarantees all states coverage, and all transitions coverage guarantees valid transitions coverage. Invalid transitions should be tested **one per test case** to avoid defect masking. **N-switch** coverage extends the idea to sequences: 1-switch covers every valid pair of consecutive transitions.
 
 ### Worked example: an online order
 

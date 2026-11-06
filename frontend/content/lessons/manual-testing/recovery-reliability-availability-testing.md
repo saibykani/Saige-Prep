@@ -21,7 +21,7 @@ references:
     url: https://sre.google/books/
   - title: Principles of Chaos Engineering
     url: https://principlesofchaos.org/
-  - title: ISO/IEC 25010 Systems and software quality models
+  - title: ISO/IEC 25010:2011 Systems and software quality models
     url: https://www.iso.org/standard/35733.html
 interview:
   - q: What is the difference between reliability and availability?

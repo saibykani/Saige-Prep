@@ -128,7 +128,7 @@ A retail team automated a check that the basket total on the page equals the sum
 
 ## Step-by-step walkthrough
 
-1. **Install a JDK** (17 or 21 are long-term-support versions) and confirm with `java -version`.
+1. **Install a JDK** (17, 21 and 25 are long-term-support versions) and confirm with `java -version`.
 2. **Create a class** in your IDE; the file name must match the public class name.
 3. **Declare variables** with clear names and the narrowest suitable type.
 4. **Write a helper method** for any conversion you need more than once.

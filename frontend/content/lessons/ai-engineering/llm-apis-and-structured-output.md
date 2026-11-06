@@ -17,17 +17,17 @@ prerequisites:
 related: [prompt-engineering, tool-use-and-ai-agents, llm-evaluation-and-evals, ai-cost-latency-and-scaling, python-for-ai]
 references:
   - title: Anthropic docs — Messages API reference
-    url: https://docs.anthropic.com/en/api/messages
+    url: https://platform.claude.com/docs/en/api/messages
   - title: Anthropic docs — Tool use overview
-    url: https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview
+    url: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
   - title: Anthropic docs — Errors
-    url: https://docs.anthropic.com/en/api/errors
+    url: https://platform.claude.com/docs/en/api/errors
   - title: Anthropic Python SDK on GitHub
     url: https://github.com/anthropics/anthropic-sdk-python
   - title: OpenAI platform docs — Structured outputs
-    url: https://platform.openai.com/docs/guides/structured-outputs
+    url: https://developers.openai.com/api/docs/guides/structured-outputs
   - title: Pydantic documentation — Models
-    url: https://docs.pydantic.dev/latest/concepts/models/
+    url: https://pydantic.dev/docs/validation/latest/concepts/models/
 interview:
   - q: How do you get reliable JSON out of an LLM?
     a: Define the schema once, for example as a pydantic model, and pass its JSON schema to the provider's structured output or tool-use feature so the model fills typed fields rather than free text. Then always validate the result with pydantic on my side, because the application must not trust unvalidated model output. On a validation failure I retry with the error message once or twice, and otherwise fail safely and log the case for the eval set.
@@ -68,7 +68,8 @@ quiz:
     difficulty: intermediate
     prompt: This code sometimes crashes with JSONDecodeError. What is the most robust fix?
     code: |
-      text = client.messages.create(model=MODEL, max_tokens=100, messages=msgs).content[0].text
+      resp = client.messages.create(model=MODEL, max_tokens=100, messages=msgs)
+      text = next(b.text for b in resp.content if b.type == "text")
       data = json.loads(text)
     codeLanguage: python
     options: ["Wrap in try/except and ignore errors", "Use tool-based structured output, check stop_reason, validate with pydantic and retry on failure", "Lower temperature to 2", "Use eval() instead of json.loads"]
@@ -118,16 +119,16 @@ The response contains `content` blocks (text, tool use), `stop_reason` (`end_tur
 Options from weakest to strongest:
 
 1. **"Reply in JSON"** in the prompt. Often works, sometimes adds prose or gets truncated.
-2. **Prefill / examples** to steer format.
-3. **Tool-based extraction**: define a "tool" whose `input_schema` is your JSON schema and force the model to call it with `tool_choice`. The model returns a `tool_use` block with arguments matching the schema. You do not actually need to run a tool; you just read the arguments.
-4. **Native structured-output modes** offered by providers (for example OpenAI's structured outputs, and Anthropic's structured output features where available) constrain generation to a schema.
+2. **Examples** in the prompt to steer format. (Assistant-message prefill used to be another lever, but current Claude models reject a prefilled last assistant turn with a 400.)
+3. **Tool-based extraction**: define a "tool" whose `input_schema` is your JSON schema and instruct the model to call it. Older models let you force the call with `tool_choice={"type": "tool", ...}`; current Claude models (Sonnet 5.5, Opus 5.5) reject forced `tool` / `any` choices with a 400, so use `tool_choice={"type": "auto"}` plus an explicit instruction, optionally with `strict: true` on the tool. The model returns a `tool_use` block with arguments matching the schema. You do not actually need to run a tool; you just read the arguments.
+4. **Native structured-output modes** offered by providers (for example OpenAI's structured outputs, and Anthropic's structured outputs via `output_config.format`, or `strict: true` on a tool) constrain generation to a schema.
 
 Whatever you use, **validate on your side** with pydantic: types, enums, ranges and business rules (e.g. `total >= 0`). Schema-valid is not the same as correct; a field can be well-typed and wrong, so evaluation still matters.
 
 ```mermaid
 flowchart LR
   A[Pydantic model] -->|model_json_schema| B[Tool input_schema]
-  B --> C[LLM call with tool_choice]
+  B --> C[LLM call with tool]
   C --> D[tool_use input]
   D --> E{pydantic validate}
   E -- ok --> F[Typed object to app]
@@ -140,13 +141,13 @@ flowchart LR
 
 A test-management tool let users paste a free-text defect description and auto-filled fields: component, severity, steps, environment. The first version asked for JSON in the prompt and parsed with `json.loads`. Around one call in a few dozen failed in testing: the model sometimes wrapped JSON in a sentence, and long inputs hit `max_tokens`, truncating the object. Worse, severity occasionally came back as "Severe", which was not a valid option, and was saved to the database.
 
-The rebuilt version defined a pydantic model with an enum for severity, used tool-based extraction with `tool_choice`, checked `stop_reason`, validated, retried once with the validation error, and otherwise showed the user an empty form. The QA team added an evaluation set of 60 real descriptions and mocked unit tests for the retry path.
+The rebuilt version defined a pydantic model with an enum for severity, used tool-based extraction, checked `stop_reason`, validated, retried once with the validation error, and otherwise showed the user an empty form. The QA team added an evaluation set of 60 real descriptions and mocked unit tests for the retry path.
 
 ## Step-by-step walkthrough
 
 1. Define the pydantic model with types, enums and descriptions.
 2. Generate its JSON schema and use it as a tool's `input_schema`.
-3. Call the API forcing that tool.
+3. Call the API with that tool and an instruction to use it.
 4. Find the `tool_use` block and validate its `input`.
 5. On `ValidationError`, retry once with the error text; then fail safe.
 6. Unit-test with a fake client; evaluate with real calls on a labelled set.
@@ -185,14 +186,16 @@ def extract_defect(text: str, attempts: int = 2) -> Defect | None:
         resp = client.messages.create(
             model=MODEL,
             max_tokens=1024,
-            system="Extract only facts present in the description. Use null for unknown fields.",
+            system="Always call record_defect. Extract only facts present in the description. Use null for unknown fields.",
             tools=[EXTRACT_TOOL],
-            tool_choice={"type": "tool", "name": "record_defect"},
+            tool_choice={"type": "auto"},  # forced "tool"/"any" choices return 400 on current Claude models
             messages=messages,
         )
         if resp.stop_reason == "max_tokens":
             continue  # truncated: do not trust partial arguments
-        block = next(b for b in resp.content if b.type == "tool_use")
+        block = next((b for b in resp.content if b.type == "tool_use"), None)
+        if block is None:
+            continue  # model answered in text instead of calling the tool
         try:
             return Defect.model_validate(block.input)
         except ValidationError as err:

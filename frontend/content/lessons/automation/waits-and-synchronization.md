@@ -46,7 +46,7 @@ quiz:
     prompt: Which is the correct Selenium 4 way to create an explicit wait of 10 seconds?
     options: ["new WebDriverWait(driver, 10)", "new WebDriverWait(driver, Duration.ofSeconds(10))", "driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)", "Thread.sleep(10000)"]
     answer: [1]
-    explanation: "Selenium 4 takes a java.time.Duration. The long-seconds constructor is deprecated, implicitlyWait with TimeUnit is the deprecated implicit-wait API, and Thread.sleep is not a condition-based wait at all."
+    explanation: "Selenium 4 takes a java.time.Duration. The long-seconds constructor was deprecated in early Selenium 4 and removed in 4.1.3, implicitlyWait with TimeUnit is the deprecated implicit-wait API, and Thread.sleep is not a condition-based wait at all."
   - id: sel-wait-q2
     type: debugging
     topic: waits-and-synchronization
@@ -204,7 +204,7 @@ Compare that with a `Thread.sleep` approach, which typically fails later with a 
 - **Waiting for presence when you need visibility or clickability.**
 - **Huge global timeouts** (60+ seconds) that hide performance regressions and make failures slow.
 - **Waiting after acting instead of before**, or not waiting for the result of an action before asserting.
-- **Using deprecated APIs** like `new WebDriverWait(driver, 10)` from old tutorials.
+- **Using removed or deprecated APIs** like `new WebDriverWait(driver, 10)` from old tutorials (removed in Selenium 4.1.3; it no longer compiles).
 
 ## Troubleshooting
 

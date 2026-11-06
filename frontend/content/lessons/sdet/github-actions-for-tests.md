@@ -26,7 +26,7 @@ interview:
   - q: Walk me through the structure of a GitHub Actions workflow.
     a: A workflow is a YAML file in the .github/workflows directory. The on key lists the events that trigger it, such as push and pull_request. It contains one or more jobs; each job has an id, a runs-on value naming the runner, and a list of steps. Steps either use a published action with uses, such as actions/checkout, or run shell commands with run. Jobs run in parallel by default unless one declares needs on another, and steps inside a job run sequentially on the same runner.
   - q: Your matrix runs tests on three Java versions. How do you make sure every leg uploads its report, including failing ones?
-    a: Add an upload-artifact step with if always() so it runs even after the test step fails, and give each artifact a unique name built from the matrix value, for example test-results-java-17. With upload-artifact v4, artifact names must be unique within a run, so a shared name across matrix legs causes a conflict. I would also set fail-fast to false if I want every leg to finish rather than being cancelled when the first one fails.
+    a: Add an upload-artifact step with if always() so it runs even after the test step fails, and give each artifact a unique name built from the matrix value, for example test-results-java-17. Since upload-artifact v4, artifact names must be unique within a run, so a shared name across matrix legs causes a conflict. I would also set fail-fast to false if I want every leg to finish rather than being cancelled when the first one fails.
   - q: "System design: how would you structure GitHub Actions for a repo with unit, API and UI suites?"
     a: I would have a fast job for build and unit tests on every pull request, then API and UI jobs that declare needs on it so they only start once the build is green. Large UI suites are sharded across a matrix of shard indexes. Dependencies are cached through the setup actions, reports and traces are uploaded as artifacts with if always(), and a nightly scheduled workflow runs the broad browser matrix that would be too slow for every pull request. Secrets come from repository or environment secrets, never from the YAML, and branch protection makes the required jobs block merges.
 practice:
@@ -61,7 +61,7 @@ quiz:
     prompt: Test reports are uploaded when tests pass but never when they fail. What is the fix?
     code: |
       - run: mvn -B test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: surefire-reports
           path: target/surefire-reports
@@ -69,7 +69,7 @@ quiz:
     options:
       - "Add continue-on-error: true to the upload step"
       - "Add if: always() to the upload step"
-      - "Change upload-artifact@v4 to upload-artifact@latest"
+      - "Change upload-artifact@v7 to upload-artifact@latest"
       - "Move the upload step before the test step"
     answer: [1]
     explanation: Steps are skipped after a failure unless their condition says otherwise; if always() makes the upload run regardless of earlier failures. continue-on-error on the upload step does not help because the upload step is never started, and uploading before the tests run would upload nothing.
@@ -113,7 +113,7 @@ A **workflow** is a YAML file stored in `.github/workflows/` in the repository. 
 | `steps` | Ordered commands in the job: `uses` calls an action, `run` executes shell commands |
 | `strategy.matrix` | Runs the job once for every combination of the listed values |
 
-Each job gets a fresh runner, so the first step is almost always `actions/checkout@v4` to fetch the code. The official setup actions install language toolchains: `actions/setup-java@v4` needs a `distribution` such as `temurin` and a `java-version`; `actions/setup-node@v4` takes a `node-version`. Both accept a `cache` input (`maven`, `gradle`, `npm` and others) that caches dependencies between runs. For anything else, `actions/cache@v4` caches arbitrary paths keyed on a hash of your lock files.
+Each job gets a fresh runner, so the first step is almost always `actions/checkout@v7` to fetch the code. The official setup actions install language toolchains: `actions/setup-java@v6` needs a `distribution` such as `temurin` and a `java-version`; `actions/setup-node@v7` takes a `node-version`. Both accept a `cache` input (`maven`, `gradle`, `npm` and others) that caches dependencies between runs. For anything else, `actions/cache@v6` caches arbitrary paths keyed on a hash of your lock files.
 
 Steps are **skipped after a failure** by default. The expression `if: always()` makes a step run regardless, which is essential for uploading test reports. Since version 4 of `actions/upload-artifact`, artifact names must be unique within a run, so matrix legs need names that include the matrix value.
 
@@ -128,9 +128,9 @@ An API automation team kept their REST Assured suite in the same repository as t
 1. Create `.github/workflows/tests.yml` in the default branch.
 2. Declare triggers under `on`.
 3. Define a job with `runs-on: ubuntu-latest`.
-4. Add `actions/checkout@v4`, then the setup action for your language with caching enabled.
+4. Add `actions/checkout@v7`, then the setup action for your language with caching enabled.
 5. Run the build and tests with a single command that exits non-zero on failure.
-6. Add `actions/upload-artifact@v4` with `if: always()` to keep reports.
+6. Add `actions/upload-artifact@v7` with `if: always()` to keep reports.
 7. Add a `strategy.matrix` when you need several versions or shards.
 8. Push, open the **Actions** tab, and read the logs for each step.
 
@@ -151,9 +151,9 @@ jobs:
       matrix:
         java: [17, 21]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
@@ -164,7 +164,7 @@ jobs:
 
       - name: Upload test reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: surefire-reports-java-${{ matrix.java }}
           path: target/surefire-reports/
@@ -173,9 +173,9 @@ jobs:
 The equivalent for a Node.js project (for example Playwright or Jest) swaps the setup step:
 
 ```yaml
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npm test
@@ -193,7 +193,7 @@ Error: Process completed with exit code 1.
 
 - **Forgetting `actions/checkout`.** The runner starts empty, so later steps cannot find your code.
 - **No `if: always()` on report uploads**, so the evidence disappears exactly when you need it.
-- **Reusing one artifact name across matrix legs** with `upload-artifact@v4`, which causes a conflict.
+- **Reusing one artifact name across matrix legs** with `upload-artifact` v4 or later, which causes a conflict.
 - **Hard-coding credentials** in YAML instead of using secrets.
 - **Using `npm install` in CI** instead of `npm ci`, which installs exactly what the lock file records.
 - **Running every slow suite on every pull request.** Use `needs`, sharding and scheduled workflows for the heavy parts.

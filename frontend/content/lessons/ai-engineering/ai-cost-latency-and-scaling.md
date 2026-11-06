@@ -207,7 +207,7 @@ def monthly_cost(requests, in_tok, out_tok, price_in_per_m, price_out_per_m):
 
 ## Expected output
 
-The concurrency script reports 80 cache hits out of 100 (20 unique prompts) and p50 and p95 latencies; cached requests return in microseconds, so the p50 is very low while p95 reflects real calls. `curl -N "localhost:8000/chat?q=hi"` prints words progressively rather than all at once.
+The concurrency script reports around 70 cache hits out of 100, not the ideal 80 (20 unique prompts): when a repeat arrives while the first call for the same prompt is still in flight, it misses the cache too (a small cache stampede; coalescing in-flight requests per key would fix it). It also prints p50 and p95 latencies; cached requests return in microseconds, so the p50 is very low while p95 reflects real calls. `curl -N "localhost:8000/chat?q=hi"` prints words progressively rather than all at once.
 
 ## Common mistakes
 

@@ -22,9 +22,9 @@ references:
   - title: Ragas — Documentation
     url: https://docs.ragas.io/en/stable/
   - title: OpenAI — Evaluation best practices
-    url: https://platform.openai.com/docs/guides/evaluation-best-practices
+    url: https://developers.openai.com/api/docs/guides/evaluation-best-practices
   - title: Anthropic — Define success criteria and build evaluations
-    url: https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests
+    url: https://platform.claude.com/docs/en/test-and-evaluate/develop-tests
   - title: pytest — Documentation
     url: https://docs.pytest.org/en/stable/
 interview:
@@ -37,7 +37,7 @@ interview:
 practice:
   - "Write a golden dataset of 30 items for a feature that extracts invoice fields (number, date, total) from text. Include at least five edge cases and five adversarial cases, each tagged."
   - "Implement the harness in this lesson against a fake model, then introduce a deliberate regression in the fake and confirm the threshold test fails."
-  - "Run one case 20 times against a real model you have access to at temperature 0.7 and at 0. Record the pass rate for each and compute a 95% Wilson interval."
+  - "Run one case 20 times against a real model you have access to at temperature 0.7 and at 0 (on a model that still accepts temperature; current Claude models reject non-default values). Record the pass rate for each and compute a 95% Wilson interval."
 takeaways:
   - An eval is a dataset, a system under test, metrics, and thresholds; all four must be versioned.
   - Prefer cheap deterministic metrics first; add model-based grading only where code cannot judge.

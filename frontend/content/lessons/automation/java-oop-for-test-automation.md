@@ -215,7 +215,7 @@ Illustrative output from running the snippet against a demo application:
 Logged in as: demo
 ```
 
-If the constructor bug from the quiz were present (`driver = driver;`), the first action would instead fail with `java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.findElement(...)" because "this.driver" is null`.
+If the constructor bug from the quiz were present (`driver = driver;`), calling `open()` would instead fail with `java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.get(String)" because "this.driver" is null`.
 
 ## Common mistakes
 

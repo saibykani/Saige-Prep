@@ -16,13 +16,13 @@ prerequisites:
 related: [math-for-machine-learning, building-rag-pipelines, llm-fundamentals-and-tokens, model-evaluation-metrics, transformers-and-attention]
 references:
   - title: Anthropic docs — Embeddings
-    url: https://docs.anthropic.com/en/docs/build-with-claude/embeddings
+    url: https://platform.claude.com/docs/en/build-with-claude/embeddings
   - title: Sentence Transformers documentation (sbert.net)
     url: https://www.sbert.net/
   - title: FAISS on GitHub (facebookresearch/faiss)
     url: https://github.com/facebookresearch/faiss
   - title: OpenAI platform docs — Embeddings
-    url: https://platform.openai.com/docs/guides/embeddings
+    url: https://developers.openai.com/api/docs/guides/embeddings
   - title: Reimers and Gurevych — Sentence-BERT (arXiv 1908.10084)
     url: https://arxiv.org/abs/1908.10084
 interview:

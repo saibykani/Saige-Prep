@@ -20,7 +20,7 @@ references:
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
-    url: https://www.iso.org/standard/60245.html
+    url: https://www.iso.org/standard/79430.html
 interview:
   - q: When would you choose decision table testing over equivalence partitioning?
     a: When the outcome depends on a combination of conditions rather than on each input independently. EP tests each input's classes, but it does not systematically check how conditions interact. A decision table enumerates every combination of conditions with the expected actions, so it finds missing or contradictory rules, which is exactly where combinatorial business logic such as pricing, eligibility or approvals goes wrong.

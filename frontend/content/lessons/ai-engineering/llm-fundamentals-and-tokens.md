@@ -16,13 +16,13 @@ prerequisites:
 related: [transformers-and-attention, prompt-engineering, llm-apis-and-structured-output, ai-cost-latency-and-scaling, llm-evaluation-and-evals]
 references:
   - title: Anthropic docs — Models overview
-    url: https://docs.anthropic.com/en/docs/about-claude/models/overview
+    url: https://platform.claude.com/docs/en/about-claude/models/overview
   - title: Anthropic docs — Token counting
-    url: https://docs.anthropic.com/en/docs/build-with-claude/token-counting
+    url: https://platform.claude.com/docs/en/build-with-claude/token-counting
   - title: Anthropic docs — Context windows
-    url: https://docs.anthropic.com/en/docs/build-with-claude/context-windows
+    url: https://platform.claude.com/docs/en/build-with-claude/context-windows
   - title: OpenAI platform docs — Text generation
-    url: https://platform.openai.com/docs/guides/text-generation
+    url: https://developers.openai.com/api/docs/guides/text
   - title: Vaswani et al. — Attention Is All You Need (arXiv 1706.03762)
     url: https://arxiv.org/abs/1706.03762
 interview:
@@ -34,7 +34,7 @@ interview:
     a: It is the maximum number of tokens the model can attend to in one request, counting the system prompt, conversation history, documents, tool definitions and the output. If the request exceeds it the API returns an error, so applications must budget tokens, truncate or summarise history, or retrieve only relevant chunks instead of pasting everything.
 practice:
   - "Use the token counting endpoint to count tokens for the same paragraph in English, in another language you know and as minified JSON. Record the differences and explain them."
-  - "Send the same creative prompt five times at temperature 0 and five times at temperature 1. Compare how many distinct answers you get."
+  - "Send the same creative prompt five times at temperature 0 and five times at temperature 1 on a model that still accepts temperature (or simulate it with the numpy example). Compare how many distinct answers you get."
   - "Set max_tokens very low on a long-answer prompt and inspect stop_reason in the response."
 takeaways:
   - An LLM predicts the next token from a probability distribution; generation is that step in a loop.
@@ -117,6 +117,8 @@ Inside, a transformer turns the token sequence into vectors, applies layers of a
 
 Even at temperature 0, do not assume perfectly deterministic output across calls; design tests that tolerate variation.
 
+Provider support varies: current Claude models (for example Sonnet 5.5) reject non-default `temperature`, `top_p` and `top_k` values with a 400 error, so on those models you steer output with the prompt and the `effort` setting instead. Check the model's documentation before relying on sampling parameters.
+
 ### Context window
 
 The **context window** is the maximum tokens the model can consider in one request: system prompt + messages + any documents + tool definitions + the generated output. The model is **stateless** between API calls; "chat memory" is just your application resending the history each time. That is why long chats get slower and more expensive, and eventually fail with a context-length error unless you trim or summarise.
@@ -148,7 +150,7 @@ The fixes followed directly from fundamentals: count tokens before sending, keep
 
 1. Install the SDK: `pip install anthropic` and set `ANTHROPIC_API_KEY` in your environment (never in code).
 2. Count tokens for a prompt before sending it.
-3. Send a message with explicit `max_tokens` and `temperature`.
+3. Send a message with an explicit `max_tokens`.
 4. Inspect `usage` and `stop_reason` in the response.
 5. Repeat the call several times to observe variation.
 
@@ -167,14 +169,14 @@ messages = [{"role": "user", "content": "Explain what a token is in two sentence
 count = client.messages.count_tokens(model=MODEL, messages=messages)
 print("input tokens:", count.input_tokens)
 
-# 2. Generate with explicit limits
+# 2. Generate with an explicit output limit
+# (current Claude models reject non-default temperature/top_p/top_k with a 400)
 response = client.messages.create(
     model=MODEL,
     max_tokens=200,
-    temperature=0.2,
     messages=messages,
 )
-print(response.content[0].text)
+print(next(b.text for b in response.content if b.type == "text"))  # skip any thinking block
 print("stop_reason:", response.stop_reason)          # "end_turn" or "max_tokens" ...
 print("usage:", response.usage.input_tokens, response.usage.output_tokens)
 
@@ -182,10 +184,10 @@ print("usage:", response.usage.input_tokens, response.usage.output_tokens)
 answers = set()
 for _ in range(5):
     r = client.messages.create(
-        model=MODEL, max_tokens=30, temperature=1.0,
+        model=MODEL, max_tokens=30,
         messages=[{"role": "user", "content": "Suggest one name for a test-automation robot."}],
     )
-    answers.add(r.content[0].text.strip())
+    answers.add(next(b.text for b in r.content if b.type == "text").strip())
 print(len(answers), "distinct answers out of 5")
 ```
 

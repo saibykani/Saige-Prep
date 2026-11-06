@@ -22,7 +22,7 @@ references:
   - title: SciPy — scipy.stats.bootstrap
     url: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html
   - title: PyTorch — Reproducibility notes
-    url: https://pytorch.org/docs/stable/notes/randomness.html
+    url: https://docs.pytorch.org/docs/stable/notes/randomness.html
   - title: MLflow — Tracking documentation
     url: https://mlflow.org/docs/latest/ml/tracking/
   - title: NeurIPS — Paper Checklist Guidelines
@@ -202,13 +202,13 @@ SciPy also provides `scipy.stats.bootstrap`, which supports paired data and BCa 
 ```python
 from scipy.stats import bootstrap
 res = bootstrap((diff,), np.mean, confidence_level=0.95, n_resamples=10_000,
-                random_state=np.random.default_rng(0))
+                rng=np.random.default_rng(0))  # `rng` replaces the older `random_state` (SciPy 1.15+)
 print(res.confidence_interval)
 ```
 
 ## Expected output
 
-The script prints per-seed accuracies for both models (the random forest varies slightly across seeds; logistic regression with the default solver barely varies), the mean paired difference with a 95% interval, and a verdict. Exact values depend on library versions. If the interval straddles zero, the honest conclusion is "no clear difference on this data".
+The script prints per-seed accuracies for both models (the random forest varies slightly across seeds; logistic regression with the default lbfgs solver ignores `random_state`, so it does not vary), the mean paired difference with a 95% interval, and a verdict. Exact values depend on library versions. If the interval straddles zero, the honest conclusion is "no clear difference on this data".
 
 ## Common mistakes
 

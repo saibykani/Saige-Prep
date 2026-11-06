@@ -167,7 +167,7 @@ For a healthy load, the count query shows `source_rows = loaded_rows + rejected_
 |---|---|---|
 | 10000 | 9985 | 15 |
 
-The checksum and SCD queries return **zero rows**. Any store listed by the checksum query has a total mismatch, and any customer listed by the SCD query has zero or several current versions.
+The checksum and SCD queries return **zero rows**. Any store listed by the checksum query has a total mismatch, and any customer listed by the SCD query has more than one current version. A customer with no current row at all does not appear in that query (it only groups rows where `is_current = 'Y'`), so check that case separately with a `NOT EXISTS` query.
 
 ## Real-world example
 

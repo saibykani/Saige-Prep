@@ -168,11 +168,10 @@ def draft_bug_report(notes: str) -> str:
     response = client.messages.create(
         model=MODEL,
         max_tokens=400,
-        temperature=0,
         system=SYSTEM,
         messages=[{"role": "user", "content": prompt}],
     )
-    return response.content[0].text
+    return next(b.text for b in response.content if b.type == "text")  # skip any thinking block
 
 print(draft_bug_report("login page spinner forever after wrong pwd 3 times, safari ios"))
 ```

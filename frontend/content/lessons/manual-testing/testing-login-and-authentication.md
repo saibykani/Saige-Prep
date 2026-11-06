@@ -23,7 +23,7 @@ references:
   - title: OWASP Web Security Testing Guide
     url: https://owasp.org/www-project-web-security-testing-guide/
   - title: NIST SP 800-63B Digital Identity Guidelines - Authentication
-    url: https://pages.nist.gov/800-63-3/sp800-63b.html
+    url: https://pages.nist.gov/800-63-4/sp800-63b.html
   - title: MDN HTTP documentation (cookies and Set-Cookie)
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
 interview:

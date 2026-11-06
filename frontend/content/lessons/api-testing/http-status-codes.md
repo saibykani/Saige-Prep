@@ -17,7 +17,7 @@ references:
   - title: RFC 9110 — HTTP Semantics (section 15, Status Codes)
     url: https://www.rfc-editor.org/rfc/rfc9110
   - title: MDN Web Docs — HTTP response status codes
-    url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+    url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
   - title: RFC 6585 — Additional HTTP Status Codes (429)
     url: https://www.rfc-editor.org/rfc/rfc6585
 interview:

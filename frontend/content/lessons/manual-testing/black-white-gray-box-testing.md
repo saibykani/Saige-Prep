@@ -18,7 +18,7 @@ references:
   - title: ISTQB Certified Tester Foundation Level Syllabus v4.0 (chapter 4, Test Analysis and Design)
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
-    url: https://www.iso.org/standard/60245.html
+    url: https://www.iso.org/standard/79430.html
   - title: ISTQB Glossary of testing terms
     url: https://glossary.istqb.org/
 interview:

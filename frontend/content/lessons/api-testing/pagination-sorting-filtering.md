@@ -157,7 +157,7 @@ void allOpenOrdersReturnedOnceInOrder() {
 For 25 seeded open orders and `limit=10`, a correct implementation returns three pages of 10, 10 and 5 items, the last with `"nextCursor": null`, and the test passes. A missing tiebreaker typically fails like this:
 
 ```text
-org.opentest4j.AssertionFailedError: duplicates across pages ==> expected: <25> but was: <24>
+org.opentest4j.AssertionFailedError: duplicates across pages ==> expected: <24> but was: <25>
 ```
 
 ## Common mistakes

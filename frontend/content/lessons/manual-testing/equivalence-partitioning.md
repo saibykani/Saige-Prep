@@ -19,7 +19,7 @@ references:
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
-    url: https://www.iso.org/standard/60245.html
+    url: https://www.iso.org/standard/79430.html
 interview:
   - q: What is equivalence partitioning?
     a: It is a black-box technique that divides input (or output) data into partitions whose members the system is expected to process in the same way. Because every member of a partition should behave identically, one test value per partition is enough to cover it. It reduces a huge input domain to a small, justified set of tests.

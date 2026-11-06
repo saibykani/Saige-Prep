@@ -237,6 +237,10 @@ def run_agent(task: str) -> str:
         print(f"[step {step}] stop_reason={resp.stop_reason} "
               f"tokens={resp.usage.input_tokens}+{resp.usage.output_tokens}")
 
+        if resp.stop_reason == "refusal":
+            return "The model declined this request; nothing was executed."
+        if resp.stop_reason == "max_tokens":
+            return "Response hit max_tokens before finishing; raise the limit or narrow the task."
         if resp.stop_reason != "tool_use":
             return "".join(b.text for b in resp.content if b.type == "text")
 
@@ -251,8 +255,9 @@ def run_agent(task: str) -> str:
 
     return f"Stopped after {MAX_STEPS} steps without finishing; partial work is in the log."
 
-print(run_agent("Triage test run 1842."))
-print("Bugs filed:", BUGS)
+if __name__ == "__main__":  # lets tests import run_tool without calling the model
+    print(run_agent("Triage test run 1842."))
+    print("Bugs filed:", BUGS)
 ```
 
 Unit-testing the guard layer without any model call:

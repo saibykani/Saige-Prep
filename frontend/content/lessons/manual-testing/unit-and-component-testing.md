@@ -17,8 +17,8 @@ related: [integration-testing, system-and-end-to-end-testing, test-doubles-and-m
 references:
   - title: ISTQB Certified Tester Foundation Level Syllabus v4.0 (section 2.2.1, Test levels)
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
-  - title: JUnit 5 User Guide
-    url: https://junit.org/junit5/docs/current/user-guide/
+  - title: JUnit User Guide
+    url: https://docs.junit.org/current/user-guide/
   - title: ISTQB official site and glossary
     url: https://www.istqb.org/
 interview:

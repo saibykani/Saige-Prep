@@ -207,7 +207,7 @@ For iOS, the equivalents are `IOSDriver` and `XCUITestOptions`, with capabilitie
 The server log shows the session being created by the UiAutomator2 driver, and the program prints a session id:
 
 ```text
-[Appium] Welcome to Appium v2.x
+[Appium] Welcome to Appium v3.x
 [Appium] Available drivers:
 [Appium]   - uiautomator2@x.y.z (automationName 'UiAutomator2')
 ...

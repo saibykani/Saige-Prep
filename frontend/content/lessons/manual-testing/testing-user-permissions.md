@@ -88,7 +88,7 @@ Access control can fail in two directions:
 - **Vertical:** a lower role performs a higher role's action (Viewer deletes a record).
 - **Horizontal:** a user reaches another user's data at the same level (Customer A reads Customer B's invoice). In APIs this is called broken object-level authorization (BOLA).
 
-Broken access control is the number one category in the OWASP Top 10 (2021), so this is not a niche concern.
+Broken access control is the number one category in the OWASP Top 10 (2021 and 2025 editions), so this is not a niche concern.
 
 Two layers must both be tested:
 
