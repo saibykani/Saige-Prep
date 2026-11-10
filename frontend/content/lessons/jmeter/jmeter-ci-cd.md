@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: Apache JMeter - Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
+videos:
+  - id: ltniaQdCYmQ
+    title: "JMeter integration with Jenkins | Run JMeter script using Jenkins | Performance Testing | JMeter"
+    channel: "ProSoft Testing"
+  - id: -K8jdlIT1Ok
+    title: "S5E8 Learn JMeter Series - JMeter Integration with Jenkins"
+    channel: "QAInsights"
 interview:
   - q: How would you add a JMeter test to a CI pipeline?
     a: I keep the .jmx, CSV data and a properties file in the repository. The pipeline installs a pinned JMeter version, runs it in non-GUI mode with -n -t -l -e -o, passing environment-specific values as -J properties, then uploads the JTL and HTML report as artifacts. A separate step compares results to agreed thresholds and exits non-zero if they are breached, so the build fails. The target is a dedicated test environment we own, never production by default.

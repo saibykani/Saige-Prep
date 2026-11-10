@@ -22,6 +22,13 @@ references:
     url: https://spec.openapis.org/oas/latest.html
   - title: JSON Schema
     url: https://json-schema.org/
+videos:
+  - id: 38egQLsbgKk
+    title: "What is contract testing?"
+    channel: "Software Testing by Daniel Knott"
+  - id: INJla2N2iZU
+    title: "Master API Contract Testing: The Ultimate Postman Guide"
+    channel: "Postman"
 interview:
   - q: What is consumer-driven contract testing?
     a: The consumer writes tests against a mock provider that describe the requests it makes and the parts of the responses it relies on. Running those tests produces a contract file, a pact. The pact is shared, often through a Pact Broker, and the real provider replays each interaction against itself in its own build to verify it still satisfies every consumer. It catches breaking changes before deployment without a shared end-to-end environment.

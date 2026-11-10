@@ -23,6 +23,10 @@ references:
     url: https://docs.pytest.org/
   - title: The Unicode Standard
     url: https://www.unicode.org/standard/standard.html
+videos:
+  - id: _ibudZAQ1d4
+    title: "test data in software testing (test data types, challenges and TDM techniques) testingshala"
+    channel: "Testing Shala"
 interview:
   - q: How do you design test data for a form?
     a: For each field I partition the domain and pick data in four classes. Valid data covers each valid partition, invalid data covers each invalid partition one at a time, boundary data covers the edges and their neighbours, and special data covers values that commonly break systems, such as apostrophes, non-Latin characters, emoji, leading or trailing spaces, empty versus missing, leap days and time zones. I record the purpose of each value so anyone can see why it exists.

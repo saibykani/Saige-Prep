@@ -29,6 +29,13 @@ references:
     url: https://huggingface.co/docs/transformers/main/en/quantization/overview
   - title: Wang et al. — Self-Consistency Improves Chain of Thought Reasoning (arXiv 2203.11171)
     url: https://arxiv.org/abs/2203.11171
+videos:
+  - id: sYDlVVyJYn4
+    title: "What is Mixture of Experts?"
+    channel: "IBM Technology"
+  - id: LK2-lrLvhTA
+    title: "Eldar Kurtić - Beginner Friendly Introduction to LLM Quantization: From Zero to Hero"
+    channel: "Cohere"
 interview:
   - q: What is a mixture-of-experts model and why is it used?
     a: In a mixture-of-experts layer, usually replacing the feed-forward block of a transformer, there are several expert sub-networks and a learned router that sends each token to a small number of them, often one or two. The model can have a very large total parameter count while each token only uses a fraction, so compute per token is closer to a smaller dense model. Trade-offs include needing memory for all experts, load-balancing problems where some experts are overused, more complex training and distributed serving, and behaviour that can vary by token routing.

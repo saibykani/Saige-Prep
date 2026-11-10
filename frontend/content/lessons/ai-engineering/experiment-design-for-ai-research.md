@@ -27,6 +27,13 @@ references:
     url: https://mlflow.org/docs/latest/ml/tracking/
   - title: NeurIPS — Paper Checklist Guidelines
     url: https://neurips.cc/public/guides/PaperChecklist
+videos:
+  - id: Xz0x-8-cgaQ
+    title: "Bootstrapping Main Ideas!!!"
+    channel: "StatQuest with Josh Starmer"
+  - id: Rsc5znwR5FA
+    title: "Statistical Power, Clearly Explained!!!"
+    channel: "StatQuest with Josh Starmer"
 interview:
   - q: Your new model beats the baseline by one point of accuracy on one run. Is it better?
     a: Not yet. One run cannot separate a real improvement from noise due to random initialisation, data order and test-set sampling. I would run both models with several seeds, compute the mean and spread, and compare them on the same test examples with a paired analysis, for example a paired bootstrap over test items, to get a confidence interval on the difference. If the interval comfortably excludes zero and the gain survives on a second dataset or slice, I am more confident. I would also check that both models were tuned with the same budget.

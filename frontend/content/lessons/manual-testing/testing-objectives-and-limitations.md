@@ -19,6 +19,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms (test objective)
     url: https://glossary.istqb.org/
+videos:
+  - id: zxnaG2iBves
+    title: "Software Testing Tutorial #3 - Objectives of Software Testing"
+    channel: "Software Testing Mentor"
+  - id: IflO6-vlqZ4
+    title: "What are some Objectives of Software Testing | Software Testing Interview Questions"
+    channel: "Testing Interview Q&A by Software Testing Mentor"
 interview:
   - q: What are the typical objectives of testing?
     a: Evaluating work products such as requirements and code, triggering failures and finding defects, ensuring the required coverage of the test object, reducing the level of risk of inadequate quality, verifying whether specified requirements are fulfilled, verifying compliance with contractual, legal and regulatory requirements, giving stakeholders information for informed decisions, building confidence in the quality of the test object, and validating that it is complete and works as stakeholders expect.

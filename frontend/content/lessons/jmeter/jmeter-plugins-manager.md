@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: Apache JMeter - Component Reference
     url: https://jmeter.apache.org/usermanual/component_reference.html
+videos:
+  - id: KQfoBOK37ms
+    title: "JMeter Beginner Tutorial 14 - How to use Plugins Manager"
+    channel: "Automation Step by Step"
+  - id: pKm_9yDp67c
+    title: "Installing JMeter Plugins"
+    channel: "Testing Diaries"
 interview:
   - q: What is the JMeter Plugins Manager and is it part of Apache JMeter?
     a: It is a third-party plugin from the jmeter-plugins.org project, not part of the Apache JMeter distribution. You drop its jar into lib/ext, restart JMeter, and it adds Options, Plugins Manager, a GUI to install, upgrade and remove other plugins and their dependencies. Because plugins are third-party, I check their maintenance status and pin versions so every load generator and CI agent runs the same set.

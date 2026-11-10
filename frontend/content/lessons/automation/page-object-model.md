@@ -22,6 +22,16 @@ references:
     url: https://www.selenium.dev/documentation/test_practices/
   - title: Playwright documentation — Page object models
     url: https://playwright.dev/docs/pom
+videos:
+  - id: P9ZWOWm7i0k
+    title: "Architecture  of Page Object Model (POM) Design With Selenium - Part -1"
+    channel: "Naveen AutomationLabs"
+  - id: GKDJk4s_T-s
+    title: "Selenium Page Object Model Explained In 5 Minutes | Page Object Model tutorial for beginners"
+    channel: "Automation by Rain the Dog"
+  - id: PmijECRKeII
+    title: "Best Practices for Page Object Model - UI Automation (Mobile & Web) - Whiteboard Learning"
+    channel: "Naveen AutomationLabs"
 interview:
   - q: What is the Page Object Model and what problem does it solve?
     a: "It is a design pattern where each page, or significant component, of the application is represented by a class that holds its locators privately and exposes the services the page offers, such as loginAs or addToCart. Tests call those methods instead of using Selenium directly. It solves duplication and brittleness: when the UI changes, you update one class rather than every test, and tests read as business steps."

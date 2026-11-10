@@ -19,6 +19,13 @@ references:
     url: https://learning.postman.com/docs/getting-started/overview/
   - title: Postman Learning Center
     url: https://learning.postman.com/
+videos:
+  - id: VywxIQ2ZXw4
+    title: "Postman Beginner's Course - API Testing"
+    channel: "freeCodeCamp.org"
+  - id: oCEDjp3XMco
+    title: "Postman Environments: How to Set Up and Use Them"
+    channel: "Postman"
 interview:
   - q: What is the difference between a collection variable and an environment variable?
     a: "A collection variable belongs to the collection and is the same wherever the collection runs; it suits values that are constant for that API, such as an API version path. An environment variable belongs to a selected environment, so it changes when you switch from local to staging — base URLs, test account ids and credentials. If both define the same name, the environment value wins because environment is a narrower scope than collection."

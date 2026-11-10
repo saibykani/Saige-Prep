@@ -23,6 +23,13 @@ references:
     url: https://www.w3.org/WAI/standards-guidelines/wcag/
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
+videos:
+  - id: _lzfhU94vJ8
+    title: "Ecommerce Test Cases#5 - Checkout Screen  - 300+ Test Cases in 20 mins"
+    channel: "QA Testing Guruji"
+  - id: vMZADt9OLBg
+    title: "shopping cart test cases or test scenarios (e-commerce application - online store) | testingshala"
+    channel: "Testing Shala"
 interview:
   - q: How would you test a shopping cart and checkout?
     a: I clarify the pricing rules first - discounts, delivery thresholds, tax, rounding and currency - and capture them in a decision table. Then I test cart operations (add, update quantity, remove, persist across sessions and devices) with boundaries on quantity, the totals at every stage, and the checkout journey end to end, including address, delivery option and payment outcomes. I verify the order record, stock levels and confirmation email, not only the screen. Finally I check business logic abuse on an authorised environment - tampered prices or quantities in requests, reused single-use coupons, and stock oversell when two buyers race for the last item.

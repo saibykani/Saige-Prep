@@ -18,6 +18,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms (verification, validation)
     url: https://glossary.istqb.org/
+videos:
+  - id: gQrSxbfUjug
+    title: "Verification & Validation - Georgia Tech - Software Development Process"
+    channel: "Udacity"
+  - id: UeMBhDwmOrE
+    title: "Software Testing Tutorial #27 - Verification and Validation in Software Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: What is the difference between verification and validation?
     a: Verification checks whether the system or work product meets its specified requirements, so it compares the product against the specification. Validation checks whether the system meets the needs of users and other stakeholders in its operational environment. A common short form is that verification asks whether we built the product right and validation asks whether we built the right product.

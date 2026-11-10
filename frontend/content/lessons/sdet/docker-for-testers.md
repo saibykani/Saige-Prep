@@ -25,6 +25,16 @@ references:
     url: https://github.com/SeleniumHQ/docker-selenium
   - title: Testcontainers
     url: https://testcontainers.com/
+videos:
+  - id: pg19Z8LL06w
+    title: "Docker Crash Course for Absolute Beginners [NEW]"
+    channel: "TechWorld with Nana"
+  - id: IXifQ8mX8DE
+    title: "Docker in 100 Seconds: A Quick Guide to Containerization"
+    channel: "Docker"
+  - id: sNg0bnMF_qY
+    title: "Testcontainers have forever changed the way I write tests"
+    channel: "Dreams of Code"
 interview:
   - q: What is the difference between a Docker image and a container?
     a: An image is a read-only template built in layers, for example from a Dockerfile, containing a file system and default command. A container is a running (or stopped) instance of an image with its own writable layer, network and process space. You can start many containers from one image, and deleting a container does not change the image, which is why containers are good disposable test environments.

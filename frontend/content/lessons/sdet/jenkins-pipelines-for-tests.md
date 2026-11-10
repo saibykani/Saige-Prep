@@ -21,6 +21,16 @@ references:
     url: https://www.jenkins.io/doc/book/pipeline/syntax/
   - title: Jenkins Pipeline overview
     url: https://www.jenkins.io/doc/book/pipeline/
+videos:
+  - id: 7KCS70sCoK0
+    title: "Complete Jenkins Pipeline Tutorial | Jenkinsfile explained"
+    channel: "TechWorld with Nana"
+  - id: woMAXn4e8NA
+    title: "Jenkins Complete Course Masterclass | Step by Step for Beginners with Interview Questions & Quiz"
+    channel: "Automation Step by Step"
+  - id: EzgCoOQvOf0
+    title: "Complete Jenkins Pipeline Tutorial | Jenkinsfile explained | KodeKloud"
+    channel: "KodeKloud"
 interview:
   - q: What is the difference between declarative and scripted pipelines?
     a: Both are written in a Jenkinsfile using a Groovy-based syntax. Declarative pipelines start with a pipeline block and follow a fixed, validated structure of agent, stages, steps and post, which makes them easier to read and lint. Scripted pipelines start with node and are general-purpose Groovy, which is more flexible but easier to make messy. For test pipelines I default to declarative and put complex logic in a script block or a shared library when it is really needed.

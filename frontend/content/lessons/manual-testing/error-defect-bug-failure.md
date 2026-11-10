@@ -18,6 +18,16 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms (error, defect, failure, root cause)
     url: https://glossary.istqb.org/
+videos:
+  - id: mNHFdmfmpXA
+    title: "DEFECT BUG ERROR FAILURE in Software Testing"
+    channel: "SoftwaretestingbyMKT"
+  - id: k3WYCi9IlsI
+    title: "Failure, Fault, and Error - Georgia Tech - Software Development Process"
+    channel: "Udacity"
+  - id: 03R5wP8MMZY
+    title: "Difference between #Defect #Bug #Failure #Error | Or all are same?"
+    channel: "Naveen AutomationLabs"
 interview:
   - q: Explain the difference between an error, a defect and a failure.
     a: An error, also called a mistake, is a human action that produces an incorrect result, such as misreading a requirement. That error can introduce a defect, also called a fault or bug, into a work product such as code or a document. If defective code is executed under the right conditions, it may cause a failure, which is the system not doing what it should, observable by a user or a test.

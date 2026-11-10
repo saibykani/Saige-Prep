@@ -21,6 +21,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: Martin Fowler, TestCoverage
     url: https://martinfowler.com/bliki/TestCoverage.html
+videos:
+  - id: OZLMKTjPr6g
+    title: "Test Metrics in Software Testing - Product Metrics & Process Metrics"
+    channel: "Software Testing Material"
+  - id: 8Io6IRiwYio
+    title: "Software Testing Metrics: Types and Examples"
+    channel: "QA Madness"
 interview:
   - q: What are the DORA metrics and why would a QA lead care about them?
     a: DORA's research uses four software delivery metrics. Two measure throughput - deployment frequency and change lead time, the time from a change being committed to it running in production. Two measure stability - change failure rate, the share of deployments that cause a failure needing remediation, and the time to recover from a failed deployment, which older material calls time to restore service or MTTR. A QA lead cares because testing practices directly affect both sides, slow or flaky suites stretch lead time, and weak gates raise change failure rate. They also show that speed and stability are not a trade-off to be negotiated by testing alone.

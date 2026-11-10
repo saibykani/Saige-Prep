@@ -26,6 +26,13 @@ references:
     url: https://www.nist.gov/publications/towards-standard-identifying-and-managing-bias-artificial-intelligence
   - title: Hardt, Price and Srebro — Equality of Opportunity in Supervised Learning (arXiv)
     url: https://arxiv.org/abs/1610.02413
+videos:
+  - id: gV0_raKR2UQ
+    title: "Algorithmic Bias and Fairness: Crash Course AI #18"
+    channel: "CrashCourse"
+  - id: c2_ezuAnCrA
+    title: "Definitions of Fairness in Machine Learning | Equal Opportunity, Equalized Odds & Disparate Impact"
+    channel: "A Data Odyssey"
 interview:
   - q: What is the difference between demographic parity and equalized odds?
     a: Demographic parity asks whether the rate of positive predictions is the same across groups, regardless of the true label. Equalized odds asks whether the true positive rate and the false positive rate are the same across groups, so it conditions on the true outcome. Demographic parity can be satisfied by a model that is accurate for one group and random for another, while equalized odds focuses on error rates. When base rates differ between groups, a model generally cannot satisfy both at once, so the choice depends on the harm being prevented and on legal and policy context.

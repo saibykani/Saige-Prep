@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/functions.html
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
+videos:
+  - id: 7-NcyZuUQnw
+    title: "JMeter Beginner Tutorial 21 - Correlation (with Regular Expression Extractor)"
+    channel: "Automation Step by Step"
+  - id: gOGXMa08K3s
+    title: "JMeter tutorial 10 - Handle dynamic value -Correlation | Regular Expression Extractor -PostProcessor"
+    channel: "QA Automation Lab"
 interview:
   - q: What is correlation in performance scripting?
     a: Correlation means capturing a dynamic value that the server generates in one response, such as a session ID, CSRF token, order ID or OAuth access token, and sending it back in later requests instead of the stale value captured during recording. In JMeter I add an extractor, such as a JSON Extractor or Regular Expression Extractor, to the response that returns the value, store it in a variable, and reference it as ${variableName} in later requests.

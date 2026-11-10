@@ -21,6 +21,13 @@ references:
     url: https://docs.junit.org/current/user-guide/
   - title: ISTQB official site and glossary
     url: https://www.istqb.org/
+videos:
+  - id: lj5nnGa_DIw
+    title: "What is Unit Testing? - Software Testing Tutorial"
+    channel: "Guru99"
+  - id: 2l7lIUyun9Q
+    title: "ISTQB Foundation Level #14 - Test Levels | Unit/Component Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: What is component testing and how is it different from unit testing?
     a: In ISTQB terminology they are the same test level. Component testing, also called unit testing, focuses on components that can be tested separately, such as a function, class or module. It is usually done by developers in their own environment, often needs test harnesses or unit test frameworks, and checks both functional behaviour and some structural aspects such as statement or branch coverage. Some teams use "unit" for a single class and "component" for a small group of classes, so I clarify the team's convention first.

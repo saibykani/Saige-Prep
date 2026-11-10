@@ -20,6 +20,16 @@ references:
     url: https://www.scrumguides.org/
   - title: Manifesto for Agile Software Development
     url: https://agilemanifesto.org/
+videos:
+  - id: UO0E10-3DeI
+    title: "The 3 Scrum Roles And Their Responsibilities"
+    channel: "Mountain Goat Software: Agile & Scrum Mastery"
+  - id: TRcReyRYIMg
+    title: "What is Scrum?"
+    channel: "Scrum Alliance"
+  - id: SRAqx_PUNzA
+    title: "The Seven Scrum Ceremonies - Working in an Agile Team"
+    channel: "David McLachlan"
 interview:
   - q: What are the roles in Scrum, and where does a tester fit?
     a: The 2020 Scrum Guide calls them accountabilities. There are three - the Product Owner, accountable for maximising the value of the product and for effective Product Backlog management; the Scrum Master, accountable for establishing Scrum and for the Scrum Team's effectiveness; and the Developers, the people committed to creating a usable Increment each Sprint. There is no separate tester accountability. A tester is one of the Developers, sharing accountability for quality and for meeting the Definition of Done.

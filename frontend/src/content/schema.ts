@@ -14,6 +14,16 @@ export const reference = z.object({
   url: z.url().refine((u) => u.startsWith("https://"), "references must use https"),
 });
 
+/** A YouTube video, stored by ID only; each one was verified to exist and be embeddable when added. */
+export const video = z.object({
+  id: z.string().regex(/^[A-Za-z0-9_-]{11}$/, "YouTube video ID (11 characters)"),
+  title: z.string().min(3),
+  channel: z.string().min(2),
+  /** Optional start offset in seconds, for long videos where the relevant part starts later. */
+  start: z.number().int().min(0).optional(),
+});
+export type Video = z.infer<typeof video>;
+
 /* ---------------------------------- Questions ---------------------------------- */
 
 const questionBase = {
@@ -59,6 +69,65 @@ export const questionBankFile = z.object({
 });
 export type QuestionBank = z.infer<typeof questionBankFile>;
 
+/* ------------------------------- Lesson practice ------------------------------- */
+
+/** A marked practice-test question: a normal choice question plus the marks it is worth. */
+export const markedQuestion = z.intersection(choiceQuestion, z.object({ marks: z.number().int().min(1).max(5) }));
+export type MarkedQuestion = z.infer<typeof markedQuestion>;
+
+/** One automated check on learner code (Python/JS/TS): `code` runs after the learner's code and fails by throwing. */
+const codeTest = z.object({ name: z.string().min(3), code: z.string().min(3), marks: z.number().int().min(1).max(10) });
+
+const exerciseBase = {
+  id: slug,
+  title: z.string().min(3),
+  difficulty: level,
+  /** Markdown task description. */
+  prompt: z.string().min(30),
+  starter: z.string(),
+  solution: z.string().min(1),
+  /** Why the model solution works, shown after the learner has attempted it. */
+  explanation: z.string().min(20),
+  hints: z.array(z.string().min(5)).min(1).max(5),
+};
+
+export const codingExercise = z.discriminatedUnion("language", [
+  z.object({ ...exerciseBase, language: z.enum(["python", "javascript", "typescript"]), tests: z.array(codeTest).min(1) }),
+  z.object({
+    ...exerciseBase,
+    language: z.literal("sql"),
+    /** Statements that create and fill the tables before the learner's query runs. */
+    setup: z.string().min(10),
+    expected: z.object({ columns: z.array(z.string()).min(1), rows: z.array(z.array(z.union([z.string(), z.number(), z.null()]))) }),
+    /** Whether row order matters (the task asks for ORDER BY). */
+    ordered: z.boolean(),
+    marks: z.number().int().min(1).max(10),
+  }),
+  z.object({
+    ...exerciseBase,
+    language: z.literal("java"),
+    /** JUnit 5 test class the learner runs locally (Java cannot run in the browser). */
+    junit: z.string().min(30),
+    /** How to run it locally, e.g. the Maven command and where to put the files. */
+    runInstructions: z.string().min(20),
+    marks: z.number().int().min(1).max(10),
+  }),
+]);
+export type CodingExercise = z.infer<typeof codingExercise>;
+
+/** content/practice/<track>/<lesson>.json — the marked practice test and coding exercises for one lesson. */
+export const lessonPracticeFile = z.object({
+  lesson: slug,
+  questions: z.array(markedQuestion).min(6),
+  coding: z.array(codingExercise).default([]),
+});
+export type LessonPractice = z.infer<typeof lessonPracticeFile>;
+
+/** Marks available for a coding exercise (sum of test marks, or the exercise's own marks). */
+export function exerciseMarks(ex: CodingExercise): number {
+  return "tests" in ex ? ex.tests.reduce((n, t) => n + t.marks, 0) : ex.marks;
+}
+
 /* ----------------------------------- Lessons ----------------------------------- */
 
 export const lessonFrontmatter = z.object({
@@ -72,6 +141,7 @@ export const lessonFrontmatter = z.object({
   prerequisites: z.array(z.string().min(2)).default([]),
   related: z.array(slug).default([]),
   references: z.array(reference).min(1),
+  videos: z.array(video).max(4).default([]),
   interview: z
     .array(z.object({ q: z.string().min(10), a: z.string().min(20) }))
     .min(2),

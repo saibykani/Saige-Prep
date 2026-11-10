@@ -23,6 +23,13 @@ references:
     url: https://robotframework.org/SeleniumLibrary/
   - title: Browser library (Playwright-based)
     url: https://robotframework-browser.org/
+videos:
+  - id: r5hN3oFvbfY
+    title: "Robot Framework tutorial Episode 1 - Introduction"
+    channel: "Robot Framework"
+  - id: dIsrQ-FNu08
+    title: "Robot Framework Full Course for Beginners | Step-by-Step Tutorial"
+    channel: "ITlearn 360"
 interview:
   - q: What is keyword-driven testing?
     a: "Tests are written as sequences of keywords, readable actions such as Open Login Page or Input Username, with arguments. Low-level keywords come from libraries written in Python or other languages, and testers compose higher-level user keywords from them. This separates test intent from implementation and lets less technical team members read and write tests."

@@ -25,6 +25,13 @@ references:
     url: https://fastapi.tiangolo.com/deployment/docker/
   - title: Google Cloud — MLOps, continuous delivery and automation pipelines in machine learning
     url: https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning
+videos:
+  - id: biqYkVf-a7Y
+    title: "MLOps Explained - What It Is, Why You Need It and How It Works"
+    channel: "TechWorld with Nana"
+  - id: e1rl1DYfPy4
+    title: "What is ML Ops?"
+    channel: "codebasics"
 interview:
   - q: What makes MLOps different from ordinary DevOps?
     a: In normal software, behaviour is defined by code, so versioning and testing code is most of the job. In ML, behaviour depends on code, data and the trained model together, so all three must be versioned and linked. Models can degrade without any code change when real data drifts, so monitoring and retraining become part of the lifecycle. Testing also extends to data validation, model quality gates on held-out data and checking that training and serving use the same preprocessing.

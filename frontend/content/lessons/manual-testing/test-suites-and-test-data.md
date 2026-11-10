@@ -20,6 +20,13 @@ references:
     url: https://glossary.istqb.org/
   - title: Jira guides (organising work and test artefacts)
     url: https://www.atlassian.com/software/jira/guides
+videos:
+  - id: mFsg1gzxgvk
+    title: "What is a Test Suite? (Software Testing Interview Question #342)"
+    channel: "QAFox"
+  - id: uZbwjZUfAfg
+    title: "test data in software testing and its importance explained | testingshala"
+    channel: "Testing Shala"
 interview:
   - q: How do you organise a large set of manual test cases?
     a: By purpose and by how they are run. I keep a small smoke suite that checks the build is testable, feature suites grouped by functional area, and a regression suite built from risk — critical flows plus areas with a history of defects. Cases are tagged with component, priority and requirement so I can assemble a suite for a specific release, rather than duplicating cases in several folders.

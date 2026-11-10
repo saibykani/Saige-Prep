@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: Google SRE books (service level objectives and load handling)
     url: https://sre.google/books/
+videos:
+  - id: r-Jte8Y8zag
+    title: "Getting started with API Load Testing (Stress, Spike, Load, Soak)"
+    channel: "Nick Chapsas"
+  - id: MwjF5N54bKI
+    title: "Types of Performance Testing (Basics of Performance Testing)"
+    channel: "PSTA: Performance & Security Testing Academy"
 interview:
   - q: What is the difference between load testing and stress testing?
     a: A load test checks behaviour at the expected load, including the expected peak, and asks "do we meet our objectives at that load?". A stress test deliberately goes beyond the expected or specified load, or removes resources, and asks "where and how do we break, and do we recover cleanly?". Load tests verify requirements; stress tests explore limits and failure modes.

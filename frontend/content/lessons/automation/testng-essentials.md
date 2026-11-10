@@ -21,6 +21,13 @@ references:
     url: https://maven.apache.org/surefire/maven-surefire-plugin/examples/testng.html
   - title: Selenium documentation
     url: https://www.selenium.dev/documentation/
+videos:
+  - id: OTtFSnZY4f8
+    title: "TestNG Fundamentals: A Beginner’s Tutorial"
+    channel: "Mukesh otwani"
+  - id: LQ72KZAg0QE
+    title: "#1 Introduction to TestNG | What is TestNG & Features Explained | TestNG Tutorial"
+    channel: "H Y R Tutorials"
 interview:
   - q: What is the execution order of TestNG configuration annotations?
     a: "@BeforeSuite, @BeforeTest, @BeforeClass, @BeforeMethod, then the @Test method, then @AfterMethod, @AfterClass, @AfterTest and @AfterSuite. @BeforeMethod and @AfterMethod run around every test method; @BeforeTest refers to a test tag in testng.xml, not to a single test method, which is a common source of confusion."

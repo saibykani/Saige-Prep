@@ -27,6 +27,13 @@ references:
     url: https://platform.claude.com/docs/en/test-and-evaluate/develop-tests
   - title: pytest — Documentation
     url: https://docs.pytest.org/en/stable/
+videos:
+  - id: KIGBsQqZcNA
+    title: "Evaluate prompts in the Anthropic Console"
+    channel: "Anthropic"
+  - id: TL527yTpxlk
+    title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025) | Aman Khan"
+    channel: "Peter Yang"
 interview:
   - q: What is a golden dataset and how do you build one?
     a: A golden dataset is a versioned set of inputs with expected outputs or grading criteria that represents what the feature must handle. I build it with domain experts from real usage where allowed, then deliberately add edge cases, adversarial inputs, fairness-sensitive cases and every production bug as a regression case. Each item has an id, tags for slicing and the oracle to apply. It lives in version control, changes through review, and I keep a held-out portion so we do not tune prompts against every example.

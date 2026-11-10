@@ -25,6 +25,13 @@ references:
     url: https://platform.openai.com/docs/guides/prompt-engineering
   - title: Wei et al. — Chain-of-Thought Prompting (arXiv 2201.11903)
     url: https://arxiv.org/abs/2201.11903
+videos:
+  - id: ysPbXH0LpIE
+    title: "Prompting 101 | Code w/ Claude"
+    channel: "Anthropic"
+  - id: OfUn6HjwXhI
+    title: "Behind the prompt: Prompting tips for Claude.ai"
+    channel: "Anthropic"
 interview:
   - q: What makes a prompt good from an engineering point of view?
     a: It is unambiguous, gives the context the model needs, states constraints and the exact output format, separates instructions from data with delimiters, and includes examples when the format or judgement is subtle. Crucially it is versioned and evaluated against a test set, so changes are judged by measured results rather than one impressive example.

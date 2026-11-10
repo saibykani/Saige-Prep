@@ -23,6 +23,13 @@ references:
     url: https://sre.google/books/
   - title: OWASP Top Ten
     url: https://owasp.org/www-project-top-ten/
+videos:
+  - id: 428cv7SNygo
+    title: "Release Management Explained: How Teams Plan, Test & Deploy Software Safely and Efficiently"
+    channel: "Harness"
+  - id: dvFQrsY_tKg
+    title: "What is Release Management?"
+    channel: "Online PM Courses - Mike Clayton"
 interview:
   - q: Who decides whether a release goes ahead, and what is the tester's role?
     a: The decision belongs to whoever owns the product and business risk, usually the Product Owner or a release owner, sometimes with operations and security sign-off. The tester's role is to provide clear, honest evidence - what was tested, what was not, what defects are open and their impact, and the residual risk. A tester should not silently block or silently approve; they make risk visible so the decision is informed.

@@ -25,6 +25,13 @@ references:
     url: https://developers.google.com/machine-learning/guides/rules-of-ml
   - title: OpenTelemetry — Documentation
     url: https://opentelemetry.io/docs/
+videos:
+  - id: J9T0X9Jxl_w
+    title: "AWS re:Invent 2020: Detect machine learning (ML) model drift in production"
+    channel: "AWS Events"
+  - id: EZPyrDk4kus
+    title: "Intro to ML Monitoring: Data Drift, Quality, Bias and Explainability"
+    channel: "WhyLabs"
 interview:
   - q: What is the difference between data drift and concept drift?
     a: Data drift, also called covariate shift, is a change in the distribution of inputs, for example customers getting younger or a new device type appearing. Concept drift is a change in the relationship between inputs and the correct output, for example fraud patterns changing so the same features now mean something different. Data drift can be detected without labels by comparing input distributions. Concept drift usually needs ground-truth labels or proxy outcomes, because the inputs may look the same while the right answer has changed.

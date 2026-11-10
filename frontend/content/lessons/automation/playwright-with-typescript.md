@@ -23,6 +23,16 @@ references:
     url: https://playwright.dev/docs/test-assertions
   - title: Playwright documentation — Trace viewer
     url: https://playwright.dev/docs/trace-viewer
+videos:
+  - id: 788GvvcfwTY
+    title: "#1 Playwright Automation Using TypeScript Full Course 2026 | Playwright TypeScript Beginner Tutorial"
+    channel: "Testers Talk"
+  - id: wawbt1cATsk
+    title: "Playwright with TypeScript : Learn Playwright Automation Tutorial from Scratch [6 Hours]"
+    channel: "TestMu AI (Formerly LambdaTest)"
+  - id: jydYq7oAtD8
+    title: "Software Testing Course – Playwright, E2E, and AI Agents"
+    channel: "freeCodeCamp.org"
 interview:
   - q: How does Playwright handle waiting?
     a: "Actions such as click and fill perform actionability checks before acting: the element must be attached, visible, stable, enabled and able to receive events, depending on the action. Web-first assertions like toBeVisible and toHaveText retry until the condition holds or the timeout expires. So you rarely write explicit waits, and you should never need fixed sleeps."

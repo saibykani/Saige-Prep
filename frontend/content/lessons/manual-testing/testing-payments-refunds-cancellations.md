@@ -23,6 +23,13 @@ references:
     url: https://www.pcisecuritystandards.org/
   - title: MDN HTTP documentation (methods and idempotency)
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: kstMMwi8n8g
+    title: "Payment System QA: Best Strategies for Security, Performance, and Functional Testing"
+    channel: "TestFort - Testing & Quality Assurance"
+  - id: hWQCiO04CXk
+    title: "Payment Gateway, Payment Processor and Payment Security Explained"
+    channel: "ByteMonk"
 interview:
   - q: How would you test that a customer is never charged twice?
     a: I look at every way a payment request can be repeated - double-clicking Pay, refreshing the confirmation page, the browser Back button, a network timeout followed by a retry, and the payment provider sending the same webhook twice. For each, I check there is exactly one charge in the provider's sandbox dashboard and one paid order. The underlying control is usually an idempotency key per payment attempt, so I also check that a retry with the same key returns the original result instead of creating a new charge.

@@ -21,6 +21,13 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Conditional_requests
   - title: MDN Web Docs — Using HTTP cookies
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies
+videos:
+  - id: fyTxwIa-1U0
+    title: "Session Vs JWT: The Differences You May Not Know!"
+    channel: "ByteByteGo"
+  - id: 3W0i5C2iaH4
+    title: "Concurrency Testing Explained With a Seat-Booking Story You'll Never Forget"
+    channel: "Vasanth Tech Talk"
 interview:
   - q: How would you test session timeout?
     a: I find out the idle timeout and the absolute timeout from the requirements or config, ideally shortened in a test environment. I then go idle past the limit and confirm the next action redirects to login without data loss beyond what the requirement allows, that activity just before the limit extends an idle session, that the absolute limit ends the session regardless of activity, and that an expired session cookie replayed via the API is rejected. I also check what happens to an unsaved form and whether the user is returned to where they were after logging in again.

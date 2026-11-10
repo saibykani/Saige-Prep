@@ -21,6 +21,10 @@ references:
     url: https://www.scrumguides.org/
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
+videos:
+  - id: MEDwi_S6NUU
+    title: "ISTQB Foundation Level #38 - Test Estimation Techniques"
+    channel: "Software Testing Mentor"
 interview:
   - q: How do you estimate testing effort for a new feature?
     a: I start with a work breakdown — analysis, design, environment and data setup, execution, retesting and regression, reporting — because you cannot estimate what you have not listed. For each task I give a three-point estimate (optimistic, most likely, pessimistic), compute the expected value, and sense-check it against history from similar features if we have it. I present the result as a range, list the assumptions such as build stability and environment availability, and revisit it when those change.

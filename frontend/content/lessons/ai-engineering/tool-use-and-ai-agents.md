@@ -27,6 +27,13 @@ references:
     url: https://platform.openai.com/docs/guides/function-calling
   - title: OWASP Top 10 for LLM Applications
     url: https://owasp.org/www-project-top-10-for-large-language-model-applications/
+videos:
+  - id: FwOTs4UxQS4
+    title: "AI Agents, Clearly Explained"
+    channel: "Jeff Su"
+  - id: eur8dUO9mvE
+    title: "What is MCP? Integrate AI Agents with Databases & APIs"
+    channel: "IBM Technology"
 interview:
   - q: How does tool use actually work? Does the model run the code?
     a: No. You describe tools with a name, description and JSON input schema. The model may respond with a tool_use block naming a tool and its arguments and stops with stop_reason tool_use. Your application validates the arguments, executes the tool, and sends the output back as a tool_result in the next user message. The model then continues, possibly calling more tools, until it gives a final answer.

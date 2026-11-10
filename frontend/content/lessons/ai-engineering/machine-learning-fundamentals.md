@@ -23,6 +23,13 @@ references:
     url: https://scikit-learn.org/stable/common_pitfalls.html
   - title: Google Machine Learning Crash Course
     url: https://developers.google.com/machine-learning/crash-course
+videos:
+  - id: PeMlggyqz0Y
+    title: "Machine Learning Explained in 100 Seconds"
+    channel: "Fireship"
+  - id: i_LwzRVP7bg
+    title: "Machine Learning for Everybody – Full Course"
+    channel: "freeCodeCamp.org"
 interview:
   - q: What is overfitting and how do you detect it?
     a: Overfitting is when a model learns noise and quirks of the training data rather than general patterns, so it performs well on training data and worse on unseen data. You detect it by comparing training and validation performance; a large gap, or validation performance getting worse while training keeps improving, indicates overfitting. Remedies include more data, simpler models, regularisation, early stopping and better features.

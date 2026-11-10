@@ -21,6 +21,13 @@ references:
     url: https://docs.oracle.com/en/java/javase/21/docs/api/index.html
   - title: Selenium documentation
     url: https://www.selenium.dev/documentation/
+videos:
+  - id: eIrMbAQSU34
+    title: "Java Full Course for Beginners"
+    channel: "Programming with Mosh"
+  - id: xTtL8E4LzTQ
+    title: "Java Full Course for free ☕"
+    channel: "Bro Code"
 interview:
   - q: "Why should you compare strings with equals() and not ==?"
     a: "== compares references, so it asks whether two variables point to the same object in memory. equals() compares the characters. Two strings with identical text can be different objects, for example text read from a web element and a literal in the test, so == can return false even when the text matches. In assertions you would normally use assertEquals, which calls equals() for you."

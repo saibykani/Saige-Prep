@@ -23,6 +23,13 @@ references:
     url: https://crfm.stanford.edu/helm/
   - title: NIST AI Risk Management Framework
     url: https://www.nist.gov/itl/ai-risk-management-framework
+videos:
+  - id: 2IoiOnvuSQk
+    title: "LLM Evaluation for QA Engineers | Complete Deep Dive (Part 1)"
+    channel: "The Testing Academy"
+  - id: a3SMraZWNNs
+    title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
+    channel: "Dave Ebbelaar"
 interview:
   - q: How would you evaluate a new LLM-powered summarisation feature?
     a: First I agree success criteria with the product owner, for example the summary contains all key decisions, invents nothing, is under 100 words and uses a neutral tone. Then I build a dataset of real or realistic inputs covering typical, edge and tricky cases with what a good output must contain. I grade with code where possible, such as length and format, use a carefully prompted model grader with a rubric for faithfulness and completeness, and calibrate that grader against human ratings on a sample. I report aggregate scores per criterion and compare them with the current version before release.

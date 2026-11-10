@@ -21,6 +21,10 @@ references:
     url: https://docs.oracle.com/javase/tutorial/jdbc/
   - title: REST Assured documentation
     url: https://rest-assured.io/
+videos:
+  - id: AA3mvKlR8-8
+    title: "Software Testing Tutorial #48 - What is Database Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: Why would you check the database in an API test?
     a: The response may be built from the request rather than from what was saved, writes can be partially committed, values can be transformed wrongly, and side effects like audit rows, status history or stock decrements are not visible in the response. A database check confirms the persisted state. I use it selectively for critical writes and side effects, and otherwise prefer verifying through a GET on the API, which tests the public contract.

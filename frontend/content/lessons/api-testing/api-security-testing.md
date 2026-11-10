@@ -23,6 +23,13 @@ references:
     url: https://cheatsheetseries.owasp.org/
   - title: MDN Web Docs — HTTP authentication
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication
+videos:
+  - id: YYe0FdfdgDU
+    title: "OWASP API Security Top 10 Course – Secure Your Web Apps"
+    channel: "freeCodeCamp.org"
+  - id: FsB_nRGdeLs
+    title: "API Security Explained: Rate Limiting, CORS, SQL Injection, CSRF, XSS & More"
+    channel: "Hayk Simonyan"
 interview:
   - q: What is BOLA and how do you test for it?
     a: Broken Object Level Authorization, the first item in the OWASP API Security Top 10. The API checks that you are logged in but not that the object you are asking for belongs to you. I test it with two users of the same role - user A creates or owns a resource, then user B requests, updates and deletes it by ID with B's token. Any success is a defect. I repeat for every endpoint that takes an object ID, including nested ones like /accounts/{id}/statements.

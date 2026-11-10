@@ -23,6 +23,16 @@ references:
     url: https://mml-book.github.io/
   - title: Python Documentation — statistics module
     url: https://docs.python.org/3/library/statistics.html
+videos:
+  - id: IHZwWFHWa-w
+    title: "Gradient descent, how neural networks learn | Deep Learning Chapter 2"
+    channel: "3Blue1Brown"
+  - id: sDv4f4s2SB8
+    title: "Gradient Descent, Step-by-Step"
+    channel: "StatQuest with Josh Starmer"
+  - id: QCPJ0VdpM00
+    title: "Linear Algebra for Machine Learning"
+    channel: "freeCodeCamp.org"
 interview:
   - q: What is a gradient and why does training use it?
     a: The gradient of a function with respect to its parameters is the vector of partial derivatives; it points in the direction of steepest increase. Training defines a loss that measures error, computes the gradient of the loss with respect to the model parameters, and moves the parameters a small step in the opposite direction. Repeating this, gradient descent, reduces the loss.

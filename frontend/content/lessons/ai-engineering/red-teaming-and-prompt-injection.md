@@ -27,6 +27,13 @@ references:
     url: https://atlas.mitre.org/
   - title: promptfoo — LLM red teaming
     url: https://www.promptfoo.dev/docs/red-team/
+videos:
+  - id: jrHRe9lSqqA
+    title: "What Is a Prompt Injection Attack?"
+    channel: "IBM Technology"
+  - id: DabrWAKNQZc
+    title: "Episode 1: What is AI Red Teaming? | AI Red Teaming 101 with Amanda and Gary"
+    channel: "Microsoft Developer"
 interview:
   - q: What is the difference between direct and indirect prompt injection?
     a: Direct injection is when the user types instructions intended to override the system's instructions, for example asking it to ignore its rules and reveal its prompt. Indirect injection is when the malicious instructions arrive through content the model processes on the user's behalf, such as a web page, an email, a retrieved document or a tool result. Indirect injection is often more dangerous because the victim user may be innocent and the payload can trigger tool calls with the user's privileges.

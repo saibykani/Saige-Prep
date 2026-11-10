@@ -21,6 +21,10 @@ references:
     url: https://glossary.istqb.org/
   - title: Jira guides (reports and dashboards)
     url: https://www.atlassian.com/software/jira/guides
+videos:
+  - id: wHYK7AtsUMw
+    title: "Defect Metrics |  Defect Tracking |  Defect Metric Life Cycle | Defect Metrics in Software Testing"
+    channel: "Amol Borkar"
 interview:
   - q: What is defect leakage and how do you calculate it?
     a: Defect leakage measures how many defects escaped a phase and were found later — most commonly, defects found after release compared with all defects found. A common formula is defects found after release divided by total defects found before and after release, times 100, over an agreed window such as the first 30 days in production. Some organisations divide by pre-release defects only, or measure leakage between test phases such as system test to UAT, so I always state the formula and window used.

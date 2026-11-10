@@ -18,6 +18,16 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms
     url: https://glossary.istqb.org/
+videos:
+  - id: qQfFp_GORpY
+    title: "Software Testing Tutorial #1 - What is Software Testing | With Examples"
+    channel: "Software Testing Mentor"
+  - id: u6QfIXgjwGQ
+    title: "Software Testing Explained in 100 Seconds"
+    channel: "Fireship"
+  - id: cDQ34z0oqnQ
+    title: "What is Software Testing?"
+    channel: "Telusko"
 interview:
   - q: How would you define software testing?
     a: Testing is a set of activities to discover defects and evaluate the quality of software work products. It is not only executing the software. It includes planning, analysing requirements, designing tests, reviewing documents, executing tests and reporting results, so that stakeholders get reliable information to make decisions about the product.

@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/component_reference.html
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
+videos:
+  - id: iDdYKkn4VWM
+    title: "JMeter tutorial 03 -How to record test in JMeter | How to use Test Script Recorder in JMeter"
+    channel: "QA Automation Lab"
+  - id: voYj16cETAM
+    title: "7 | JMeter | Test Script Recorder |"
+    channel: "Automation Step by Step"
 interview:
   - q: How does the JMeter HTTP(S) Test Script Recorder work?
     a: "It starts a local proxy server, by default on port 8888. You point a browser at that proxy, so every request goes browser → JMeter → server and back. For each request that passes the include/exclude filters, JMeter creates an HTTP Request sampler (plus a Header Manager) under the target controller. For HTTPS it acts as a man in the middle, so the browser must trust JMeter's generated ApacheJMeterTemporaryRootCA certificate."

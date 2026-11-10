@@ -19,6 +19,16 @@ references:
     url: https://istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: Atlassian Jira guides (issue types and fields)
     url: https://www.atlassian.com/software/jira/guides
+videos:
+  - id: GYy9g3XSSG0
+    title: "How to Write an Effective Bug Report with Example in JIRA."
+    channel: "The Testing Academy"
+  - id: rTmEUiWwgLs
+    title: "Software Testing Tutorial #45 - How to Write a Good Defect Report"
+    channel: "Software Testing Mentor"
+  - id: dns4zBqfpEM
+    title: "How To Write A Good Bug Report - Bug Report Template"
+    channel: "Software Testing Material"
 interview:
   - q: What makes a defect report good?
     a: A developer can reproduce it on the first attempt without contacting me. That means a specific title, the exact environment and build, numbered minimal steps with the test data used, a clear expected result tied to a requirement, the actual result described factually, and evidence such as a screenshot, video, console log or request ID. It also states severity, my suggested priority, and how often it reproduces.

@@ -20,6 +20,13 @@ references:
     url: https://jmeter.apache.org/usermanual/get-started.html
   - title: Apache JMeter - Elements of a Test Plan
     url: https://jmeter.apache.org/usermanual/test_plan.html
+videos:
+  - id: NTyY8wKSvik
+    title: "JMeter Load Testing | Load Testing Using JMmeter | JMeter Tutorial For Beginners | Simplilearn"
+    channel: "Simplilearn"
+  - id: GiUsd_tO0-E
+    title: "🚀 From Zero to JMeter Hero in JMeter | Complete Performance Testing & Load Testing Guide (2025)"
+    channel: "Develop with Aakash"
 interview:
   - q: What is Apache JMeter and what is it typically used for?
     a: JMeter is an open-source, Java-based tool from the Apache Software Foundation for load and performance testing. It simulates many concurrent users by running threads that send requests, mostly HTTP, to a system under test and records response times, throughput and errors. Teams use it to check that an application meets its performance goals before release and to find the load at which it degrades.

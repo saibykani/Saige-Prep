@@ -21,6 +21,13 @@ references:
     url: https://glossary.istqb.org/
   - title: Mermaid state diagram documentation
     url: https://mermaid.js.org/syntax/stateDiagram.html
+videos:
+  - id: JgUwyqyGoB4
+    title: "ISTQB v4.0 State Transition Testing explanation with examples"
+    channel: "Software Testing 101"
+  - id: ZWGiBbZdO1Q
+    title: "Software Testing Tutorial #37 - State Transition Testing Technique"
+    channel: "Software Testing Mentor"
 interview:
   - q: What is state transition testing and when do you use it?
     a: It is a black-box technique for systems whose response to an event depends on their current state, such as order workflows, login lockouts, devices or subscriptions. You model states, events and transitions in a state diagram or table, then design tests that exercise transitions. It is the right choice whenever "what happened before" changes "what happens now".

@@ -20,6 +20,13 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
   - title: RFC 6585 — Additional HTTP Status Codes (429)
     url: https://www.rfc-editor.org/rfc/rfc6585
+videos:
+  - id: qmpUfWN7hh4
+    title: "HTTP Status Codes Explained In 5 Minutes"
+    channel: "ByteByteGo"
+  - id: wJa5CTIFj7U
+    title: "Learn HTTP Status Codes In 10 Minutes"
+    channel: "Web Dev Simplified"
 interview:
   - q: Explain the difference between 401 and 403.
     a: "401 Unauthorized means the request lacks valid authentication credentials; the server must send a WWW-Authenticate header describing how to authenticate, and the client may retry with credentials. 403 Forbidden means the server understood the request and refuses it; re-authenticating will not help, typically because the authenticated identity lacks permission. In short, 401 is 'who are you?' and 403 is 'I know who you are, and no'."

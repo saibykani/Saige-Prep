@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: MDN Web Docs - HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: OJkJ4q8w3II
+    title: "JMeter API Testing Tutorial: REST API & Header Manager Setup"
+    channel: "QA and Dev Tips"
+  - id: 8r5LYzUIepo
+    title: "JMeter API Testing | JMeter API Performance Testing Tutorial | JMeter Tutorial | Simplilearn"
+    channel: "Simplilearn"
 interview:
   - q: How do you test a token-protected REST API in JMeter?
     a: "First a login sampler POSTs JSON credentials, with Content-Type application/json set in a Header Manager. A JSON Extractor on that sampler stores $.access_token in a variable such as token, with a default like TOKEN_NOT_FOUND. Later requests have a Header Manager with Authorization set to Bearer ${token}. I add assertions on each step so a failed login is reported as an error instead of letting later calls fail confusingly."

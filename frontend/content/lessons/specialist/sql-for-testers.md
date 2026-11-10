@@ -19,6 +19,13 @@ references:
     url: https://www.postgresql.org/docs/current/sql.html
   - title: PostgreSQL Documentation — Comparison Functions and Operators
     url: https://www.postgresql.org/docs/current/functions-comparison.html
+videos:
+  - id: HXV3zeQKqGY
+    title: "SQL Tutorial - Full Database Course for Beginners"
+    channel: "freeCodeCamp.org"
+  - id: 7S_tz1z_5bA
+    title: "SQL Course for Beginners [Full Course]"
+    channel: "Programming with Mosh"
 interview:
   - q: Why would a tester need SQL if the UI shows the data?
     a: The UI shows a view of the data, often formatted, filtered or cached. SQL lets me verify what was actually persisted, for example that an order was stored once with the right status and amount, that a soft delete set a flag rather than removing a row, or that a background job updated the records it should. It also lets me set up and find test data quickly and investigate defects at the source instead of guessing from the screen.

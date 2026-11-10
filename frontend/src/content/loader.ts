@@ -10,11 +10,13 @@ import { allTopics, TRACKS } from "./curriculum";
 import {
   interviewTrack,
   lessonFrontmatter,
+  lessonPracticeFile,
   project,
   questionBankFile,
   roleFile,
   type InterviewTrack,
   type LessonFrontmatter,
+  type LessonPractice,
   type Project,
   type QuestionBank,
   type Role,
@@ -84,6 +86,15 @@ export function readJson<T>(file: string, schema: { parse: (v: unknown) => T }):
   } catch (error) {
     throw new Error(`${path.relative(CONTENT_DIR, file)}: ${error instanceof Error ? error.message : String(error)}`);
   }
+}
+
+/** The marked practice test and coding exercises for a lesson, if written. */
+export function getLessonPractice(track: string, slug: string): LessonPractice | undefined {
+  const file = path.join(CONTENT_DIR, "practice", track, `${slug}.json`);
+  if (!fs.existsSync(file)) return undefined;
+  const practice = readJson(file, lessonPracticeFile);
+  if (practice.lesson !== slug) throw new Error(`${path.relative(CONTENT_DIR, file)}: lesson must be "${slug}"`);
+  return practice;
 }
 
 export function getRoles(): Role[] {

@@ -24,6 +24,10 @@ references:
     url: https://sre.google/books/
   - title: Grafana documentation
     url: https://grafana.com/docs/
+videos:
+  - id: 5_ioWHNM7DE
+    title: "Jmeter Tutorial | How to Analyze Summary Report in Jmeter"
+    channel: "Software Testing Step-by-Step"
 interview:
   - q: What is the first thing you do after a load test finishes?
     a: Check the run is valid before trusting any number. Did the planned load actually happen - threads, throughput and duration? Were errors real application errors or script problems like failed correlation? Was the load generator healthy? Was the environment as expected, with no deployments or other tests running? Then I exclude ramp-up and ramp-down and analyse the steady state.

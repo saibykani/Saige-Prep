@@ -23,6 +23,16 @@ references:
     url: https://www.deque.com/axe/
   - title: MDN Web Docs — Accessibility
     url: https://developer.mozilla.org/en-US/docs/Web/Accessibility
+videos:
+  - id: 20SHvU2PKsM
+    title: "Introduction to Web Accessibility and W3C Standards"
+    channel: "W3C Web Accessibility Initiative (WAI)"
+  - id: UiCln_r-CsY
+    title: "Accessibility Testing Tutorial - QA Engineer"
+    channel: "Codemify"
+  - id: e2nkq3h1P68
+    title: "Learn Accessibility - Full a11y Tutorial"
+    channel: "freeCodeCamp.org"
 interview:
   - q: What are the POUR principles?
     a: WCAG groups its guidelines under four principles. Perceivable means information can be perceived by at least one sense, for example text alternatives for images and captions for video. Operable means every function works with different input methods, such as the keyboard, with enough time and no seizure-inducing flashing. Understandable means content and behaviour are predictable and errors are explained. Robust means content works with current and future user agents, including assistive technologies, which mainly means correct names, roles and states.

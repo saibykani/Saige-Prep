@@ -21,6 +21,13 @@ references:
     url: https://jmeter-plugins.org/
   - title: Google SRE books
     url: https://sre.google/books/
+videos:
+  - id: m1ZUlBW62u8
+    title: "Work Load Model in performance testing || Pacing || Throughput || TPS"
+    channel: "Engineering Classes"
+  - id: vi2IXl4e16I
+    title: "Performance Testing Tip 7 - How to design Workload Model?"
+    channel: "PerfMatrix"
 interview:
   - q: What is the difference between an open and a closed workload model?
     a: In a closed model a fixed number of users loop through a script, and each waits for its response before sending the next request, so arrival rate depends on response time. In an open model requests arrive at a rate set by the outside world, regardless of how the system is coping, like public web traffic. If the system slows down, a closed model sends less load while an open model keeps sending and queues build up. I choose the model that matches how the real users behave.

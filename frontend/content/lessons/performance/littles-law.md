@@ -21,6 +21,13 @@ references:
     url: https://sre.google/books/
   - title: The USE Method (Brendan Gregg)
     url: https://www.brendangregg.com/usemethod.html
+videos:
+  - id: lHQZcMRr2n0
+    title: "Little's Law - The ONE thing you can do to improve process performance"
+    channel: "Mark Woeppel | Operations & Leadership"
+  - id: hDiU8L1TMec
+    title: "What is Little's Law  in Performance Testing? | Test Planning | Workload Modelling by Perfology 2020"
+    channel: "Perfology"
 interview:
   - q: State Little's Law and give a performance-testing use for it.
     a: L = λW, where L is the average number of items in the system, λ is the average arrival rate (equal to throughput in a stable system) and W is the average time each item spends in the system. In load testing I use it to size virtual users. For a closed workload the users are always either waiting for a response or thinking, so N = X × (R + Z). For 50 transactions per second with 1 s response time and 9 s think time I need 50 × 10 = 500 virtual users.

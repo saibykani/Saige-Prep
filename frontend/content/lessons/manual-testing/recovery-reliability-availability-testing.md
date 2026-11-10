@@ -23,6 +23,13 @@ references:
     url: https://principlesofchaos.org/
   - title: ISO/IEC 25010:2011 Systems and software quality models
     url: https://www.iso.org/standard/35733.html
+videos:
+  - id: Zl8NjtFEWgQ
+    title: "Reliability testing and Recovery Testing"
+    channel: "SoftwaretestingbyMKT"
+  - id: OmASCUJEVy8
+    title: "🔥 The Ultimate Guide to Disaster Recovery: RTO, RPO, & Failover!"
+    channel: "ByteMonk"
 interview:
   - q: What is the difference between reliability and availability?
     a: Reliability is the degree to which a system performs specified functions under specified conditions for a specified period of time. Availability is one sub-characteristic of reliability, the degree to which the system is operational and accessible when required for use. A system can be highly available but unreliable, for example always reachable but sometimes returning wrong results, or reliable while running but with long planned downtime.

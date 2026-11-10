@@ -26,6 +26,13 @@ references:
     url: https://pages.nist.gov/800-63-4/sp800-63b.html
   - title: MDN HTTP documentation (cookies and Set-Cookie)
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: Kf-lHf3RTVE
+    title: "Test cases For Login Page | Test Scenarios For Login Page | Test Cases for Login functionality"
+    channel: "Sample Test Cases"
+  - id: mox6DL4zK7I
+    title: "Authentication Vulnerabilities | Complete Guide"
+    channel: "Rana Khalil"
 interview:
   - q: How would you test a login page? Walk me through your approach.
     a: I start from the requirements and clarify the rules - identifier format, lockout policy, MFA, remember-me, session lifetime and redirect behaviour. Then I partition inputs (valid, wrong password, unknown user, empty, malformed), apply boundaries to the lockout counter and session timeouts, and model the account states (active, locked, MFA pending, disabled) for state transition tests. Finally I add security-focused error guessing on my authorised test environment - identical messages for unknown user and wrong password, session ID regenerated after login, server-side logout, cookie flags, open redirect on the return URL, and that credentials never appear in URLs or logs.

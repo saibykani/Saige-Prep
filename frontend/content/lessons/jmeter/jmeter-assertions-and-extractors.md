@@ -22,6 +22,13 @@ references:
     url: https://jmeter.apache.org/usermanual/regular_expressions.html
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
+videos:
+  - id: -Vko8vGbw64
+    title: "JMeter Tutorial 6: Assertions in JMeter"
+    channel: "SDET- QA"
+  - id: 5l907LtY3w4
+    title: "How to use \"JSON Extractor\" element in JMeter to Extract parameters?"
+    channel: "ApplMeter"
 interview:
   - q: Why are assertions essential in a load test?
     a: JMeter marks a sample as failed only for transport errors or HTTP error codes by default. Many applications return HTTP 200 with an error page, an empty result or a login page when something goes wrong under load. Without assertions those count as successes, the error rate looks perfect, and the fast error responses even improve the response-time figures. Assertions make correctness part of the performance result.

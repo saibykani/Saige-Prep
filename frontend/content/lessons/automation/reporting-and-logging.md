@@ -23,6 +23,13 @@ references:
     url: https://allurereport.org/docs/
   - title: Maven Surefire Plugin
     url: https://maven.apache.org/surefire/maven-surefire-plugin/
+videos:
+  - id: Xv9-u5qVz58
+    title: "#1: Allure Report in selenium using TestNG and Maven"
+    channel: "SDET ADDA"
+  - id: oiaEP57nsmI
+    title: "Java for Beginners 13 - Logging using slf4j and logback"
+    channel: "Marcus"
 interview:
   - q: What is the difference between a test report and a log?
     a: "A report summarises outcomes for people who decide: which tests passed, failed or were skipped, durations, trends and attached evidence. A log is a detailed chronological record of what the code did, used by engineers to diagnose a specific failure. Good frameworks link them, so a failed test in the report carries its log, screenshot and environment details."

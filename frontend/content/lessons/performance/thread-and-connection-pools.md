@@ -21,6 +21,13 @@ references:
     url: https://tomcat.apache.org/tomcat-10.1-doc/config/http.html
   - title: PostgreSQL documentation (connections and server configuration)
     url: https://www.postgresql.org/docs/
+videos:
+  - id: NgYS6mIUYmA
+    title: "Why thread pools even exist? and how to implement them?"
+    channel: "Arpit Bhayani"
+  - id: Cp-aFYHLiCw
+    title: "Database Connection Pool Sizing - Demystified! by Jasmin Fluri"
+    channel: "Devoxx"
 interview:
   - q: What are the symptoms of database connection pool exhaustion?
     a: Response times rise sharply and then plateau near the pool's acquisition timeout, while CPU on both the application and the database stays moderate. Pool metrics show active connections at the maximum and a growing number of threads waiting. Logs show connection acquisition timeouts, and a thread dump shows many request threads waiting inside the pool's getConnection call. Errors often appear as 500s or 503s after exactly the timeout value.

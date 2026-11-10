@@ -21,6 +21,13 @@ references:
     url: https://www.iso.org/standard/79430.html
   - title: ISTQB Glossary of testing terms
     url: https://glossary.istqb.org/
+videos:
+  - id: jRwwb7iaRsU
+    title: "Black and White Box Testing Introduction - Georgia Tech - Software Development Process"
+    channel: "Udacity"
+  - id: LcZwdmO_R44
+    title: "Black Box vs White Box vs Gray Box Testing Explained | Software Testing Interview Questions"
+    channel: "The Testing Academy"
 interview:
   - q: What is the difference between black-box and white-box testing?
     a: Black-box testing, also called specification-based testing, derives tests from the specified behaviour of the test object without reference to its internal structure. White-box testing, also called structure-based testing, derives tests from the internal structure, such as code, architecture or workflows. Black-box tests remain valid when the implementation changes as long as the behaviour does not; white-box tests let you measure how much of the structure has been exercised.

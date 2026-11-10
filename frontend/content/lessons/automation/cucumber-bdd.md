@@ -22,6 +22,16 @@ references:
     url: https://cucumber.io/docs/gherkin/reference/
   - title: Cucumber expressions
     url: https://cucumber.io/docs/cucumber/cucumber-expressions/
+videos:
+  - id: cq_3wPnaX-w
+    title: "BDD for Beginners 1 | What is BDD with Examples | How BDD works | What is Cucumber"
+    channel: "Automation Step by Step"
+  - id: gXh0iUt4TXA
+    title: "An Ultimate Guide To BDD"
+    channel: "Modern Software Engineering"
+  - id: Twx4MtrfuSg
+    title: "Intro to Gherkin | How To Write A Test In Gherkin"
+    channel: "QA Underground"
 interview:
   - q: Is BDD the same as using Cucumber?
     a: "No. BDD is a collaboration practice: business, development and testing agree on concrete examples of behaviour before building, often in a 'three amigos' discussion. Cucumber is one tool that can turn those examples, written in Gherkin, into automated tests. Teams can use Cucumber without doing BDD, which usually produces verbose UI scripts in Gherkin with little benefit."

@@ -20,6 +20,16 @@ references:
     url: https://git-scm.com/book/en/v2
   - title: git-bisect reference
     url: https://git-scm.com/docs/git-bisect
+videos:
+  - id: 8JJ101D3knE
+    title: "Git Tutorial for Beginners: Learn Git in 1 Hour"
+    channel: "Programming with Mosh"
+  - id: hwP7WQkmECE
+    title: "Git Explained in 100 Seconds"
+    channel: "Fireship"
+  - id: e9lnsKot_SQ
+    title: "How Git Works: Explained in 4 Minutes"
+    channel: "ByteByteGo"
 interview:
   - q: Describe your Git workflow for adding a new automated test.
     a: "I pull the latest main, create a feature branch named after the ticket, write the test and run it locally, commit in small logical steps with clear messages, push the branch and open a pull request. CI runs the suite on the PR, a teammate reviews it, I address comments with further commits, and once it is green and approved it is merged. I then delete the branch."

@@ -25,6 +25,16 @@ references:
     url: https://developers.openai.com/api/docs/guides/embeddings
   - title: Reimers and Gurevych — Sentence-BERT (arXiv 1908.10084)
     url: https://arxiv.org/abs/1908.10084
+videos:
+  - id: viZrOnJclY0
+    title: "Word Embedding and Word2Vec, Clearly Explained!!!"
+    channel: "StatQuest with Josh Starmer"
+  - id: gl1r1XV0SLw
+    title: "What is a Vector Database? Powering Semantic Search & AI Applications"
+    channel: "IBM Technology"
+  - id: klTvEwg3oJ4
+    title: "Vector databases are so hot right now. WTF are they?"
+    channel: "Fireship"
 interview:
   - q: What is an embedding and why is it useful?
     a: An embedding is a fixed-length vector of numbers produced by a model so that texts with similar meaning end up close together in that vector space. It lets you search, cluster or deduplicate by meaning rather than exact words, so "reset my password" can match "forgot login credentials" even with no shared keywords.

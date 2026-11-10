@@ -23,6 +23,13 @@ references:
     url: https://jmeter.apache.org/usermanual/component_reference.html
   - title: Apache JMeter - Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
+videos:
+  - id: 1tJGRWABpW0
+    title: "JMeter Complete Step by Step from scratch | 2025"
+    channel: "Automation Step by Step"
+  - id: SoW2pBak1_Q
+    title: "JMeter Full Course Masterclass | Step by Step for Beginners | Raghav Pal |"
+    channel: "Automation Step by Step"
 interview:
   - q: Describe the main elements of a JMeter test plan.
     a: A Test Plan contains one or more Thread Groups, which define the virtual users. Inside them, Samplers such as HTTP Request send the actual requests; Logic Controllers decide the order and conditions; Config Elements such as HTTP Request Defaults, CSV Data Set Config and the Cookie Manager supply settings and data; Timers add delays; Pre- and Post-Processors prepare requests and extract data from responses; Assertions check responses; and Listeners collect and display results.

@@ -19,6 +19,13 @@ references:
     url: https://www.rfc-editor.org/rfc/rfc9110
   - title: MDN Web Docs — HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: -mN3VyJuCjM
+    title: "What Is REST API? Examples And How To Use It: Crash Course System Design #3"
+    channel: "ByteByteGo"
+  - id: 09od8C-Fd-A
+    title: "REST APIs Explained (in 5 minutes)"
+    channel: "Rayhan's Tech Realm"
 interview:
   - q: What does it mean for a REST API to be stateless?
     a: "Each request from the client must contain all the information the server needs to understand it; the server does not keep client session state between requests. Authentication travels with every request, for example as a bearer token. Statelessness improves scalability and reliability because any server instance can handle any request. It does not mean the server has no data; resource state lives in the database."

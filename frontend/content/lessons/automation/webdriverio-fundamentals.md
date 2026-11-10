@@ -23,6 +23,13 @@ references:
     url: https://webdriver.io/docs/api/expect-webdriverio
   - title: WebdriverIO — Configuration file
     url: https://webdriver.io/docs/configurationfile
+videos:
+  - id: ocr0gi7zeiM
+    title: "WebdriverIO Tutorial | Full Crash Course | Latest Version"
+    channel: "SDET Unicorns by Dilpreet Johal"
+  - id: Koy5fvisgHA
+    title: "Master WebdriverIO in 4 Hours | Complete WebdriverIO Tutorial for Beginners"
+    channel: "TestMu AI (Formerly LambdaTest)"
 interview:
   - q: What is WebdriverIO and how does it relate to Selenium?
     a: "WebdriverIO is a Node.js automation framework and test runner. Like Selenium, it speaks the W3C WebDriver protocol, so it can drive any WebDriver-compliant browser driver, Selenium Grid or Appium for mobile. It also supports WebDriver BiDi. It adds its own runner, configuration, reporters, services, auto-waiting matchers and a convenient selector API."

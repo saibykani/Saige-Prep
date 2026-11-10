@@ -23,6 +23,16 @@ references:
     url: https://www.scrumguides.org/
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
+videos:
+  - id: 0Hogbfnuy3I
+    title: "12 Agile Principles Explained In 18 Minutes | Agile Principles And Methodologies | Simplilearn"
+    channel: "Simplilearn"
+  - id: rf8Gi2RLKWQ
+    title: "The Agile Manifesto - 4 Agile Values Explained"
+    channel: "CollabNet VersionOne"
+  - id: hYpx8l7KgAs
+    title: "Software Testing Tutorial #47 - What is Agile Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: What are the four values of the Agile Manifesto, and does "working software over comprehensive documentation" mean testers should stop writing test documentation?
     a: Individuals and interactions over processes and tools; working software over comprehensive documentation; customer collaboration over contract negotiation; responding to change over following a plan. The manifesto explicitly says there is value in the items on the right, the items on the left are just valued more. So testers still document, but only what earns its keep. Lightweight charters, checklists and acceptance criteria that the team actually uses replace large documents nobody reads. Regulated products may still need formal evidence, and that is a legitimate requirement, not a contradiction.

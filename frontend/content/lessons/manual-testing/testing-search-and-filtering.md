@@ -23,6 +23,10 @@ references:
     url: https://www.w3.org/WAI/standards-guidelines/wcag/
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
+videos:
+  - id: hg8eULfLPAU
+    title: "Test Cases For Search Filter | Positive and Negative Test Cases For Search Filter"
+    channel: "Sample Test Cases"
 interview:
   - q: How would you test a search feature with filters?
     a: First I clarify the matching rules - which fields are searched, case and accent sensitivity, partial words, and whether filters combine with AND across groups and OR within a group. Then I build a controlled data set where I know exactly which items should match each query. I partition search terms (exact, partial, no match, special characters, empty, very long), apply boundaries to length and price ranges, and use pairwise testing to choose filter combinations. I check counts, sorting, pagination, URL state, empty states, performance on large result sets, and that results never include items the user should not see.

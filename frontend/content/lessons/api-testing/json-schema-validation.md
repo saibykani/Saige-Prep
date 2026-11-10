@@ -21,6 +21,13 @@ references:
     url: https://rest-assured.io/
   - title: Postman Learning Center — Overview
     url: https://learning.postman.com/docs/getting-started/overview/
+videos:
+  - id: haDQBmQii2g
+    title: "JSON Schema validation in Postman"
+    channel: "Valentin Despa"
+  - id: rkGI32WXmPQ
+    title: "REST Assured Beginner Tutorial 10 | How to validate JSON Schema"
+    channel: "Automation Step by Step"
 interview:
   - q: What does JSON Schema validation catch that field assertions miss?
     a: "Field assertions check the handful of values a test cares about. A schema checks the whole structure on every response — every field's type, required fields, allowed enum values, string formats and array item shapes. So it catches regressions in fields nobody wrote an assertion for, such as an id that became a string or a new unexpected property leaking internal data."

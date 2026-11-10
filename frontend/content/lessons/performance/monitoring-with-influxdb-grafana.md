@@ -23,6 +23,10 @@ references:
     url: https://jmeter.apache.org/usermanual/realtime-results.html
   - title: Google SRE books (monitoring distributed systems, golden signals)
     url: https://sre.google/books/
+videos:
+  - id: 2rdGrn8tfEA
+    title: "JMeter Integration with Grafana and Influx DB - Performance Testing"
+    channel: "ProSoft Testing"
 interview:
   - q: Why monitor during a load test instead of only reading the report afterwards?
     a: The report tells you what users experienced; monitoring tells you why. Live dashboards let me correlate a latency jump with, say, database CPU or GC pauses at the same timestamp, stop a test early if errors explode or the environment is at risk, and spot a load generator problem before wasting a long run. Afterwards the stored time series let me compare runs.

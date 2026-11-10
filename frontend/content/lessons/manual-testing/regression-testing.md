@@ -21,6 +21,16 @@ references:
     url: https://docs.github.com/en/actions
   - title: Jenkins user documentation
     url: https://www.jenkins.io/doc/
+videos:
+  - id: AWX6WvYktwk
+    title: "Regression testing – What, Why, When, and How to Run It?"
+    channel: "QA Madness"
+  - id: fX47TAPRAJI
+    title: "What is Regression Testing  (2025 Guide)"
+    channel: "Automation Testing with Joe Colantonio"
+  - id: Qt6xTQln3WU
+    title: "Smoke Testing Vs Regression Testing | Software Testing | QA | Functional Testing"
+    channel: "Testing Talks with Faisal Khatri"
 interview:
   - q: What is regression testing?
     a: Regression testing confirms that no adverse consequences have been caused by a change, including a fix that has already been confirmation tested. A change in one place can break behaviour elsewhere in the same component, in other components, or even in connected systems. Regression testing looks for those unintended side effects, which ISTQB calls regressions.

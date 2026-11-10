@@ -22,6 +22,16 @@ references:
     url: https://docs.junit.org/current/writing-tests/parameterized-classes-and-tests.html
   - title: Cucumber documentation — Scenario outlines and data tables
     url: https://cucumber.io/docs/gherkin/reference/
+videos:
+  - id: uatGjMOapK8
+    title: "DataProvider In TestNG - Data Driven Framework in Selenium - Part 3"
+    channel: "Naveen AutomationLabs"
+  - id: clPh36ThzHI
+    title: "Selenium Framework Tutorial #9 - Data Driven Testing with TestNG DataProvider"
+    channel: "Software Testing Mentor"
+  - id: wLFS0-MZRfo
+    title: "Creating Parameterized Test Classes - JUnit Tutorial"
+    channel: "Aneesh Mistry"
 interview:
   - q: What is data-driven testing and when would you use it?
     a: "It separates test logic from test data, so one test method runs once per data row. I use it when the same behaviour must be checked against many inputs, such as boundary values from BVA, validation rules, currencies or user roles. I avoid it when the rows need different steps or different assertions; then separate tests are clearer."

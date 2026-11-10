@@ -21,6 +21,10 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: GitHub Actions documentation
     url: https://docs.github.com/en/actions
+videos:
+  - id: h6STkbe25dU
+    title: "Software Testing Tutorial #26 - Smoke Testing Vs Sanity Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: What is smoke testing?
     a: Smoke testing is a small, fast set of tests covering the main functionality of a build, run before planned testing begins, to decide whether the build is stable enough to test further. If the application does not start, users cannot log in, or the core transaction fails, there is no point running hundreds of detailed tests, so the build is rejected and returned to development. It is broad and shallow, and is often automated as a build verification step in CI.

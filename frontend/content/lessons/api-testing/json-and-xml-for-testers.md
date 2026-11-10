@@ -20,6 +20,13 @@ references:
     url: https://www.w3.org/TR/xml/
   - title: JSON Schema
     url: https://json-schema.org/
+videos:
+  - id: cj3h3Fb10QY
+    title: "What is JSON? (Explained in 5 minutes)"
+    channel: "Hostinger Academy"
+  - id: 1JblVElt5K0
+    title: "What is XML | XML Beginner Tutorial | Learn XML with Demo in 10 min"
+    channel: "Automation Step by Step"
 interview:
   - q: What are the data types in JSON?
     a: "Per RFC 8259, JSON values are objects, arrays, strings, numbers, and the literals true, false and null. There is no date type, so dates travel as strings (usually ISO 8601), and there is no separate integer type; numbers are just numbers, which is why very large integers can lose precision in JavaScript clients. As a tester I check types, not just values, because \"42\" and 42 are different."

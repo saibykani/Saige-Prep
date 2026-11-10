@@ -20,6 +20,13 @@ references:
     url: https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/
   - title: Selenium WebDriver documentation
     url: https://www.selenium.dev/documentation/webdriver/
+videos:
+  - id: Af3s3KsxStY
+    title: "Object Oriented Programming in Java - All-in-One Tutorial Series!"
+    channel: "Caleb Curry"
+  - id: TiccevwEVe8
+    title: "Learn Java Object-Oriented Programming (with actual code)"
+    channel: "ForrestKnight"
 interview:
   - q: Where do you use the four OOP principles in a Selenium framework?
     a: "Encapsulation: page objects keep locators private and expose methods like login(user). Inheritance: page classes extend a BasePage that holds the driver and shared wait helpers. Polymorphism: tests depend on the WebDriver interface, so the same code runs on ChromeDriver, FirefoxDriver or RemoteWebDriver. Abstraction: interfaces or abstract classes such as a DriverFactory hide how a browser is created from the tests that use it."

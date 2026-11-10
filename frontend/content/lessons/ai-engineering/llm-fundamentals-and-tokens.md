@@ -25,6 +25,16 @@ references:
     url: https://developers.openai.com/api/docs/guides/text
   - title: Vaswani et al. — Attention Is All You Need (arXiv 1706.03762)
     url: https://arxiv.org/abs/1706.03762
+videos:
+  - id: LPZh9BOjkQs
+    title: "Large Language Models explained briefly"
+    channel: "3Blue1Brown"
+  - id: 7xTGNNLPyMI
+    title: "Deep Dive into LLMs like ChatGPT"
+    channel: "Andrej Karpathy"
+  - id: hL4ZnAWSyuU
+    title: "LLM Tokenizers Explained: BPE Encoding, WordPiece and SentencePiece"
+    channel: "DataMListic"
 interview:
   - q: In one or two sentences, what does a large language model do?
     a: Given a sequence of tokens, it outputs a probability distribution over the next token. Generation repeats that step, sampling a token, appending it and predicting again until a stop condition such as an end-of-turn token or max_tokens is reached. Everything else, chat, tool use, JSON output, is built on that loop.

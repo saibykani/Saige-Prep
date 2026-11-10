@@ -21,6 +21,16 @@ references:
     url: https://www.selenium.dev/documentation/webdriver/interactions/windows/
   - title: Selenium documentation — JavaScript alerts, prompts and confirmations
     url: https://www.selenium.dev/documentation/webdriver/interactions/alerts/
+videos:
+  - id: nvOSyRyGAM4
+    title: "Session 30 - Selenium with Java | Handling Frames/iFrames & Nested iFrames"
+    channel: "SDET- QA"
+  - id: pZdMsLKAjs4
+    title: "How to Handle Multiple Windows or Tabs in Selenium Webdriver"
+    channel: "Mukesh otwani"
+  - id: Ogo_t1c-TN4
+    title: "How to handle Alerts in Selenium WebDriver"
+    channel: "H Y R Tutorials"
 interview:
   - q: An element is visible on the page but Selenium throws NoSuchElementException. What do you check?
     a: "First whether it is inside an iframe, because Selenium only searches the current browsing context. I would inspect the DOM for an iframe ancestor, switch into it with frameToBeAvailableAndSwitchToIt, and switch back with defaultContent afterwards. I would also check for shadow DOM, timing, and whether the locator matches a hidden duplicate."

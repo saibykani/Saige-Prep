@@ -19,6 +19,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
     url: https://www.iso.org/standard/79430.html
+videos:
+  - id: XW4sI3JJSzg
+    title: "ISTQB FOUNDATION 4.0 | Tutorial 31 | Boundary Value Analysis | Test Techniques | ISTQB Tutorials"
+    channel: "TM SQUARE"
+  - id: X55Ys-tSK3s
+    title: "ISTQB v4.0 Boundary Value Analysis (BVA) explanation with examples"
+    channel: "Software Testing 101"
 interview:
   - q: What is boundary value analysis and why does it work?
     a: It is a black-box technique that tests values at the edges of equivalence partitions — the minimum, maximum and the values just outside them. It works because developers commonly make off-by-one mistakes such as writing `<` instead of `<=`, so the edges are where defects concentrate. Testing boundaries finds those defects with very few test cases.

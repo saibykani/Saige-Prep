@@ -25,6 +25,16 @@ references:
     url: https://arxiv.org/abs/2305.14314
   - title: Hugging Face — Transformers Trainer documentation
     url: https://huggingface.co/docs/transformers/main_classes/trainer
+videos:
+  - id: DhRoTONcyZE
+    title: "What is Low-Rank Adaptation (LoRA) | explained by the inventor"
+    channel: "Edward Hu"
+  - id: t1caDsMzWBk
+    title: "LoRA & QLoRA Fine-tuning Explained In-Depth"
+    channel: "Mark Hennings"
+  - id: PXWYUTMt-AU
+    title: "LoRA: Low-Rank Adaptation of Large Language Models - Explained visually + PyTorch code from scratch"
+    channel: "Umar Jamil"
 interview:
   - q: When would you fine-tune a model rather than improve the prompt or add retrieval?
     a: I try prompting first because it is cheapest and fastest to iterate, then retrieval when the problem is missing or changing knowledge. Fine-tuning makes sense when I need a consistent behaviour, format, tone or narrow skill that prompting cannot reliably produce, when I want a smaller cheaper model to match a larger one on a narrow task, or when long prompts make latency and cost too high. Fine-tuning is a poor way to inject frequently changing facts because they go stale and the model can still hallucinate them. I also need enough high-quality labelled examples and a held-out evaluation set before it is worth doing.

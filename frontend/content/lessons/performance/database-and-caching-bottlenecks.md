@@ -24,6 +24,13 @@ references:
     url: https://redis.io/docs/latest/
   - title: MDN Web Docs — HTTP caching
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching
+videos:
+  - id: 6GY1akbxyEo
+    title: "Database Caching for System Design Interviews"
+    channel: "Aced (formerly Exponent)"
+  - id: dGAgxozNWFE
+    title: "Cache Systems Every Developer Should Know"
+    channel: "ByteByteGo"
 interview:
   - q: What database problems do you look for when an API slows down under load?
     a: Slow individual queries, usually from missing or unused indexes causing full scans; N+1 query patterns where one request triggers many small queries; lock contention and deadlocks on hot rows; connection-pool exhaustion where threads wait for a connection; and resource saturation on the database server itself - CPU, disk I/O or memory. I check slow-query logs, execution plans, pool metrics and database wait statistics alongside the load test timeline.

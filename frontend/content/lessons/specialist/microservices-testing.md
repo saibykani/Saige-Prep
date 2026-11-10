@@ -26,6 +26,13 @@ references:
     url: https://opentelemetry.io/docs/
   - title: AsyncAPI
     url: https://www.asyncapi.com/docs
+videos:
+  - id: 8XbuJ_DczL8
+    title: "Effective testing in microservice systems - Christian Horsdal - NDC Oslo 2022"
+    channel: "NDC Conferences"
+  - id: IetyhDr48RI
+    title: "[Introduction to contract testing - Part 2] Contract testing and how Pact works"
+    channel: "PactFlow"
 interview:
   - q: How does your test strategy change for microservices?
     a: Each service gets fast unit and component tests with its dependencies replaced by test doubles. Interactions between services are protected by consumer-driven contract tests, so a provider cannot break a consumer without the build failing. Integration tests use real infrastructure such as a database or broker in containers. I keep only a small number of end-to-end tests for critical journeys, because they are slow and flaky across many services. I also add tests for resilience, observability and data consistency.

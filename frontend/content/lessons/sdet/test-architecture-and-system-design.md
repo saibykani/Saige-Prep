@@ -23,6 +23,13 @@ references:
     url: https://testcontainers.com/
   - title: GitHub Actions documentation
     url: https://docs.github.com/en/actions
+videos:
+  - id: lrUoCD1yrnU
+    title: "How to Create an Architecture for Web Test Automation"
+    channel: "Oracle Developers"
+  - id: FdTfbGlrPIk
+    title: "How To Explain Test Automation Framework To The Interviewer(With 2 Examples)"
+    channel: "The Testing Academy"
 interview:
   - q: "System design: design a test automation platform for 20 product teams sharing a microservice system."
     a: I would start with requirements - how fast feedback must be, which test types run where, how many runs per day, and who owns what. Then I would describe layers. Teams write tests in their own repos using a shared core library that provides API clients, UI page objects, configuration and reporting hooks. A test data service creates and cleans data through APIs rather than shared fixtures. Ephemeral environments per pull request run the changed service with its dependencies in containers and stubs for the rest. A CI orchestration layer shards suites across runners and a browser grid. Every run publishes structured results to a central store, which feeds dashboards, flaky-test detection and quarantine with owners. I would close with trade-offs such as cost of ephemeral environments versus contention on shared ones.

@@ -25,6 +25,10 @@ references:
     url: https://huggingface.co/papers
   - title: NeurIPS — Paper Checklist Guidelines
     url: https://neurips.cc/public/guides/PaperChecklist
+videos:
+  - id: IY7PVEZVqtY
+    title: "Reading a Paper is Easier Than You Think"
+    channel: "Dario Tringali"
 interview:
   - q: How do you read a research paper you need to evaluate quickly?
     a: I use a three-pass approach. In the first pass of a few minutes I read the title, abstract, introduction, section headings and conclusion and glance at figures to learn the claim and whether it matters to me. In the second pass I read carefully but skip proofs, focusing on figures, tables, the experimental setup, baselines and what is actually being compared, and I note unfamiliar references. Only if I need to rely on or reproduce the work do I do a third pass, where I try to re-derive the method, check every assumption and think about how I would have designed the experiments.

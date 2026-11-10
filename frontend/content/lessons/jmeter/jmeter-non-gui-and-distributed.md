@@ -24,6 +24,13 @@ references:
     url: https://jmeter.apache.org/usermanual/generating-dashboard.html
   - title: Apache JMeter - Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
+videos:
+  - id: K26q5VgwLKk
+    title: "JMeter Beginner Tutorial 9 - How to run jmeter from Command Line (non GUI mode)"
+    channel: "Automation Step by Step"
+  - id: Ok8Cqc0wipk
+    title: "JMeter Beginner Tutorial 28 - Remote Testing | Master Slave | Distributed Testing"
+    channel: "Automation Step by Step"
 interview:
   - q: How do you run a JMeter test from the command line and produce the HTML report?
     a: jmeter -n -t plan.jmx -l results.jtl -e -o report/. -n is non-GUI mode, -t the test plan, -l the results file, -e generates the dashboard at the end and -o is the output folder, which must be empty or not exist. If I already have a results file I can generate the report later with jmeter -g results.jtl -o report/.

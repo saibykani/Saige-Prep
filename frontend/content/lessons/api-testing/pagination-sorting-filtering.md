@@ -21,6 +21,13 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
   - title: REST Assured — official site and documentation
     url: https://rest-assured.io/
+videos:
+  - id: WUICbOOtAic
+    title: "Web API Pagination | Offset-based vs Cursor-based"
+    channel: "Ambient Coder"
+  - id: 14K_a2kKTxU
+    title: "API Pagination: Making Billions of Products Scrolling Possible"
+    channel: "ByteByteGo"
 interview:
   - q: What is the difference between offset and cursor pagination?
     a: "Offset pagination asks for 'skip N, take M'. It is simple and lets clients jump to any page, but deep offsets get slower because the database still walks the skipped rows, and if records are inserted or deleted between requests, items can be skipped or duplicated. Cursor pagination returns an opaque cursor that encodes the position, usually the last item's sort key, and the next request continues after it. It is stable under inserts and efficient at depth, but you can't jump to an arbitrary page."

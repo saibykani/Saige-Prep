@@ -20,6 +20,13 @@ references:
     url: https://maven.apache.org/surefire/maven-surefire-plugin/examples/junit-platform.html
   - title: Selenium documentation
     url: https://www.selenium.dev/documentation/
+videos:
+  - id: flpmSXVTqBI
+    title: "Java Testing - JUnit 5 Crash Course"
+    channel: "freeCodeCamp.org"
+  - id: 6uSnF6IuWIw
+    title: "JUnit 5 Tutorial - Crash Course"
+    channel: "Marco Codes"
 interview:
   - q: What are the main components of JUnit 5?
     a: "JUnit 5 is JUnit Platform plus JUnit Jupiter plus JUnit Vintage. The Platform launches test engines and integrates with build tools and IDEs. Jupiter is the new programming model with annotations like @Test, @BeforeEach and @ParameterizedTest, plus the extension model. Vintage is an engine that runs older JUnit 3 and 4 tests on the Platform."

@@ -24,6 +24,16 @@ references:
     url: https://pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html
   - title: Hugging Face — LLM Course, How do Transformers work?
     url: https://huggingface.co/learn/llm-course/chapter1/4
+videos:
+  - id: wjZofJX0v4M
+    title: "Transformers, the tech behind LLMs | Deep Learning Chapter 5"
+    channel: "3Blue1Brown"
+  - id: eMlx5fFNoYc
+    title: "Attention in transformers, step-by-step | Deep Learning Chapter 6"
+    channel: "3Blue1Brown"
+  - id: iDulhoQ2pro
+    title: "Attention Is All You Need"
+    channel: "Yannic Kilcher"
 interview:
   - q: Explain scaled dot-product attention.
     a: Each token is projected into a query, a key and a value vector. For a given query, we take dot products with all keys to score how relevant each position is, divide by the square root of the key dimension to keep the scores in a range where softmax is not saturated, apply softmax to turn scores into weights that sum to one, and output the weighted sum of the value vectors. In matrix form it is softmax(QKᵀ / √d_k) V, optionally with a mask added before the softmax.

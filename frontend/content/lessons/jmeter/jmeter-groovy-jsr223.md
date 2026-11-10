@@ -22,6 +22,13 @@ references:
     url: https://jmeter.apache.org/usermanual/component_reference.html
   - title: Groovy documentation
     url: https://groovy-lang.org/documentation.html
+videos:
+  - id: 4nzKPx74Mo4
+    title: "Groovy for JMeter: A Comprehensive Guide to Automation and Testing"
+    channel: "Testing Funda by Zeeshan Asghar"
+  - id: ORVgM9dB2L4
+    title: "JMeter JSR223 PreProcessor Tutorial: Groovy Scripting & Dynamic Requests"
+    channel: "QA and Dev Tips"
 interview:
   - q: Why does the JMeter documentation recommend JSR223 with Groovy over BeanShell?
     a: Groovy scripts in JSR223 elements can be compiled once and cached when the language supports the Compilable interface, which Groovy does, so repeated execution is close to Java speed. BeanShell is interpreted on every execution, which costs much more CPU on the load generator at high sample rates. Groovy is also the default JSR223 language in modern JMeter and has convenient features such as JsonSlurper.

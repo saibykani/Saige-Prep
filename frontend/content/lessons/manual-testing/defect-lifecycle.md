@@ -20,6 +20,13 @@ references:
     url: https://www.atlassian.com/software/jira/guides
   - title: Bugzilla documentation (bug lifecycle and statuses)
     url: https://bugzilla.readthedocs.io/en/latest/
+videos:
+  - id: EZGDyFPHFMw
+    title: "Bug Life Cycle / Defect Life Cycle In Software Testing"
+    channel: "Software Testing Material"
+  - id: wJUQ45dGkS8
+    title: "Software Testing Tutorial #44 - Defect Life Cycle in Software Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: Walk me through a typical defect lifecycle.
     a: A tester logs a defect as New. In triage it is confirmed and assigned to a developer, who moves it to In Progress and then Fixed once the change is in a build. The tester retests it on that build — if the fix works it becomes Verified and then Closed, otherwise it is Reopened and goes back to the developer. From triage, a defect can also leave the main path as Rejected (not a defect), Duplicate (already reported) or Deferred (valid but postponed). Exact state names depend on the tool and team.

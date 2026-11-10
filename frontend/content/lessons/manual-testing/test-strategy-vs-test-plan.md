@@ -21,6 +21,16 @@ references:
     url: https://www.iso.org/standard/79429.html
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
+videos:
+  - id: RoncJ3S9gHY
+    title: "Software Testing Tutorial #40 - Test Plan vs Test Strategy"
+    channel: "Software Testing Mentor"
+  - id: VPnWoroH7yA
+    title: "Test Plan in Software Testing Detailed Explanation"
+    channel: "Software Testing Material"
+  - id: BYN6AFhR4GE
+    title: "One-Page Test Plan | Write Your Plan in Minutes"
+    channel: "Software Testing by Daniel Knott"
 interview:
   - q: What is the difference between a test strategy and a test plan?
     a: A test strategy is a high-level, relatively stable description of how testing is done across an organisation or programme — test levels, types, techniques, tools, environments, risk approach and standard criteria. A test plan applies that strategy to a specific project, release or test level. It names the scope, the people, the schedule, the specific risks, the environments and the entry and exit criteria for that piece of work. The strategy changes rarely; a plan is created per project and updated as the project changes.

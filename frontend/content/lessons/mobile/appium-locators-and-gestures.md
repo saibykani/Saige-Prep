@@ -23,6 +23,13 @@ references:
     url: https://developer.android.com/training/testing
   - title: Apple Developer Documentation — XCTest
     url: https://developer.apple.com/documentation/xctest
+videos:
+  - id: oAJ7jwMNFVU
+    title: "Swiping your way through Appium by Wim Selles #AppiumConf2021"
+    channel: "ConfEngine"
+  - id: VxbKaje9J3E
+    title: "Appium Scroll/Swipe | Horizontal & Vertical | using PointerInput & Sequence class"
+    channel: "qavbox"
 interview:
   - q: Which locator strategy do you prefer in Appium and why?
     a: Accessibility id first. On Android it maps to the content description and on iOS to the accessibility identifier, so one locator can often work on both platforms, it is fast and it is independent of layout. Next I use resource-id on Android or a predicate or class chain query on iOS. XPath is a last resort because it is evaluated against the whole page source, which is slow on large screens, and it breaks when layout changes. If an element has no good identifier, I ask developers to add one, which also helps accessibility.

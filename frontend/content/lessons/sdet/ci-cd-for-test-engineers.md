@@ -23,6 +23,13 @@ references:
     url: https://docs.github.com/en/actions
   - title: Jenkins User Documentation
     url: https://www.jenkins.io/doc/
+videos:
+  - id: AknbizcLq4w
+    title: "CI/CD Explained: The DevOps Skill That Makes You 10x More Valuable"
+    channel: "TechWorld with Nana"
+  - id: B7GM6F3BP6A
+    title: "CI/CD Made Simple: Build a Real Pipeline"
+    channel: "Traversy Media"
 interview:
   - q: What is the difference between continuous delivery and continuous deployment?
     a: Both keep the main branch in a releasable state by running every change through an automated pipeline. In continuous delivery, the final push to production is a deliberate human or business decision, often a single button. In continuous deployment, every change that passes all pipeline stages is released to production automatically with no manual step. Continuous deployment therefore needs much stronger automated gates, monitoring and rollback, because nobody looks at the change before customers do.

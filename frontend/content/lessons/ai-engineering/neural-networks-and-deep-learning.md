@@ -23,6 +23,13 @@ references:
     url: https://scikit-learn.org/stable/modules/neural_networks_supervised.html
   - title: PyTorch — Build the Neural Network
     url: https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html
+videos:
+  - id: aircAruvnKk
+    title: "But what is a neural network? | Deep learning chapter 1"
+    channel: "3Blue1Brown"
+  - id: IN2XmBhILt4
+    title: "Neural Networks Pt. 2: Backpropagation Main Ideas"
+    channel: "StatQuest with Josh Starmer"
 interview:
   - q: Why do neural networks need non-linear activation functions?
     a: A composition of linear layers is itself a single linear function, so without non-linearities a deep network is no more expressive than a linear model. Non-linear activations such as ReLU let stacked layers represent complex, non-linear decision boundaries and functions.

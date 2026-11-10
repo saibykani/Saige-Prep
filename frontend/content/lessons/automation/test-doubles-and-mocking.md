@@ -23,6 +23,16 @@ references:
     url: https://martinfowler.com/articles/mocksArentStubs.html
   - title: Playwright documentation — Mock APIs
     url: https://playwright.dev/docs/mock
+videos:
+  - id: NPp2pvhGbkM
+    title: "Unit Tests and Test Doubles like Mocks, Stubs & Fakes"
+    channel: "AI Build Trek"
+  - id: d2KwvXQgQx4
+    title: "Mockito Tutorial - Mocking With Junit and Maven"
+    channel: "in28minutes"
+  - id: oFBkzrwwwW8
+    title: "Mocks vs. Fakes vs. Stubs | Mocking in Java | Mock Frameworks | Geekific"
+    channel: "Geekific"
 interview:
   - q: What is the difference between a stub and a mock?
     a: "A stub supplies canned answers so the code under test can run, and the test checks the resulting state. A mock is set up with expectations about how it should be called, and the test verifies those interactions, for example that the email service was called once with this address. Stubs support state verification; mocks support behaviour verification."

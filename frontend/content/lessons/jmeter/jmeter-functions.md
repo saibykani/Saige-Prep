@@ -20,6 +20,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: Apache JMeter Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
+videos:
+  - id: gHYI_5lx1Sw
+    title: "JMeter Tutorial 21  | How to use JMeter Functions"
+    channel: "SQA World"
+  - id: 3O40Wg_tqEE
+    title: "JMeter Beginner Tutorial 16 - Functions and Variables"
+    channel: "Automation Step by Step"
 interview:
   - q: How would you generate a unique value per request in JMeter?
     a: "For true uniqueness I use ${__UUID()}, which returns a random type-4 UUID. If I need readable sequential ids I use ${__counter(FALSE,)} which is global across threads, optionally combined with ${__threadNum} or ${__time()}. __Random alone is not unique because random numbers can repeat."

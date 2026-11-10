@@ -21,6 +21,13 @@ references:
     url: https://cucumber.io/docs/
   - title: The Scrum Guide
     url: https://www.scrumguides.org/
+videos:
+  - id: Vz7TQ3eAQiU
+    title: "Requirements Analysis In Software Engineering-Requirement Analysis In Software Testing-Requirements"
+    channel: "Software and Testing Training"
+  - id: IBqO6aUkJSE
+    title: "Functional vs Non-functional Requirements | Requirement Engineering | Software Engineering"
+    channel: "Gate Smashers"
 interview:
   - q: How do you review a user story before development starts?
     a: I read it from three angles. Clarity - are there vague words like fast, user-friendly or appropriate, undefined terms, or pronouns with unclear references. Completeness - what about errors, empty states, permissions, limits, concurrency and non-functional needs. Testability - can each acceptance criterion be verified with an objective pass or fail. I turn gaps into concrete questions with proposed examples, discuss them with the product owner and developer, and make sure the answers end up in the acceptance criteria rather than in a chat thread.

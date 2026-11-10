@@ -24,6 +24,13 @@ references:
     url: https://docs.ragas.io/en/stable/
   - title: scikit-learn — cohen_kappa_score
     url: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.cohen_kappa_score.html
+videos:
+  - id: trfUBIDeI1Y
+    title: "LLM as a Judge: Scaling AI Evaluation Strategies"
+    channel: "IBM Technology"
+  - id: q2JrUKBMf0w
+    title: "The Future of Evals: From LLM as a Judge to Agent as a Judge — Aparna Dhinakaran, Arize AI"
+    channel: "AI Engineer"
 interview:
   - q: How do you know an LLM judge can be trusted?
     a: I treat the judge as a measurement instrument that must be validated. Domain experts label a representative sample using the same rubric, ideally with two labellers per item so I know human agreement. I run the judge on the same items and measure agreement with accuracy, Cohen's kappa and a confusion matrix, focusing on the costly error direction, usually the judge passing answers humans failed. I iterate on the rubric and judge prompt using a development split and confirm on a held-out split. I recalibrate when the judge model, rubric or product domain changes, and keep sampling human reviews in production.

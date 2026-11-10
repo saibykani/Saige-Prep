@@ -21,6 +21,10 @@ references:
     url: https://glossary.istqb.org/
   - title: Ruff documentation (an example static analysis tool for Python)
     url: https://docs.astral.sh/ruff/
+videos:
+  - id: 1-XaY37se0k
+    title: "ISTQB FOUNDATION 4.0 | Tutorial 24 | Static Testing vs Dynamic Testing | Static Testing Defects"
+    channel: "TM SQUARE"
 interview:
   - q: What is the difference between static and dynamic testing?
     a: Static testing examines work products such as requirements, designs and code without executing them, through manual reviews or tool-based static analysis. It finds defects directly. Dynamic testing executes the software and observes its behaviour, so it finds failures, which are then analysed to locate the defects. They complement each other because each finds kinds of problems the other misses.

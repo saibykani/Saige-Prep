@@ -23,6 +23,16 @@ references:
     url: https://github.com/dequelabs/axe-core
   - title: Playwright documentation — Accessibility testing
     url: https://playwright.dev/docs/accessibility-testing
+videos:
+  - id: x8ST9a-eSFg
+    title: "What is Accessibility Testing & Automate using Selenium WebDriver | Axe Selenium Java Library| Deque"
+    channel: "Naveen AutomationLabs"
+  - id: cs5-Kk9nQDA
+    title: "Add accessibility checks to your Playwright end-to-end tests"
+    channel: "Checkly"
+  - id: Oy44NA1F5u4
+    title: "Accessibility Testing with Axe"
+    channel: "Sparkbox"
 interview:
   - q: Can automated tools make a site fully accessible?
     a: "No. Automated rules reliably catch issues such as missing alternative text, insufficient colour contrast, missing form labels, invalid ARIA and duplicate ids, but many WCAG criteria need human judgement: whether alt text is meaningful, whether focus order is logical, whether content makes sense with a screen reader. Automation is a fast safety net; manual keyboard and screen reader testing remain essential."

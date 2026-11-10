@@ -19,6 +19,16 @@ references:
     url: https://learning.postman.com/docs/getting-started/overview/
   - title: Postman Learning Center
     url: https://learning.postman.com/
+videos:
+  - id: FWYKOR0Zj28
+    title: "Advanced workflows (request chaining) with Postman"
+    channel: "Valentin Despa"
+  - id: oXW-C2bM0wE
+    title: "How to Write and Automate API Tests in Postman with Proven Strategies"
+    channel: "Postman"
+  - id: 1ls5Dr5SOxw
+    title: "Master Postman Pre-request Scripts in Under 30 Minutes"
+    channel: "Postman"
 interview:
   - q: How do you pass a value from one Postman request to another?
     a: "In the first request's post-response (Tests) script I parse the response with pm.response.json(), extract the value and store it with pm.environment.set or pm.collectionVariables.set. The next request references it as a double-curly-brace variable in its URL, header or body. I also assert the value exists before setting it, so a failed first request produces a clear failure instead of a confusing 404 later."

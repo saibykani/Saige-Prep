@@ -23,6 +23,13 @@ references:
     url: https://docs.ragas.io/
   - title: OWASP Top 10 for Large Language Model Applications
     url: https://genai.owasp.org/llm-top-10/
+videos:
+  - id: 7_LTU0LA374
+    title: "RAG Evaluation: Precision, Recall, Faithfulness, RAGAS Explained Clearly"
+    channel: "Logical Lenses"
+  - id: mEv-2Xnb_Wk
+    title: "Session 7: RAG Evaluation with RAGAS and How to Improve Retrieval"
+    channel: "AI Makerspace"
 interview:
   - q: How do you evaluate a RAG system?
     a: I evaluate retrieval and generation separately, then end to end. For retrieval I build a dataset of questions labelled with the documents or chunks that contain the answer, and measure recall at k, precision at k and the rank of the first relevant result. For generation I check faithfulness, every claim supported by the retrieved context, answer relevance, and whether citations point to the right sources. I include questions with no answer in the knowledge base to check the system says it does not know instead of inventing something.

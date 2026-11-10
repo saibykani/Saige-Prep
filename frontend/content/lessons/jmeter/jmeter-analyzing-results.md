@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/best-practices.html
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
+videos:
+  - id: atzO7GqDAd8
+    title: "How to Prepare and Analyze Load Test Report -Step by step #performancetesting #performancetestreport"
+    channel: "Vasanth Tech Talk"
+  - id: aJUeJzKNwPc
+    title: "JMeter tutorial #10 | JMeter Aggregate Report"
+    channel: "Testing Funda by Zeeshan Asghar"
 interview:
   - q: How do you identify the saturation point from a JMeter test?
     a: "I run a stepped or ramping load and plot throughput and response time against active threads. While the system has spare capacity, throughput rises roughly in proportion to threads and response time stays flat. At saturation throughput flattens, response time climbs, and often errors start; by Little's Law extra threads only add queueing. I confirm it with server metrics such as CPU, connection pools or database waits, because JMeter alone shows the symptom, not the cause."

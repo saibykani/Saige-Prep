@@ -23,6 +23,13 @@ references:
     url: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
   - title: MDN HTTP response status codes
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+videos:
+  - id: VyNGXjTuvCU
+    title: "Difference Between Positive Testing and Negative Testing With real time examples"
+    channel: "Testing Duniya"
+  - id: mGaPD8wBRno
+    title: "What is Positive and Negative Testing | Difference between positive and negative testing"
+    channel: "Automation Testing Insider"
 interview:
   - q: What is the difference between positive and negative testing?
     a: Positive testing uses valid inputs and expected user behaviour to confirm the system does what it is supposed to do. Negative testing uses invalid inputs, unexpected actions or abnormal conditions to confirm the system handles them gracefully by rejecting them with a clear message, keeping data consistent and not crashing or exposing information. Both are needed, and in terms of EP they map to valid and invalid partitions.

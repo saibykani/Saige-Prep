@@ -23,6 +23,13 @@ references:
     url: https://docs.github.com/en/actions
   - title: Jenkins documentation
     url: https://www.jenkins.io/doc/
+videos:
+  - id: JtoN-_UFzfc
+    title: "What is Shift Left Testing | Shift Left Testing Approach in Agile"
+    channel: "Software Testing Mentor"
+  - id: RYQbmjLgubM
+    title: "What is Continuous Testing?"
+    channel: "IBM Technology"
 interview:
   - q: What does shift-left mean, and what can a manual tester do to shift left?
     a: Shift-left means performing testing activities earlier in the lifecycle so defects are prevented or found when they are cheapest to fix. A manual tester can review requirements and designs for ambiguity and missing cases, turn rules into concrete examples and acceptance criteria during refinement, review API contracts and wireframes, take part in code or pull-request reviews for test coverage, test feature branches as soon as they build, and help define what should be automated at the unit and API level. It is about moving thinking earlier, not just moving execution earlier.

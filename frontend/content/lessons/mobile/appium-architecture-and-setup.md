@@ -24,6 +24,13 @@ references:
     url: https://developer.apple.com/documentation/xctest
   - title: W3C WebDriver specification
     url: https://www.w3.org/TR/webdriver/
+videos:
+  - id: SqBLb6tpOug
+    title: "1 | Appium 2 architecture | Android platform | In Detail | W3C WebDriver Protocol |"
+    channel: "Automation In Detail"
+  - id: bu_7YCDa4YA
+    title: "📱 Appium 2.0 Full Course for Beginners | Real Device + Emulator + BrowserStack"
+    channel: "Vinoth Rathinam"
 interview:
   - q: Explain Appium's architecture.
     a: Appium is an HTTP server that implements the W3C WebDriver protocol. A test written with an Appium client library sends WebDriver commands to the server. The server routes each session to a driver chosen by the automationName capability. The driver translates commands into the platform's own automation technology. The UiAutomator2 driver installs a helper server on the Android device that uses Google's UI Automator, and the XCUITest driver runs WebDriverAgent, built on Apple's XCTest, on the iOS device or simulator. Since Appium 2, drivers and plugins are installed separately from the server.

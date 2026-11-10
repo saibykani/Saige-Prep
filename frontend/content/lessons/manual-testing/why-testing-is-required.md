@@ -18,6 +18,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms
     url: https://glossary.istqb.org/
+videos:
+  - id: TTBNMH8igEU
+    title: "Software Testing Tutorial #4 - Importance of Software Testing"
+    channel: "Software Testing Mentor"
+  - id: pcTS5I5kpEs
+    title: "Why Software Testing?"
+    channel: "Telusko"
 interview:
   - q: Why is software testing necessary if developers are skilled?
     a: Skill reduces mistakes but does not eliminate them. Requirements can be ambiguous, systems are complex, deadlines create pressure and integrations behave unexpectedly. Testing is an independent check that finds defects before users do, gives stakeholders evidence about quality and reduces the risk of failures in production.

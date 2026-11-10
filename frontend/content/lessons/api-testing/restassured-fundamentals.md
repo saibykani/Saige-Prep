@@ -23,6 +23,13 @@ references:
     url: https://junit.org/junit5/docs/current/user-guide/
   - title: Maven — Getting started guides
     url: https://maven.apache.org/guides/
+videos:
+  - id: vmoin6F0R1M
+    title: "API automation using Rest Assured - Zero to hero in 20 minutes"
+    channel: "Fun Doo Testers"
+  - id: oVNbaBlrhbo
+    title: "REST Assured Beginner Tutorial 1 | Getting Started | What is Rest Assured"
+    channel: "Automation Step by Step"
 interview:
   - q: Explain given, when and then in RestAssured.
     a: "given() builds the request — base URI, headers, auth, query and path parameters, body. when() performs the HTTP call with a method such as get or post. then() returns a ValidatableResponse for assertions like statusCode(201), header checks and body(path, matcher). The structure mirrors Gherkin, keeping setup, action and verification visibly separate."

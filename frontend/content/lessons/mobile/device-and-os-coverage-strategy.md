@@ -21,6 +21,13 @@ references:
     url: https://developer.apple.com/documentation/xctest
   - title: Appium documentation
     url: https://appium.io/docs/en/latest/
+videos:
+  - id: dtRk-yvr90U
+    title: "Mobile Applications Testing – Challenges, Approach & Strategy"
+    channel: "eVideoTuition"
+  - id: qeFWCYc7u3E
+    title: "Android Testing Strategies"
+    channel: "Android Developers"
 interview:
   - q: How would you decide which devices to test on for a new release?
     a: I start from our own analytics, not general market data, to see which OS versions, device models, screen sizes and manufacturers our users actually have. I combine that with risk, such as the minimum supported OS version, devices with known issues, small screens and low memory, and anything new like a just-released OS version. Then I group devices into tiers, run the full regression on tier one, smoke and key journeys on tier two, and use emulators or a device cloud for broader sanity checks. The matrix is reviewed every release or quarter.

@@ -17,6 +17,8 @@ const csp = [
   "font-src 'self' data:",
   "connect-src 'self'",
   "worker-src 'self' blob:",
+  // Lesson videos: click-to-load, privacy-enhanced YouTube embeds only.
+  "frame-src https://www.youtube-nocookie.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

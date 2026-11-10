@@ -23,6 +23,16 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
   - title: OWASP API Security Top 10 (2023)
     url: https://owasp.org/API-Security/
+videos:
+  - id: XAccGbtl3Z8
+    title: "Idempotency - What it is and How to Implement it"
+    channel: "Alex Hyett"
+  - id: I08syTslan8
+    title: "What is API Idempotency and Why Is It Important?"
+    channel: "Be A Better Dev"
+  - id: mQCJJqUfn9Y
+    title: "Five Rate Limiting Algorithms ~ Key Concepts in System Design"
+    channel: "Hello Byte"
 interview:
   - q: How does an idempotency key work, and how would you test it?
     a: "The client generates a unique key, usually a UUID, and sends it in a header such as Idempotency-Key with a non-idempotent request like POST /payments. The server stores the key with the outcome; if the same key arrives again, it returns the stored result instead of executing again. I test that a repeated request with the same key and body creates one payment and returns the same response, that the same key with a different body is rejected, that concurrent duplicates still produce one payment, and that keys expire as documented."

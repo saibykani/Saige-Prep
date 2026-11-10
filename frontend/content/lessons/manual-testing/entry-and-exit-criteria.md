@@ -20,6 +20,13 @@ references:
     url: https://glossary.istqb.org/
   - title: The Scrum Guide (Definition of Done)
     url: https://www.scrumguides.org/
+videos:
+  - id: kLsCWhBxgyw
+    title: "Entry and Exit Criteria In Software Testing"
+    channel: "Software Testing Material"
+  - id: -G0Cw4y2o-8
+    title: "Entry and Exit Criteria in Software Testing Life Cycle"
+    channel: "Software Testing 101"
 interview:
   - q: What are entry and exit criteria?
     a: Entry criteria are the preconditions for starting a test activity — for example a stable build that passes smoke tests, an available environment, test data, and reviewed test cases. Exit criteria define what must be achieved to declare the activity complete — for example planned tests executed, coverage targets met, no open critical defects, and remaining defects reviewed. Both are agreed in the test plan so starting and stopping are objective decisions rather than arguments.

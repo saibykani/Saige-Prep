@@ -23,6 +23,10 @@ references:
     url: https://pages.nist.gov/800-63-4/sp800-63b.html
   - title: OWASP Web Security Testing Guide
     url: https://owasp.org/www-project-web-security-testing-guide/
+videos:
+  - id: PExSG4oyf9Q
+    title: "Test Cases for Password and Forgot Password Functionality | ArtOfTesting"
+    channel: "ArtOfTesting"
 interview:
   - q: How do you test a forgot-password feature?
     a: I test the request step, the token and the reset step separately. For the request, the response must be identical for registered and unregistered emails, and requests should be rate limited. For the token, it must be random, single use, expire after the stated time, and be invalidated when a newer token is issued or the password changes. The link must point at the real site domain regardless of request headers. For the reset step, password rules apply, the old password stops working, and depending on policy other sessions are signed out and the user is notified. All of this on an environment I am authorised to test.

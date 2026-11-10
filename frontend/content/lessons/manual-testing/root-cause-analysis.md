@@ -21,6 +21,13 @@ references:
     url: https://sre.google/books/
   - title: ISTQB Glossary (root cause, root cause analysis)
     url: https://glossary.istqb.org/
+videos:
+  - id: zvkYFZUsBnw
+    title: "Learn to Use the 5 Whys Root Cause Analysis Problem Solving Tool"
+    channel: "Velaction Continuous Improvement"
+  - id: 387chd8p54c
+    title: "Whiteboard: Cause and Effect Diagrams"
+    channel: "IHI Open School"
 interview:
   - q: What is root cause analysis and when would you do it?
     a: RCA is a structured investigation into why a defect occurred and why it was not caught earlier, so that the underlying cause can be removed. I would use it for production incidents, escaped high-severity defects, repeated defects in the same area, or a trend such as many requirement-related defects. It is not worth doing for every cosmetic bug.

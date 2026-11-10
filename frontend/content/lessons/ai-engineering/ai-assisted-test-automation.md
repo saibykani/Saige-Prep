@@ -27,6 +27,13 @@ references:
     url: https://playwright.dev/docs/aria-snapshots
   - title: OWASP GenAI Security Project — Top 10 for LLM Applications
     url: https://genai.owasp.org/llm-top-10/
+videos:
+  - id: IixdI2bTR1g
+    title: "Let AI Explore Your Site & Write Tests with Playwright MCP!"
+    channel: "Playwright"
+  - id: MIlcVo1x3Is
+    title: "Generating Playwright Tests With AI: Let's Try the New Playwright MCP Server!"
+    channel: "Checkly"
 interview:
   - q: How do you use AI to write automated tests without lowering quality?
     a: I treat AI output as a draft from a fast junior contributor. I give it the requirement, the real page structure such as an accessibility snapshot, and our conventions, and ask for structured output. Then a human reviews every test against a checklist, checking that it asserts the requirement and not just what the page currently does, uses role-based locators, has no hard waits, and does not invent behaviour. I run it repeatedly to catch flakiness and break the feature deliberately to prove the test fails. Only then does it merge, with the human reviewer accountable for it.

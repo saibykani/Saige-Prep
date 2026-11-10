@@ -21,6 +21,13 @@ references:
     url: https://playwright.dev/docs/intro
   - title: Selenium documentation
     url: https://www.selenium.dev/documentation/
+videos:
+  - id: COTmQt2EZek
+    title: "Software Testing Tutorial #14 - What is System Testing"
+    channel: "Software Testing Mentor"
+  - id: 68xvfrxlEYo
+    title: "End to End Testing - Explained"
+    channel: "Mehul Mohan"
 interview:
   - q: What is system testing and who usually performs it?
     a: System testing evaluates the overall behaviour and capabilities of the whole integrated system, including both functional and non-functional characteristics, against the system requirements and use cases. It is usually performed by independent testers in an environment that resembles production as closely as possible, because the aim is to check how the complete product behaves, not just individual pieces.

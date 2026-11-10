@@ -20,6 +20,10 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: Jira guides (issue priority and fields)
     url: https://www.atlassian.com/software/jira/guides
+videos:
+  - id: HW_tnUnUav8
+    title: "Severity and Priority in Software Testing"
+    channel: "Software Testing Material"
 interview:
   - q: What is the difference between severity and priority?
     a: Severity is the degree of impact a defect has on the system or user — a crash or data loss is high severity, a typo is low. Priority is the order in which it should be fixed, which depends on business factors such as how many users are affected, deadlines, visibility and workarounds. Testers usually propose severity based on technical impact; the product owner or triage group sets priority. They are separate because a minor technical issue can be urgent and a serious one can wait.

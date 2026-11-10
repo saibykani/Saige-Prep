@@ -21,6 +21,13 @@ references:
     url: https://www.selenium.dev/documentation/selenium_manager/
   - title: Selenium documentation — Grid
     url: https://www.selenium.dev/documentation/grid/
+videos:
+  - id: 8fm5sJ_P90Y
+    title: "Selenium 4 - What is W3C WebDriver Architecture? || No More JSON Wire Protocol - Whiteboard Learning"
+    channel: "Naveen AutomationLabs"
+  - id: HjYEjKWSbe8
+    title: "Selenium 4 Beginner Tutorial 1 | Introduction, Setup & Browser Actions | Step by Step"
+    channel: "Automation Step by Step"
 interview:
   - q: Explain Selenium WebDriver's architecture.
     a: "The test calls a language binding such as the Java client. The binding translates each call into a W3C WebDriver HTTP request with a JSON body and sends it to a driver: chromedriver, geckodriver, msedgedriver or safaridriver, or to a Selenium Grid that forwards it to one. The driver controls the browser through the browser's own automation interface and returns a JSON response, which the binding turns into a return value or an exception."

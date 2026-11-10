@@ -20,6 +20,16 @@ references:
     url: https://www.postgresql.org/docs/current/tutorial-window.html
   - title: PostgreSQL Documentation — Aggregate Functions
     url: https://www.postgresql.org/docs/current/functions-aggregate.html
+videos:
+  - id: aY7z4HcHm5M
+    title: "SQL Joins Basics (Visually Explained) | INNER, LEFT, RIGHT, FULL | #SQL Course 8"
+    channel: "Data with Baraa"
+  - id: FjxtntY5sO0
+    title: "How to Join Tables in SQL | Clearly Explained | Beginners Start Here!"
+    channel: "Maven Analytics"
+  - id: VQf0V6Wwbf4
+    title: "GROUP BY and HAVING Clause in SQL"
+    channel: "Neso Academy"
 interview:
   - q: What is the difference between INNER JOIN and LEFT JOIN?
     a: INNER JOIN returns only rows where the join condition matches in both tables. LEFT JOIN returns every row from the left table, and for left rows with no match it fills the right table's columns with NULL. So to find customers who have never ordered, I LEFT JOIN customers to orders and keep rows where the order key IS NULL, an anti-join.

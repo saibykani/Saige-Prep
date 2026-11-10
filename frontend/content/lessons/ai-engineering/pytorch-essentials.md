@@ -25,6 +25,16 @@ references:
     url: https://pytorch.org/docs/stable/notes/randomness.html
   - title: PyTorch — Get Started (installation)
     url: https://pytorch.org/get-started/locally/
+videos:
+  - id: fJ40w_2h8kk
+    title: "What is PyTorch? (Machine/Deep Learning)"
+    channel: "IBM Technology"
+  - id: V_xro1bcAuA
+    title: "PyTorch for Deep Learning & Machine Learning – Full Course"
+    channel: "freeCodeCamp.org"
+  - id: ORMx45xqWkA
+    title: "PyTorch in 100 Seconds"
+    channel: "Fireship"
 interview:
   - q: Why do we call optimizer.zero_grad() in each training step?
     a: PyTorch accumulates gradients into each parameter's .grad attribute on every backward call. Without zeroing, gradients from previous batches are added to the current ones, giving incorrect updates. Zeroing once per step, before or after the update, keeps each step's gradient correct. Accumulation is sometimes used deliberately to simulate bigger batches.

@@ -21,6 +21,16 @@ references:
     url: https://playwright.dev/docs/trace-viewer
   - title: IntelliJ IDEA — Debugging code
     url: https://www.jetbrains.com/help/idea/debugging-code.html
+videos:
+  - id: yP6AnTxC34s
+    title: "Exploring Playwright's Trace Viewer for debugging locally and on CI"
+    channel: "Playwright"
+  - id: tJF7UhA59Gc
+    title: "Debugging Playwright tests in VS Code"
+    channel: "Playwright"
+  - id: Ea4aZB0Zlsw
+    title: "Playwright Beginner Tutorial 6 | How to use Trace Viewer"
+    channel: "Automation Step by Step"
 interview:
   - q: A test failed in last night's run. Walk me through what you do.
     a: "I read the failure message and stack trace to find the failing line in our code, then look at the evidence: screenshot, logs, trace, environment and build. I check whether it fails consistently and whether other tests failed the same way, which points to environment. I reproduce locally on the same build, narrow down with breakpoints or extra logging, decide whether it is a product bug, test bug or environment issue, and then fix the test or raise a defect with evidence."

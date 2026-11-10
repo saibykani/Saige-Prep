@@ -21,6 +21,13 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Testing
   - title: Can I use (browser support tables)
     url: https://caniuse.com/
+videos:
+  - id: mOB2bDKfxJc
+    title: "How to Do Cross Browser Compatibility Testing: Step-by-Step Guide"
+    channel: "Software Testing Tips & Trends — aqua cloud"
+  - id: igUJsWDKowM
+    title: "Network Throttling using Chrome Devtools"
+    channel: "Nidhin Kumar"
 interview:
   - q: How do you decide which browsers to test?
     a: I start from the product's analytics and target market, plus any contractual requirements. I make sure each main engine is covered - Chromium (Chrome, Edge), Gecko (Firefox) and WebKit (Safari, and all browsers on iOS) - on the main platforms and screen sizes. High-risk flows get the full matrix; the rest get the primary browser plus spot checks. I review the matrix periodically as usage changes.

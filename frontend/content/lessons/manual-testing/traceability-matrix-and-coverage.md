@@ -20,6 +20,13 @@ references:
     url: https://glossary.istqb.org/
   - title: Jira guides
     url: https://www.atlassian.com/software/jira/guides
+videos:
+  - id: cm-cSW66Isc
+    title: "Requirement Traceability Matrix (RTM) in Software Testing"
+    channel: "Guru99"
+  - id: Zc7AS2vSrrY
+    title: "Manual Testing- Requirement Traceability Matrix(RTM)"
+    channel: "SDET- QA"
 interview:
   - q: What is a requirements traceability matrix and why is it useful?
     a: It is a table, or tool-generated view, that links each requirement to the test cases that cover it, their latest results and any linked defects. It shows which requirements have no tests, which tests no longer map to a requirement, the impact of a requirement change, and the test status of each requirement for reporting and sign-off. In regulated domains it is often an audit requirement.

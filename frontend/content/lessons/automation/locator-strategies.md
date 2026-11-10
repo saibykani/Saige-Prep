@@ -21,6 +21,13 @@ references:
     url: https://www.selenium.dev/documentation/webdriver/elements/finders/
   - title: Playwright documentation — Locators (for comparison)
     url: https://playwright.dev/docs/locators
+videos:
+  - id: HBOdscUwUnc
+    title: "Selenium Locators - Part 1 | ID, Name, Link Text, Partial Link Test, Tag Name, Class & CSS Selector"
+    channel: "SDET- QA"
+  - id: lYHR8WXbVuc
+    title: "Selenium XPath | How to create Dynamic Xpath?"
+    channel: "Ethesh"
 interview:
   - q: What is your locator preference order and why?
     a: "First a unique, stable id or a dedicated test attribute such as data-testid, because they exist for identification and rarely change with styling. Then name or other meaningful attributes. Then short CSS selectors anchored on stable attributes. XPath when I need text matching or to walk up the tree. I avoid absolute XPath and selectors tied to layout or generated class names, because they break when the page structure or styling changes."

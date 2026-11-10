@@ -21,6 +21,13 @@ references:
     url: https://www.postgresql.org/docs/current/tutorial-transactions.html
   - title: PostgreSQL Documentation — Transaction Isolation
     url: https://www.postgresql.org/docs/current/transaction-iso.html
+videos:
+  - id: Q3SnLBVWOGI
+    title: "Part1- Database Testing Overview | Backend Testing | Practical Approach"
+    channel: "SDET- QA"
+  - id: FAb3kB2LO2Y
+    title: "SQL Queries and Database Testing - Learn Basics in 10 minutes!"
+    channel: "Software Testing with Ozan Ilhan | NomadTester"
 interview:
   - q: What does ACID stand for and how would you test atomicity?
     a: Atomicity, Consistency, Isolation and Durability. Atomicity means a transaction's changes are applied completely or not at all. To test it I force a failure part-way through a multi-step operation, for example a funds transfer where the debit succeeds and the credit hits a constraint violation or an injected fault, and then verify that neither account changed. I check balances before and after, and that no partial records such as an orphaned ledger entry remain.

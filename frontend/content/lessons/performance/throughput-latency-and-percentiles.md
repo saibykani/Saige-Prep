@@ -21,6 +21,13 @@ references:
     url: https://sre.google/books/
   - title: Grafana documentation
     url: https://grafana.com/docs/
+videos:
+  - id: lJ4NEMNBeS4
+    title: "Mastering Latency Metrics: P90, P95, P99 | System Design"
+    channel: "ByteMonk"
+  - id: wx74pCFFAE0
+    title: "#5 - What is 90th AND 95th Percentile in Load Testing || K6 Performance Metrics"
+    channel: "Naveen AutomationLabs"
 interview:
   - q: Why do performance engineers prefer percentiles over averages?
     a: The mean is pulled by a few very slow requests but also hides them, because it blends them into one number that no real user experienced. A p95 of 800 ms says 95% of requests completed in 800 ms or less, which maps directly to user experience and to SLOs. I usually report p50 for the typical case and p95 or p99 for the tail, alongside throughput and error rate.

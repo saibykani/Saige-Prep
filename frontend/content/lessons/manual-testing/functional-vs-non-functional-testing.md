@@ -23,6 +23,13 @@ references:
     url: https://www.w3.org/WAI/standards-guidelines/wcag/
   - title: OWASP Top Ten
     url: https://owasp.org/www-project-top-ten/
+videos:
+  - id: j_79AXkG4PY
+    title: "Functional Testing vs Non-Functional Testing | Software Testing Training | Edureka"
+    channel: "edureka!"
+  - id: NgQT7miTP9M
+    title: "Testing basics | Functional vs non-functional"
+    channel: "CircleCI"
 interview:
   - q: What is the difference between functional and non-functional testing?
     a: Functional testing evaluates the functions a system should perform, what it does, against functional requirements, for example that a transfer moves the right amount between the right accounts. Non-functional testing evaluates attributes other than functional characteristics, how well the system behaves, such as performance efficiency, usability, security, reliability, compatibility, maintainability and portability. Both can be done at every test level.

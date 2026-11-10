@@ -21,6 +21,10 @@ references:
     url: https://www.selenium.dev/documentation/webdriver/
   - title: Playwright documentation — Auto-waiting (for comparison)
     url: https://playwright.dev/docs/actionability
+videos:
+  - id: PbuWyuEf8ts
+    title: "Session 27 - Selenium with Java | WebDriver Waiting Methods"
+    channel: "SDET- QA"
 interview:
   - q: Explain the difference between implicit and explicit waits.
     a: "An implicit wait is a session-wide setting: every findElement call polls the DOM for up to that time before throwing NoSuchElementException. It only covers element presence. An explicit wait, WebDriverWait, waits for a specific condition, such as visible, clickable, text present or URL changed, at one specific point, and throws TimeoutException if it does not happen in time. Explicit waits are more precise and are the recommended default."

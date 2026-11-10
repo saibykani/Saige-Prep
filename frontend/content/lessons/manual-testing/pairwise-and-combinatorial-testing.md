@@ -21,6 +21,16 @@ references:
     url: https://github.com/microsoft/pict
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
     url: https://www.iso.org/standard/79430.html
+videos:
+  - id: jlOcUOK3gNQ
+    title: "The Power of Pairwise Testing: Maximize Coverage, Minimize Effort!"
+    channel: "Testing.Business"
+  - id: husQ7bqxVc8
+    title: "Software Testing Tutorial - What is pairwise testing? [YouTube Example]"
+    channel: "Fun Doo Testers"
+  - id: vbXzLohMcQI
+    title: "Combinatorial Testing Basics"
+    channel: "CombinatorialTesting"
 interview:
   - q: What is pairwise testing and why does it work?
     a: Pairwise testing selects a set of tests in which every possible pair of values for every pair of parameters appears at least once. It works because many configuration and input defects are triggered by a single value or by the interaction of two values, so covering all pairs catches them with far fewer tests than the full Cartesian product. It does not guarantee finding defects that need three or more specific values together.

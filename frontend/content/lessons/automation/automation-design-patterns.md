@@ -21,6 +21,16 @@ references:
     url: https://serenity-bdd.github.io/docs/screenplay/screenplay_fundamentals
   - title: Playwright documentation — Page object models
     url: https://playwright.dev/docs/pom
+videos:
+  - id: MA9fISK2BHY
+    title: "Core Test Automation Framework Strategy for Web/API/Mobile Applications"
+    channel: "Naveen AutomationLabs"
+  - id: nCBtBcGQT7A
+    title: "#1 -Selenium Framework Design patterns | Introduction with Intellij Project Setup"
+    channel: "Rahul Shetty Academy"
+  - id: LJuWQm8OvAY
+    title: "Singleton Pattern With Selenium WebDriver + Java + TestNG"
+    channel: "Naveen AutomationLabs"
 interview:
   - q: Which design patterns have you used in a test framework, and why?
     a: "Page Object to isolate UI mechanics; a Factory to create the right WebDriver from configuration; Builder for readable test data such as a user with only the fields that matter; Strategy to swap behaviours like local versus remote execution; and a Facade that combines several page or API steps into one business action. Each one removed duplication or made a change local."

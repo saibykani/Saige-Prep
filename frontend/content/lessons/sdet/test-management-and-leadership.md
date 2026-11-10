@@ -23,6 +23,13 @@ references:
     url: https://agilemanifesto.org/
   - title: DORA capabilities and research
     url: https://dora.dev/
+videos:
+  - id: P0T9IL2U8Zk
+    title: "Roadmap for Advancement in QA Lead Role"
+    channel: "The Testing Academy"
+  - id: w_PUfz_cRBw
+    title: "Real Time Scenario Based Interview Questions & Answers for Test Leads/Managers - Part 1"
+    channel: "Software Testing Mentor"
 interview:
   - q: How do you decide what to test when there is not enough time to test everything?
     a: I use risk. With the product owner and developers I list product risks and rate each on likelihood and impact, using information such as change size, complexity, defect history and business criticality. High-risk areas get deeper and earlier testing, low-risk areas get lighter coverage or rely on existing automation. I make the trade-off explicit - what we will test, what we will not, and the residual risk - and get the decision-makers to accept it, rather than silently cutting corners.

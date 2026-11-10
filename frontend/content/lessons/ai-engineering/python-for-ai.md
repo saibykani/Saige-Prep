@@ -24,6 +24,13 @@ references:
     url: https://numpy.org/doc/stable/user/basics.broadcasting.html
   - title: pandas — 10 minutes to pandas
     url: https://pandas.pydata.org/docs/user_guide/10min.html
+videos:
+  - id: r-uOLxNrNk8
+    title: "Data Analysis with Python - Full Course for Beginners (Numpy, Pandas, Matplotlib, Seaborn)"
+    channel: "freeCodeCamp.org"
+  - id: EXIgjIBu4EU
+    title: "Learn Pandas in 30 Minutes - Python Pandas Tutorial"
+    channel: "Tech With Tim"
 interview:
   - q: Why is NumPy vectorisation faster than a Python for loop?
     a: A NumPy operation such as a + b runs a loop in compiled C over a contiguous block of memory with a single data type, avoiding the per-element overhead of the Python interpreter, type checks and object boxing. A Python loop does that overhead for every element. Vectorised code is also shorter and closer to the maths.

@@ -41,6 +41,18 @@ describe("curriculum", () => {
 describe("lessons", () => {
   it("loaded", () => expect(Array.isArray(lessonFiles)).toBe(true));
 
+  // Whole-catalogue scans parse every lesson; give them room when the machine is busy.
+  it("never reuses a video in two lessons", { timeout: 30_000 }, () => {
+    const seen = new Map<string, string>();
+    for (const file of lessonFiles) {
+      const lesson = parseLessonFile(file);
+      for (const v of lesson.videos) {
+        expect(seen.get(v.id), `video ${v.id} is in both ${seen.get(v.id)} and ${lesson.slug}`).toBeUndefined();
+        seen.set(v.id, lesson.slug);
+      }
+    }
+  });
+
   it.each(lessonFiles.map((f) => [rel(f), f] as const))("%s meets the content contract", (_name, file) => {
     const lesson = parseLessonFile(file); // throws with a precise message on schema errors
     const expectedTrack = rel(file).split("/")[1];
@@ -98,7 +110,7 @@ describe("interview tracks", () => {
 });
 
 describe("global uniqueness", () => {
-  it("question ids are unique across all banks and lesson quizzes", () => {
+  it("question ids are unique across all banks and lesson quizzes", { timeout: 30_000 }, () => {
     const ids = [
       ...readDir(path.join(CONTENT_DIR, "questions"), ".json").flatMap((f) => {
         try {

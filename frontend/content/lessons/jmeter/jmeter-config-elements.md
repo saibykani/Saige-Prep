@@ -20,6 +20,13 @@ references:
     url: https://jmeter.apache.org/usermanual/build-web-test-plan.html
   - title: Apache JMeter - Elements of a Test Plan
     url: https://jmeter.apache.org/usermanual/test_plan.html
+videos:
+  - id: 278m1oBsCZE
+    title: "HTTP Cookie Manager Usage & Example in JMeter | Advanced JMeter Tutorial"
+    channel: "Task Incomplete"
+  - id: 2ydL1gKi16U
+    title: "JMeter Tutorial #32 | Fix 401 Unauthorized in JMeter (HTTP Header Manager Explained)"
+    channel: "Testing Funda by Zeeshan Asghar"
 interview:
   - q: Why use HTTP Request Defaults?
     a: It holds shared values such as protocol, server, port and timeouts so individual samplers can leave those fields empty. When the environment changes I edit one element instead of every sampler. Values set directly on a sampler override the defaults.

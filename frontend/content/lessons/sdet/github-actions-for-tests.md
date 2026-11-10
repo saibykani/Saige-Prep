@@ -22,6 +22,16 @@ references:
     url: https://github.com/actions/setup-java
   - title: actions/upload-artifact repository and usage
     url: https://github.com/actions/upload-artifact
+videos:
+  - id: YLtlz88zrLg
+    title: "CI/CD Tutorial using GitHub Actions - Automated Testing & Automated Deployments"
+    channel: "Tom Shaw"
+  - id: BQrohJ3PT7I
+    title: "How to use GitHub Actions | GitHub for Beginners"
+    channel: "GitHub"
+  - id: ylEy4eLdhFs
+    title: "GitHub Actions Step by Step DEMO for Beginners"
+    channel: "Automation Step by Step"
 interview:
   - q: Walk me through the structure of a GitHub Actions workflow.
     a: A workflow is a YAML file in the .github/workflows directory. The on key lists the events that trigger it, such as push and pull_request. It contains one or more jobs; each job has an id, a runs-on value naming the runner, and a list of steps. Steps either use a published action with uses, such as actions/checkout, or run shell commands with run. Jobs run in parallel by default unless one declares needs on another, and steps inside a job run sequentially on the same runner.

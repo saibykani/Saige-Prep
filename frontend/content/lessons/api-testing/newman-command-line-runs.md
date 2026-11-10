@@ -22,6 +22,10 @@ references:
     url: https://github.com/postmanlabs/newman
   - title: Newman on npm
     url: https://www.npmjs.com/package/newman
+videos:
+  - id: M_9sHWKhXqQ
+    title: "Newman Postman: How to Run Postman Command Line.(With Demo)[Ultimate Guide]"
+    channel: "The Testing Academy"
 interview:
   - q: How do you run a Postman collection in a CI pipeline?
     a: "Export the collection and environment (or fetch them through the Postman API), install Newman in the pipeline with npm, and run newman run collection.json -e env.json -r cli,junit with --reporter-junit-export pointing to a results file. Secrets are injected with --env-var from the CI secret store rather than stored in the environment file. Newman exits non-zero when any test or request fails, so the CI step fails, and the JUnit file is published as a test report."

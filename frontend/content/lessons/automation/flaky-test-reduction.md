@@ -21,6 +21,13 @@ references:
     url: https://playwright.dev/docs/actionability
   - title: Playwright documentation — Retries
     url: https://playwright.dev/docs/test-retries
+videos:
+  - id: CrzpkF1-VsA
+    title: "GTAC 2016: How Flaky Tests in Continuous Integration"
+    channel: "Google TechTalks"
+  - id: hmk1h40shaE
+    title: "GTAC 2015: Your Tests Aren't Flaky"
+    channel: "Google TechTalks"
 interview:
   - q: How do you handle a flaky test in your suite?
     a: "First confirm it is flaky by rerunning it on the same build and checking history. Then quarantine it so it stops blocking the pipeline, but keep it running and visible with an owner and a ticket. Then find the root cause, usually timing, shared data, order dependency, environment or test-unfriendly product behaviour, and fix that. Retries are at most a temporary signal, never the fix."

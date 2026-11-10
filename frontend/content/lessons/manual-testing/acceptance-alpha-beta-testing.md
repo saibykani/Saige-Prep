@@ -21,6 +21,13 @@ references:
     url: https://cucumber.io/docs/
   - title: The Scrum Guide (Definition of Done)
     url: https://www.scrumguides.org/
+videos:
+  - id: IrjF2wwElWM
+    title: "#AskRaghav | Acceptance Testing | UAT | Alpha Beta Testing | Raghav Pal"
+    channel: "Automation Step by Step"
+  - id: MY8pQviEt6U
+    title: "What is User Acceptance Testing (UAT) and Why Your Product Needs It"
+    channel: "AltexSoft"
 interview:
   - q: What is the goal of acceptance testing?
     a: Acceptance testing focuses on validation and on demonstrating readiness for deployment, meaning the system fulfils the user's business needs. Finding defects is not its main aim; ideally few remain by then. Its outcome feeds a decision, such as whether the customer accepts the delivery, operations can support it, or regulators' requirements are met.

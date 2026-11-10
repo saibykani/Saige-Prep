@@ -21,6 +21,13 @@ references:
     url: https://sre.google/books/
   - title: The Scrum Guide
     url: https://www.scrumguides.org/
+videos:
+  - id: vfM6iN4Gbm8
+    title: "Manual Testing - 42 : STLC ( Test Closure and QA signoff)"
+    channel: "QTOMATION"
+  - id: edFHgGj1M-c
+    title: "Software Testing Tutorial #46 - Test Summary Report in Software Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: Does QA sign off the release?
     a: QA provides a recommendation based on evidence — results against exit criteria, open defects and residual risks. The decision to release normally belongs to the product or business owner, often together with engineering and operations, because it weighs quality risk against business value and deadlines. Testers should make sure the decision is informed, not make it alone or be blamed for it.

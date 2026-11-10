@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/build-web-test-plan.html
   - title: MDN - HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: AqRfpnUnWQ8
+    title: "Sampler Http Request (GET/POST/PUT/DELETE) in JMeter - Part -6"
+    channel: "Naveen AutomationLabs"
+  - id: nUu7rq1097A
+    title: "JMeter Tutorial 5: Creating First Test in JMeter"
+    channel: "SDET- QA"
 interview:
   - q: How do you send a JSON POST body with the HTTP Request sampler?
     a: I set the method to POST, open the Body Data tab and paste the JSON, and add an HTTP Header Manager with Content-Type application/json so the server parses it correctly. I verify the request in View Results Tree's Request tab before scaling up.

@@ -21,6 +21,13 @@ references:
     url: https://developer.apple.com/documentation/xctest
   - title: Appium documentation
     url: https://appium.io/docs/en/latest/
+videos:
+  - id: u27gIg8Czhg
+    title: "Mobile App QA – Types of Mobile App Testing"
+    channel: "QA Madness"
+  - id: UWFoxol1yV0
+    title: "What is Mobile Testing? | Types of Mobile Testing | Mobile Testing Tutorial 1"
+    channel: "The Testing Academy"
 interview:
   - q: What makes mobile testing different from web testing?
     a: The environment is far less controlled. Apps run on many device models, screen sizes and OS versions, on networks that change from Wi-Fi to cellular to nothing, with limited battery and memory. The operating system can pause or kill the app at any time, and users are interrupted by calls, notifications and permission prompts. There are also store distribution, install and upgrade paths that web apps do not have. So beyond functional checks I test lifecycle, interruptions, connectivity, permissions, performance on low-end hardware and upgrade paths.

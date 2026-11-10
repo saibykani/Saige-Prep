@@ -21,6 +21,13 @@ references:
     url: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
   - title: Maven Surefire Plugin
     url: https://maven.apache.org/surefire/maven-surefire-plugin/
+videos:
+  - id: x8sMN4tossY
+    title: "Maven Tutorial for Beginners | Introduction to Maven | DevOps Training | Edureka"
+    channel: "edureka!"
+  - id: dqJanLvjDqc
+    title: "Introduction to Maven | Theory"
+    channel: "Telusko"
 interview:
   - q: What is the difference between mvn test and mvn verify for a test project?
     a: "Both run the default lifecycle up to a phase. mvn test stops after the test phase, where Surefire runs unit-style tests. mvn verify continues through package, integration-test and verify, where Failsafe runs *IT classes and then fails the build if they failed. Failsafe lets post-integration-test cleanup run before reporting failure, which matters when tests start servers or containers."

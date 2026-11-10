@@ -21,6 +21,13 @@ references:
     url: https://docs.pact.io/
   - title: MDN Web Docs, HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: 8UfQ8quw0Eg
+    title: "What is Integration Testing? | Software Testing Tutorial for Beginners | Edureka"
+    channel: "edureka!"
+  - id: xZSYh4JxzTY
+    title: "What is Integration Testing and it's types?"
+    channel: "SoftwaretestingbyMKT"
 interview:
   - q: What is the difference between component integration testing and system integration testing?
     a: Component integration testing focuses on the interactions and interfaces between components inside one system, such as a service layer calling a repository, and is often done by developers. System integration testing focuses on interfaces between whole systems, packages or external services, such as our shop calling a third-party payment provider. System integration testing often happens after system testing and depends on external environments we do not control, which makes it slower and riskier to schedule.

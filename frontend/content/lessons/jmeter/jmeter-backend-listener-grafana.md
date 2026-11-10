@@ -23,6 +23,13 @@ references:
     url: https://docs.influxdata.com/
   - title: Grafana documentation
     url: https://grafana.com/docs/
+videos:
+  - id: uIyapm2boe0
+    title: "JMeter InfluxDB 2.0 Grafana Integration | APM  | Real Time Metric | Analytics  @Performance Testing"
+    channel: "Performance Testing"
+  - id: tMrsNRV13wI
+    title: "S5E7 Learn JMeter Series - InfluxDB and Grafana Integration"
+    channel: "QAInsights"
 interview:
   - q: How do you monitor a long JMeter run in real time without the GUI?
     a: I add a Backend Listener using InfluxDBBackendListenerClient, which sends aggregated metrics such as throughput, error counts and response-time percentiles to InfluxDB at a fixed interval. Grafana reads InfluxDB and shows a live dashboard. JMeter runs in non-GUI mode, so the load generator stays light, and I still write a JTL file for the detailed HTML report afterwards.

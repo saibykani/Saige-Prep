@@ -21,6 +21,13 @@ references:
     url: https://docs.oracle.com/en/java/
   - title: Selenium documentation — Finding web elements
     url: https://www.selenium.dev/documentation/webdriver/elements/finders/
+videos:
+  - id: rH0winlka8A
+    title: "Java Collections Tutorial"
+    channel: "Programming with Mosh"
+  - id: 1XAfapkBQjk
+    title: "Exception Handling in Java Tutorial"
+    channel: "Coding with John"
 interview:
   - q: What is the difference between findElement and findElements when nothing matches?
     a: "findElement throws NoSuchElementException (after any implicit wait). findElements returns an empty List and never throws for no matches. That makes findElements useful for checking absence: assert that the list is empty rather than catching an exception."

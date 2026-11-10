@@ -24,6 +24,10 @@ references:
     url: https://learning.postman.com/docs/reference/newman-cli/command-line-integration-with-newman/
   - title: Apache Maven Surefire Plugin
     url: https://maven.apache.org/surefire/maven-surefire-plugin/
+videos:
+  - id: 1qU6fIDht-s
+    title: "All new Inbuilt CI/CD Integration of Postman with GitHub and GitHub Actions 🔥"
+    channel: "Execute Automation"
 interview:
   - q: How would you structure API tests in a CI/CD pipeline?
     a: In layers. On every pull request, fast checks run - unit tests, contract tests, and a smoke set of API tests against an ephemeral or service-level environment, ideally in a few minutes. After merge and deployment to a test environment, the full API regression runs. After deploying to staging or production, a small read-only smoke suite confirms the deployment. Failures on the PR block the merge; failures after deploy can trigger a rollback.

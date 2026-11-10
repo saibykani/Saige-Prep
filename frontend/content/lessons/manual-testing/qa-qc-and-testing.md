@@ -18,6 +18,13 @@ references:
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
   - title: ISTQB Glossary of testing terms
     url: https://glossary.istqb.org/
+videos:
+  - id: rkieMbKZFeg
+    title: "QA vs QC | Quality Assurance vs Quality Control - Testbytes"
+    channel: "Testbytes Software Testing and QA Company"
+  - id: 91PRprVo1LE
+    title: "Quality Assurance vs Quality Control Explained: QA vs QC Made Simple"
+    channel: "PM Aspirant"
 interview:
   - q: What is the difference between QA and QC?
     a: Quality assurance is process-oriented and preventive. It focuses on establishing and improving the processes used to build software, on the basis that good processes produce good products. Quality control is product-oriented and corrective. It examines the product to check whether it meets the required quality and supports fixing what does not. Testing is a major form of quality control.

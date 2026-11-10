@@ -27,6 +27,13 @@ references:
     url: https://www.sbert.net/
   - title: OpenAI platform docs — Retrieval
     url: https://developers.openai.com/api/docs/guides/retrieval
+videos:
+  - id: T-D1OfcDW1M
+    title: "What is Retrieval-Augmented Generation (RAG)?"
+    channel: "IBM Technology"
+  - id: sVcwVQRHIc8
+    title: "Learn RAG From Scratch – Python AI Tutorial from a LangChain Engineer"
+    channel: "freeCodeCamp.org"
 interview:
   - q: What is RAG and why use it instead of fine-tuning for company knowledge?
     a: Retrieval-augmented generation retrieves relevant passages from your own documents at question time and puts them into the prompt, so the model answers from current, citable sources. It is usually preferred for knowledge because documents can be updated instantly without retraining, answers can cite sources, and access control can be enforced at retrieval. Fine-tuning is better for teaching style, format or a specialised behaviour, not for keeping facts fresh.

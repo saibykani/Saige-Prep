@@ -25,6 +25,13 @@ references:
     url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl
   - title: Unicode Consortium
     url: https://home.unicode.org/
+videos:
+  - id: _Fos2Sl9Qjo
+    title: "The Importance of Internationalization and Localization for Software Developers"
+    channel: "Lokalise"
+  - id: J7ODeZK8TDI
+    title: "Translation and Localization"
+    channel: "NNgroup"
 interview:
   - q: What is the difference between internationalization and localization?
     a: Internationalization, i18n, is engineering the product so it can support any language and region without code changes, for example storing text in resource files, using Unicode, and formatting dates and numbers through locale-aware libraries. Localization, l10n, is adapting the product for a specific locale, translating text, using local formats, currency, images and legal content. I test i18n once, early, often with pseudo-localization, and test l10n for each locale with native-speaker review.

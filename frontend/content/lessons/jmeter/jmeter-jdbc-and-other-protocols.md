@@ -21,6 +21,13 @@ references:
     url: https://jmeter.apache.org/usermanual/index.html
   - title: PostgreSQL documentation
     url: https://www.postgresql.org/docs/
+videos:
+  - id: 4V6fTReSeTI
+    title: "How to do Database Performance Testing using JMeter"
+    channel: "Vishwas Labs"
+  - id: uRmuHISg3MI
+    title: "JMeter Tutorial #15 | Database Performance Testing"
+    channel: "Testing Funda by Zeeshan Asghar"
 interview:
   - q: How do you set up a JDBC load test in JMeter?
     a: I copy the database vendor's JDBC driver jar into JMeter's lib folder and restart. I add a JDBC Connection Configuration with a pool variable name, the JDBC URL, driver class, credentials and pool size. Then JDBC Request samplers reference that same variable name and run prepared statements with parameter values and types, often fed from a CSV Data Set Config. Results can be bound to variables or a result variable for assertions and later requests.

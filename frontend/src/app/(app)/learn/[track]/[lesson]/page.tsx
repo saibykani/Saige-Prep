@@ -3,11 +3,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Markdown } from "@/components/learning/markdown";
+import { VideoList } from "@/components/learning/video-list";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/feedback";
 import { allTopics, findTrack, TRACKS } from "@/content/curriculum";
-import { getLesson, getLessons } from "@/content/loader";
+import { getLesson, getLessonPractice, getLessons } from "@/content/loader";
+import { CodingExerciseCard } from "@/features/lesson-practice/coding-exercise";
+import { PracticeTest } from "@/features/lesson-practice/practice-test";
 import { BookmarkButton, CompleteButton, LessonNotes, LessonQuiz, LessonTracker } from "@/features/learning/lesson-client";
 import { headingsOf } from "@/lib/markdown-utils";
 
@@ -64,6 +67,7 @@ export default async function LessonPage({ params }: Props) {
     );
   }
 
+  const practice = getLessonPractice(trackSlug, lesson.slug);
   const toc = headingsOf(lesson.body);
   const relatedTopics = lesson.related
     .map((slug) => allTopics().find((t) => t.slug === slug))
@@ -142,6 +146,16 @@ export default async function LessonPage({ params }: Props) {
 
           <Markdown source={lesson.body} />
 
+          {lesson.videos.length > 0 && (
+            <section aria-labelledby="videos-heading" className="space-y-3">
+              <h2 id="videos-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">
+                Watch and learn
+              </h2>
+              <p className="text-sm text-muted">Hand-picked videos that explain this topic another way. They are optional extras.</p>
+              <VideoList videos={lesson.videos} />
+            </section>
+          )}
+
           <section aria-labelledby="practice-heading" className="space-y-3">
             <h2 id="practice-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">
               Practice tasks
@@ -154,6 +168,32 @@ export default async function LessonPage({ params }: Props) {
           </section>
 
           <LessonQuiz slug={lesson.slug} questions={lesson.quiz} />
+
+          {practice && (
+            <section aria-labelledby="practice-test-heading" className="space-y-3">
+              <h2 id="practice-test-heading" className="scroll-mt-24 border-b border-border pb-2 text-xl font-semibold tracking-tight">
+                Practice test
+              </h2>
+              <p className="text-sm text-muted">Marked questions that build from beginner to advanced. Your best score is saved in this browser.</p>
+              <PracticeTest slug={lesson.slug} questions={practice.questions} />
+            </section>
+          )}
+
+          {practice && practice.coding.length > 0 && (
+            <section aria-labelledby="coding-heading" className="space-y-3">
+              <h2 id="coding-heading" className="scroll-mt-24 border-b border-border pb-2 text-xl font-semibold tracking-tight">
+                Coding practice
+              </h2>
+              <p className="text-sm text-muted">
+                Write real code and check it instantly. It runs in your browser only; nothing is sent anywhere. Each automated check is worth marks.
+              </p>
+              <div className="space-y-5">
+                {practice.coding.map((ex) => (
+                  <CodingExerciseCard key={ex.id} exercise={ex} />
+                ))}
+              </div>
+            </section>
+          )}
 
           <section aria-labelledby="interview-heading" className="space-y-3">
             <h2 id="interview-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">

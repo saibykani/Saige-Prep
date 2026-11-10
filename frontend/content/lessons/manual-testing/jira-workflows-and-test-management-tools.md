@@ -21,6 +21,16 @@ references:
     url: https://www.scrumguides.org/scrum-guide.html
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
+videos:
+  - id: F1FcTI2VDeQ
+    title: "Jira Tutorial for QA Testers"
+    channel: "Jira Bro"
+  - id: GPOWZSxEslU
+    title: "Jira Tutorial for Beginners — Learn Jira in 20 Minutes"
+    channel: "Kevin Stratvert"
+  - id: uKZng5ZmtJM
+    title: "Xray Test Management App - Quick demo"
+    channel: "Xray"
 interview:
   - q: Describe a bug workflow you have used in JIRA.
     a: A common one is Open, In Progress, Resolved, then either Closed after the tester confirms the fix or Reopened if it still fails. Resolved usually carries a resolution such as Fixed, Duplicate, Cannot Reproduce or Won't Fix, and only Fixed should go to retest. Workflows are configurable, so every company names statuses differently, but the important ideas are clear ownership at each status, a confirmation step by someone other than the fixer, and a reopen path.

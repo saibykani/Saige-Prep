@@ -21,6 +21,16 @@ references:
     url: https://www.iso.org/standard/79429.html
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
+videos:
+  - id: jNUbb7C7FQU
+    title: "Software Testing Tutorial #32 - How to Write Test Cases"
+    channel: "Software Testing Mentor"
+  - id: ePGAEJURzqU
+    title: "Test Scenario Vs Test Case : What you Should Know. [MindMap] (With Example)"
+    channel: "The Testing Academy"
+  - id: khGa1Rdzd2A
+    title: "How to Write Test Cases for Software (with a Sample)"
+    channel: "TestLodge"
 interview:
   - q: What is the difference between a test scenario and a test case?
     a: A test scenario is a high-level statement of something to verify, such as "user resets a forgotten password". It says what, not how. A test case is a concrete, executable specification of one check — preconditions, input data, steps, expected result and postconditions. One scenario usually expands into several test cases covering positive, negative and boundary variations.

@@ -19,6 +19,13 @@ references:
     url: https://www.rfc-editor.org/rfc/rfc9110
   - title: MDN Web Docs — HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
+videos:
+  - id: iYM2zFP3Zn0
+    title: "HTTP Crash Course & Exploration"
+    channel: "Traversy Media"
+  - id: KF-3jtGH6Yk
+    title: "Mastering HTTP Methods: A REST API Deep Dive"
+    channel: "ByteMonk"
 interview:
   - q: What is the difference between a safe method and an idempotent method?
     a: "A safe method is read-only in intent: the client is not requesting any change of state on the server (GET, HEAD, OPTIONS, TRACE). An idempotent method is one where sending the same request several times has the same intended effect on the server as sending it once (all safe methods plus PUT and DELETE). Every safe method is idempotent, but PUT and DELETE are idempotent without being safe. POST and PATCH are neither by definition, although a particular API can make them idempotent."

@@ -25,6 +25,13 @@ references:
     url: https://docs.litmuschaos.io/
   - title: AWS Fault Injection Service documentation
     url: https://docs.aws.amazon.com/fis/
+videos:
+  - id: 6ilMZqKdMMU
+    title: "Principles of Chaos Engineering - Netflix - SRECon2017"
+    channel: "Justin Miller"
+  - id: mfEMXKSFtaQ
+    title: "Understanding Chaos Engineering"
+    channel: "Microsoft Developer"
 interview:
   - q: What is chaos engineering?
     a: It is the discipline of experimenting on a system to build confidence in its ability to withstand turbulent conditions in production, as defined by the Principles of Chaos Engineering. In practice you define the system's steady state with business metrics, hypothesise that it will stay steady when you inject a realistic failure, run the experiment with a small blast radius and a way to stop, and then look for differences between the control and the experiment.

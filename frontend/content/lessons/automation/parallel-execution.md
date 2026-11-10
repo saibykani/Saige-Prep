@@ -21,6 +21,16 @@ references:
     url: https://docs.junit.org/current/writing-tests/parallel-execution.html
   - title: Selenium documentation — Grid
     url: https://www.selenium.dev/documentation/grid/
+videos:
+  - id: 1Y6knVutUsI
+    title: "TestNG How to do Parallel Testing | Selenium Parallel testing TestNG | Step by Step for Beginners"
+    channel: "Automation Step by Step"
+  - id: Ov08vT8UTqY
+    title: "Parallel Testing in Selenium WebDriver using THREAD LOCAL and TestNG"
+    channel: "Testers Talk"
+  - id: b9s5bhoXlyo
+    title: "How to setup Selenium Grid 4 in Standalone mode | Run automation tests in parallel using grid"
+    channel: "Maximum Automation"
 interview:
   - q: What must be true about tests before you can run them in parallel?
     a: "They must be independent: no test relies on another's side effects or execution order, each gets its own browser session and its own test data, and nothing mutable is shared without synchronisation. Static WebDriver fields, shared user accounts and tests that delete global data are the usual blockers."

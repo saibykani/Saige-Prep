@@ -19,6 +19,13 @@ references:
     url: https://www.postgresql.org/docs/current/queries-union.html
   - title: PostgreSQL Documentation — Aggregate Functions
     url: https://www.postgresql.org/docs/current/functions-aggregate.html
+videos:
+  - id: k4tK2ttdSDg
+    title: "What is a Data Warehouse?"
+    channel: "IBM Technology"
+  - id: yRerKDM1h74
+    title: "Data Warehouse vs Data Lake vs Data Lakehouse | ETL, OLAP vs OLTP"
+    channel: "codebasics"
 interview:
   - q: How do you prove that an ETL load is complete?
     a: I reconcile at several levels. First, row counts, where source rows in scope must equal target rows loaded plus rows rejected, with every reject logged with a reason. Second, aggregate checksums such as the sum of amounts and counts per business date or per category, compared between source and target. Third, set-difference queries using EXCEPT on the business keys in both directions to list exactly which rows are missing or unexpected. Counts alone are not enough, because one missing row and one duplicate cancel out.
