@@ -1,0 +1,269 @@
+{
+  "lesson": "agent-memory-and-planning",
+  "questions": [
+    {
+      "id": "pt-amp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-memory-and-planning",
+      "prompt": "Which store is the best fit for an exact, stable fact such as a user's timezone?",
+      "options": [
+        "A vector store",
+        "A key-value store",
+        "An episodic log",
+        "The model's weights"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Exact facts are retrieved by key. Vector search is for fuzzy similarity; episodic logs record past runs; weights do not change at inference."
+    },
+    {
+      "id": "pt-amp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-memory-and-planning",
+      "prompt": "Each API call to an LLM is stateless; the agent only 'remembers' what your code sends in that call.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The model keeps no state between calls. Memory is the history and retrieved content your application includes."
+    },
+    {
+      "id": "pt-amp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-memory-and-planning",
+      "prompt": "In ReAct, what follows an Action?",
+      "options": [
+        "Another Action",
+        "An Observation",
+        "A gradient update",
+        "A new system prompt"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "ReAct interleaves Thought, Action and Observation. The observation is the tool result the model reasons about next."
+    },
+    {
+      "id": "pt-amp-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-memory-and-planning",
+      "prompt": "What does this print?",
+      "code": "turns = []\nfor i in range(5):\n    turns.append(i)\n    if len(turns) > 3:\n        turns = turns[-2:]\nprint(len(turns))",
+      "codeLanguage": "python",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Compaction runs only when the list has more than 3 items. After the 4th append it has 4, so it is cut to the last 2. The 5th append makes 3, which is not more than 3, so nothing is cut and 3 is printed. Answer 2 forgets that the trigger is checked again after each append."
+    },
+    {
+      "id": "pt-amp-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-memory-and-planning",
+      "prompt": "A plan-and-execute agent's step 2 fails because an API is down. The executor keeps going with steps 3-6, which all depend on step 2. What is missing?",
+      "options": [
+        "A larger context window",
+        "Replanning or stop-on-failure: the executor should check step results and replan or report",
+        "Higher temperature",
+        "A vector store"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Plan-and-execute needs failure handling. Continuing blindly after a dependency fails leads to premature or false completion."
+    },
+    {
+      "id": "pt-amp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-memory-and-planning",
+      "prompt": "Which tests check long-term memory correctness? Select all that apply.",
+      "options": [
+        "A fact saved in session 1 is used in session 2",
+        "Updating a fact replaces the old value",
+        "User A's facts never appear for user B",
+        "The model answers in under 2 seconds"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Recall, update and isolation are memory behaviours. Latency is a performance property, not memory correctness."
+    },
+    {
+      "id": "pt-amp-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-memory-and-planning",
+      "prompt": "Users report seeing each other's saved preferences. What is the bug?",
+      "code": "MEMORY = {}\ndef save(user_id, name, value):\n    MEMORY[name] = value\ndef load(user_id, name):\n    return MEMORY.get(name)",
+      "codeLanguage": "python",
+      "options": [
+        "Facts are keyed only by the fact name, not by user",
+        "The dict is too small",
+        "Strings should be bytes",
+        "get() should be [] indexing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without the user ID in the key, every user shares one memory. Key by (user_id, name) and test cross-user isolation."
+    },
+    {
+      "id": "pt-amp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agent-memory-and-planning",
+      "prompt": "A Reflexion-style coding agent writes reflections after failures, but its success rate does not improve and reflections often blame 'flaky infrastructure'. Tests are not run between attempts; the agent judges its own output. What is the best explanation?",
+      "options": [
+        "Reflections need a reliable external feedback signal such as real test results; self-judged feedback lets it rationalise errors",
+        "Reflexion requires fine-tuning",
+        "The reflections are too short",
+        "It should use a vector store instead"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Reflexion worked best with grounded feedback like unit test results. Without it, reflections are ungrounded. Reflexion does not fine-tune weights."
+    },
+    {
+      "id": "pt-amp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agent-memory-and-planning",
+      "prompt": "After compaction, an agent repeats three tool calls it had already completed earlier in the run. What fix addresses the cause?",
+      "options": [
+        "Make the summary record completed actions and their results, and keep the original goal pinned",
+        "Remove the step limit",
+        "Store everything in a vector store",
+        "Summarise more often"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The summary lost what had been done, so the agent redid it. Including completed actions fixes the cause; summarising more often would make it worse."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-amp-buffer",
+      "language": "python",
+      "title": "Memory buffer with a compaction trigger",
+      "difficulty": "beginner",
+      "prompt": "Write a function `compact(turns, max_turns, keep_last)` that returns a tuple `(summary_items, recent)`. If `len(turns) <= max_turns`, return `([], turns)`. Otherwise `recent` is the last `keep_last` turns and `summary_items` is all the earlier turns (in order).\n\nExample: `compact(['a','b','c','d'], 3, 2)` returns `(['a','b'], ['c','d'])`.",
+      "starter": "def compact(turns, max_turns, keep_last):\n    return None\n",
+      "solution": "def compact(turns, max_turns, keep_last):\n    if len(turns) <= max_turns:\n        return ([], list(turns))\n    return (list(turns[:-keep_last]), list(turns[-keep_last:]))\n",
+      "explanation": "Slicing splits old from recent turns. The trigger only fires above the limit, so short conversations stay verbatim.",
+      "hints": [
+        "Check the length first.",
+        "turns[-keep_last:] gives the most recent turns.",
+        "turns[:-keep_last] gives everything earlier."
+      ],
+      "tests": [
+        {
+          "name": "No compaction under the limit",
+          "marks": 1,
+          "code": "assert compact(['a', 'b'], 3, 2) == ([], ['a', 'b'])"
+        },
+        {
+          "name": "Splits old and recent",
+          "marks": 2,
+          "code": "assert compact(['a', 'b', 'c', 'd'], 3, 2) == (['a', 'b'], ['c', 'd'])"
+        },
+        {
+          "name": "Keeps order with keep_last 1",
+          "marks": 2,
+          "code": "assert compact([1, 2, 3, 4, 5], 2, 1) == ([1, 2, 3, 4], [5])"
+        }
+      ]
+    },
+    {
+      "id": "code-amp-kv",
+      "language": "python",
+      "title": "Scoped fact memory",
+      "difficulty": "intermediate",
+      "prompt": "Write a class `FactMemory` with methods `save(user, key, value)`, `get(user, key)` (returns `None` if missing), `forget(user, key)` and `facts(user)` (returns a dict of that user's facts). Saving the same key again **replaces** the value. One user must never see another user's facts.",
+      "starter": "class FactMemory:\n    def save(self, user, key, value):\n        pass\n    def get(self, user, key):\n        pass\n    def forget(self, user, key):\n        pass\n    def facts(self, user):\n        pass\n",
+      "solution": "class FactMemory:\n    def __init__(self):\n        self._data = {}\n    def save(self, user, key, value):\n        self._data.setdefault(user, {})[key] = value\n    def get(self, user, key):\n        return self._data.get(user, {}).get(key)\n    def forget(self, user, key):\n        self._data.get(user, {}).pop(key, None)\n    def facts(self, user):\n        return dict(self._data.get(user, {}))\n",
+      "explanation": "Scoping by user at the top level makes isolation structural. facts returns a copy so callers cannot mutate memory by accident.",
+      "hints": [
+        "Store a dict per user.",
+        "Use setdefault to create a user's dict.",
+        "pop(key, None) removes without failing when missing."
+      ],
+      "tests": [
+        {
+          "name": "Update replaces",
+          "marks": 2,
+          "code": "m = FactMemory()\nm.save('u1', 'tz', 'UTC')\nm.save('u1', 'tz', 'Europe/London')\nassert m.facts('u1') == {'tz': 'Europe/London'}, m.facts('u1')"
+        },
+        {
+          "name": "Users are isolated",
+          "marks": 3,
+          "code": "m = FactMemory()\nm.save('u1', 'plan', 'pro')\nassert m.get('u2', 'plan') is None\nassert m.facts('u2') == {}"
+        },
+        {
+          "name": "Forget removes the fact",
+          "marks": 2,
+          "code": "m = FactMemory()\nm.save('u1', 'a', 1)\nm.forget('u1', 'a')\nm.forget('u1', 'missing')\nassert m.get('u1', 'a') is None and m.facts('u1') == {}"
+        }
+      ]
+    },
+    {
+      "id": "code-amp-loops",
+      "language": "python",
+      "title": "Loop detector",
+      "difficulty": "advanced",
+      "prompt": "Write `detect_loop(calls, threshold)` where `calls` is a list of `(tool_name, args_dict)` tuples in order. Return the index of the call at which any identical `(tool, args)` pair has appeared `threshold` times, or `None` if that never happens. Arg dicts with the same items in a different order count as identical.\n\nExample: `detect_loop([('a', {'x': 1}), ('b', {}), ('a', {'x': 1})], 2)` returns `2`.",
+      "starter": "def detect_loop(calls, threshold):\n    return -1\n",
+      "solution": "import json\n\ndef detect_loop(calls, threshold):\n    seen = {}\n    for i, (tool, args) in enumerate(calls):\n        key = (tool, json.dumps(args, sort_keys=True))\n        seen[key] = seen.get(key, 0) + 1\n        if seen[key] >= threshold:\n            return i\n    return None\n",
+      "explanation": "Dicts are not hashable, so serialise with sorted keys to get a stable key, then count. Returning the index tells the agent loop exactly when to stop.",
+      "hints": [
+        "You need a hashable key for each call.",
+        "json.dumps(args, sort_keys=True) makes key order irrelevant.",
+        "Count occurrences in a dict and return when a count reaches the threshold."
+      ],
+      "tests": [
+        {
+          "name": "Detects the example",
+          "marks": 2,
+          "code": "assert detect_loop([('a', {'x': 1}), ('b', {}), ('a', {'x': 1})], 2) == 2"
+        },
+        {
+          "name": "Key order does not matter",
+          "marks": 3,
+          "code": "assert detect_loop([('t', {'a': 1, 'b': 2}), ('t', {'b': 2, 'a': 1}), ('t', {'a': 1, 'b': 2})], 3) == 2"
+        },
+        {
+          "name": "Different args are not a loop",
+          "marks": 2,
+          "code": "assert detect_loop([('t', {'p': 1}), ('t', {'p': 2}), ('t', {'p': 3})], 2) is None"
+        }
+      ]
+    }
+  ]
+}

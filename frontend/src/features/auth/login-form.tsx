@@ -52,7 +52,7 @@ export function LoginForm() {
             type="email"
             autoComplete="username"
             placeholder="you@example.com"
-            className="h-11 bg-[#0b0b0d] pl-10"
+            className="h-11 bg-background pl-10"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
             {...register("email")}
@@ -69,7 +69,7 @@ export function LoginForm() {
             type={showPassword ? "text" : "password"}
             autoComplete="current-password"
             placeholder="••••••••••••"
-            className="h-11 bg-[#0b0b0d] pl-10 pr-11"
+            className="h-11 bg-background pl-10 pr-11"
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? "password-error" : undefined}
             {...register("password")}
@@ -90,7 +90,7 @@ export function LoginForm() {
         type="submit"
         disabled={login.isPending || succeeded}
         aria-busy={login.isPending || undefined}
-        className="group relative flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-[#a394f5] via-[#8b7aee] to-[#a394f5] bg-[length:200%_100%] text-sm font-semibold text-[#0d0b1a] shadow-lg shadow-[#7c6cf0]/25 transition-[background-position,transform,box-shadow] duration-500 hover:bg-[position:100%_0] hover:shadow-[#7c6cf0]/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+        className="group relative flex h-11 w-full items-center justify-center gap-2 overflow-hidden rounded-lg bg-accent text-sm font-semibold text-accent-foreground shadow-soft hover:bg-accent-strong transition-[background-position,transform,box-shadow] duration-500 hover:bg-[position:100%_0] hover:shadow-[#7c6cf0]/40 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
       >
         {login.isPending || succeeded ? (
           <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden />

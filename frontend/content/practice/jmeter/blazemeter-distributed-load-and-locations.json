@@ -1,0 +1,215 @@
+{
+  "lesson": "blazemeter-distributed-load-and-locations",
+  "questions": [
+    {
+      "id": "pt-bzdist-01",
+      "type": "code-output",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "Total users 900, safe 400 users per engine. How many engines?",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "900/400 = 2.25, rounded up to 3. Rounding down would overload engines."
+    },
+    {
+      "id": "pt-bzdist-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "By default, multiple locations in a BlazeMeter test share traffic evenly until you edit % of Traffic.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Load distribution docs say locations are equally weighted by default; you can customise percentages that must add to 100%."
+    },
+    {
+      "id": "pt-bzdist-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "With Total Users toggled off and Total Engines set to 3, and a script with 100 threads, how many users run?",
+      "options": [
+        "100",
+        "300",
+        "33",
+        "3"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Docs: users = threads in script x number of engines, so 300."
+    },
+    {
+      "id": "pt-bzdist-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "Taurus: concurrency 900, locations us-east-1: 2 and eu-west-1: 1. Users at eu-west-1?",
+      "options": [
+        "450",
+        "300",
+        "900",
+        "600"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Weights are relative: 1/(2+1) of 900 is 300. Concurrency is the total across locations."
+    },
+    {
+      "id": "pt-bzdist-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "Calibration: CPU first stays above 75% at 450 users on one engine. Using BlazeMeter's guidance, what users-per-engine value do you try next?",
+      "options": [
+        "450",
+        "about 405 (10% less)",
+        "1,000",
+        "75"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The guide says note the point where limits are crossed and reduce by about 10%, then confirm."
+    },
+    {
+      "id": "pt-bzdist-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "Which statements about private locations are true? Select all that apply.",
+      "options": [
+        "Agents send outgoing heartbeat requests to BlazeMeter",
+        "You maintain the agent machines",
+        "They require inbound connections from BlazeMeter",
+        "Availability depends on your plan"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Agents poll outward, you maintain them and the feature is plan-dependent. No inbound connection is needed."
+    },
+    {
+      "id": "pt-bzdist-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "A 3-location test shows the Asia location with p90 900 ms versus 300 ms elsewhere, same error rate; Asia connect time is also much higher. What is the best interpretation?",
+      "options": [
+        "The app is broken for Asian users",
+        "Mostly network distance or regional routing; compare connect time and latency and check CDN/edge configuration before blaming the app",
+        "Asia engines are overloaded, ignore it",
+        "Remove the Asia location"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Higher connect time points to network path. Engine Health would confirm or rule out generator issues; removing data hides a real user experience."
+    },
+    {
+      "id": "pt-bzdist-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-distributed-load-and-locations",
+      "prompt": "Four engines each read the same 500-row users.csv from the top. At 2,000 users you see 30% 409 Conflict on login. What fix addresses the root cause?",
+      "options": [
+        "More engines",
+        "Provide 2,000+ unique accounts and give each engine its own slice or generate unique users",
+        "Lower ramp-up",
+        "Ignore 409s in criteria"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each engine reuses the same rows, so up to four threads per account plus recycling cause conflicts. Unique data per concurrent user is the fix."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzdist-plan",
+      "language": "python",
+      "title": "Plan users and engines per location",
+      "difficulty": "intermediate",
+      "prompt": "Write `plan_locations(total_users, weights, users_per_engine)` returning a dict mapping each location to `{'users': u, 'engines': e}` where `u = round(total_users * w / sum(weights))` and `e = ceil(u / users_per_engine)` (0 engines if 0 users).\n\nExample: `plan_locations(2000, {'us': 50, 'eu': 30, 'ap': 20}, 380)` gives `{'us': {'users': 1000, 'engines': 3}, 'eu': {'users': 600, 'engines': 2}, 'ap': {'users': 400, 'engines': 2}}`.",
+      "starter": "def plan_locations(total_users, weights, users_per_engine):\n    # Your code here\n    return {}\n",
+      "solution": "import math\n\ndef plan_locations(total_users, weights, users_per_engine):\n    total_w = sum(weights.values())\n    plan = {}\n    for loc, w in weights.items():\n        users = round(total_users * w / total_w)\n        plan[loc] = {\"users\": users, \"engines\": math.ceil(users / users_per_engine) if users else 0}\n    return plan\n",
+      "explanation": "Weights are relative, so divide by their sum. Engines must round up, because rounding down would put more than the safe number of users on an engine.",
+      "hints": [
+        "Compute `total_w = sum(weights.values())`.",
+        "Use `math.ceil` for engines.",
+        "Handle a 0-weight location with 0 engines."
+      ],
+      "tests": [
+        {
+          "name": "Three weighted locations",
+          "marks": 4,
+          "code": "r = plan_locations(2000, {'us': 50, 'eu': 30, 'ap': 20}, 380)\nassert r == {'us': {'users': 1000, 'engines': 3}, 'eu': {'users': 600, 'engines': 2}, 'ap': {'users': 400, 'engines': 2}}, r"
+        },
+        {
+          "name": "Relative weights",
+          "marks": 2,
+          "code": "r = plan_locations(900, {'a': 2, 'b': 1}, 500)\nassert r == {'a': {'users': 600, 'engines': 2}, 'b': {'users': 300, 'engines': 1}}, r"
+        },
+        {
+          "name": "Zero weight gets nothing",
+          "marks": 2,
+          "code": "r = plan_locations(100, {'a': 1, 'b': 0}, 50)\nassert r['b'] == {'users': 0, 'engines': 0} and r['a'] == {'users': 100, 'engines': 2}, r"
+        }
+      ]
+    },
+    {
+      "id": "code-bzdist-calibrate",
+      "language": "python",
+      "title": "Find a safe users-per-engine value",
+      "difficulty": "beginner",
+      "prompt": "Calibration gives `(users, cpu_percent)` samples in time order. Write `safe_users_per_engine(samples, cpu_limit=75)` that finds the **first** sample whose CPU is **above** the limit and returns `int(users * 0.9)`. If CPU never exceeds the limit, return `None` (you need a bigger calibration run).\n\nExample: `[(100, 20), (300, 55), (450, 78)]` returns `405`.",
+      "starter": "def safe_users_per_engine(samples, cpu_limit=75):\n    # Your code here\n    return 0\n",
+      "solution": "def safe_users_per_engine(samples, cpu_limit=75):\n    for users, cpu in samples:\n        if cpu > cpu_limit:\n            return int(users * 0.9)\n    return None\n",
+      "explanation": "This mirrors BlazeMeter's calibration advice: find where the engine first crosses the CPU limit, then back off by about 10%.",
+      "hints": [
+        "Loop in order and stop at the first breach.",
+        "Return `int(users * 0.9)`.",
+        "Return None after the loop."
+      ],
+      "tests": [
+        {
+          "name": "Backs off 10% at first breach",
+          "marks": 2,
+          "code": "assert safe_users_per_engine([(100, 20), (300, 55), (450, 78), (500, 90)]) == 405"
+        },
+        {
+          "name": "Custom limit",
+          "marks": 2,
+          "code": "assert safe_users_per_engine([(100, 50), (200, 61)], cpu_limit=60) == 180"
+        },
+        {
+          "name": "Never breached returns None",
+          "marks": 1,
+          "code": "assert safe_users_per_engine([(100, 10), (500, 70)]) is None"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "lesson": "blazemeter-ci-cd-and-api-monitoring",
+  "questions": [
+    {
+      "id": "pt-bzci-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Where should a BlazeMeter API key used by GitHub Actions live?",
+      "options": [
+        "In the workflow YAML",
+        "In repository or environment secrets",
+        "In the README",
+        "In the JMX"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Secrets are encrypted and masked in logs. Files in the repo are readable by anyone with access and stay in history."
+    },
+    {
+      "id": "pt-bzci-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "bzt exit code 1 means the performance criteria failed.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "1 is a generic error (network, internal). Pass/fail criteria shutdown is 3."
+    },
+    {
+      "id": "pt-bzci-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Which product answers 'is my API up and returning correct data every few minutes?'",
+      "options": [
+        "BlazeMeter load test",
+        "BlazeMeter API Monitoring",
+        "Chrome extension",
+        "Engine Health"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "API Monitoring runs scheduled functional API checks with alerts; load tests measure behaviour under many users."
+    },
+    {
+      "id": "pt-bzci-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Which Taurus command starts a cloud test and exits without waiting for results?",
+      "options": [
+        "bzt load.yml -cloud -detach",
+        "bzt load.yml -report",
+        "bzt load.yml -local",
+        "bzt load.yml -locations"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-detach launches the cloud test and exits; -report streams a local run; -locations lists available locations."
+    },
+    {
+      "id": "pt-bzci-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Which practices keep the key safe in CI? Select all that apply.",
+      "options": [
+        "A dedicated, revocable key for CI",
+        "Do not expose secrets to fork pull requests",
+        "echo the token to debug auth",
+        "Rotate the key if it leaks"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Dedicated keys, no fork exposure and rotation limit damage. Echoing defeats the purpose of secrets."
+    },
+    {
+      "id": "pt-bzci-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "A step runs `bzt smoke.yml || true`. Criteria fail with exit 3. What is the job result?",
+      "options": [
+        "Failed",
+        "Passed",
+        "Cancelled",
+        "Skipped"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`|| true` swallows the non-zero exit, so the gate is disabled. Remove it."
+    },
+    {
+      "id": "pt-bzci-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Your PR smoke test fails randomly 1 in 5 runs on p90 on shared runners, with no code changes. What is the best fix?",
+      "options": [
+        "Delete the test",
+        "Keep the PR gate loose (catch large regressions, use errors and generous percentile limits over a steady window) and move tight percentile gates to dedicated nightly cloud runs with baselines",
+        "Retry until green",
+        "Run 1,000 users in PRs"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shared runners are noisy. Tight absolute gates belong on controlled infrastructure; retries hide real issues."
+    },
+    {
+      "id": "pt-bzci-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-ci-cd-and-api-monitoring",
+      "prompt": "Your nightly BlazeMeter job must fail when performance degrades more than 10% versus last good run, without editing numbers each time. What do you configure?",
+      "options": [
+        "Static thresholds updated weekly",
+        "A baseline on the BlazeMeter test and criteria like avg-rt>baseline+10% (for an existing test with a baseline)",
+        "Lower load",
+        "A bigger engine"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Baseline-based criteria compare to a reference run automatically. They require an existing BlazeMeter test with a baseline when run from Taurus."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzci-outcome",
+      "language": "python",
+      "title": "Map bzt exit codes to CI outcomes",
+      "difficulty": "beginner",
+      "prompt": "Write `ci_outcome(exit_code)` returning `'pass'` for 0, `'performance-fail'` for 3, `'cancelled'` for 2 and `'error'` for anything else (including 1 and unknown codes).",
+      "starter": "def ci_outcome(exit_code):\n    # Your code here\n    return None\n",
+      "solution": "def ci_outcome(exit_code):\n    if exit_code == 0:\n        return \"pass\"\n    if exit_code == 3:\n        return \"performance-fail\"\n    if exit_code == 2:\n        return \"cancelled\"\n    return \"error\"\n",
+      "explanation": "Distinguishing a performance failure (3) from an infrastructure error (1) tells the team whether to investigate the code or the pipeline.",
+      "hints": [
+        "Use if statements for 0, 3 and 2.",
+        "Everything else is an error."
+      ],
+      "tests": [
+        {
+          "name": "Pass and perf fail",
+          "marks": 2,
+          "code": "assert ci_outcome(0) == 'pass' and ci_outcome(3) == 'performance-fail'"
+        },
+        {
+          "name": "Cancelled",
+          "marks": 1,
+          "code": "assert ci_outcome(2) == 'cancelled'"
+        },
+        {
+          "name": "Errors",
+          "marks": 2,
+          "code": "assert ci_outcome(1) == 'error' and ci_outcome(137) == 'error'"
+        }
+      ]
+    },
+    {
+      "id": "code-bzci-redact",
+      "language": "python",
+      "title": "Redact secrets from a log",
+      "difficulty": "intermediate",
+      "prompt": "Before uploading logs as artifacts, write `redact_tokens(log_text, secrets)` that replaces every occurrence of each non-empty secret with `***`. Replace **longer secrets first** so a secret containing another one is fully masked.\n\nExample: `redact_tokens('token=abc:xyz', ['abc:xyz'])` returns `'token=***'`.",
+      "starter": "def redact_tokens(log_text, secrets):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef redact_tokens(log_text, secrets):\n    for s in sorted((s for s in secrets if s), key=len, reverse=True):\n        log_text = log_text.replace(s, \"***\")\n    return log_text\n",
+      "explanation": "Sorting by length avoids leaving fragments: masking 'abc' before 'abc:xyz' would produce '***:xyz', leaking part of the secret. Empty strings are skipped because replacing '' would corrupt the text.",
+      "hints": [
+        "Filter out empty strings.",
+        "Sort by `len` descending.",
+        "Use `str.replace`."
+      ],
+      "tests": [
+        {
+          "name": "Single secret",
+          "marks": 2,
+          "code": "assert redact_tokens('token=abc:xyz', ['abc:xyz']) == 'token=***'"
+        },
+        {
+          "name": "Longest first",
+          "marks": 3,
+          "code": "assert redact_tokens('k=abc:xyz id=abc', ['abc', 'abc:xyz']) == 'k=*** id=***'"
+        },
+        {
+          "name": "Ignores empty secret",
+          "marks": 1,
+          "code": "assert redact_tokens('hello', ['']) == 'hello' and redact_tokens('aa', ['a']) == '******'"
+        }
+      ]
+    }
+  ]
+}

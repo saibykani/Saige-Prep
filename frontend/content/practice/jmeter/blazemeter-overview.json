@@ -1,0 +1,150 @@
+{
+  "lesson": "blazemeter-overview",
+  "questions": [
+    {
+      "id": "pt-bzov-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-overview",
+      "prompt": "Which company currently owns and develops BlazeMeter?",
+      "options": [
+        "Apache Software Foundation",
+        "Perforce",
+        "Google",
+        "Microsoft"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "BlazeMeter is a Perforce product. Apache develops JMeter itself, which BlazeMeter is compatible with but does not own."
+    },
+    {
+      "id": "pt-bzov-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-overview",
+      "prompt": "Taurus (bzt) is an open-source tool that can run JMeter tests locally without a paid BlazeMeter plan.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Taurus is open source and runs JMeter on your own machine. A BlazeMeter account is only needed to report to or run on BlazeMeter."
+    },
+    {
+      "id": "pt-bzov-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-overview",
+      "prompt": "In BlazeMeter, what is an engine?",
+      "options": [
+        "A JMeter plugin",
+        "A load generator machine provisioned for a test run",
+        "The database storing reports",
+        "The server you are testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Engines generate the traffic. They are not the system under test, which is why Engine Health is reported separately."
+    },
+    {
+      "id": "pt-bzov-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-overview",
+      "prompt": "Which are parts of a BlazeMeter performance test definition? Select all that apply.",
+      "options": [
+        "The script and its data files",
+        "Load configuration (users, ramp-up, duration)",
+        "Load distribution (locations, engines)",
+        "The target server's source code"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "A test combines script and files, load configuration and distribution, plus optional failure criteria. BlazeMeter never needs your application's source code."
+    },
+    {
+      "id": "pt-bzov-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-overview",
+      "prompt": "Your app is an intranet HR system reachable only inside the company network. You need 2,000 users. What is the most appropriate BlazeMeter option?",
+      "options": [
+        "Public cloud engines pointed at the intranet host name",
+        "A private location with agents inside the network, if your plan includes it",
+        "Run from many cloud locations",
+        "Use the Chrome extension's Run button"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cloud engines cannot reach internal hosts. A private location runs agents inside your network that only make outgoing connections to BlazeMeter. More cloud locations do not change reachability."
+    },
+    {
+      "id": "pt-bzov-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-overview",
+      "prompt": "A colleague says the free plan allows a specific number of users, quoting a 2019 blog. What should you do before planning a test?",
+      "options": [
+        "Trust the blog",
+        "Check the current plan limits on BlazeMeter's pricing page or your account billing screen",
+        "Assume unlimited users",
+        "Ask on a forum and use the most common answer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Plan limits change over time. The live pricing page and your account are the source of truth."
+    },
+    {
+      "id": "pt-bzov-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-overview",
+      "prompt": "Your app calls a third-party payment API on checkout. You plan a 1,000-user BlazeMeter test of your own staging environment. What must you do about the payment calls?",
+      "options": [
+        "Nothing; you own the staging app",
+        "Stub or virtualise the payment API, or get the provider's written permission for load",
+        "Spread load across locations so the provider does not notice",
+        "Run only at night"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Owning your app does not authorise load on a third party's service. Stub it or get permission. Hiding traffic or timing does not change authorisation."
+    },
+    {
+      "id": "pt-bzov-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-overview",
+      "prompt": "A team asks whether to move their 50-user nightly regression JMeter test, which runs fine on one CI runner against an internal test service, to BlazeMeter. What is the best advice?",
+      "options": [
+        "Move it; cloud is always better",
+        "Keep it local or in CI; BlazeMeter adds most value for scale, geography and shared reporting the team does not need here, and the target is internal",
+        "Convert it to Selenium",
+        "Run it from ten locations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Small loads against internal services fit local or CI runs. Cloud adds cost and needs reachability (or a private location) without solving a real problem here."
+    }
+  ],
+  "coding": []
+}

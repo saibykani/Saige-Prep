@@ -31,15 +31,19 @@ export interface VisualTheme {
   pattern: Pattern;
 }
 
+/**
+ * Curated, low-saturation hues that sit beside the brand without competing with it.
+ * Thumbnails are dark enough for white icons; hub heroes use `via` only as a light tint and stripe.
+ */
 export const PALETTE: Record<string, VisualTheme> = {
-  violet: { from: "#4c1d95", via: "#6d28d9", to: "#9333ea", pattern: "dots" },
-  emerald: { from: "#064e3b", via: "#047857", to: "#0f766e", pattern: "grid" },
-  sunset: { from: "#9a3412", via: "#c2410c", to: "#be185d", pattern: "diagonal" },
-  indigo: { from: "#312e81", via: "#4338ca", to: "#0f766e", pattern: "waves" },
-  rose: { from: "#881337", via: "#be123c", to: "#7e22ce", pattern: "dots" },
-  amber: { from: "#78350f", via: "#a16207", to: "#c2410c", pattern: "grid" },
-  teal: { from: "#134e4a", via: "#0f766e", to: "#4338ca", pattern: "diagonal" },
-  plum: { from: "#3b0764", via: "#86198f", to: "#be185d", pattern: "waves" },
+  evergreen: { from: "#12403a", via: "#1d5f55", to: "#3a8c7d", pattern: "dots" },
+  indigo: { from: "#252a55", via: "#373d78", to: "#5a60a6", pattern: "waves" },
+  clay: { from: "#4d2419", via: "#723727", to: "#a15a40", pattern: "diagonal" },
+  moss: { from: "#24391d", via: "#36532b", to: "#5d7f4b", pattern: "grid" },
+  rosewood: { from: "#47202a", via: "#68303d", to: "#94566a", pattern: "dots" },
+  ochre: { from: "#46310f", via: "#674a18", to: "#957130", pattern: "grid" },
+  ocean: { from: "#123446", via: "#1d4b63", to: "#3a7290", pattern: "diagonal" },
+  plum: { from: "#3a1e3a", via: "#552f55", to: "#80527e", pattern: "waves" },
 };
 
 export type Tone = keyof typeof PALETTE;
@@ -47,18 +51,18 @@ const TONES = Object.keys(PALETTE) as Tone[];
 
 /** Fixed look per known track / bank / interview slug; anything else is hashed (deterministic). */
 const KNOWN: Record<string, { tone: Tone; icon: LucideIcon }> = {
-  "manual-testing": { tone: "violet", icon: ClipboardCheck },
-  "manual-qa": { tone: "violet", icon: ClipboardCheck },
+  "manual-testing": { tone: "evergreen", icon: ClipboardCheck },
+  "manual-qa": { tone: "evergreen", icon: ClipboardCheck },
   automation: { tone: "indigo", icon: Bot },
-  "api-testing": { tone: "emerald", icon: Webhook },
-  performance: { tone: "sunset", icon: Gauge },
-  jmeter: { tone: "amber", icon: Activity },
-  mobile: { tone: "teal", icon: Smartphone },
-  specialist: { tone: "rose", icon: ShieldCheck },
-  "security-testing": { tone: "rose", icon: ShieldCheck },
+  "api-testing": { tone: "moss", icon: Webhook },
+  performance: { tone: "clay", icon: Gauge },
+  jmeter: { tone: "ochre", icon: Activity },
+  mobile: { tone: "ocean", icon: Smartphone },
+  specialist: { tone: "rosewood", icon: ShieldCheck },
+  "security-testing": { tone: "rosewood", icon: ShieldCheck },
   sdet: { tone: "plum", icon: Code },
   "sdet-architecture": { tone: "plum", icon: Code },
-  "data-ai-testing": { tone: "teal", icon: Brain },
+  "data-ai-testing": { tone: "ocean", icon: Brain },
   "ai-engineering": { tone: "plum", icon: Brain },
   "ai-engineering-interview": { tone: "plum", icon: Brain },
 };

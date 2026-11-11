@@ -1,0 +1,214 @@
+{
+  "lesson": "blazemeter-running-jmeter-tests",
+  "questions": [
+    {
+      "id": "pt-bzrun-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "Where do you upload the CSV that your JMX reads?",
+      "options": [
+        "Nowhere; engines read it from your laptop",
+        "Together with the JMX in the test's script/files upload area",
+        "Inside a JMeter comment",
+        "In the failure criteria section"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "All test files are uploaded with the test and downloaded to every engine before it starts."
+    },
+    {
+      "id": "pt-bzrun-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "BlazeMeter treats file names case-sensitively, so Users.csv and users.csv are different.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Upload files docs say names are case-sensitive; references must match exactly."
+    },
+    {
+      "id": "pt-bzrun-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "Which file name follows BlazeMeter's documented naming rules?",
+      "options": [
+        "my users.csv",
+        "users_2026-11.csv",
+        "users$.csv",
+        "users"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Letters, digits, underscores and hyphens with an extension are allowed. Spaces and $ are not, and names need an extension."
+    },
+    {
+      "id": "pt-bzrun-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "Two thread groups are both left at 1 thread. Total Users is 11 with overrides on. How many users per group?",
+      "options": [
+        "5 and 6",
+        "6 and 6",
+        "11 and 11",
+        "5 and 5"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With all groups at 1 thread, BlazeMeter splits evenly and rounds: 11/2 = 5.5 rounds to 6 each. The docs give similar examples (11 over 3 gives 4 each)."
+    },
+    {
+      "id": "pt-bzrun-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "Your test runs but stops after a few seconds. Overrides are disabled and the thread group loops forever with no duration or scheduler. What explains it?",
+      "options": [
+        "Network failure",
+        "BlazeMeter applies a short safeguard duration to infinite tests without a duration",
+        "The CSV ran out",
+        "Plan limit exceeded"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Load configuration docs describe a short default duration to prevent infinite tests. Set a duration in the script."
+    },
+    {
+      "id": "pt-bzrun-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "Where can you see exactly what thread settings BlazeMeter ran after applying overrides?",
+      "options": [
+        "In your local JMX",
+        "In the modified_(script name).jmx inside artifacts.zip from the Logs report",
+        "In the Chrome extension",
+        "In the Summary report title"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The artifacts include the modified JMX showing the override results."
+    },
+    {
+      "id": "pt-bzrun-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "This CSV Data Set Config works locally. In BlazeMeter the test hangs before starting. What is the fix?",
+      "code": "CSV Data Set Config\n  Filename: C:\\Users\\me\\perf\\users.csv\n  Variable Names: username,password",
+      "codeLanguage": "text",
+      "options": [
+        "Change delimiter to ;",
+        "Upload users.csv and set Filename to users.csv (no path)",
+        "Set Recycle on EOF to false",
+        "Add more engines"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A local absolute path does not exist on engines, and BlazeMeter may wait for the missing file. Use the file name only and upload the file."
+    },
+    {
+      "id": "pt-bzrun-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-running-jmeter-tests",
+      "prompt": "A debug test shows 100% connection timeouts to staging.example.test, yet the site works from your browser in the office. What is the most likely cause?",
+      "options": [
+        "The script is wrong",
+        "Staging is only reachable from the office network or firewall blocks the engines; open access for the test window or use a private location",
+        "Too few users",
+        "The RPS limit is too low"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Your browser is inside the network; cloud engines are not. Reachability is the first thing a debug test reveals."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzrun-split",
+      "language": "python",
+      "title": "Predict BlazeMeter's thread group split",
+      "difficulty": "intermediate",
+      "prompt": "Implement `split_users(total, thread_counts)` that mimics the documented rule:\n\n- If **every** thread group has 1 thread, split `total` evenly: each gets `round(total / groups)`.\n- Otherwise keep the ratio: each gets `round(total * n / sum(thread_counts))`.\n\nReturn a list. Examples: `split_users(1000, [5, 3, 2])` returns `[500, 300, 200]`; `split_users(7, [1, 1, 1])` returns `[2, 2, 2]`.",
+      "starter": "def split_users(total, thread_counts):\n    # Your code here\n    return []\n",
+      "solution": "import math\n\ndef split_users(total, thread_counts):\n    if all(n == 1 for n in thread_counts):\n        return [round(total / len(thread_counts))] * len(thread_counts)\n    s = sum(thread_counts)\n    return [round(total * n / s) for n in thread_counts]\n",
+      "explanation": "Check the all-ones case first, then scale each group by its share of the total threads. Python's round() matches the documented examples (3.67 to 4, 2.33 to 2).",
+      "hints": [
+        "Use `all(n == 1 for n in thread_counts)` for the even case.",
+        "The ratio share is `n / sum(thread_counts)`.",
+        "Multiply by total and round each value."
+      ],
+      "tests": [
+        {
+          "name": "Keeps ratio",
+          "marks": 3,
+          "code": "assert split_users(1000, [5, 3, 2]) == [500, 300, 200]"
+        },
+        {
+          "name": "Even split rounds down",
+          "marks": 2,
+          "code": "assert split_users(7, [1, 1, 1]) == [2, 2, 2]"
+        },
+        {
+          "name": "Even split rounds up",
+          "marks": 2,
+          "code": "assert split_users(11, [1, 1, 1]) == [4, 4, 4]"
+        }
+      ]
+    },
+    {
+      "id": "code-bzrun-names",
+      "language": "python",
+      "title": "Validate upload file names",
+      "difficulty": "beginner",
+      "prompt": "Write `bad_file_names(names)` returning, in order, the names that break BlazeMeter's documented rules: only letters, digits, `_` and `-` in the base name, and an extension (a dot followed by letters/digits).\n\nExample: `bad_file_names(['users.csv', 'my file.csv', 'data'])` returns `['my file.csv', 'data']`.",
+      "starter": "def bad_file_names(names):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef bad_file_names(names):\n    ok = re.compile(r\"^[A-Za-z0-9_-]+\\.[A-Za-z0-9]+$\")\n    return [n for n in names if not ok.match(n)]\n",
+      "explanation": "A single anchored regular expression expresses both rules; anything that does not match is reported.",
+      "hints": [
+        "Use `re.match` with `^` and `$` anchors.",
+        "Base name: `[A-Za-z0-9_-]+`; extension: `\\.[A-Za-z0-9]+`."
+      ],
+      "tests": [
+        {
+          "name": "Flags spaces and missing extension",
+          "marks": 2,
+          "code": "assert bad_file_names(['users.csv', 'my file.csv', 'data']) == ['my file.csv', 'data']"
+        },
+        {
+          "name": "Flags special characters",
+          "marks": 2,
+          "code": "assert bad_file_names(['ok_1-a.jmx', 'm$.csv', 'a&b.csv']) == ['m$.csv', 'a&b.csv']"
+        },
+        {
+          "name": "All good returns empty",
+          "marks": 1,
+          "code": "assert bad_file_names(['shop.jmx', 'users_2026.csv']) == []"
+        }
+      ]
+    }
+  ]
+}

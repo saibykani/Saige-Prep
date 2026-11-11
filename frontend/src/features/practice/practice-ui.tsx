@@ -178,7 +178,7 @@ export function Hint({ children }: { children: ReactNode }) {
   );
 }
 
-const CONFETTI_COLORS = ["#a394f5", "#4fbf8f", "#e0b25a", "#ef6f6c", "#9cc9e8", "#c9befc"];
+const CONFETTI_COLORS = ["var(--accent)", "var(--highlight)", "var(--success)", "var(--info)", "var(--warning)", "var(--accent-strong)"];
 
 /** CSS-only confetti burst (transform/opacity animations; hidden for reduced motion). */
 export function Confetti({ pieces = 16 }: { pieces?: number }) {
@@ -294,8 +294,8 @@ function ProgressRing({ value }: { value: number }) {
       />
       <defs>
         <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#a394f5" />
-          <stop offset="1" stopColor="#4fbf8f" />
+          <stop offset="0" style={{ stopColor: "var(--accent)" }} />
+          <stop offset="1" style={{ stopColor: "var(--success)" }} />
         </linearGradient>
       </defs>
     </svg>

@@ -1,0 +1,251 @@
+{
+  "lesson": "reranking-and-cross-encoders",
+  "questions": [
+    {
+      "id": "pt-rrnk-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "In a retrieve-then-rerank system, what is the first stage mainly optimised for?",
+      "options": [
+        "Recall over the whole corpus, cheaply",
+        "Perfect precision at rank 1",
+        "Generating the final answer",
+        "Compressing vectors"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Stage one must find the relevant items somewhere in the candidate list; the reranker then fixes the order at the top."
+    },
+    {
+      "id": "pt-rrnk-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "A bi-encoder lets you precompute document vectors before any query arrives.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Bi-encoders encode documents independently of the query, so their vectors can be indexed ahead of time. Cross-encoders cannot do this."
+    },
+    {
+      "id": "pt-rrnk-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "What does a cross-encoder output for a (query, passage) pair?",
+      "options": [
+        "A relevance score",
+        "Two vectors",
+        "A rewritten query",
+        "A chunk id"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It reads both texts together and outputs one score used to sort candidates."
+    },
+    {
+      "id": "pt-rrnk-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "What does this print?",
+      "code": "rrs = [1/2, 1/1, 1/4]\nprint(round(sum(rrs) / len(rrs), 3))",
+      "codeLanguage": "python",
+      "options": [
+        "0.5",
+        "0.583",
+        "0.667",
+        "1.0"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Reciprocal ranks are 1/2, 1/1 and 1/4. Their mean is (0.5 + 1 + 0.25) / 3 = 0.583. 0.667 would be the mean if the third were 1/2."
+    },
+    {
+      "id": "pt-rrnk-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "Which actions reduce reranking latency? Select all that apply.",
+      "options": [
+        "Rerank fewer candidates",
+        "Batch query-passage pairs",
+        "Use a smaller reranker model",
+        "Send longer passages"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Cost grows with the number and length of pairs and with model size. Longer passages increase latency."
+    },
+    {
+      "id": "pt-rrnk-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "A team wants to use a reranker's top score to decide when to abstain. What must they do first?",
+      "options": [
+        "Nothing; scores are probabilities",
+        "Calibrate a threshold on labelled answerable and unanswerable queries",
+        "Use cosine similarity instead",
+        "Always abstain below 0"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Reranker outputs are often unbounded logits and vary by model, so a threshold must be chosen from labelled data and rechecked when the model changes."
+    },
+    {
+      "id": "pt-rrnk-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "This nDCG function returns 1.0 for a query whose most relevant document was never retrieved. What is wrong?",
+      "code": "def ndcg(ranking, rel, k):\n    gains = [rel.get(d, 0) for d in ranking[:k]]\n    ideal = sorted(gains, reverse=True)\n    ideal_dcg = dcg(ideal)\n    return dcg(gains) / ideal_dcg if ideal_dcg else 0.0",
+      "codeLanguage": "python",
+      "options": [
+        "log2 should be log10",
+        "The ideal DCG uses the system's ranking instead of the labels sorted by relevance",
+        "Gains must be negative",
+        "k must be 1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "IDCG must be the DCG of the best possible ordering: all labelled gains sorted descending. Computing it from the system's own retrieved gains, which may omit relevant documents, makes the denominator too small, so a ranking that misses the best document can still score a perfect 1.0."
+    },
+    {
+      "id": "pt-rrnk-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reranking-and-cross-encoders",
+      "prompt": "An LLM listwise reranker improves nDCG@5 on 200 queries, but adds noticeable p95 latency, and a small cross-encoder gives most of the gain at a fraction of the latency. The product is an interactive chat. What is the best decision?",
+      "options": [
+        "Ship the LLM reranker because nDCG is higher",
+        "Ship the cross-encoder, and consider the LLM reranker only for a slower deep-answer mode or hard query types",
+        "Ship neither",
+        "Ship both in sequence for every query"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The cross-encoder captures most of the quality within the latency budget. Routing hard or opt-in queries to the LLM reranker uses its extra quality where latency is acceptable."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rrnk-rerank",
+      "title": "Rerank by score and keep top k",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `rerank(candidates, scores, top_k)` where `candidates` is a list of ids and `scores` a dict of id to reranker score. Return the `top_k` ids ordered by score descending. Candidates missing from `scores` go after all scored ones in their original order. Ties keep original order.\n\nExample: `rerank(['a','b','c'], {'a': 0.1, 'b': 0.9, 'c': 0.5}, 2)` returns `['b', 'c']`.",
+      "starter": "def rerank(candidates, scores, top_k):\n    return candidates[:0]\n",
+      "solution": "def rerank(candidates, scores, top_k):\n    scored = [c for c in candidates if c in scores]\n    missing = [c for c in candidates if c not in scores]\n    scored = sorted(scored, key=lambda c: -scores[c])\n    return (scored + missing)[:top_k]\n",
+      "explanation": "Python's sort is stable, so sorting by -score keeps the original order for ties. Appending unscored candidates rather than dropping them means a reranker failure degrades to first-stage order instead of losing results.",
+      "hints": [
+        "Split candidates into scored and missing lists.",
+        "sorted() is stable: equal keys keep their order.",
+        "Concatenate and slice to top_k."
+      ],
+      "tests": [
+        {
+          "name": "example",
+          "code": "assert rerank(['a','b','c'], {'a': 0.1, 'b': 0.9, 'c': 0.5}, 2) == ['b', 'c']",
+          "marks": 2
+        },
+        {
+          "name": "ties keep original order",
+          "code": "assert rerank(['x','y','z'], {'x': 1, 'y': 1, 'z': 2}, 3) == ['z', 'x', 'y']",
+          "marks": 2
+        },
+        {
+          "name": "missing scores go last",
+          "code": "assert rerank(['p','q','r'], {'r': 0.2}, 3) == ['r', 'p', 'q']",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-rrnk-mrr",
+      "title": "Mean reciprocal rank",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `mrr(rankings, relevant)` where `rankings` is a list of ranked id lists and `relevant` a list of sets, one per query. Reciprocal rank is 1 / rank of the first relevant id (0 if none). Return the mean rounded to 3 decimals (0.0 if there are no queries).\n\nExample: `mrr([['a','b'], ['c','d']], [{'b'}, {'x'}])` returns `0.25`.",
+      "starter": "def mrr(rankings, relevant):\n    return 1.0\n",
+      "solution": "def mrr(rankings, relevant):\n    if not rankings:\n        return 0.0\n    total = 0.0\n    for ranking, rel in zip(rankings, relevant):\n        for i, d in enumerate(ranking, start=1):\n            if d in rel:\n                total += 1 / i\n                break\n    return round(total / len(rankings), 3)\n",
+      "explanation": "Only the first relevant hit counts, so breaking out of the loop is essential. Queries with no relevant result contribute 0, which correctly pulls the mean down.",
+      "hints": [
+        "Use enumerate with start=1.",
+        "Stop at the first relevant id.",
+        "Divide by the number of queries, including misses."
+      ],
+      "tests": [
+        {
+          "name": "example gives 0.25",
+          "code": "assert mrr([['a','b'], ['c','d']], [{'b'}, {'x'}]) == 0.25",
+          "marks": 2
+        },
+        {
+          "name": "only first relevant counts",
+          "code": "assert mrr([['a','b','c']], [{'b','c'}]) == 0.5",
+          "marks": 2
+        },
+        {
+          "name": "perfect and empty",
+          "code": "assert mrr([['a'], ['b']], [{'a'}, {'b'}]) == 1.0 and mrr([], []) == 0.0",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-rrnk-ndcg",
+      "title": "nDCG@k with graded labels",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `ndcg_at_k(ranking, relevance, k)` where `relevance` maps ids to graded gains (missing = 0). DCG = sum of gain / log2(rank + 1) over the first k results. IDCG is the DCG of all labelled gains sorted descending, truncated to k. Return DCG / IDCG rounded to 3 decimals, or 0.0 if IDCG is 0.\n\nExample: the lesson's first-stage ranking `['pricing#1','refund-faq#0','billing#4','refund-policy#2','shipping#3']` with labels `{'refund-policy#2': 3, 'refund-faq#0': 1, 'billing#4': 1}` and k 5 gives `0.587`.",
+      "starter": "import math\n\ndef ndcg_at_k(ranking, relevance, k):\n    return 2.0\n",
+      "solution": "import math\n\ndef _dcg(gains):\n    return sum(g / math.log2(i + 2) for i, g in enumerate(gains))\n\ndef ndcg_at_k(ranking, relevance, k):\n    gains = [relevance.get(d, 0) for d in ranking[:k]]\n    ideal = sorted(relevance.values(), reverse=True)[:k]\n    idcg = _dcg(ideal)\n    return round(_dcg(gains) / idcg, 3) if idcg else 0.0\n",
+      "explanation": "The ideal ordering is built from the labels, not from what the system retrieved, so missing a relevant document lowers nDCG instead of inflating it. Dividing by log2(rank + 1) makes position 1 count fully and later positions less.",
+      "hints": [
+        "With 0-based i, the discount is log2(i + 2).",
+        "Build IDCG from sorted(relevance.values(), reverse=True)[:k].",
+        "Guard against IDCG == 0."
+      ],
+      "tests": [
+        {
+          "name": "lesson first-stage example",
+          "code": "assert ndcg_at_k(['pricing#1','refund-faq#0','billing#4','refund-policy#2','shipping#3'], {'refund-policy#2': 3, 'refund-faq#0': 1, 'billing#4': 1}, 5) == 0.587",
+          "marks": 3
+        },
+        {
+          "name": "lesson reranked example",
+          "code": "assert ndcg_at_k(['refund-policy#2','refund-faq#0','pricing#1','billing#4','shipping#3'], {'refund-policy#2': 3, 'refund-faq#0': 1, 'billing#4': 1}, 5) == 0.983",
+          "marks": 2
+        },
+        {
+          "name": "unretrieved relevant docs lower the score",
+          "code": "assert ndcg_at_k(['a'], {'a': 1, 'b': 3}, 2) < 0.5 and ndcg_at_k(['x'], {}, 3) == 0.0",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

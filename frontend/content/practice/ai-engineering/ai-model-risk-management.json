@@ -1,0 +1,230 @@
+{
+  "lesson": "ai-model-risk-management",
+  "questions": [
+    {
+      "id": "pt-aimrm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-model-risk-management",
+      "prompt": "What is the first step of model risk management?",
+      "options": [
+        "Identifying models and recording them in an inventory",
+        "Retraining every model",
+        "Buying a vendor model",
+        "Writing the audit report"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "You cannot tier, validate or monitor models you do not know exist. Inventory comes first."
+    },
+    {
+      "id": "pt-aimrm-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-model-risk-management",
+      "prompt": "In April 2026 US banking regulators issued SR 26-2, which supersedes SR 11-7.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "SR 26-2, Revised Guidance on Model Risk Management, issued 17 April 2026 by the Fed, OCC and FDIC, supersedes and replaces SR 11-7."
+    },
+    {
+      "id": "pt-aimrm-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-model-risk-management",
+      "prompt": "Which function is typically the third line?",
+      "options": [
+        "Internal audit",
+        "Model developers",
+        "Model validation",
+        "The business users"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Internal audit independently assesses whether the framework works. Developers and users are first line; validation is second line."
+    },
+    {
+      "id": "pt-aimrm-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-model-risk-management",
+      "prompt": "What does SR 26-2 say about generative and agentic AI models?",
+      "options": [
+        "They are not within its scope, though governance should still cover them",
+        "They are banned in banks",
+        "They must be validated annually by a notified body",
+        "They are treated exactly like scorecards"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The guidance states generative and agentic AI are out of scope while expecting broader risk management to govern them. It does not ban them, and notified bodies belong to the EU AI Act."
+    },
+    {
+      "id": "pt-aimrm-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-model-risk-management",
+      "prompt": "Which belong in a model inventory entry for a hosted LLM tool? Select all that apply.",
+      "options": [
+        "Provider and model version identifier",
+        "Owner and intended use",
+        "Risk tier and validation status",
+        "The model's full weights"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Inventory records metadata needed to manage risk. You usually cannot (and need not) store a hosted model's weights."
+    },
+    {
+      "id": "pt-aimrm-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-model-risk-management",
+      "prompt": "The developers of a fraud model ran extensive tests and wrote the validation report themselves. What is the main problem?",
+      "options": [
+        "It lacks independence, so it is not effective challenge",
+        "Developers should never test their models",
+        "The report is too long",
+        "Fraud models need no validation"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Developer testing is necessary but is first-line work. Validation needs people with independence and standing to challenge and force changes."
+    },
+    {
+      "id": "pt-aimrm-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-model-risk-management",
+      "prompt": "Using the tiering rule below, which tier does a third-party model with materiality 2 and complexity 2 get?",
+      "options": [
+        "Tier 1",
+        "Tier 2",
+        "Tier 3",
+        "Error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "2 * 2 = 4, plus 1 for third party = 5. 5 is not >= 6, but is >= 3, so tier 2.",
+      "code": "def tier(m, c, third_party):\n    s = m * c + (1 if third_party else 0)\n    return 1 if s >= 6 else 2 if s >= 3 else 3\nprint(tier(2, 2, True))",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-aimrm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-model-risk-management",
+      "prompt": "A hosted LLM used for customer letters was validated in March. In September the provider silently updates the model behind the same alias. What control would have caught this?",
+      "options": [
+        "Pinning a model version and treating any version change as a model change needing review",
+        "A bigger validation report in March",
+        "Annual staff training",
+        "Increasing the context window"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Floating aliases let behaviour change without a release. Pinning versions plus change review and monitoring makes vendor changes visible."
+    },
+    {
+      "id": "pt-aimrm-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-model-risk-management",
+      "prompt": "Outcomes analysis for a complaint-drafting LLM: which approach fits best?",
+      "options": [
+        "Expert reviewers rate a sample of drafts against real case facts and policy, repeated over time",
+        "Compare token counts with last year",
+        "Measure training loss on the vendor's data",
+        "Ask the model to rate its own drafts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Outcomes analysis compares outputs with real-world truth. For generative output that means expert-graded samples. Vendor training loss is unavailable and irrelevant; self-rating is not independent."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aimrm-tiering",
+      "title": "Risk-tier an inventory",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `tier(model)` for a dict with integer `materiality` and `complexity` (1–3) and boolean `third_party`, `agentic`. Score = materiality * complexity, +1 if third_party. Return 1 if `agentic` is True or score >= 6, 2 if score >= 3, else 3.\n\nExample: `tier({'materiality': 1, 'complexity': 2, 'third_party': True, 'agentic': False})` is 2.",
+      "starter": "def tier(model):\n    return 0\n",
+      "solution": "def tier(model):\n    score = model['materiality'] * model['complexity'] + (1 if model['third_party'] else 0)\n    if model['agentic'] or score >= 6:\n        return 1\n    if score >= 3:\n        return 2\n    return 3\n",
+      "explanation": "Agentic models jump straight to the highest tier because their outputs act on systems. The +1 reflects lower transparency of vendor models.",
+      "hints": [
+        "Compute the score first.",
+        "Check the agentic override before thresholds.",
+        "Thresholds are >= 6 and >= 3."
+      ],
+      "tests": [
+        {
+          "name": "third party bumps to tier 2",
+          "code": "assert tier({'materiality': 1, 'complexity': 2, 'third_party': True, 'agentic': False}) == 2",
+          "marks": 2
+        },
+        {
+          "name": "agentic override",
+          "code": "assert tier({'materiality': 1, 'complexity': 1, 'third_party': False, 'agentic': True}) == 1",
+          "marks": 2
+        },
+        {
+          "name": "low and high",
+          "code": "assert tier({'materiality': 1, 'complexity': 1, 'third_party': False, 'agentic': False}) == 3\nassert tier({'materiality': 3, 'complexity': 2, 'third_party': False, 'agentic': False}) == 1",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aimrm-overdue",
+      "title": "Flag overdue validations",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `overdue(inventory, today, limits)` where each model has `id`, `tier` and `last_validated` (a `date` or `None`), and `limits` maps tier to maximum months between validations. Months between dates = `(today.year - d.year) * 12 + today.month - d.month`. Return a sorted list of ids that were never validated or exceed their limit.",
+      "starter": "from datetime import date\n\ndef overdue(inventory, today, limits):\n    return None\n",
+      "solution": "from datetime import date\n\ndef overdue(inventory, today, limits):\n    out = []\n    for m in inventory:\n        d = m['last_validated']\n        if d is None:\n            out.append(m['id'])\n            continue\n        months = (today.year - d.year) * 12 + today.month - d.month\n        if months > limits[m['tier']]:\n            out.append(m['id'])\n    return sorted(out)\n",
+      "explanation": "Never-validated models are the most serious case and must be flagged first. Exactly hitting the limit is still within policy, so the comparison is strictly greater.",
+      "hints": [
+        "Handle `None` before doing date arithmetic.",
+        "Use the month formula given.",
+        "Compare with `>` so the limit itself is allowed."
+      ],
+      "tests": [
+        {
+          "name": "mixed inventory",
+          "code": "from datetime import date\ninv = [{'id':'M1','tier':1,'last_validated':date(2025,9,1)},{'id':'M2','tier':2,'last_validated':date(2025,9,1)},{'id':'M3','tier':3,'last_validated':None}]\nr = overdue(inv, date(2026,11,1), {1:12, 2:24, 3:36})\nassert r == ['M1','M3'], r",
+          "marks": 3
+        },
+        {
+          "name": "limit boundary is ok",
+          "code": "from datetime import date\ninv = [{'id':'M9','tier':1,'last_validated':date(2025,11,1)}]\nassert overdue(inv, date(2026,11,1), {1:12}) == []\ninv2 = [{'id':'M8','tier':1,'last_validated':date(2025,10,1)}]\nassert overdue(inv2, date(2026,11,1), {1:12}) == ['M8']",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "lesson": "evaluating-ai-agents",
+  "questions": [
+    {
+      "id": "pt-agev-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "evaluating-ai-agents",
+      "prompt": "What is an agent's trajectory?",
+      "options": [
+        "The sequence of steps, tool calls and observations it made",
+        "Its final reply only",
+        "The model's training curve",
+        "The list of tools it was offered"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The trajectory is the record of what the agent did. The final reply is only the end of it, and the tool list is what it could do, not what it did."
+    },
+    {
+      "id": "pt-agev-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "evaluating-ai-agents",
+      "prompt": "Fake tools over a seeded in-memory state should be reset before every trial.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without a reset, side effects from one trial (an already-refunded order, for example) change the next trial's task and make results flaky."
+    },
+    {
+      "id": "pt-agev-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "evaluating-ai-agents",
+      "prompt": "Why is grading only the agent's final message risky?",
+      "options": [
+        "The agent can claim actions it never took, or took twice",
+        "Messages are too long to grade",
+        "Final messages are always correct",
+        "Judges cannot read agent output"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Agents can say 'done' without doing it. Checking the environment's final state catches that; the other options are false."
+    },
+    {
+      "id": "pt-agev-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "evaluating-ai-agents",
+      "prompt": "What does this print?",
+      "options": [
+        "0.80",
+        "0.51",
+        "0.64",
+        "0.96"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "If each independent trial succeeds with p = 0.8, the chance that 2 in a row both succeed is 0.8 * 0.8 = 0.64. 0.96 is the chance at least one of two succeeds (pass@2 style).",
+      "code": "p = 0.8\nprint(f'{p ** 2:.2f}')",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-agev-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "evaluating-ai-agents",
+      "prompt": "Which are good trajectory assertions for a refund agent? Select all that apply.",
+      "options": [
+        "`get_order` is called before `refund_order`",
+        "`refund_order` is called at most once",
+        "The exact list of calls equals ['get_order','refund_order','send_email']",
+        "No tool outside the allow-list is called"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Invariants (ordering, idempotency, allow-list) catch real faults while allowing valid alternative paths. An exact-sequence assertion fails legitimate variations such as an extra lookup."
+    },
+    {
+      "id": "pt-agev-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "evaluating-ai-agents",
+      "prompt": "This harness makes later trials fail randomly. Why?",
+      "options": [
+        "All trials share and mutate the same SEED_DB dict",
+        "The loop should start at 1",
+        "`results` should be a set",
+        "Agents cannot be called in a loop"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`Sandbox(SEED_DB)` stores the same dict object, so refunds from trial 1 persist. Deep-copy the seed per trial. The other options are irrelevant.",
+      "code": "class Sandbox:\n    def __init__(self, seed):\n        self.db = seed\n\nresults = [evaluate(agent, Sandbox(SEED_DB)) for _ in range(10)]",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-agev-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "evaluating-ai-agents",
+      "prompt": "A replayed tool receives arguments it has no recording for during a CI eval. What should the harness do?",
+      "options": [
+        "Fail loudly and flag the recording or task for review",
+        "Call the live production API instead",
+        "Return an empty success response",
+        "Retry until a recording matches"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Falling through to production risks real side effects; fake success hides the problem; retrying cannot create a recording. Failing loudly keeps evals safe and visible."
+    },
+    {
+      "id": "pt-agev-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "evaluating-ai-agents",
+      "prompt": "Candidate agent B raises task success from 82% to 84% over 10 trials per task, but median steps go from 6 to 14 and two tasks show a forbidden tool call in one trial each. What is the right release decision?",
+      "options": [
+        "Block: the safety violations and cost increase outweigh a small success gain; investigate",
+        "Ship: success improved",
+        "Ship, because forbidden calls happened in only one trial each",
+        "Re-run until no forbidden calls appear, then ship"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A forbidden action that appears in some trials is a real vulnerability, and more than doubling steps is a cost and latency regression. Retrying until green hides a real failure rate."
+    },
+    {
+      "id": "pt-agev-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "evaluating-ai-agents",
+      "prompt": "A vendor cites a high SWE-bench score for a model you plan to use for an internal ticket-triage agent. How should you use it?",
+      "options": [
+        "As weak context; check the variant, scaffold and attempts, then run your own task suite",
+        "As proof the model will triage tickets well",
+        "Ignore all benchmarks entirely",
+        "Compare it directly with tau-bench scores to pick a model"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "SWE-bench measures fixing Python repository issues under a particular harness; it does not transfer directly to triage. Benchmarks are still informative, but scores across different benchmarks or variants are not comparable."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-agev-trajectory",
+      "title": "Trajectory invariants",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `trajectory_checks(calls, allowed)` where `calls` is a list of tool names in order. Return a dict with three booleans:\n- `lookup_first`: `'get_order'` appears and is before the first `'refund_order'` (True if there is no refund at all and get_order appears)\n- `single_refund`: `'refund_order'` appears at most once\n- `allowed_only`: every call is in `allowed`\n\nExample: `trajectory_checks(['refund_order','refund_order'], {'get_order','refund_order'})` returns `{'lookup_first': False, 'single_refund': False, 'allowed_only': True}`.",
+      "starter": "def trajectory_checks(calls, allowed):\n    return {}\n",
+      "solution": "def trajectory_checks(calls, allowed):\n    has_lookup = 'get_order' in calls\n    if 'refund_order' in calls:\n        lookup_first = has_lookup and calls.index('get_order') < calls.index('refund_order')\n    else:\n        lookup_first = has_lookup\n    return {\n        'lookup_first': lookup_first,\n        'single_refund': calls.count('refund_order') <= 1,\n        'allowed_only': set(calls) <= set(allowed),\n    }\n",
+      "explanation": "Each check is an invariant, not a required exact sequence, so valid alternative paths still pass. `list.index` gives the first occurrence, which is what ordering needs.",
+      "hints": [
+        "`list.index(x)` returns the first position of x.",
+        "`list.count` counts occurrences.",
+        "Set subset `<=` checks the allow-list."
+      ],
+      "tests": [
+        {
+          "name": "sloppy trajectory fails",
+          "code": "r = trajectory_checks(['refund_order','refund_order'], {'get_order','refund_order'})\nassert r == {'lookup_first': False, 'single_refund': False, 'allowed_only': True}, r",
+          "marks": 3
+        },
+        {
+          "name": "good trajectory passes",
+          "code": "r = trajectory_checks(['get_order','refund_order','send_email'], {'get_order','refund_order','send_email'})\nassert r == {'lookup_first': True, 'single_refund': True, 'allowed_only': True}, r",
+          "marks": 2
+        },
+        {
+          "name": "forbidden tool detected",
+          "code": "r = trajectory_checks(['get_order','delete_order'], {'get_order','refund_order'})\nassert r.get('allowed_only') is False and r.get('lookup_first') is True, r",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-agev-pass-k",
+      "title": "pass@k and pass^k",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Given `n` trials of which `c` succeeded, write:\n- `pass_at_k(n, c, k)` = 1 - C(n-c, k) / C(n, k) (return 1.0 when n - c < k)\n- `pass_hat_k(n, c, k)` = C(c, k) / C(n, k)\n\nUse `math.comb`. Example: `pass_hat_k(10, 8, 3)` is about 0.4667 and `pass_at_k(10, 8, 3)` is 1.0.",
+      "starter": "from math import comb\n\ndef pass_at_k(n, c, k):\n    return None\n\ndef pass_hat_k(n, c, k):\n    return None\n",
+      "solution": "from math import comb\n\ndef pass_at_k(n, c, k):\n    if n - c < k:\n        return 1.0\n    return 1 - comb(n - c, k) / comb(n, k)\n\ndef pass_hat_k(n, c, k):\n    return comb(c, k) / comb(n, k)\n",
+      "explanation": "pass@k is one minus the chance that all k sampled trials are failures; pass^k is the chance all k sampled trials are successes. Using combinations gives unbiased estimates from n recorded trials.",
+      "hints": [
+        "`comb(a, b)` is 0 when b > a, which handles c < k for pass^k.",
+        "pass@k: probability of choosing k trials that are all failures, subtracted from 1.",
+        "pass^k: choose k from the c successes over choose k from n."
+      ],
+      "tests": [
+        {
+          "name": "pass hat k example",
+          "code": "v = pass_hat_k(10, 8, 3)\nassert v is not None and abs(v - 56/120) < 1e-9, v",
+          "marks": 3
+        },
+        {
+          "name": "pass at k example",
+          "code": "assert pass_at_k(10, 8, 3) == 1.0\nv = pass_at_k(10, 5, 2)\nassert abs(v - (1 - 10/45)) < 1e-9, v",
+          "marks": 3
+        },
+        {
+          "name": "k=1 equals success rate",
+          "code": "assert abs(pass_at_k(10, 7, 1) - 0.7) < 1e-9 and abs(pass_hat_k(10, 7, 1) - 0.7) < 1e-9",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-agev-harness",
+      "title": "Sandboxed eval of a scripted agent",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Implement `run_eval(agent, seed, task, trials)`.\n\n- For each trial, deep-copy `seed` into `db` and create an empty `calls` list.\n- Provide a `tool(name, **args)` function to the agent: it appends `name` to `calls` and handles `'refund_order'` by setting `db['orders'][args['order_id']]['refunded'] = True` (return `{'ok': True}`) and `'get_order'` by returning `db['orders'][args['order_id']]`; anything else returns `{'error': 'unknown'}`.\n- Call `agent(tool, task)`.\n- A trial succeeds if the order `task['order_id']` is refunded AND `calls.count('refund_order') == 1`.\n\nReturn `{'successes': int, 'trials': trials, 'mean_steps': float}` where mean_steps is the average number of calls.",
+      "starter": "import copy\n\ndef run_eval(agent, seed, task, trials):\n    return {}\n",
+      "solution": "import copy\n\ndef run_eval(agent, seed, task, trials):\n    successes, steps = 0, 0\n    for _ in range(trials):\n        db = copy.deepcopy(seed)\n        calls = []\n        def tool(name, **args):\n            calls.append(name)\n            if name == 'refund_order':\n                db['orders'][args['order_id']]['refunded'] = True\n                return {'ok': True}\n            if name == 'get_order':\n                return db['orders'][args['order_id']]\n            return {'error': 'unknown'}\n        agent(tool, task)\n        if db['orders'][task['order_id']]['refunded'] and calls.count('refund_order') == 1:\n            successes += 1\n        steps += len(calls)\n    return {'successes': successes, 'trials': trials, 'mean_steps': steps / trials}\n",
+      "explanation": "The deep copy isolates trials, the closure records every call, and success is judged on state plus a trajectory invariant, never on what the agent says.",
+      "hints": [
+        "Define `tool` inside the loop so it closes over that trial's `db` and `calls`.",
+        "`copy.deepcopy(seed)` stops one trial's refund leaking into the next.",
+        "Success = refunded flag in db and exactly one refund call."
+      ],
+      "tests": [
+        {
+          "name": "good agent succeeds every trial",
+          "code": "SEED = {'orders': {'A1': {'refunded': False}}}\ndef good(tool, task):\n    tool('get_order', order_id=task['order_id'])\n    tool('refund_order', order_id=task['order_id'])\nr = run_eval(good, SEED, {'order_id': 'A1'}, 3)\nassert r == {'successes': 3, 'trials': 3, 'mean_steps': 2.0}, r\nassert SEED['orders']['A1']['refunded'] is False, 'seed was mutated'",
+          "marks": 4
+        },
+        {
+          "name": "double refund fails",
+          "code": "SEED = {'orders': {'A1': {'refunded': False}}}\ndef twice(tool, task):\n    tool('refund_order', order_id='A1')\n    tool('refund_order', order_id='A1')\nr = run_eval(twice, SEED, {'order_id': 'A1'}, 2)\nassert r.get('successes') == 0 and r.get('mean_steps') == 2.0, r",
+          "marks": 3
+        },
+        {
+          "name": "claiming without acting fails",
+          "code": "SEED = {'orders': {'A1': {'refunded': False}}}\ndef liar(tool, task):\n    return 'Refund issued'\nr = run_eval(liar, SEED, {'order_id': 'A1'}, 2)\nassert r == {'successes': 0, 'trials': 2, 'mean_steps': 0.0}, r",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

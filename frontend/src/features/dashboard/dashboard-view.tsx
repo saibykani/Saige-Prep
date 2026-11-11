@@ -108,7 +108,7 @@ function ContinueLearningRow({ lessons, index }: { lessons: StoreData["lessons"]
             <li key={item.slug} className={cn("w-[78%] max-w-[300px] shrink-0 sm:w-[280px]", i === 0 && "featured-ring rounded-2xl")}>
               <Link href={item.href} className="course-card group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-soft">
                 <CourseThumb themeKey={item.track} size="sm">
-                  <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold capitalize text-[#1f1147]">
+                  <span className="absolute right-3 top-3 rounded-full bg-white/95 px-2.5 py-0.5 text-[11px] font-semibold capitalize text-[#14211f]">
                     {item.level}
                   </span>
                 </CourseThumb>
@@ -148,7 +148,7 @@ export function DashboardView({
   const steps: NextStep[] = [
     {
       label: "Pick a target role",
-      detail: "Choose from 85 testing and AI role roadmaps, then build a study plan for it.",
+      detail: "Choose from 89 testing and AI role roadmaps, then build a study plan for it.",
       href: data.profile.targetRole ? "/planner" : "/roadmaps",
       done: Boolean(data.profile.targetRole) || data.plan.tasks.length > 0,
     },
@@ -203,7 +203,7 @@ export function DashboardView({
           <Card key={label} className="spotlight lift group overflow-hidden">
             <CardContent className="flex items-start justify-between gap-3 pt-5 sm:pt-5">
               <div>
-                <p className="text-3xl font-semibold tracking-tight">
+                <p className="stat-value text-3xl font-semibold tracking-tight">
                   <CountUp value={value} />
                 </p>
                 <p className="text-sm text-muted">{label}</p>

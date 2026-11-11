@@ -18,8 +18,8 @@ export function CodeBlock({ code, language, className }: { code: string; languag
   }
 
   return (
-    <figure className={cn("overflow-hidden rounded-lg border border-border bg-code-bg", className)}>
-      <figcaption className="flex items-center justify-between border-b border-border px-3 py-1.5">
+    <figure className={cn("overflow-hidden rounded-xl border border-border bg-code-bg shadow-soft", className)}>
+      <figcaption className="flex items-center justify-between border-b border-border bg-surface-raised/50 px-4 py-1.5">
         <span className="font-mono text-[11px] uppercase tracking-wide text-subtle">{language ?? "text"}</span>
         <button
           type="button"
@@ -31,8 +31,8 @@ export function CodeBlock({ code, language, className }: { code: string; languag
           {copied ? "Copied" : "Copy"}
         </button>
       </figcaption>
-      <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed">
-        <code className="font-mono text-foreground/90">{code}</code>
+      <pre className="overflow-x-auto p-4 text-[13px] leading-[1.7]">
+        <code className="font-mono text-code-foreground">{code}</code>
       </pre>
     </figure>
   );

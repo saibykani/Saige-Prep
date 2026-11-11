@@ -14,7 +14,7 @@ Phases, acceptance criteria and progress are tracked in `docs/implementation-sta
 - Middleware is now `src/proxy.ts`. It only does optimistic cookie-presence redirects; the backend is the real auth boundary.
 - The browser calls same-origin `/api/*`, and `next.config.ts` rewrites it to `BACKEND_URL` (resolved at build time). Use `apiFetch` from `src/lib/api.ts`; it adds the CSRF header.
 - Navigation is defined once, in `src/lib/navigation.ts` (sidebar, search, breadcrumbs, planned pages).
-- Design tokens are in `src/app/globals.css` (`bg-surface`, `text-muted`, `text-accent`, …). Dark-first, violet/emerald accents, no default blue.
+- Design tokens are in `src/app/globals.css` (`bg-surface`, `text-muted`, `text-accent`, …). Calm neutrals (warm paper light, ink-slate dark), one brand colour (evergreen-teal by default, switchable via `data-accent`: indigo/coral/plum) plus amber `highlight` for celebration; semantic colours are separate. No default blue, no neon gradients. See `docs/ui-audit.md`.
 - Tests: `npm run check` (tsc + eslint + vitest), `npm run test:e2e` (Playwright, isolated ports 3100/8100).
 
 ## Backend

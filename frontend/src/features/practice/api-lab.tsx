@@ -14,7 +14,7 @@ const METHODS = ["GET", "POST", "PUT", "DELETE"] as const;
 const METHOD_COLOR: Record<string, string> = {
   GET: "text-success",
   POST: "text-warning",
-  PUT: "text-sky-700 dark:text-[#9cc9e8]",
+  PUT: "text-info",
   DELETE: "text-danger",
 };
 

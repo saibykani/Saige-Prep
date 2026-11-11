@@ -46,7 +46,7 @@ export function TrackCatalogue({ tracks }: { tracks: TrackCardData[] }) {
               )}
             >
               {c.label}
-              <span className="rounded-full bg-black/10 px-1.5 text-[11px] tabular-nums dark:bg-white/10">{c.count}</span>
+              <span className="rounded-full bg-current/10 px-1.5 text-[11px] tabular-nums">{c.count}</span>
             </button>
           ))}
         </div>

@@ -85,7 +85,7 @@ export const WALKTHROUGHS: Walkthrough[] = [
   {
     id: "roadmaps",
     title: "Choosing a role (Roadmaps)",
-    summary: "Role Roadmaps describe 85 testing and AI roles: the job, the skills, a beginner-to-advanced path and how to tell when you’re ready.",
+    summary: "Role Roadmaps describe 89 testing and AI roles: the job, the skills, a beginner-to-advanced path and how to tell when you’re ready.",
     time: "10–20 minutes",
     start: { href: "/roadmaps", label: "Open Role Roadmaps" },
     steps: [

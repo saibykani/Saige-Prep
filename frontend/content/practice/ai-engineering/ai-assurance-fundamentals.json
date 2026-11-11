@@ -1,0 +1,230 @@
+{
+  "lesson": "ai-assurance-fundamentals",
+  "questions": [
+    {
+      "id": "pt-aasf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "In GSN, what does a 'strategy' node do?",
+      "options": [
+        "Explains how a claim is broken down into sub-claims",
+        "Stores a test report",
+        "States the system's context",
+        "Lists the project budget"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A strategy describes the argument used to decompose a goal, for example 'argue over each hazard'. Evidence is a solution node; context is a separate node type."
+    },
+    {
+      "id": "pt-aasf-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "Assurance is relative to a purpose: the same model can be assured for one use and not for another.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Claims are scoped by context and intended use. Evidence gathered for one population or task may not support a different one."
+    },
+    {
+      "id": "pt-aasf-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "Which is third-party assurance?",
+      "options": [
+        "An accredited certification body audits the organisation",
+        "The developers review their own tests",
+        "A customer reviews the vendor's documents",
+        "A team lead signs off a release"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Third-party means an independent body. Self-review is first-party; a customer review is second-party."
+    },
+    {
+      "id": "pt-aasf-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "A vendor provides accuracy measured on US hospital data; you will deploy in UK clinics with different demographics. What does this mean for your assurance case?",
+      "options": [
+        "The evidence is from a different context; it cannot by itself support your claim, so gather local evidence",
+        "The evidence is sufficient because accuracy is accuracy",
+        "The claim should be dropped entirely",
+        "Only formal verification can fix it"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Evidence must match the claim's context. Local evaluation (and a bias audit) is needed. Dropping the claim or using formal methods does not address the gap."
+    },
+    {
+      "id": "pt-aasf-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "Which changes should re-open claims in an AI assurance case? Select all that apply.",
+      "options": [
+        "A new model version",
+        "A change to the system prompt",
+        "Use with a new user group",
+        "A typo fixed in the internal wiki"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Model, prompt and context changes can all change behaviour and invalidate evidence. An unrelated wiki edit does not."
+    },
+    {
+      "id": "pt-aasf-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "What is a 'defeater' in an assurance case?",
+      "options": [
+        "A reason the claim might be false, which must be addressed",
+        "The person who approves the case",
+        "A failing unit test",
+        "The top-level goal"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Considering defeaters guards against confirmation bias: you record why the claim might not hold and how that is handled."
+    },
+    {
+      "id": "pt-aasf-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "What does this print?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "KeyError"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "all() over the leaf results is False because G3 has no evidence. An empty list is falsy here because the code checks `bool(ev)`, not membership.",
+      "code": "case = {'G2': ['E1'], 'G3': [], 'G4': ['E3']}\nprint(all(bool(ev) for ev in case.values()))",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-aasf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "A team says their chatbot is assured because it 'passed 2,000 automated tests'. As assurance lead, what is your first question?",
+      "options": [
+        "Which risks and claims do those tests address, and what is not covered?",
+        "How long did the tests take?",
+        "Which programming language were they written in?",
+        "Can we raise it to 4,000 tests?"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Volume of tests is not assurance. The question is whether evidence covers the identified risks and claims, and where the gaps are."
+    },
+    {
+      "id": "pt-aasf-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-assurance-fundamentals",
+      "prompt": "Someone proposes formal verification to assure that a support LLM 'never gives wrong policy advice'. What is the best response?",
+      "options": [
+        "Formal methods cannot prove open-ended correctness; use evals, grounding checks, oversight and monitoring, and verify narrow properties if useful",
+        "Agree; formal verification proves correctness for any model",
+        "Reject all formal methods as useless",
+        "Replace the LLM with a rules engine automatically"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without a complete formal specification of correct advice, proof is impossible, and tools scale poorly to large models. Formal methods can still help with narrow properties, so rejecting them entirely is also wrong."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aasf-leaf-gaps",
+      "title": "Find unsupported claims",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "An assurance case is a nested dict: a node has `id` and either `children` (list of nodes) or `evidence` (list of evidence ids). Write `unsupported(node)` that returns a sorted list of ids of leaf nodes whose evidence list is empty.\n\nExample: a root with leaves G2 (['E1']) and G3 ([]) returns `['G3']`.",
+      "starter": "def unsupported(node):\n    return None\n",
+      "solution": "def unsupported(node):\n    if 'children' in node:\n        out = []\n        for child in node['children']:\n            out.extend(unsupported(child))\n        return sorted(out)\n    return [] if node['evidence'] else [node['id']]\n",
+      "explanation": "Recursion mirrors the tree: internal nodes collect results from children; leaves report themselves when they have no evidence.",
+      "hints": [
+        "Recurse into `children` when present.",
+        "A leaf returns `[id]` if its evidence list is empty, else `[]`.",
+        "Sort the combined list at the end."
+      ],
+      "tests": [
+        {
+          "name": "finds one gap",
+          "code": "case = {'id':'G1','children':[{'id':'G2','evidence':['E1']},{'id':'G3','evidence':[]}]}\nassert unsupported(case) == ['G3'], unsupported(case)",
+          "marks": 2
+        },
+        {
+          "name": "nested tree",
+          "code": "case = {'id':'G1','children':[{'id':'G4','children':[{'id':'G6','evidence':[]},{'id':'G5','evidence':[]}]},{'id':'G2','evidence':['E1']}]}\nassert unsupported(case) == ['G5','G6'], unsupported(case)",
+          "marks": 3
+        },
+        {
+          "name": "fully supported",
+          "code": "assert unsupported({'id':'G1','children':[{'id':'G2','evidence':['E1']}]}) == []",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aasf-evidence-status",
+      "title": "Check evidence freshness and results",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `evidence_problems(case, evidence, today, max_age_days)` that walks the case (same shape as before) and returns a list of strings, in tree order:\n- `\"<leaf id>: no evidence\"` for an empty leaf\n- `\"<leaf id>: <eid> failed\"` if `evidence[eid]['passed']` is False\n- `\"<leaf id>: <eid> stale\"` if it passed but `(today - evidence[eid]['date']).days > max_age_days`\n\n`today` and dates are `datetime.date` objects.",
+      "starter": "from datetime import date\n\ndef evidence_problems(case, evidence, today, max_age_days):\n    return []\n",
+      "solution": "from datetime import date\n\ndef evidence_problems(case, evidence, today, max_age_days):\n    out = []\n    def walk(node):\n        if 'children' in node:\n            for child in node['children']:\n                walk(child)\n            return\n        if not node['evidence']:\n            out.append(f\"{node['id']}: no evidence\")\n        for eid in node['evidence']:\n            item = evidence[eid]\n            if not item['passed']:\n                out.append(f\"{node['id']}: {eid} failed\")\n            elif (today - item['date']).days > max_age_days:\n                out.append(f\"{node['id']}: {eid} stale\")\n    walk(case)\n    return out\n",
+      "explanation": "A helper that walks the tree and appends to one list keeps every problem, not just the first. Failure is checked before staleness because a failed result is the more serious finding.",
+      "hints": [
+        "Use an inner recursive function that appends to a shared list.",
+        "Subtracting two dates gives a timedelta with `.days`.",
+        "Check `passed` before age."
+      ],
+      "tests": [
+        {
+          "name": "reports all three problem kinds",
+          "code": "from datetime import date\nEV = {'E1': {'date': date(2026,10,1), 'passed': True}, 'E2': {'date': date(2026,1,1), 'passed': True}, 'E3': {'date': date(2026,10,1), 'passed': False}}\ncase = {'id':'G1','children':[{'id':'G2','evidence':['E1']},{'id':'G3','evidence':['E2']},{'id':'G4','evidence':['E3']},{'id':'G5','evidence':[]}]}\nr = evidence_problems(case, EV, date(2026,11,1), 90)\nassert r == ['G3: E2 stale', 'G4: E3 failed', 'G5: no evidence'], r",
+          "marks": 4
+        },
+        {
+          "name": "boundary age is not stale",
+          "code": "from datetime import date\nEV = {'E1': {'date': date(2026,8,3), 'passed': True}}\nr = evidence_problems({'id':'G2','evidence':['E1']}, EV, date(2026,11,1), 90)\nassert r == [] and (date(2026,11,1)-date(2026,8,3)).days == 90, r\nr2 = evidence_problems({'id':'G2','evidence':[]}, EV, date(2026,11,1), 90)\nassert r2 == ['G2: no evidence'], r2",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

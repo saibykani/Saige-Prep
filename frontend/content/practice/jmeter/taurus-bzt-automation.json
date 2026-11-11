@@ -1,0 +1,249 @@
+{
+  "lesson": "taurus-bzt-automation",
+  "questions": [
+    {
+      "id": "pt-bztz-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "taurus-bzt-automation",
+      "prompt": "In a Taurus config, which section defines the load shape (users, ramp-up, hold)?",
+      "options": [
+        "scenarios",
+        "execution",
+        "reporting",
+        "modules"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "execution holds concurrency, ramp-up, hold-for and similar. scenarios describe what each user does."
+    },
+    {
+      "id": "pt-bztz-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "taurus-bzt-automation",
+      "prompt": "What does hold-for: 10m mean?",
+      "options": [
+        "Wait 10 minutes before starting",
+        "Keep the target concurrency for 10 minutes after ramp-up",
+        "Ramp up over 10 minutes",
+        "Stop after 10 iterations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "hold-for is the time at target concurrency; ramp-up is separate."
+    },
+    {
+      "id": "pt-bztz-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "taurus-bzt-automation",
+      "prompt": "A passfail criterion without a timeframe is evaluated at the end against the whole-test aggregate.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Taurus docs: without timeframe logic, the rule is processed at the end against total aggregate data."
+    },
+    {
+      "id": "pt-bztz-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "taurus-bzt-automation",
+      "prompt": "What does bzt return when this criterion is breached and nothing else goes wrong?",
+      "code": "reporting:\n- module: passfail\n  criteria:\n  - failures>5% for 10s, stop as failed",
+      "codeLanguage": "yaml",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "'stop as failed' triggers automatic shutdown, exit code 3. continue would also end failed, still non-zero."
+    },
+    {
+      "id": "pt-bztz-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "taurus-bzt-automation",
+      "prompt": "Which timeframe logic aggregates values across the window but only compares once a full window of data exists?",
+      "options": [
+        "for",
+        "within",
+        "over",
+        "during"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "over is like within but requires the full timeframe; for requires every value to breach."
+    },
+    {
+      "id": "pt-bztz-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "taurus-bzt-automation",
+      "prompt": "This config fails validation or behaves unexpectedly. Which line is the problem?",
+      "code": "execution:\n- executor: jmeter\n  scenario: api\n  concurrency: 50\n  throughput: 100\n  iterations: 1000",
+      "codeLanguage": "yaml",
+      "options": [
+        "concurrency: 50",
+        "throughput: 100 without ramp-up or hold-for",
+        "scenario: api",
+        "executor: jmeter"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Docs: throughput requires ramp-up and/or hold-for. Add hold-for so the shaper has a schedule."
+    },
+    {
+      "id": "pt-bztz-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "taurus-bzt-automation",
+      "prompt": "You need a criterion on a label named https://shop.test/api/cart. The short form 'avg-rt of https://shop.test/api/cart>500ms' misbehaves. What do you do?",
+      "options": [
+        "Rename nothing; it is fine",
+        "Use the full (dictionary) form with subject, label, condition and threshold, because labels containing colons need it",
+        "Escape with backslashes",
+        "Use p90 instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The docs say labels with colons (like URLs) need the full form. Better still, give samplers business-friendly labels."
+    },
+    {
+      "id": "pt-bztz-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "taurus-bzt-automation",
+      "prompt": "You run `bzt load.yml -cloud -report` and get confusing duplicate reporting. Why?",
+      "options": [
+        "-report is required for cloud",
+        "In cloud provisioning BlazeMeter collects reports itself; do not use -report or the blazemeter reporter",
+        "The token is wrong",
+        "Locations are missing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Taurus Cloud docs say not to use -report or the blazemeter reporter with cloud provisioning."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bztz-for",
+      "language": "python",
+      "title": "Evaluate a 'for' timeframe criterion",
+      "difficulty": "intermediate",
+      "prompt": "Taurus `avg-rt>T for Ns` triggers when **N consecutive** per-second values are all greater than `T`. Write `first_trigger_for(values, threshold, window)` returning the **index** of the value at which it first triggers, or `None`.\n\nExample: `first_trigger_for([450, 520, 610, 480, 530, 540, 560], 500, 3)` returns `6`.",
+      "starter": "def first_trigger_for(values, threshold, window):\n    # Your code here\n    return -1\n",
+      "solution": "def first_trigger_for(values, threshold, window):\n    run = 0\n    for i, v in enumerate(values):\n        run = run + 1 if v > threshold else 0\n        if run >= window:\n            return i\n    return None\n",
+      "explanation": "Keep a running count of consecutive breaches that resets on any good second. The first time it reaches the window size, the criterion fires, exactly like 'for' logic.",
+      "hints": [
+        "Track a counter `run`.",
+        "Reset `run` to 0 when a value is not above the threshold.",
+        "Return the index as soon as `run >= window`."
+      ],
+      "tests": [
+        {
+          "name": "Triggers after reset",
+          "marks": 3,
+          "code": "assert first_trigger_for([450, 520, 610, 480, 530, 540, 560], 500, 3) == 6"
+        },
+        {
+          "name": "Equal is not a breach",
+          "marks": 2,
+          "code": "assert first_trigger_for([500, 500, 500], 500, 2) is None"
+        },
+        {
+          "name": "Triggers immediately with window 1",
+          "marks": 2,
+          "code": "assert first_trigger_for([900, 100], 500, 1) == 0"
+        }
+      ]
+    },
+    {
+      "id": "code-bztz-within",
+      "language": "python",
+      "title": "Evaluate a 'within' rolling average",
+      "difficulty": "advanced",
+      "prompt": "For `within` logic, values in the window are aggregated (here: averaged) and compared. Write `within_breaches(values, threshold, window)` returning a list of indexes `end` where the average of `values[max(0, end-window+1) : end+1]` is **greater** than `threshold` (partial windows at the start count, as `within` does).\n\nExample: `within_breaches([100, 900, 100, 100], 400, 2)` returns `[1, 2]` (averages 100, 500, 500, 100).",
+      "starter": "def within_breaches(values, threshold, window):\n    # Your code here\n    return None\n",
+      "solution": "def within_breaches(values, threshold, window):\n    hits = []\n    for end in range(len(values)):\n        start = max(0, end - window + 1)\n        chunk = values[start:end + 1]\n        if sum(chunk) / len(chunk) > threshold:\n            hits.append(end)\n    return hits\n",
+      "explanation": "A rolling average smooths spikes: one bad second can push a window over the limit while 'for' logic would need every second to breach.",
+      "hints": [
+        "Loop over end indexes.",
+        "Slice from `max(0, end - window + 1)`.",
+        "Compare `sum(chunk) / len(chunk)` with the threshold."
+      ],
+      "tests": [
+        {
+          "name": "Example windows",
+          "marks": 3,
+          "code": "assert within_breaches([100, 900, 100, 100], 400, 2) == [1, 2]"
+        },
+        {
+          "name": "Partial window at start counts",
+          "marks": 2,
+          "code": "assert within_breaches([800, 100, 100], 500, 3) == [0]"
+        },
+        {
+          "name": "No breaches",
+          "marks": 2,
+          "code": "assert within_breaches([1, 2, 3], 10, 2) == []"
+        }
+      ]
+    },
+    {
+      "id": "code-bztz-parse",
+      "language": "python",
+      "title": "Parse a short-form pass/fail criterion",
+      "difficulty": "advanced",
+      "prompt": "Write `parse_criterion(text)` for a simplified short form: `subject` `condition` `threshold[unit]` `[ for Ns]` `[, stop|continue as failed|non-failed]` with **no spaces around the operator**. Return a dict with keys `subject`, `condition`, `threshold` (float; convert `s` to ms), `unit` (`'ms'` for time, `'%'`, or `''`), `timeframe` (int seconds or None), `stop` (default True), `fail` (default True). Raise `ValueError` for invalid text (for example spaces around the operator).\n\nExample: `parse_criterion('p90>1s for 10s, continue as failed')` returns `{'subject': 'p90', 'condition': '>', 'threshold': 1000.0, 'unit': 'ms', 'timeframe': 10, 'stop': False, 'fail': True}`.",
+      "starter": "def parse_criterion(text):\n    # Your code here\n    return {}\n",
+      "solution": "import re\n\ndef parse_criterion(text):\n    m = re.match(r\"^([a-z0-9.\\-]+)(>=|<=|>|<|==|=)(\\d+(?:\\.\\d+)?)(ms|s|%)?(?: for (\\d+)s)?(?:, (stop|continue) as (failed|non-failed))?$\", text.strip())\n    if not m:\n        raise ValueError(\"bad criterion\")\n    subject, cond, num, unit, tf, action, status = m.groups()\n    value = float(num)\n    if unit == \"s\":\n        value *= 1000\n    return {\"subject\": subject, \"condition\": cond, \"threshold\": value, \"unit\": \"ms\" if unit in (\"ms\", \"s\") else (unit or \"\"),\n            \"timeframe\": int(tf) if tf else None, \"stop\": (action or \"stop\") == \"stop\", \"fail\": (status or \"failed\") == \"failed\"}\n",
+      "explanation": "One regular expression with optional groups covers the grammar; defaults follow Taurus (stop and failed). Rejecting spaces around the operator mirrors the documented rule that catches many real config bugs.",
+      "hints": [
+        "Try `re.match` with groups for subject, operator, number, unit, timeframe, action, status.",
+        "Put `>=` and `<=` before `>` and `<` in the alternation.",
+        "Raise ValueError when there is no match; convert seconds to ms."
+      ],
+      "tests": [
+        {
+          "name": "Full example",
+          "marks": 3,
+          "code": "r = parse_criterion('p90>1s for 10s, continue as failed')\nassert r == {'subject': 'p90', 'condition': '>', 'threshold': 1000.0, 'unit': 'ms', 'timeframe': 10, 'stop': False, 'fail': True}, r"
+        },
+        {
+          "name": "Defaults and percent",
+          "marks": 2,
+          "code": "r = parse_criterion('failures>=5%')\nassert r == {'subject': 'failures', 'condition': '>=', 'threshold': 5.0, 'unit': '%', 'timeframe': None, 'stop': True, 'fail': True}, r"
+        },
+        {
+          "name": "Rejects spaces around operator",
+          "marks": 2,
+          "code": "try:\n    parse_criterion('avg-rt > 500ms')\n    raise AssertionError('should raise ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    }
+  ]
+}

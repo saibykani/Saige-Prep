@@ -1,0 +1,264 @@
+{
+  "lesson": "agent-guardrails-and-safety",
+  "questions": [
+    {
+      "id": "pt-ags-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "What does 'least privilege' mean for an agent tool?",
+      "options": [
+        "The tool runs with the fewest functions and narrowest permissions it needs",
+        "The tool is called as rarely as possible",
+        "The model has the smallest context",
+        "Only admins can use the agent"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Least privilege limits what a tool can do and access, shrinking the damage of mistakes or injection."
+    },
+    {
+      "id": "pt-ags-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "Allow-lists are generally safer than block-lists for agent tools and targets.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Allow-lists deny anything not explicitly permitted; block-lists miss new variants."
+    },
+    {
+      "id": "pt-ags-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "Which OWASP LLM Top 10 2025 entry covers agents performing damaging actions because they have too much functionality, permission or autonomy?",
+      "options": [
+        "LLM01 Prompt Injection",
+        "LLM06 Excessive Agency",
+        "LLM02 Sensitive Information Disclosure",
+        "LLM10 Unbounded Consumption"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Excessive Agency is LLM06:2025. Prompt injection is often the trigger, but the entry about too much power is LLM06."
+    },
+    {
+      "id": "pt-ags-04",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "This recipient check lets an attacker send to an external domain. Which input bypasses it?",
+      "code": "def allowed(to):\n    return 'ourcompany.example' in to",
+      "codeLanguage": "python",
+      "options": [
+        "qa@ourcompany.example",
+        "ourcompany.example@evil.example",
+        "QA@OURCOMPANY.EXAMPLE",
+        "None; the check is safe"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "'in' matches the substring anywhere, so ourcompany.example@evil.example passes. Check the domain after the last @ with an exact allow-list."
+    },
+    {
+      "id": "pt-ags-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "Which should an approval dialog show? Select all that apply.",
+      "options": [
+        "The exact tool name and arguments",
+        "The source that triggered the request (for example, untrusted email content)",
+        "Only the model's friendly summary of the action",
+        "Whether the action is reversible"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Humans must see the real action, its trigger and its impact. A model summary can be wrong or manipulated."
+    },
+    {
+      "id": "pt-ags-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "An agent has read a web page and now proposes deleting a test environment. What does a taint-tracking guardrail do?",
+      "options": [
+        "Nothing, deletion was requested",
+        "Disables or requires approval for high-impact tools for the rest of the run, because untrusted content may have steered it",
+        "Retries the page fetch",
+        "Raises the step limit"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "After untrusted input, sensitive actions are blocked or need approval, limiting injection impact."
+    },
+    {
+      "id": "pt-ags-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "What does this print?",
+      "code": "budget, spent = 0.5, 0.0\nfor cost in [0.1, 0.2, 0.25, 0.05]:\n    if spent + cost > budget:\n        break\n    spent += cost\nprint(round(spent, 2))",
+      "codeLanguage": "python",
+      "options": [
+        "0.3",
+        "0.4",
+        "Stop",
+        "0.5"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Costs 0.1 and 0.2 are added. Adding 0.25 would make about 0.55, over 0.5, so the loop breaks and the cheap 0.05 is never considered. round(spent, 2) prints 0.3. 0.5 assumes the loop skips and continues instead of breaking."
+    },
+    {
+      "id": "pt-ags-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "Red-team runs show the agent attempts a blocked email in 3 of 10 runs; your guard layer blocked all 3. What is the right conclusion?",
+      "options": [
+        "Guardrails work, no further action",
+        "The code controls held (success rate 0%), but a 30% attempt rate shows the model is being steered; keep the controls, improve injection defences and track the attempt rate over time",
+        "Remove the email tool entirely is the only option",
+        "The test is flaky, ignore it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Track both attempt and success rates. Code controls stop damage; a high attempt rate is a signal to harden earlier layers."
+    },
+    {
+      "id": "pt-ags-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agent-guardrails-and-safety",
+      "prompt": "An agent with a run_shell tool runs inside the CI runner that holds deploy credentials. What is the most important change?",
+      "options": [
+        "A stronger system prompt",
+        "Run shell tools in a disposable sandbox with no secrets and restricted network, and keep deploy credentials out of the agent's reach",
+        "Lower temperature",
+        "Log commands after they run"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Sandboxing and secret isolation limit blast radius. Logging after the fact and prompts do not prevent damage."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ags-email",
+      "language": "python",
+      "title": "Recipient allow-list validator",
+      "difficulty": "beginner",
+      "prompt": "Write `recipient_ok(address, allowed_domains)` returning True only if `address` contains exactly one `@`, a non-empty local part, and the part after `@` (lower-cased) is **exactly** one of `allowed_domains`.\n\nExamples: `recipient_ok('qa@ourco.example', ['ourco.example'])` is True; `recipient_ok('ourco.example@evil.example', ['ourco.example'])` is False.",
+      "starter": "def recipient_ok(address, allowed_domains):\n    # Your code here\n    return None\n",
+      "solution": "def recipient_ok(address, allowed_domains):\n    if address.count('@') != 1:\n        return False\n    local, domain = address.split('@')\n    return bool(local) and domain.lower() in {d.lower() for d in allowed_domains}\n",
+      "explanation": "Exact domain matching after splitting on a single @ defeats substring and subdomain tricks that a simple `in` check allows.",
+      "hints": [
+        "Count the @ characters first.",
+        "Split into local and domain parts.",
+        "Compare the lower-cased domain against the allow-list exactly."
+      ],
+      "tests": [
+        {
+          "name": "Accepts internal addresses",
+          "marks": 2,
+          "code": "assert recipient_ok('qa@ourco.example', ['ourco.example']) is True\nassert recipient_ok('QA@OurCo.Example', ['ourco.example']) is True"
+        },
+        {
+          "name": "Rejects lookalikes",
+          "marks": 3,
+          "code": "for a in ['ourco.example@evil.example', 'qa@evil-ourco.example', 'qa@ourco.example.evil.example', 'a@b@ourco.example', '@ourco.example']:\n    assert recipient_ok(a, ['ourco.example']) is False, a"
+        }
+      ]
+    },
+    {
+      "id": "code-ags-guard",
+      "language": "python",
+      "title": "Guard layer with approval and taint",
+      "difficulty": "intermediate",
+      "prompt": "Write `guarded_call(name, args, tools, state, approve)` where `tools` maps names to `(fn, high_impact)` and `state` is a dict with keys `tainted` (bool) and `log` (list). Rules, in order:\n\n1. unknown tool: append `(name, 'denied: not allowed')` to the log, return `None`\n2. high-impact and `state['tainted']`: log `'denied: tainted'`, return `None` (do **not** ask for approval)\n3. high-impact and `approve(name, args)` is falsy: log `'denied: rejected'`, return `None`\n4. otherwise run `fn(**args)`, log `(name, 'ok')`, return the result.",
+      "starter": "def guarded_call(name, args, tools, state, approve):\n    return 'x'\n",
+      "solution": "def guarded_call(name, args, tools, state, approve):\n    def deny(reason):\n        state['log'].append((name, 'denied: ' + reason))\n        return None\n    if name not in tools:\n        return deny('not allowed')\n    fn, high = tools[name]\n    if high and state['tainted']:\n        return deny('tainted')\n    if high and not approve(name, args):\n        return deny('rejected')\n    result = fn(**args)\n    state['log'].append((name, 'ok'))\n    return result\n",
+      "explanation": "Each rule runs before execution, so a denial guarantees the tool never ran, and every decision lands in the audit log. Checking taint before approval avoids asking humans to approve actions that untrusted content may have triggered.",
+      "hints": [
+        "Write a small helper that logs a denial and returns None.",
+        "Check rules in exactly the stated order.",
+        "Only call fn after all checks pass."
+      ],
+      "tests": [
+        {
+          "name": "Runs low-impact tools and logs",
+          "marks": 2,
+          "code": "st = {'tainted': False, 'log': []}\nr = guarded_call('read', {'x': 2}, {'read': (lambda x: x + 1, False)}, st, lambda n, a: False)\nassert r == 3 and st['log'] == [('read', 'ok')], (r, st)"
+        },
+        {
+          "name": "Taint blocks without asking",
+          "marks": 3,
+          "code": "sent, asked = [], []\nst = {'tainted': True, 'log': []}\nr = guarded_call('send', {}, {'send': (lambda: sent.append(1), True)}, st, lambda n, a: asked.append(n) or True)\nassert r is None and sent == [] and asked == [] and st['log'] == [('send', 'denied: tainted')], st"
+        },
+        {
+          "name": "Rejection and unknown tools",
+          "marks": 2,
+          "code": "sent = []\nst = {'tainted': False, 'log': []}\nt = {'send': (lambda: sent.append(1), True)}\nguarded_call('send', {}, t, st, lambda n, a: False)\nguarded_call('rm', {}, t, st, lambda n, a: True)\nassert sent == [] and st['log'] == [('send', 'denied: rejected'), ('rm', 'denied: not allowed')], st['log']"
+        }
+      ]
+    },
+    {
+      "id": "code-ags-audit",
+      "language": "python",
+      "title": "Audit log consistency check",
+      "difficulty": "advanced",
+      "prompt": "Every executed high-impact action must have a prior approval. Write `audit_violations(events)` where `events` is an ordered list of dicts with keys `type` (`'approval'` or `'exec'`), `call_id` and, for exec, `high_impact` (bool). Approvals also have `approved` (bool). Return a sorted list of `call_id`s for high-impact `exec` events that had **no earlier approval event with `approved: True` for the same call_id**. An approval may only be used once: a second exec with the same call_id needs a new approval.",
+      "starter": "def audit_violations(events):\n    return []\n",
+      "solution": "def audit_violations(events):\n    available = {}\n    bad = set()\n    for e in events:\n        cid = e['call_id']\n        if e['type'] == 'approval' and e.get('approved'):\n            available[cid] = available.get(cid, 0) + 1\n        elif e['type'] == 'exec' and e.get('high_impact'):\n            if available.get(cid, 0) > 0:\n                available[cid] -= 1\n            else:\n                bad.add(cid)\n    return sorted(bad)\n",
+      "explanation": "Walking the log in order and consuming approvals models single-use consent, so you catch executions before approval, after a rejection, and replays of one approval.",
+      "hints": [
+        "Process events in order.",
+        "Count available approvals per call_id.",
+        "Consume one approval per high-impact exec; otherwise record a violation."
+      ],
+      "tests": [
+        {
+          "name": "Exec without approval",
+          "marks": 3,
+          "code": "ev = [{'type': 'exec', 'call_id': 'c1', 'high_impact': True}, {'type': 'approval', 'call_id': 'c1', 'approved': True}]\nassert audit_violations(ev) == ['c1']"
+        },
+        {
+          "name": "Rejected approvals do not count, low impact ignored",
+          "marks": 2,
+          "code": "ev = [{'type': 'approval', 'call_id': 'a', 'approved': False}, {'type': 'exec', 'call_id': 'a', 'high_impact': True}, {'type': 'exec', 'call_id': 'b', 'high_impact': False}]\nassert audit_violations(ev) == ['a']"
+        },
+        {
+          "name": "Approvals are single use",
+          "marks": 3,
+          "code": "ev = [{'type': 'approval', 'call_id': 'z', 'approved': True}, {'type': 'exec', 'call_id': 'z', 'high_impact': True}, {'type': 'exec', 'call_id': 'z', 'high_impact': True}, {'type': 'approval', 'call_id': 'y', 'approved': True}, {'type': 'exec', 'call_id': 'y', 'high_impact': True}]\nassert audit_violations(ev) == ['z']"
+        }
+      ]
+    }
+  ]
+}

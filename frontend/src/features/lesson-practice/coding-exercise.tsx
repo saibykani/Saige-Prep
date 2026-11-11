@@ -6,6 +6,7 @@ import { Markdown } from "@/components/learning/markdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/ui/code-block";
+import { Confetti } from "@/features/practice/practice-ui";
 import { exerciseMarks, type CodingExercise } from "@/content/schema";
 import { actions, useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -56,6 +57,7 @@ export function CodingExerciseCard({ exercise: ex }: { exercise: CodingExercise 
   const marks = checkMarks(ex);
   const earned = result ? result.results.reduce((n, r, i) => n + (r.ok ? (marks[i] ?? 0) : 0), 0) : 0;
   const attempted = result !== null;
+  const allPassed = attempted && total > 0 && earned === total;
 
   function save(points: number) {
     const percent = Math.round((points / total) * 100);
@@ -74,7 +76,7 @@ export function CodingExerciseCard({ exercise: ex }: { exercise: CodingExercise 
   }
 
   return (
-    <article className="space-y-4 rounded-xl border border-border bg-surface p-5" onPointerEnter={ex.language === "python" ? warmUpPython : undefined}>
+    <article className="space-y-4 rounded-xl border border-border bg-surface p-5 shadow-soft sm:p-6" onPointerEnter={ex.language === "python" ? warmUpPython : undefined}>
       <header className="flex flex-wrap items-center gap-2">
         <h3 className="mr-auto text-base font-semibold">{ex.title}</h3>
         <Badge>{LANGUAGE_LABEL[ex.language]}</Badge>
@@ -105,7 +107,21 @@ export function CodingExerciseCard({ exercise: ex }: { exercise: CodingExercise 
 
       {result && (
         <div className="space-y-3" role="status">
-          <p className="text-sm font-semibold">
+          <p
+            key={allPassed ? "passed" : "not-yet"}
+            className={cn(
+              "relative inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-semibold tabular-nums",
+              allPassed ? "celebrate text-success" : "border-border bg-surface-raised",
+            )}
+          >
+            {allPassed && (
+              <>
+                <Confetti pieces={12} />
+                <svg viewBox="0 0 24 24" className="check-draw h-4 w-4" aria-hidden>
+                  <path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </>
+            )}
             {earned} / {total} marks
             {earned === total ? " · All checks passed" : ""}
           </p>

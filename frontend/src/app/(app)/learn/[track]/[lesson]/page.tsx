@@ -77,12 +77,12 @@ export default async function LessonPage({ params }: Props) {
   return (
     <article className="animate-fade-in">
       <LessonTracker slug={lesson.slug} />
-      <header className="mb-8 space-y-4">
+      <header className="mb-10 space-y-4 border-b border-border pb-8">
         <Link href={`${track.href}#${topic.module.slug}`} className="inline-flex items-center gap-1 text-sm text-muted hover:text-foreground">
           <ArrowLeft className="h-4 w-4" aria-hidden /> {topic.module.title}
         </Link>
-        <h1 className="text-3xl font-semibold tracking-tight">{lesson.title}</h1>
-        <p className="max-w-3xl text-base leading-7 text-muted">{lesson.summary}</p>
+        <h1 className="max-w-[24ch] text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{lesson.title}</h1>
+        <p className="max-w-[68ch] text-base leading-7 text-muted sm:text-[17px] sm:leading-8">{lesson.summary}</p>
         <div className="flex flex-wrap items-center gap-2">
           <Badge tone="accent" className="capitalize">
             <GraduationCap className="h-3 w-3" aria-hidden />
@@ -144,11 +144,11 @@ export default async function LessonPage({ params }: Props) {
             </Card>
           </div>
 
-          <Markdown source={lesson.body} />
+          <Markdown source={lesson.body} className="prose-lesson" />
 
           {lesson.videos.length > 0 && (
             <section aria-labelledby="videos-heading" className="space-y-3">
-              <h2 id="videos-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">
+              <h2 id="videos-heading" className="border-b border-border pb-2.5 text-xl font-semibold tracking-tight">
                 Watch and learn
               </h2>
               <p className="text-sm text-muted">Hand-picked videos that explain this topic another way. They are optional extras.</p>
@@ -157,7 +157,7 @@ export default async function LessonPage({ params }: Props) {
           )}
 
           <section aria-labelledby="practice-heading" className="space-y-3">
-            <h2 id="practice-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">
+            <h2 id="practice-heading" className="border-b border-border pb-2.5 text-xl font-semibold tracking-tight">
               Practice tasks
             </h2>
             <ol className="list-decimal space-y-2 pl-6 text-[15px] leading-7 marker:text-subtle">
@@ -171,7 +171,7 @@ export default async function LessonPage({ params }: Props) {
 
           {practice && (
             <section aria-labelledby="practice-test-heading" className="space-y-3">
-              <h2 id="practice-test-heading" className="scroll-mt-24 border-b border-border pb-2 text-xl font-semibold tracking-tight">
+              <h2 id="practice-test-heading" className="scroll-mt-24 border-b border-border pb-2.5 text-xl font-semibold tracking-tight">
                 Practice test
               </h2>
               <p className="text-sm text-muted">Marked questions that build from beginner to advanced. Your best score is saved in this browser.</p>
@@ -181,7 +181,7 @@ export default async function LessonPage({ params }: Props) {
 
           {practice && practice.coding.length > 0 && (
             <section aria-labelledby="coding-heading" className="space-y-3">
-              <h2 id="coding-heading" className="scroll-mt-24 border-b border-border pb-2 text-xl font-semibold tracking-tight">
+              <h2 id="coding-heading" className="scroll-mt-24 border-b border-border pb-2.5 text-xl font-semibold tracking-tight">
                 Coding practice
               </h2>
               <p className="text-sm text-muted">
@@ -196,15 +196,15 @@ export default async function LessonPage({ params }: Props) {
           )}
 
           <section aria-labelledby="interview-heading" className="space-y-3">
-            <h2 id="interview-heading" className="border-b border-border pb-2 text-xl font-semibold tracking-tight">
+            <h2 id="interview-heading" className="border-b border-border pb-2.5 text-xl font-semibold tracking-tight">
               Interview questions
             </h2>
             <p className="text-sm text-muted">Answer out loud first, then open the model answer.</p>
             <div className="space-y-2">
               {lesson.interview.map((item) => (
-                <details key={item.q} className="group rounded-lg border border-border bg-surface px-4 py-3 open:bg-surface-raised">
+                <details key={item.q} className="group rounded-xl border border-border bg-surface px-4 py-3 transition-colors open:bg-surface-raised hover:border-border-strong">
                   <summary className="cursor-pointer list-none text-sm font-medium marker:hidden">
-                    <span className="mr-2 text-accent group-open:rotate-90">›</span>
+                    <span className="mr-2 inline-block text-accent transition-transform group-open:rotate-90 motion-reduce:transition-none">›</span>
                     {item.q}
                   </summary>
                   <p className="mt-3 text-sm leading-6 text-foreground/85">{item.a}</p>
@@ -213,7 +213,7 @@ export default async function LessonPage({ params }: Props) {
             </div>
           </section>
 
-          <section aria-labelledby="takeaways-heading" className="rounded-xl border border-success/25 bg-success-soft/40 p-5">
+          <section aria-labelledby="takeaways-heading" className="rounded-xl border border-success/25 bg-success-soft p-5 sm:p-6">
             <h2 id="takeaways-heading" className="mb-3 font-semibold">
               Key takeaways
             </h2>
@@ -263,7 +263,7 @@ export default async function LessonPage({ params }: Props) {
 
           <nav aria-label="Lesson navigation" className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:justify-between">
             {prev ? (
-              <Link href={`${track.href}/${prev.slug}`} className="group flex flex-col rounded-lg border border-border px-4 py-3 hover:border-border-strong">
+              <Link href={`${track.href}/${prev.slug}`} className="lift group flex flex-col rounded-xl border border-border bg-surface px-4 py-3">
                 <span className="flex items-center gap-1 text-xs text-muted">
                   <ArrowLeft className="h-3 w-3" aria-hidden /> Previous
                 </span>
@@ -273,7 +273,7 @@ export default async function LessonPage({ params }: Props) {
               <span />
             )}
             {next && (
-              <Link href={`${track.href}/${next.slug}`} className="group flex flex-col rounded-lg border border-border px-4 py-3 text-right hover:border-border-strong">
+              <Link href={`${track.href}/${next.slug}`} className="lift group flex flex-col rounded-xl border border-border bg-surface px-4 py-3 text-right">
                 <span className="flex items-center justify-end gap-1 text-xs text-muted">
                   Next <ArrowRight className="h-3 w-3" aria-hidden />
                 </span>

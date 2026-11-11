@@ -28,7 +28,7 @@ export default function LearningCenterPage() {
   return (
     <div className="animate-fade-in">
       <HubHero
-        tone="violet"
+        tone="evergreen"
         title="Learning Center"
         subtitle="Every track, module and lesson. Start with Manual Testing — it is the foundation every other testing role builds on."
         stats={[

@@ -94,6 +94,10 @@ export const ROLE_CATALOG = {
     ["ai-specialist", "AI Specialist"],
     ["ai-scientist", "AI Scientist"],
     ["ai-ml-engineer", "AI/ML Engineer"],
+    ["ai-assurance-engineer", "AI Assurance Engineer"],
+    ["ai-assurance-lead", "AI Assurance Lead"],
+    ["genai-test-engineer", "Generative AI Test Engineer"],
+    ["ai-red-team-specialist", "AI Red Team Specialist"],
   ],
   leadership: [
     ["senior-qa-engineer", "Senior QA Engineer"],

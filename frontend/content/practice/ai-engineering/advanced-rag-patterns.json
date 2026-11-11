@@ -1,0 +1,246 @@
+{
+  "lesson": "advanced-rag-patterns",
+  "questions": [
+    {
+      "id": "pt-arag-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-rag-patterns",
+      "prompt": "What problem does a history-aware query rewriter mainly solve?",
+      "options": [
+        "Follow-up questions like 'and for annual plans?' that cannot be searched on their own",
+        "Slow vector databases",
+        "Missing citations",
+        "Large embedding dimensions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Follow-ups depend on earlier turns. Rewriting them into standalone queries gives retrieval something meaningful to search."
+    },
+    {
+      "id": "pt-arag-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-rag-patterns",
+      "prompt": "In HyDE, the hypothetical passage written by the LLM can be cited as evidence in the final answer.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The hypothetical passage may contain invented facts. It is only used to find real documents, which are the only valid evidence."
+    },
+    {
+      "id": "pt-arag-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-rag-patterns",
+      "prompt": "Multi-query retrieval usually merges the result lists for each query variant with which technique?",
+      "options": [
+        "Reciprocal rank fusion",
+        "Product quantization",
+        "Temperature scaling",
+        "Fine-tuning"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "RRF combines rankings without needing comparable scores, which suits several retrievals of the same index."
+    },
+    {
+      "id": "pt-arag-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-rag-patterns",
+      "prompt": "Which questions genuinely need multi-hop or agentic retrieval? Select all that apply.",
+      "options": [
+        "Who manages the team that owns the checkout service?",
+        "What is the refund window?",
+        "Which defects reopened after the last two releases, and which test plans cover them?",
+        "What does error E1042 mean?"
+      ],
+      "answer": [
+        0,
+        2
+      ],
+      "explanation": "The first and third need one lookup's result to form the next query. The others are single lookups that standard RAG handles."
+    },
+    {
+      "id": "pt-arag-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-rag-patterns",
+      "prompt": "Logs show the correct chunk is retrieved at rank 1 but the answer adds a claim not in any chunk. Which pattern targets this failure?",
+      "options": [
+        "HyDE",
+        "Multi-query retrieval",
+        "Per-claim citations with citation validation and a groundedness check",
+        "GraphRAG"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Retrieval succeeded; the failure is in generation. Query-side patterns cannot fix unsupported claims."
+    },
+    {
+      "id": "pt-arag-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-rag-patterns",
+      "prompt": "What distinguishes Corrective RAG (CRAG) from Self-RAG?",
+      "options": [
+        "CRAG adds a separate retrieval evaluator that can trigger fallbacks; Self-RAG trains the generator to emit reflection tokens",
+        "CRAG needs no retrieval",
+        "Self-RAG is a vector database",
+        "They are the same paper"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CRAG (Yan et al., 2024) is a plug-in evaluator around retrieval; Self-RAG (Asai et al., 2023) changes the model itself to decide when to retrieve and critique outputs."
+    },
+    {
+      "id": "pt-arag-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "advanced-rag-patterns",
+      "prompt": "An agentic RAG loop sometimes runs 40 searches and times out. Which change fixes the root problem most directly?",
+      "options": [
+        "Raise the timeout",
+        "Add a step budget, show the agent its previous queries and results, and stop when a search returns no new ids",
+        "Use a bigger embedding model",
+        "Remove citations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The loop lacks termination criteria and memory of what it already tried. A longer timeout only hides the problem and increases cost."
+    },
+    {
+      "id": "pt-arag-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "advanced-rag-patterns",
+      "prompt": "Small-to-big retrieval improved answer completeness, but token costs tripled. Retrieved children often map to 6 different large parents. What is the best adjustment?",
+      "options": [
+        "Abandon small-to-big",
+        "Rerank or cap the number of distinct parents (for example top 2), or send a window of neighbouring sentences instead of whole parents, then re-measure quality and cost",
+        "Increase k for child retrieval",
+        "Remove deduplication of parents"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Capping or windowing keeps most of the context benefit while controlling tokens. More children or removing deduplication makes costs worse."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-arag-parents",
+      "title": "Small-to-big parent selection",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `parents_for(child_ids, child_to_parent, max_parents)` returning the distinct parent ids of the ranked `child_ids`, in order of first appearance, at most `max_parents`. Skip children not in `child_to_parent`.\n\nExample: `parents_for(['c1','c2','c3'], {'c1':'P','c2':'P','c3':'Q'}, 5)` returns `['P', 'Q']`.",
+      "starter": "def parents_for(child_ids, child_to_parent, max_parents):\n    return list(child_ids)\n",
+      "solution": "def parents_for(child_ids, child_to_parent, max_parents):\n    out = []\n    for c in child_ids:\n        p = child_to_parent.get(c)\n        if p is None or p in out:\n            continue\n        out.append(p)\n        if len(out) == max_parents:\n            break\n    return out\n",
+      "explanation": "Ranking order comes from the children, so the best child's parent comes first. Deduplicating and capping parents controls the token budget, the main cost of small-to-big retrieval.",
+      "hints": [
+        "Look each child up with dict.get.",
+        "Skip parents already collected.",
+        "Stop when you reach max_parents."
+      ],
+      "tests": [
+        {
+          "name": "example",
+          "code": "assert parents_for(['c1','c2','c3'], {'c1':'P','c2':'P','c3':'Q'}, 5) == ['P', 'Q']",
+          "marks": 2
+        },
+        {
+          "name": "cap respected",
+          "code": "assert parents_for(['a','b','c'], {'a':'X','b':'Y','c':'Z'}, 2) == ['X', 'Y']",
+          "marks": 2
+        },
+        {
+          "name": "unknown children skipped",
+          "code": "assert parents_for(['zz','a'], {'a':'X'}, 3) == ['X']",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-arag-citations",
+      "title": "Validate citations",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `citation_problems(claims, retrieved_ids)` where `claims` is a list of dicts with `text` and `citations` (list of ids). Return a list of problem strings, in claim order: `'uncited: <first 20 chars of text>'` for a claim with no citations, and `'unretrieved: <id>'` for each cited id not in `retrieved_ids`. Return `[]` when all is well.\n\nExample: `citation_problems([{'text': 'Refunds take 5 days', 'citations': ['x']}], {'a'})` returns `['unretrieved: x']`.",
+      "starter": "def citation_problems(claims, retrieved_ids):\n    return []\n",
+      "solution": "def citation_problems(claims, retrieved_ids):\n    problems = []\n    for claim in claims:\n        if not claim['citations']:\n            problems.append('uncited: ' + claim['text'][:20])\n        for cid in claim['citations']:\n            if cid not in retrieved_ids:\n                problems.append('unretrieved: ' + cid)\n    return problems\n",
+      "explanation": "A claim with no citation or a citation to something never retrieved cannot be grounded. This cheap deterministic check runs before any LLM judge and catches fabricated ids.",
+      "hints": [
+        "Loop over claims in order.",
+        "Check the empty-citation case first.",
+        "Then check each cited id against the retrieved set."
+      ],
+      "tests": [
+        {
+          "name": "example",
+          "code": "assert citation_problems([{'text': 'Refunds take 5 days', 'citations': ['x']}], {'a'}) == ['unretrieved: x']",
+          "marks": 2
+        },
+        {
+          "name": "uncited claim truncated to 20 chars",
+          "code": "assert citation_problems([{'text': 'Annual plans are pro-rated always', 'citations': []}], {'a'}) == ['uncited: Annual plans are pro']",
+          "marks": 2
+        },
+        {
+          "name": "valid claims and order",
+          "code": "assert citation_problems([{'text': 'ok', 'citations': ['a']}, {'text': 'b', 'citations': ['a', 'q']}], {'a'}) == ['unretrieved: q']",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-arag-crag",
+      "title": "Corrective retrieval decision",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `crag_action(scores, upper=0.7, lower=0.3)` implementing a simplified CRAG decision from relevance grades (floats 0..1) of retrieved documents. Return `'use'` if any score >= `upper`; `'fallback'` if all scores < `lower` or the list is empty; otherwise `'refine'`. Also write `run_with_retry(search, grade, query, rewrite, max_tries=2)` that calls `search(query)` and `grade(docs)` (returns scores); if `crag_action` is `'use'` or `'refine'`, return `(action, docs)`; if `'fallback'`, retry with `rewrite(query)` up to `max_tries` searches in total, and if still `'fallback'` return `('abstain', [])`.",
+      "starter": "def crag_action(scores, upper=0.7, lower=0.3):\n    return 'use'\n\ndef run_with_retry(search, grade, query, rewrite, max_tries=2):\n    return ('use', [])\n",
+      "solution": "def crag_action(scores, upper=0.7, lower=0.3):\n    if any(s >= upper for s in scores):\n        return 'use'\n    if not scores or all(s < lower for s in scores):\n        return 'fallback'\n    return 'refine'\n\ndef run_with_retry(search, grade, query, rewrite, max_tries=2):\n    for attempt in range(max_tries):\n        docs = search(query)\n        action = crag_action(grade(docs))\n        if action != 'fallback':\n            return action, docs\n        query = rewrite(query)\n    return 'abstain', []\n",
+      "explanation": "Grading retrieved documents before generation lets the system use good evidence, refine borderline evidence, and retry or abstain when evidence is poor. The bounded retry loop is the same termination discipline agentic RAG needs.",
+      "hints": [
+        "Check the 'use' condition first, then the empty or all-low case.",
+        "In the retry loop, rewrite the query only after a fallback.",
+        "After the loop ends without success, return ('abstain', [])."
+      ],
+      "tests": [
+        {
+          "name": "decision thresholds",
+          "code": "assert crag_action([0.2, 0.8]) == 'use' and crag_action([0.1, 0.2]) == 'fallback' and crag_action([0.5]) == 'refine' and crag_action([]) == 'fallback'",
+          "marks": 3
+        },
+        {
+          "name": "retry succeeds after rewrite",
+          "code": "calls = []\ndef search(q):\n    calls.append(q)\n    return ['d1'] if q == 'better' else ['junk']\nres = run_with_retry(search, lambda docs: [0.9] if docs == ['d1'] else [0.1], 'bad', lambda q: 'better')\nassert res == ('use', ['d1']) and calls == ['bad', 'better'], (res, calls)",
+          "marks": 3
+        },
+        {
+          "name": "abstains after max tries",
+          "code": "n = []\nres = run_with_retry(lambda q: n.append(q) or ['x'], lambda d: [0.0], 'q', lambda q: q + '!', max_tries=3)\nassert res == ('abstain', []) and len(n) == 3, (res, n)",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

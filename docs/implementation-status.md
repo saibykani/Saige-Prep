@@ -7,7 +7,7 @@ _Last updated: 2026-10-30._
 |---|---|---|
 | 0 | Inspection, CLAUDE.md, architecture docs, checklist | ✅ Done |
 | 1 | Shell, design system, FastAPI, DB, health checks, auth foundation, test infra | ✅ Done |
-| 2 | Curriculum & learning engine | ✅ Done (9 tracks incl. AI Engineering, 203 lessons = every curriculum topic; 85 role roadmaps incl. 5 AI roles) |
+| 2 | Curriculum & learning engine | ✅ Done (9 tracks incl. AI Engineering, 203 lessons = every curriculum topic; 89 role roadmaps incl. 9 AI roles) |
 | 3 | Practice labs and QA toolkit | ✅ Done (7 labs, 15 tools) |
 | 4 | Assessment engine | ✅ Done (mock-test hub + runner; 9 banks, 428 questions: manual, JMeter, API, automation, performance, mobile, SDET, specialist, AI engineering) |
 | 5 | Interview preparation | ✅ Done (9 tracks, 128 questions; 15/30/60-min runner with self-rated rubric) |
@@ -23,7 +23,7 @@ Login is disabled at the owner's request, and the hosted backend is not reachabl
 - **Trade-off:** data is per-browser, and assessment answer keys ship to the client, so scoring is **not authoritative** (the spec asks for server-side scoring). `src/lib/scoring.ts` is pure and can move server-side unchanged once a backend and login are re-enabled. MongoDB remains the intended store for that mode.
 
 ## Completed since Phase 1
-- **Content pipeline:** zod schemas, a curriculum map (7 tracks, 152 topics), a role catalogue (85 roles from spec §8), a validator with per-folder mode, an authoring guide (`docs/content-authoring.md`) and an exemplar lesson.
+- **Content pipeline:** zod schemas, a curriculum map (7 tracks, 152 topics), a role catalogue (89 roles: 85 from spec §8 plus 4 AI assurance, GenAI testing and AI red-team roles), a validator with per-folder mode, an authoring guide (`docs/content-authoring.md`) and an exemplar lesson.
 - **Learning Center:**
   - track catalogue and track pages (core vs optional modules, per-topic status)
   - lesson reader: objectives, prerequisites, Markdown with tables/code/Mermaid, practice tasks, interactive quiz, interview Q&A, takeaways, references, related lessons, previous/next, table of contents
@@ -38,7 +38,7 @@ Login is disabled at the owner's request, and the hosted backend is not reachabl
 | Content | Done | Target |
 |---|---|---|
 | Lessons | 203 | 203 topics |
-| Role roadmaps | 85 | 85 |
+| Role roadmaps | 89 | 89 |
 | Interview questions | 128 (9 tracks) | 9 tracks |
 | Assessment question bank | 428 (9 banks) | 9 banks |
 | Guided projects | 13 (2 with runnable example code, not yet verified end to end) | 13 |

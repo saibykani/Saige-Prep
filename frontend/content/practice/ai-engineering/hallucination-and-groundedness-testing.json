@@ -1,0 +1,273 @@
+{
+  "lesson": "hallucination-and-groundedness-testing",
+  "questions": [
+    {
+      "id": "pt-halg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "Groundedness (faithfulness) of an answer is measured against what?",
+      "options": [
+        "The context the system was given",
+        "A reference answer written by an expert",
+        "The user's satisfaction rating",
+        "The model's training data"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Groundedness asks whether each claim is supported by the supplied context. Comparing with a reference answer measures correctness; training data is not available and is exactly what you do not want the model to rely on."
+    },
+    {
+      "id": "pt-halg-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "A claim that is true in the real world but not stated in the retrieved sources is still a groundedness failure for a 'answers only from our documents' assistant.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is an extrinsic hallucination: nobody can verify it from the cited sources, even if it happens to be true. Groundedness and correctness are separate properties."
+    },
+    {
+      "id": "pt-halg-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "Which question is a false-premise test case?",
+      "options": [
+        "Why did the refund window change to 90 days? (it is 30 days)",
+        "What is the refund window?",
+        "What is the CEO's favourite colour?",
+        "How do I reset my password?"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A false-premise question embeds a wrong assumption; the system should correct it. The CEO question is unanswerable (out of corpus), not false-premise; the others are ordinary answerable questions."
+    },
+    {
+      "id": "pt-halg-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "What does this print?",
+      "options": [
+        "0.6",
+        "0.75",
+        "1.0",
+        "0.5"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Claims with label 'n/a' (greetings) are excluded, leaving 4 factual claims of which 3 are supported: 3/4 = 0.75. Counting the greeting as supported would give 0.8 (not offered); counting it as a claim but unsupported would give 0.6.",
+      "code": "labels = ['supported', 'n/a', 'supported', 'unsupported', 'supported']\nfactual = [l for l in labels if l != 'n/a']\nprint(factual.count('supported') / len(factual))",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-halg-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "An answer cites chunk `doc7#2`. Which findings prove the citation is fabricated without any model judgement? Select all that apply.",
+      "options": [
+        "`doc7#2` does not exist in the corpus",
+        "`doc7#2` exists but was not among the chunks retrieved for this request",
+        "`doc7#2` was retrieved but a judge says it does not support the claim",
+        "The answer has three citations instead of two"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "A citation to a non-existent or non-retrieved chunk cannot have been read by the model, so it is fabricated by definition and is checkable with set membership. Lack of support needs a judge and is a different failure; the number of citations proves nothing."
+    },
+    {
+      "id": "pt-halg-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "After adding 'If unsure, say you don't know' to the prompt, correct abstention on unanswerable questions rose from 50% to 95%. What must you check before celebrating?",
+      "options": [
+        "The over-abstention rate on answerable questions",
+        "The number of tokens in the prompt",
+        "Whether the judge model changed",
+        "Nothing; 95% is above any threshold"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Abstention instructions often make systems refuse answerable questions too. You must report both sides. Token count and judge versions matter less here; the judge is not involved in counting refusals."
+    },
+    {
+      "id": "pt-halg-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "This citation check lets fabricated citations through. What is the bug?",
+      "options": [
+        "It checks the corpus instead of the retrieved ids",
+        "The regex misses citations",
+        "It should use a list, not a set",
+        "`issubset` is the wrong direction"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Membership must be checked against the chunks retrieved for this request; a real corpus id that was not retrieved is still fabricated. The regex works, sets are fine, and cited <= retrieved is the right direction.",
+      "code": "import re\ndef citations_ok(answer, corpus_ids, retrieved_ids):\n    cited = set(re.findall(r'\\[(\\w+#\\d+)\\]', answer))\n    return cited.issubset(corpus_ids)",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-halg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "Your faithfulness judge agrees with human labels on 92% of 300 claims. Humans marked 30 claims unsupported; the judge marked 18 of those as supported. Is it fit to gate releases?",
+      "options": [
+        "No: it misses 60% of unsupported claims, the error that matters most; fix and recalibrate",
+        "Yes: 92% agreement is high",
+        "Yes, if kappa is above 0",
+        "No, because any judge below 99% agreement is unusable"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "High raw agreement is driven by the many easy supported claims. The false-pass rate on the dangerous class is 18/30 = 60%. A positive kappa is not enough, and no universal 99% rule exists; the criterion is whether the judge catches the failures you care about."
+    },
+    {
+      "id": "pt-halg-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "hallucination-and-groundedness-testing",
+      "prompt": "Correctness against reference answers is 92%, but claim-level groundedness is 70% on the same run. What is the most likely explanation?",
+      "options": [
+        "The model often answers correctly from its own training knowledge rather than the retrieved context",
+        "The judge is broken because the two numbers must be equal",
+        "Retrieval returns the wrong documents, making answers wrong",
+        "The dataset has too many unanswerable questions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Correct but ungrounded means the model fills in from parametric knowledge. It works today but will produce confident errors where its knowledge is stale or wrong. The metrics measure different things so need not match; wrong retrieval would lower correctness too."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-halg-split-claims",
+      "title": "Split an answer into cited claims",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `split_claims(answer)` that splits text into sentences (on `.`, `!` or `?` followed by whitespace) and returns a list of dicts `{\"text\": ..., \"cites\": [...]}`. Citations look like `[S1]`; remove them from the text and strip whitespace. Skip empty sentences.\n\nExample: `split_claims(\"Refunds take 30 days [S1]. Hi!\")` returns `[{\"text\": \"Refunds take 30 days.\", \"cites\": [\"S1\"]}, {\"text\": \"Hi!\", \"cites\": []}]`.",
+      "starter": "import re\n\ndef split_claims(answer):\n    return []\n",
+      "solution": "import re\n\ndef split_claims(answer):\n    claims = []\n    for sentence in re.split(r'(?<=[.!?])\\s+', answer.strip()):\n        cites = re.findall(r'\\[(S\\d+)\\]', sentence)\n        text = re.sub(r'\\s*\\[S\\d+\\]', '', sentence).strip()\n        if text:\n            claims.append({'text': text, 'cites': cites})\n    return claims\n",
+      "explanation": "Split with a lookbehind so the punctuation stays with its sentence, collect citations with `findall`, then remove them with `sub` including the space before them so the full stop sits right after the words.",
+      "hints": [
+        "Use `re.split(r'(?<=[.!?])\\s+', ...)` to split after punctuation.",
+        "`re.findall(r'\\[(S\\d+)\\]', s)` collects the ids.",
+        "Remove citations with `re.sub(r'\\s*\\[S\\d+\\]', '', s).strip()`."
+      ],
+      "tests": [
+        {
+          "name": "splits two cited sentences",
+          "code": "r = split_claims('Refunds take 30 days [S1]. Delivery costs 6 pounds [S2].')\nassert r == [{'text': 'Refunds take 30 days.', 'cites': ['S1']}, {'text': 'Delivery costs 6 pounds.', 'cites': ['S2']}], r",
+          "marks": 2
+        },
+        {
+          "name": "uncited sentence has empty cites",
+          "code": "r = split_claims('Refunds take 30 days [S1]. Hi!')\nassert r[1] == {'text': 'Hi!', 'cites': []}, r",
+          "marks": 2
+        },
+        {
+          "name": "multiple citations in one sentence",
+          "code": "r = split_claims('Both apply [S1][S3].')\nassert r == [{'text': 'Both apply.', 'cites': ['S1', 'S3']}], r",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-halg-citation-check",
+      "title": "Classify citations",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `check_citations(claims, corpus_ids, retrieved_ids)` that returns a list of labels, one per claim (dicts with `cites`):\n- `\"UNCITED\"` if the claim has no citations\n- `\"NOT_IN_CORPUS\"` if any cited id is not in `corpus_ids`\n- `\"NOT_RETRIEVED\"` if all exist but any was not in `retrieved_ids`\n- otherwise `\"OK\"`\n\nExample: with corpus `{'A','B','C'}` and retrieved `{'A'}`, claims citing `['A']`, `['B']`, `['Z']`, `[]` give `['OK', 'NOT_RETRIEVED', 'NOT_IN_CORPUS', 'UNCITED']`.",
+      "starter": "def check_citations(claims, corpus_ids, retrieved_ids):\n    return []\n",
+      "solution": "def check_citations(claims, corpus_ids, retrieved_ids):\n    labels = []\n    for c in claims:\n        cites = set(c['cites'])\n        if not cites:\n            labels.append('UNCITED')\n        elif not cites <= set(corpus_ids):\n            labels.append('NOT_IN_CORPUS')\n        elif not cites <= set(retrieved_ids):\n            labels.append('NOT_RETRIEVED')\n        else:\n            labels.append('OK')\n    return labels\n",
+      "explanation": "Order matters: check the most severe structural failures first. Subset tests on sets express 'every cited id is in X' directly.",
+      "hints": [
+        "Turn each claim's cites into a set.",
+        "`a <= b` on sets means every element of a is in b.",
+        "Check empty, then corpus, then retrieved, else OK."
+      ],
+      "tests": [
+        {
+          "name": "labels the example",
+          "code": "r = check_citations([{'cites':['A']},{'cites':['B']},{'cites':['Z']},{'cites':[]}], {'A','B','C'}, {'A'})\nassert r == ['OK','NOT_RETRIEVED','NOT_IN_CORPUS','UNCITED'], r",
+          "marks": 3
+        },
+        {
+          "name": "one bad id fails a mixed claim",
+          "code": "r = check_citations([{'cites':['A','Z']}], {'A'}, {'A'})\nassert r == ['NOT_IN_CORPUS'], r",
+          "marks": 2
+        },
+        {
+          "name": "all retrieved is OK",
+          "code": "r = check_citations([{'cites':['A','B']}], {'A','B'}, {'A','B'})\nassert r == ['OK'], r",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-halg-abstention-kappa",
+      "title": "Abstention rates and judge kappa",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write two functions.\n\n1. `abstention_rates(rows)` where rows are `(answerable: bool, abstained: bool)`. Return `(correct_abstention, over_abstention)` as floats: abstentions among unanswerable rows, and abstentions among answerable rows. Return `0.0` for a group with no rows.\n2. `cohen_kappa(a, b)` for two equal-length label lists: `(po - pe) / (1 - pe)` where `po` is observed agreement and `pe` is the sum over labels of `p_a(label) * p_b(label)`. If `pe == 1`, return `1.0`.\n\nExample: `cohen_kappa(['p','p','f','f'], ['p','p','f','p'])` is `0.5`.",
+      "starter": "def abstention_rates(rows):\n    return (None, None)\n\ndef cohen_kappa(a, b):\n    return None\n",
+      "solution": "from collections import Counter\n\ndef abstention_rates(rows):\n    unans = [ab for ok, ab in rows if not ok]\n    ans = [ab for ok, ab in rows if ok]\n    rate = lambda xs: sum(xs) / len(xs) if xs else 0.0\n    return (rate(unans), rate(ans))\n\ndef cohen_kappa(a, b):\n    n = len(a)\n    po = sum(x == y for x, y in zip(a, b)) / n\n    ca, cb = Counter(a), Counter(b)\n    pe = sum(ca[k] * cb[k] for k in set(a) | set(b)) / (n * n)\n    if pe == 1:\n        return 1.0\n    return (po - pe) / (1 - pe)\n",
+      "explanation": "Abstention is two-sided, so the function returns both rates. Kappa subtracts the agreement two raters would reach by chance given how often each uses each label, which is why a lenient judge on a mostly-supported dataset can have high raw agreement but low kappa.",
+      "hints": [
+        "Split rows into answerable and unanswerable lists of the abstained flag; `sum` of booleans counts True.",
+        "Use `collections.Counter` for label frequencies.",
+        "pe = sum(count_a[k] * count_b[k]) / n**2 over all labels."
+      ],
+      "tests": [
+        {
+          "name": "abstention rates",
+          "code": "c, o = abstention_rates([(False, True), (False, False), (True, True), (True, False), (True, False), (True, False)])\nassert abs(c - 0.5) < 1e-9 and abs(o - 0.25) < 1e-9, (c, o)",
+          "marks": 3
+        },
+        {
+          "name": "empty group gives zero",
+          "code": "assert abstention_rates([(True, False)]) == (0.0, 0.0), abstention_rates([(True, False)])",
+          "marks": 1
+        },
+        {
+          "name": "kappa example",
+          "code": "k = cohen_kappa(['p','p','f','f'], ['p','p','f','p'])\nassert k is not None and abs(k - 0.5) < 1e-9, k",
+          "marks": 3
+        },
+        {
+          "name": "kappa perfect single label",
+          "code": "assert cohen_kappa(['p','p'], ['p','p']) == 1.0",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

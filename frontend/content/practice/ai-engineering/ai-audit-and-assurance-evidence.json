@@ -1,0 +1,230 @@
+{
+  "lesson": "ai-audit-and-assurance-evidence",
+  "questions": [
+    {
+      "id": "pt-aiaud-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "Which artefact describes where a dataset came from, how it was collected and its known gaps?",
+      "options": [
+        "A datasheet",
+        "A model card",
+        "A change log",
+        "An incident record"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Datasheets for datasets document data origin and composition. Model cards describe a model's intended use and performance."
+    },
+    {
+      "id": "pt-aiaud-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "A screenshot of a dashboard with no version or date is strong audit evidence.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Strong evidence is version-bound, dated, reproducible and retained. An unversioned screenshot cannot be tied to what is deployed."
+    },
+    {
+      "id": "pt-aiaud-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "What is the purpose of a traceability matrix in an AI audit?",
+      "options": [
+        "Linking each requirement to its tests, results and versions",
+        "Listing the team's holidays",
+        "Recording model weights",
+        "Ranking vendors by price"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The matrix is the chain auditors follow from requirement to evidence; gaps in it become findings."
+    },
+    {
+      "id": "pt-aiaud-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "What does ISO/IEC 42006 cover?",
+      "options": [
+        "Requirements for bodies that audit and certify AI management systems",
+        "The EU AI Act's high-risk categories",
+        "A model card template",
+        "Prompt-injection testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "ISO/IEC 42006 adds requirements for certification bodies auditing against ISO/IEC 42001. The other options are not what it covers."
+    },
+    {
+      "id": "pt-aiaud-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "Which items belong in EU AI Act Annex IV technical documentation for a high-risk system? Select all that apply.",
+      "options": [
+        "Description of the system and its intended purpose",
+        "Metrics, testing and test reports",
+        "The post-market monitoring plan",
+        "The developers' salary bands"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Annex IV covers system description, development, data, testing and metrics, risk management, changes, standards, declaration of conformity and post-market monitoring. Salaries are irrelevant."
+    },
+    {
+      "id": "pt-aiaud-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "Your evidence pack contains only passing eval runs; three failed runs before the fix were deleted. How will an auditor view this?",
+      "options": [
+        "As incomplete evidence that hides history; keep failures with their resolution",
+        "As best practice, since only the final state matters",
+        "As irrelevant",
+        "As proof of quality"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Completeness includes failures and how they were resolved. Deleting them looks like cherry-picking and removes evidence that the process works."
+    },
+    {
+      "id": "pt-aiaud-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "What does this print?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "An error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Changing one character changes the SHA-256 hash completely, so the comparison is False, which is how a manifest detects tampering.",
+      "code": "import hashlib\nh = lambda s: hashlib.sha256(s.encode()).hexdigest()\nprint(h('accuracy=0.93') == h('accuracy=0.95'))",
+      "codeLanguage": "python"
+    },
+    {
+      "id": "pt-aiaud-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "An organisation holds ISO/IEC 42001 certification and argues its high-risk hiring AI therefore needs no EU AI Act conformity assessment. What is correct?",
+      "options": [
+        "Certification supports but does not replace the system-level conformity assessment and technical documentation",
+        "Correct: 42001 certification is the conformity assessment",
+        "Correct, but only for Annex I systems",
+        "Neither applies to hiring systems"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "42001 certifies the management system; the Act requires conformity of each high-risk system. Employment uses are listed in Annex III, so the Act applies."
+    },
+    {
+      "id": "pt-aiaud-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-audit-and-assurance-evidence",
+      "prompt": "An auditor samples REQ-FAIR-1. The eval result passed for model 2.4.0, the deployment record shows 2.4.1, and the change log says 2.4.1 only changed a logging library. What should you provide?",
+      "options": [
+        "Evidence for 2.4.1: either a rerun of the fairness eval or a documented, approved impact assessment showing why the change cannot affect fairness",
+        "Nothing; the versions are close",
+        "Delete the 2.4.0 result",
+        "A new model card only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The evidence must cover the deployed version. A rerun is strongest; a recorded, approved change-impact rationale can be acceptable if policy allows. Ignoring the gap or deleting history is wrong."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aiaud-trace-matrix",
+      "title": "Build a traceability matrix",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `trace(requirements, results, released)`. `requirements` is a list of ids; `results` is a list of dicts with `req`, `model`, `passed`. Return a dict mapping every requirement id to a status:\n- `\"NO EVIDENCE\"` if no result for it exists\n- `\"PASS\"` if any result for the `released` model passed\n- `\"FAIL\"` if results for the released model exist but none passed\n- `\"WRONG VERSION\"` if results exist only for other models",
+      "starter": "def trace(requirements, results, released):\n    return {}\n",
+      "solution": "def trace(requirements, results, released):\n    out = {}\n    for req in requirements:\n        rs = [r for r in results if r['req'] == req]\n        current = [r for r in rs if r['model'] == released]\n        if not rs:\n            out[req] = 'NO EVIDENCE'\n        elif not current:\n            out[req] = 'WRONG VERSION'\n        elif any(r['passed'] for r in current):\n            out[req] = 'PASS'\n        else:\n            out[req] = 'FAIL'\n    return out\n",
+      "explanation": "Filtering by requirement then by released version mirrors how an auditor traces evidence: does anything exist, is it about what is deployed, and did it pass.",
+      "hints": [
+        "Filter results per requirement first.",
+        "Then filter to the released model.",
+        "Order: no results, wrong version, pass, fail."
+      ],
+      "tests": [
+        {
+          "name": "all four statuses",
+          "code": "res = [{'req':'A','model':'v2','passed':True},{'req':'B','model':'v2','passed':False},{'req':'C','model':'v1','passed':True}]\nr = trace(['A','B','C','D'], res, 'v2')\nassert r == {'A':'PASS','B':'FAIL','C':'WRONG VERSION','D':'NO EVIDENCE'}, r",
+          "marks": 4
+        },
+        {
+          "name": "old pass does not count",
+          "code": "res = [{'req':'A','model':'v1','passed':True},{'req':'A','model':'v2','passed':False}]\nassert trace(['A'], res, 'v2') == {'A':'FAIL'}",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aiaud-manifest",
+      "title": "Tamper-evident manifest",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `make_manifest(artefacts)` returning `{name: sha256 hex of content}` for a dict of name to string content, and `verify(artefacts, manifest)` returning a dict with sorted lists `changed` (hash differs), `missing` (in manifest but not in artefacts) and `extra` (in artefacts but not in manifest). Use `hashlib.sha256(text.encode()).hexdigest()`.",
+      "starter": "import hashlib\n\ndef make_manifest(artefacts):\n    return {}\n\ndef verify(artefacts, manifest):\n    return {}\n",
+      "solution": "import hashlib\n\ndef _h(text):\n    return hashlib.sha256(text.encode()).hexdigest()\n\ndef make_manifest(artefacts):\n    return {name: _h(content) for name, content in artefacts.items()}\n\ndef verify(artefacts, manifest):\n    changed = sorted(n for n in artefacts if n in manifest and _h(artefacts[n]) != manifest[n])\n    missing = sorted(n for n in manifest if n not in artefacts)\n    extra = sorted(n for n in artefacts if n not in manifest)\n    return {'changed': changed, 'missing': missing, 'extra': extra}\n",
+      "explanation": "A hash manifest captured at sign-off lets anyone later prove the pack is unchanged: edited, deleted and added files each show up in a separate list.",
+      "hints": [
+        "Hash with `hashlib.sha256(s.encode()).hexdigest()`.",
+        "Use set-like membership tests between the two dicts.",
+        "Sort each list for stable output."
+      ],
+      "tests": [
+        {
+          "name": "manifest hashes",
+          "code": "import hashlib\nm = make_manifest({'a.json': 'x'})\nassert m == {'a.json': hashlib.sha256(b'x').hexdigest()}, m",
+          "marks": 2
+        },
+        {
+          "name": "detects change, missing, extra",
+          "code": "m = make_manifest({'a': '1', 'b': '2', 'c': '3'})\nr = verify({'a': '1', 'b': 'TAMPERED', 'd': '4'}, m)\nassert r == {'changed': ['b'], 'missing': ['c'], 'extra': ['d']}, r",
+          "marks": 4
+        },
+        {
+          "name": "clean pack",
+          "code": "m = make_manifest({'a': '1'})\nassert verify({'a': '1'}, m) == {'changed': [], 'missing': [], 'extra': []}",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

@@ -2432,6 +2432,616 @@
         "ai-scientist",
         "ml-model-testing-specialist"
       ]
+    },
+    {
+      "slug": "ai-assurance-engineer",
+      "title": "AI Assurance Engineer",
+      "category": "data-ai",
+      "overview": "An AI Assurance Engineer produces the evidence that an AI system is fit for its intended purpose and that its risks are understood and controlled. The role combines evaluation engineering with traceable documentation: it turns requirements and risk assessments into tests, collects and versions the results, and assembles them into assurance cases, model cards and audit-ready records that map to frameworks such as the NIST AI RMF, ISO/IEC 42001 and, where it applies, the EU AI Act.",
+      "responsibilities": [
+        "Translate AI risk assessments and intended-use statements into concrete, testable claims",
+        "Design and run evaluations for accuracy, robustness, groundedness, fairness and safety, and keep the results versioned",
+        "Build structured assurance cases that link claims, arguments and evidence, and show where evidence is missing",
+        "Maintain traceability from requirements and risks to tests, results and sign-offs",
+        "Produce documentation such as model cards, data sheets, evaluation reports and change records",
+        "Set up continuous assurance: re-running evaluations on model, prompt, data or retrieval changes and monitoring production signals",
+        "Support internal and external audits by preparing evidence and answering assessor questions accurately"
+      ],
+      "skills": {
+        "essential": [
+          "Test design and risk-based testing",
+          "Evaluation design for ML and LLM systems: datasets, metrics, thresholds and variance",
+          "Python for evaluation pipelines and evidence generation",
+          "Clear technical writing and traceable documentation"
+        ],
+        "roleSpecific": [
+          "Assurance case structure (claims, arguments, evidence), for example Goal Structuring Notation",
+          "Mapping evidence to the NIST AI RMF functions (Govern, Map, Measure, Manage) and to ISO/IEC 42001 management-system controls",
+          "Hallucination, groundedness and agent evaluation techniques",
+          "Understanding of EU AI Act obligations for high-risk systems such as technical documentation, logging and post-market monitoring"
+        ],
+        "optional": [
+          "Model risk management practice from regulated industries",
+          "Privacy and data protection impact assessments",
+          "Experiment tracking and dataset versioning tools"
+        ]
+      },
+      "prerequisites": [
+        "Experience as a tester, SDET or AI quality engineer",
+        "Working Python",
+        "Basic understanding of how LLM and ML systems are built"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Evidence-producing evaluation",
+          "goals": [
+            "Explain the difference between testing, evaluation and assurance",
+            "Write an intended-use statement and list foreseeable misuse for an AI feature",
+            "Build a versioned evaluation set and record results with model, prompt and data versions",
+            "Test groundedness of a RAG answer against its sources"
+          ],
+          "topics": [
+            "ai-assurance-fundamentals",
+            "testing-ai-systems-strategy",
+            "llm-evaluation-and-evals",
+            "hallucination-and-groundedness-testing",
+            "model-evaluation-metrics"
+          ]
+        },
+        "intermediate": {
+          "title": "Assurance cases and risk",
+          "goals": [
+            "Write an assurance case for one top-level claim with linked evidence",
+            "Run a model risk assessment and tie each risk to a control and a test",
+            "Evaluate an agent on task success, tool-call correctness and safety",
+            "Calibrate an LLM judge and document its limits as part of the evidence"
+          ],
+          "topics": [
+            "ai-model-risk-management",
+            "evaluating-ai-agents",
+            "llm-as-judge-and-human-review",
+            "red-teaming-and-prompt-injection",
+            "bias-fairness-and-responsible-ai",
+            "advanced-rag-patterns"
+          ]
+        },
+        "advanced": {
+          "title": "Continuous and audit-ready assurance",
+          "goals": [
+            "Set up re-evaluation triggered by model, prompt, data or index changes",
+            "Map an evidence pack to NIST AI RMF and ISO/IEC 42001 clauses without overstating coverage",
+            "Prepare for an audit and handle findings and corrective actions",
+            "Design production monitoring that feeds back into the assurance case"
+          ],
+          "topics": [
+            "ai-audit-and-assurance-evidence",
+            "ai-governance-and-regulation",
+            "monitoring-ai-in-production",
+            "agent-guardrails-and-safety",
+            "mlops-and-model-deployment"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "pytest",
+        "An LLM evaluation framework",
+        "Experiment tracking or an evaluation result store",
+        "Dataset and prompt versioning in Git",
+        "Assurance case or GSN diagramming tool",
+        "Document and issue trackers for traceability"
+      ],
+      "exercises": [
+        "Write an intended-use statement, out-of-scope uses and five foreseeable misuses for a customer-support assistant",
+        "Draft a one-page assurance case for the claim 'answers are grounded in approved policy documents' and list the evidence each sub-claim needs",
+        "Build a traceability table linking six risks to controls, tests and current results",
+        "Re-run an evaluation after changing the embedding model and write a change record explaining what moved and whether it is acceptable"
+      ],
+      "sampleProject": {
+        "title": "Assurance pack for a RAG policy assistant",
+        "description": "For a small RAG assistant over a set of policy documents, write the intended use and risk register, build groundedness, retrieval and refusal evaluations, calibrate an LLM judge against human labels, and assemble an assurance case that links each claim to versioned evidence. Add a mapping table to NIST AI RMF functions and relevant ISO/IEC 42001 controls, clearly marking gaps rather than claiming full coverage."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is the difference between testing an AI system and assuring it?",
+          "a": "Testing produces results about specific behaviours. Assurance is the structured argument, backed by evidence, that the system is acceptably safe and fit for its intended use in its context. It includes tests but also scope, risk assessment, process evidence, monitoring and an honest statement of residual risk and assumptions. A large test suite with no link to claims or risks is not assurance."
+        },
+        {
+          "q": "How would you structure an assurance case for an LLM feature?",
+          "a": "Start from a top-level claim tied to intended use, for example that the assistant gives grounded, policy-compliant answers to staff queries. Decompose it into sub-claims such as retrieval finds the right sources, answers are faithful to sources, unsafe requests are refused, and failures are detected in production. Each sub-claim has an argument for why the evidence supports it and the evidence itself: evaluation results with versions, judge calibration, red-team findings, monitoring. I make assumptions, context and gaps explicit, and use a notation like GSN if the organisation does."
+        },
+        {
+          "q": "How do the NIST AI RMF and ISO/IEC 42001 differ?",
+          "a": "The NIST AI RMF is a voluntary framework organised around Govern, Map, Measure and Manage, with a companion playbook and a generative AI profile. It is not a certification scheme. ISO/IEC 42001 is a management-system standard for AI, structured like other ISO management standards, and organisations can be certified against it by accredited bodies. Both are about organisational processes; neither certifies that a particular model is safe, so technical evaluation evidence is still needed."
+        },
+        {
+          "q": "What evidence would the EU AI Act expect for a high-risk system?",
+          "a": "Broadly, providers of high-risk systems need a risk management system, data governance, technical documentation, record-keeping through logging, information for deployers, human oversight measures, and appropriate accuracy, robustness and cybersecurity, plus conformity assessment and post-market monitoring. The obligations phase in over several years and the details depend on harmonised standards, guidance and any amendments, so I check the current timeline and get legal input rather than assuming. My job is to make sure the technical evidence exists and is traceable."
+        },
+        {
+          "q": "A model update improves average scores but your assurance case relied on old evaluation results. What do you do?",
+          "a": "Treat it as a change that invalidates the evidence until reassessed. Re-run the relevant evaluations on the new version, check per-category and safety results rather than the average, review whether any risk or assumption changed, update the assurance case and change record, and get sign-off from the accountable owner. If some evidence cannot be regenerated quickly, say so and decide on interim controls."
+        },
+        {
+          "q": "How do you keep evaluation evidence trustworthy for auditors?",
+          "a": "Version everything that affects results: dataset, prompts, model identifier, retrieval index, judge prompt and code. Store raw outputs as well as scores, record who reviewed what, keep the evaluation set separate from data used for tuning, and report variance across runs. An auditor should be able to trace a number back to how it was produced."
+        }
+      ],
+      "codingRequirements": "Python is required for building evaluation pipelines and generating reproducible evidence. You should be comfortable calling LLM APIs, handling datasets and writing automated tests; model training is not required.",
+      "commonMistakes": [
+        "Presenting a framework mapping as if it were certification or proof of compliance",
+        "Collecting test results with no link to specific claims or risks",
+        "Losing reproducibility by not recording model, prompt, data and index versions",
+        "Treating assurance as a one-off document instead of something updated on every change",
+        "Stating legal conclusions about the EU AI Act without legal review"
+      ],
+      "readinessCriteria": [
+        "Has written an assurance case with claims linked to versioned evidence",
+        "Can explain the NIST AI RMF functions and how ISO/IEC 42001 differs",
+        "Has built groundedness and agent evaluations and documented their limits",
+        "Can describe a change-triggered re-evaluation process"
+      ],
+      "nextRoles": [
+        "ai-assurance-lead",
+        "ai-test-engineer",
+        "ai-quality-engineer"
+      ]
+    },
+    {
+      "slug": "ai-assurance-lead",
+      "title": "AI Assurance Lead",
+      "category": "data-ai",
+      "overview": "An AI Assurance Lead owns how an organisation gains and demonstrates justified confidence in its AI systems. The role sets the assurance approach, risk tiers and evidence standards, works with legal, risk, security and product teams, leads audit readiness against frameworks such as ISO/IEC 42001 and the NIST AI RMF, and ensures obligations such as those in the EU AI Act are translated into practical engineering controls. It is a leadership role that still needs enough technical depth to challenge evaluation results.",
+      "responsibilities": [
+        "Define the AI assurance framework: risk tiers, required evidence per tier, and approval gates",
+        "Run or oversee model risk assessments and maintain the AI system inventory and risk register",
+        "Lead preparation for internal audits and external certification or conformity assessments",
+        "Review assurance cases and evaluation reports and challenge weak evidence",
+        "Coordinate with legal, compliance, security, data protection and product owners on obligations and accountability",
+        "Report residual AI risk to senior stakeholders in plain language",
+        "Build the team's skills and tooling for continuous assurance"
+      ],
+      "skills": {
+        "essential": [
+          "AI risk assessment and model risk management",
+          "Deep understanding of AI evaluation methods and their limits",
+          "Stakeholder management and clear risk communication",
+          "Quality and test management experience"
+        ],
+        "roleSpecific": [
+          "ISO/IEC 42001 management-system requirements and how audits against it work",
+          "NIST AI RMF and its generative AI profile",
+          "EU AI Act risk categories and provider and deployer obligations, with legal support",
+          "Designing proportionate assurance by risk tier"
+        ],
+        "optional": [
+          "Related standards such as ISO/IEC 23894 on AI risk management and ISO/IEC 27001",
+          "Model risk management practice from financial services",
+          "Internal audit methodology"
+        ]
+      },
+      "prerequisites": [
+        "Several years in QA, test management or AI quality",
+        "Hands-on experience evaluating ML or LLM systems",
+        "Experience presenting risk to senior stakeholders"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Assurance foundations",
+          "goals": [
+            "Explain assurance, audit and evaluation and how they fit together",
+            "Read and summarise the NIST AI RMF core functions",
+            "Classify a set of AI use cases into risk tiers with justification",
+            "Review an evaluation report and identify missing evidence"
+          ],
+          "topics": [
+            "ai-assurance-fundamentals",
+            "ai-landscape-and-roles",
+            "testing-ai-systems-strategy",
+            "llm-evaluation-and-evals",
+            "ai-governance-and-regulation"
+          ]
+        },
+        "intermediate": {
+          "title": "Risk and evidence standards",
+          "goals": [
+            "Define evidence requirements for each risk tier",
+            "Run a model risk assessment workshop with product and legal",
+            "Set standards for hallucination, agent and red-team evaluation",
+            "Establish change control that triggers re-assessment"
+          ],
+          "topics": [
+            "ai-model-risk-management",
+            "hallucination-and-groundedness-testing",
+            "evaluating-ai-agents",
+            "red-teaming-and-prompt-injection",
+            "bias-fairness-and-responsible-ai",
+            "agent-guardrails-and-safety"
+          ]
+        },
+        "advanced": {
+          "title": "Audit readiness and programme leadership",
+          "goals": [
+            "Lead an internal audit against an AI management system",
+            "Prepare evidence for external certification or conformity assessment",
+            "Report residual risk and assurance status to leadership",
+            "Scale continuous assurance across many AI systems"
+          ],
+          "topics": [
+            "ai-audit-and-assurance-evidence",
+            "monitoring-ai-in-production",
+            "test-strategy-vs-test-plan",
+            "risk-based-testing",
+            "qa-metrics-and-reporting"
+          ]
+        }
+      },
+      "tools": [
+        "AI system inventory and risk register",
+        "Governance, risk and compliance (GRC) tooling",
+        "Evaluation result stores and dashboards",
+        "Assurance case templates",
+        "Document control and issue tracking"
+      ],
+      "exercises": [
+        "Define three risk tiers for AI use cases and the minimum evidence required for each",
+        "Classify ten example AI use cases by tier and note which might fall under EU AI Act high-risk categories, flagging where legal review is needed",
+        "Review a sample evaluation report and write five challenges an auditor would raise",
+        "Write a one-page residual-risk summary for an executive audience"
+      ],
+      "sampleProject": {
+        "title": "AI assurance framework for a mid-sized organisation",
+        "description": "Design a proportionate assurance framework: an AI inventory template, risk tiering criteria, evidence requirements per tier, approval gates, change triggers for re-evaluation, and an audit preparation checklist mapped to ISO/IEC 42001 and the NIST AI RMF. Apply it to two example systems, a low-risk internal summariser and a higher-risk customer-facing agent, and record gaps honestly."
+      },
+      "interviewQuestions": [
+        {
+          "q": "How would you set up AI assurance in an organisation that has none?",
+          "a": "Start with an inventory of AI systems and their owners, then a simple risk tiering so effort is proportionate. Define minimum evidence per tier, add an approval gate for higher tiers, and pilot on one or two systems before scaling. Align with management systems the organisation already runs and use the NIST AI RMF as a structure. Make change control trigger re-assessment so assurance stays current."
+        },
+        {
+          "q": "What does ISO/IEC 42001 certification tell you, and what does it not?",
+          "a": "It indicates that an accredited certification body found the organisation operates an AI management system meeting the standard: policies, roles, risk and impact assessment, controls, monitoring and improvement. It does not prove any individual AI system is accurate, fair or safe. System-level evaluation evidence is still needed, and I would be careful not to present certification as a product guarantee."
+        },
+        {
+          "q": "How do you decide how much assurance a given AI system needs?",
+          "a": "By risk: impact on people if it fails, degree of autonomy, whether a human reviews outputs, scale, reversibility, regulatory context such as EU AI Act categories, and sensitivity of data. Higher tiers get deeper evaluation, independent review, red-teaming and stricter change control; low-risk internal tools get lighter checks. The tiering criteria are documented so decisions are consistent and auditable."
+        },
+        {
+          "q": "An engineering team says their agent passed all evaluations. How do you challenge that?",
+          "a": "Ask what the evaluations cover relative to the intended use and risk register, how the dataset was built and whether it was used for tuning, how graders were calibrated, how many runs and what variance, how tool-call safety and failure recovery were tested, and what red-teaming found. Then ask what happens in production: monitoring, incident handling and rollback. Passing tests are evidence only for what they measure."
+        },
+        {
+          "q": "How do you communicate residual AI risk to executives?",
+          "a": "Plainly and specifically: what the system does, what can go wrong, how likely and how bad based on evidence, what controls are in place, what is still uncertain, and the decision they are being asked to make. I avoid false precision and avoid both alarmism and reassurance that the evidence does not support."
+        }
+      ],
+      "codingRequirements": "Coding is not the main focus, but you must be able to read evaluation code and results critically, understand Python-based evaluation pipelines, and spot methodological problems such as leakage between tuning and test sets.",
+      "commonMistakes": [
+        "Applying the same heavy process to every AI use case regardless of risk",
+        "Equating a management-system certificate with system-level safety",
+        "Accepting aggregate evaluation scores without asking about coverage and variance",
+        "Treating regulatory interpretation as an engineering decision instead of involving legal",
+        "Letting assurance documents go stale after model or prompt changes"
+      ],
+      "readinessCriteria": [
+        "Can design risk tiers with proportionate evidence requirements",
+        "Can explain ISO/IEC 42001, the NIST AI RMF and the EU AI Act well enough to work with legal and auditors",
+        "Has reviewed evaluation reports and identified material gaps",
+        "Can present residual risk clearly to non-technical leaders"
+      ],
+      "nextRoles": [
+        "ai-assurance-engineer",
+        "ai-specialist",
+        "ai-quality-engineer"
+      ]
+    },
+    {
+      "slug": "genai-test-engineer",
+      "title": "Generative AI Test Engineer",
+      "category": "data-ai",
+      "overview": "A Generative AI Test Engineer tests products built on generative models: chat assistants, RAG search, content generation, multimodal features and agents. The work covers the deterministic application around the model, retrieval quality, groundedness and hallucination, output format and safety, tool-using agents and MCP integrations, and the cost and latency behaviour of real deployments, using evaluation sets and automated graders instead of exact-match assertions.",
+      "responsibilities": [
+        "Write test strategies for generative AI features covering application code, retrieval, generation and safety",
+        "Build evaluation datasets for RAG, generation and agent tasks, including adversarial and out-of-scope inputs",
+        "Test retrieval separately from generation: recall, ranking, chunking and hybrid search behaviour",
+        "Measure groundedness and hallucination and verify citations point to supporting sources",
+        "Test agents and MCP tool integrations for correct tool selection, argument validity, permission boundaries and recovery",
+        "Check structured output, refusal behaviour, prompt injection resistance and data leakage",
+        "Track cost, latency and token usage regressions alongside quality"
+      ],
+      "skills": {
+        "essential": [
+          "Test design and automation in Python",
+          "How LLMs, embeddings and RAG pipelines work",
+          "Evaluation metrics and statistical comparison of versions",
+          "API testing for LLM provider and tool endpoints"
+        ],
+        "roleSpecific": [
+          "Retrieval evaluation such as recall at k and ranking metrics",
+          "Groundedness and hallucination testing techniques",
+          "Agent trajectory and tool-call evaluation",
+          "Prompt injection, including indirect injection via retrieved documents and tool results"
+        ],
+        "optional": [
+          "Multimodal and image generation evaluation",
+          "Vector index tuning such as HNSW parameters",
+          "Observability and tracing for LLM applications"
+        ]
+      },
+      "prerequisites": [
+        "Experience as an SDET or automation tester",
+        "Python",
+        "Basic familiarity with LLM APIs"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Generative AI basics for testers",
+          "goals": [
+            "Explain tokens, context windows and why outputs vary",
+            "Test structured output against a schema and handle invalid responses",
+            "Write evaluation cases for a chat feature covering typical, edge and out-of-scope inputs",
+            "Explain how a RAG pipeline works end to end"
+          ],
+          "topics": [
+            "generative-ai-fundamentals",
+            "llm-fundamentals-and-tokens",
+            "llm-apis-and-structured-output",
+            "building-rag-pipelines",
+            "llm-evaluation-and-evals"
+          ]
+        },
+        "intermediate": {
+          "title": "Retrieval and groundedness",
+          "goals": [
+            "Evaluate retrieval with recall at k before looking at answers",
+            "Compare chunking strategies and hybrid versus vector-only search on the same queries",
+            "Test the impact of reranking on answer quality",
+            "Detect unsupported claims and check citations"
+          ],
+          "topics": [
+            "vector-databases-deep-dive",
+            "chunking-strategies",
+            "hybrid-search-and-bm25",
+            "reranking-and-cross-encoders",
+            "advanced-rag-patterns",
+            "hallucination-and-groundedness-testing"
+          ]
+        },
+        "advanced": {
+          "title": "Agents, MCP and safety",
+          "goals": [
+            "Evaluate agents on outcomes, trajectories and tool-call validity",
+            "Test an MCP server for input validation, authorisation and safe failure",
+            "Run indirect prompt-injection tests through documents and tool output",
+            "Build a CI evaluation suite with quality, cost and latency thresholds"
+          ],
+          "topics": [
+            "agentic-ai-fundamentals",
+            "model-context-protocol",
+            "evaluating-ai-agents",
+            "agent-guardrails-and-safety",
+            "red-teaming-and-prompt-injection",
+            "multimodal-models",
+            "context-engineering-and-long-context"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "pytest",
+        "An LLM provider SDK",
+        "An LLM evaluation framework",
+        "A vector database",
+        "Tracing or observability for LLM apps",
+        "Git and CI"
+      ],
+      "exercises": [
+        "Build a 40-question retrieval test set for a document collection and measure recall at 5 for vector-only and hybrid search",
+        "Write ten groundedness test cases where the correct answer is that the documents do not say",
+        "Plant an instruction in a retrieved document and check whether the assistant follows it",
+        "Evaluate an agent on ten tasks, recording final outcome, number of tool calls and any invalid tool arguments"
+      ],
+      "sampleProject": {
+        "title": "Evaluation suite for a RAG assistant with tools",
+        "description": "Build a small RAG assistant that can also call one MCP tool. Create separate evaluations for retrieval (recall at k, with and without reranking), groundedness and citation accuracy, refusals for unanswerable questions, tool-call correctness, and indirect prompt injection. Run the suite in CI with thresholds and report results with run-to-run variance."
+      },
+      "interviewQuestions": [
+        {
+          "q": "Why should retrieval be evaluated separately from generation in a RAG system?",
+          "a": "Because a wrong answer can come from either stage and the fixes are different. If the right passage was never retrieved, prompt changes will not help; if it was retrieved but the model ignored or contradicted it, retrieval tuning will not help. Measuring recall at k on labelled queries first tells you which stage to work on."
+        },
+        {
+          "q": "How do you test for hallucination?",
+          "a": "Define it concretely for the product, usually claims not supported by the provided sources. Build cases including questions the sources cannot answer, check whether each claim in the answer is supported by the retrieved context using human review and a calibrated judge or entailment check, verify citations actually support the cited claim, and track the unsupported-claim rate per category. Expect the rate to be reduced, not eliminated, and design the product for that."
+        },
+        {
+          "q": "How would you test an agent that uses tools?",
+          "a": "Test the outcome: did it complete the task correctly. Test the trajectory: sensible tool choice, valid arguments, no unnecessary or repeated calls, correct handling of tool errors. Test boundaries: it should not take actions outside its permissions, and destructive actions should need confirmation. Run tasks several times because behaviour varies, use sandboxed or mocked tools, and include injected instructions in tool results."
+        },
+        {
+          "q": "What would you check when testing an MCP server?",
+          "a": "That tool schemas and descriptions are accurate, inputs are validated server-side, authorisation is enforced for each call rather than trusting the client, errors are returned clearly without leaking secrets, side-effecting tools are clearly identified, and outputs that may contain untrusted content are treated as data. I would also test behaviour on malformed requests and timeouts."
+        },
+        {
+          "q": "What is hybrid search and when does it help?",
+          "a": "Combining lexical search such as BM25 with vector similarity, usually by merging the ranked lists, for example with reciprocal rank fusion. It helps when queries contain exact terms like product codes, names or error messages that embeddings may handle poorly, while vectors handle paraphrase. I would verify the benefit on a labelled query set rather than assume it."
+        },
+        {
+          "q": "How do you keep evaluation results comparable when models are non-deterministic?",
+          "a": "Fix everything you control: dataset, prompts, model version identifier, retrieval index and grader. Run each configuration multiple times and report the spread, compare per category, and treat small differences as noise unless they exceed run-to-run variation. Do not rely on sampling parameters to remove variation, since some current models only accept their default settings."
+        }
+      ],
+      "codingRequirements": "Python is required. You should be able to call LLM and vector database APIs, write pytest suites and evaluation scripts, parse structured output and analyse results with pandas.",
+      "commonMistakes": [
+        "Judging RAG quality only by final answers without measuring retrieval",
+        "Using exact-match assertions on free text",
+        "Testing only direct prompt injection and ignoring injection through documents and tool output",
+        "Trusting a single run of a non-deterministic evaluation",
+        "Ignoring cost and latency regressions when changing models or context size"
+      ],
+      "readinessCriteria": [
+        "Has measured retrieval recall and compared at least two retrieval configurations",
+        "Has built groundedness tests including unanswerable questions",
+        "Has evaluated a tool-using agent on outcome and trajectory",
+        "Can explain HNSW, hybrid search and reranking at a practical level"
+      ],
+      "nextRoles": [
+        "ai-test-engineer",
+        "rag-application-evaluator",
+        "ai-agent-testing-engineer",
+        "ai-assurance-engineer"
+      ]
+    },
+    {
+      "slug": "ai-red-team-specialist",
+      "title": "AI Red Team Specialist",
+      "category": "data-ai",
+      "overview": "An AI Red Team Specialist probes AI systems the way a motivated adversary or careless user would, to find harmful, insecure or policy-violating behaviour before it reaches users. The role covers jailbreaks, direct and indirect prompt injection, data and system prompt leakage, unsafe tool use by agents, and misuse scenarios, and turns findings into reproducible reports, regression tests and recommended mitigations. All work is done only on systems the specialist is explicitly authorised to test.",
+      "responsibilities": [
+        "Plan red-team exercises with a defined scope, rules of engagement and written authorisation",
+        "Design attacks for jailbreaks, direct and indirect prompt injection, data exfiltration and unsafe agent actions",
+        "Test agents and MCP tool integrations for privilege misuse and confused-deputy problems",
+        "Record findings reproducibly with severity, success rate and evidence, handling sensitive outputs carefully",
+        "Convert confirmed findings into automated regression tests",
+        "Recommend layered mitigations and verify fixes",
+        "Keep up with published attack techniques and references such as the OWASP Top 10 for LLM applications and MITRE ATLAS"
+      ],
+      "skills": {
+        "essential": [
+          "Security testing fundamentals and threat modelling",
+          "How LLMs, RAG and agents work and where untrusted input enters",
+          "Python for automating attack variations and evaluations",
+          "Careful, reproducible documentation"
+        ],
+        "roleSpecific": [
+          "Prompt injection and jailbreak techniques and their limits",
+          "Agent and tool-use attack surfaces, including MCP",
+          "Severity assessment for AI findings",
+          "Familiarity with the OWASP Top 10 for LLM applications and MITRE ATLAS"
+        ],
+        "optional": [
+          "Automated red-teaming and attack generation tools",
+          "Classic application security testing",
+          "Responsible disclosure processes"
+        ]
+      },
+      "prerequisites": [
+        "Experience in security testing or AI testing",
+        "Python",
+        "Understanding of LLM application architecture"
+      ],
+      "roadmap": {
+        "beginner": {
+          "title": "Foundations of AI red teaming",
+          "goals": [
+            "Explain direct versus indirect prompt injection with examples",
+            "Write a scope and rules-of-engagement document for a test",
+            "Run a small set of jailbreak and leakage tests on an authorised sandbox application",
+            "Record findings with reproduction steps and severity"
+          ],
+          "topics": [
+            "red-teaming-and-prompt-injection",
+            "security-testing-fundamentals",
+            "llm-fundamentals-and-tokens",
+            "prompt-engineering",
+            "testing-ai-systems-strategy"
+          ]
+        },
+        "intermediate": {
+          "title": "RAG, agents and tools",
+          "goals": [
+            "Inject instructions via retrieved documents and measure how often they are followed",
+            "Test agent tool calls for permission bypass and unsafe actions",
+            "Assess an MCP server for authorisation and input validation weaknesses",
+            "Automate attack variations and turn findings into regression tests"
+          ],
+          "topics": [
+            "building-rag-pipelines",
+            "agentic-ai-fundamentals",
+            "model-context-protocol",
+            "agent-guardrails-and-safety",
+            "evaluating-ai-agents",
+            "multi-agent-systems"
+          ]
+        },
+        "advanced": {
+          "title": "Programmes and assurance",
+          "goals": [
+            "Plan a red-team campaign aligned to the system's risk assessment",
+            "Measure attack success rates across model and guardrail versions",
+            "Feed findings into assurance cases and model risk records",
+            "Advise on layered defences rather than prompt-only fixes"
+          ],
+          "topics": [
+            "ai-model-risk-management",
+            "ai-audit-and-assurance-evidence",
+            "hallucination-and-groundedness-testing",
+            "bias-fairness-and-responsible-ai",
+            "monitoring-ai-in-production"
+          ]
+        }
+      },
+      "tools": [
+        "Python",
+        "An LLM provider SDK in a sandboxed test account",
+        "Automated red-teaming or attack generation tools",
+        "Intercepting proxy for application traffic",
+        "OWASP Top 10 for LLM applications",
+        "MITRE ATLAS",
+        "Issue tracker for findings"
+      ],
+      "exercises": [
+        "Write a rules-of-engagement document for testing an internal chatbot, including what is out of scope and how harmful outputs are stored",
+        "Create 30 variations of an indirect prompt injection hidden in documents and measure the success rate against a sandbox RAG app",
+        "Threat-model an agent with email and calendar tools and list actions that should require human confirmation",
+        "Turn three confirmed findings into automated regression tests that run in CI"
+      ],
+      "sampleProject": {
+        "title": "Red-team assessment of a sandboxed agent",
+        "description": "Build or use a deliberately vulnerable sandbox agent with a RAG source and two tools. Under a written scope, test direct and indirect prompt injection, system prompt leakage, data exfiltration through tool calls and unsafe actions. Report findings with severity and reproduction steps, propose layered mitigations, implement one, and show the regression tests before and after."
+      },
+      "interviewQuestions": [
+        {
+          "q": "What is indirect prompt injection and why is it hard to fix?",
+          "a": "It is when instructions arrive through content the model processes rather than from the user, such as a web page, email, document or tool result. The model sees instructions and data in the same context and cannot reliably tell them apart, so there is no complete fix in the prompt alone. Mitigations are layered: treat such content as untrusted, limit the agent's permissions, require confirmation for consequential actions, filter or isolate untrusted content, and monitor."
+        },
+        {
+          "q": "How do you scope an AI red-team engagement?",
+          "a": "Get written authorisation from the system owner, define which systems, environments, accounts and techniques are in scope, what is out of scope such as production data or third-party services, how sensitive outputs are stored and who sees them, how to stop if something goes wrong, and how findings are reported. I do not test systems I am not authorised to test, including public AI services outside their published programmes."
+        },
+        {
+          "q": "How do you rate the severity of an AI finding?",
+          "a": "Consider impact if exploited, such as data exposure, unauthorised actions or harmful content reaching users, how easy and reliable the attack is, required access, and how many users it could affect. Because attacks may succeed only some of the time, I report the success rate over repeated attempts. A reliable injection that triggers a destructive tool call is far more severe than an occasional mild policy violation."
+        },
+        {
+          "q": "An agent can send emails. What would you test?",
+          "a": "Whether injected content in incoming emails or documents can make it send messages, forward data or change recipients; whether sending requires user confirmation; whether it respects recipient restrictions; whether it leaks system prompts or other users' data; and how it behaves when tools return errors or unexpected content. I would also check logging so misuse can be detected."
+        },
+        {
+          "q": "Why is red teaming not sufficient on its own?",
+          "a": "It shows that certain attacks worked or failed in the time available; it does not prove the absence of vulnerabilities. It needs to sit alongside threat modelling, secure design such as least privilege, systematic evaluations, regression tests from findings and production monitoring."
+        }
+      ],
+      "codingRequirements": "Python is required to automate attack variations, run evaluations at scale and write regression tests. Familiarity with HTTP APIs and reading application code helps when tracing how untrusted content reaches the model.",
+      "commonMistakes": [
+        "Testing without written authorisation or a clear scope",
+        "Reporting a single successful jailbreak without measuring how reliable it is",
+        "Recommending only prompt changes instead of layered controls such as least privilege and confirmation",
+        "Ignoring indirect injection through retrieved documents and tool output",
+        "Storing harmful or sensitive outputs carelessly"
+      ],
+      "readinessCriteria": [
+        "Has written rules of engagement and completed an authorised exercise",
+        "Can demonstrate direct and indirect prompt injection on a sandbox and explain mitigations",
+        "Has turned findings into automated regression tests",
+        "Can rate severity using impact and measured success rate"
+      ],
+      "nextRoles": [
+        "ai-test-engineer",
+        "ai-agent-testing-engineer",
+        "ai-assurance-engineer"
+      ],
+      "boundaries": "Only test AI systems you own or have explicit written permission to test, within the agreed scope and rules of engagement. Do not attack public AI services outside their published bug bounty or research programmes, do not use red-team techniques to cause real harm, and handle any harmful or sensitive outputs according to the engagement's data-handling rules."
     }
   ]
 }

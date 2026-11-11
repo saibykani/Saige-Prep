@@ -21,7 +21,7 @@ export default function LoginPage() {
 
         <div className="animate-fade-in relative z-10 w-full max-w-sm">
           <Link href="/" className="mb-8 flex items-center justify-center gap-2.5 lg:justify-start">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#b9adf8] to-[#7c6cf0] text-sm font-bold text-[#0d0b1a] shadow-lg shadow-[#7c6cf0]/30">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground shadow-soft">
               S
             </span>
             <span className="text-lg font-semibold tracking-tight">Saige-Prep</span>
@@ -30,7 +30,7 @@ export default function LoginPage() {
           <p className="mb-6 text-center text-sm text-muted lg:hidden">Learn. Practice. Test. Get Hired.</p>
 
           <div className="glow-border rounded-2xl p-px shadow-2xl shadow-black/60">
-            <div className="relative rounded-[15px] bg-[#111113]/95 p-7 backdrop-blur-xl">
+            <div className="relative rounded-[15px] bg-surface/95 p-7 backdrop-blur-xl">
               <h2 className="text-xl font-semibold tracking-tight">Welcome back</h2>
               <p className="mt-1 text-sm text-muted">Sign in to continue your preparation.</p>
               <div className="mt-6">

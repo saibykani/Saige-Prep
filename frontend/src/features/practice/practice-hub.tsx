@@ -16,13 +16,13 @@ import { SQL_EXERCISES } from "./sql-data";
 import { DESIGN_EXERCISES } from "./test-design-data";
 
 const LABS: Record<string, { icon: LucideIcon; ids: string[]; tint: string; checked: "auto" | "self" }> = {
-  "test-design": { icon: ClipboardCheck, ids: DESIGN_EXERCISES.map((e) => e.id), tint: "from-[#a394f5]/25", checked: "auto" },
-  requirements: { icon: FileSearch, ids: REQUIREMENTS_EXERCISES.map((e) => e.id), tint: "from-[#9cc9e8]/20", checked: "self" },
-  "defect-report": { icon: Bug, ids: DEFECT_EXERCISES.map((e) => e.id), tint: "from-[#ef6f6c]/20", checked: "self" },
-  code: { icon: CodeXml, ids: CODE_CHALLENGES.map((e) => e.id), tint: "from-[#e0b25a]/20", checked: "auto" },
-  api: { icon: Webhook, ids: API_CHALLENGES.map((e) => e.id), tint: "from-[#4fbf8f]/20", checked: "auto" },
-  sql: { icon: Database, ids: SQL_EXERCISES.map((e) => e.id), tint: "from-[#c9befc]/20", checked: "auto" },
-  performance: { icon: Gauge, ids: PERF_EXERCISES.map((e) => e.id), tint: "from-[#f39a98]/20", checked: "auto" },
+  "test-design": { icon: ClipboardCheck, ids: DESIGN_EXERCISES.map((e) => e.id), tint: "from-accent/20", checked: "auto" },
+  requirements: { icon: FileSearch, ids: REQUIREMENTS_EXERCISES.map((e) => e.id), tint: "from-info/20", checked: "self" },
+  "defect-report": { icon: Bug, ids: DEFECT_EXERCISES.map((e) => e.id), tint: "from-danger/15", checked: "self" },
+  code: { icon: CodeXml, ids: CODE_CHALLENGES.map((e) => e.id), tint: "from-highlight/20", checked: "auto" },
+  api: { icon: Webhook, ids: API_CHALLENGES.map((e) => e.id), tint: "from-success/15", checked: "auto" },
+  sql: { icon: Database, ids: SQL_EXERCISES.map((e) => e.id), tint: "from-accent/12", checked: "auto" },
+  performance: { icon: Gauge, ids: PERF_EXERCISES.map((e) => e.id), tint: "from-warning/18", checked: "auto" },
 };
 
 export function PracticeHub() {
@@ -34,11 +34,11 @@ export function PracticeHub() {
   return (
     <div className="animate-fade-in">
       <HubHero
-        tone="emerald"
+        tone="moss"
         title="Practice Lab"
         subtitle="Learn by doing. Short, hands-on exercises with instant feedback — and an explanation every time, so mistakes turn into understanding."
         eyebrow={
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
             <Sparkles className="h-3 w-3" aria-hidden /> {solved * 10} XP earned
           </span>
         }

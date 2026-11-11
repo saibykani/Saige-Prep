@@ -28,7 +28,7 @@ interface Chip {
   /** Position inside the hero, in % of its box. */
   top: number;
   left: number;
-  tone: "violet" | "emerald" | "amber" | "rose" | "sky";
+  tone: "brand" | "emerald" | "amber" | "rose" | "sky";
   dur: number;
   delay: number;
   tilt: number;
@@ -40,9 +40,9 @@ interface Chip {
 const CHIPS: Chip[] = [
   // Left margin column
   { label: "Selenium", icon: Globe, top: 5, left: 3, tone: "emerald", dur: 9, delay: 0, tilt: -4 },
-  { label: "axe a11y", icon: Accessibility, top: 21, left: 2, tone: "violet", dur: 10.5, delay: 1, tilt: 2, desktopOnly: true },
+  { label: "axe a11y", icon: Accessibility, top: 21, left: 2, tone: "brand", dur: 10.5, delay: 1, tilt: 2, desktopOnly: true },
   { label: "SQL", icon: Database, top: 36, left: 4, tone: "amber", dur: 10, delay: 3, tilt: 3, desktopOnly: true },
-  { label: "Appium", icon: Smartphone, top: 51, left: 2, tone: "violet", dur: 10.5, delay: 0.4, tilt: 4 },
+  { label: "Appium", icon: Smartphone, top: 51, left: 2, tone: "brand", dur: 10.5, delay: 0.4, tilt: 4 },
   { label: "Microservices", icon: Network, top: 66, left: 1, tone: "sky", dur: 13, delay: 3.6, tilt: 3, desktopOnly: true },
   { label: "Git", icon: GitBranch, top: 81, left: 4, tone: "emerald", dur: 9, delay: 2.4, tilt: 4, desktopOnly: true },
   // Right margin column
@@ -53,20 +53,20 @@ const CHIPS: Chip[] = [
   { label: "Cucumber BDD", icon: ClipboardCheck, top: 70, left: 81, tone: "emerald", dur: 14, delay: 0.7, tilt: 2, desktopOnly: true },
   { label: "TestNG", icon: TestTubeDiagonal, top: 85, left: 84, tone: "emerald", dur: 11.5, delay: 0.9, tilt: 2 },
   // Top and bottom bands
-  { label: "Playwright", icon: Drama, top: 2, left: 38, tone: "violet", dur: 11, delay: 1.2, tilt: 3 },
+  { label: "Playwright", icon: Drama, top: 2, left: 38, tone: "brand", dur: 11, delay: 1.2, tilt: 3 },
   { label: "OWASP ZAP", icon: ShieldCheck, top: 3, left: 60, tone: "rose", dur: 13.5, delay: 3.4, tilt: -3, desktopOnly: true },
   { label: "RestAssured", icon: Braces, top: 94, left: 24, tone: "sky", dur: 9.5, delay: 1.8, tilt: -3 },
   { label: "JIRA", icon: Bug, top: 95, left: 46, tone: "amber", dur: 12, delay: 2.9, tilt: -4, desktopOnly: true },
-  { label: "LLM evals", icon: BrainCircuit, top: 93, left: 62, tone: "violet", dur: 12, delay: 4, tilt: -2, desktopOnly: true },
+  { label: "LLM evals", icon: BrainCircuit, top: 93, left: 62, tone: "brand", dur: 12, delay: 4, tilt: -2, desktopOnly: true },
   { label: "Jenkins", icon: Workflow, top: 96, left: 12, tone: "rose", dur: 12.5, delay: 1.5, tilt: -2, desktopOnly: true },
 ];
 
 const toneClass: Record<Chip["tone"], string> = {
-  violet: "text-[#b9adf8] border-[#a394f5]/30 shadow-[#a394f5]/10",
-  emerald: "text-[#7fd6b0] border-[#4fbf8f]/30 shadow-[#4fbf8f]/10",
-  amber: "text-[#ecc77f] border-[#e0b25a]/30 shadow-[#e0b25a]/10",
-  rose: "text-[#f39a98] border-[#ef6f6c]/30 shadow-[#ef6f6c]/10",
-  sky: "text-[#9cc9e8] border-[#7fb3d8]/30 shadow-[#7fb3d8]/10",
+  brand: "text-accent border-accent/30",
+  emerald: "text-success border-success/30",
+  amber: "text-highlight border-highlight/30",
+  rose: "text-danger border-danger/30",
+  sky: "text-info border-info/30",
 };
 
 export function FloatingTools({ dense = true }: { dense?: boolean }) {
@@ -77,7 +77,7 @@ export function FloatingTools({ dense = true }: { dense?: boolean }) {
         return (
           <span
             key={chip.label}
-            className={`float-chip absolute inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border bg-[#141417]/80 px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm ${toneClass[chip.tone]} ${chip.desktopOnly ? "hidden xl:inline-flex" : ""}`}
+            className={`float-chip absolute inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border bg-surface/90 px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm ${toneClass[chip.tone]} ${chip.desktopOnly ? "hidden xl:inline-flex" : ""}`}
             style={
               {
                 top: `${chip.top}%`,
@@ -102,15 +102,15 @@ export function AuroraBackdrop() {
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="grid-backdrop absolute inset-0" />
       <div
-        className="aurora-blob absolute -left-24 top-[-10%] h-[28rem] w-[28rem] rounded-full bg-[#7c6cf0]/35"
+        className="aurora-blob absolute -left-24 top-[-10%] h-[28rem] w-[28rem] rounded-full bg-accent/25"
         style={{ "--dur": "18s" } as CSSProperties}
       />
       <div
-        className="aurora-blob absolute bottom-[-15%] right-[-10%] h-[26rem] w-[26rem] rounded-full bg-[#2f9e74]/25"
+        className="aurora-blob absolute bottom-[-15%] right-[-10%] h-[26rem] w-[26rem] rounded-full bg-highlight/10"
         style={{ "--dur": "22s", "--delay": "-6s" } as CSSProperties}
       />
       <div
-        className="aurora-blob absolute left-[40%] top-[35%] h-72 w-72 rounded-full bg-[#c56cf0]/15"
+        className="aurora-blob absolute left-[40%] top-[35%] h-72 w-72 rounded-full bg-accent/0"
         style={{ "--dur": "26s", "--delay": "-11s" } as CSSProperties}
       />
     </div>
@@ -134,7 +134,7 @@ export function LoginHero() {
         <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight xl:text-6xl">
           <span className="bg-gradient-to-br from-white via-white to-white/50 bg-clip-text text-transparent">Learn. Practice.</span>
           <br />
-          <span className="bg-gradient-to-r from-[#b9adf8] via-[#a394f5] to-[#4fbf8f] bg-clip-text text-transparent">
+          <span className="text-accent">
             Test. Get Hired.
           </span>
         </h1>

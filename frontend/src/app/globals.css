@@ -3,98 +3,141 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /*
- * Saige-Prep design tokens. Dark-first: near-black canvas, charcoal surfaces,
- * restrained violet accent with emerald for success/progress.
+ * Saige-Prep design tokens (see docs/ui-audit.md).
+ * Calm neutrals (deep ink/slate in dark, warm paper in light), ONE brand colour (--accent,
+ * evergreen-teal by default, swappable with <html data-accent="…">) and a warm amber
+ * highlight for celebration. Semantic colours are separate from the brand.
+ * Every text/background pair is >= 4.5:1 (ratios in docs/ui-audit.md).
  */
 :root {
-  --background: #0a0a0b;
-  --surface: #131315;
-  --surface-raised: #1a1a1d;
-  --border: #26262b;
-  --border-strong: #34343a;
-  --foreground: #ededef;
-  --muted: #9a9aa3;
-  --subtle: #6b6b74;
-  --accent: #a394f5;
-  --accent-strong: #8b7aee;
-  --accent-soft: rgb(163 148 245 / 0.12);
-  --success: #4fbf8f;
-  --success-soft: rgb(79 191 143 / 0.12);
-  --warning: #e0b25a;
-  --warning-soft: rgb(224 178 90 / 0.12);
-  --danger: #ef6f6c;
-  --danger-soft: rgb(239 111 108 / 0.12);
-  --ring: #a394f5;
-  --accent-foreground: #0d0b1a;
-  --success-foreground: #06140e;
-  --surface-hover: #202024;
-  --code-bg: #0b0b0d;
-  --code-foreground: #e4defc;
-  --code-inline: #d6cffb;
-  --overlay: rgb(0 0 0 / 0.7);
-  --shadow-color: 0 0% 0%;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.35), 0 8px 24px -8px rgb(0 0 0 / 0.55);
-  --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.35), 0 18px 40px -12px rgb(0 0 0 / 0.65);
-  --hero-gradient:
-    radial-gradient(120% 140% at 0% 0%, rgb(163 148 245 / 0.16), transparent 55%),
-    radial-gradient(90% 120% at 100% 100%, rgb(79 191 143 / 0.09), transparent 60%);
+  /* Neutrals: dark (default) */
+  --background: #0f1519;
+  --surface: #151d22;
+  --surface-raised: #1c252b;
+  --surface-hover: #232d34;
+  --border: #263139;
+  --border-strong: #35434c;
+  --foreground: #e8eef0;
+  --muted: #a3b0b6;
+  --subtle: #86959c;
+
+  /* Brand (evergreen) */
+  --accent: #45c4ab;
+  --accent-strong: #2fae95;
+  --accent-soft: rgb(69 196 171 / 0.12);
+  --accent-foreground: #06201b;
+  --accent-ink: #0d2925; /* deep brand stage for the dashboard hero */
+  --accent-bright: #45c4ab; /* brand on the ink stage, same in both themes */
+  --ring: #45c4ab;
+
+  /* Warm highlight (celebration, streaks) */
+  --highlight: #f2b65c;
+  --highlight-soft: rgb(242 182 92 / 0.13);
+
+  /* Semantic */
+  --success: #5fcf85;
+  --success-soft: rgb(95 207 133 / 0.12);
+  --success-foreground: #06200f;
+  --warning: #e9a94c;
+  --warning-soft: rgb(233 169 76 / 0.12);
+  --danger: #f3837a;
+  --danger-soft: rgb(243 131 122 / 0.12);
+  --info: #7fb8e8;
+  --info-soft: rgb(127 184 232 / 0.12);
+
+  --code-bg: #0b1114;
+  --code-foreground: #dbe5e8;
+  --code-inline: #7fd8c5;
+  --overlay: rgb(5 9 11 / 0.7);
+  --shadow-color: 200 30% 2%;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -10px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.3), 0 20px 44px -16px rgb(0 0 0 / 0.6);
+  --hero-gradient: linear-gradient(135deg, color-mix(in oklab, var(--accent) 9%, transparent), transparent 60%);
   --grid-line: rgb(255 255 255 / 0.035);
-  --aurora-1: rgb(139 122 238 / 0.2);
-  --aurora-2: rgb(79 191 143 / 0.11);
-  --aurora-3: rgb(196 120 230 / 0.11);
-  --glass: rgb(10 10 11 / 0.66);
-  --spotlight: rgb(163 148 245 / 0.13);
-  --text-gradient: linear-gradient(100deg, #f4f2ff 10%, #c3b8ff 50%, #8fe0bd 100%);
-  --shimmer: rgb(255 255 255 / 0.3);
-  --skeleton-sheen: rgb(255 255 255 / 0.06);
+  --glass: rgb(15 21 25 / 0.78);
+  --spotlight: color-mix(in oklab, var(--accent) 9%, transparent);
+  --text-gradient: none;
+  --shimmer: rgb(255 255 255 / 0.22);
+  --skeleton-sheen: rgb(255 255 255 / 0.05);
+
+  /* Shape & rhythm */
+  --radius-card: 1rem;
+  --radius-control: 0.625rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   color-scheme: dark;
 }
 
-/* Light palette: same tokens, tuned for WCAG AA on light surfaces. */
+/* Light: warm paper neutrals. */
 :root[data-theme="light"] {
-  --background: #f7f6fb;
+  --background: #f8f6f2;
   --surface: #ffffff;
-  --surface-raised: #f1eff8;
-  --border: #e4e1ee;
-  --border-strong: #cfcadf;
-  --foreground: #16141f;
-  --muted: #555266;
-  --subtle: #6e6a80;
-  --accent: #6248e0;
-  --accent-strong: #4f36cc;
-  --accent-soft: rgb(98 72 224 / 0.09);
-  --success: #137a52;
-  --success-soft: rgb(19 122 82 / 0.1);
-  --warning: #8f5d00;
-  --warning-soft: rgb(196 134 18 / 0.13);
-  --danger: #c4302d;
-  --danger-soft: rgb(196 48 45 / 0.09);
-  --ring: #6248e0;
+  --surface-raised: #f1eee8;
+  --surface-hover: #e9e5dd;
+  --border: #e3ded4;
+  --border-strong: #cdc6b8;
+  --foreground: #1a2126;
+  --muted: #4c575e;
+  --subtle: #5f6b73;
+  --accent: #0c6e60;
+  --accent-strong: #095a4f;
+  --accent-soft: rgb(12 110 96 / 0.08);
   --accent-foreground: #ffffff;
+  --accent-ink: #103a34;
+  --ring: #0c6e60;
+  --highlight: #9a5a08;
+  --highlight-soft: rgb(214 140 30 / 0.13);
+  --success: #17783f;
+  --success-soft: rgb(23 120 63 / 0.09);
   --success-foreground: #ffffff;
-  --surface-hover: #e9e6f3;
-  --code-bg: #f4f2fa;
-  --code-foreground: #2a2447;
-  --code-inline: #4f36cc;
-  --overlay: rgb(22 20 31 / 0.45);
-  --shadow-sm: 0 1px 2px rgb(22 20 31 / 0.06);
-  --shadow-md: 0 1px 2px rgb(22 20 31 / 0.05), 0 8px 24px -10px rgb(60 45 140 / 0.16);
-  --shadow-lg: 0 2px 4px rgb(22 20 31 / 0.05), 0 20px 44px -14px rgb(60 45 140 / 0.24);
-  --hero-gradient:
-    radial-gradient(120% 140% at 0% 0%, rgb(98 72 224 / 0.1), transparent 55%),
-    radial-gradient(90% 120% at 100% 100%, rgb(19 122 82 / 0.07), transparent 60%);
-  --grid-line: rgb(22 20 31 / 0.05);
-  --aurora-1: rgb(98 72 224 / 0.13);
-  --aurora-2: rgb(19 122 82 / 0.08);
-  --aurora-3: rgb(236 120 60 / 0.09);
-  --glass: rgb(247 246 251 / 0.72);
-  --spotlight: rgb(98 72 224 / 0.08);
-  /* Every stop keeps AA contrast (>= 4.5:1) on the light canvas. */
-  --text-gradient: linear-gradient(100deg, #16141f 10%, #4f36cc 55%, #0f6644 100%);
-  --shimmer: rgb(255 255 255 / 0.35);
+  --warning: #8a5a06;
+  --warning-soft: rgb(196 134 18 / 0.12);
+  --danger: #b8382d;
+  --danger-soft: rgb(184 56 45 / 0.08);
+  --info: #26608f;
+  --info-soft: rgb(38 96 143 / 0.09);
+  --code-bg: #f4f2ed;
+  --code-foreground: #1f2a30;
+  --code-inline: #0a5a4f;
+  --overlay: rgb(26 33 38 / 0.42);
+  --shadow-sm: 0 1px 2px rgb(40 34 20 / 0.06);
+  --shadow-md: 0 1px 2px rgb(40 34 20 / 0.05), 0 8px 24px -12px rgb(40 34 20 / 0.14);
+  --shadow-lg: 0 2px 4px rgb(40 34 20 / 0.05), 0 20px 44px -16px rgb(40 34 20 / 0.2);
+  --grid-line: rgb(26 33 38 / 0.05);
+  --glass: rgb(248 246 242 / 0.82);
+  --shimmer: rgb(255 255 255 / 0.3);
   --skeleton-sheen: rgb(255 255 255 / 0.7);
   color-scheme: light;
+}
+
+/*
+ * Accent themes. Only brand tokens change; neutrals and semantic colours stay put, so
+ * no component needs per-theme code. Evergreen is the default (no attribute needed).
+ */
+:root[data-accent="indigo"] {
+  --accent: #a3a8f5; --accent-strong: #8c92ee; --accent-soft: rgb(163 168 245 / 0.13);
+  --accent-foreground: #14163a; --accent-ink: #1a1d3d; --accent-bright: #a3a8f5; --ring: #a3a8f5; --code-inline: #bfc3fa;
+}
+:root[data-theme="light"][data-accent="indigo"] {
+  --accent: #4d50b8; --accent-strong: #3d3fa0; --accent-soft: rgb(77 80 184 / 0.08);
+  --accent-foreground: #ffffff; --accent-ink: #20224f; --ring: #4d50b8; --code-inline: #3d3fa0;
+}
+:root[data-accent="coral"] {
+  --accent: #f39882; --accent-strong: #ec7f66; --accent-soft: rgb(243 152 130 / 0.13);
+  --accent-foreground: #2a0d06; --accent-ink: #34181a; --accent-bright: #f39882; --ring: #f39882; --code-inline: #f6b3a3;
+}
+:root[data-theme="light"][data-accent="coral"] {
+  --accent: #b23e29; --accent-strong: #953220; --accent-soft: rgb(178 62 41 / 0.08);
+  --accent-foreground: #ffffff; --accent-ink: #3d1a14; --ring: #b23e29; --code-inline: #953220;
+}
+:root[data-accent="plum"] {
+  --accent: #d7a0d2; --accent-strong: #c886c2; --accent-soft: rgb(215 160 210 / 0.13);
+  --accent-foreground: #2a0c28; --accent-ink: #2b1a2f; --accent-bright: #d7a0d2; --ring: #d7a0d2; --code-inline: #e3bce0;
+}
+:root[data-theme="light"][data-accent="plum"] {
+  --accent: #82387e; --accent-strong: #6b2c68; --accent-soft: rgb(130 56 126 / 0.08);
+  --accent-foreground: #ffffff; --accent-ink: #331a35; --ring: #82387e; --code-inline: #6b2c68;
 }
 
 @theme inline {
@@ -109,12 +152,18 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-bright: var(--accent-bright);
+  --color-highlight: var(--highlight);
+  --color-highlight-soft: var(--highlight-soft);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
   --color-ring: var(--ring);
   --color-accent-foreground: var(--accent-foreground);
   --color-success-foreground: var(--success-foreground);
@@ -140,6 +189,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-feature-settings: "cv11", "ss01";
+  line-height: 1.55;
   transition:
     background-color 200ms ease,
     color 200ms ease;
@@ -149,7 +199,7 @@ h1,
 h2,
 h3,
 h4 {
-  letter-spacing: -0.015em;
+  letter-spacing: -0.018em;
   text-wrap: balance;
 }
 
@@ -157,8 +207,16 @@ p {
   text-wrap: pretty;
 }
 
+/* Stats and scores never jiggle while counting up. */
+dd,
+.tabular,
+[role="progressbar"] + *,
+.stat-value {
+  font-variant-numeric: tabular-nums;
+}
+
 ::selection {
-  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
 :focus-visible {
@@ -167,7 +225,7 @@ p {
   border-radius: 6px;
 }
 
-/* Soft hero gradient used by PageHeader. */
+/* Subtle brand-tinted header surface used by PageHeader. */
 .hero-surface {
   background-image: var(--hero-gradient);
 }
@@ -198,29 +256,14 @@ p {
   animation: fade-in-up 180ms ease-out both;
 }
 
-/* ---------- Login / hero animations ---------- */
+/* ---------- Login page animations (kept calm) ---------- */
 @keyframes float-drift {
   0%,
   100% {
     transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg));
   }
-  33% {
-    transform: translate3d(6px, -14px, 0) rotate(calc(var(--tilt, 0deg) + 2deg));
-  }
-  66% {
-    transform: translate3d(-8px, -6px, 0) rotate(calc(var(--tilt, 0deg) - 2deg));
-  }
-}
-
-@keyframes aurora {
-  0%,
-  100% {
-    transform: translate3d(-10%, -6%, 0) scale(1);
-    opacity: 0.55;
-  }
   50% {
-    transform: translate3d(8%, 6%, 0) scale(1.15);
-    opacity: 0.85;
+    transform: translate3d(0, -8px, 0) rotate(var(--tilt, 0deg));
   }
 }
 
@@ -276,9 +319,10 @@ p {
   will-change: transform;
 }
 
+/* Former aurora blobs: now a static, soft brand wash (no movement). */
 .aurora-blob {
-  animation: aurora var(--dur, 16s) ease-in-out var(--delay, 0s) infinite;
-  filter: blur(70px);
+  filter: blur(80px);
+  opacity: 0.5;
 }
 
 .grid-backdrop {
@@ -286,11 +330,10 @@ p {
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
-  animation: grid-pan 12s linear infinite;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
 }
 
-/* Rotating gradient border for the sign-in card. */
+/* Sign-in card: a quiet single-hue border instead of a spinning rainbow. */
 .glow-border {
   position: relative;
   isolation: isolate;
@@ -301,15 +344,7 @@ p {
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  background: conic-gradient(
-    from var(--border-angle),
-    transparent 0deg,
-    rgb(163 148 245 / 0.75) 60deg,
-    rgb(79 191 143 / 0.6) 120deg,
-    transparent 180deg,
-    transparent 360deg
-  );
-  animation: border-spin 6s linear infinite;
+  background: linear-gradient(160deg, color-mix(in oklab, var(--accent) 55%, transparent), transparent 45%, color-mix(in oklab, var(--highlight) 35%, transparent));
 }
 
 .terminal-line {
@@ -321,21 +356,21 @@ p {
 }
 
 .scanline {
-  animation: scan 5s linear infinite;
+  display: none;
 }
 
-/* ---------- Playful feedback (transform/opacity only, GPU-friendly) ---------- */
+/* ---------- Feedback & delight (transform/opacity only) ---------- */
 @keyframes pop-in {
-  0% { opacity: 0; transform: scale(0.6); }
-  60% { opacity: 1; transform: scale(1.12); }
+  0% { opacity: 0; transform: scale(0.7); }
+  60% { opacity: 1; transform: scale(1.06); }
   100% { opacity: 1; transform: scale(1); }
 }
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(2px); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(1px); }
 }
 @keyframes confetti-burst {
   0% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
@@ -355,13 +390,13 @@ p {
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(79 191 143 / 0); }
-  50% { box-shadow: 0 0 0 6px rgb(79 191 143 / 0.18); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--highlight) 0%, transparent); }
+  50% { box-shadow: 0 0 0 6px color-mix(in oklab, var(--highlight) 22%, transparent); }
 }
 
-.animate-pop { animation: pop-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.animate-pop { animation: pop-in 420ms var(--ease-spring) both; }
 .animate-shake { animation: shake 380ms ease-in-out both; }
-.animate-slide-up { animation: slide-up 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-slide-up { animation: slide-up 320ms var(--ease-out) both; }
 .animate-glow { animation: glow-pulse 1.6s ease-in-out 2; }
 .confetti-piece {
   position: absolute;
@@ -382,95 +417,53 @@ p {
 }
 .check-draw path { stroke-dasharray: 24; animation: draw-check 380ms 120ms ease-out both; }
 
-/* Smooth, consistent hover lift for interactive cards. */
-.lift { transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms, border-color 200ms, background-color 200ms; }
-.lift:hover { transform: translate3d(0, -3px, 0); box-shadow: var(--shadow-lg); border-color: var(--border-strong); }
+/* Success banner for real achievements (practice test passed, all coding checks pass). */
+.celebrate {
+  position: relative;
+  overflow: visible;
+  border-color: color-mix(in oklab, var(--success) 40%, transparent);
+  background:
+    linear-gradient(120deg, var(--success-soft), var(--highlight-soft));
+  animation: pop-in 460ms var(--ease-spring) both;
+}
+
+/* Hover lift for interactive cards. */
+.lift { transition: transform 220ms var(--ease-out), box-shadow 220ms, border-color 200ms, background-color 200ms; }
+.lift:hover { transform: translate3d(0, -2px, 0); box-shadow: var(--shadow-md); border-color: var(--border-strong); }
 @media (prefers-reduced-motion: reduce) {
   .lift:hover { transform: none; }
   .confetti-piece, .xp-float { display: none; }
 }
 
 /* =====================================================================
- * Modern polish layer: aurora canvas, glass chrome, stagger, spotlight,
- * shimmer, gradient text, skeletons and page transitions.
- * Everything animates transform/opacity only and stops for reduced motion.
+ * Polish layer: chrome, stagger, spotlight, skeletons, page transitions.
  * ===================================================================== */
 
-/* Fixed, GPU-composited aurora behind the app. Purely decorative. */
-.app-aurora {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-.app-aurora::before,
-.app-aurora::after {
-  content: "";
-  position: absolute;
-  width: 70vmax;
-  height: 70vmax;
-  border-radius: 9999px;
-  will-change: transform;
-}
-.app-aurora::before {
-  top: -35vmax;
-  left: -20vmax;
-  background: radial-gradient(closest-side, var(--aurora-1), transparent);
-  animation: aurora-drift-a 28s ease-in-out infinite alternate;
-}
-.app-aurora::after {
-  bottom: -40vmax;
-  right: -25vmax;
-  background:
-    radial-gradient(closest-side at 40% 40%, var(--aurora-2), transparent),
-    radial-gradient(closest-side at 70% 60%, var(--aurora-3), transparent);
-  animation: aurora-drift-b 34s ease-in-out infinite alternate;
-}
-@keyframes aurora-drift-a {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(12vw, 8vh, 0) scale(1.12); }
-}
-@keyframes aurora-drift-b {
-  from { transform: translate3d(0, 0, 0) scale(1.05); }
-  to { transform: translate3d(-10vw, -10vh, 0) scale(0.95); }
-}
+/* Retired decorative aurora: kept as a no-op so old markup renders nothing. */
+.app-aurora { display: none; }
 
-/* Translucent header/sidebar. Falls back to a solid surface without blur support. */
 .glass {
   background: var(--glass);
-  -webkit-backdrop-filter: saturate(160%) blur(14px);
-  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(12px);
+  backdrop-filter: saturate(140%) blur(12px);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass { background: var(--background); }
 }
 
-/* Gradient hero headings. Solid colour fallback keeps text readable. */
+/* Former gradient headings: solid foreground reads better and looks less generated. */
 .text-gradient {
   color: var(--foreground);
 }
-@supports (background-clip: text) or (-webkit-background-clip: text) {
-  .text-gradient {
-    background-image: var(--text-gradient);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-}
-@media (forced-colors: active) {
-  .text-gradient { background: none; color: CanvasText; }
-}
 
-/* Staggered entrance for grids: children fade up one after another. */
 @keyframes rise-in {
-  from { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.985); }
-  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 .stagger > * {
   /* backwards (not both): once finished, hover transforms such as .lift apply again. */
-  animation: rise-in 520ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  animation-delay: calc(var(--stagger-i, 0) * 55ms + 40ms);
+  animation: rise-in 480ms var(--ease-out) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 50ms + 40ms);
 }
 .stagger > :nth-child(2) { --stagger-i: 1; }
 .stagger > :nth-child(3) { --stagger-i: 2; }
@@ -482,10 +475,7 @@ p {
 .stagger > :nth-child(9) { --stagger-i: 8; }
 .stagger > :nth-child(n + 10) { --stagger-i: 9; }
 
-/*
- * Cursor spotlight. useSpotlight() sets --mx/--my on the hovered .spotlight
- * element; a radial glow fades in at that point (opacity-only transition).
- */
+/* Cursor spotlight (useSpotlight sets --mx/--my): a faint brand glow. */
 .spotlight {
   position: relative;
   isolation: isolate;
@@ -497,7 +487,7 @@ p {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--spotlight), transparent 60%);
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), var(--spotlight), transparent 60%);
   opacity: 0;
   transition: opacity 260ms ease;
 }
@@ -506,7 +496,7 @@ p {
   opacity: 1;
 }
 
-/* Sweep of light across primary buttons on hover/focus. */
+/* Primary buttons: a subtle sheen on hover only. */
 .shimmer {
   position: relative;
   overflow: hidden;
@@ -517,18 +507,16 @@ p {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(110deg, transparent 30%, var(--shimmer) 50%, transparent 70%);
+  background: linear-gradient(110deg, transparent 35%, var(--shimmer) 50%, transparent 65%);
   transform: translate3d(-120%, 0, 0);
 }
-.shimmer:not(:disabled):hover::after,
-.shimmer:not(:disabled):focus-visible::after {
+.shimmer:not(:disabled):hover::after {
   animation: shimmer-sweep 900ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes shimmer-sweep {
   to { transform: translate3d(120%, 0, 0); }
 }
 
-/* Skeleton sheen. */
 .skeleton {
   position: relative;
   overflow: hidden;
@@ -545,7 +533,7 @@ p {
   to { transform: translate3d(100%, 0, 0); }
 }
 
-/* Sidebar: active indicator bar springs in next to the current page. */
+/* Sidebar active indicator. */
 .nav-link { position: relative; }
 .nav-link[aria-current="page"]::before {
   content: "";
@@ -556,56 +544,47 @@ p {
   height: 1.1rem;
   margin-top: -0.55rem;
   border-radius: 0 3px 3px 0;
-  background: linear-gradient(var(--accent), var(--success));
-  animation: indicator-in 360ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  background: var(--accent);
+  animation: indicator-in 320ms var(--ease-out) both;
 }
 @keyframes indicator-in {
   from { opacity: 0; transform: scaleY(0.2); }
   to { opacity: 1; transform: scaleY(1); }
 }
 
-/* Native checkboxes/radios: brand colour and a tactile press. */
 input[type="checkbox"],
 input[type="radio"] {
   accent-color: var(--accent);
-  transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 160ms var(--ease-spring);
 }
 input[type="checkbox"]:active,
 input[type="radio"]:active {
-  transform: scale(0.86);
-}
-input[type="checkbox"]:checked,
-input[type="radio"]:checked {
-  animation: pop-in 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(0.88);
 }
 
-/* Segmented toggle buttons: springy press. */
-.press { transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 200ms, color 200ms; }
-.press:active { transform: scale(0.9); }
+.press { transition: transform 160ms var(--ease-spring), background-color 200ms, color 200ms; }
+.press:active { transform: scale(0.94); }
 
 /* Route change crossfade + rise (React <ViewTransition default="page">). */
 ::view-transition-old(.page) {
-  animation: page-out 160ms ease-in both;
+  animation: page-out 140ms ease-in both;
 }
 ::view-transition-new(.page) {
-  animation: page-in 320ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+  animation: page-in 280ms var(--ease-out) 40ms both;
 }
 @keyframes page-out {
-  to { opacity: 0; transform: translate3d(0, -4px, 0); }
+  to { opacity: 0; }
 }
 @keyframes page-in {
-  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  from { opacity: 0; transform: translate3d(0, 6px, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-aurora::before,
-  .app-aurora::after,
   .skeleton::after,
   .shimmer::after,
   .stagger > *,
+  .celebrate,
   .nav-link[aria-current="page"]::before,
-  input[type="checkbox"]:checked,
-  input[type="radio"]:checked,
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
@@ -619,104 +598,100 @@ input[type="radio"]:checked {
 }
 
 /* =====================================================================
- * Learning-platform layer: vibrant hub heroes, course cards with generated
- * thumbnails, animated progress, scroll reveal, featured gradient ring,
- * section underline and ripple/press feedback. transform/opacity only.
+ * Learning-platform layer: hub heroes, course thumbnails, progress,
+ * featured card, section titles, chips. transform/opacity only.
  * ===================================================================== */
 
-/* ---------- Hub hero ---------- */
+/* ---------- Hub hero: tinted surface + fine dot grid + tone stripe ---------- */
 .hub-hero {
   background:
-    radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--c3) 70%, transparent), transparent 60%),
-    linear-gradient(120deg, var(--c1) 0%, var(--c2) 55%, var(--c3) 100%);
+    radial-gradient(90% 140% at 100% 0%, color-mix(in oklab, var(--c2) 16%, transparent), transparent 62%),
+    linear-gradient(0deg, color-mix(in oklab, var(--c2) 5%, var(--surface)), color-mix(in oklab, var(--c2) 5%, var(--surface)));
+  border: 1px solid color-mix(in oklab, var(--c2) 22%, var(--border));
 }
-/* Dark theme: same hue, deeper and sleeker. */
-:root:not([data-theme="light"]) .hub-hero::before {
+.hub-hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: -5;
-  background: linear-gradient(180deg, rgb(10 8 20 / 0.28), rgb(10 8 20 / 0.42));
-  pointer-events: none;
-}
-:root:not([data-theme="light"]) .hub-hero {
-  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06), var(--shadow-lg);
+  left: 0;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--c-ink);
 }
 .hero-dots {
-  background-image: radial-gradient(rgb(255 255 255 / 0.16) 1.2px, transparent 1.4px);
-  background-size: 18px 18px;
-  mask-image: linear-gradient(100deg, transparent 35%, black 85%);
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 14%, transparent) 1px, transparent 1.3px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(100deg, transparent 45%, black 95%);
 }
 .hero-float {
   animation: float-drift var(--dur, 12s) ease-in-out var(--delay, 0s) infinite;
   will-change: transform;
 }
 
-/* ---------- Course thumbnails ---------- */
+/* ---------- Course thumbnails: curated, low-saturation single hue ---------- */
 .course-thumb {
   background:
-    radial-gradient(90% 120% at 100% 0%, color-mix(in srgb, var(--c3) 85%, transparent), transparent 65%),
+    radial-gradient(100% 140% at 100% 0%, color-mix(in oklab, var(--c3) 70%, transparent), transparent 70%),
     linear-gradient(135deg, var(--c1), var(--c2));
 }
 .thumb-zoom {
-  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 500ms var(--ease-out);
   transform-origin: 30% 70%;
 }
-.thumb-pattern-dots { background-image: radial-gradient(rgb(255 255 255 / 0.18) 1.2px, transparent 1.5px); background-size: 14px 14px; }
+.thumb-pattern-dots { background-image: radial-gradient(rgb(255 255 255 / 0.13) 1px, transparent 1.4px); background-size: 14px 14px; }
 .thumb-pattern-grid {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.09) 1px, transparent 1px);
+    linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px);
   background-size: 20px 20px;
 }
-.thumb-pattern-diagonal { background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.08) 0 2px, transparent 2px 12px); }
+.thumb-pattern-diagonal { background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.06) 0 1px, transparent 1px 10px); }
 .thumb-pattern-waves {
-  background-image: radial-gradient(circle at 0 100%, transparent 14px, rgb(255 255 255 / 0.09) 15px, transparent 16px);
+  background-image: radial-gradient(circle at 0 100%, transparent 14px, rgb(255 255 255 / 0.07) 15px, transparent 16px);
   background-size: 28px 28px;
 }
 
 /* ---------- Course card ---------- */
 .course-card {
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms, border-color 200ms;
+  transition: transform 240ms var(--ease-out), box-shadow 240ms, border-color 200ms;
 }
 .course-card:hover,
 .course-card:focus-visible {
-  transform: translate3d(0, -4px, 0);
+  transform: translate3d(0, -3px, 0);
   box-shadow: var(--shadow-lg);
   border-color: var(--border-strong);
 }
 .course-card:hover .thumb-zoom,
-.course-card:focus-visible .thumb-zoom { transform: scale(1.08); }
+.course-card:focus-visible .thumb-zoom { transform: scale(1.05); }
 .course-cta {
   opacity: 0;
-  transform: translate3d(0, 8px, 0);
-  transition: opacity 220ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translate3d(0, 6px, 0);
+  transition: opacity 220ms ease, transform 240ms var(--ease-out);
 }
 .course-card:hover .course-cta,
 .course-card:focus-visible .course-cta { opacity: 1; transform: translate3d(0, 0, 0); }
-/* Touch devices have no hover: always show the CTA. */
 @media (hover: none) {
   .course-cta { opacity: 1; transform: none; }
 }
 
-/* ---------- Featured: animated gradient border ---------- */
+/* ---------- Featured: a steady brand ring (no spinning rainbow) ---------- */
 .featured-ring {
   padding: 1.5px;
-  background: conic-gradient(from var(--border-angle), var(--accent), var(--success), #f59e0b, #ec4899, var(--accent));
-  animation: border-spin 7s linear infinite;
-  box-shadow: 0 10px 30px -14px color-mix(in srgb, var(--accent) 60%, transparent);
+  background: linear-gradient(140deg, var(--accent), color-mix(in oklab, var(--accent) 30%, transparent) 55%, var(--highlight));
+  box-shadow: 0 10px 28px -16px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 .featured-ring > .course-card,
 .featured-ring > * { border-radius: calc(1rem - 1.5px); }
 
-/* ---------- Animated progress ---------- */
+/* ---------- Progress ---------- */
 .progress-fill {
   width: 100%;
   transform-origin: left center;
   transform: scaleX(var(--p, 0));
-  background: linear-gradient(90deg, var(--accent), var(--success));
-  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  animation: progress-grow 1100ms cubic-bezier(0.22, 1, 0.36, 1) 150ms backwards;
+  background: var(--accent);
+  transition: transform 700ms var(--ease-out);
+  animation: progress-grow 1000ms var(--ease-out) 150ms backwards;
 }
 @keyframes progress-grow {
   from { transform: scaleX(0); }
@@ -729,41 +704,38 @@ input[type="radio"]:checked {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 2.5rem;
-  height: 3px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--success));
+  width: 1.75rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
   transform-origin: left;
-  animation: underline-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms backwards;
+  animation: underline-in 600ms var(--ease-out) 200ms backwards;
 }
 @keyframes underline-in {
   from { transform: scaleX(0); }
 }
 
-/* ---------- Scroll reveal (only hides when motion is allowed) ---------- */
+/* ---------- Scroll reveal ---------- */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] {
-    transition: opacity 600ms ease, transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 560ms ease, transform 640ms var(--ease-out);
   }
   [data-reveal]:not([data-revealed]) {
     opacity: 0;
-    transform: translate3d(0, 22px, 0);
+    transform: translate3d(0, 16px, 0);
   }
 }
 
 /* ---------- Filter chips ---------- */
 .chip {
-  transition: transform 160ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
+  transition: transform 160ms var(--ease-spring), background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
 }
-.chip:active { transform: scale(0.94); }
+.chip:active { transform: scale(0.96); }
 .chip[aria-pressed="true"] {
-  background: linear-gradient(120deg, var(--accent-strong), color-mix(in srgb, var(--accent-strong) 70%, #be185d));
+  background: var(--accent);
   border-color: transparent;
-  color: #ffffff;
-  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 80%, transparent);
-}
-:root:not([data-theme="light"]) .chip[aria-pressed="true"] {
-  background: linear-gradient(120deg, #6d28d9, #9333ea);
+  color: var(--accent-foreground);
+  box-shadow: 0 6px 16px -10px color-mix(in srgb, var(--accent) 80%, transparent);
 }
 
 /* ---------- Ripple + press ---------- */
@@ -779,7 +751,7 @@ input[type="radio"]:checked {
   margin: -6px 0 0 -6px;
   border-radius: 9999px;
   background: currentColor;
-  opacity: 0.25;
+  opacity: 0.2;
   pointer-events: none;
   z-index: -1;
   animation: ripple-out 600ms ease-out forwards;
@@ -788,7 +760,6 @@ input[type="radio"]:checked {
   to { transform: scale(28); opacity: 0; }
 }
 
-/* ---------- Continue-learning row ---------- */
 .snap-row {
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
@@ -796,9 +767,18 @@ input[type="radio"]:checked {
 }
 .snap-row > * { scroll-snap-align: start; }
 
+/* ---------- Lesson prose ---------- */
+.prose-lesson {
+  max-width: 72ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.prose-lesson h2 { font-size: 1.375rem; line-height: 1.3; }
+.prose-lesson h3 { font-size: 1.125rem; line-height: 1.4; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-float,
-  .featured-ring,
+  .float-chip,
   .progress-fill,
   .section-title::after,
   .ripple.rippling::before {
@@ -816,108 +796,66 @@ input[type="radio"]:checked {
 }
 
 /* =====================================================================
- * Cinematic dashboard hero: deep animated mesh, drifting orbs, light beam,
- * twinkling stars, pointer parallax (--px/--py), word reveal, self-drawing ring.
- * Always a dark stage, so it reads the same in light and dark themes.
+ * Dashboard hero: a deep brand-ink stage (in both themes) with a soft
+ * single-hue glow, a fine grid, a self-drawing readiness ring, a streak
+ * and a 14-day activity strip. Gentle pointer parallax on the panel only.
  * ===================================================================== */
 .cine-hero {
   --px: 0;
   --py: 0;
-  background: #0d0820;
+  background: var(--accent-ink);
+  border: 1px solid color-mix(in oklab, var(--accent-bright) 22%, transparent);
 }
 .cine-mesh {
   background:
-    radial-gradient(40% 50% at 15% 20%, rgb(124 58 237 / 0.75), transparent 70%),
-    radial-gradient(35% 45% at 85% 25%, rgb(217 70 239 / 0.55), transparent 70%),
-    radial-gradient(45% 55% at 60% 100%, rgb(16 185 129 / 0.45), transparent 70%),
-    radial-gradient(30% 40% at 35% 80%, rgb(79 70 229 / 0.6), transparent 70%);
-  animation: cine-mesh 22s ease-in-out infinite alternate;
-  transform: translate3d(calc(var(--px) * -24px), calc(var(--py) * -18px), 0);
-}
-@keyframes cine-mesh {
-  0% { transform: rotate(0deg) scale(1); }
-  100% { transform: rotate(14deg) scale(1.15); }
+    radial-gradient(55% 70% at 85% 10%, color-mix(in oklab, var(--accent-bright) 30%, transparent), transparent 70%),
+    radial-gradient(45% 60% at 0% 100%, rgb(242 182 92 / 0.12), transparent 70%);
+  transform: translate3d(calc(var(--px) * -10px), calc(var(--py) * -8px), 0);
+  transition: transform 600ms var(--ease-out);
 }
 .cine-grid {
   background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 70% 80% at 70% 50%, black 10%, transparent 75%);
-  animation: grid-pan 10s linear infinite;
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 60% 80% at 80% 40%, black 10%, transparent 75%);
 }
-.cine-orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(40px);
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.cine-orb-a { width: 260px; height: 260px; top: -80px; right: 18%; background: rgb(167 139 250 / 0.55); animation: float-drift 12s ease-in-out infinite; translate: calc(var(--px) * 40px) calc(var(--py) * 30px); }
-.cine-orb-b { width: 180px; height: 180px; bottom: -60px; right: -30px; background: rgb(52 211 153 / 0.45); animation: float-drift 15s ease-in-out -4s infinite; translate: calc(var(--px) * 60px) calc(var(--py) * 45px); }
-.cine-orb-c { width: 140px; height: 140px; top: 40%; left: -40px; background: rgb(244 114 182 / 0.4); animation: float-drift 10s ease-in-out -2s infinite; translate: calc(var(--px) * -30px) calc(var(--py) * -25px); }
-.cine-beam {
-  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.09), transparent);
-  animation: cine-beam 7s ease-in-out infinite;
-}
-@keyframes cine-beam {
-  0% { transform: translateX(-120%) skewX(-12deg); }
-  60%, 100% { transform: translateX(380%) skewX(-12deg); }
-}
-.cine-stars {
-  background-image:
-    radial-gradient(1.5px 1.5px at 12% 30%, white, transparent),
-    radial-gradient(1px 1px at 28% 72%, white, transparent),
-    radial-gradient(1.5px 1.5px at 47% 18%, white, transparent),
-    radial-gradient(1px 1px at 63% 64%, white, transparent),
-    radial-gradient(1.5px 1.5px at 78% 12%, white, transparent),
-    radial-gradient(1px 1px at 88% 82%, white, transparent),
-    radial-gradient(1px 1px at 92% 40%, white, transparent),
-    radial-gradient(1.5px 1.5px at 6% 88%, white, transparent);
-  animation: cine-twinkle 4s ease-in-out infinite alternate;
-}
-@keyframes cine-twinkle { from { opacity: 0.25; } to { opacity: 0.8; } }
-.cine-vignette { background: radial-gradient(120% 90% at 50% 0%, transparent 55%, rgb(5 3 15 / 0.55)); }
+/* Retired decoration (orbs, beam, stars): rendered as nothing if still present. */
+.cine-orb, .cine-beam, .cine-stars { display: none; }
+.cine-vignette { background: linear-gradient(180deg, transparent 60%, rgb(0 0 0 / 0.18)); }
 .cine-word {
-  animation: cine-word 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--i) * 90ms + 120ms);
+  display: inline-block;
+  animation: cine-word 600ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 70ms + 100ms);
 }
 @keyframes cine-word {
-  from { opacity: 0; transform: translate3d(0, 0.6em, 0) rotateX(-60deg); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
+  from { opacity: 0; transform: translate3d(0, 0.35em, 0); }
+  to { opacity: 1; transform: none; }
 }
-.cine-sub, .cine-chip { animation: slide-up 600ms cubic-bezier(0.22, 1, 0.36, 1) 450ms both; }
+.cine-sub, .cine-chip { animation: slide-up 560ms var(--ease-out) 380ms both; }
 .cine-chip { animation-delay: 0ms; }
-.cine-cta { animation: pop-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 700ms both; }
-.cine-shine {
-  background: linear-gradient(90deg, #6ee7b7, #f0abfc, #c4b5fd, #6ee7b7);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: cine-shine 5s linear infinite;
-}
-@keyframes cine-shine { to { background-position: 300% 0; } }
+.cine-cta { animation: slide-up 560ms var(--ease-out) 560ms both; }
+.cine-shine { color: var(--hero-highlight, #f6c97f); }
 .cine-panel {
-  animation: slide-up 700ms cubic-bezier(0.22, 1, 0.36, 1) 300ms both;
-  transform: perspective(900px) rotateY(calc(var(--px) * -8deg)) rotateX(calc(var(--py) * 8deg));
-  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: slide-up 640ms var(--ease-out) 260ms both;
+  transform: perspective(1000px) rotateY(calc(var(--px) * -3deg)) rotateX(calc(var(--py) * 3deg));
+  transition: transform 500ms var(--ease-out);
 }
-.cine-ring { filter: drop-shadow(0 0 18px rgb(240 171 252 / 0.45)); }
-.cine-ring-arc { animation: cine-ring 1600ms cubic-bezier(0.22, 1, 0.36, 1) 500ms both; }
+.cine-ring-arc { animation: cine-ring 1500ms var(--ease-out) 450ms both; }
 @keyframes cine-ring {
   from { stroke-dashoffset: var(--ring-from); }
   to { stroke-dashoffset: var(--ring-to); }
 }
 .cine-bar {
   transform-origin: bottom;
-  animation: cine-bar 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: calc(var(--i) * 45ms + 600ms);
+  animation: cine-bar 600ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 35ms + 500ms);
 }
 @keyframes cine-bar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-.cine-flame { animation: glow-pulse 2.4s ease-in-out infinite; }
+.cine-flame { animation: glow-pulse 2.4s ease-in-out 3; }
 @media (prefers-reduced-motion: reduce) {
-  .cine-mesh, .cine-grid, .cine-orb, .cine-beam, .cine-stars, .cine-word, .cine-sub, .cine-chip,
-  .cine-cta, .cine-shine, .cine-panel, .cine-ring-arc, .cine-bar, .cine-flame {
+  .cine-mesh, .cine-word, .cine-sub, .cine-chip,
+  .cine-cta, .cine-panel, .cine-ring-arc, .cine-bar, .cine-flame {
     animation: none !important;
     transform: none !important;
     translate: none !important;

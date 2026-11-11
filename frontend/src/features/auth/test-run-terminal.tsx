@@ -21,9 +21,9 @@ const HOLD_MS = 3200;
 
 const color: Record<Line["kind"], string> = {
   cmd: "text-foreground",
-  pass: "text-[#7fd6b0]",
-  info: "text-[#b9adf8]",
-  summary: "text-[#ecc77f] font-medium",
+  pass: "text-success",
+  info: "text-accent",
+  summary: "text-highlight font-medium",
 };
 
 export function TestRunTerminal() {
@@ -45,12 +45,12 @@ export function TestRunTerminal() {
   return (
     <div
       aria-hidden
-      className="relative overflow-hidden rounded-xl border border-border bg-[#0c0c0e]/90 shadow-2xl shadow-black/50 backdrop-blur"
+      className="relative overflow-hidden rounded-xl border border-border bg-code-bg shadow-2xl shadow-black/50 backdrop-blur"
     >
       <div className="flex items-center gap-1.5 border-b border-border px-4 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-[#ef6f6c]/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#e0b25a]/70" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#4fbf8f]/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-danger/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-warning/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-success/70" />
         <span className="ml-3 font-mono text-[11px] text-subtle">regression-suite — sample run</span>
       </div>
       <div className="relative h-[228px] px-4 py-3 font-mono text-[12.5px] leading-6">

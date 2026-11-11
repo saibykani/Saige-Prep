@@ -23,15 +23,25 @@ const practices = files.map((f) => ({ file: rel(f), data: readJson(f, lessonPrac
 type Outcome = { error: string | null; passed: boolean[] };
 
 async function runJs(code: string, tests: { name: string; code: string }[]): Promise<Outcome> {
-  let posted: { error: string | null; results: { ok: boolean }[] } | undefined;
+  type Posted = { error: string | null; results: { ok: boolean }[] };
+  let posted: Posted | undefined;
   try {
-    await new Function("postMessage", `${buildJsScript(code, tests)}\n;return new Promise((r) => setTimeout(r, 0));`)((m: typeof posted) => {
-      posted = m;
+    // Wait for the harness to post its result (async tests may use timers), with a timeout like the browser runner.
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(resolve, 5000);
+      Promise.resolve(
+        new Function("postMessage", buildJsScript(code, tests))((m: Posted) => {
+          posted = m;
+          clearTimeout(timer);
+          resolve();
+        }),
+      ).catch(reject);
     });
   } catch (e) {
     return { error: String(e), passed: tests.map(() => false) };
   }
-  return { error: posted?.error ?? "no result", passed: posted?.results.map((r) => r.ok) ?? [] };
+  if (!posted) return { error: "no result", passed: tests.map(() => false) };
+  return { error: posted.error, passed: posted.results.map((r) => r.ok) };
 }
 
 let py: Awaited<ReturnType<typeof import("pyodide").loadPyodide>>;

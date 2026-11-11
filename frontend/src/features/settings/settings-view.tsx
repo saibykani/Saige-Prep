@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { AccentPicker } from "@/components/ui/accent-picker";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useCurrentUser, useLogout } from "@/features/auth/hooks";
 import { DataControls } from "@/features/settings/data-controls";
@@ -25,10 +26,17 @@ export function SettingsView() {
         <Card>
           <CardHeader>
             <CardTitle>Appearance</CardTitle>
-            <CardDescription>Choose light, dark, or follow your system setting. Saved on this device.</CardDescription>
+            <CardDescription>Choose light, dark or your system setting, and a brand colour. Saved on this device.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ThemeToggle showLabels />
+          <CardContent className="space-y-5">
+            <div className="space-y-2">
+              <p className="text-xs font-medium uppercase tracking-wider text-subtle">Theme</p>
+              <ThemeToggle showLabels />
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs font-medium uppercase tracking-wider text-subtle">Accent colour</p>
+              <AccentPicker />
+            </div>
           </CardContent>
         </Card>
         <Card>

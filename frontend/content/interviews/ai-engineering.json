@@ -7,7 +7,11 @@
     "ai-test-engineer",
     "ai-specialist",
     "ai-scientist",
-    "ai-ml-engineer"
+    "ai-ml-engineer",
+    "ai-assurance-engineer",
+    "ai-assurance-lead",
+    "genai-test-engineer",
+    "ai-red-team-specialist"
   ],
   "questions": [
     {
@@ -319,6 +323,270 @@
         "Blames others for the outcome"
       ],
       "minutes": 6
+    },
+    {
+      "id": "int-aie-15",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What makes an AI system 'agentic', and how does that change how you test it?",
+      "followUps": [
+        "Where would you put human confirmation steps?",
+        "How do you keep agent tests repeatable?"
+      ],
+      "modelAnswer": "An agentic system lets the model decide a sequence of actions in a loop: it plans, calls tools, observes results and continues until it judges the task done. That adds failure modes a single prompt does not have: wrong tool choice, invalid arguments, loops, compounding errors across steps, and real side effects. Testing therefore covers the final outcome, the trajectory of tool calls, error recovery, and permission boundaries. Tools are sandboxed or mocked, tasks are run several times because behaviour varies, and consequential actions should require confirmation or be limited by least privilege.",
+      "keyPoints": [
+        "Defines the loop of plan, act, observe",
+        "Names multi-step failure modes such as loops and compounding errors",
+        "Tests both outcome and trajectory",
+        "Mentions sandboxing and permissions"
+      ],
+      "redFlags": [
+        "Treats an agent like a single prompt-response call",
+        "Ignores side effects of tool calls"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-aie-16",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is the Model Context Protocol (MCP) and what are the main testing and security concerns?",
+      "followUps": [
+        "How would you test authorisation in an MCP server?",
+        "What is a confused-deputy problem in this context?"
+      ],
+      "modelAnswer": "MCP is an open protocol, introduced by Anthropic and now widely supported, that standardises how AI applications connect to external tools, data and prompts. An MCP server exposes capabilities such as tools and resources; a client inside the host application connects to it. Testing covers schema accuracy, server-side input validation, correct error handling and timeouts. Security concerns include tool descriptions or results containing injected instructions, servers acting with broader permissions than the user should have, missing per-call authorisation, leaking secrets in errors, and installing untrusted third-party servers. Treat server output as untrusted data and apply least privilege.",
+      "keyPoints": [
+        "Describes client, server and tools or resources",
+        "Server-side validation and authorisation",
+        "Injection via tool descriptions or results",
+        "Least privilege and trust in third-party servers"
+      ],
+      "redFlags": [
+        "Assumes the client enforces all security",
+        "Treats tool output as trusted instructions"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-17",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "Explain how an HNSW index works and the trade-offs you would test when tuning it.",
+      "followUps": [
+        "What happens to recall as you lower ef at query time?",
+        "When might exact search be the better choice?"
+      ],
+      "modelAnswer": "HNSW, Hierarchical Navigable Small World, builds a layered proximity graph. Upper layers are sparse and allow long jumps; lower layers are denser. A search greedily walks from the top layer down towards the query's nearest neighbours. It is approximate: parameters such as M (connections per node), efConstruction (build-time candidate list) and ef or efSearch (query-time candidate list) trade recall against latency, memory and build time. I would measure recall at k against exact brute-force results on a representative query set, plus latency percentiles and memory, as parameters change and as data grows or is updated. For small collections exact search can be simpler and fully accurate.",
+      "keyPoints": [
+        "Layered graph with greedy descent",
+        "Approximate, so recall must be measured against exact search",
+        "Names M, efConstruction and ef",
+        "Measures latency and memory as well as recall"
+      ],
+      "redFlags": [
+        "Claims approximate nearest neighbour search is exact",
+        "Tunes parameters without a ground-truth recall measurement"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-18",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is hybrid search, and how would you prove it helps for a given product?",
+      "followUps": [
+        "How does reciprocal rank fusion work?",
+        "What kinds of queries benefit most?"
+      ],
+      "modelAnswer": "Hybrid search combines lexical retrieval, typically BM25, with dense vector retrieval and merges the results, often with reciprocal rank fusion, which scores each document by summing 1/(k + rank) across the lists, or with weighted score combination. Lexical search is strong on exact terms such as product codes, names and error strings; vectors are strong on paraphrase. To prove it helps, build a labelled query set that reflects real traffic, measure recall at k and a ranking metric such as MRR or nDCG for each method, break results down by query type, and check latency. Only adopt it if the improvement is meaningful on the queries that matter.",
+      "keyPoints": [
+        "Defines lexical plus dense retrieval",
+        "Explains a fusion method",
+        "Uses a labelled query set and retrieval metrics",
+        "Breaks down by query type"
+      ],
+      "redFlags": [
+        "Assumes hybrid is always better",
+        "Evaluates only by eyeballing a few answers"
+      ],
+      "minutes": 6
+    },
+    {
+      "id": "int-aie-19",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "Where does a reranker fit in a retrieval pipeline and what does it cost?",
+      "followUps": [
+        "How would you choose how many candidates to rerank?",
+        "How do you measure the reranker's contribution?"
+      ],
+      "modelAnswer": "A first-stage retriever, vector, lexical or hybrid, fetches a broader candidate set quickly. A reranker, often a cross-encoder that reads the query and each candidate together, scores them more accurately and the top few go to the model. It typically improves precision at the top of the list, but adds latency and cost per candidate and cannot recover documents the first stage missed. I measure first-stage recall at the candidate depth, then ranking quality with and without reranking, and tune candidate count against latency budgets.",
+      "keyPoints": [
+        "Two-stage retrieve then rerank",
+        "Cross-encoder reads query and document together",
+        "Cannot fix first-stage misses",
+        "Measures with and without and watches latency"
+      ],
+      "redFlags": [
+        "Thinks a reranker retrieves new documents",
+        "Ignores latency"
+      ],
+      "minutes": 5
+    },
+    {
+      "id": "int-aie-20",
+      "kind": "system-design",
+      "difficulty": "advanced",
+      "question": "Design the retrieval and evaluation approach for a RAG assistant over 50,000 internal documents that often gives incomplete answers.",
+      "followUps": [
+        "How would you decide whether to add query rewriting?",
+        "How do you stop evaluation set overfitting?"
+      ],
+      "modelAnswer": "First diagnose: build a labelled set of real questions with the passages that answer them, and measure retrieval recall at k separately from answer quality. If recall is low, look at chunking (size, overlap, structure-aware splitting, keeping headings with chunks), hybrid search for exact terms, metadata filters, and reranking. For multi-part or vague questions consider query rewriting or decomposition, and for answers spread across documents consider retrieving more context or iterative retrieval. If recall is fine but answers are incomplete, look at context ordering, prompt instructions and context length. Evaluate each change on the same set, keep a held-out portion, track groundedness and latency, and add production failures to the set over time.",
+      "keyPoints": [
+        "Separates retrieval and generation diagnosis",
+        "Considers chunking, hybrid, reranking and query transformation",
+        "Evaluates each change on a fixed set with held-out data",
+        "Tracks groundedness, latency and cost"
+      ],
+      "redFlags": [
+        "Jumps to a bigger model without diagnosing",
+        "No measurement plan"
+      ],
+      "minutes": 12
+    },
+    {
+      "id": "int-aie-21",
+      "kind": "technical",
+      "difficulty": "beginner",
+      "question": "What is a generative model, and why do the same prompts give different outputs?",
+      "followUps": [
+        "What does this mean for writing tests?",
+        "Can you make outputs fully deterministic?"
+      ],
+      "modelAnswer": "A generative model learns a distribution over data and produces new samples from it: LLMs predict the next token repeatedly, diffusion models iteratively denoise towards an image. Output varies because generation usually samples from probability distributions, and even with the same settings, provider infrastructure, batching and model updates can change results. Some current models only accept default sampling settings, so you cannot rely on lowering temperature to remove variation. Tests should check properties and use evaluation sets with thresholds, and results should be compared across multiple runs.",
+      "keyPoints": [
+        "Defines generation as sampling from a learned distribution",
+        "Explains sources of non-determinism",
+        "Tests properties rather than exact strings",
+        "Compares across multiple runs"
+      ],
+      "redFlags": [
+        "Claims setting temperature to zero guarantees identical output on every model",
+        "Uses exact-match assertions for free text"
+      ],
+      "minutes": 4
+    },
+    {
+      "id": "int-aie-22",
+      "kind": "scenario",
+      "difficulty": "intermediate",
+      "question": "Users report the assistant 'makes things up'. How do you measure and reduce hallucination?",
+      "followUps": [
+        "How would you check citations?",
+        "What would you do for questions the documents cannot answer?"
+      ],
+      "modelAnswer": "Start by defining hallucination for this product, usually claims not supported by the provided sources or by known facts. Collect reported examples and build an evaluation set including unanswerable questions. Check retrieval first, since missing context drives invented answers. Measure the share of unsupported claims by breaking answers into claims and checking each against sources, using human review and a judge calibrated against humans. Verify citations support what they are attached to. Mitigations include better retrieval, instructions and examples that allow 'I don't know', requiring citations, and showing sources in the UI. Track the rate per category over time; it can be reduced but not guaranteed to be zero.",
+      "keyPoints": [
+        "Defines hallucination concretely",
+        "Checks retrieval first",
+        "Claim-level support checking with a calibrated judge",
+        "Includes unanswerable questions and abstention"
+      ],
+      "redFlags": [
+        "Promises zero hallucinations",
+        "Measures only by user complaints"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-23",
+      "kind": "technical",
+      "difficulty": "advanced",
+      "question": "How do you evaluate an AI agent beyond 'did it finish the task'?",
+      "followUps": [
+        "How many runs per task would you use?",
+        "How do you grade trajectories that differ but are valid?"
+      ],
+      "modelAnswer": "Outcome success matters most and should be checked against the end state, for example the database record or file, not the agent's own claim. Beyond that I evaluate the trajectory: tool selection, argument validity, unnecessary or repeated calls, handling of tool errors, and whether it stayed within permissions. I track cost, latency and steps. Because runs vary, I run each task several times and report success rates and consistency, not single passes. Valid alternative paths mean trajectory grading should check constraints and key steps rather than one exact sequence. Safety cases include injected instructions in tool output and requests for actions it should refuse or confirm.",
+      "keyPoints": [
+        "Checks outcome against real end state",
+        "Evaluates trajectory and tool calls",
+        "Multiple runs and success rates",
+        "Safety and permission cases"
+      ],
+      "redFlags": [
+        "Trusts the agent's self-reported success",
+        "Requires one exact tool sequence"
+      ],
+      "minutes": 8
+    },
+    {
+      "id": "int-aie-24",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is AI assurance, and how would you map your evidence to the NIST AI RMF and ISO/IEC 42001?",
+      "followUps": [
+        "What does ISO/IEC 42001 certification not tell you?",
+        "Where does the EU AI Act fit?"
+      ],
+      "modelAnswer": "AI assurance is building justified confidence, with evidence, that an AI system is fit for its intended use and its risks are managed. The NIST AI RMF is a voluntary framework with four functions: Govern, Map, Measure and Manage. Evaluation results mostly support Measure, risk registers and context support Map, and controls and monitoring support Manage. ISO/IEC 42001 specifies requirements for an AI management system and is certifiable; evidence there is about processes such as risk and impact assessment, controls and continual improvement. Certification does not show a specific model is safe. The EU AI Act adds legal obligations, heavier for high-risk systems, phased in over time, so I would confirm the current requirements with legal.",
+      "keyPoints": [
+        "Defines assurance as evidence-based confidence",
+        "Correctly describes NIST AI RMF functions",
+        "Distinguishes management-system certification from system safety",
+        "Hedges on legal obligations and timelines"
+      ],
+      "redFlags": [
+        "Calls NIST AI RMF a certification",
+        "Claims a framework mapping proves compliance"
+      ],
+      "minutes": 7
+    },
+    {
+      "id": "int-aie-25",
+      "kind": "scenario",
+      "difficulty": "advanced",
+      "question": "Your company wants to deploy an agent that can issue customer refunds. As the assurance engineer, what evidence would you require before launch?",
+      "followUps": [
+        "What limits would you put on the agent?",
+        "What would trigger re-assessment after launch?"
+      ],
+      "modelAnswer": "I would start with intended use and a risk assessment: wrong refunds, fraud via prompt injection, data exposure, and unfair treatment. Then require evidence: outcome evaluations on realistic cases with success rates over repeated runs, trajectory checks that refund amounts and accounts match policy, red-team results for direct and indirect injection, tests that refunds above a limit need human approval, server-side enforcement of limits rather than prompt-only rules, logging and audit trails, monitoring and rollback plans, and a named accountable owner. I would document residual risk and set change triggers such as model, prompt, tool or policy changes for re-evaluation.",
+      "keyPoints": [
+        "Starts from intended use and risks",
+        "Requires repeated-run outcome and trajectory evidence",
+        "Server-side limits and human approval",
+        "Monitoring, audit trail and change triggers"
+      ],
+      "redFlags": [
+        "Relies only on the system prompt for limits",
+        "No post-launch monitoring"
+      ],
+      "minutes": 10
+    },
+    {
+      "id": "int-aie-26",
+      "kind": "technical",
+      "difficulty": "intermediate",
+      "question": "What is context engineering and why does it matter for long-context and agent applications?",
+      "followUps": [
+        "What is the risk of putting everything in the context window?",
+        "How would you test context changes?"
+      ],
+      "modelAnswer": "Context engineering is deliberately deciding what goes into the model's context at each step: instructions, retrieved documents, tool results, memory and conversation history, and in what form and order. Larger context windows do not remove the need: irrelevant or excessive content raises cost and latency and can reduce answer quality, and untrusted content in context is an injection risk. For agents, history must be summarised or pruned as tasks run. I test context strategies like any other change, on a fixed evaluation set, tracking quality, groundedness, token usage and latency.",
+      "keyPoints": [
+        "Defines what context engineering controls",
+        "Long context is not free: cost, latency, quality",
+        "Untrusted context is an injection risk",
+        "Evaluates changes on a fixed set"
+      ],
+      "redFlags": [
+        "Assumes a bigger window solves retrieval",
+        "Ignores token cost"
+      ],
+      "minutes": 5
     }
   ]
 }

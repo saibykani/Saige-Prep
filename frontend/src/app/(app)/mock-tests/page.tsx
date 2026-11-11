@@ -23,7 +23,7 @@ export default function Page() {
   return (
     <div className="animate-fade-in">
       <HubHero
-        tone="sunset"
+        tone="clay"
         title="Mock Tests"
         subtitle="Timed assessments scored in your browser, with topic-wise results. Find your weak spots before an interviewer does."
         stats={[

@@ -1,0 +1,251 @@
+{
+  "lesson": "hybrid-search-and-bm25",
+  "questions": [
+    {
+      "id": "pt-hbm25-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "What is an inverted index?",
+      "options": [
+        "A map from each term to the documents (and counts) that contain it",
+        "A list of vectors sorted by norm",
+        "A copy of the corpus in reverse order",
+        "A cache of LLM answers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Lexical engines look up each query term in the inverted index to find candidate documents quickly."
+    },
+    {
+      "id": "pt-hbm25-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "In BM25, a term's contribution keeps growing linearly with how many times it appears in a document.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The k1 term makes term frequency saturate: extra occurrences add less and less. That is a key improvement over raw counts."
+    },
+    {
+      "id": "pt-hbm25-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "Setting BM25's b parameter to 0 does what?",
+      "options": [
+        "Disables document length normalisation",
+        "Disables IDF",
+        "Makes every score zero",
+        "Turns BM25 into cosine similarity"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "b controls length normalisation from none (0) to full (1). IDF and term frequency still apply."
+    },
+    {
+      "id": "pt-hbm25-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "Using the lesson's Lucene-style IDF, what does this print (rounded)?",
+      "code": "import math\nN, n = 10, 8\nprint(f'{math.log(1 + (N - n + 0.5) / (n + 0.5)):.3f}')",
+      "codeLanguage": "python",
+      "options": [
+        "0.000",
+        "0.258",
+        "0.693",
+        "1.386"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "(10 - 8 + 0.5) / (8 + 0.5) = 2.5 / 8.5 = 0.294, and ln(1.294) = 0.258. A term in most documents gets a low but positive IDF; 0.693 would be ln 2, the value for a term in half the documents of a small corpus, not this one."
+    },
+    {
+      "id": "pt-hbm25-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "Which queries are likely to benefit most from adding BM25 to vector search? Select all that apply.",
+      "options": [
+        "\"ORA-00942\"",
+        "\"customer cannot sign in after changing phone\"",
+        "\"invoice INV-2024-00731\"",
+        "\"release notes for v3.14.2\""
+      ],
+      "answer": [
+        0,
+        2,
+        3
+      ],
+      "explanation": "Exact codes, ids and version strings are where lexical matching shines. The paraphrased sign-in problem is a typical win for embeddings."
+    },
+    {
+      "id": "pt-hbm25-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "A team combines BM25 and cosine with 0.5 × bm25 + 0.5 × cosine using raw scores. Results are dominated by BM25. Why?",
+      "options": [
+        "Cosine is always negative",
+        "Raw BM25 scores are unbounded and often much larger than cosine values in -1..1, so they swamp the sum",
+        "BM25 ignores IDF",
+        "The weights must sum to 2"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Different score scales make naive sums meaningless. Normalise each list (for example min-max) or use rank-based fusion like RRF."
+    },
+    {
+      "id": "pt-hbm25-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "Searching for 'TST-INFRA-0412' returns runbooks for many TST-INFRA codes in BM25. What is the most likely cause?",
+      "code": "import re\nprint(re.findall(r'[a-z0-9]+', 'TST-INFRA-0412'.lower()))",
+      "codeLanguage": "python",
+      "options": [
+        "k1 is too high",
+        "The tokenizer splits on hyphens, so the query becomes common tokens 'tst', 'infra' and a number, losing the exact code",
+        "BM25 does not support numbers",
+        "avgdl is computed wrongly"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Once split, 'tst' and 'infra' match many documents. Keeping identifiers whole (or adding a keyword field) restores exact matching. k1 or avgdl would not create this pattern."
+    },
+    {
+      "id": "pt-hbm25-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "hybrid-search-and-bm25",
+      "prompt": "After adding hybrid search with RRF, overall hit rate@5 is flat, but code queries improved and natural-language queries dropped. What should you do next?",
+      "options": [
+        "Remove hybrid search because the average is flat",
+        "Analyse per query type and consider routing or weighting (for example weighted RRF or a reranker), then re-measure both groups",
+        "Increase k in RRF to 1,000",
+        "Switch to BM25 only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Averages hide opposite effects. Splitting by query type shows where each retriever helps; routing, weighting or reranking can keep the gains without the losses."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-hbm25-idf",
+      "title": "BM25 IDF table",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `idf_table(docs)` where `docs` is a list of strings. Tokenise each doc by lowercasing and taking `re.findall(r'[a-z0-9]+', ...)`. Return a dict mapping each term to its Lucene-style IDF `ln(1 + (N - n + 0.5) / (n + 0.5))`, rounded to 4 decimals, where n counts documents containing the term (not occurrences).\n\nExample: for `['a b', 'a c']`, `idf_table` returns `{'a': 0.1823, 'b': 0.6931, 'c': 0.6931}`.",
+      "starter": "import math, re\n\ndef idf_table(docs):\n    return {}\n",
+      "solution": "import math, re\n\ndef idf_table(docs):\n    n_docs = len(docs)\n    df = {}\n    for d in docs:\n        for t in set(re.findall(r'[a-z0-9]+', d.lower())):\n            df[t] = df.get(t, 0) + 1\n    return {t: round(math.log(1 + (n_docs - n + 0.5) / (n + 0.5)), 4) for t, n in df.items()}\n",
+      "explanation": "Using a set per document counts document frequency, not total occurrences. The `1 +` inside the log keeps IDF positive even for terms in every document.",
+      "hints": [
+        "Use set(tokens) per document so repeats count once.",
+        "n_docs is len(docs).",
+        "math.log is the natural log."
+      ],
+      "tests": [
+        {
+          "name": "example table",
+          "code": "assert idf_table(['a b', 'a c']) == {'a': 0.1823, 'b': 0.6931, 'c': 0.6931}",
+          "marks": 2
+        },
+        {
+          "name": "repeats counted once per doc",
+          "code": "assert idf_table(['x x x', 'y'])['x'] == 0.6931",
+          "marks": 2
+        },
+        {
+          "name": "case and punctuation handled",
+          "code": "t = idf_table(['Error E1042!', 'error'])\nassert t['error'] == 0.1823 and t['e1042'] == 0.6931",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-hbm25-score",
+      "title": "Score documents with BM25",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `bm25_scores(query, docs, k1=1.2, b=0.75)` returning a list of scores (rounded to 4 decimals), one per doc in `docs`, using the lesson's BM25 formula and Lucene IDF. Tokenise with lowercase `re.findall(r'[a-z0-9]+', ...)`. Repeated query terms count once.\n\nExample: `bm25_scores('gateway timeout payment', DOCS)` with the lesson's four documents returns `[1.2257, 2.2144, 0.0, 0.3768]`.",
+      "starter": "import math, re\n\ndef bm25_scores(query, docs, k1=1.2, b=0.75):\n    return [0.0 for _ in docs]\n",
+      "solution": "import math, re\nfrom collections import Counter\n\ndef _tok(t):\n    return re.findall(r'[a-z0-9]+', t.lower())\n\ndef bm25_scores(query, docs, k1=1.2, b=0.75):\n    tfs = [Counter(_tok(d)) for d in docs]\n    lens = [sum(c.values()) for c in tfs]\n    avgdl = sum(lens) / len(docs)\n    n_docs = len(docs)\n    out = []\n    for tf, dl in zip(tfs, lens):\n        s = 0.0\n        for term in set(_tok(query)):\n            f = tf.get(term, 0)\n            if not f:\n                continue\n            n = sum(1 for c in tfs if term in c)\n            idf = math.log(1 + (n_docs - n + 0.5) / (n + 0.5))\n            s += idf * f * (k1 + 1) / (f + k1 * (1 - b + b * dl / avgdl))\n        out.append(round(s, 4))\n    return out\n",
+      "explanation": "Each matching query term adds IDF times a saturating, length-normalised term frequency. Using set(query tokens) avoids double counting repeated query words, matching the lesson's worked example.",
+      "hints": [
+        "Precompute a Counter per document and the average length.",
+        "Document frequency n is the number of Counters containing the term.",
+        "Contribution = idf * f * (k1 + 1) / (f + k1 * (1 - b + b * dl / avgdl))."
+      ],
+      "tests": [
+        {
+          "name": "matches the worked example",
+          "code": "DOCS = ['Error E1042 means the payment gateway timed out. Retry the payment after one minute.', 'Payment failures are usually caused by expired cards or a gateway timeout.', 'To reset your password, open settings and choose reset password.', 'The gateway returns E2001 when the card number fails validation.']\nassert bm25_scores('gateway timeout payment', DOCS) == [1.2257, 2.2144, 0.0, 0.3768], bm25_scores('gateway timeout payment', DOCS)",
+          "marks": 4
+        },
+        {
+          "name": "b=0 removes length effect",
+          "code": "s = bm25_scores('cat', ['cat', 'cat dog dog dog'], b=0)\nassert s[0] == s[1] and s[0] > 0",
+          "marks": 2
+        },
+        {
+          "name": "saturation: more occurrences add less",
+          "code": "s = bm25_scores('cat', ['cat x x x x x', 'cat cat x x x x', 'cat cat cat cat x x'], b=0)\nassert s[0] < s[1] < s[2] and (s[2] - s[1]) < 2 * (s[1] - s[0])",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-hbm25-rrf",
+      "title": "Reciprocal rank fusion",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `rrf(rankings, k=60, top_n=None)` where `rankings` is a list of ranked id lists. Each id scores the sum of `1 / (k + rank)` (rank starts at 1) over lists it appears in. Return ids sorted by score descending, ties broken by id ascending, truncated to `top_n` if given. If an id appears twice in one list, only its first (best) rank counts.\n\nExample: `rrf([['a','b'], ['b','c']])` returns `['b', 'a', 'c']`.",
+      "starter": "def rrf(rankings, k=60, top_n=None):\n    return []\n",
+      "solution": "def rrf(rankings, k=60, top_n=None):\n    scores = {}\n    for ranking in rankings:\n        seen = set()\n        for rank, d in enumerate(ranking, start=1):\n            if d in seen:\n                continue\n            seen.add(d)\n            scores[d] = scores.get(d, 0.0) + 1 / (k + rank)\n    ordered = sorted(scores, key=lambda d: (-scores[d], d))\n    return ordered[:top_n] if top_n is not None else ordered\n",
+      "explanation": "RRF uses ranks only, so BM25 and cosine scores never need calibration. Agreement between lists is rewarded, the per-list duplicate guard prevents one retriever counting a document twice, and a deterministic tie-break makes results testable.",
+      "hints": [
+        "enumerate(ranking, start=1) gives 1-based ranks.",
+        "Track ids seen within each list to skip duplicates.",
+        "Sort with key=lambda d: (-scores[d], d)."
+      ],
+      "tests": [
+        {
+          "name": "example ordering",
+          "code": "assert rrf([['a','b'], ['b','c']]) == ['b', 'a', 'c']",
+          "marks": 2
+        },
+        {
+          "name": "ties by id and top_n",
+          "code": "assert rrf([['y'], ['x']]) == ['x', 'y'] and rrf([['a','b','c']], top_n=2) == ['a', 'b']",
+          "marks": 2
+        },
+        {
+          "name": "duplicates in one list count once",
+          "code": "assert rrf([['a','a','b'], ['b']]) == ['b', 'a']",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

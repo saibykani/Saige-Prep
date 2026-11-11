@@ -29,14 +29,14 @@ function VideoCard({ video }: { video: Video }) {
           <button
             type="button"
             onClick={() => setPlaying(true)}
-            className="group absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-violet-700 via-fuchsia-700 to-indigo-900 p-4 text-center text-white"
+            className="group absolute inset-0 flex flex-col items-center justify-center gap-3 bg-accent-ink p-4 text-center text-white"
             aria-label={`Play video: ${video.title}`}
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-[#1f1147] shadow-lg transition-transform group-hover:scale-110 motion-reduce:transform-none">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-[#14211f] shadow-lg transition-transform group-hover:scale-110 motion-reduce:transform-none">
               <Play className="ml-0.5 h-6 w-6 fill-current" aria-hidden />
             </span>
             <span className="line-clamp-2 max-w-[90%] text-sm font-semibold">{video.title}</span>
-            <span className="text-xs text-white/75">Loads from YouTube when you press play</span>
+            <span className="text-xs text-white/80">Loads from YouTube when you press play</span>
           </button>
         )}
       </div>

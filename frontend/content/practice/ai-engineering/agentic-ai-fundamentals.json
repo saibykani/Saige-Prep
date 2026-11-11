@@ -1,0 +1,264 @@
+{
+  "lesson": "agentic-ai-fundamentals",
+  "questions": [
+    {
+      "id": "pt-aaf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "A system sends a support ticket to one of three fixed prompts depending on a classifier's label. Which workflow pattern is this?",
+      "options": [
+        "Prompt chaining",
+        "Routing",
+        "Orchestrator-workers",
+        "Evaluator-optimizer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Classifying an input and sending it to a specialised handler is routing. Chaining is a fixed sequence, orchestrator-workers lets the model invent subtasks, and evaluator-optimizer loops generate and critique."
+    },
+    {
+      "id": "pt-aaf-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "In the parallelisation pattern, 'voting' means running the same task several times and combining the answers.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Voting runs the same task multiple times for more confidence; sectioning splits a task into independent parts run at once."
+    },
+    {
+      "id": "pt-aaf-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "Which of these is NOT a stop condition you should normally build into an agent loop?",
+      "options": [
+        "A maximum number of steps",
+        "A token or cost budget",
+        "A wall-clock timeout",
+        "The user's screen resolution"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Steps, budget and time are standard hard limits alongside the model's final answer and errors. Screen resolution has nothing to do with stopping a loop."
+    },
+    {
+      "id": "pt-aaf-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "A code-migration task touches an unknown number of files, which only become clear after reading the codebase. The subtasks cannot be listed in advance. Which pattern fits best?",
+      "options": [
+        "Prompt chaining",
+        "Parallelisation with sections fixed in code",
+        "Orchestrator-workers",
+        "Routing"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Orchestrator-workers lets a central model decide subtasks at runtime. Parallelisation with fixed sections needs the subtasks known in advance; chaining and routing are also fixed in code."
+    },
+    {
+      "id": "pt-aaf-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "Each step resends the whole history. The history starts at 1,000 tokens and each step adds 500. Roughly how many input tokens do 4 steps consume in total?",
+      "code": "history = 1000\ntotal = 0\nfor step in range(4):\n    total += history\n    history += 500\nprint(total)",
+      "codeLanguage": "python",
+      "options": [
+        "2,000",
+        "4,000",
+        "7,000",
+        "10,000"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Inputs are 1,000 + 1,500 + 2,000 + 2,500 = 7,000. Cost grows faster than the number of steps because context grows; 4,000 wrongly assumes a flat 1,000 per step."
+    },
+    {
+      "id": "pt-aaf-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "Which situations suggest an agent is the wrong tool? Select all that apply.",
+      "options": [
+        "A single well-written prompt already meets the quality bar",
+        "You have no way to evaluate trajectories",
+        "The task is open-ended research with unpredictable steps",
+        "Irreversible actions with no possibility of human review"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "If a simple call works, you cannot evaluate, or mistakes are irreversible and unreviewed, avoid an agent. Open-ended research with unpredictable steps is where agents earn their cost."
+    },
+    {
+      "id": "pt-aaf-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "This loop sometimes never ends. What is the root problem?",
+      "code": "history = [task]\nwhile True:\n    d = model(history)\n    if 'final' in d:\n        break\n    history.append(run_tool(d))",
+      "codeLanguage": "python",
+      "options": [
+        "The model name is wrong",
+        "The only stop condition is the model's final answer; there is no step or budget limit",
+        "The history list is too short",
+        "It should use a tuple instead of a list"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without a hard limit, a model that keeps requesting tools loops forever. Add max steps, a budget and a timeout."
+    },
+    {
+      "id": "pt-aaf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "A team's autonomous agent scores 70% on their task set; a three-step prompt chain with a code gate scores 68%, costs a fifth as much per task and has consistent latency. The task has known steps. What should they do?",
+      "options": [
+        "Ship the agent because it scores higher",
+        "Prefer the chain: near-equal quality, much lower cost, predictable and easier to test; check whether the gap is within run-to-run noise",
+        "Ship both and let users choose",
+        "Increase the agent's step limit until it reaches 100%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With known steps and a tiny quality difference that may be noise, the simpler workflow wins on cost, latency and testability. Raising step limits adds cost without addressing the design question."
+    },
+    {
+      "id": "pt-aaf-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "agentic-ai-fundamentals",
+      "prompt": "An evaluator-optimizer loop keeps rewriting a bug report: the evaluator never says 'pass' and costs climb. Which fix is best?",
+      "options": [
+        "Remove the evaluator",
+        "Give the evaluator explicit, checkable criteria and cap the loop at a few rounds, returning the best draft with remaining issues",
+        "Let it run until it passes",
+        "Swap generator and evaluator roles each round"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Evaluator-optimizer needs clear criteria and a cap. Removing the evaluator loses the benefit; unbounded loops are the bug."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aaf-loop",
+      "language": "python",
+      "title": "Agent loop with stop reasons",
+      "difficulty": "beginner",
+      "prompt": "Write `run_loop(decide, tools, max_steps)`. Each step call `decide(history)` which returns either `{\"final\": text}` or `{\"tool\": name, \"args\": {...}}`. Run the tool (`tools[name](**args)`) and append the result to `history` (start with an empty list). Return a dict:\n\n- `{\"status\": \"done\", \"answer\": text, \"steps\": n}` when a final answer arrives at step n (steps count from 1)\n- `{\"status\": \"unknown_tool\", \"steps\": n}` if the tool name is not in `tools`\n- `{\"status\": \"step_limit\", \"steps\": max_steps}` if no final answer within `max_steps` steps",
+      "starter": "def run_loop(decide, tools, max_steps):\n    # Your code here\n    return {}\n",
+      "solution": "def run_loop(decide, tools, max_steps):\n    history = []\n    for step in range(1, max_steps + 1):\n        d = decide(history)\n        if 'final' in d:\n            return {'status': 'done', 'answer': d['final'], 'steps': step}\n        if d['tool'] not in tools:\n            return {'status': 'unknown_tool', 'steps': step}\n        history.append(tools[d['tool']](**d['args']))\n    return {'status': 'step_limit', 'steps': max_steps}\n",
+      "explanation": "The loop counts steps from 1, checks for a final answer first, refuses unknown tools instead of crashing, and always ends with an explicit status, so the caller knows why the run stopped.",
+      "hints": [
+        "Use `for step in range(1, max_steps + 1)`.",
+        "Check `'final' in d` before looking up the tool.",
+        "After the loop ends without returning, return the step_limit status."
+      ],
+      "tests": [
+        {
+          "name": "Finishes and counts steps",
+          "marks": 2,
+          "code": "def dec(h):\n    return {'final': 'ok'} if len(h) == 2 else {'tool': 'add', 'args': {'a': 1, 'b': len(h)}}\nr = run_loop(dec, {'add': lambda a, b: a + b}, 5)\nassert r == {'status': 'done', 'answer': 'ok', 'steps': 3}, r"
+        },
+        {
+          "name": "Stops at the step limit",
+          "marks": 2,
+          "code": "r = run_loop(lambda h: {'tool': 'noop', 'args': {}}, {'noop': lambda: 0}, 4)\nassert r == {'status': 'step_limit', 'steps': 4}, r"
+        },
+        {
+          "name": "Rejects unknown tools",
+          "marks": 1,
+          "code": "r = run_loop(lambda h: {'tool': 'rm', 'args': {}}, {}, 3)\nassert r == {'status': 'unknown_tool', 'steps': 1}, r"
+        }
+      ]
+    },
+    {
+      "id": "code-aaf-chain",
+      "language": "python",
+      "title": "Prompt chain with a gate",
+      "difficulty": "intermediate",
+      "prompt": "Write `run_chain(steps, gate, text)`. `steps` is a list of functions, each taking a string and returning a string. After **each** step, call `gate(output)`; if it returns False, stop and return `{\"ok\": False, \"failed_at\": i, \"output\": output}` where `i` is the 0-based index of the step. If every gate passes, return `{\"ok\": True, \"output\": final_output}`.\n\nExample: `run_chain([str.upper], lambda s: len(s) > 0, 'a')` returns `{\"ok\": True, \"output\": \"A\"}`.",
+      "starter": "def run_chain(steps, gate, text):\n    pass\n",
+      "solution": "def run_chain(steps, gate, text):\n    out = text\n    for i, step in enumerate(steps):\n        out = step(out)\n        if not gate(out):\n            return {'ok': False, 'failed_at': i, 'output': out}\n    return {'ok': True, 'output': out}\n",
+      "explanation": "Gates are plain code checks between steps, so a bad intermediate result stops the chain early instead of costing more model calls and polluting later steps.",
+      "hints": [
+        "Keep a variable with the current output and update it each step.",
+        "Use enumerate to know the step index.",
+        "Return as soon as the gate fails."
+      ],
+      "tests": [
+        {
+          "name": "Runs all steps when gates pass",
+          "marks": 2,
+          "code": "r = run_chain([str.strip, str.upper], lambda s: True, '  hi ')\nassert r == {'ok': True, 'output': 'HI'}, r"
+        },
+        {
+          "name": "Stops at the failing step",
+          "marks": 3,
+          "code": "calls = []\ndef s2(x):\n    calls.append(x)\n    return x\nr = run_chain([lambda x: '', s2], lambda s: len(s) > 0, 'text')\nassert r == {'ok': False, 'failed_at': 0, 'output': ''}, r\nassert calls == [], 'later steps must not run after a gate fails'"
+        }
+      ]
+    },
+    {
+      "id": "code-aaf-budget",
+      "language": "python",
+      "title": "Context growth and budget stop",
+      "difficulty": "advanced",
+      "prompt": "Agents resend history every step. Write `simulate(base, per_step, budget)` that simulates steps: the input tokens for step k is `base + per_step * (k - 1)` (k from 1). Keep a running total. Before running a step, if `total + this_step` would exceed `budget`, stop. Return `(steps_completed, total_tokens)`.\n\nExample: `simulate(1000, 500, 4000)` returns `(2, 2500)` because step 3 would need 2000 more, making 4500.",
+      "starter": "def simulate(base, per_step, budget):\n    # Your code here\n    return None\n",
+      "solution": "def simulate(base, per_step, budget):\n    total, k = 0, 0\n    while True:\n        cost = base + per_step * k\n        if total + cost > budget:\n            return (k, total)\n        total += cost\n        k += 1\n",
+      "explanation": "Because each step costs more than the last, budgets run out sooner than a flat per-step estimate suggests. Checking before the step means you never overspend.",
+      "hints": [
+        "Step k costs base + per_step*(k-1).",
+        "Check the budget before adding the cost.",
+        "Return the count of completed steps and the total spent."
+      ],
+      "tests": [
+        {
+          "name": "Example from the prompt",
+          "marks": 2,
+          "code": "assert simulate(1000, 500, 4000) == (2, 2500), simulate(1000, 500, 4000)"
+        },
+        {
+          "name": "Exact budget is allowed",
+          "marks": 2,
+          "code": "assert simulate(100, 0, 300) == (3, 300), simulate(100, 0, 300)"
+        },
+        {
+          "name": "Budget too small for one step",
+          "marks": 1,
+          "code": "assert simulate(500, 10, 499) == (0, 0)"
+        }
+      ]
+    }
+  ]
+}

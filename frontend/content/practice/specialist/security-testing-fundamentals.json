@@ -1,0 +1,262 @@
+{
+  "lesson": "security-testing-fundamentals",
+  "questions": [
+    {
+      "id": "pt-sbsec-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A tester changes the `price` field in a checkout request from 49.99 to 0.01 and the order is accepted at the new price. Which CIA property has failed?",
+      "options": ["Confidentiality", "Integrity", "Availability", "None; this is only a usability defect"],
+      "answer": [1],
+      "explanation": "Integrity means data changes only through authorized actions. A customer rewriting the price is an unauthorized change. Confidentiality would be about reading data you should not see, and availability about the service staying usable."
+    },
+    {
+      "id": "pt-sbsec-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "security-testing-fundamentals",
+      "prompt": "Which technique lists the third-party libraries an application uses and flags the ones with known vulnerabilities?",
+      "options": ["SAST", "DAST", "SCA", "Penetration testing"],
+      "answer": [2],
+      "explanation": "Software composition analysis (SCA) inventories dependencies and matches them against known vulnerabilities. SAST analyses your own source code without running it, DAST sends crafted requests to the running application, and a penetration test is a human-led exercise."
+    },
+    {
+      "id": "pt-sbsec-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "security-testing-fundamentals",
+      "prompt": "If the UI hides the \"Delete user\" button from normal users, the delete feature is protected against them.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Hidden buttons are not security. An attacker can call the API endpoint directly, so the server itself must check the caller's permissions on every request."
+    },
+    {
+      "id": "pt-sbsec-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "security-testing-fundamentals",
+      "prompt": "Which items belong in the written scope of an authorized security test? Select all that apply.",
+      "options": [
+        "The target hosts and environments",
+        "The techniques that are allowed",
+        "The time window and who to contact if something breaks",
+        "A list of the vulnerabilities the testers are expected to find"
+      ],
+      "answer": [0, 1, 2],
+      "explanation": "A scope states the targets, environments, allowed techniques, time window and contacts. Nobody can know in advance which vulnerabilities exist; finding them is the purpose of the test, so that is not part of the scope."
+    },
+    {
+      "id": "pt-sbsec-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A tester logged in as user B runs the command below against a local practice app. Order 101 belongs to user A. Which response shows the application is behaving securely?",
+      "code": "curl -i http://localhost:3000/api/orders/101 \\\n  -H \"Authorization: Bearer $TOKEN_USER_B\"",
+      "codeLanguage": "bash",
+      "options": [
+        "HTTP/1.1 200 OK with order 101 in the body",
+        "HTTP/1.1 404 Not Found with {\"error\":\"Order not found\"}",
+        "HTTP/1.1 500 Internal Server Error with a stack trace",
+        "HTTP/1.1 200 OK with an empty order object that still shows user A's email"
+      ],
+      "answer": [1],
+      "explanation": "A secure application answers 403 or 404 with no order data. A 200 with A's order (or any of A's data, such as the email) is broken access control. A 500 with a stack trace is not a clean denial and leaks internal details, which is a finding of its own."
+    },
+    {
+      "id": "pt-sbsec-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A session cookie is set without the `HttpOnly` attribute. What does that allow?",
+      "options": [
+        "The cookie is sent over plain HTTP connections",
+        "JavaScript running in the page can read the cookie, so an injected script could steal the session",
+        "The cookie never expires",
+        "Other users of the same site can read the cookie from their own browsers"
+      ],
+      "answer": [1],
+      "explanation": "`HttpOnly` hides the cookie from page JavaScript. Without it, a script injected through an input-handling flaw can read the session cookie. Sending over plain HTTP is what the `Secure` attribute prevents; expiry is controlled by `Expires` or `Max-Age`; cookies are never shared between different users' browsers."
+    },
+    {
+      "id": "pt-sbsec-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A DAST scan of your staging environment reports 340 findings the day before a release review. What is the best next step?",
+      "options": [
+        "Raise 340 defects so nothing is lost",
+        "Ignore the report because scanners mostly produce false positives",
+        "Triage by severity and manually confirm each finding before reporting it",
+        "Run the same scan against production to see whether the findings are real"
+      ],
+      "answer": [2],
+      "explanation": "Scanner output needs triage: sort by severity and confirm each finding by hand, because many are false positives or low risk. Raising everything floods the team with noise, ignoring everything misses the real issues, and scanning production is outside the agreed scope."
+    },
+    {
+      "id": "pt-sbsec-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "security-testing-fundamentals",
+      "prompt": "During an authorized test of the staging booking portal, you notice that the staging app calls a third-party SMS provider, and that provider's API seems to accept requests without a key. The provider is not named in your scope. What should you do?",
+      "options": [
+        "Probe the provider's API to confirm the weakness, then report it to your team",
+        "Stop, do not test the provider, and tell your contact what you observed so the owner can decide what to do",
+        "Add the provider to the scope document yourself, since it is used by the system under test",
+        "Post the observation in the public company chat so that everyone avoids the provider"
+      ],
+      "answer": [1],
+      "explanation": "Scope is what the written authorization says, not what the system happens to talk to. Testing a third party without its permission can break laws and contracts even with good intent. You cannot extend the scope yourself, and security observations are reported privately through the agreed channel, not in public channels."
+    },
+    {
+      "id": "pt-sbsec-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A tester sends a single quote as the search term to a local practice app and receives the response below. Which problem should the defect report describe?",
+      "code": "HTTP/1.1 500 Internal Server Error\nContent-Type: text/plain\nX-Powered-By: Express 4.17.1\n\nSequelizeDatabaseError: syntax error at or near \"'\"\n  SELECT * FROM products WHERE name LIKE '%'%'\n    at Query.run (/app/node_modules/sequelize/lib/query.js:50:25)",
+      "codeLanguage": "http",
+      "options": [
+        "Only the wrong status code: a search with no results should return 404",
+        "The response leaks a stack trace, the SQL statement and a version number, and the quote changing the SQL suggests input is placed into the query unsafely",
+        "Nothing; a 500 is the correct, safe reaction to malformed input",
+        "The response is missing a Content-Length header"
+      ],
+      "answer": [1],
+      "explanation": "Two things are wrong. Error handling leaks internals (stack trace, SQL text, framework version) that help an attacker. And a lone quote breaking the SQL syntax shows the input reaches the query without being treated as data. A safe application rejects or encodes the input and returns a generic error. The status code and Content-Length are not the issue."
+    },
+    {
+      "id": "pt-sbsec-10",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "security-testing-fundamentals",
+      "prompt": "A team runs SAST and SCA on every commit and a DAST scan every night, all green. A later penetration test shows that any patient can read any other patient's appointment by changing an id. Why did the automated tools most likely miss it?",
+      "options": [
+        "The tools were misconfigured; a correctly configured scanner always finds access-control flaws",
+        "Access-control flaws depend on business rules about who owns what, which scanners do not know; they need tests that replay requests as a different user",
+        "SCA should have flagged it because it is a known vulnerability in a library",
+        "The flaw only exists in production, so staging tools could not see it"
+      ],
+      "answer": [1],
+      "explanation": "A scanner sees a valid request returning a valid response; it does not know that appointment 101 belongs to someone else. Scanners miss business-logic and access-control flaws, which is why the lesson recommends swapping user tokens and replaying requests, and adding that to the regression suite. SCA only covers third-party library vulnerabilities, and nothing suggests the flaw is production-only."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sbsec-cookie-flags",
+      "language": "javascript",
+      "title": "Check session cookie attributes",
+      "difficulty": "beginner",
+      "prompt": "Testers check that session cookies are marked `Secure`, `HttpOnly` and have a `SameSite` value.\n\nWrite `missingCookieFlags(setCookie)` that takes the value of a `Set-Cookie` header (a string) and returns an array of the attributes that are **missing**, always in this order: `\"Secure\"`, `\"HttpOnly\"`, `\"SameSite\"`.\n\n- Attributes are separated by `;` and may have spaces around them.\n- Attribute names are case-insensitive (`httponly` counts).\n- `SameSite` appears with a value, for example `SameSite=Lax`.\n- Only real attributes count: a cookie **value** that happens to contain the word `secure` does not.\n\nExample:\n\n```js\nmissingCookieFlags(\"sid=abc123; Path=/; HttpOnly\")\n// [\"Secure\", \"SameSite\"]\n```",
+      "starter": "function missingCookieFlags(setCookie) {\n  // Your code here\n}\n",
+      "solution": "function missingCookieFlags(setCookie) {\n  const attributes = setCookie\n    .split(\";\")\n    .slice(1)\n    .map((part) => part.trim().split(\"=\")[0].toLowerCase());\n  const required = [\"Secure\", \"HttpOnly\", \"SameSite\"];\n  return required.filter((name) => !attributes.includes(name.toLowerCase()));\n}\n",
+      "explanation": "Splitting on `;` gives the cookie's `name=value` pair first, then its attributes. Dropping the first part with `slice(1)` stops the cookie value from being mistaken for an attribute. Each attribute is trimmed, cut at `=` (so `SameSite=Lax` becomes `samesite`) and lower-cased, which makes the comparison case-insensitive. Filtering the fixed `required` list keeps the output order stable.",
+      "hints": [
+        "Split the header on `;`. The first piece is the cookie's name and value, not an attribute.",
+        "For each remaining piece, `trim()` it, take the text before `=` and lower-case it.",
+        "Return `[\"Secure\", \"HttpOnly\", \"SameSite\"].filter(...)`, keeping the names that are not in your attribute list."
+      ],
+      "tests": [
+        {
+          "name": "Reports every missing attribute in order",
+          "marks": 2,
+          "code": "assertEqual(missingCookieFlags(\"sid=abc123; Path=/; HttpOnly\"), [\"Secure\", \"SameSite\"], \"HttpOnly only\");\nassertEqual(missingCookieFlags(\"sid=abc123\"), [\"Secure\", \"HttpOnly\", \"SameSite\"], \"no attributes at all\");"
+        },
+        {
+          "name": "Returns an empty array for a well-protected cookie",
+          "marks": 2,
+          "code": "assertEqual(missingCookieFlags(\"sid=abc123; Path=/; Secure; HttpOnly; SameSite=Strict\"), [], \"all three present\");\nassertEqual(missingCookieFlags(\"sid=abc123; secure;httponly ;  samesite=lax\"), [], \"lower case and odd spacing\");"
+        },
+        {
+          "name": "Ignores words inside the cookie name and value",
+          "marks": 2,
+          "code": "assertEqual(missingCookieFlags(\"secure=HttpOnly; Path=/; SameSite=Lax\"), [\"Secure\", \"HttpOnly\"], \"the cookie itself is named secure\");"
+        }
+      ]
+    },
+    {
+      "id": "code-sbsec-ownership",
+      "language": "javascript",
+      "title": "Server-side ownership check",
+      "difficulty": "intermediate",
+      "prompt": "The clinic portal bug in the lesson was fixed by adding an ownership check on the server. Write that check.\n\n`canAccess(user, record, action)` returns `true` or `false`.\n\n- `user` is `{ id, role }` where `role` is `\"patient\"` or `\"admin\"`, or `null` when nobody is logged in.\n- `record` is `{ ownerId }`.\n- `action` is `\"read\"`, `\"update\"` or `\"delete\"`.\n\nRules:\n\n1. No user: always `false`.\n2. An `admin` may do any of the three actions on any record.\n3. A `patient` may `read` and `update` **their own** records only (`record.ownerId === user.id`), and may never `delete`.\n4. Anything unexpected (an unknown role or an unknown action) is denied. Deny by default.\n\nExample:\n\n```js\ncanAccess({ id: 7, role: \"patient\" }, { ownerId: 7 }, \"read\")   // true\ncanAccess({ id: 8, role: \"patient\" }, { ownerId: 7 }, \"read\")   // false\n```",
+      "starter": "function canAccess(user, record, action) {\n  // Your code here\n}\n",
+      "solution": "function canAccess(user, record, action) {\n  if (!user) return false;\n  const actions = [\"read\", \"update\", \"delete\"];\n  if (!actions.includes(action)) return false;\n  if (user.role === \"admin\") return true;\n  if (user.role === \"patient\") {\n    return action !== \"delete\" && record.ownerId === user.id;\n  }\n  return false;\n}\n",
+      "explanation": "The function only ever returns `true` on paths that were explicitly allowed, and ends with `return false`. That is deny by default: a new role or a misspelt action falls through to a denial instead of slipping past a missing `else`. The ownership comparison `record.ownerId === user.id` is the exact check that was missing in the clinic portal, where the API returned any appointment whose id was requested.",
+      "hints": [
+        "Handle the cases that are always denied first: no user, or an action that is not in the list of three.",
+        "Admins can then return `true`. For patients, combine two conditions: the action is not `delete` and the record belongs to them.",
+        "Finish with `return false` so that any role you did not think of is denied."
+      ],
+      "tests": [
+        {
+          "name": "Patients can read and update their own records",
+          "marks": 2,
+          "code": "const me = { id: 7, role: \"patient\" };\nassertEqual(canAccess(me, { ownerId: 7 }, \"read\"), true, \"own read\");\nassertEqual(canAccess(me, { ownerId: 7 }, \"update\"), true, \"own update\");"
+        },
+        {
+          "name": "Patients cannot touch other patients' records or delete",
+          "marks": 3,
+          "code": "const b = { id: 8, role: \"patient\" };\nassertEqual(canAccess(b, { ownerId: 7 }, \"read\"), false, \"other patient's record\");\nassertEqual(canAccess(b, { ownerId: 7 }, \"update\"), false, \"other patient's record\");\nassertEqual(canAccess(b, { ownerId: 8 }, \"delete\"), false, \"patients never delete\");\nassertEqual(canAccess(b, { ownerId: 8 }, \"read\"), true, \"own read still allowed\");"
+        },
+        {
+          "name": "Admins can do everything; anonymous users nothing",
+          "marks": 2,
+          "code": "const admin = { id: 1, role: \"admin\" };\nassertEqual(canAccess(admin, { ownerId: 7 }, \"delete\"), true, \"admin delete\");\nassertEqual(canAccess(admin, { ownerId: 7 }, \"read\"), true, \"admin read\");\nassertEqual(canAccess(null, { ownerId: 7 }, \"read\"), false, \"nobody logged in\");"
+        },
+        {
+          "name": "Unknown roles and actions are denied by default",
+          "marks": 3,
+          "code": "assertEqual(canAccess({ id: 7, role: \"guest\" }, { ownerId: 7 }, \"read\"), false, \"unknown role\");\nassertEqual(canAccess({ id: 1, role: \"admin\" }, { ownerId: 7 }, \"export\"), false, \"unknown action, even for an admin\");\nassertEqual(canAccess({ id: 1, role: \"admin\" }, { ownerId: 7 }, \"update\"), true, \"known action for an admin\");"
+        }
+      ]
+    },
+    {
+      "id": "code-sbsec-error-leaks",
+      "language": "javascript",
+      "title": "Detect information leaks in an error response",
+      "difficulty": "advanced",
+      "prompt": "Error responses must not contain stack traces, SQL or version numbers. Write a helper for your API test suite that inspects a response body.\n\n`findLeaks(body)` takes the response body as a string and returns an array of leak names, in this fixed order, including each name at most once:\n\n| Name | Report it when the body contains |\n|---|---|\n| `\"stack-trace\"` | a line that starts (after optional spaces) with `at ` followed by text containing `(` and a `:line` number, such as `    at Query.run (/app/query.js:50:25)` |\n| `\"sql\"` | `SELECT ... FROM`, `INSERT INTO`, `UPDATE ... SET` or `DELETE FROM`, in any letter case |\n| `\"version\"` | a product name followed by `/` or a space and a version with at least two dot-separated numbers, such as `Express 4.17.1` or `nginx/1.25` |\n\nA clean body returns `[]`.\n\nExample:\n\n```js\nfindLeaks('{\"error\":\"Order not found\"}')                 // []\nfindLeaks(\"error in select * from users where id = 1\")  // [\"sql\"]\n```\n\nNote: a plain sentence such as `Please select a date from the list` must **not** be reported as SQL only if it does not match the patterns above; this one does contain `select ... from`, so keep your error messages free of such wording in real APIs. The tests only use unambiguous bodies.",
+      "starter": "function findLeaks(body) {\n  // Your code here\n}\n",
+      "solution": "function findLeaks(body) {\n  const checks = [\n    [\"stack-trace\", /^\\s*at .*\\(.*:\\d+/m],\n    [\"sql\", /\\bselect\\b[\\s\\S]*\\bfrom\\b|\\binsert\\s+into\\b|\\bupdate\\b[\\s\\S]*\\bset\\b|\\bdelete\\s+from\\b/i],\n    [\"version\", /[A-Za-z][\\w.-]*[\\/ ]\\d+\\.\\d+(\\.\\d+)*/],\n  ];\n  return checks.filter(([, pattern]) => pattern.test(body)).map(([name]) => name);\n}\n",
+      "explanation": "Each leak type is one regular expression, kept in a list so the output order is fixed and each name appears once. The stack-trace pattern uses the `m` flag so `^` matches at the start of every line. The SQL pattern uses the `i` flag and word boundaries so `SELECTED` alone does not match. The version pattern requires a name, a `/` or space, then at least `digits.digits`. A check like this is cheap to run on every negative test in an API suite, so leaks are caught the day they are introduced.",
+      "hints": [
+        "Write one regular expression per leak type and test each against the body.",
+        "For stack traces use the multiline flag: `/^\\s*at .*\\(.*:\\d+/m`. For SQL use the `i` flag and alternatives joined with `|`.",
+        "Keep `[name, pattern]` pairs in an array in the required order, then `filter` on `pattern.test(body)` and `map` to the names."
+      ],
+      "tests": [
+        {
+          "name": "Clean generic errors produce no findings",
+          "marks": 2,
+          "code": "assertEqual(findLeaks('{\"error\":\"Order not found\"}'), [], \"generic JSON error\");\nassertEqual(findLeaks(\"Invalid email or password\"), [], \"generic login error\");\nassertEqual(findLeaks(\"error in select * from users where id = 1\"), [\"sql\"], \"lower-case SQL\");"
+        },
+        {
+          "name": "Finds SQL statements in any letter case",
+          "marks": 2,
+          "code": "assertEqual(findLeaks(\"Failed: INSERT INTO orders VALUES (?)\"), [\"sql\"], \"insert\");\nassertEqual(findLeaks(\"Failed: Update users Set name = ?\"), [\"sql\"], \"update\");\nassertEqual(findLeaks(\"could not delete from carts\"), [\"sql\"], \"delete\");"
+        },
+        {
+          "name": "Finds stack traces and version numbers",
+          "marks": 3,
+          "code": "assertEqual(findLeaks(\"TypeError: x is undefined\\n    at handler (/app/routes/orders.js:12:5)\"), [\"stack-trace\"], \"stack trace\");\nassertEqual(findLeaks(\"Served by nginx/1.25\"), [\"version\"], \"slash version\");\nassertEqual(findLeaks(\"Powered by Express 4.17.1\"), [\"version\"], \"space version\");"
+        },
+        {
+          "name": "Reports several leaks once each, in the fixed order",
+          "marks": 3,
+          "code": "const body = \"Express 4.17.1\\nSequelizeDatabaseError: syntax error\\n  SELECT * FROM products WHERE name LIKE '%'%'\\n    at Query.run (/app/node_modules/sequelize/lib/query.js:50:25)\\n    at next (/app/server.js:9:3)\";\nassertEqual(findLeaks(body), [\"stack-trace\", \"sql\", \"version\"], \"all three\");"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "lesson": "owasp-top-10-for-testers",
+  "questions": [
+    {
+      "id": "pt-sbowasp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "Under which OWASP Top 10:2025 category would you file a cross-site scripting (XSS) finding?",
+      "options": ["A01 Broken Access Control", "A02 Security Misconfiguration", "A05 Injection", "A08 Software or Data Integrity Failures"],
+      "answer": [2],
+      "explanation": "XSS is untrusted input being interpreted as code by the browser, which is Injection (A05 in 2025), alongside SQL and OS command injection. It is not an access-control, configuration or integrity-verification problem at its root."
+    },
+    {
+      "id": "pt-sbowasp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "In the OWASP Top 10:2025, server-side request forgery (SSRF) still has a category of its own.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "SSRF was A10 in 2021. In the 2025 edition it was folded into A01 Broken Access Control, and A10 is now Mishandling of Exceptional Conditions."
+    },
+    {
+      "id": "pt-sbowasp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "What is the OWASP Top 10?",
+      "options": [
+        "A complete security standard that an application can be certified against",
+        "An awareness document listing the ten most critical web application security risk categories",
+        "A scanner that finds the ten most common vulnerabilities",
+        "A law that web applications must follow"
+      ],
+      "answer": [1],
+      "explanation": "It is an awareness document from the OWASP community, used as a coverage guide. It is not a complete standard (OWASP points to ASVS for detailed requirements), not a tool and not legislation."
+    },
+    {
+      "id": "pt-sbowasp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "In your lab shop, a \"WELCOME10\" coupon is meant to be used once per customer, but applying it repeatedly in the same basket keeps reducing the total. No request is tampered with and every call is made by the legitimate, logged-in customer. Which 2025 category fits best?",
+      "options": ["A05 Injection", "A06 Insecure Design", "A07 Authentication Failures", "A04 Cryptographic Failures"],
+      "answer": [1],
+      "explanation": "The rule \"once per customer\" was never built into the design, so the business logic can be abused: that is Insecure Design. Nothing is injected, the user is correctly identified (so not A07), and no encryption is involved."
+    },
+    {
+      "id": "pt-sbowasp-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "Which statements about the changes from the 2021 edition to the 2025 edition are correct? Select all that apply.",
+      "options": [
+        "Security Misconfiguration moved up to A02",
+        "Injection dropped from A03 to A05",
+        "Broken Access Control lost the number one position",
+        "Vulnerable and Outdated Components was widened into Software Supply Chain Failures"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Security Misconfiguration rose from A05 to A02, Injection dropped from A03 to A05, and the old components category became A03 Software Supply Chain Failures. Broken Access Control is A01 in both editions."
+    },
+    {
+      "id": "pt-sbowasp-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "You run this against your own lab application. The command prints nothing, and viewing the page source shows `<b>test</b>` inside the results heading. What does that tell you?",
+      "code": "curl -s \"http://localhost:3000/search?q=%3Cb%3Etest%3C%2Fb%3E\" | grep -o \"&lt;b&gt;test\"",
+      "codeLanguage": "bash",
+      "options": [
+        "The input is HTML-encoded, so the page is safe",
+        "The search term reaches the HTML unencoded, a likely A05 Injection (XSS) issue",
+        "The server rejected the request, so nothing can be concluded",
+        "The application has an A04 Cryptographic Failure"
+      ],
+      "answer": [1],
+      "explanation": "grep found no encoded form (`&lt;b&gt;test`) and the raw tag is in the page, so the browser will treat user input as markup. That is reflected injection. If the output had been `&lt;b&gt;test`, the input would be safely encoded. The request was not rejected, since the term appears in the page, and encryption is unrelated."
+    },
+    {
+      "id": "pt-sbowasp-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "Which pair of categories usually needs a human tester who understands the business rules, because automated tools rarely catch them well?",
+      "options": [
+        "A02 Security Misconfiguration and A03 Software Supply Chain Failures",
+        "A01 Broken Access Control and A06 Insecure Design",
+        "A03 Software Supply Chain Failures and A05 Injection",
+        "A02 Security Misconfiguration and A05 Injection"
+      ],
+      "answer": [1],
+      "explanation": "Who may see what, and which business flows can be abused, depend on rules a tool does not know, so A01 and A06 (and A07) get manual tests. A dependency audit covers A03 and a DAST scan gives good coverage of A02 and A05."
+    },
+    {
+      "id": "pt-sbowasp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "Two findings from an authorized lab test:\n\n1. A logged-in normal user calls `GET /api/admin/users` and receives the full user list.\n2. After a user clicks Log out, their old session token still works for API calls.\n\nWhich classification is correct?",
+      "options": [
+        "Both are A01 Broken Access Control",
+        "1 is A01 Broken Access Control; 2 is A07 Authentication Failures",
+        "1 is A07 Authentication Failures; 2 is A01 Broken Access Control",
+        "Both are A07 Authentication Failures"
+      ],
+      "answer": [1],
+      "explanation": "Pick the category of the root cause. In finding 1 the user is correctly identified but allowed to do too much: access control. In finding 2 the session and token handling is weak (the token is not invalidated on logout), which is credential and session handling: Authentication Failures."
+    },
+    {
+      "id": "pt-sbowasp-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "A code review of the lab application shows this permission check. Which problem should you report?",
+      "code": "async function isAllowed(user, action) {\n  try {\n    const res = await policyService.check(user.id, action);\n    return res.allowed;\n  } catch (err) {\n    console.log(\"policy service unavailable\");\n    return true;\n  }\n}",
+      "codeLanguage": "javascript",
+      "options": [
+        "It should use `console.error` instead of `console.log`",
+        "It fails open: when the policy service errors or times out, every action is allowed (A10 Mishandling of Exceptional Conditions)",
+        "It awaits the policy service, which makes requests slow",
+        "It is an A05 Injection issue because `action` is passed to another service"
+      ],
+      "answer": [1],
+      "explanation": "On any exception the function returns `true`, so an outage of the policy service grants everybody everything. Systems must fail closed: deny when the check cannot be completed. That is the lesson's A10 example pattern (the order marked as paid when the provider times out). The logging function and the await are not security problems, and nothing shows `action` being interpreted as code."
+    },
+    {
+      "id": "pt-sbowasp-10",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "owasp-top-10-for-testers",
+      "prompt": "You must test a new \"upload a CSV of students\" feature in staging. Which plan best follows the lesson's walkthrough?",
+      "options": [
+        "Run the DAST scanner on the upload page and report whatever it finds",
+        "Confirm scope, map the feature to the categories it touches (A01, A05, A10), run the automated checks, then manually test who may upload and read files, how malformed files fail, and report each finding with category, impact, steps and evidence",
+        "Test only A05 Injection, because uploads are always an injection problem",
+        "Upload a real malware sample to see whether the server detects it"
+      ],
+      "answer": [1],
+      "explanation": "The walkthrough is: confirm scope, map the feature to categories (a file upload touches A01, A05 and A10), automate what tools do well, test access control and failure handling by hand, and report with category, impact, steps and evidence. A scanner alone misses access-control flaws, a single category leaves gaps, and live malware is neither a safe test string nor something a scope would normally allow."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sbowasp-escape-html",
+      "language": "javascript",
+      "title": "HTML-encode untrusted text",
+      "difficulty": "beginner",
+      "prompt": "The lesson's safe check expects `<b>test</b>` to come back as `&lt;b&gt;test&lt;/b&gt;`. Write the encoder that makes that happen.\n\n`escapeHtml(text)` returns `text` with these five characters replaced:\n\n| Character | Replacement |\n|---|---|\n| `&` | `&amp;` |\n| `<` | `&lt;` |\n| `>` | `&gt;` |\n| `\"` | `&quot;` |\n| `'` | `&#39;` |\n\nEvery occurrence must be replaced, and text without those characters is returned unchanged. Values that are not strings (such as numbers) are converted with `String()` first.\n\nExample:\n\n```js\nescapeHtml(\"<b>test</b>\")   // \"&lt;b&gt;test&lt;/b&gt;\"\n```",
+      "starter": "function escapeHtml(text) {\n  // Your code here\n}\n",
+      "solution": "function escapeHtml(text) {\n  const map = { \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\", '\"': \"&quot;\", \"'\": \"&#39;\" };\n  return String(text).replace(/[&<>\"']/g, (ch) => map[ch]);\n}\n",
+      "explanation": "A single regular expression with the `g` flag visits every special character exactly once and swaps it through a lookup table. Doing it in one pass matters: if you replaced `<` first and `&` afterwards in separate steps, the `&` inside the freshly written `&lt;` would be encoded again into `&amp;lt;`. Once encoded, the browser shows the characters as text instead of treating them as markup, which is the defence against reflected and stored XSS when writing into HTML.",
+      "hints": [
+        "`String.prototype.replace` with a regular expression and the `g` flag replaces every match.",
+        "Match all five characters with one character class, `/[&<>\"']/g`, and pass a function as the replacement.",
+        "Keep an object that maps each character to its entity and return `map[ch]` from the replacement function."
+      ],
+      "tests": [
+        {
+          "name": "Encodes angle brackets",
+          "marks": 2,
+          "code": "assertEqual(escapeHtml(\"<b>test</b>\"), \"&lt;b&gt;test&lt;/b&gt;\", \"tags\");"
+        },
+        {
+          "name": "Encodes quotes and ampersands, every occurrence",
+          "marks": 2,
+          "code": "assertEqual(escapeHtml(\"Tom & Jerry & \\\"friends\\\"\"), \"Tom &amp; Jerry &amp; &quot;friends&quot;\", \"ampersands and double quotes\");\nassertEqual(escapeHtml(\"it's\"), \"it&#39;s\", \"single quote\");"
+        },
+        {
+          "name": "Does not double-encode and leaves safe text alone",
+          "marks": 2,
+          "code": "assertEqual(escapeHtml(\"a < b\"), \"a &lt; b\", \"must not become &amp;lt;\");\nassertEqual(escapeHtml(\"plain text 123\"), \"plain text 123\", \"unchanged\");\nassertEqual(escapeHtml(42), \"42\", \"numbers become strings\");"
+        }
+      ]
+    },
+    {
+      "id": "code-sbowasp-fetch-allowlist",
+      "language": "javascript",
+      "title": "Allowlist for server-side URL fetches",
+      "difficulty": "intermediate",
+      "prompt": "In the lesson's real-world example, an \"import profile picture from URL\" feature fetched an internal admin service (SSRF). The fix restricted fetches to an allowlist of external hosts. Write that check.\n\n`isAllowedFetchUrl(url, allowedHosts)` returns `true` only when **all** of these hold:\n\n1. `url` is a string that parses as a URL (use the built-in `URL` class; an unparsable value is denied, not an exception).\n2. The protocol is exactly `https:`.\n3. The hostname is **exactly** one of `allowedHosts`, compared case-insensitively. No substring or suffix matching.\n4. The URL contains no username or password part.\n\nExample:\n\n```js\nconst hosts = [\"images.example.com\"];\nisAllowedFetchUrl(\"https://images.example.com/a.png\", hosts)       // true\nisAllowedFetchUrl(\"https://images.example.com.evil.test/a.png\", hosts) // false\n```",
+      "starter": "function isAllowedFetchUrl(url, allowedHosts) {\n  // Your code here\n}\n",
+      "solution": "function isAllowedFetchUrl(url, allowedHosts) {\n  let parsed;\n  try {\n    parsed = new URL(url);\n  } catch (err) {\n    return false;\n  }\n  if (typeof url !== \"string\") return false;\n  if (parsed.protocol !== \"https:\") return false;\n  if (parsed.username !== \"\" || parsed.password !== \"\") return false;\n  const allowed = allowedHosts.map((host) => host.toLowerCase());\n  return allowed.includes(parsed.hostname.toLowerCase());\n}\n",
+      "explanation": "The check parses the URL with a real parser and then compares the parsed `hostname` for exact equality. String tricks such as `url.includes(host)` or `endsWith` are how allowlists get bypassed: `https://images.example.com.evil.test/` contains the allowed name, and `https://images.example.com@127.0.0.1/` puts the allowed name in the username part while the real host is `127.0.0.1`. Parsing failures return `false`, so the check fails closed. An allowlist (name what is permitted) is safer than a blocklist of internal addresses, which always misses a spelling.",
+      "hints": [
+        "Wrap `new URL(url)` in `try`/`catch` and return `false` from the `catch`.",
+        "Use the parsed parts: `parsed.protocol`, `parsed.hostname`, `parsed.username`, `parsed.password`. Never search inside the raw string.",
+        "Lower-case the allowed hosts and return `allowed.includes(parsed.hostname.toLowerCase())` after the protocol and credentials checks."
+      ],
+      "tests": [
+        {
+          "name": "Allows https URLs on an allowlisted host",
+          "marks": 2,
+          "code": "const hosts = [\"images.example.com\", \"cdn.example.org\"];\nassertEqual(isAllowedFetchUrl(\"https://images.example.com/a.png\", hosts), true, \"first host\");\nassertEqual(isAllowedFetchUrl(\"https://CDN.Example.org/pic.jpg?size=2\", hosts), true, \"case-insensitive host\");"
+        },
+        {
+          "name": "Denies internal and unlisted hosts",
+          "marks": 2,
+          "code": "const hosts = [\"images.example.com\"];\nassertEqual(isAllowedFetchUrl(\"https://localhost/admin\", hosts), false, \"localhost\");\nassertEqual(isAllowedFetchUrl(\"https://169.254.169.254/latest/meta-data\", hosts), false, \"link-local address\");\nassertEqual(isAllowedFetchUrl(\"https://images.example.com/ok.png\", hosts), true, \"listed host still allowed\");"
+        },
+        {
+          "name": "Denies look-alike hosts and credential tricks",
+          "marks": 3,
+          "code": "const hosts = [\"images.example.com\"];\nassertEqual(isAllowedFetchUrl(\"https://images.example.com.evil.test/a.png\", hosts), false, \"allowed name as a prefix\");\nassertEqual(isAllowedFetchUrl(\"https://evil.test/images.example.com\", hosts), false, \"allowed name in the path\");\nassertEqual(isAllowedFetchUrl(\"https://images.example.com@127.0.0.1/a.png\", hosts), false, \"allowed name in the username part\");\nassertEqual(isAllowedFetchUrl(\"https://images.example.com/a.png\", hosts), true, \"genuine URL\");"
+        },
+        {
+          "name": "Denies other protocols and unparsable input without throwing",
+          "marks": 3,
+          "code": "const hosts = [\"images.example.com\"];\nassertEqual(isAllowedFetchUrl(\"http://images.example.com/a.png\", hosts), false, \"plain http\");\nassertEqual(isAllowedFetchUrl(\"file:///etc/passwd\", hosts), false, \"file protocol\");\nassertEqual(isAllowedFetchUrl(\"not a url\", hosts), false, \"unparsable\");\nassertEqual(isAllowedFetchUrl(null, hosts), false, \"null\");\nassertEqual(isAllowedFetchUrl(\"https://images.example.com/\", hosts), true, \"genuine URL\");"
+        }
+      ]
+    },
+    {
+      "id": "code-sbowasp-fail-closed",
+      "language": "javascript",
+      "title": "Fail closed when the payment provider misbehaves",
+      "difficulty": "advanced",
+      "prompt": "The lesson's A10 example: the payment provider times out and the order is marked as paid anyway. Write the order-status logic so that it **fails closed**.\n\n`async function settleOrder(checkPayment, timeoutMs)` where `checkPayment` is an async function (it returns a promise) that asks the provider about a payment.\n\nReturn (resolve to) one of three strings:\n\n- `\"paid\"` only when `checkPayment()` resolves to an object whose `status` is exactly `\"approved\"`.\n- `\"declined\"` when it resolves to an object whose `status` is exactly `\"declined\"`.\n- `\"pending\"` in **every other case**: the call rejects, it has not answered within `timeoutMs` milliseconds, or it returns something unexpected (`null`, a missing or unknown status).\n\n`settleOrder` itself must never reject.\n\nExample:\n\n```js\nawait settleOrder(async () => ({ status: \"approved\" }), 50)  // \"paid\"\nawait settleOrder(async () => { throw new Error(\"503\"); }, 50)  // \"pending\"\n```\n\n`setTimeout` and `Promise.race` are available.",
+      "starter": "async function settleOrder(checkPayment, timeoutMs) {\n  // Your code here\n}\n",
+      "solution": "async function settleOrder(checkPayment, timeoutMs) {\n  const timeout = new Promise((resolve) => setTimeout(() => resolve({ status: \"timeout\" }), timeoutMs));\n  let result;\n  try {\n    result = await Promise.race([checkPayment(), timeout]);\n  } catch (err) {\n    return \"pending\";\n  }\n  if (result && result.status === \"approved\") return \"paid\";\n  if (result && result.status === \"declined\") return \"declined\";\n  return \"pending\";\n}\n",
+      "explanation": "The function reaches `\"paid\"` through exactly one path: a real answer whose status is `\"approved\"`. Errors are caught and become `\"pending\"`, a slow provider loses the `Promise.race` against the timer and becomes `\"pending\"`, and the final `return \"pending\"` catches every shape nobody anticipated. That is failing closed: when the system cannot be sure, it chooses the outcome that gives nothing away. The buggy version in the lesson did the opposite, treating \"no clear refusal\" as success.",
+      "hints": [
+        "Start from the safe default: what should the function return if you know nothing? Make that the last line.",
+        "Wrap `await checkPayment()` in `try`/`catch` and return `\"pending\"` from the `catch`.",
+        "For the timeout, create a promise that resolves after `timeoutMs` using `setTimeout`, and `await Promise.race([checkPayment(), timeoutPromise])`."
+      ],
+      "tests": [
+        {
+          "name": "Approved and declined answers are passed through",
+          "marks": 2,
+          "code": "assertEqual(await settleOrder(async () => ({ status: \"approved\" }), 50), \"paid\", \"approved\");\nassertEqual(await settleOrder(async () => ({ status: \"declined\" }), 50), \"declined\", \"declined\");"
+        },
+        {
+          "name": "A provider error leaves the order pending",
+          "marks": 3,
+          "code": "assertEqual(await settleOrder(async () => { throw new Error(\"503 from provider\"); }, 50), \"pending\", \"rejected promise\");\nassertEqual(await settleOrder(() => { throw new Error(\"sync failure\"); }, 50).catch(() => \"rejected\"), \"pending\", \"synchronous throw\");"
+        },
+        {
+          "name": "A timeout leaves the order pending",
+          "marks": 3,
+          "code": "const slow = () => new Promise((resolve) => setTimeout(() => resolve({ status: \"approved\" }), 200));\nassertEqual(await settleOrder(slow, 20), \"pending\", \"answer arrives after the timeout\");"
+        },
+        {
+          "name": "Unexpected answers leave the order pending",
+          "marks": 2,
+          "code": "assertEqual(await settleOrder(async () => null, 50), \"pending\", \"null\");\nassertEqual(await settleOrder(async () => ({}), 50), \"pending\", \"no status\");\nassertEqual(await settleOrder(async () => ({ status: \"APPROVED?\" }), 50), \"pending\", \"unknown status\");\nassertEqual(await settleOrder(async () => ({ status: true }), 50), \"pending\", \"wrong type\");"
+        }
+      ]
+    }
+  ]
+}

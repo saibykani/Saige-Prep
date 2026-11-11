@@ -1,0 +1,232 @@
+{
+  "lesson": "multi-agent-systems",
+  "questions": [
+    {
+      "id": "pt-mas-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "multi-agent-systems",
+      "prompt": "In an orchestrator-subagent design, what does the subagent return?",
+      "options": [
+        "Its full transcript, always",
+        "A condensed result for the orchestrator to combine",
+        "Nothing; it talks to the user directly",
+        "New tool definitions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Subagents return condensed findings so the lead's context stays small. Talking to the user directly is a handoff."
+    },
+    {
+      "id": "pt-mas-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "multi-agent-systems",
+      "prompt": "Running subagents in parallel reduces total token cost compared with running them one after another.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parallelism reduces wall-clock time, not tokens; the same work is done."
+    },
+    {
+      "id": "pt-mas-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "multi-agent-systems",
+      "prompt": "A triage agent transfers a billing question to a billing agent, which then continues the conversation with the user. What is this called?",
+      "options": [
+        "Voting",
+        "A handoff",
+        "Reflection",
+        "Compaction"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Control transfers to another agent: a handoff."
+    },
+    {
+      "id": "pt-mas-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "multi-agent-systems",
+      "prompt": "A lead makes 5 model calls and spawns 4 subagents of 8 calls each. How many model calls in total?",
+      "code": "lead = 5\nsubs = [8] * 4\nprint(lead + sum(subs))",
+      "codeLanguage": "python",
+      "options": [
+        "13",
+        "32",
+        "37",
+        "40"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "5 + 4 x 8 = 37. 32 forgets the lead's own calls."
+    },
+    {
+      "id": "pt-mas-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "multi-agent-systems",
+      "prompt": "What should a delegation message to a subagent include? Select all that apply.",
+      "options": [
+        "Objective",
+        "Out-of-scope boundaries",
+        "Expected output format",
+        "The orchestrator's entire chat history by default"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Clear objective, boundaries and format prevent duplication and gaps. Dumping full history wastes context; send only what is needed."
+    },
+    {
+      "id": "pt-mas-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "multi-agent-systems",
+      "prompt": "This orchestrator reports 'ready' even when a subagent crashed. Why?",
+      "code": "results = [run(s) for s in scopes]\nfindings = [f for r in results for f in r.get('findings', [])]\nverdict = 'review' if findings else 'ready'",
+      "codeLanguage": "python",
+      "options": [
+        "It only counts findings, so an errored subagent with no findings looks like 'no issues'",
+        "The threads are too few",
+        "JSON is the wrong format",
+        "max_workers must be 1"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Treat error or partial statuses as gaps. Silence is not success."
+    },
+    {
+      "id": "pt-mas-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "multi-agent-systems",
+      "prompt": "A team wants to use five agents to rename one function across three tightly coupled modules. What would you advise?",
+      "options": [
+        "Five agents for speed",
+        "A single agent (or a deterministic refactor tool): the change needs shared context and coordination",
+        "A debate between agents",
+        "One agent per line of code"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tightly coupled edits suffer from split context. Multi-agent shines on independent subtasks."
+    },
+    {
+      "id": "pt-mas-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "multi-agent-systems",
+      "prompt": "Your multi-agent researcher scores 3 points higher than the single-agent baseline on 20 tasks, run once each, and costs four times as much. What should you do before deciding?",
+      "options": [
+        "Ship it; higher is better",
+        "Repeat runs to measure variance, check whether the gain is meaningful for the task's value, and compare cost per successful task",
+        "Drop the baseline",
+        "Add more subagents"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "One run on 20 tasks may be noise. Decide on repeated runs and cost per success."
+    },
+    {
+      "id": "pt-mas-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "multi-agent-systems",
+      "prompt": "Two subagents disagree: one says the release has 2 critical bugs, the other says 0. The lead's final summary says '1 critical bug'. What failure is this and the fix?",
+      "options": [
+        "Averaging conflicting claims instead of verifying; the lead should flag the conflict and check the source or report both",
+        "A transport error; retry",
+        "Too much temperature",
+        "Correct behaviour"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Conflicts must be surfaced or resolved from sources, never silently blended."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mas-validate",
+      "language": "python",
+      "title": "Validate subagent results",
+      "difficulty": "beginner",
+      "prompt": "Write `gaps(results)` that takes a list of dicts like `{\"scope\": \"logs\", \"status\": \"ok\", \"findings\": [...]}` and returns the sorted list of scopes whose result is **not** usable. A result is usable only if `status == \"ok\"` and `findings` is a list.",
+      "starter": "def gaps(results):\n    return []\n",
+      "solution": "def gaps(results):\n    return sorted(r.get('scope') for r in results\n                  if r.get('status') != 'ok' or not isinstance(r.get('findings'), list))\n",
+      "explanation": "Errors, partial results and malformed payloads are gaps, not passes.",
+      "hints": [
+        "Loop and test both conditions.",
+        "Use isinstance(..., list).",
+        "Return sorted scopes."
+      ],
+      "tests": [
+        {
+          "name": "Errors are gaps",
+          "marks": 2,
+          "code": "assert gaps([{'scope': 'b', 'status': 'error', 'findings': []}, {'scope': 'a', 'status': 'ok', 'findings': []}]) == ['b']"
+        },
+        {
+          "name": "Malformed findings are gaps",
+          "marks": 2,
+          "code": "assert gaps([{'scope': 'x', 'status': 'ok', 'findings': 'none'}, {'scope': 'w', 'status': 'partial', 'findings': []}]) == ['w', 'x']"
+        }
+      ]
+    },
+    {
+      "id": "code-mas-orch",
+      "language": "python",
+      "title": "Orchestrator with budget and conflicts",
+      "difficulty": "advanced",
+      "prompt": "Write `orchestrate(results, budget)` where `results` is a list of dicts `{\"scope\", \"status\", \"claims\": {item: value}, \"tokens\"}`. Return a dict with:\n\n- `tokens`: total tokens\n- `conflicts`: sorted list of items that appear in the claims of two or more `ok` results with **different** values\n- `verdict`: `\"over_budget\"` if tokens > budget; else `\"blocked\"` if any result is not `ok`; else `\"review\"` if there are conflicts; else `\"ready\"`.",
+      "starter": "def orchestrate(results, budget):\n    return {'tokens': 0, 'conflicts': [], 'verdict': 'ready'}\n",
+      "solution": "def orchestrate(results, budget):\n    tokens = sum(r['tokens'] for r in results)\n    values = {}\n    for r in results:\n        if r['status'] == 'ok':\n            for item, v in r['claims'].items():\n                values.setdefault(item, set()).add(v)\n    conflicts = sorted(i for i, vs in values.items() if len(vs) > 1)\n    if tokens > budget:\n        verdict = 'over_budget'\n    elif any(r['status'] != 'ok' for r in results):\n        verdict = 'blocked'\n    elif conflicts:\n        verdict = 'review'\n    else:\n        verdict = 'ready'\n    return {'tokens': tokens, 'conflicts': conflicts, 'verdict': verdict}\n",
+      "explanation": "Collect each item's distinct values across usable results; more than one value is a conflict to surface, not average. The verdict order puts hard failures first.",
+      "hints": [
+        "Sum tokens first.",
+        "Map each item to a set of values seen.",
+        "Check verdict conditions in the stated order."
+      ],
+      "tests": [
+        {
+          "name": "Detects conflicts",
+          "marks": 3,
+          "code": "r = orchestrate([{'scope': 'a', 'status': 'ok', 'claims': {'critical': 2}, 'tokens': 10}, {'scope': 'b', 'status': 'ok', 'claims': {'critical': 0, 'minor': 1}, 'tokens': 10}], 100)\nassert r == {'tokens': 20, 'conflicts': ['critical'], 'verdict': 'review'}, r"
+        },
+        {
+          "name": "Errors block",
+          "marks": 2,
+          "code": "r = orchestrate([{'scope': 'a', 'status': 'error', 'claims': {}, 'tokens': 5}, {'scope': 'b', 'status': 'ok', 'claims': {'x': 1}, 'tokens': 5}], 100)\nassert r['verdict'] == 'blocked' and r['tokens'] == 10, r"
+        },
+        {
+          "name": "Budget first, ready otherwise",
+          "marks": 2,
+          "code": "ok = [{'scope': 'a', 'status': 'ok', 'claims': {'x': 1}, 'tokens': 60}, {'scope': 'b', 'status': 'ok', 'claims': {'x': 1}, 'tokens': 60}]\nassert orchestrate(ok, 100)['verdict'] == 'over_budget'\nassert orchestrate(ok, 200) == {'tokens': 120, 'conflicts': [], 'verdict': 'ready'}"
+        }
+      ]
+    }
+  ]
+}

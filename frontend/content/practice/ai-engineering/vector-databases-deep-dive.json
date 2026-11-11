@@ -1,0 +1,249 @@
+{
+  "lesson": "vector-databases-deep-dive",
+  "questions": [
+    {
+      "id": "pt-vdbd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "What does recall@10 of 0.9 for an ANN index, measured against exact search, mean?",
+      "options": [
+        "90% of queries return results in under 10 ms",
+        "On average 9 of the true 10 nearest neighbours are returned",
+        "90% of returned documents are relevant to users",
+        "The index uses 90% less memory"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Recall@k against exact search is the overlap between the ANN top k and the brute-force top k. It says nothing about latency, memory or whether users find the results relevant."
+    },
+    {
+      "id": "pt-vdbd-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "If all vectors are normalised to unit length, ranking by inner product gives the same order as ranking by cosine similarity.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "For unit vectors the inner product equals the cosine, so the orders are identical. This is why many systems normalise and use inner product."
+    },
+    {
+      "id": "pt-vdbd-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "In an IVF index, what does nprobe control?",
+      "options": [
+        "The number of k-means cells scanned per query",
+        "The number of links per graph node",
+        "The bytes per compressed sub-vector",
+        "How many replicas store the data"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "IVF scans only the lists of the nprobe nearest centroids. Links per node is HNSW's M, and bytes per code relates to product quantization."
+    },
+    {
+      "id": "pt-vdbd-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "Which statements about HNSW are correct? Select all that apply.",
+      "options": [
+        "Raising ef_search usually increases recall and latency",
+        "M is set when the index is built",
+        "Search starts at the dense bottom layer and climbs up",
+        "The graph is normally held in memory"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "ef_search is a query-time recall dial, M is a build parameter and HNSW graphs are memory-resident. Search starts at the sparse top layer and descends, so the third option is reversed."
+    },
+    {
+      "id": "pt-vdbd-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "A 768-dimensional float32 vector is compressed with product quantization using m = 96 sub-vectors and 256-centroid codebooks. How many bytes does each code take?",
+      "code": "dims, m, codebook = 768, 96, 256\nimport math\nprint(m * math.ceil(math.log2(codebook) / 8))",
+      "codeLanguage": "python",
+      "options": [
+        "768",
+        "96",
+        "3072",
+        "256"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each sub-vector is stored as the index of one of 256 centroids, which fits in one byte, so 96 sub-vectors take 96 bytes. 3072 is the uncompressed float32 size."
+    },
+    {
+      "id": "pt-vdbd-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "A legal search tool filters by client_id after taking the ANN top 20. Small clients often see zero results. What is the best fix?",
+      "options": [
+        "Raise k to 1,000 for every query",
+        "Use filtered search that applies client_id during traversal, with an indexed payload field",
+        "Switch the metric to Euclidean",
+        "Shard the index by embedding dimension"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Post-filtering fails for selective filters. Filtering during search guarantees k matches if they exist. A huge k only lowers the odds of failure and costs latency for everyone."
+    },
+    {
+      "id": "pt-vdbd-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "After upgrading the embedding model, new documents are embedded with the new model and old ones are left untouched. Relevance collapses for old documents. Why?",
+      "options": [
+        "HNSW cannot store more than one model's vectors",
+        "Vectors from different models live in different spaces and are not comparable, so old documents must be re-embedded",
+        "The new model uses a larger ef_search",
+        "Metadata filters were dropped during the upgrade"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Similarity is only meaningful within one embedding space. Queries now use the new model, so old vectors are effectively random relative to them. The fix is a full re-embed, usually into a new index with a cutover."
+    },
+    {
+      "id": "pt-vdbd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "vector-databases-deep-dive",
+      "prompt": "You must pick between pgvector and a dedicated vector database for 2 million chunks with per-user permission filters, and you already run Postgres. What is the most defensible process?",
+      "options": [
+        "Pick whichever vendor benchmark shows the highest QPS",
+        "Prototype both on your own data and filters, measure recall@k against exact search, p95 latency and operational fit, then decide",
+        "Always pick a dedicated vector database above one million vectors",
+        "Pick pgvector because SQL is familiar, without measuring"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Published benchmarks rarely match your data, filters and hardware. Measuring recall, latency and operational cost on your own workload is the defensible choice; blanket rules in either direction are not."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-vdbd-cosine-topk",
+      "title": "Brute-force cosine top-k",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `top_k(query, vectors, k)` where `vectors` is a dict of id to list of floats. Return the ids of the `k` most cosine-similar vectors, highest first. Break ties by id ascending. Ignore zero-length vectors.\n\nExample: `top_k([1, 0], {'a': [1, 0], 'b': [0, 1], 'c': [1, 1]}, 2)` returns `['a', 'c']`.",
+      "starter": "import math\n\ndef top_k(query, vectors, k):\n    return []\n",
+      "solution": "import math\n\ndef _norm(v):\n    return math.sqrt(sum(x * x for x in v))\n\ndef top_k(query, vectors, k):\n    qn = _norm(query)\n    scored = []\n    for vid, v in vectors.items():\n        vn = _norm(v)\n        if vn == 0 or qn == 0:\n            continue\n        cos = sum(a * b for a, b in zip(query, v)) / (qn * vn)\n        scored.append((-cos, vid))\n    scored.sort()\n    return [vid for _, vid in scored[:k]]\n",
+      "explanation": "Cosine divides the dot product by both lengths, so magnitude does not matter. Sorting on (-score, id) gives highest first with a deterministic tie-break. This exact search is the ground truth an ANN index is measured against.",
+      "hints": [
+        "Cosine is dot(a, b) / (|a| * |b|).",
+        "Build a list of (-score, id) tuples and sort it.",
+        "Skip vectors whose norm is 0 to avoid dividing by zero."
+      ],
+      "tests": [
+        {
+          "name": "returns the example ranking",
+          "code": "assert top_k([1, 0], {'a': [1, 0], 'b': [0, 1], 'c': [1, 1]}, 2) == ['a', 'c'], 'expected a then c'",
+          "marks": 2
+        },
+        {
+          "name": "ignores magnitude",
+          "code": "assert top_k([1, 1], {'big': [10, 0], 'small': [1, 1]}, 1) == ['small'], 'cosine ignores length'",
+          "marks": 2
+        },
+        {
+          "name": "ties broken by id and zero vectors skipped",
+          "code": "assert top_k([1, 0], {'z': [2, 0], 'y': [1, 0], 'n': [0, 0]}, 3) == ['y', 'z'], 'tie by id, skip zero'",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-vdbd-recall",
+      "title": "Recall@k of an ANN index",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `recall_at_k(exact, approx, k)` where `exact` and `approx` are lists of ranked id lists, one per query. For each query, recall is the size of the overlap between the first `k` ids of each list divided by `k`. Return the mean over queries rounded to 3 decimals. Return 0.0 if there are no queries.\n\nExample: `recall_at_k([['a','b']], [['b','c']], 2)` returns `0.5`.",
+      "starter": "def recall_at_k(exact, approx, k):\n    return -1\n",
+      "solution": "def recall_at_k(exact, approx, k):\n    if not exact:\n        return 0.0\n    total = 0.0\n    for e, a in zip(exact, approx):\n        total += len(set(e[:k]) & set(a[:k])) / k\n    return round(total / len(exact), 3)\n",
+      "explanation": "Order within the top k does not matter for recall, so set intersection is right. Averaging over queries gives the index-level number you compare across ef_search or nprobe settings.",
+      "hints": [
+        "Slice both lists to k before comparing.",
+        "Use set intersection to count overlap.",
+        "Sum the per-query recalls and divide by the number of queries."
+      ],
+      "tests": [
+        {
+          "name": "example gives 0.5",
+          "code": "assert recall_at_k([['a','b']], [['b','c']], 2) == 0.5",
+          "marks": 2
+        },
+        {
+          "name": "averages over queries",
+          "code": "assert recall_at_k([['a','b'], ['c','d']], [['b','a'], ['x','y']], 2) == 0.5",
+          "marks": 2
+        },
+        {
+          "name": "only first k counted and empty input",
+          "code": "assert recall_at_k([['a','b','c']], [['c','b','a']], 1) == 0.0 and recall_at_k([], [], 3) == 0.0",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-vdbd-filtered",
+      "title": "Pre-filter versus post-filter",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `post_filter(ranked, meta, tenant, k)` and `pre_filter(ranked_all, meta, tenant, k)`.\n\n- `post_filter` takes only the first `k` ids of `ranked`, then keeps those whose `meta[id] == tenant`.\n- `pre_filter` keeps ids matching the tenant from the full ranking `ranked_all` first, then returns up to `k` of them.\n\nBoth keep ranking order. Example: with ranking `['a','b','c','d']`, meta `{'a':1,'b':1,'c':2,'d':2}`, tenant 2 and k 2: post returns `[]`, pre returns `['c','d']`.",
+      "starter": "def post_filter(ranked, meta, tenant, k):\n    return None\n\ndef pre_filter(ranked_all, meta, tenant, k):\n    return None\n",
+      "solution": "def post_filter(ranked, meta, tenant, k):\n    return [d for d in ranked[:k] if meta.get(d) == tenant]\n\ndef pre_filter(ranked_all, meta, tenant, k):\n    return [d for d in ranked_all if meta.get(d) == tenant][:k]\n",
+      "explanation": "The only difference is the order of slicing and filtering. Slicing first (post) can leave nothing for a selective tenant; filtering first (pre) always fills k when enough matches exist. Real engines do the second efficiently inside the index.",
+      "hints": [
+        "The two functions differ only in whether you slice before or after filtering.",
+        "Use meta.get(d) so unknown ids do not raise.",
+        "post: [d for d in ranked[:k] if ...]; pre: [d for d in ranked_all if ...][:k]"
+      ],
+      "tests": [
+        {
+          "name": "post-filter can return nothing",
+          "code": "assert post_filter(['a','b','c','d'], {'a':1,'b':1,'c':2,'d':2}, 2, 2) == []",
+          "marks": 2
+        },
+        {
+          "name": "pre-filter fills k",
+          "code": "assert pre_filter(['a','b','c','d'], {'a':1,'b':1,'c':2,'d':2}, 2, 2) == ['c','d']",
+          "marks": 2
+        },
+        {
+          "name": "order kept and capped at k",
+          "code": "assert pre_filter(['d','a','c','b'], {'a':1,'b':1,'c':2,'d':2}, 2, 1) == ['d'] and post_filter(['c','a','d'], {'a':1,'c':2,'d':2}, 2, 3) == ['c','d']",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

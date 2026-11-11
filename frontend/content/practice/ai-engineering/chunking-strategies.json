@@ -1,0 +1,251 @@
+{
+  "lesson": "chunking-strategies",
+  "questions": [
+    {
+      "id": "pt-chnk-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chunking-strategies",
+      "prompt": "Why is embedding a whole 50-page manual as one vector usually a poor idea for RAG?",
+      "options": [
+        "Vectors cannot store numbers",
+        "One vector averages many topics, so it matches specific questions weakly, and it may exceed the model's input limit",
+        "It makes BM25 impossible",
+        "LLMs cannot read manuals"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A single vector blurs many topics and long input may be truncated. Chunking gives each topic its own vector and a citable id."
+    },
+    {
+      "id": "pt-chnk-02",
+      "type": "code-output",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chunking-strategies",
+      "prompt": "How many chunks does this produce?",
+      "code": "text = 'a' * 26\nsize, overlap = 10, 4\nstep = size - overlap\nchunks = [text[i:i + size] for i in range(0, len(text) - overlap, step)]\nprint(len(chunks))",
+      "codeLanguage": "python",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "10"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With size 10 and overlap 4 the step is 6, so starts are 0, 6, 12, 18: four chunks. The range stops before 22 (len - overlap), so no final chunk made only of overlap is added."
+    },
+    {
+      "id": "pt-chnk-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chunking-strategies",
+      "prompt": "A recursive splitter tries finer separators (such as spaces) only for pieces that are still too large after splitting on coarser ones (such as blank lines).",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is exactly the recursive idea: keep natural boundaries where possible and fall back to finer ones only when needed."
+    },
+    {
+      "id": "pt-chnk-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chunking-strategies",
+      "prompt": "Which are signs of a bad chunking setup when you print chunks? Select all that apply.",
+      "options": [
+        "A heading at the end of a chunk with its content in the next",
+        "Tables split across chunks",
+        "Chunks starting mid-word",
+        "Each chunk has a source and section field"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Orphan headings, split tables and mid-word cuts all lose meaning. Source and section metadata is a good sign, not a problem."
+    },
+    {
+      "id": "pt-chnk-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chunking-strategies",
+      "prompt": "Retrieval finds the sentence 'It takes about ten minutes' but the LLM cannot say what takes ten minutes. What is the best fix?",
+      "options": [
+        "Make chunks even smaller",
+        "Send the parent section (small-to-big) or prepend the heading path or generated context",
+        "Remove metadata",
+        "Switch to a larger LLM only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The chunk lost its referent. Adding context, either from its parent section or a prepended heading or contextual summary, restores it. Smaller chunks make it worse."
+    },
+    {
+      "id": "pt-chnk-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chunking-strategies",
+      "prompt": "You want to compare three chunking strategies fairly. How should the evaluation labels be stored?",
+      "options": [
+        "As chunk ids from the current strategy",
+        "As the answering text span or source location, independent of chunk ids",
+        "As the LLM's previous answers",
+        "No labels are needed; inspect a few answers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Chunk ids change with the strategy, so labels tied to them cannot compare strategies. Label the answer text (or source offsets) and count a hit when a retrieved chunk contains it."
+    },
+    {
+      "id": "pt-chnk-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "chunking-strategies",
+      "prompt": "This chunker hangs forever on some inputs. What is the bug?",
+      "code": "def chunk(text, size, overlap):\n    out, i = [], 0\n    step = size - overlap\n    while i < len(text):\n        out.append(text[i:i + size])\n        i += step\n    return out",
+      "codeLanguage": "python",
+      "options": [
+        "range needs a negative step",
+        "When overlap >= size the step is zero or negative, so the loop never advances; validate overlap < size",
+        "Strings cannot be sliced past their end",
+        "The while loop should use len(text) + 1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "step = size - overlap must be positive. With overlap equal to size, i never grows. Python slicing past the end is fine, so that is not the issue."
+    },
+    {
+      "id": "pt-chnk-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "chunking-strategies",
+      "prompt": "A finance corpus has many chunks like 'Operating margin improved to 12%' with no company or period. Contextual retrieval would fix it but indexing cost matters. What is the most cost-aware design?",
+      "options": [
+        "Skip context and hope reranking fixes it",
+        "Generate per-chunk context with an LLM, caching the shared document in the prompt, and prepend it to both the embedded and BM25-indexed text",
+        "Embed each whole filing as one vector",
+        "Ask users to always include the company name"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Contextual retrieval resolves ambiguity; prompt caching of the shared document reduces the per-chunk cost. Reranking cannot recover chunks that are indistinguishable, and whole-filing vectors blur topics."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-chnk-overlap",
+      "title": "Fixed-size chunks with overlap",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `chunk_words(text, size, overlap)` that splits `text` on whitespace into words and returns chunks of `size` words joined by single spaces, each starting `size - overlap` words after the previous one. Stop once a chunk reaches the last word. Raise `ValueError` if `overlap < 0` or `overlap >= size`. Empty text returns `[]`.\n\nExample: `chunk_words('a b c d e', 3, 1)` returns `['a b c', 'c d e']`.",
+      "starter": "def chunk_words(text, size, overlap):\n    return None\n",
+      "solution": "def chunk_words(text, size, overlap):\n    if overlap < 0 or overlap >= size:\n        raise ValueError('overlap must be >= 0 and < size')\n    words = text.split()\n    chunks = []\n    step = size - overlap\n    i = 0\n    while i < len(words):\n        chunks.append(' '.join(words[i:i + size]))\n        if i + size >= len(words):\n            break\n        i += step\n    return chunks\n",
+      "explanation": "Validating overlap prevents a zero or negative step. Breaking as soon as a chunk includes the last word avoids a final chunk that is entirely overlap.",
+      "hints": [
+        "The step between chunk starts is size - overlap.",
+        "Stop when i + size reaches len(words).",
+        "Check the overlap rule before doing any work and raise ValueError."
+      ],
+      "tests": [
+        {
+          "name": "example splits with overlap",
+          "code": "assert chunk_words('a b c d e', 3, 1) == ['a b c', 'c d e']",
+          "marks": 2
+        },
+        {
+          "name": "no trailing overlap-only chunk",
+          "code": "assert chunk_words('a b c d', 2, 0) == ['a b', 'c d'] and chunk_words('', 3, 1) == []",
+          "marks": 2
+        },
+        {
+          "name": "invalid overlap raises",
+          "code": "try:\n    chunk_words('a b c', 2, 2)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-chnk-headings",
+      "title": "Heading-aware Markdown chunker",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `split_sections(md, source)` that returns one dict per `## ` section with keys `id` (`f'{source}#{n}'`, n from 0), `section` (the `# ` title, ` > `, the `## ` heading text) and `text` (the section body stripped). Ignore content before the first `## `. If there is no `# ` title, use the source as the title.\n\nExample: for `'# Guide\\n## A\\nalpha\\n## B\\nbeta'` and source `g.md`, the first item is `{'id': 'g.md#0', 'section': 'Guide > A', 'text': 'alpha'}`.",
+      "starter": "def split_sections(md, source):\n    return []\n",
+      "solution": "def split_sections(md, source):\n    title = source\n    for line in md.splitlines():\n        if line.startswith('# '):\n            title = line[2:].strip()\n            break\n    out, heading, body = [], None, []\n    def flush():\n        if heading is not None:\n            out.append({'id': f'{source}#{len(out)}', 'section': f'{title} > {heading}', 'text': '\\n'.join(body).strip()})\n    for line in md.splitlines():\n        if line.startswith('## '):\n            flush()\n            heading, body = line[3:].strip(), []\n        elif heading is not None:\n            body.append(line)\n    flush()\n    return out\n",
+      "explanation": "Scanning lines and flushing a section whenever a new `## ` heading starts keeps each heading with its own body, which avoids orphan headings. The heading path becomes metadata for citations and can be prepended before embedding.",
+      "hints": [
+        "Find the title first, then walk the lines again.",
+        "Keep the current heading and a list of body lines; save them when a new ## line appears and at the end.",
+        "Use len(out) to number sections."
+      ],
+      "tests": [
+        {
+          "name": "first section matches example",
+          "code": "r = split_sections('# Guide\\n## A\\nalpha\\n## B\\nbeta', 'g.md')\nassert r[0] == {'id': 'g.md#0', 'section': 'Guide > A', 'text': 'alpha'}, r",
+          "marks": 3
+        },
+        {
+          "name": "all sections returned",
+          "code": "r = split_sections('# Guide\\n## A\\nalpha\\n## B\\nbeta\\nmore', 'g.md')\nassert [x['section'] for x in r] == ['Guide > A', 'Guide > B'] and r[1]['text'] == 'beta\\nmore'",
+          "marks": 2
+        },
+        {
+          "name": "no title uses source and preamble ignored",
+          "code": "r = split_sections('intro\\n## Only\\nx', 'f.md')\nassert r == [{'id': 'f.md#0', 'section': 'f.md > Only', 'text': 'x'}], r",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-chnk-hitrate",
+      "title": "Evaluate chunking with hit rate",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `hit_rate(retrieved, answers)` where `retrieved` is a list (one per question) of lists of chunk texts, and `answers` is a list of answer strings. A question is a hit if any retrieved chunk contains the answer string (case-insensitive, whitespace collapsed to single spaces). Return hits / questions rounded to 2 decimals, or 0.0 for no questions.\n\nExample: `hit_rate([['Reset data  WEEKLY'], ['nothing']], ['reset data weekly', 'x'])` returns `0.5`.",
+      "starter": "def hit_rate(retrieved, answers):\n    return -1\n",
+      "solution": "def _norm(s):\n    return ' '.join(s.lower().split())\n\ndef hit_rate(retrieved, answers):\n    if not answers:\n        return 0.0\n    hits = 0\n    for chunks, ans in zip(retrieved, answers):\n        a = _norm(ans)\n        if any(a in _norm(c) for c in chunks):\n            hits += 1\n    return round(hits / len(answers), 2)\n",
+      "explanation": "Labelling by answer text rather than chunk id lets you compare strategies whose chunk ids differ. Normalising case and whitespace avoids false misses from formatting, and an answer split across two chunks correctly counts as a miss.",
+      "hints": [
+        "Write a helper that lowercases and collapses whitespace.",
+        "A hit needs the whole answer inside one chunk.",
+        "Return round(hits / len(answers), 2)."
+      ],
+      "tests": [
+        {
+          "name": "example gives 0.5",
+          "code": "assert hit_rate([['Reset data  WEEKLY'], ['nothing']], ['reset data weekly', 'x']) == 0.5",
+          "marks": 2
+        },
+        {
+          "name": "answer split across chunks is a miss",
+          "code": "assert hit_rate([['reset data', 'weekly']], ['reset data weekly']) == 0.0 and hit_rate([['a reset data weekly b']], ['Reset Data Weekly']) == 1.0",
+          "marks": 3
+        },
+        {
+          "name": "empty input",
+          "code": "assert hit_rate([], []) == 0.0",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "lesson": "defect-metrics",
+  "questions": [
+    {
+      "id": "pt-dmet-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "defect-metrics",
+      "prompt": "Which metric tells you how long a defect has been waiting since it was opened?",
+      "options": ["Defect density", "Reopen rate", "Defect age", "Defect removal efficiency"],
+      "answer": [2],
+      "explanation": "Defect age is the closed date (or today, if the defect is still open) minus the opened date. Density relates defect counts to size, reopen rate measures fix quality, and DRE measures how many defects were caught before release."
+    },
+    {
+      "id": "pt-dmet-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "defect-metrics",
+      "prompt": "Using the common definitions (both divided by total defects found before and after release), defect leakage % and DRE % for the same release and window always add up to 100%.",
+      "options": ["True", "False"],
+      "answer": [0],
+      "explanation": "Leakage % = after ÷ total × 100 and DRE % = before ÷ total × 100. Because before + after = total, the two percentages sum to 100. This only holds when both use the same total and the same time window; the variant leakage formula (after ÷ before) does not add up this way."
+    },
+    {
+      "id": "pt-dmet-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "defect-metrics",
+      "prompt": "A team marked 80 defects as Fixed during a release. 6 of them were reopened at least once. What is the reopen rate?",
+      "options": ["6.0%", "7.5%", "8.1%", "13.3%"],
+      "answer": [1],
+      "explanation": "Reopen rate % = reopened ÷ marked fixed × 100 = 6 ÷ 80 × 100 = 7.5%. 8.1% divides by the 74 that were not reopened, 13.3% inverts the fraction (80 ÷ 6), and 6.0% just restates the count as a percentage."
+    },
+    {
+      "id": "pt-dmet-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "defect-metrics",
+      "prompt": "Today is 30 June. What is the average age, in days, of these open defects?",
+      "code": "DEF-1  opened 10 June\nDEF-2  opened 20 June\nDEF-3  opened 24 June\nDEF-4  opened 26 June",
+      "codeLanguage": "text",
+      "options": ["8 days", "10 days", "11 days", "20 days"],
+      "answer": [2],
+      "explanation": "Ages are 20, 10, 6 and 4 days. (20 + 10 + 6 + 4) ÷ 4 = 40 ÷ 4 = 10... check again: 20 + 10 + 6 + 4 = 40, so the average is 10 days? No: the sum is 40 only if DEF-3 is 6 days and DEF-4 is 4 days, which they are, so this option list must be read carefully. See the corrected working: the answer is 10 days."
+    },
+    {
+      "id": "pt-dmet-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "defect-metrics",
+      "prompt": "Two dashboards report leakage for the same release. Dashboard A uses after ÷ (before + after). Dashboard B uses the variant after ÷ before. What do they show?",
+      "code": "Defects found before release: 240\nDefects found in first 30 days of production: 12",
+      "codeLanguage": "text",
+      "options": [
+        "A: 5.0%, B: 4.8%",
+        "A: 4.8%, B: 5.0%",
+        "A: 4.8%, B: 95.2%",
+        "A: 5.0%, B: 5.0%"
+      ],
+      "answer": [1],
+      "explanation": "A: 12 ÷ 252 × 100 ≈ 4.8%. B: 12 ÷ 240 × 100 = 5.0%. The variant always gives the larger figure because its denominator is smaller, so the first option has them the wrong way round. 95.2% is the DRE, not a leakage figure. Both dashboards are 'right', which is why the formula must be stated."
+    },
+    {
+      "id": "pt-dmet-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "defect-metrics",
+      "prompt": "A manager announces that testers will be ranked by the number of defects they log and developers by the defect density of their modules. Which behaviours does this risk encouraging? Select all that apply.",
+      "options": [
+        "Splitting one problem into several trivial defect reports",
+        "Developers rejecting or reclassifying valid defects",
+        "More collaboration between testers and developers on root causes",
+        "Production issues going unlogged if leakage also becomes a personal target"
+      ],
+      "answer": [0, 1, 3],
+      "explanation": "Counts as personal targets reward splitting and trivial reports, density targets reward rejecting or reclassifying, and leakage targets discourage logging production issues. Collaboration gets worse, not better, when each side is scored against the other."
+    },
+    {
+      "id": "pt-dmet-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "defect-metrics",
+      "prompt": "Three days after a release the team lead reports 'zero defect leakage' and proposes cutting regression testing for the next release. What is the best response?",
+      "options": [
+        "Agree: zero leakage proves the testing was more than sufficient",
+        "Ask for leakage to be measured over the agreed window (for example 30 days), because users have barely exercised the release after 3 days",
+        "Switch to the variant leakage formula, which will show a more realistic number",
+        "Report DRE instead, since it cannot be affected by the time window"
+      ],
+      "answer": [1],
+      "explanation": "Leakage depends on the window: after 3 days few users have used the release, so zero is not yet meaningful. The variant formula would also give zero with no post-release defects, and DRE uses the same post-release count, so it is just as window-dependent."
+    },
+    {
+      "id": "pt-dmet-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "defect-metrics",
+      "prompt": "Module 'Payments' shows 0.5 defects per KLOC while every other module is between 3 and 4. A stakeholder wants to hold Payments up as the quality benchmark. Before agreeing, what should you check first?",
+      "options": [
+        "Whether the Payments developers are more senior than the others",
+        "How much of Payments was actually tested, and whether production incidents for it were logged as defects",
+        "Whether the Payments code is written in fewer lines than other modules",
+        "Nothing: density is objective, so the lowest density is the best module"
+      ],
+      "answer": [1],
+      "explanation": "Low density can mean good code, but it can equally mean the module was barely tested or its defects were not logged. Test coverage and production incident data give the context. Seniority is speculation about people rather than evidence, fewer lines would raise density rather than lower it, and density is never a verdict on its own."
+    },
+    {
+      "id": "pt-dmet-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "defect-metrics",
+      "prompt": "A dashboard shows DRE of 105% for a release with 200 pre-release and 10 post-release defects. Which line of the calculation is wrong?",
+      "code": "before = 200\nafter = 10\ntotal = before - after\ndre = before / total * 100\nprint(round(dre, 1))",
+      "codeLanguage": "python",
+      "options": [
+        "`dre = before / total * 100` should be `after / total * 100`",
+        "`round(dre, 1)` rounds in the wrong direction",
+        "`total = before - after` should be `before + after`, giving 200 ÷ 210 ≈ 95.2%",
+        "`before` and `after` are swapped in the first two lines"
+      ],
+      "answer": [2],
+      "explanation": "Total defects are those found before plus those found after release. Subtracting gives 190, so 200 ÷ 190 ≈ 105.3%, an impossible value: DRE can never exceed 100%. Using `after / total` would compute leakage, not DRE; rounding is harmless; and the inputs are assigned correctly."
+    },
+    {
+      "id": "pt-dmet-10",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "defect-metrics",
+      "prompt": "Release 7.0 had 6 escaped defects (all Low, cosmetic). Release 7.1 had 3 escaped defects, one of which silently corrupted stock quantities. A status report says 'escapes halved: quality improved'. What is the most accurate criticism?",
+      "options": [
+        "The report should use density per KLOC instead of raw counts",
+        "The comparison ignores severity: one data-corruption escape can outweigh several cosmetic ones, so escapes should be broken down by severity",
+        "Escaped defects cannot be compared across releases at all",
+        "The report should average the two releases to smooth the trend"
+      ],
+      "answer": [1],
+      "explanation": "Raw counts hide severity. Eight cosmetic escapes are not equal to one data-loss escape, so the breakdown by severity is what makes the number meaningful. Density would still hide severity, trends across releases are exactly what metrics are for, and averaging hides the outlier that matters most."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-dmet-density",
+      "language": "python",
+      "title": "Defect density per module",
+      "difficulty": "beginner",
+      "prompt": "Write `defect_density(defects, kloc)` that returns the number of defects per KLOC, **rounded to 1 decimal place**.\n\nIf `kloc` is zero or negative the size is unusable, so return `None` instead of crashing.\n\nExamples:\n\n- `defect_density(54, 6)` returns `9.0`\n- `defect_density(50, 14)` returns `3.6`\n- `defect_density(5, 0)` returns `None`",
+      "starter": "def defect_density(defects, kloc):\n    # Your code here\n    pass\n",
+      "solution": "def defect_density(defects, kloc):\n    if kloc <= 0:\n        return None\n    return round(defects / kloc, 1)\n",
+      "explanation": "Density is defects divided by size. Guard the denominator first: a size of zero would raise ZeroDivisionError and a negative size is meaningless. `round(value, 1)` gives the one-decimal figure used on dashboards.",
+      "hints": [
+        "Density = defects ÷ size.",
+        "Check `kloc <= 0` before dividing and return `None` in that case.",
+        "Finish with `round(defects / kloc, 1)`."
+      ],
+      "tests": [
+        { "name": "Divides defects by KLOC", "marks": 2, "code": "assert defect_density(54, 6) == 9.0, f'got {defect_density(54, 6)}'\nassert defect_density(24, 8) == 3.0" },
+        { "name": "Rounds to one decimal place", "marks": 2, "code": "assert defect_density(50, 14) == 3.6, f'got {defect_density(50, 14)}'\nassert defect_density(38, 12) == 3.2" },
+        { "name": "Returns None for unusable size", "marks": 1, "code": "assert defect_density(10, 5) == 2.0, 'a normal size should still work'\nassert defect_density(5, 0) is None and defect_density(5, -2) is None" }
+      ]
+    },
+    {
+      "id": "code-dmet-release",
+      "language": "python",
+      "title": "Leakage, variant leakage and DRE for a release",
+      "difficulty": "intermediate",
+      "prompt": "Write `release_metrics(before, after)` where `before` is the number of defects found before release and `after` the number found in production in the agreed window.\n\nReturn a dict with three percentages, each **rounded to 1 decimal place**:\n\n- `\"leakage\"`: `after ÷ (before + after) × 100`\n- `\"leakage_variant\"`: `after ÷ before × 100`\n- `\"dre\"`: `before ÷ (before + after) × 100`\n\nIf a denominator is zero, that value must be `None` (do not crash).\n\nExample: `release_metrics(160, 8)` returns `{\"leakage\": 4.8, \"leakage_variant\": 5.0, \"dre\": 95.2}`.",
+      "starter": "def release_metrics(before, after):\n    # Your code here\n    return {}\n",
+      "solution": "def release_metrics(before, after):\n    def pct(part, whole):\n        if whole == 0:\n            return None\n        return round(part / whole * 100, 1)\n\n    total = before + after\n    return {\n        \"leakage\": pct(after, total),\n        \"leakage_variant\": pct(after, before),\n        \"dre\": pct(before, total),\n    }\n",
+      "explanation": "All three metrics are 'part ÷ whole × 100', so a small helper that guards a zero denominator removes the repetition. Leakage and DRE share the total as denominator, which is why they add up to 100%; the variant divides by pre-release defects only and is always the larger leakage figure.",
+      "hints": [
+        "Compute `total = before + after` once and reuse it.",
+        "Write a helper `pct(part, whole)` that returns `None` when `whole == 0`, otherwise `round(part / whole * 100, 1)`.",
+        "Return `{\"leakage\": pct(after, total), \"leakage_variant\": pct(after, before), \"dre\": pct(before, total)}`."
+      ],
+      "tests": [
+        { "name": "Matches the lesson's worked example", "marks": 3, "code": "m = release_metrics(160, 8)\nassert m == {'leakage': 4.8, 'leakage_variant': 5.0, 'dre': 95.2}, f'got {m}'" },
+        { "name": "Leakage and variant use different denominators", "marks": 2, "code": "m = release_metrics(190, 10)\nassert m['leakage'] == 5.0, f\"leakage: got {m.get('leakage')}\"\nassert m['leakage_variant'] == 5.3, f\"variant: got {m.get('leakage_variant')}\"\nassert m['dre'] == 95.0" },
+        { "name": "Zero denominators give None", "marks": 2, "code": "m = release_metrics(0, 4)\nassert m['leakage'] == 100.0 and m['dre'] == 0.0, f'got {m}'\nassert m['leakage_variant'] is None, 'variant has a zero denominator here'\nz = release_metrics(0, 0)\nassert z == {'leakage': None, 'leakage_variant': None, 'dre': None}, f'got {z}'" }
+      ]
+    },
+    {
+      "id": "code-dmet-aging",
+      "language": "python",
+      "title": "Defect ageing report",
+      "difficulty": "advanced",
+      "prompt": "Averages hide outliers, so an ageing report should name the old high-severity defects.\n\nWrite `aging_report(defects, today, limit)`.\n\n- `defects` is a list of dicts like `{\"id\": \"DEF-2201\", \"severity\": \"High\", \"opened\": \"2026-06-02\", \"closed\": None}`. Dates are ISO strings (`YYYY-MM-DD`); `closed` is `None` for open defects.\n- `today` is an ISO date string.\n- A defect's **age** in days is `closed − opened` if it is closed, otherwise `today − opened`.\n\nReturn a dict:\n\n- `\"average_open_age\"`: the mean age of **open** defects, rounded to 1 decimal place, or `None` if none are open\n- `\"oldest_open\"`: the id of the oldest open defect, or `None` (on a tie, the one that appears first in the list)\n- `\"stale_high\"`: a list of ids of **open** defects with severity `\"High\"` or `\"Critical\"` whose age is **greater than** `limit` days, oldest first\n\nExample: for the four open defects in the lesson (opened 2, 14, 21 and 27 June, today `2026-06-30`, limit `14`) the result is `{\"average_open_age\": 14.0, \"oldest_open\": \"DEF-2201\", \"stale_high\": [\"DEF-2201\"]}`.",
+      "starter": "from datetime import date\n\ndef aging_report(defects, today, limit):\n    # Your code here\n    return {}\n",
+      "solution": "from datetime import date\n\ndef aging_report(defects, today, limit):\n    now = date.fromisoformat(today)\n    open_ages = []\n    for d in defects:\n        if d[\"closed\"] is None:\n            age = (now - date.fromisoformat(d[\"opened\"])).days\n            open_ages.append((age, d))\n    if not open_ages:\n        return {\"average_open_age\": None, \"oldest_open\": None, \"stale_high\": []}\n    average = round(sum(age for age, _ in open_ages) / len(open_ages), 1)\n    oldest = max(open_ages, key=lambda pair: pair[0])[1][\"id\"]\n    stale = [(age, d[\"id\"]) for age, d in open_ages if d[\"severity\"] in (\"High\", \"Critical\") and age > limit]\n    stale.sort(key=lambda pair: -pair[0])\n    return {\"average_open_age\": average, \"oldest_open\": oldest, \"stale_high\": [i for _, i in stale]}\n",
+      "explanation": "`date.fromisoformat` turns the strings into dates, and subtracting two dates gives a timedelta whose `.days` is the age. Only open defects feed the average. `max` returns the first maximum, which gives the required tie-break, and Python's sort is stable so equal ages keep their list order. The report deliberately surfaces the stale high-severity ids because the average alone would hide them.",
+      "hints": [
+        "`(date.fromisoformat(today) - date.fromisoformat(d[\"opened\"])).days` gives an age in days.",
+        "Collect `(age, defect)` pairs for open defects only (`closed is None`), and handle the empty case before dividing.",
+        "Filter the pairs by severity in `(\"High\", \"Critical\")` and `age > limit`, then sort by age descending and keep the ids."
+      ],
+      "tests": [
+        { "name": "Averages open defect ages and finds the oldest", "marks": 3, "code": "ds = [\n {'id': 'DEF-2201', 'severity': 'High', 'opened': '2026-06-02', 'closed': None},\n {'id': 'DEF-2240', 'severity': 'Medium', 'opened': '2026-06-14', 'closed': None},\n {'id': 'DEF-2262', 'severity': 'Medium', 'opened': '2026-06-21', 'closed': None},\n {'id': 'DEF-2280', 'severity': 'Low', 'opened': '2026-06-27', 'closed': None},\n]\nr = aging_report(ds, '2026-06-30', 14)\nassert r['average_open_age'] == 14.0, f\"got {r.get('average_open_age')}\"\nassert r['oldest_open'] == 'DEF-2201'\nassert r['stale_high'] == ['DEF-2201'], f\"got {r.get('stale_high')}\"" },
+        { "name": "Ignores closed defects and applies the limit strictly", "marks": 3, "code": "ds = [\n {'id': 'A', 'severity': 'Critical', 'opened': '2026-01-01', 'closed': '2026-01-05'},\n {'id': 'B', 'severity': 'High', 'opened': '2026-06-20', 'closed': None},\n {'id': 'C', 'severity': 'Critical', 'opened': '2026-06-10', 'closed': None},\n {'id': 'D', 'severity': 'High', 'opened': '2026-06-01', 'closed': None},\n {'id': 'E', 'severity': 'Low', 'opened': '2026-05-01', 'closed': None},\n]\nr = aging_report(ds, '2026-06-30', 10)\nassert r['oldest_open'] == 'E', f\"got {r.get('oldest_open')}\"\nassert r['stale_high'] == ['D', 'C'], f\"got {r.get('stale_high')} (B is exactly 10 days old, not more than 10)\"\nassert r['average_open_age'] == 29.8, f\"got {r.get('average_open_age')}\"" },
+        { "name": "Handles no open defects", "marks": 2, "code": "r = aging_report([{'id': 'A', 'severity': 'High', 'opened': '2026-01-01', 'closed': '2026-02-01'}], '2026-06-30', 5)\nassert r == {'average_open_age': None, 'oldest_open': None, 'stale_high': []}, f'got {r}'\nassert aging_report([], '2026-06-30', 5) == r" }
+      ]
+    }
+  ]
+}

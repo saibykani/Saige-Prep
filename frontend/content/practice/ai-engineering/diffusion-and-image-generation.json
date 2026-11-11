@@ -1,0 +1,279 @@
+{
+  "lesson": "diffusion-and-image-generation",
+  "questions": [
+    {
+      "id": "pt-diff-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Where does a text-to-image diffusion model start when generating a new image?",
+      "options": [
+        "From a stored training image",
+        "From random noise",
+        "From a blank white canvas",
+        "From the previous user's image"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Generation starts from random Gaussian noise (in pixel or latent space) and denoises step by step. It does not retrieve or copy a stored image."
+    },
+    {
+      "id": "pt-diff-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "In the forward diffusion process, the amount of original signal in x_t decreases as t increases.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The signal weight sqrt(alpha_bar_t) shrinks towards zero as noise accumulates, so late steps are almost pure noise."
+    },
+    {
+      "id": "pt-diff-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "What is C2PA?",
+      "options": [
+        "A diffusion sampler",
+        "An open standard for signed content provenance manifests (Content Credentials)",
+        "An image quality metric",
+        "A GAN architecture"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "C2PA is a standard from the Coalition for Content Provenance and Authenticity for cryptographically signed metadata about how content was made and edited. It is not a sampler, metric or model."
+    },
+    {
+      "id": "pt-diff-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "What does this classifier-free guidance code print?",
+      "code": "eps_uncond, eps_cond, w = 0.1, 0.3, 5.5\nprint(round(eps_uncond + w * (eps_cond - eps_uncond), 2))",
+      "codeLanguage": "python",
+      "options": [
+        "0.3",
+        "0.6",
+        "1.2",
+        "1.5"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "guided = 0.1 + 5.5 * (0.3 - 0.1) = 0.1 + 1.1 = 1.2 (shown rounded). 0.3 is the plain conditional prediction (w = 1), and the others are arithmetic slips."
+    },
+    {
+      "id": "pt-diff-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Mode collapse, where the model produces only a narrow range of outputs, is most associated with which family?",
+      "options": [
+        "Diffusion models",
+        "GANs",
+        "Autoregressive LLMs",
+        "k-nearest neighbours"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "GAN generators can learn to fool the discriminator with a few output types, losing diversity. Diffusion models are known for stable training and good diversity, which is one reason they replaced GANs for many tasks."
+    },
+    {
+      "id": "pt-diff-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Which are known limits of CLIP score as an evaluation metric? Select all that apply.",
+      "options": [
+        "Weak at counting objects",
+        "Weak at spatial relations such as left of / right of",
+        "Inherits biases of the CLIP model",
+        "Requires the real training images to compute"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "CLIP score compares image and prompt embeddings, so it inherits CLIP's blind spots and biases. It needs only the generated image and its prompt, unlike FID, which needs a reference set of real images."
+    },
+    {
+      "id": "pt-diff-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Two engineers compare model A and model B with 10 prompts each but different seeds, step counts and guidance scales. B looks better. What is wrong with the comparison?",
+      "options": [
+        "Nothing; ten prompts is plenty",
+        "Too many variables changed at once; fix seeds, sampler, steps, guidance and size so the model is the only difference, and use more prompts and raters",
+        "They should have used FID on 10 images",
+        "They should only compare file sizes"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A fair comparison controls everything except the model. FID on 10 images is statistically meaningless, and file size says nothing about quality."
+    },
+    {
+      "id": "pt-diff-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Generated images have valid C2PA manifests at the API, but downloads from your web app show 'no content credentials'. The pipeline is: generate -> sign -> resize -> compress -> store. What is the most likely fix?",
+      "options": [
+        "Turn off the safety filter",
+        "Sign after the final resize and compression step, or use processing tools that preserve and update the manifest",
+        "Use a higher guidance scale",
+        "Switch from PNG to BMP"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Re-encoding after signing drops or invalidates the manifest. Signing last (or using C2PA-aware tools that record the edits) fixes it. Safety filters, guidance and file format choice do not address lost metadata."
+    },
+    {
+      "id": "pt-diff-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "A bias audit generates 'a photo of a nurse' 100 times and 95 images show women. The product team says each image is fine individually. What is the best response?",
+      "options": [
+        "Agree; individual images are fine so there is no issue",
+        "Treat it as a distribution-level harm: document it, test mitigations such as prompt diversification, and track the distribution as a release metric",
+        "Ban the word 'nurse'",
+        "Lower the image resolution"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Representational bias appears only across many samples, which is exactly why audits run many seeds. Mitigate and measure. Banning words or lowering resolution avoids or ignores the problem."
+    },
+    {
+      "id": "pt-diff-10",
+      "type": "single",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "diffusion-and-image-generation",
+      "prompt": "Why does latent diffusion's autoencoder matter for testing fine details such as small text in images?",
+      "options": [
+        "It does not affect output at all",
+        "Detail must survive compression into the latent and decoding back, so the autoencoder can limit fine detail regardless of how good the denoiser is",
+        "It only affects generation speed",
+        "It adds watermarks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The decoder reconstructs pixels from a compressed latent, so very fine detail can be lost or garbled there. That is one reason small text rendering is a classic weak spot to test. It is not purely about speed and does not add watermarks."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-diff-schedule",
+      "language": "python",
+      "title": "Compute alpha-bar for a noise schedule",
+      "difficulty": "beginner",
+      "prompt": "Write `alpha_bars(betas)` that returns the cumulative products ᾱ_t = (1 − β₁)(1 − β₂)…(1 − β_t) as a list of the same length as `betas`.\n\nExample: `alpha_bars([0.1, 0.5])` returns `[0.9, 0.45]`.",
+      "starter": "def alpha_bars(betas):\n    return []\n",
+      "solution": "def alpha_bars(betas):\n    out, prod = [], 1.0\n    for b in betas:\n        prod *= (1 - b)\n        out.append(prod)\n    return out\n",
+      "explanation": "Each step keeps a fraction (1 − β) of the signal, so the fraction left after t steps is the running product. This closed form lets training jump straight to any noise level.",
+      "hints": [
+        "Keep a running product starting at 1.0.",
+        "Multiply by `(1 - b)` for each beta and append the product."
+      ],
+      "tests": [
+        {
+          "name": "Matches the example",
+          "marks": 2,
+          "code": "r = alpha_bars([0.1, 0.5])\nassert len(r) == 2 and abs(r[0] - 0.9) < 1e-9 and abs(r[1] - 0.45) < 1e-9, f'got {r}'"
+        },
+        {
+          "name": "Decreases monotonically towards zero",
+          "marks": 2,
+          "code": "betas = [0.02] * 500\nr = alpha_bars(betas)\nassert len(r) == 500 and all(a > b for a, b in zip(r, r[1:])), 'should strictly decrease'\nassert r[-1] < 0.0001, f'last value {r[-1]}'"
+        }
+      ]
+    },
+    {
+      "id": "code-diff-recover",
+      "language": "python",
+      "title": "Noise and recover with a perfect noise prediction",
+      "difficulty": "intermediate",
+      "prompt": "Implement two functions for one value:\n\n- `add_noise(x0, alpha_bar, eps)` returns `sqrt(alpha_bar) * x0 + sqrt(1 - alpha_bar) * eps`.\n- `estimate_x0(xt, alpha_bar, eps_pred)` inverts it: returns `(xt - sqrt(1 - alpha_bar) * eps_pred) / sqrt(alpha_bar)`.\n\nRaise `ValueError` in `estimate_x0` if `alpha_bar <= 0` (the signal is gone and x0 cannot be recovered).",
+      "starter": "import math\n\ndef add_noise(x0, alpha_bar, eps):\n    return None\n\ndef estimate_x0(xt, alpha_bar, eps_pred):\n    return None\n",
+      "solution": "import math\n\ndef add_noise(x0, alpha_bar, eps):\n    return math.sqrt(alpha_bar) * x0 + math.sqrt(1 - alpha_bar) * eps\n\ndef estimate_x0(xt, alpha_bar, eps_pred):\n    if alpha_bar <= 0:\n        raise ValueError('alpha_bar must be positive')\n    return (xt - math.sqrt(1 - alpha_bar) * eps_pred) / math.sqrt(alpha_bar)\n",
+      "explanation": "This is the DDPM closed form and its inverse. A trained network supplies eps_pred; the better its prediction, the better the estimate of the clean image, which is why training minimises the noise-prediction error.",
+      "hints": [
+        "Use `math.sqrt`.",
+        "The inverse subtracts the noise term then divides by the signal weight.",
+        "Guard `alpha_bar <= 0` before dividing."
+      ],
+      "tests": [
+        {
+          "name": "add_noise follows the closed form",
+          "marks": 2,
+          "code": "r = add_noise(1.0, 0.64, 0.5)\nassert r is not None and abs(r - (0.8 + 0.6 * 0.5)) < 1e-9, f'got {r}'"
+        },
+        {
+          "name": "Perfect prediction recovers x0",
+          "marks": 3,
+          "code": "xt = add_noise(0.7, 0.3, -1.2)\nr = estimate_x0(xt, 0.3, -1.2)\nassert r is not None and abs(r - 0.7) < 1e-9, f'got {r}'"
+        },
+        {
+          "name": "Rejects alpha_bar of zero",
+          "marks": 1,
+          "code": "try:\n    estimate_x0(1.0, 0.0, 0.0)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    },
+    {
+      "id": "code-diff-regress",
+      "language": "python",
+      "title": "Prompt-suite regression report",
+      "difficulty": "advanced",
+      "prompt": "You compare a candidate image model against a baseline using per-prompt scores (for example CLIP scores or mean human ratings). Write `regression_report(baseline, candidate, tolerance)` where both are dicts `{prompt: score}`.\n\nReturn a dict with:\n- `regressed`: sorted list of prompts where `candidate < baseline - tolerance`\n- `improved`: sorted list where `candidate > baseline + tolerance`\n- `missing`: sorted list of baseline prompts absent from candidate\n- `passed`: `True` only if nothing regressed and nothing is missing.",
+      "starter": "def regression_report(baseline, candidate, tolerance):\n    return {}\n",
+      "solution": "def regression_report(baseline, candidate, tolerance):\n    regressed, improved, missing = [], [], []\n    for p, b in baseline.items():\n        if p not in candidate:\n            missing.append(p)\n        elif candidate[p] < b - tolerance:\n            regressed.append(p)\n        elif candidate[p] > b + tolerance:\n            improved.append(p)\n    return {\n        'regressed': sorted(regressed),\n        'improved': sorted(improved),\n        'missing': sorted(missing),\n        'passed': not regressed and not missing,\n    }\n",
+      "explanation": "Per-prompt comparison with a tolerance catches regressions that an average would hide, and treating missing prompts as failures stops a broken pipeline from silently passing. Regressed prompts then go to human review.",
+      "hints": [
+        "Loop over the baseline so missing prompts are detected.",
+        "Compare against `b - tolerance` and `b + tolerance`.",
+        "`passed` is `not regressed and not missing`."
+      ],
+      "tests": [
+        {
+          "name": "Finds regressions and improvements",
+          "marks": 3,
+          "code": "b = {'fox': 0.30, 'cats': 0.29, 'car': 0.25}\nc = {'fox': 0.35, 'cats': 0.22, 'car': 0.26}\nr = regression_report(b, c, 0.02)\nassert r.get('regressed') == ['cats'] and r.get('improved') == ['fox'], f'got {r}'\nassert r.get('passed') is False"
+        },
+        {
+          "name": "Missing prompts fail the run",
+          "marks": 2,
+          "code": "r = regression_report({'a': 0.3, 'b': 0.3}, {'a': 0.3}, 0.01)\nassert r.get('missing') == ['b'] and r.get('passed') is False, f'got {r}'"
+        },
+        {
+          "name": "Within tolerance passes",
+          "marks": 2,
+          "code": "r = regression_report({'a': 0.30}, {'a': 0.29}, 0.02)\nassert r == {'regressed': [], 'improved': [], 'missing': [], 'passed': True}, f'got {r}'"
+        }
+      ]
+    }
+  ]
+}

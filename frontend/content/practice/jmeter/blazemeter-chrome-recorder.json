@@ -1,0 +1,217 @@
+{
+  "lesson": "blazemeter-chrome-recorder",
+  "questions": [
+    {
+      "id": "pt-bzrec-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "Which extension button uploads the recording straight to BlazeMeter as a test?",
+      "options": [
+        "Save...",
+        "Run",
+        "Edit",
+        "Reset"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Run uploads and runs it as a Performance, GUI Functional or End User Experience Monitoring test. Save downloads a file; Edit opens the editor; Reset discards."
+    },
+    {
+      "id": "pt-bzrec-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "The extension records Selenium actions and HTTP requests in parallel during one recording.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "BlazeMeter documents that it records performance and functional tests in parallel, so one recording can produce JMX and Selenium."
+    },
+    {
+      "id": "pt-bzrec-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "Which filter pattern records only your shop over HTTPS on any path?",
+      "options": [
+        "https://shop.example.test/*",
+        "*://*/*",
+        "shop.example.test",
+        "https://*/shop"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Chrome match patterns are scheme://host/path; `https://shop.example.test/*` matches all paths on that host. `*://*/*` matches everything."
+    },
+    {
+      "id": "pt-bzrec-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "You chose 'Only Top-Level Requests'. What happens to images and CSS when the JMX runs?",
+      "options": [
+        "They are never requested",
+        "JMeter parses the HTML and requests referenced objects at run time",
+        "They are requested twice",
+        "BlazeMeter caches them on engines"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With only top-level requests, the script relies on parsing the HTML to fetch embedded resources. The other option records them as explicit samplers instead."
+    },
+    {
+      "id": "pt-bzrec-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "This recorded sampler works once then fails for every other user. What is wrong?",
+      "code": "POST /api/orders/84213/confirm\nBody: {\"confirm\": true}",
+      "codeLanguage": "text",
+      "options": [
+        "The method should be GET",
+        "orderId is a value created during recording; extract it from the create-order response and use ${orderId}",
+        "The path needs a trailing slash",
+        "The port is missing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "IDs created during the recording are hard-coded. Correlate by extracting them from the response that creates them."
+    },
+    {
+      "id": "pt-bzrec-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "A recording contains requests to these hosts. Which should you exclude for a load test of your shop? Select all that apply.",
+      "options": [
+        "www.google-analytics.com",
+        "shop.example.test",
+        "fonts.gstatic.com",
+        "a.blazemeter.com"
+      ],
+      "answer": [
+        0,
+        2,
+        3
+      ],
+      "explanation": "Only the app you are authorised to test stays. Analytics, font CDNs and BlazeMeter traffic are third parties."
+    },
+    {
+      "id": "pt-bzrec-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "After correlating the CSRF token, logins still fail at 50 users but pass at 1. All users come from one CSV row because 'Recycle on EOF' is true and the CSV has 1 row. What is the real problem and fix?",
+      "options": [
+        "Token extraction is wrong; change the regex",
+        "Every thread logs in as the same user and sessions collide; provide at least as many unique accounts as concurrent users",
+        "Increase think time",
+        "Record again with cache disabled"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Concurrent logins with one account invalidate each other's sessions in many apps. Unique data per concurrent user fixes it."
+    },
+    {
+      "id": "pt-bzrec-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-chrome-recorder",
+      "prompt": "You recorded 'Top Level Requests and the Following' including images, and you also ticked 'Retrieve All Embedded Resources' in HTTP Request Defaults. Hits/s is double what you expected. Why?",
+      "options": [
+        "BlazeMeter counts each hit twice",
+        "Embedded resources are fetched both as recorded samplers and by HTML parsing",
+        "Engines retry failed requests",
+        "Ramp-up is too short"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Choose one approach. Recorded resources plus parsed resources duplicate traffic."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzrec-filter",
+      "language": "python",
+      "title": "Keep only requests to allowed hosts",
+      "difficulty": "beginner",
+      "prompt": "Recorded traffic contains third-party calls. Write `filter_requests(urls, allowed_hosts)` that returns the URLs (in original order) whose **host** (without port, case-insensitive) is in `allowed_hosts`. Ignore strings without `://`.\n\nExample: `filter_requests(['https://shop.test/a', 'https://cdn.ads.com/x.js', 'http://SHOP.test:8080/b'], ['shop.test'])` returns `['https://shop.test/a', 'http://SHOP.test:8080/b']`.",
+      "starter": "def filter_requests(urls, allowed_hosts):\n    # Your code here\n    return None\n",
+      "solution": "def filter_requests(urls, allowed_hosts):\n    kept = []\n    for url in urls:\n        if \"://\" not in url:\n            continue\n        rest = url.split(\"://\", 1)[1]\n        host = rest.split(\"/\", 1)[0].split(\":\", 1)[0].lower()\n        if host in {h.lower() for h in allowed_hosts}:\n            kept.append(url)\n    return kept\n",
+      "explanation": "Split off the scheme, take everything up to the first slash, drop the port, lower-case and compare with a lower-cased set. This mirrors what a filter pattern does before recording.",
+      "hints": [
+        "Use `url.split('://', 1)[1]` to drop the scheme.",
+        "The host ends at the first '/', and a port starts at ':'.",
+        "Lower-case both sides before comparing."
+      ],
+      "tests": [
+        {
+          "name": "Keeps allowed host and drops third parties",
+          "marks": 2,
+          "code": "r = filter_requests(['https://shop.test/a', 'https://cdn.ads.com/x.js'], ['shop.test'])\nassert r == ['https://shop.test/a'], r"
+        },
+        {
+          "name": "Ignores port and case",
+          "marks": 2,
+          "code": "r = filter_requests(['http://SHOP.test:8080/b'], ['shop.test'])\nassert r == ['http://SHOP.test:8080/b'], r"
+        },
+        {
+          "name": "Skips malformed entries and keeps order",
+          "marks": 1,
+          "code": "r = filter_requests(['nonsense', 'https://api.shop.test/1', 'https://shop.test/2'], ['shop.test', 'api.shop.test'])\nassert r == ['https://api.shop.test/1', 'https://shop.test/2'], r"
+        }
+      ]
+    },
+    {
+      "id": "code-bzrec-dynamic",
+      "language": "python",
+      "title": "Spot values that need correlation",
+      "difficulty": "intermediate",
+      "prompt": "Write `find_dynamic_values(params)` taking a dict of recorded parameter names to values and returning a **sorted list of names** whose value looks like a token: at least 20 characters, only letters, digits, `_` or `-`, and containing at least one digit **and** one letter.\n\nExample: `{'csrf': 'a8F3kd92LmQ0xYz7Pq1Rt', 'q': 'lamp', 'page': '2'}` returns `['csrf']`.",
+      "starter": "def find_dynamic_values(params):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef find_dynamic_values(params):\n    pattern = re.compile(r\"^[A-Za-z0-9_\\-]{20,}$\")\n    return sorted(name for name, value in params.items()\n                  if pattern.match(value) and any(ch.isdigit() for ch in value) and any(ch.isalpha() for ch in value))\n",
+      "explanation": "A regular expression checks length and allowed characters; the extra digit-and-letter checks avoid flagging long plain words. Real correlation still needs you to find which response produced each value.",
+      "hints": [
+        "Loop over `params.items()`.",
+        "A regex like `^[A-Za-z0-9_-]{20,}$` checks length and characters.",
+        "Also require `any(ch.isdigit() ...)` and `any(ch.isalpha() ...)`, then sort the names."
+      ],
+      "tests": [
+        {
+          "name": "Finds a token",
+          "marks": 2,
+          "code": "assert find_dynamic_values({'csrf': 'a8F3kd92LmQ0xYz7Pq1Rt', 'q': 'lamp'}) == ['csrf']"
+        },
+        {
+          "name": "Ignores long words without digits and short values",
+          "marks": 2,
+          "code": "assert find_dynamic_values({'desc': 'averyveryverylongwordonly', 'id': 'ab12'}) == []"
+        },
+        {
+          "name": "Returns several names sorted",
+          "marks": 2,
+          "code": "r = find_dynamic_values({'z_tok': 'Z' * 19 + '9', 'a_tok': 'abc-123_def-456_ghi-789', 'x': '1'})\nassert r == ['a_tok', 'z_tok'], r"
+        }
+      ]
+    }
+  ]
+}

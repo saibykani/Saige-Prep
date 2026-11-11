@@ -1,0 +1,286 @@
+{
+  "lesson": "context-engineering-and-long-context",
+  "questions": [
+    {
+      "id": "pt-ctxe-01",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "An LLM API remembers earlier conversation turns between calls without the application sending them again.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Message APIs are stateless: the app re-sends history on each call. Any memory you see in a chat product is the application's work."
+    },
+    {
+      "id": "pt-ctxe-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "With a 200,000-token context window, a 195,000-token input and max_tokens of 8,000, what is the problem?",
+      "options": [
+        "None",
+        "Input plus requested output exceeds the window, so the request is rejected or the output space is insufficient",
+        "The model will summarise automatically",
+        "Only the first 8,000 tokens are read"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Input and output share the window. 195k + 8k exceeds 200k, so you must shrink the input or the output reservation. Automatic summarisation or partial reading should not be assumed."
+    },
+    {
+      "id": "pt-ctxe-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "Which ordering is the recommended default for a long-document question?",
+      "options": [
+        "Question first, then documents",
+        "Stable instructions, then long documents, then the question at the end",
+        "Documents in random order with the question in the middle",
+        "Only the question; the model knows the documents"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stable content first helps caching, documents near the top and the question at the end is the documented long-context pattern. A question buried in the middle risks being underweighted."
+    },
+    {
+      "id": "pt-ctxe-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "Using the lesson's 4-characters-per-token estimate, what does this print?",
+      "code": "est = lambda s: max(1, len(s) // 4)\nused = est('a' * 12) + est('b' * 8)\nfor text in ['c' * 16, 'd' * 8, 'e' * 4]:\n    if used + est(text) <= 10:\n        used += est(text)\nprint(used - 4)",
+      "codeLanguage": "python",
+      "options": [
+        "3",
+        "5",
+        "6",
+        "7"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "System 'a'*12 is 3 tokens and the question 'b'*8 is 2, so used starts at 5. The 16-char chunk (4 tokens) fits: 9. The 8-char chunk (2 tokens) would make 11 > 10, so it is skipped, but the loop continues: the 4-char chunk (1 token) fits, giving 10. 10 - 4 = 6. Answering 7 assumes the second chunk was kept; 5 assumes the loop stops at the first skip."
+    },
+    {
+      "id": "pt-ctxe-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "Which changes would invalidate a cached prompt prefix that covers the system prompt and a long document? Select all that apply.",
+      "options": [
+        "Reordering the tool definitions",
+        "Editing one word in the system prompt",
+        "Changing only the final user question after the breakpoint",
+        "Inserting a request ID before the document"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "The cache matches the exact prefix up to the breakpoint, and tools come before the system prompt in the prefix. Anything after the breakpoint, such as the user's question, can change freely."
+    },
+    {
+      "id": "pt-ctxe-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "A support agent summarises chat history after 20 turns. After compaction it keeps asking customers for their order number again. What is the best fix?",
+      "options": [
+        "Disable compaction",
+        "Define what the summary must preserve (identifiers, decisions, open tasks, constraints), store key facts in structured memory, and test that they survive compaction",
+        "Make the summary shorter",
+        "Increase max_tokens"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The summary dropped a critical fact. Specify and test what compaction must keep, and keep key facts in structured memory. Disabling compaction only defers the window limit; shorter summaries lose more; max_tokens affects output length."
+    },
+    {
+      "id": "pt-ctxe-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "In Liu et al.'s lost-in-the-middle experiments, which position of the relevant document usually gave the lowest accuracy?",
+      "options": [
+        "The very beginning",
+        "The middle of the context",
+        "The very end",
+        "Position made no difference"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The paper reported a U-shaped curve: best at the start or end, worst in the middle. That is the effect the paper is named after."
+    },
+    {
+      "id": "pt-ctxe-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "A legal team has 40,000 contracts that change weekly, and each user may only see their own region's contracts. Which design fits?",
+      "options": [
+        "Put all contracts into a single million-token prompt",
+        "RAG with permission filtering at retrieval, then a long context window for the top retrieved contracts, with caching of the stable system prompt",
+        "Fine-tune a model on the contracts every week",
+        "Ask users to paste contracts manually"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The corpus is too large and changes too often to stuff into context, and permissions must be enforced before anything reaches the model. Retrieval plus a long window for the retrieved set combines both strengths. Weekly fine-tuning does not enforce permissions or give citations."
+    },
+    {
+      "id": "pt-ctxe-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "Usage data shows cache_creation_input_tokens is non-zero on every call and cache_read_input_tokens is always 0. Which is the most likely cause in this code?",
+      "code": "system = [\n  {\"type\": \"text\", \"text\": f\"Now: {datetime.now()}. You answer from the manual.\"},\n  {\"type\": \"text\", \"text\": manual, \"cache_control\": {\"type\": \"ephemeral\"}},\n]",
+      "codeLanguage": "python",
+      "options": [
+        "cache_control must be on the user message",
+        "The f-string puts the current time in the system text before the cached document, so the prefix changes every call",
+        "Prompt caching only works with PDFs",
+        "max_tokens is too low"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Any change before the breakpoint creates a new cache entry. Move variable values such as timestamps after the cached block (for example into the user message). The other options are incorrect."
+    },
+    {
+      "id": "pt-ctxe-10",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "context-engineering-and-long-context",
+      "prompt": "You must prove a model upgrade does not worsen use of long contexts in your app. Which test design is strongest?",
+      "options": [
+        "Ask the new model whether it handles long context well",
+        "A needle-and-position eval on your own documents: place known facts at several positions and context lengths, run each several times on both models, and compare accuracy per position",
+        "Run one long prompt once and compare outputs by eye",
+        "Check the context window size on the pricing page"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Controlled positions and lengths on your own data, repeated runs and a baseline comparison give measurable evidence. Self-reports, single runs and spec sheets do not measure how well context is used."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ctxe-pack",
+      "language": "python",
+      "title": "Pack chunks into a token budget",
+      "difficulty": "beginner",
+      "prompt": "Write `pack(chunks, budget)` where `chunks` is a list of `(chunk_id, score, tokens)` tuples. Consider chunks from highest score to lowest (ties: smaller `chunk_id` first) and keep each one if it still fits in the remaining budget (skip ones that do not fit, but keep trying smaller ones). Return the kept ids in the order they were added.\n\nExample: `pack([('a', 0.9, 50), ('b', 0.8, 60), ('c', 0.1, 30)], 90)` returns `['a', 'c']`.",
+      "starter": "def pack(chunks, budget):\n    return []\n",
+      "solution": "def pack(chunks, budget):\n    kept, used = [], 0\n    for cid, score, tokens in sorted(chunks, key=lambda c: (-c[1], c[0])):\n        if used + tokens <= budget:\n            kept.append(cid)\n            used += tokens\n    return kept\n",
+      "explanation": "Greedy by relevance keeps the best material and still uses leftover space for smaller chunks. Putting the highest-scoring chunks first also places them where models use context best.",
+      "hints": [
+        "Sort by `(-score, chunk_id)`.",
+        "Track tokens used; skip (do not stop) when a chunk does not fit."
+      ],
+      "tests": [
+        {
+          "name": "Skips a chunk that does not fit and keeps trying",
+          "marks": 2,
+          "code": "r = pack([('a', 0.9, 50), ('b', 0.8, 60), ('c', 0.1, 30)], 90)\nassert r == ['a', 'c'], f'got {r}'"
+        },
+        {
+          "name": "Orders by score with id tie-break",
+          "marks": 2,
+          "code": "r = pack([('z', 0.5, 10), ('y', 0.5, 10), ('x', 0.9, 10)], 100)\nassert r == ['x', 'y', 'z'], f'got {r}'"
+        },
+        {
+          "name": "Empty result when nothing fits",
+          "marks": 1,
+          "code": "assert pack([('a', 0.9, 50)], 10) == []\nassert pack([('a', 0.9, 10)], 10) == ['a'], 'a chunk exactly filling the budget should fit'"
+        }
+      ]
+    },
+    {
+      "id": "code-ctxe-compact",
+      "language": "python",
+      "title": "Rolling-summary compaction",
+      "difficulty": "intermediate",
+      "prompt": "Write `compact(history, max_tokens, keep_recent, summarise)` where `history` is a list of strings and tokens are estimated as `max(1, len(s) // 4)` per string.\n\n- If the total estimate is `<= max_tokens`, return `history` unchanged (a new list is fine).\n- Otherwise return `['SUMMARY: ' + summarise(old)] + recent`, where `recent` is the last `keep_recent` turns and `old` is everything before them.\n- If `keep_recent >= len(history)`, return the history unchanged (nothing to summarise).\n\n`summarise` is a function you receive; call it exactly once when compacting.",
+      "starter": "def compact(history, max_tokens, keep_recent, summarise):\n    return []\n",
+      "solution": "def compact(history, max_tokens, keep_recent, summarise):\n    est = lambda s: max(1, len(s) // 4)\n    if sum(est(t) for t in history) <= max_tokens or keep_recent >= len(history):\n        return list(history)\n    old = history[:len(history) - keep_recent]\n    recent = history[len(history) - keep_recent:]\n    return ['SUMMARY: ' + summarise(old)] + recent\n",
+      "explanation": "Recent turns stay verbatim because they matter most for the next reply; older turns become a summary. Slicing with `len(history) - keep_recent` also works when keep_recent is 0, where `history[-0:]` would wrongly return everything.",
+      "hints": [
+        "Compute the token estimate total first.",
+        "Split with `history[:n - k]` and `history[n - k:]` where n = len(history).",
+        "Handle `keep_recent >= len(history)` before splitting."
+      ],
+      "tests": [
+        {
+          "name": "Under budget is unchanged",
+          "marks": 1,
+          "code": "h = ['hi', 'there']\nassert compact(h, 100, 1, lambda o: 'x') == ['hi', 'there']"
+        },
+        {
+          "name": "Over budget summarises old turns",
+          "marks": 3,
+          "code": "h = ['a' * 40, 'b' * 40, 'c' * 40, 'd' * 40]\ncalls = []\ndef s(old):\n    calls.append(old)\n    return f'{len(old)} turns'\nr = compact(h, 25, 2, s)\nassert r == ['SUMMARY: 2 turns', 'c' * 40, 'd' * 40], f'got {r}'\nassert calls == [['a' * 40, 'b' * 40]], f'summarise called with {calls}'"
+        },
+        {
+          "name": "keep_recent of zero summarises everything",
+          "marks": 2,
+          "code": "h = ['a' * 40, 'b' * 40]\nr = compact(h, 5, 0, lambda o: str(len(o)))\nassert r == ['SUMMARY: 2'], f'got {r}'"
+        }
+      ]
+    },
+    {
+      "id": "code-ctxe-position",
+      "language": "python",
+      "title": "Position-sensitivity eval report",
+      "difficulty": "advanced",
+      "prompt": "You ran a needle-in-context eval. Each result is `{'position': 'start'|'middle'|'end', 'correct': bool}`. Write `position_report(results, max_gap)` returning:\n\n- `accuracy`: dict position -> accuracy rounded to 2 decimals (only positions that appear)\n- `worst`: the position with the lowest accuracy (ties: alphabetical)\n- `gap`: best accuracy minus worst accuracy, rounded to 2 decimals\n- `passed`: `True` if `gap <= max_gap`\n\nRaise `ValueError` if `results` is empty.",
+      "starter": "def position_report(results, max_gap):\n    return {}\n",
+      "solution": "def position_report(results, max_gap):\n    if not results:\n        raise ValueError('no results')\n    totals, hits = {}, {}\n    for r in results:\n        p = r['position']\n        totals[p] = totals.get(p, 0) + 1\n        hits[p] = hits.get(p, 0) + (1 if r['correct'] else 0)\n    acc = {p: round(hits[p] / totals[p], 2) for p in totals}\n    worst = sorted(acc.items(), key=lambda kv: (kv[1], kv[0]))[0][0]\n    gap = round(max(acc.values()) - acc[worst], 2)\n    return {'accuracy': acc, 'worst': worst, 'gap': gap, 'passed': gap <= max_gap}\n",
+      "explanation": "Measuring accuracy per position turns 'lost in the middle' from a paper result into a regression gate for your own model and data. The gap between best and worst position is a simple, explainable release criterion.",
+      "hints": [
+        "Count totals and correct answers per position.",
+        "Find the worst with `sorted(acc.items(), key=lambda kv: (kv[1], kv[0]))[0][0]`.",
+        "Gap is `max(acc.values()) - acc[worst]`, rounded."
+      ],
+      "tests": [
+        {
+          "name": "Detects a weak middle",
+          "marks": 3,
+          "code": "res = [{'position': 'start', 'correct': True}] * 4 + [{'position': 'middle', 'correct': True}, {'position': 'middle', 'correct': False}] * 2 + [{'position': 'end', 'correct': True}] * 3 + [{'position': 'end', 'correct': False}]\nr = position_report(res, 0.2)\nassert r.get('accuracy') == {'start': 1.0, 'middle': 0.5, 'end': 0.75}, f'got {r}'\nassert r.get('worst') == 'middle' and r.get('gap') == 0.5 and r.get('passed') is False, f'got {r}'"
+        },
+        {
+          "name": "Passes when positions are close",
+          "marks": 2,
+          "code": "res = [{'position': 'start', 'correct': True}, {'position': 'end', 'correct': True}, {'position': 'middle', 'correct': True}]\nr = position_report(res, 0.1)\nassert r.get('gap') == 0.0 and r.get('passed') is True and r.get('worst') == 'end', f'got {r}'"
+        },
+        {
+          "name": "Rejects empty results",
+          "marks": 1,
+          "code": "try:\n    position_report([], 0.1)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "lesson": "blazemeter-capstone-end-to-end",
+  "questions": [
+    {
+      "id": "pt-bzcap-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "What is the first deliverable of the capstone?",
+      "options": [
+        "The JMX",
+        "A written authorisation with target, window, approved load and stop conditions",
+        "The CI workflow",
+        "The report"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Permission and scope come before any traffic is sent."
+    },
+    {
+      "id": "pt-bzcap-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "If your app only runs on localhost, BlazeMeter cloud engines can still load-test it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Engines cannot reach your localhost. Run Taurus locally or deploy to a reachable host you control."
+    },
+    {
+      "id": "pt-bzcap-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "Why create more test accounts than peak concurrent users?",
+      "options": [
+        "BlazeMeter requires it",
+        "So no account is used by two concurrent virtual users",
+        "To make the CSV larger",
+        "To slow the test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shared accounts cause session conflicts and unrealistic caching."
+    },
+    {
+      "id": "pt-bzcap-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "A 4-step ramp to 200 users over 8 minutes adds users at the start of each step. How many users run during minutes 4 to 6?",
+      "options": [
+        "100",
+        "150",
+        "200",
+        "50"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Steps start at 0, 2, 4, 6 minutes with 50, 100, 150, 200 users. From minute 4 to 6, 150 users."
+    },
+    {
+      "id": "pt-bzcap-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "In the cloud run, p90 for search rises sharply at 120 users while engine CPU stays at 30%. What is the finding?",
+      "options": [
+        "Engines are the bottleneck",
+        "The app (search path) saturates around 120 users; investigate it with server-side evidence",
+        "The test is invalid",
+        "Add locations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Healthy engines make the result valid; the knee points to the application. Confirm with app logs or metrics."
+    },
+    {
+      "id": "pt-bzcap-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "Which belong in the committed perf/ folder? Select all that apply.",
+      "options": [
+        "shop.jmx and users.csv with test-only accounts",
+        "load.yml and smoke.yml",
+        "~/.bzt-rc with your token",
+        "REPORT.md"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Test code, data for test accounts and the report belong in the repo. Token files never do."
+    },
+    {
+      "id": "pt-bzcap-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "Halfway through your agreed 20-minute run, the error rate hits 35% and your stop condition is 20%. Criteria are 'continue as failed'. What do you do?",
+      "options": [
+        "Let it finish; criteria will mark it failed",
+        "Stop the test now, as your written stop conditions require, then investigate",
+        "Add more users to confirm",
+        "Switch locations mid-run"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stop conditions protect the system and are part of your authorisation. Criteria settings do not override them."
+    },
+    {
+      "id": "pt-bzcap-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-capstone-end-to-end",
+      "prompt": "Local Taurus at 10 users gives p90 120 ms; cloud at 10 users from a distant region gives p90 380 ms with higher connect time. Which statement belongs in your report?",
+      "options": [
+        "The cloud is broken",
+        "The difference is mostly network distance; report both with location, compare connect time and choose the location that matches real users",
+        "Use only the local number",
+        "Average the two"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Different paths explain the gap. Being explicit about location and evidence makes the report defensible."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzcap-ramp",
+      "language": "python",
+      "title": "Build a stepped ramp-up schedule",
+      "difficulty": "beginner",
+      "prompt": "Write `ramp_schedule(target_users, ramp_seconds, steps)` returning a list of `(start_second, users)` tuples: step `i` (1-based) starts at `round(ramp_seconds * (i-1) / steps)` with `round(target_users * i / steps)` users.\n\nExample: `ramp_schedule(200, 480, 4)` returns `[(0, 50), (120, 100), (240, 150), (360, 200)]`.",
+      "starter": "def ramp_schedule(target_users, ramp_seconds, steps):\n    # Your code here\n    return []\n",
+      "solution": "def ramp_schedule(target_users, ramp_seconds, steps):\n    out = []\n    for i in range(1, steps + 1):\n        out.append((round(ramp_seconds * (i - 1) / steps), round(target_users * i / steps)))\n    return out\n",
+      "explanation": "Each step adds an equal share of users at evenly spaced start times; the last step reaches the target. This matches how stepped ramp-ups are planned in BlazeMeter or Taurus steps.",
+      "hints": [
+        "Loop `for i in range(1, steps + 1)`.",
+        "Start time uses `i - 1`, users use `i`."
+      ],
+      "tests": [
+        {
+          "name": "Four steps",
+          "marks": 2,
+          "code": "assert ramp_schedule(200, 480, 4) == [(0, 50), (120, 100), (240, 150), (360, 200)]"
+        },
+        {
+          "name": "Single step",
+          "marks": 1,
+          "code": "assert ramp_schedule(30, 60, 1) == [(0, 30)]"
+        },
+        {
+          "name": "Rounding",
+          "marks": 2,
+          "code": "assert ramp_schedule(10, 100, 3) == [(0, 3), (33, 7), (67, 10)]"
+        }
+      ]
+    },
+    {
+      "id": "code-bzcap-steady",
+      "language": "python",
+      "title": "Keep only steady-state points",
+      "difficulty": "intermediate",
+      "prompt": "Write `steady_state(points, ramp_end_s, ramp_down_start_s=None)` that keeps `(t, value)` points with `t >= ramp_end_s` and, if given, `t < ramp_down_start_s`.\n\nExample: `steady_state([(0, 5), (300, 9), (600, 9), (900, 2)], 300, 900)` returns `[(300, 9), (600, 9)]`.",
+      "starter": "def steady_state(points, ramp_end_s, ramp_down_start_s=None):\n    # Your code here\n    return None\n",
+      "solution": "def steady_state(points, ramp_end_s, ramp_down_start_s=None):\n    return [(t, v) for t, v in points if t >= ramp_end_s and (ramp_down_start_s is None or t < ramp_down_start_s)]\n",
+      "explanation": "Analysing only steady state avoids mixing ramp-up and ramp-down behaviour into your percentiles.",
+      "hints": [
+        "Use a list comprehension.",
+        "Handle `None` for the optional end."
+      ],
+      "tests": [
+        {
+          "name": "Both bounds",
+          "marks": 2,
+          "code": "assert steady_state([(0, 5), (300, 9), (600, 9), (900, 2)], 300, 900) == [(300, 9), (600, 9)]"
+        },
+        {
+          "name": "No end bound",
+          "marks": 2,
+          "code": "assert steady_state([(0, 1), (10, 2), (20, 3)], 10) == [(10, 2), (20, 3)]"
+        }
+      ]
+    },
+    {
+      "id": "code-bzcap-verdict",
+      "language": "python",
+      "title": "Compute the run verdict",
+      "difficulty": "advanced",
+      "prompt": "Write `verdict(samples, max_p90_ms, max_error_pct)` where samples are `(elapsed_ms, success)` tuples. Return `{'p90': x, 'error_pct': e, 'passed': bool}` using nearest-rank p90 (`ceil(0.9 * n) - 1` on sorted times) and error % rounded to 2 decimals. Pass means `p90 <= max_p90_ms` **and** `error_pct <= max_error_pct`. For no samples return `{'p90': None, 'error_pct': None, 'passed': False}` (no evidence is not a pass).",
+      "starter": "def verdict(samples, max_p90_ms, max_error_pct):\n    # Your code here\n    return {}\n",
+      "solution": "import math\n\ndef verdict(samples, max_p90_ms, max_error_pct):\n    if not samples:\n        return {\"p90\": None, \"error_pct\": None, \"passed\": False}\n    times = sorted(ms for ms, _ in samples)\n    p90 = times[math.ceil(0.9 * len(times)) - 1]\n    err = round(sum(1 for _, ok in samples if not ok) * 100 / len(samples), 2)\n    return {\"p90\": p90, \"error_pct\": err, \"passed\": p90 <= max_p90_ms and err <= max_error_pct}\n",
+      "explanation": "The verdict combines a latency percentile and an error budget; both must hold. Treating an empty run as failed avoids a green build when the test did not actually run.",
+      "hints": [
+        "Sort the times first.",
+        "Use `math.ceil(0.9 * n) - 1` as the index.",
+        "Handle the empty list before anything else."
+      ],
+      "tests": [
+        {
+          "name": "Passes",
+          "marks": 3,
+          "code": "s = [(ms, True) for ms in range(100, 1001, 100)]\nassert verdict(s, 900, 1) == {'p90': 900, 'error_pct': 0.0, 'passed': True}"
+        },
+        {
+          "name": "Fails on errors",
+          "marks": 3,
+          "code": "s = [(100, True)] * 98 + [(100, False)] * 2\nassert verdict(s, 800, 1) == {'p90': 100, 'error_pct': 2.0, 'passed': False}"
+        },
+        {
+          "name": "Empty run fails",
+          "marks": 2,
+          "code": "assert verdict([], 800, 1) == {'p90': None, 'error_pct': None, 'passed': False}"
+        }
+      ]
+    }
+  ]
+}

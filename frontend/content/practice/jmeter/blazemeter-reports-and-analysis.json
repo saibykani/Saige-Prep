@@ -1,0 +1,215 @@
+{
+  "lesson": "blazemeter-reports-and-analysis",
+  "questions": [
+    {
+      "id": "pt-bzrep-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Which report lets you group errors by response code or assertion name?",
+      "options": [
+        "Timeline",
+        "Errors",
+        "Engine Health",
+        "Summary"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Errors tab groups by label, response code or assertion name and can show first unique error bodies."
+    },
+    {
+      "id": "pt-bzrep-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "In BlazeMeter, latency is measured to the last byte of the response.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Latency is to the first byte received; response time is to the last byte. Connect time covers establishing the connection, including DNS and TLS."
+    },
+    {
+      "id": "pt-bzrep-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "What does the 90% line in Request Stats mean?",
+      "options": [
+        "90% of samples were at or below this time",
+        "The average of the slowest 10%",
+        "90% of samples failed",
+        "Time at 90% of the test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It is the 90th percentile: 90% of samples were smaller than or equal to it."
+    },
+    {
+      "id": "pt-bzrep-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Which option makes BlazeMeter evaluate failure criteria during the run every 10 seconds over 60-second windows?",
+      "options": [
+        "Ignore during ramp-up",
+        "1-min slide window eval",
+        "Use from baseline",
+        "Stop Test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The sliding window option evaluates during the run. Stop Test depends on it; baseline and ramp-up options change thresholds and timing."
+    },
+    {
+      "id": "pt-bzrep-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Errors are 6% overall, but grouping by label shows 100% of them are 404 on 'favicon' embedded resources. What is the correct conclusion?",
+      "options": [
+        "The app fails 6% of transactions",
+        "A missing static resource inflates errors; fix or exclude it, then re-assess business transactions",
+        "Engines are overloaded",
+        "Raise the error criterion to 10%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Grouping reveals one harmless-but-broken resource. Raising thresholds would hide future real errors."
+    },
+    {
+      "id": "pt-bzrep-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Which checks show a run is valid before you analyse latency? Select all that apply.",
+      "options": [
+        "Engine CPU and memory within limits",
+        "Max Users close to the plan",
+        "No setup errors in Logs",
+        "Average response time under 1 s"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Validity concerns whether the test ran as designed. The response time is a result, not a validity check."
+    },
+    {
+      "id": "pt-bzrep-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Baseline p90 for Search was 400 ms. Today it is 430 ms with a baseline criterion 'p90 > baseline + 10%'. A teammate says the run should fail. Is that right?",
+      "options": [
+        "Yes, 430 > 400",
+        "No, the threshold is 440 ms, so it passes",
+        "Yes, any increase fails",
+        "Cannot tell without averages"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Baseline plus 10% is 440 ms. 430 ms is within the tolerated offset."
+    },
+    {
+      "id": "pt-bzrep-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "blazemeter-reports-and-analysis",
+      "prompt": "Summary shows average throughput 50 hits/s, but you designed 200 users each doing one request every 2 seconds (100 hits/s expected). Response times are low and engines healthy. What should you investigate first?",
+      "options": [
+        "The app is too slow",
+        "Whether users were all active (Max Users), the pacing/think time actually configured, and any RPS limit",
+        "Network errors",
+        "Report rounding"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Low response times rule out saturation. A configuration difference (fewer active users, longer timers or a cap) explains lower throughput."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bzrep-stats",
+      "language": "python",
+      "title": "Per-label p90, p95 and error %",
+      "difficulty": "intermediate",
+      "prompt": "Given sample rows `(label, elapsed_ms, success)`, write `label_stats(rows)` returning `{label: {'samples': n, 'p90': x, 'p95': y, 'error_pct': e}}`.\n\n- Percentiles use **nearest rank**: sort times, take index `ceil(p/100 * n) - 1`.\n- `error_pct` is failures / samples * 100, rounded to 2 decimals.\n\nExample: 10 Login samples 100..1000 ms with one failure gives `p90 = 900`, `p95 = 1000`, `error_pct = 10.0`.",
+      "starter": "def label_stats(rows):\n    # Your code here\n    return {}\n",
+      "solution": "import math\n\ndef label_stats(rows):\n    by = {}\n    for label, ms, ok in rows:\n        by.setdefault(label, []).append((ms, ok))\n    out = {}\n    for label, items in by.items():\n        times = sorted(ms for ms, _ in items)\n        n = len(times)\n        def pct(p):\n            return times[max(0, math.ceil(p / 100 * n) - 1)]\n        errors = sum(1 for _, ok in items if not ok)\n        out[label] = {\"samples\": n, \"p90\": pct(90), \"p95\": pct(95), \"error_pct\": round(errors * 100 / n, 2)}\n    return out\n",
+      "explanation": "Group rows by label, sort each group's times, and use the nearest-rank formula. Counting failures per label shows which transaction drives the error rate, just like Request Stats.",
+      "hints": [
+        "Group with a dict of lists.",
+        "Nearest rank index is `math.ceil(p / 100 * n) - 1`.",
+        "Round error percentage with `round(x, 2)`."
+      ],
+      "tests": [
+        {
+          "name": "Ten samples",
+          "marks": 4,
+          "code": "rows = [('Login', ms, ms != 500) for ms in range(100, 1001, 100)]\nr = label_stats(rows)['Login']\nassert r == {'samples': 10, 'p90': 900, 'p95': 1000, 'error_pct': 10.0}, r"
+        },
+        {
+          "name": "Separate labels",
+          "marks": 3,
+          "code": "rows = [('A', 10, True), ('B', 50, False), ('A', 30, True), ('B', 70, True)]\nr = label_stats(rows)\nassert r['A']['p90'] == 30 and r['B']['error_pct'] == 50.0 and r['A']['samples'] == 2, r"
+        },
+        {
+          "name": "Single sample",
+          "marks": 2,
+          "code": "r = label_stats([('X', 42, True)])['X']\nassert r == {'samples': 1, 'p90': 42, 'p95': 42, 'error_pct': 0.0}, r"
+        }
+      ]
+    },
+    {
+      "id": "code-bzrep-baseline",
+      "language": "python",
+      "title": "Flag regressions against a baseline",
+      "difficulty": "beginner",
+      "prompt": "Write `compare_to_baseline(current, baseline, tolerance_pct)` where both are dicts of label to p90 ms. Return a **sorted list** of labels whose current value is greater than `baseline * (1 + tolerance_pct/100)`. Ignore labels missing from the baseline.\n\nExample: `compare_to_baseline({'Search': 450, 'Home': 200}, {'Search': 400, 'Home': 210}, 10)` returns `['Search']`.",
+      "starter": "def compare_to_baseline(current, baseline, tolerance_pct):\n    # Your code here\n    return None\n",
+      "solution": "def compare_to_baseline(current, baseline, tolerance_pct):\n    regressed = []\n    for label, value in current.items():\n        if label in baseline and value > baseline[label] * (1 + tolerance_pct / 100):\n            regressed.append(label)\n    return sorted(regressed)\n",
+      "explanation": "This is what a baseline-based criterion with an offset does: it tolerates small noise and flags only meaningful degradation.",
+      "hints": [
+        "Loop over `current.items()`.",
+        "Skip labels not in baseline.",
+        "Threshold is `baseline[label] * (1 + tolerance_pct / 100)`."
+      ],
+      "tests": [
+        {
+          "name": "Flags above tolerance",
+          "marks": 2,
+          "code": "assert compare_to_baseline({'Search': 450, 'Home': 200}, {'Search': 400, 'Home': 210}, 10) == ['Search']"
+        },
+        {
+          "name": "Within tolerance passes",
+          "marks": 2,
+          "code": "assert compare_to_baseline({'Search': 430}, {'Search': 400}, 10) == []"
+        },
+        {
+          "name": "Sorted and ignores new labels",
+          "marks": 1,
+          "code": "assert compare_to_baseline({'b': 300, 'a': 300, 'new': 999}, {'a': 100, 'b': 100}, 5) == ['a', 'b']"
+        }
+      ]
+    }
+  ]
+}

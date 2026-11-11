@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <div className="animate-fade-in">
       <HubHero
-        tone="emerald"
+        tone="moss"
         title="Real-World Projects"
         subtitle="Guided portfolio projects that prove you can do the job: build them, push them to GitHub and talk through them in interviews."
         stats={[

@@ -1,0 +1,289 @@
+{
+  "lesson": "generative-ai-fundamentals",
+  "questions": [
+    {
+      "id": "pt-gaf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "A model that outputs P(next token | previous tokens) and is used to write new text is best described as:",
+      "options": [
+        "A discriminative classifier",
+        "A generative autoregressive model",
+        "A clustering algorithm",
+        "A rule-based system"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Predicting the next token and sampling repeatedly to create text is autoregressive generation. A discriminative classifier maps inputs to labels; clustering groups data without generating it; rule-based systems do not learn distributions."
+    },
+    {
+      "id": "pt-gaf-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "A base model straight out of pretraining reliably follows instructions like an assistant.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Pretraining only teaches next-token prediction, so a base model tends to continue text. Assistant behaviour comes from instruction tuning and preference training."
+    },
+    {
+      "id": "pt-gaf-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "Which statement about an LLM's knowledge cutoff is correct?",
+      "options": [
+        "The model automatically browses the web for recent events",
+        "The model's built-in knowledge stops at its training data, so recent facts must be supplied in the prompt or via tools",
+        "The cutoff only affects code questions",
+        "A larger context window removes the cutoff"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Training data ends at some date. Recent facts must come from retrieval, the prompt or tools. A bigger window lets you supply more facts but does not change what the model learned."
+    },
+    {
+      "id": "pt-gaf-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "Temperature divides the logits before softmax. With logits [2.0, 1.0] and temperature 0.5, which token gets more probability than it would at temperature 1.0?",
+      "code": "import math\nlogits = [2.0, 1.0]\nfor T in (1.0, 0.5):\n    e = [math.exp(l / T) for l in logits]\n    print(T, [round(x / sum(e), 2) for x in e])",
+      "codeLanguage": "python",
+      "options": [
+        "The first token (logit 2.0)",
+        "The second token (logit 1.0)",
+        "Both stay the same",
+        "Neither, probabilities become equal"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Dividing by 0.5 doubles the gap between logits (4 vs 2), so softmax becomes sharper and the already-likely first token gains probability. Higher temperature would flatten it instead; equal probabilities only happen as temperature goes to infinity."
+    },
+    {
+      "id": "pt-gaf-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "Which are true of Constitutional AI as described by Bai et al. (2022)? Select all that apply.",
+      "options": [
+        "The model critiques and revises its own outputs against written principles",
+        "AI feedback guided by the principles is used for preference training",
+        "It removes the need for any pretraining",
+        "It is a way to reduce reliance on human labels for harmlessness"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Constitutional AI uses a set of principles for self-critique and revision and for AI-generated preference labels (RLAIF), reducing the need for human harmlessness labels. It is applied to a pretrained model; it does not replace pretraining."
+    },
+    {
+      "id": "pt-gaf-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "A test asserts that the LLM's summary of a fixed ticket equals a stored string. It fails about half the time. What is the best fix?",
+      "options": [
+        "Retry until it passes",
+        "Assert on properties instead: required facts present, length limit, valid format, no invented ticket IDs, and evaluate over several runs",
+        "Pin temperature to 0 on every model",
+        "Delete the test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Generation is sampled, so exact-match assertions are brittle. Property-based and rubric checks over multiple runs test what matters. Retrying hides real failures; temperature 0 is not accepted by current Claude models and is not fully deterministic elsewhere either; deleting removes coverage."
+    },
+    {
+      "id": "pt-gaf-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "What best describes an 'open-weight' model?",
+      "options": [
+        "Any model whose API is free",
+        "A model whose trained weights can be downloaded and run, under a licence that may restrict use and may not include training data",
+        "A model trained only on public domain data",
+        "A model with no safety training"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Open-weight means the weights are published. Licences vary and training data or code are often not released, which is why 'open source' can be misleading. Price, data provenance and safety training are separate questions."
+    },
+    {
+      "id": "pt-gaf-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "This call to a current Claude model fails with a 400 error. What is the most likely cause?",
+      "code": "resp = client.messages.create(\n    model=\"claude-sonnet-5-5\",\n    max_tokens=200,\n    temperature=0.2,\n    messages=[{\"role\": \"user\", \"content\": \"Summarise this bug\"}],\n)",
+      "codeLanguage": "python",
+      "options": [
+        "max_tokens is too small",
+        "Current Claude models reject non-default temperature, so the parameter must be removed",
+        "The model name must be uppercase",
+        "messages must be a tuple"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Current Claude models reject non-default sampling parameters such as temperature, top_p and top_k. max_tokens of 200 is valid, model names are lowercase, and messages is a list."
+    },
+    {
+      "id": "pt-gaf-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "A product owner wants an LLM to calculate exact insurance premiums from a rate table and answer customers. As the tester, what design do you recommend?",
+      "options": [
+        "Let the LLM compute premiums from memory of typical rates",
+        "Compute premiums in deterministic code from the real rate table; let the LLM explain the result, grounded in that output, and test the calculation with normal unit tests",
+        "Use a larger model so arithmetic is always right",
+        "Ask the LLM twice and average the answers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Exact calculations belong in deterministic code that can be unit-tested; the LLM adds value in explanation. Memory-based rates would hallucinate; larger models still make arithmetic and recall errors; averaging two guesses is still a guess."
+    },
+    {
+      "id": "pt-gaf-10",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "generative-ai-fundamentals",
+      "prompt": "You are building an eval to measure hallucination in a policy Q&A bot. Which items should it include? Select all that apply.",
+      "options": [
+        "Questions whose answers are in the policy, with expected source clauses",
+        "Questions the policy cannot answer, where the correct behaviour is to abstain",
+        "Questions with a false premise, e.g. asking about a benefit that does not exist",
+        "Only questions copied from the marketing FAQ"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Answerable questions measure grounding, unanswerable ones measure abstention, and false-premise questions catch the model agreeing with invented facts. A marketing FAQ alone is too narrow and likely too easy."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-gaf-softmax-temp",
+      "language": "python",
+      "title": "Softmax with temperature",
+      "difficulty": "beginner",
+      "prompt": "Write `softmax_t(logits, temperature)` that returns a list of probabilities: divide every logit by `temperature`, subtract the max for numerical stability, exponentiate and normalise so they sum to 1. Raise `ValueError` if `temperature <= 0`.\n\nExample: `softmax_t([1.0, 1.0], 1.0)` returns `[0.5, 0.5]`.",
+      "starter": "import math\n\ndef softmax_t(logits, temperature):\n    return []\n",
+      "solution": "import math\n\ndef softmax_t(logits, temperature):\n    if temperature <= 0:\n        raise ValueError('temperature must be positive')\n    scaled = [l / temperature for l in logits]\n    m = max(scaled)\n    exps = [math.exp(s - m) for s in scaled]\n    total = sum(exps)\n    return [e / total for e in exps]\n",
+      "explanation": "Dividing by temperature scales the gaps between logits; subtracting the max avoids overflow without changing the result because softmax is shift-invariant. Low temperature sharpens, high temperature flattens.",
+      "hints": [
+        "Scale first: `[l / temperature for l in logits]`.",
+        "Subtract `max(scaled)` before `math.exp` so large logits do not overflow.",
+        "Divide each exp by their sum; check `temperature <= 0` first and raise."
+      ],
+      "tests": [
+        {
+          "name": "Equal logits give equal probabilities",
+          "marks": 2,
+          "code": "p = softmax_t([1.0, 1.0], 1.0)\nassert len(p) == 2 and abs(p[0] - 0.5) < 1e-9 and abs(sum(p) - 1) < 1e-9, f'got {p}'"
+        },
+        {
+          "name": "Low temperature sharpens",
+          "marks": 2,
+          "code": "a = softmax_t([2.0, 1.0], 1.0)\nb = softmax_t([2.0, 1.0], 0.5)\nassert len(a) == 2 and b[0] > a[0] > 0.5, f'{a} {b}'\nassert abs(a[0] - 0.7310585786) < 1e-6, f'got {a[0]}'"
+        },
+        {
+          "name": "Stable for large logits and rejects bad temperature",
+          "marks": 2,
+          "code": "p = softmax_t([1000.0, 1000.0], 1.0)\nassert len(p) == 2 and abs(p[0] - 0.5) < 1e-9, f'got {p}'\ntry:\n    softmax_t([1.0], 0)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    },
+    {
+      "id": "code-gaf-topp",
+      "language": "python",
+      "title": "Top-p (nucleus) filtering",
+      "difficulty": "intermediate",
+      "prompt": "Write `top_p_filter(probs, p)` where `probs` is a dict `{token: probability}`. Sort tokens by probability (highest first, ties broken alphabetically) and keep the smallest prefix whose cumulative probability is **at least** `p`. Return a new dict of the kept tokens with probabilities **renormalised** to sum to 1.\n\nExample: `top_p_filter({'a': 0.5, 'b': 0.3, 'c': 0.2}, 0.7)` keeps `a` and `b` and returns `{'a': 0.625, 'b': 0.375}`.",
+      "starter": "def top_p_filter(probs, p):\n    return {}\n",
+      "solution": "def top_p_filter(probs, p):\n    ordered = sorted(probs.items(), key=lambda kv: (-kv[1], kv[0]))\n    kept, cum = [], 0.0\n    for tok, pr in ordered:\n        kept.append((tok, pr))\n        cum += pr\n        if cum >= p - 1e-12:\n            break\n    total = sum(pr for _, pr in kept)\n    return {tok: pr / total for tok, pr in kept}\n",
+      "explanation": "Nucleus sampling keeps the most likely tokens until their total mass reaches p, which adapts the candidate set size to how confident the model is. Renormalising turns the kept mass back into a distribution to sample from. A small epsilon guards against floating-point sums like 0.7999999.",
+      "hints": [
+        "Sort with `key=lambda kv: (-kv[1], kv[0])`.",
+        "Accumulate probabilities and stop as soon as the running total reaches p.",
+        "Divide each kept probability by the kept total."
+      ],
+      "tests": [
+        {
+          "name": "Keeps the nucleus and renormalises",
+          "marks": 3,
+          "code": "r = top_p_filter({'a': 0.5, 'b': 0.3, 'c': 0.2}, 0.7)\nassert set(r) == {'a', 'b'}, f'got {r}'\nassert abs(r['a'] - 0.625) < 1e-9 and abs(r['b'] - 0.375) < 1e-9, f'got {r}'"
+        },
+        {
+          "name": "A confident token alone can satisfy p",
+          "marks": 2,
+          "code": "r = top_p_filter({'x': 0.95, 'y': 0.05}, 0.9)\nassert r == {'x': 1.0}, f'got {r}'"
+        },
+        {
+          "name": "Exact boundary and p=1 keep enough tokens",
+          "marks": 2,
+          "code": "r = top_p_filter({'a': 0.5, 'b': 0.3, 'c': 0.2}, 0.8)\nassert set(r) == {'a', 'b'}, f'cumulative 0.8 reaches p=0.8, got {r}'\nr = top_p_filter({'b': 0.25, 'a': 0.25, 'c': 0.5}, 1.0)\nassert set(r) == {'a', 'b', 'c'} and abs(sum(r.values()) - 1) < 1e-9, f'got {r}'"
+        }
+      ]
+    },
+    {
+      "id": "code-gaf-bigram",
+      "language": "python",
+      "title": "Greedy generation from a bigram model",
+      "difficulty": "advanced",
+      "prompt": "Write `greedy_generate(corpus, start, max_tokens)`:\n\n1. Split `corpus` on whitespace and count, for every token, which tokens follow it.\n2. Starting from `start`, repeatedly append the most frequent follower (ties broken alphabetically).\n3. Stop after appending `max_tokens` tokens, when the token `.` is appended, or when the current token has no followers.\n\nReturn the generated text joined with spaces, including `start`.\n\nExample: with corpus `\"the test passed . the test failed . the test passed .\"`, `greedy_generate(corpus, 'the', 5)` returns `\"the test passed .\"`.",
+      "starter": "from collections import Counter, defaultdict\n\ndef greedy_generate(corpus, start, max_tokens):\n    return ''\n",
+      "solution": "from collections import Counter, defaultdict\n\ndef greedy_generate(corpus, start, max_tokens):\n    toks = corpus.split()\n    follows = defaultdict(Counter)\n    for a, b in zip(toks, toks[1:]):\n        follows[a][b] += 1\n    out = [start]\n    for _ in range(max_tokens):\n        options = follows.get(out[-1])\n        if not options:\n            break\n        nxt = sorted(options.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]\n        out.append(nxt)\n        if nxt == '.':\n            break\n    return ' '.join(out)\n",
+      "explanation": "This is the autoregressive loop in miniature: build a next-token distribution from counts, pick greedily, append and repeat until a stop condition. Real LLMs replace the count table with a transformer and usually sample instead of always taking the maximum.",
+      "hints": [
+        "Use `zip(toks, toks[1:])` to get (previous, next) pairs and a `defaultdict(Counter)`.",
+        "Pick the follower with `sorted(c.items(), key=lambda kv: (-kv[1], kv[0]))[0][0]`.",
+        "Check the three stop conditions inside the loop: no followers, appended '.', or max_tokens reached."
+      ],
+      "tests": [
+        {
+          "name": "Follows the most frequent path",
+          "marks": 3,
+          "code": "c = 'the test passed . the test failed . the test passed .'\nr = greedy_generate(c, 'the', 5)\nassert r == 'the test passed .', f'got {r!r}'"
+        },
+        {
+          "name": "Breaks ties alphabetically and respects max_tokens",
+          "marks": 2,
+          "code": "c = 'a b . a c .'\nassert greedy_generate(c, 'a', 1) == 'a b', greedy_generate(c, 'a', 1)\nassert greedy_generate(c, 'a', 5) == 'a b .', greedy_generate(c, 'a', 5)"
+        },
+        {
+          "name": "Stops when the token has no followers",
+          "marks": 2,
+          "code": "r = greedy_generate('x y z', 'z', 3)\nassert r == 'z', f'got {r!r}'\nr = greedy_generate('x y z', 'x', 5)\nassert r == 'x y z', f'got {r!r}'"
+        }
+      ]
+    }
+  ]
+}

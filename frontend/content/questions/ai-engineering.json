@@ -316,6 +316,227 @@
       "options": ["Unequal tuning effort can make the improvement look larger than it is", "Baselines should never be tuned", "Older papers are always wrong", "There is no concern"],
       "answer": [0],
       "explanation": "Fair comparisons give baselines comparable tuning budgets. Many reported gains shrink when the baseline is properly tuned."
+    },
+    {
+      "id": "aieq-045", "type": "single", "topic": "generative-ai-fundamentals", "difficulty": "beginner",
+      "prompt": "What does a large language model actually generate at each step?",
+      "options": ["A whole sentence chosen from a database", "A probability distribution over the next token, from which one token is selected", "The single correct answer retrieved from its training data", "A search query sent to the web"],
+      "answer": [1],
+      "explanation": "LLMs are autoregressive: at each step they produce a distribution over the vocabulary and a token is selected, then appended to the input for the next step."
+    },
+    {
+      "id": "aieq-046", "type": "truefalse", "topic": "generative-ai-fundamentals", "difficulty": "beginner",
+      "prompt": "On every current model you can rely on setting temperature to 0 to make outputs identical across runs.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Some current models only accept their default sampling settings, and even where temperature can be lowered, infrastructure effects and model updates can still change outputs. Tests should tolerate variation."
+    },
+    {
+      "id": "aieq-047", "type": "single", "topic": "diffusion-and-image-generation", "difficulty": "intermediate",
+      "prompt": "How does a diffusion model generate an image?",
+      "options": ["By copying the closest image in its training set", "By starting from noise and repeatedly denoising it, guided by the conditioning such as a text prompt", "By predicting pixels left to right like text tokens", "By searching a vector database of images"],
+      "answer": [1],
+      "explanation": "Diffusion models learn to reverse a noising process. Generation starts from random noise and applies learned denoising steps, typically conditioned on a text embedding."
+    },
+    {
+      "id": "aieq-048", "type": "multiple", "topic": "multimodal-models", "difficulty": "intermediate",
+      "prompt": "Which checks are relevant when testing a feature that answers questions about uploaded images? Select all that apply.",
+      "options": ["Images with small text, rotations and low resolution", "Images containing written instructions that try to change the assistant's behaviour", "Only checking that the response is valid UTF-8", "Questions whose answers are not visible in the image"],
+      "answer": [0, 1, 3],
+      "explanation": "Multimodal inputs need robustness cases, prompt injection through text in images, and abstention when the answer is not present. Encoding checks alone say nothing about answer quality."
+    },
+    {
+      "id": "aieq-049", "type": "scenario", "topic": "context-engineering-and-long-context", "difficulty": "intermediate",
+      "prompt": "An agent's answers degrade on long tasks and costs keep rising. Logs show the full conversation and every tool result are resent at each step. What is the best first change?",
+      "options": ["Switch to a model with a larger context window and change nothing else", "Summarise or prune older history and large tool results, keeping what the next step needs", "Remove the system prompt to save tokens", "Raise the maximum output tokens"],
+      "answer": [1],
+      "explanation": "Context engineering means deciding what the model needs at each step. Pruning and summarising reduces cost and noise; a bigger window alone keeps paying for irrelevant context."
+    },
+    {
+      "id": "aieq-050", "type": "single", "topic": "vector-databases-deep-dive", "difficulty": "intermediate",
+      "prompt": "What does HNSW provide in a vector database?",
+      "options": ["Exact nearest neighbour search with guaranteed perfect recall", "An approximate nearest neighbour index using a layered proximity graph", "A lexical keyword index", "A compression method for storing documents"],
+      "answer": [1],
+      "explanation": "HNSW (Hierarchical Navigable Small World) is a graph-based approximate nearest neighbour index. It trades a small amount of recall for much faster search than brute force on large collections."
+    },
+    {
+      "id": "aieq-051", "type": "scenario", "topic": "vector-databases-deep-dive", "difficulty": "advanced",
+      "prompt": "After lowering the HNSW query-time ef (search breadth) parameter, latency halves. What should you check before shipping?",
+      "options": ["Nothing, faster is always better", "Recall at k against exact brute-force results on a representative query set", "Only that the index still loads", "That the embedding dimension changed"],
+      "answer": [1],
+      "explanation": "Lowering ef narrows the search and usually reduces recall. Compare against exact search on representative queries to see whether the speed-up costs relevant results."
+    },
+    {
+      "id": "aieq-052", "type": "truefalse", "topic": "vector-databases-deep-dive", "difficulty": "intermediate",
+      "prompt": "If you change the embedding model, existing vectors in the index can be reused with the new query embeddings.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Different embedding models produce vectors in different spaces, often with different dimensions. Documents must be re-embedded with the same model used for queries."
+    },
+    {
+      "id": "aieq-053", "type": "single", "topic": "chunking-strategies", "difficulty": "intermediate",
+      "prompt": "Why can very small chunks hurt a RAG system?",
+      "options": ["They always exceed the context window", "They can separate an answer from the context needed to interpret it, such as headings or definitions", "Vector databases cannot store them", "They make BM25 unusable"],
+      "answer": [1],
+      "explanation": "Tiny chunks lose surrounding meaning. Structure-aware splitting, overlap or attaching headings and parent context help keep chunks self-contained."
+    },
+    {
+      "id": "aieq-054", "type": "single", "topic": "hybrid-search-and-bm25", "difficulty": "intermediate",
+      "prompt": "Which query is most likely to benefit from adding BM25 to vector search?",
+      "options": ["'How do I feel less stressed at work?'", "'Error code E4021 on checkout'", "'Summarise our company values'", "'What is a good team culture?'"],
+      "answer": [1],
+      "explanation": "Exact identifiers like error codes are matched well by lexical search, while embeddings may not distinguish them reliably. Paraphrase-heavy questions are where dense retrieval shines."
+    },
+    {
+      "id": "aieq-055", "type": "code-output", "topic": "hybrid-search-and-bm25", "difficulty": "intermediate",
+      "prompt": "Using reciprocal rank fusion with k = 60, what does this code print for document B?",
+      "code": "vector_ranking = ['B', 'A', 'C']\nbm25_ranking   = ['A', 'B', 'D']\nk = 60\nscore = sum(1 / (k + r.index('B') + 1) for r in [vector_ranking, bm25_ranking])\nprint(f\"{score:.4f}\")\n",
+      "codeLanguage": "python",
+      "options": ["0.0325", "0.0328", "0.0164", "0.0161"],
+      "answer": [0],
+      "explanation": "RRF sums 1/(k + rank) over the ranked lists. B is rank 1 in the vector list (1/61, about 0.01639) and rank 2 in the BM25 list (1/62, about 0.01613), totalling about 0.0325."
+    },
+    {
+      "id": "aieq-056", "type": "single", "topic": "reranking-and-cross-encoders", "difficulty": "intermediate",
+      "prompt": "How does a cross-encoder reranker differ from the bi-encoder used for first-stage vector search?",
+      "options": ["It embeds documents once in advance so it is faster", "It processes the query and each candidate together, which is usually more accurate but too slow to run over the whole collection", "It only works with BM25", "It generates the final answer"],
+      "answer": [1],
+      "explanation": "Bi-encoders embed query and documents separately so documents can be indexed ahead of time. Cross-encoders score each pair jointly, so they are used on a short candidate list."
+    },
+    {
+      "id": "aieq-057", "type": "truefalse", "topic": "reranking-and-cross-encoders", "difficulty": "beginner",
+      "prompt": "A reranker can recover a relevant document that the first-stage retriever did not return.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "A reranker only reorders the candidates it is given. If first-stage recall at the candidate depth is low, fix retrieval first."
+    },
+    {
+      "id": "aieq-058", "type": "multiple", "topic": "advanced-rag-patterns", "difficulty": "advanced",
+      "prompt": "Which techniques address a RAG system that fails on multi-part questions? Select all that apply.",
+      "options": ["Query decomposition into sub-questions", "Iterative or multi-step retrieval", "Reducing the number of retrieved chunks to one", "Query rewriting to make implicit terms explicit"],
+      "answer": [0, 1, 3],
+      "explanation": "Multi-part questions often need several retrievals. Decomposition, iterative retrieval and rewriting help; retrieving a single chunk makes it worse."
+    },
+    {
+      "id": "aieq-059", "type": "scenario", "topic": "advanced-rag-patterns", "difficulty": "intermediate",
+      "prompt": "Answers about 'the current refund policy' sometimes quote a superseded 2023 version. What is the most direct fix?",
+      "options": ["Increase the model size", "Add document metadata such as effective date and status, and filter or boost current versions at retrieval", "Tell users to rephrase", "Lower chunk overlap"],
+      "answer": [1],
+      "explanation": "Metadata filtering ensures retrieval respects which documents are valid. Prompting alone cannot help if the outdated document is what was retrieved."
+    },
+    {
+      "id": "aieq-060", "type": "single", "topic": "agentic-ai-fundamentals", "difficulty": "beginner",
+      "prompt": "What best distinguishes an AI agent from a single LLM call?",
+      "options": ["It uses a larger model", "It runs a loop where the model chooses actions such as tool calls, observes results and decides the next step", "It always has a graphical interface", "It never needs a system prompt"],
+      "answer": [1],
+      "explanation": "Agents act in a loop of reasoning, tool use and observation until the task is done, which introduces multi-step failure modes and side effects."
+    },
+    {
+      "id": "aieq-061", "type": "multiple", "topic": "agent-memory-and-planning", "difficulty": "intermediate",
+      "prompt": "Which are risks of long-term agent memory that testers should cover? Select all that apply.",
+      "options": ["Storing one user's data and recalling it for another user", "Persisting injected instructions that affect later sessions", "Remembering outdated facts after they change", "Memory making responses use fewer tokens"],
+      "answer": [0, 1, 2],
+      "explanation": "Memory introduces cross-user leakage, persistent injection and staleness. Token use is a cost consideration, not a correctness risk."
+    },
+    {
+      "id": "aieq-062", "type": "single", "topic": "multi-agent-systems", "difficulty": "intermediate",
+      "prompt": "When is a multi-agent design most likely to be worth its extra complexity?",
+      "options": ["Always, because more agents are smarter", "When the task splits into parts that benefit from separate contexts or parallel work, and evaluation shows it beats a single agent", "When you want to reduce token usage", "When the task is a single short question"],
+      "answer": [1],
+      "explanation": "Multi-agent systems cost more tokens and add coordination failure modes. Use them when decomposition genuinely helps and measure against a simpler baseline."
+    },
+    {
+      "id": "aieq-063", "type": "single", "topic": "model-context-protocol", "difficulty": "beginner",
+      "prompt": "What is the Model Context Protocol (MCP)?",
+      "options": ["A model training technique", "An open protocol for connecting AI applications to external tools, resources and prompts through servers", "A vector index format", "A prompt template language"],
+      "answer": [1],
+      "explanation": "MCP standardises how a host application's client connects to servers that expose tools, resources and prompts, so integrations can be reused across applications."
+    },
+    {
+      "id": "aieq-064", "type": "multiple", "topic": "model-context-protocol", "difficulty": "intermediate",
+      "prompt": "Which are sound security practices for MCP servers? Select all that apply.",
+      "options": ["Validate tool inputs on the server", "Enforce authorisation for each call based on the actual user's permissions", "Treat tool results that contain external content as untrusted data", "Install any community server without review because the protocol is standardised"],
+      "answer": [0, 1, 2],
+      "explanation": "The protocol standardises communication, not trustworthiness. Servers need validation and authorisation, and third-party servers should be reviewed before use."
+    },
+    {
+      "id": "aieq-065", "type": "scenario", "topic": "agent-guardrails-and-safety", "difficulty": "advanced",
+      "prompt": "An agent can delete records. A tester shows a document containing 'delete all records' made it do so. Which mitigation is strongest?",
+      "options": ["Add 'never delete records' to the system prompt", "Remove delete permission or require explicit human confirmation enforced outside the model, and treat document content as untrusted", "Use a larger model", "Lower the temperature"],
+      "answer": [1],
+      "explanation": "Prompt-only rules can be bypassed. Least privilege and confirmation enforced in code limit the damage even if injection succeeds."
+    },
+    {
+      "id": "aieq-066", "type": "single", "topic": "hallucination-and-groundedness-testing", "difficulty": "beginner",
+      "prompt": "In a RAG system, what does 'groundedness' usually mean?",
+      "options": ["The answer is short", "Every claim in the answer is supported by the retrieved sources", "The answer uses formal language", "The model was trained on the documents"],
+      "answer": [1],
+      "explanation": "Groundedness, also called faithfulness, checks whether the answer's claims are supported by the provided context, independent of whether they are true in general."
+    },
+    {
+      "id": "aieq-067", "type": "multiple", "topic": "hallucination-and-groundedness-testing", "difficulty": "intermediate",
+      "prompt": "Which belong in a hallucination test set? Select all that apply.",
+      "options": ["Questions the documents cannot answer, where the correct response is to say so", "Questions with false premises", "Questions requiring details spread across two documents", "Only questions that the system already answers correctly"],
+      "answer": [0, 1, 2],
+      "explanation": "Unanswerable questions, false premises and multi-source questions expose invented content. A set made only of passing cases measures nothing useful."
+    },
+    {
+      "id": "aieq-068", "type": "scenario", "topic": "hallucination-and-groundedness-testing", "difficulty": "intermediate",
+      "prompt": "An answer cites document 7 for a figure, but document 7 does not contain that figure. How should this be classified?",
+      "options": ["Correct, because a citation is present", "A citation accuracy failure and an unsupported claim", "A retrieval latency issue", "A formatting issue"],
+      "answer": [1],
+      "explanation": "Citations must actually support the attached claim. Checking presence of citations is not enough; verify the cited text."
+    },
+    {
+      "id": "aieq-069", "type": "truefalse", "topic": "hallucination-and-groundedness-testing", "difficulty": "beginner",
+      "prompt": "With a good enough prompt and retrieval, hallucination can be guaranteed to be zero.",
+      "options": ["True", "False"],
+      "answer": [1],
+      "explanation": "Good retrieval, abstention instructions and citations reduce hallucinations but cannot guarantee their absence. Products should be designed to show sources and handle errors."
+    },
+    {
+      "id": "aieq-070", "type": "single", "topic": "evaluating-ai-agents", "difficulty": "intermediate",
+      "prompt": "An agent reports 'Order cancelled successfully'. What is the most reliable way to grade this task?",
+      "options": ["Trust the agent's message", "Check the actual end state, such as the order status in the system", "Ask the agent again whether it is sure", "Count the words in the response"],
+      "answer": [1],
+      "explanation": "Outcome grading should check real state changes. Agents can claim success without having completed the action."
+    },
+    {
+      "id": "aieq-071", "type": "multiple", "topic": "evaluating-ai-agents", "difficulty": "advanced",
+      "prompt": "Which metrics are useful when evaluating a tool-using agent? Select all that apply.",
+      "options": ["Task success rate across repeated runs", "Rate of invalid tool arguments or failed calls", "Number of steps and cost per task", "Whether it followed one exact predetermined tool sequence, in every case"],
+      "answer": [0, 1, 2],
+      "explanation": "Success over repeated runs, tool-call validity and efficiency are useful. Requiring a single exact sequence penalises valid alternative solutions; check key constraints instead."
+    },
+    {
+      "id": "aieq-072", "type": "debugging", "topic": "evaluating-ai-agents", "difficulty": "intermediate",
+      "prompt": "This agent eval reports a 100% pass rate even when the agent fails. What is the bug?",
+      "code": "for case in cases:\n    result = run_agent(case.instruction)\n    passed = 'cancelled' in result.final_message.lower()\n    record(case.id, passed)\n",
+      "codeLanguage": "python",
+      "options": ["The check uses the agent's final message instead of the system state", "run_agent should be async", "The loop should start at 1", "assert should be replaced with print"],
+      "answer": [0],
+      "explanation": "The grader checks whether the agent says it succeeded, not whether the order was actually cancelled. Query the order status after the run."
+    },
+    {
+      "id": "aieq-073", "type": "single", "topic": "ai-assurance-fundamentals", "difficulty": "beginner",
+      "prompt": "What is an assurance case?",
+      "options": ["A legal contract with an AI vendor", "A structured argument linking claims about a system to the evidence that supports them", "A test case for an AI model", "An insurance policy for AI incidents"],
+      "answer": [1],
+      "explanation": "Assurance cases connect claims, arguments and evidence, often in notations such as GSN, so reviewers can see why confidence is justified and where gaps remain."
+    },
+    {
+      "id": "aieq-074", "type": "single", "topic": "ai-audit-and-assurance-evidence", "difficulty": "intermediate",
+      "prompt": "Which statement about ISO/IEC 42001 and the NIST AI RMF is accurate?",
+      "options": ["Both are certifiable standards", "ISO/IEC 42001 specifies a certifiable AI management system; the NIST AI RMF is a voluntary framework and not a certification", "The NIST AI RMF is EU law", "ISO/IEC 42001 certifies that a specific model is safe"],
+      "answer": [1],
+      "explanation": "ISO/IEC 42001 is a management-system standard organisations can be certified against. The NIST AI RMF is voluntary guidance organised around Govern, Map, Measure and Manage. Neither certifies an individual model."
+    },
+    {
+      "id": "aieq-075", "type": "multiple", "topic": "ai-model-risk-management", "difficulty": "intermediate",
+      "prompt": "Which events should normally trigger re-evaluation of an AI system's risk evidence? Select all that apply.",
+      "options": ["A change of underlying model version", "A change to the retrieval index or embedding model", "A significant change to the system prompt or tools", "Rebranding the product's logo"],
+      "answer": [0, 1, 2],
+      "explanation": "Changes to model, retrieval, prompts or tools can change behaviour and invalidate existing evidence. Cosmetic branding changes do not affect the model's behaviour."
     }
   ]
 }
