@@ -1,0 +1,237 @@
+{
+  "lesson": "pytorch-essentials",
+  "questions": [
+    {
+      "id": "pt-pyt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pytorch-essentials",
+      "prompt": "What is PyTorch's default floating-point dtype for new tensors?",
+      "options": [
+        "float16",
+        "float32",
+        "float64",
+        "int64"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "PyTorch defaults to float32, while NumPy defaults to float64. Mixing them can cause dtype errors when converting data."
+    },
+    {
+      "id": "pt-pyt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pytorch-essentials",
+      "prompt": "Which object batches and shuffles a Dataset during training?",
+      "options": [
+        "nn.Module",
+        "DataLoader",
+        "Optimizer",
+        "state_dict"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "DataLoader wraps a Dataset and yields mini-batches, optionally shuffled and loaded in parallel. Dataset returns one (x, y) by index."
+    },
+    {
+      "id": "pt-pyt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pytorch-essentials",
+      "prompt": "The recommended way to save a model is torch.save(model.state_dict(), path), then rebuild the architecture and call load_state_dict.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Saving the state_dict stores only parameter tensors, which is more portable than pickling the whole object. Load with weights_only=True and only from trusted sources."
+    },
+    {
+      "id": "pt-pyt-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pytorch-essentials",
+      "prompt": "What does w.grad hold after this code?",
+      "code": "w = torch.tensor(2.0, requires_grad=True)\nloss = (w * 3 - 12) ** 2\nloss.backward()\nprint(w.grad)",
+      "codeLanguage": "python",
+      "options": [
+        "6.0",
+        "-36.0",
+        "12.0",
+        "None"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "loss = (3w - 12)²; d(loss)/dw = 2(3w - 12)*3. At w = 2 that is 2*(-6)*3 = -36."
+    },
+    {
+      "id": "pt-pyt-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pytorch-essentials",
+      "prompt": "Training loss behaves erratically and gets worse each batch. What is missing?",
+      "code": "for X, y in loader:\n    loss = loss_fn(model(X), y)\n    loss.backward()\n    optimizer.step()",
+      "codeLanguage": "python",
+      "options": [
+        "model.eval()",
+        "optimizer.zero_grad() before backward, so gradients are accumulating across batches",
+        "torch.no_grad()",
+        "A second loss.backward()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "PyTorch adds new gradients to .grad. Without zero_grad each step uses the sum of all previous gradients, producing ever-larger, wrong updates."
+    },
+    {
+      "id": "pt-pyt-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pytorch-essentials",
+      "prompt": "For basic multiclass classification with nn.CrossEntropyLoss, what should the targets be?",
+      "options": [
+        "One-hot float vectors",
+        "Integer class indices with dtype torch.long",
+        "Softmax probabilities",
+        "Strings"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "In the basic case CrossEntropyLoss expects class indices (torch.long). Passing one-hot floats or probabilities is a listed mistake."
+    },
+    {
+      "id": "pt-pyt-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pytorch-essentials",
+      "prompt": "GPU memory grows steadily during training until it runs out. The loop appends `loss` to a list for logging. What is the fix?",
+      "options": [
+        "Use a bigger GPU",
+        "Log loss.item() instead of the loss tensor, which keeps the computation graph alive",
+        "Call backward twice",
+        "Remove the optimizer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Storing the tensor keeps a reference to the autograd graph for every batch. .item() extracts a plain Python number and lets the graph be freed."
+    },
+    {
+      "id": "pt-pyt-08",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "pytorch-essentials",
+      "prompt": "Which belong in a correct evaluation pass? Select all that apply.",
+      "options": [
+        "model.eval()",
+        "with torch.no_grad():",
+        "optimizer.step()",
+        "Model and data on the same device"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "eval() turns off dropout and batch-norm training behaviour; no_grad saves memory; data must be on the model's device. Calling optimizer.step() during evaluation would train on validation data."
+    },
+    {
+      "id": "pt-pyt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "pytorch-essentials",
+      "prompt": "A teammate downloads a checkpoint from an unknown forum and loads it with torch.load(path) without arguments. What is the main risk and mitigation?",
+      "options": [
+        "Only a version mismatch",
+        "Checkpoints can be pickles that run arbitrary code when loaded; load only trusted files and use weights_only=True",
+        "It will be too slow",
+        "It will train the model"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Pickle-based files can execute code during unpickling. weights_only=True restricts loading to tensors and basic types, and you should still only load trusted checkpoints."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-pyt-order",
+      "language": "python",
+      "title": "Check a training step's order",
+      "difficulty": "intermediate",
+      "prompt": "Write `check_step(calls)` that receives the list of operation names a training step performed, e.g. `[\"forward\", \"loss\", \"zero_grad\", \"backward\", \"step\"]`, and returns a list of problems (empty if correct):\n\n- each of `forward`, `loss`, `zero_grad`, `backward`, `step` must appear exactly once, otherwise add `\"missing <name>\"` or `\"duplicate <name>\"` (check names in that order) and return immediately after these checks if any were found;\n- `forward` before `loss`, `loss` before `backward`, `zero_grad` before `backward`, `backward` before `step`; for each violated rule add `\"<a> must come before <b>\"` in that rule order.",
+      "starter": "def check_step(calls):\n    # Your code here\n    pass\n",
+      "solution": "NAMES = [\"forward\", \"loss\", \"zero_grad\", \"backward\", \"step\"]\nRULES = [(\"forward\", \"loss\"), (\"loss\", \"backward\"), (\"zero_grad\", \"backward\"), (\"backward\", \"step\")]\n\ndef check_step(calls):\n    problems = []\n    for name in NAMES:\n        n = calls.count(name)\n        if n == 0:\n            problems.append(\"missing \" + name)\n        elif n > 1:\n            problems.append(\"duplicate \" + name)\n    if problems:\n        return problems\n    for a, b in RULES:\n        if calls.index(a) > calls.index(b):\n            problems.append(a + \" must come before \" + b)\n    return problems\n",
+      "explanation": "This encodes the training recipe as testable rules. zero_grad can come anywhere before backward (at the start of the step is common), but it must not come between backward and step or the fresh gradients would be wiped.",
+      "hints": [
+        "Use `calls.count(name)` for the presence checks.",
+        "Return early if any presence problem was found, so `index` is safe.",
+        "Compare `calls.index(a) > calls.index(b)` for each rule."
+      ],
+      "tests": [
+        {
+          "name": "Correct step",
+          "marks": 2,
+          "code": "assert check_step(['zero_grad','forward','loss','backward','step'])==[]\nassert check_step(['forward','loss','zero_grad','backward','step'])==[]"
+        },
+        {
+          "name": "Missing zero_grad",
+          "marks": 2,
+          "code": "assert check_step(['forward','loss','backward','step'])==['missing zero_grad']"
+        },
+        {
+          "name": "zero_grad after backward",
+          "marks": 3,
+          "code": "assert check_step(['forward','loss','backward','zero_grad','step'])==['zero_grad must come before backward'], check_step(['forward','loss','backward','zero_grad','step'])"
+        }
+      ]
+    },
+    {
+      "id": "code-pyt-autograd",
+      "language": "python",
+      "title": "A tiny scalar autograd",
+      "difficulty": "advanced",
+      "prompt": "Implement a minimal autograd class `Value` supporting `+` and `*` between Values, a `.grad` attribute (starts at 0.0) and `.backward()` that fills in gradients for every Value the result depends on (set the output's grad to 1.0, then apply the chain rule in reverse topological order). Gradients must **accumulate** when a value is used more than once.\n\nExample:\n```python\nw = Value(2.0); x = Value(3.0)\ny = w * x + w      # dy/dw = x + 1 = 4, dy/dx = w = 2\ny.backward()\n```",
+      "starter": "class Value:\n    def __init__(self, data, parents=()):\n        self.data = data\n        self.grad = 0.0\n        # Your code here\n",
+      "solution": "class Value:\n    def __init__(self, data, parents=()):\n        self.data = data\n        self.grad = 0.0\n        self._parents = parents\n        self._backward = lambda: None\n\n    def __add__(self, other):\n        out = Value(self.data + other.data, (self, other))\n        def _backward():\n            self.grad += out.grad\n            other.grad += out.grad\n        out._backward = _backward\n        return out\n\n    def __mul__(self, other):\n        out = Value(self.data * other.data, (self, other))\n        def _backward():\n            self.grad += other.data * out.grad\n            other.grad += self.data * out.grad\n        out._backward = _backward\n        return out\n\n    def backward(self):\n        order, seen = [], set()\n        def build(v):\n            if id(v) not in seen:\n                seen.add(id(v))\n                for p in v._parents:\n                    build(p)\n                order.append(v)\n        build(self)\n        self.grad = 1.0\n        for v in reversed(order):\n            v._backward()\n",
+      "explanation": "Each operation records its inputs and a closure that pushes the output's gradient back to them (local derivative times upstream gradient: the chain rule). Visiting nodes in reverse topological order guarantees a node's gradient is complete before it is propagated. Using += makes gradients accumulate, exactly like PyTorch, which is also why PyTorch needs zero_grad between steps.",
+      "hints": [
+        "Store the parents and a `_backward` closure on every new Value.",
+        "For multiplication, d(a*b)/da = b and d(a*b)/db = a; multiply by `out.grad` and use `+=`.",
+        "Build a topological order with a depth-first search, set `self.grad = 1.0`, then call `_backward` on nodes in reverse order."
+      ],
+      "tests": [
+        {
+          "name": "Product and sum",
+          "marks": 3,
+          "code": "w=Value(2.0); x=Value(3.0)\ny=w*x+w\ny.backward()\nassert y.data==8.0 and w.grad==4.0 and x.grad==2.0, (y.data,w.grad,x.grad)"
+        },
+        {
+          "name": "Reused value accumulates",
+          "marks": 2,
+          "code": "a=Value(3.0)\nb=a*a\nb.backward()\nassert a.grad==6.0, a.grad"
+        },
+        {
+          "name": "Deeper chain",
+          "marks": 2,
+          "code": "a=Value(2.0); b=Value(-1.0)\nc=a*b\nd=c+a\ne=d*d\ne.backward()\nassert e.data==0.0 and a.grad==0.0 and b.grad==0.0\na=Value(1.0); b=Value(2.0)\ne=(a*b+b)*a\ne.backward()\nassert e.data==4.0 and a.grad==6.0 and b.grad==2.0, (a.grad,b.grad)"
+        }
+      ]
+    }
+  ]
+}

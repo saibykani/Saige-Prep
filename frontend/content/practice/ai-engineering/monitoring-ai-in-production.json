@@ -1,0 +1,233 @@
+{
+  "lesson": "monitoring-ai-in-production",
+  "questions": [
+    {
+      "id": "pt-mon-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "Which monitoring layer does NOT need labels?",
+      "options": [
+        "Model accuracy",
+        "System metrics such as latency and error rate",
+        "Outcome conversion",
+        "Calibration"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "System metrics, and data distribution checks, need no labels, so they act as early warnings when labels arrive late."
+    },
+    {
+      "id": "pt-mon-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "What does the KS statistic D measure?",
+      "options": [
+        "The mean difference",
+        "The largest gap between two empirical CDFs (0 to 1)",
+        "The number of samples",
+        "The p-value"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "D is the maximum vertical distance between the cumulative distributions, a useful effect size alongside the p-value."
+    },
+    {
+      "id": "pt-mon-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "A model can return confident nonsense while all system-health dashboards stay green.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Only monitoring system health is a listed mistake; you also need data, model and outcome signals."
+    },
+    {
+      "id": "pt-mon-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "Which test suits drift in a categorical feature such as 'payment method'?",
+      "options": [
+        "KS test",
+        "Chi-square test or PSI",
+        "Pearson correlation",
+        "MAE"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Categorical distributions are compared with chi-square on a contingency table or PSI. KS is for numeric features."
+    },
+    {
+      "id": "pt-mon-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "Drift alerts fire every Monday and clear by Wednesday. The reference window is last Saturday-Sunday. What is likely wrong?",
+      "options": [
+        "The model is broken",
+        "The reference window does not match the weekly pattern, so normal weekday traffic looks like drift",
+        "KS is the wrong test",
+        "Too few features"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A wrong reference window makes seasonal patterns look like drift. Use a comparable window (e.g. same weekday) or a longer one."
+    },
+    {
+      "id": "pt-mon-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "Which make an alert actionable? Select all that apply.",
+      "options": [
+        "A threshold",
+        "A sustained time window",
+        "An owner and a runbook",
+        "Firing on every single spike"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Actionable alerts have thresholds, windows, owners and runbooks; single-spike alerts cause fatigue."
+    },
+    {
+      "id": "pt-mon-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "With 5 million rows per day, a KS test on 'session length' gives p < 0.001 but D = 0.004. What should you do?",
+      "options": [
+        "Page the on-call engineer",
+        "Treat it as statistically significant but practically negligible; alert on effect size (D/PSI thresholds) and performance impact rather than p-values alone",
+        "Retrain immediately",
+        "Delete the feature"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With huge samples tiny differences become significant. Alerting on p-values alone floods the team with trivial alerts."
+    },
+    {
+      "id": "pt-mon-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "A drift alert fires because 40% of 'country' values became null overnight. An automated job retrains on the new data. Why is that dangerous?",
+      "options": [
+        "It is not",
+        "The drift came from a broken pipeline, not the world; retraining on broken data bakes the bug into the model. Check data quality first",
+        "Retraining is too slow",
+        "Null is a valid country"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Retraining automatically on drift without checking whether a pipeline broke is a listed mistake."
+    },
+    {
+      "id": "pt-mon-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "monitoring-ai-in-production",
+      "prompt": "After an LLM feature's quality complaints rise, you cannot tell whether a prompt change or a model change caused it. What was missing from traces?",
+      "options": [
+        "User names",
+        "Prompt version and model id per request",
+        "Screen resolution",
+        "Nothing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Not logging model and prompt versions makes regressions impossible to attribute."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mon-psi",
+      "language": "python",
+      "title": "Population Stability Index",
+      "difficulty": "intermediate",
+      "prompt": "Write `psi(ref_counts, prod_counts, eps=1e-4)` where both are dicts of category -> count. Convert each to proportions over the union of categories (missing = 0), replace any proportion of 0 with `eps`, then return `sum((p_prod - p_ref) * ln(p_prod / p_ref))` rounded to 4 decimals.\n\nExample: `psi({'a': 50, 'b': 50}, {'a': 50, 'b': 50})` returns `0.0`.",
+      "starter": "import math\n\ndef psi(ref_counts, prod_counts, eps=1e-4):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef psi(ref_counts, prod_counts, eps=1e-4):\n    cats = set(ref_counts) | set(prod_counts)\n    rt = sum(ref_counts.values())\n    pt = sum(prod_counts.values())\n    total = 0.0\n    for c in cats:\n        r = ref_counts.get(c, 0) / rt or eps\n        p = prod_counts.get(c, 0) / pt or eps\n        total += (p - r) * math.log(p / r)\n    return round(total, 4)\n",
+      "explanation": "PSI sums a symmetric divergence over bins: each term is non-negative because (p - r) and ln(p / r) always have the same sign. The epsilon avoids log(0) when a category appears in only one window, which itself is a strong drift signal.",
+      "hints": [
+        "Use the union of categories from both dicts.",
+        "Proportion = count / total; replace 0 with eps.",
+        "Accumulate `(p - r) * math.log(p / r)`."
+      ],
+      "tests": [
+        {
+          "name": "No change",
+          "marks": 1,
+          "code": "assert psi({'a':50,'b':50},{'a':5,'b':5})==0.0"
+        },
+        {
+          "name": "Shifted distribution",
+          "marks": 3,
+          "code": "assert psi({'card':80,'cash':20},{'card':50,'cash':50})==0.4159, psi({'card':80,'cash':20},{'card':50,'cash':50})"
+        },
+        {
+          "name": "New category",
+          "marks": 2,
+          "code": "v=psi({'a':100},{'a':90,'new':10})\nassert v>0.5, v"
+        }
+      ]
+    },
+    {
+      "id": "code-mon-ks",
+      "language": "python",
+      "title": "KS statistic",
+      "difficulty": "advanced",
+      "prompt": "Write `ks_stat(a, b)` returning the two-sample Kolmogorov-Smirnov statistic D: the maximum absolute difference between the empirical CDFs of `a` and `b`, evaluated at every observed value. Round to 4 decimals. (ECDF(x) = fraction of the sample `<= x`.)",
+      "starter": "def ks_stat(a, b):\n    # Your code here\n    pass\n",
+      "solution": "import bisect\n\ndef ks_stat(a, b):\n    sa, sb = sorted(a), sorted(b)\n    d = 0.0\n    for x in sorted(set(sa) | set(sb)):\n        fa = bisect.bisect_right(sa, x) / len(sa)\n        fb = bisect.bisect_right(sb, x) / len(sb)\n        d = max(d, abs(fa - fb))\n    return round(d, 4)\n",
+      "explanation": "The ECDFs only change at observed values, so checking every observed value finds the maximum gap. bisect_right on a sorted list counts values <= x efficiently. D is an effect size you can threshold, unlike a p-value that shrinks with sample size.",
+      "hints": [
+        "Sort both samples.",
+        "`bisect.bisect_right(sorted_list, x)` counts values <= x.",
+        "Track the maximum absolute difference over all observed values."
+      ],
+      "tests": [
+        {
+          "name": "Identical samples",
+          "marks": 1,
+          "code": "assert ks_stat([1,2,3],[3,2,1])==0.0"
+        },
+        {
+          "name": "Fully separated",
+          "marks": 2,
+          "code": "assert ks_stat([1,2,3],[10,11])==1.0"
+        },
+        {
+          "name": "Partial shift",
+          "marks": 3,
+          "code": "assert ks_stat([1,2,3,4],[3,4,5,6])==0.5, ks_stat([1,2,3,4],[3,4,5,6])"
+        }
+      ]
+    }
+  ]
+}

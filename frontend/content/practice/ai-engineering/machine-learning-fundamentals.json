@@ -1,0 +1,265 @@
+{
+  "lesson": "machine-learning-fundamentals",
+  "questions": [
+    {
+      "id": "pt-mlf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "What is the difference between parameters and hyperparameters?",
+      "options": [
+        "They are the same thing",
+        "Parameters are learned during training (e.g. weights); hyperparameters are set by you (e.g. tree depth, learning rate) and tuned on validation data",
+        "Hyperparameters are learned; parameters are set by you",
+        "Parameters only exist in neural networks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Training fits parameters; you choose hyperparameters and compare settings on the validation set. Tuning them on the test set would bias your final estimate."
+    },
+    {
+      "id": "pt-mlf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "Which task type is 'decide which of 12 product categories an item belongs to'?",
+      "options": [
+        "Regression",
+        "Binary classification",
+        "Multiclass classification",
+        "Clustering"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "One label chosen from many classes is multiclass classification (metrics such as accuracy or macro F1). Regression predicts a number, binary has two classes, and clustering has no labels."
+    },
+    {
+      "id": "pt-mlf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "The test set should be used once, for the final estimate, not for repeatedly choosing between models.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Repeatedly peeking at the test set turns it into a second validation set and makes the final number optimistic. Use validation data or cross-validation for choices."
+    },
+    {
+      "id": "pt-mlf-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "95% of transactions are legitimate. A new fraud model reports 95.2% accuracy. What should you do first?",
+      "options": [
+        "Ship it; 95% is excellent",
+        "Compare against a baseline such as DummyClassifier(strategy='most_frequent'), which already gets about 95%, and use precision/recall for the fraud class",
+        "Collect more legitimate transactions",
+        "Switch to regression"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A model that always says 'legitimate' scores 95% accuracy. Without a baseline the number is meaningless, and accuracy alone hides how many frauds are caught on imbalanced data."
+    },
+    {
+      "id": "pt-mlf-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "You are predicting next month's sales from 3 years of monthly data. How should you split the data?",
+      "options": [
+        "Random shuffle split",
+        "Train on earlier months and test on later months",
+        "Stratified split by product",
+        "Use the training data as test data"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "For time series the split must match reality: you will always predict the future from the past. A random split lets the model see the future and inflates scores."
+    },
+    {
+      "id": "pt-mlf-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "In scikit-learn, how do you make LogisticRegression regularise MORE strongly?",
+      "options": [
+        "Increase C",
+        "Decrease C",
+        "Increase max_iter",
+        "Use more features"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "C is the inverse of regularisation strength in LogisticRegression, so smaller C means a stronger L2 penalty. (In Ridge it is the opposite: larger alpha means stronger regularisation.)"
+    },
+    {
+      "id": "pt-mlf-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "Which models generally benefit from feature scaling such as StandardScaler? Select all that apply.",
+      "options": [
+        "Logistic regression",
+        "k-nearest neighbours",
+        "Neural networks",
+        "Decision trees"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Distance- and gradient-based models are sensitive to feature scale. Trees split on thresholds of one feature at a time, so scaling mostly does not change them."
+    },
+    {
+      "id": "pt-mlf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "A hospital dataset has many visits per patient. A random split gives 0.93 AUC, but performance on new patients is much worse. What went wrong and what fixes it?",
+      "options": [
+        "The model is underfitting; add more features",
+        "Rows from the same patient landed in both train and test, so the model memorised patients; use a grouped split (GroupKFold by patient)",
+        "AUC is the wrong metric",
+        "Use a larger test set"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Grouped data must keep each group entirely on one side; otherwise the test score measures recognition of known patients, not generalisation to new ones."
+    },
+    {
+      "id": "pt-mlf-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "machine-learning-fundamentals",
+      "prompt": "A churn model is excellent in validation but useless in production. One feature is 'days_since_account_closed'. What is the problem?",
+      "options": [
+        "The learning rate is too high",
+        "Target leakage: the feature is only known after the outcome happens, so it is not available at prediction time",
+        "The data needs scaling",
+        "There are too few hyperparameters"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Features that are not available when you make the prediction leak the label. They make validation look great and fail in production. Audit every feature for 'would I know this at prediction time?'"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mlf-split",
+      "language": "python",
+      "title": "Leakage-free standardisation",
+      "difficulty": "intermediate",
+      "prompt": "Write `fit_scaler(train)` returning `(mean, std)` of a list of numbers (population std, i.e. divide by n; if std is 0 use 1.0), and `transform(values, mean, std)` returning `[(v - mean) / std ...]`.\n\nThe point: statistics come from the **training** data only and are then applied to test data.\n\nExample: `fit_scaler([2, 4, 6])` returns `(4.0, 1.632993...)`.",
+      "starter": "def fit_scaler(train):\n    # Your code here\n    pass\n\ndef transform(values, mean, std):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef fit_scaler(train):\n    n = len(train)\n    mean = sum(train) / n\n    var = sum((x - mean) ** 2 for x in train) / n\n    std = math.sqrt(var) or 1.0\n    return mean, std\n\ndef transform(values, mean, std):\n    return [(v - mean) / std for v in values]\n",
+      "explanation": "Separating fit from transform is what scikit-learn's Pipeline enforces: the scaler learns only from training rows, so no information about the test set leaks into preprocessing. Guarding a zero std avoids division by zero for constant features.",
+      "hints": [
+        "Mean is sum / n; variance is the mean of squared differences from the mean.",
+        "`math.sqrt(var) or 1.0` replaces a zero std.",
+        "transform must not recompute anything from the values it is given."
+      ],
+      "tests": [
+        {
+          "name": "Fits mean and std",
+          "marks": 2,
+          "code": "m,s=fit_scaler([2,4,6])\nassert m==4.0 and abs(s-1.632993161855452)<1e-9, (m,s)"
+        },
+        {
+          "name": "Transforms test data with train statistics",
+          "marks": 2,
+          "code": "m,s=fit_scaler([0,10])\nassert transform([5,15],m,s)==[0.0,2.0], transform([5,15],m,s)"
+        },
+        {
+          "name": "Constant feature does not crash",
+          "marks": 1,
+          "code": "m,s=fit_scaler([3,3,3])\nassert s==1.0 and transform([3,4],m,s)==[0.0,1.0]"
+        }
+      ]
+    },
+    {
+      "id": "code-mlf-baseline",
+      "language": "python",
+      "title": "Majority-class baseline",
+      "difficulty": "beginner",
+      "prompt": "Write `baseline_accuracy(train_labels, test_labels)` that finds the most common label in the **training** labels (ties: the label that appears first) and returns the accuracy of always predicting it on the test labels, as a float.\n\nExample: train `['ok','ok','fraud']`, test `['ok','fraud','ok','ok']` returns `0.75`.",
+      "starter": "def baseline_accuracy(train_labels, test_labels):\n    # Your code here\n    pass\n",
+      "solution": "def baseline_accuracy(train_labels, test_labels):\n    counts = {}\n    for label in train_labels:\n        counts[label] = counts.get(label, 0) + 1\n    majority = max(counts, key=counts.get)\n    hits = sum(1 for label in test_labels if label == majority)\n    return hits / len(test_labels)\n",
+      "explanation": "This is what DummyClassifier(strategy='most_frequent') does. Any real model must beat this number meaningfully; on imbalanced data it is often surprisingly high, which is why accuracy alone is misleading.",
+      "hints": [
+        "Count labels in a dict.",
+        "`max(counts, key=counts.get)` returns the first label with the highest count.",
+        "Accuracy is matching test labels divided by the number of test labels."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert baseline_accuracy(['ok','ok','fraud'],['ok','fraud','ok','ok'])==0.75"
+        },
+        {
+          "name": "Uses training labels, not test labels",
+          "marks": 2,
+          "code": "assert baseline_accuracy(['a','a','b'],['b','b','b','a'])==0.25"
+        },
+        {
+          "name": "Tie picks first seen",
+          "marks": 1,
+          "code": "assert baseline_accuracy(['x','y'],['x','y'])==0.5 and baseline_accuracy(['y','x'],['y','y'])==1.0"
+        }
+      ]
+    },
+    {
+      "id": "code-mlf-kfold",
+      "language": "python",
+      "title": "k-fold index splits",
+      "difficulty": "advanced",
+      "prompt": "Write `kfold_indices(n, k)` that splits indices `0..n-1` (in order, no shuffling) into `k` contiguous folds and returns a list of `(train_indices, test_indices)` tuples, one per fold. If `n` is not divisible by `k`, the first `n % k` folds get one extra item (like scikit-learn's KFold).\n\nExample: `kfold_indices(5, 2)` returns `[([3, 4], [0, 1, 2]), ([0, 1, 2], [3, 4])]`.",
+      "starter": "def kfold_indices(n, k):\n    # Your code here\n    pass\n",
+      "solution": "def kfold_indices(n, k):\n    sizes = [n // k + (1 if i < n % k else 0) for i in range(k)]\n    folds = []\n    start = 0\n    for size in sizes:\n        test = list(range(start, start + size))\n        train = [i for i in range(n) if i < start or i >= start + size]\n        folds.append((train, test))\n        start += size\n    return folds\n",
+      "explanation": "Every index is used for testing exactly once and for training k-1 times, which is why cross-validation uses data efficiently and shows score variance. Distributing the remainder over the first folds keeps fold sizes within one of each other.",
+      "hints": [
+        "Fold sizes are `n // k`, plus one for the first `n % k` folds.",
+        "Track a running `start` offset for each test fold.",
+        "Train indices are all indices outside the test range."
+      ],
+      "tests": [
+        {
+          "name": "Uneven split",
+          "marks": 3,
+          "code": "assert kfold_indices(5,2)==[([3,4],[0,1,2]),([0,1,2],[3,4])], kfold_indices(5,2)"
+        },
+        {
+          "name": "Every index tested exactly once",
+          "marks": 2,
+          "code": "f=kfold_indices(10,3)\nall_test=sorted(i for _,t in f for i in t)\nassert all_test==list(range(10)) and [len(t) for _,t in f]==[4,3,3], f"
+        },
+        {
+          "name": "Train and test never overlap",
+          "marks": 2,
+          "code": "f=kfold_indices(7,7)\nassert len(f)==7 and all(not set(a)&set(b) and len(a)==6 for a,b in f)"
+        }
+      ]
+    }
+  ]
+}

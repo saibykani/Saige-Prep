@@ -1,0 +1,269 @@
+{
+  "lesson": "llm-fundamentals-and-tokens",
+  "questions": [
+    {
+      "id": "pt-llmtok-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "Which unit do context windows, max_tokens and API billing all use?",
+      "options": [
+        "Characters",
+        "Words",
+        "Tokens",
+        "Sentences"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Limits, max_tokens and per-request pricing are all measured in tokens produced by the model's tokenizer. Characters and words are only rough proxies, and the ratio between them and tokens differs per tokenizer and per language."
+    },
+    {
+      "id": "pt-llmtok-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "A chat model remembers earlier API calls on its own, so you only need to send the newest user message each time.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. The model is stateless between API calls. Chat 'memory' is your application resending the conversation history in every request, which is also why long chats get slower and more expensive."
+    },
+    {
+      "id": "pt-llmtok-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "What is a model's knowledge cutoff?",
+      "options": [
+        "The maximum number of tokens it can output",
+        "The date after which its training data contains no information, so it does not know later events unless you supply them",
+        "The point at which the API stops accepting requests",
+        "The minimum probability a token needs to be sampled"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The knowledge cutoff is about training data, not limits. Facts after it must be supplied in the prompt, which is exactly what retrieval does. max_tokens is the output cap; sampling thresholds are top_p/top_k."
+    },
+    {
+      "id": "pt-llmtok-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "Which kinds of input often use MORE tokens than you would guess from their character length? Select all that apply.",
+      "options": [
+        "Minified JSON",
+        "Long numbers such as IDs",
+        "Non-English text",
+        "Common short English words"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Code symbols, long digit strings, minified JSON and many non-English scripts get split into many sub-word pieces. Common English words are usually a single token each, so they are the cheap case."
+    },
+    {
+      "id": "pt-llmtok-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "A test suite asserts that the model's answer equals an exact stored string. It passes on Monday and fails on Tuesday with no code change. What is the best fix to the TEST?",
+      "options": [
+        "Retry the test until it passes",
+        "Assert properties instead: schema validity, required facts present, length limits, and track a pass rate over several runs",
+        "Set temperature to 0 and keep the exact-string assertion; that guarantees identical output",
+        "Delete the test because LLMs cannot be tested"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Generation is sampling, so outputs vary. Robust tests check properties and pass rates. Temperature 0 is not a determinism guarantee (and current Claude models reject non-default temperature anyway), and retrying until green hides real regressions."
+    },
+    {
+      "id": "pt-llmtok-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "On a current Claude model such as claude-sonnet-5-5, you send temperature=0.2 to make extraction more consistent. What happens according to the lesson?",
+      "options": [
+        "The output becomes fully deterministic",
+        "The request is rejected with a 400 error because non-default temperature/top_p/top_k are not accepted; steer output with the prompt and the effort setting instead",
+        "The parameter is silently ignored",
+        "The model uses top_k=0.2 instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The lesson notes that current Claude models reject non-default sampling parameters with a 400. Always check the model documentation before relying on sampling knobs; other providers' models may still accept them."
+    },
+    {
+      "id": "pt-llmtok-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "A model has a 200,000-token context window. Roughly how many tokens are left for the model's answer?",
+      "code": "system_prompt_tokens = 3_000\nretrieved_docs_tokens = 150_000\nchat_history_tokens = 35_000\n# context window = 200_000",
+      "codeLanguage": "python",
+      "options": [
+        "200,000",
+        "12,000",
+        "8,000",
+        "4,000"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The context window covers everything in one request: system prompt, history, documents, tool definitions AND the output. 200,000 - (3,000 + 150,000 + 35,000) = 12,000. Forgetting that output shares the window is a common cause of context-length errors."
+    },
+    {
+      "id": "pt-llmtok-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "Users report that some summaries end mid-sentence, but your logs show every call returned HTTP 200. What is the bug?",
+      "code": "resp = client.messages.create(model=MODEL, max_tokens=300, messages=msgs)\nreturn resp.content[0].text",
+      "codeLanguage": "python",
+      "options": [
+        "The API key is wrong",
+        "stop_reason is never checked, so responses that stopped with 'max_tokens' are shown as if complete",
+        "The model was too creative",
+        "HTTP 200 means the response was truncated by the network"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A truncated generation still returns 200. The response's stop_reason tells you why it stopped; 'max_tokens' means it hit the cap. Check it and either raise max_tokens, ask for shorter output, or continue/fail visibly."
+    },
+    {
+      "id": "pt-llmtok-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-fundamentals-and-tokens",
+      "prompt": "A support bot's per-conversation cost and latency grow steadily the longer a chat lasts, and very long chats eventually fail. Which explanation and fix fit best?",
+      "options": [
+        "The model is getting tired; restart the server nightly",
+        "Each turn resends the whole history, so input tokens grow every turn; trim or summarise old turns and set a budget before the window is exceeded",
+        "Output tokens are free, so the cost must come from tool definitions only",
+        "Increasing max_tokens will make long chats cheaper"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Because the API is stateless, turn N includes all previous turns as input tokens: cost and latency grow and the context window is eventually exceeded. Trimming, summarising or retrieving only relevant history fixes it. Raising max_tokens increases cost."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-llmtok-budget",
+      "language": "python",
+      "title": "Will the request fit?",
+      "difficulty": "beginner",
+      "prompt": "Write `fits_context(input_tokens, max_tokens, window)` that returns `True` if the input tokens plus the requested output cap fit within the context window (equal is allowed), else `False`.\n\nExample: `fits_context(190_000, 8_000, 200_000)` returns `True`; `fits_context(195_000, 8_000, 200_000)` returns `False`.",
+      "starter": "def fits_context(input_tokens, max_tokens, window):\n    # Your code here\n    pass\n",
+      "solution": "def fits_context(input_tokens, max_tokens, window):\n    return input_tokens + max_tokens <= window\n",
+      "explanation": "The window has to hold both what you send and what the model may generate, so the check is input + output cap <= window.",
+      "hints": [
+        "Output tokens count against the context window too.",
+        "Add the two numbers and compare with the window.",
+        "`return input_tokens + max_tokens <= window`"
+      ],
+      "tests": [
+        {
+          "name": "Fits when there is room",
+          "marks": 1,
+          "code": "assert fits_context(190_000, 8_000, 200_000) is True"
+        },
+        {
+          "name": "Rejects when output would overflow",
+          "marks": 2,
+          "code": "assert fits_context(195_000, 8_000, 200_000) is False"
+        },
+        {
+          "name": "Exactly full is allowed",
+          "marks": 1,
+          "code": "assert fits_context(100, 100, 200) is True and fits_context(101, 100, 200) is False"
+        }
+      ]
+    },
+    {
+      "id": "code-llmtok-trim",
+      "language": "python",
+      "title": "Trim chat history to a token budget",
+      "difficulty": "intermediate",
+      "prompt": "Chat history is a list of `(role, text, tokens)` tuples, oldest first. Write `trim_history(history, budget)` that keeps the **most recent** messages whose token counts add up to at most `budget`, and returns them oldest-first. Stop at the first message (going backwards) that would not fit; never skip over a message to keep an older one.\n\nExample: with tokens `[50, 30, 20]` and budget `55`, keep the last two (30 + 20 = 50).",
+      "starter": "def trim_history(history, budget):\n    # Your code here\n    pass\n",
+      "solution": "def trim_history(history, budget):\n    kept = []\n    used = 0\n    for msg in reversed(history):\n        if used + msg[2] > budget:\n            break\n        kept.append(msg)\n        used += msg[2]\n    kept.reverse()\n    return kept\n",
+      "explanation": "Walk backwards from the newest message, accumulating tokens, and stop at the first message that would exceed the budget. Reversing at the end restores chronological order, which the API needs. Stopping (rather than skipping) keeps the conversation contiguous so the model does not see a reply without its question.",
+      "hints": [
+        "Iterate with `reversed(history)` so you start from the newest message.",
+        "Keep a running total and `break` as soon as adding the next message would exceed the budget.",
+        "Collect into a list, then `reverse()` it before returning."
+      ],
+      "tests": [
+        {
+          "name": "Keeps the most recent messages",
+          "marks": 2,
+          "code": "h=[('user','a',50),('assistant','b',30),('user','c',20)]\nassert trim_history(h,55)==[('assistant','b',30),('user','c',20)], trim_history(h,55)"
+        },
+        {
+          "name": "Does not skip a message to fit an older one",
+          "marks": 2,
+          "code": "h=[('user','a',5),('assistant','b',40),('user','c',20)]\nassert trim_history(h,30)==[('user','c',20)], trim_history(h,30)"
+        },
+        {
+          "name": "Everything fits or nothing fits",
+          "marks": 1,
+          "code": "h=[('user','a',1),('user','b',2)]\nassert trim_history(h,10)==h and trim_history(h,0)==[]"
+        }
+      ]
+    },
+    {
+      "id": "code-llmtok-cost",
+      "language": "python",
+      "title": "Estimate request cost from usage",
+      "difficulty": "intermediate",
+      "prompt": "Write `request_cost(usage, price_in, price_out)` where `usage` is a dict like `{\"input_tokens\": 1200, \"output_tokens\": 300}` and prices are **per million tokens**. Return the cost rounded to 6 decimal places.\n\nExample: `request_cost({\"input_tokens\": 1_000_000, \"output_tokens\": 500_000}, 3.0, 15.0)` returns `10.5`. (Prices here are made-up numbers for the exercise; real ones are on provider pricing pages.)",
+      "starter": "def request_cost(usage, price_in, price_out):\n    # Your code here\n    pass\n",
+      "solution": "def request_cost(usage, price_in, price_out):\n    cost = usage[\"input_tokens\"] / 1_000_000 * price_in + usage[\"output_tokens\"] / 1_000_000 * price_out\n    return round(cost, 6)\n",
+      "explanation": "Input and output tokens are billed at different rates, so convert each count to millions and multiply by its own price. Logging `usage` from every response and running this calculation is the basis of cost monitoring.",
+      "hints": [
+        "Divide each token count by 1,000,000 before multiplying by the price.",
+        "Input and output have different prices.",
+        "Wrap the sum in `round(..., 6)`."
+      ],
+      "tests": [
+        {
+          "name": "Computes the example",
+          "marks": 2,
+          "code": "assert request_cost({'input_tokens':1_000_000,'output_tokens':500_000},3.0,15.0)==10.5"
+        },
+        {
+          "name": "Small request",
+          "marks": 2,
+          "code": "assert request_cost({'input_tokens':1200,'output_tokens':300},3.0,15.0)==0.0081, request_cost({'input_tokens':1200,'output_tokens':300},3.0,15.0)"
+        },
+        {
+          "name": "Zero usage costs nothing",
+          "marks": 1,
+          "code": "assert request_cost({'input_tokens':0,'output_tokens':0},3.0,15.0)==0"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "lesson": "advanced-topics-in-modern-ai",
+  "questions": [
+    {
+      "id": "pt-advt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "What does quantization change about a model?",
+      "options": [
+        "Its architecture",
+        "The number of bits used to represent weights (and sometimes activations or the KV cache)",
+        "Its training data",
+        "Its vocabulary"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Quantization stores numbers with fewer bits, such as 8-bit integers or 4-bit formats, to save memory and often gain speed, at some risk to quality."
+    },
+    {
+      "id": "pt-advt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "In knowledge distillation, what does the student learn from?",
+      "options": [
+        "Only hard labels",
+        "The teacher's softened output distribution (with a temperature) as well as labels",
+        "Random noise",
+        "The teacher's source code"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Hinton et al. (2015): soft targets carry 'dark knowledge' about which wrong answers are nearly right."
+    },
+    {
+      "id": "pt-advt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "A model's chain-of-thought text is always a faithful account of how it reached its answer.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. Reasoning text may not reflect the actual computation; treating it as a faithful explanation is a listed mistake."
+    },
+    {
+      "id": "pt-advt-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "An MoE model has a very large total parameter count but activates only a few experts per token. A capacity planner sizes GPU memory from the active parameters only. What is wrong?",
+      "options": [
+        "Nothing",
+        "All experts must be held in memory even though compute per token uses only the active ones",
+        "MoE models need no memory",
+        "Active parameters are irrelevant"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Total parameters drive memory; active parameters drive per-token compute. Confusing the two is a listed mistake."
+    },
+    {
+      "id": "pt-advt-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "Which belong in a test plan for an image-reading multimodal model? Select all that apply.",
+      "options": [
+        "Object hallucination checks",
+        "Instructions hidden inside images (visual prompt injection)",
+        "Resolution and cropping sensitivity",
+        "Text-only prompts as the sole test input"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Testing multimodal models only with text prompts is a listed mistake."
+    },
+    {
+      "id": "pt-advt-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "What does self-consistency (Wang et al., 2022) do?",
+      "options": [
+        "Samples several reasoning paths and takes the majority answer",
+        "Forces temperature 0",
+        "Fine-tunes on its own outputs",
+        "Removes chain-of-thought"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Self-consistency trades extra test-time compute for accuracy by voting across sampled reasoning paths."
+    },
+    {
+      "id": "pt-advt-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "A 4-bit quantized model matches the original's overall score but fails more often on long legal documents in German. What does this teach?",
+      "options": [
+        "Quantization is free",
+        "Evaluate quantized/distilled models per slice; averages can hide losses on specific domains or languages",
+        "German is unsupported by all models",
+        "Use 2-bit instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Assuming quantization or distillation is free without slice-level evaluation is a listed mistake."
+    },
+    {
+      "id": "pt-advt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "A team wants to distil a cheaper model from another provider's API outputs. What must they check first?",
+      "options": [
+        "GPU count",
+        "The licence and terms of use of the teacher model and its outputs",
+        "The colour scheme",
+        "Nothing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Ignoring licences when distilling from another provider's model is a listed mistake."
+    },
+    {
+      "id": "pt-advt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "advanced-topics-in-modern-ai",
+      "prompt": "A reasoning model is given a larger thinking budget. What should the evaluation report?",
+      "options": [
+        "Only the best accuracy",
+        "Accuracy versus token budget (and latency/cost), including easy questions where extra reasoning may not help",
+        "Only the token count",
+        "The length of the reasoning text"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Test-time compute is a trade-off; evaluate accuracy against budget and watch for overthinking on easy items."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-advt-quant",
+      "language": "python",
+      "title": "Symmetric int8 quantization",
+      "difficulty": "intermediate",
+      "prompt": "Write `quantize(weights)` returning `(q, scale)` with `scale = max(abs(w)) / 127` (use 1.0 if all weights are 0) and `q = [round(w / scale) clamped to -127..127]`. Write `dequantize(q, scale)` returning `[v * scale]`. Also write `max_error(weights)` returning the largest absolute difference between the original weights and their round trip.",
+      "starter": "def quantize(weights):\n    # Your code here\n    pass\n\ndef dequantize(q, scale):\n    pass\n\ndef max_error(weights):\n    pass\n",
+      "solution": "def quantize(weights):\n    m = max(abs(w) for w in weights)\n    scale = m / 127 if m else 1.0\n    q = [max(-127, min(127, round(w / scale))) for w in weights]\n    return q, scale\n\ndef dequantize(q, scale):\n    return [v * scale for v in q]\n\ndef max_error(weights):\n    q, s = quantize(weights)\n    return max(abs(a - b) for a, b in zip(weights, dequantize(q, s)))\n",
+      "explanation": "Each weight is mapped to one of 255 integer levels. The rounding error per weight is at most half a step (scale / 2), which is why one large outlier weight, by inflating the scale, makes every other weight less precise; the last test shows this.",
+      "hints": [
+        "Scale maps the largest absolute weight to 127.",
+        "Round w / scale and clamp to [-127, 127].",
+        "Round-trip error is at most scale / 2."
+      ],
+      "tests": [
+        {
+          "name": "Round trip",
+          "marks": 2,
+          "code": "q,s=quantize([1.27,-0.635,0.0])\nassert q==[127,-64,0] or q==[127,-63,0], q\nassert abs(s-0.01)<1e-12"
+        },
+        {
+          "name": "Error bounded by half a step",
+          "marks": 2,
+          "code": "w=[0.3,-0.71,0.05,0.9]\nq,s=quantize(w)\nassert max_error(w)<=s/2+1e-12"
+        },
+        {
+          "name": "Outliers hurt precision",
+          "marks": 2,
+          "code": "small=[0.01*i for i in range(10)]\nassert max_error(small+[100.0])>max_error(small)*10"
+        }
+      ]
+    },
+    {
+      "id": "code-advt-vote",
+      "language": "python",
+      "title": "Self-consistency majority vote",
+      "difficulty": "beginner",
+      "prompt": "Write `majority_answer(answers)` that normalises each answer (strip, lowercase) and returns `(answer, agreement)` where `answer` is the most common normalised answer (ties: the one that appeared first) and `agreement` is its count divided by the number of answers, rounded to 2 decimals. Return `(None, 0.0)` for an empty list.",
+      "starter": "def majority_answer(answers):\n    # Your code here\n    pass\n",
+      "solution": "def majority_answer(answers):\n    if not answers:\n        return None, 0.0\n    counts = {}\n    for a in answers:\n        k = a.strip().lower()\n        counts[k] = counts.get(k, 0) + 1\n    best = max(counts, key=counts.get)\n    return best, round(counts[best] / len(answers), 2)\n",
+      "explanation": "Voting over sampled reasoning paths is self-consistency. The agreement fraction is a useful confidence signal: low agreement flags questions where the model is unsure.",
+      "hints": [
+        "Normalise with `.strip().lower()`.",
+        "Count in a dict; `max(counts, key=counts.get)` keeps the first on ties.",
+        "Agreement = count / len(answers)."
+      ],
+      "tests": [
+        {
+          "name": "Majority with normalisation",
+          "marks": 2,
+          "code": "assert majority_answer(['42',' 42','41','42 '])==('42',0.75)"
+        },
+        {
+          "name": "Tie and empty",
+          "marks": 1,
+          "code": "assert majority_answer(['B','a'])==('b',0.5) and majority_answer([])==(None,0.0)"
+        }
+      ]
+    }
+  ]
+}

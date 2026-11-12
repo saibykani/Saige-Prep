@@ -1,0 +1,255 @@
+{
+  "lesson": "ai-cost-latency-and-scaling",
+  "questions": [
+    {
+      "id": "pt-acls-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "What does TTFT stand for?",
+      "options": [
+        "Total tokens for training",
+        "Time to first token",
+        "Tokens to final turn",
+        "Throughput test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Time to first token is the delay before output starts, dominated by network, queueing and prefill of the input prompt."
+    },
+    {
+      "id": "pt-acls-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "Which technique improves perceived latency without changing the model?",
+      "options": [
+        "Batching",
+        "Streaming the response",
+        "A larger max_tokens",
+        "Semantic caching"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Streaming shows tokens as they arrive. Batching increases per-item latency; a larger max_tokens can make responses longer."
+    },
+    {
+      "id": "pt-acls-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "Prices for LLM APIs should be read from the provider's current pricing page rather than hardcoded in dashboards.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Prices change and differ by model; hardcoded prices become silently wrong."
+    },
+    {
+      "id": "pt-acls-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "A long shared system prompt is identical across requests, but a timestamp is inserted at the start of it. Provider prompt caching gives no savings. Why?",
+      "options": [
+        "Caching is broken",
+        "Prompt caching needs an identical prefix; the changing timestamp at the start breaks it. Move variable content after the cached prefix",
+        "The prompt is too short",
+        "Caching only works with streaming"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Provider prompt caching only works when the prefix is identical. Put stable content first and variable content later."
+    },
+    {
+      "id": "pt-acls-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "Which 'hidden' calls should be included in a cost estimate? Select all that apply.",
+      "options": [
+        "Retries",
+        "Embedding calls",
+        "LLM-judge evaluations",
+        "Static CSS files"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Forgetting retries, tool calls, embeddings and judge evaluations is a listed mistake; they can be a large share of real spend."
+    },
+    {
+      "id": "pt-acls-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "A team switches to a cheaper, smaller model and sees costs fall 70%. What must happen before celebrating?",
+      "options": [
+        "Nothing",
+        "Re-run the evaluation suite, including slices, because quality may drop on some requests",
+        "Increase temperature",
+        "Remove monitoring"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shipping a cheaper model without re-running evals is a listed mistake; smaller models often lose quality on specific slices."
+    },
+    {
+      "id": "pt-acls-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "An exact-match response cache is keyed only on the user's question text. After a prompt update, users still get answers in the old format, and one tenant saw another's answer. What is wrong with the key?",
+      "options": [
+        "It is too long",
+        "It must include model id, prompt version and tenant (and any other inputs that change the answer)",
+        "It should be random",
+        "Caches should never be used"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Keys without model, prompt version or tenant cause stale and leaked answers. Include everything that changes the correct answer."
+    },
+    {
+      "id": "pt-acls-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "Under load, a service fires unlimited concurrent requests, hits 429s, and retries immediately. Latency explodes. What is the fix?",
+      "options": [
+        "More retries",
+        "Bound concurrency (e.g. a semaphore or queue), retry with exponential backoff and jitter, and respect provider rate limits",
+        "Remove timeouts",
+        "Disable streaming"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unbounded concurrency causes retry storms. Bounded concurrency plus backoff with jitter keeps throughput high without overwhelming the provider."
+    },
+    {
+      "id": "pt-acls-09",
+      "type": "single",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-cost-latency-and-scaling",
+      "prompt": "On self-hosted LLM serving, which approach raises GPU throughput substantially compared with naive serving?",
+      "options": [
+        "Continuous batching with efficient KV-cache management (e.g. PagedAttention)",
+        "Running one request at a time",
+        "Disabling the KV cache",
+        "Using float64"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Continuous batching and efficient KV-cache memory management keep the GPU busy across requests."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-acls-pct",
+      "language": "python",
+      "title": "Latency percentiles",
+      "difficulty": "beginner",
+      "prompt": "Write `percentile(values, p)` using the **nearest-rank** method: sort the values, then return the element at rank `ceil(p/100 * n)` (1-based; use rank 1 when p is 0). Then `summary(values)` returns `{\"p50\": ..., \"p95\": ..., \"p99\": ..., \"mean\": round(mean, 1)}`.\n\nExample: for latencies `[100]*95 + [5000]*5`, the mean is 345.0 but p95 is 100 and p99 is 5000.",
+      "starter": "def percentile(values, p):\n    # Your code here\n    pass\n\ndef summary(values):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef percentile(values, p):\n    s = sorted(values)\n    rank = max(1, math.ceil(p / 100 * len(s)))\n    return s[rank - 1]\n\ndef summary(values):\n    return {'p50': percentile(values, 50), 'p95': percentile(values, 95), 'p99': percentile(values, 99), 'mean': round(sum(values) / len(values), 1)}\n",
+      "explanation": "Percentiles describe what users actually experience: the mean of 345 ms describes nobody, while p99 shows that 1 in 100 requests takes 5 seconds. Nearest-rank always returns a real observed value.",
+      "hints": [
+        "Sort first.",
+        "Rank is `ceil(p/100 * n)`, at least 1; index is rank - 1.",
+        "Build the summary dict from percentile calls."
+      ],
+      "tests": [
+        {
+          "name": "Nearest rank",
+          "marks": 2,
+          "code": "assert percentile([15,20,35,40,50],30)==20 and percentile([15,20,35,40,50],100)==50 and percentile([3,1,2],0)==1"
+        },
+        {
+          "name": "Tail hidden by the mean",
+          "marks": 3,
+          "code": "assert summary([100]*95+[5000]*5)=={'p50':100,'p95':100,'p99':5000,'mean':345.0}, summary([100]*95+[5000]*5)"
+        }
+      ]
+    },
+    {
+      "id": "code-acls-key",
+      "language": "python",
+      "title": "Safe cache key",
+      "difficulty": "intermediate",
+      "prompt": "Write `cache_key(tenant, model, prompt_version, question)` returning a SHA-256 hex digest of the four parts. Normalise the question by stripping and collapsing internal whitespace (case is kept). Join the parts with a `\\x1f` (unit separator) before hashing so `('a','bc')` and `('ab','c')` cannot collide.",
+      "starter": "import hashlib\n\ndef cache_key(tenant, model, prompt_version, question):\n    # Your code here\n    pass\n",
+      "solution": "import hashlib\n\ndef cache_key(tenant, model, prompt_version, question):\n    q = ' '.join(question.split())\n    raw = '\\x1f'.join([tenant, model, prompt_version, q])\n    return hashlib.sha256(raw.encode('utf-8')).hexdigest()\n",
+      "explanation": "Every input that changes the right answer must be in the key: tenant (to prevent leaks), model and prompt version (to prevent stale answers after a change). A separator that cannot appear in normal text prevents ambiguous concatenations.",
+      "hints": [
+        "Normalise with `' '.join(question.split())`.",
+        "Join the four parts with `'\\x1f'`.",
+        "`hashlib.sha256(raw.encode()).hexdigest()`."
+      ],
+      "tests": [
+        {
+          "name": "Normalises whitespace only",
+          "marks": 2,
+          "code": "k=cache_key('t1','claude-sonnet-5-5','v3','  Where is   my order? ')\nassert k==cache_key('t1','claude-sonnet-5-5','v3','Where is my order?') and len(k)==64\nassert k!=cache_key('t1','claude-sonnet-5-5','v3','where is my order?')"
+        },
+        {
+          "name": "Tenant, model and version change the key",
+          "marks": 3,
+          "code": "base=cache_key('t1','m','v1','q')\nassert base is not None and len({base,cache_key('t2','m','v1','q'),cache_key('t1','m2','v1','q'),cache_key('t1','m','v2','q')})==4\nassert cache_key('a','bc','v','q')!=cache_key('ab','c','v','q')"
+        }
+      ]
+    },
+    {
+      "id": "code-acls-route",
+      "language": "python",
+      "title": "Monthly cost with a model cascade",
+      "difficulty": "advanced",
+      "prompt": "A router sends requests to a small model first, and escalates a fraction of them to a large model (the small call still happens and is paid for). Write `monthly_cost(requests, in_tok, out_tok, small, large, escalation_rate)` where `small` and `large` are `(input_price, output_price)` per million tokens. Return the total monthly cost rounded to 2 decimals.\n\nPrices here are made-up exercise numbers, not real provider prices.",
+      "starter": "def monthly_cost(requests, in_tok, out_tok, small, large, escalation_rate):\n    # Your code here\n    pass\n",
+      "solution": "def monthly_cost(requests, in_tok, out_tok, small, large, escalation_rate):\n    def per_call(prices):\n        return (in_tok * prices[0] + out_tok * prices[1]) / 1_000_000\n    total = requests * per_call(small) + requests * escalation_rate * per_call(large)\n    return round(total, 2)\n",
+      "explanation": "Cascades save money only if the escalation rate stays low, because escalated requests pay twice. Modelling it explicitly shows the break-even point; the third test shows that at 100% escalation the cascade costs more than calling the large model directly.",
+      "hints": [
+        "Compute the cost of one call for a given price pair.",
+        "Every request pays for the small call; only the escalated fraction pays for the large one.",
+        "Round at the end."
+      ],
+      "tests": [
+        {
+          "name": "Typical cascade",
+          "marks": 3,
+          "code": "assert monthly_cost(100_000,1000,200,(1.0,5.0),(10.0,50.0),0.1)==400.0, monthly_cost(100_000,1000,200,(1.0,5.0),(10.0,50.0),0.1)"
+        },
+        {
+          "name": "No escalation",
+          "marks": 1,
+          "code": "assert monthly_cost(1000,1000,1000,(1.0,1.0),(9.0,9.0),0.0)==2.0"
+        },
+        {
+          "name": "Full escalation costs more than large alone",
+          "marks": 2,
+          "code": "c=monthly_cost(1000,1_000_000,0,(1.0,0.0),(10.0,0.0),1.0)\nassert c==11000.0, c"
+        }
+      ]
+    }
+  ]
+}

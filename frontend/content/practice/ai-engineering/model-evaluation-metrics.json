@@ -1,0 +1,258 @@
+{
+  "lesson": "model-evaluation-metrics",
+  "questions": [
+    {
+      "id": "pt-mem-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "model-evaluation-metrics",
+      "prompt": "Which metric answers 'Of the real positives, how many did the model catch?'",
+      "options": [
+        "Precision",
+        "Recall",
+        "Specificity",
+        "Accuracy"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Recall = TP / (TP + FN). Precision answers 'when it says positive, how often is it right?', and specificity is about negatives."
+    },
+    {
+      "id": "pt-mem-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "model-evaluation-metrics",
+      "prompt": "What ROC AUC corresponds to random ranking?",
+      "options": [
+        "0",
+        "0.5",
+        "1.0",
+        "-1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "AUC is the probability a random positive is scored above a random negative; 0.5 means no better than chance and 1.0 is perfect."
+    },
+    {
+      "id": "pt-mem-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "model-evaluation-metrics",
+      "prompt": "MAPE works well even when true values are close to zero.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. MAPE divides by the true value, so it explodes or becomes undefined near zero."
+    },
+    {
+      "id": "pt-mem-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "model-evaluation-metrics",
+      "prompt": "Using the lesson's fraud example (TP=40, FP=10, FN=60, TN=890), what is the specificity?",
+      "options": [
+        "0.80",
+        "0.40",
+        "about 0.989",
+        "0.93"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Specificity = TN / (TN + FP) = 890 / 900 ≈ 0.989. 0.80 is precision, 0.40 recall and 0.93 accuracy."
+    },
+    {
+      "id": "pt-mem-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "model-evaluation-metrics",
+      "prompt": "With rare positives, which threshold-free metric is usually more informative than ROC AUC?",
+      "options": [
+        "Accuracy",
+        "Average precision (precision-recall curve)",
+        "R²",
+        "MAE"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "When positives are rare, ROC can look good because the false positive rate stays small; the precision-recall view shows how many alerts are actually useful."
+    },
+    {
+      "id": "pt-mem-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "model-evaluation-metrics",
+      "prompt": "A 3-class model has 95% accuracy, but the minority class has 20% recall. Which average exposes this?",
+      "options": [
+        "Micro",
+        "Weighted",
+        "Macro",
+        "None"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Macro averaging gives each class equal weight, so a poor minority class pulls the score down. Micro and weighted are dominated by large classes."
+    },
+    {
+      "id": "pt-mem-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "model-evaluation-metrics",
+      "prompt": "A model predicts 0.7 probability for 1,000 cases, and 40% of them are positive. What does that show?",
+      "options": [
+        "The model is calibrated",
+        "The model is over-confident (poorly calibrated); check with a reliability diagram/Brier score and recalibrate",
+        "Accuracy is 70%",
+        "AUC is 0.7"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Calibrated means predictions of 0.7 come true about 70% of the time. Here they come true 40%, so probabilities cannot be used at face value."
+    },
+    {
+      "id": "pt-mem-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "model-evaluation-metrics",
+      "prompt": "The team tried 30 thresholds and picked the one with the best F1 on the test set, then reported that F1. What is wrong?",
+      "options": [
+        "Nothing",
+        "Choosing the threshold on the test set leaks it and inflates the result; choose on validation data and report once on test",
+        "F1 cannot use thresholds",
+        "They should use accuracy"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The threshold is a hyperparameter. Selecting it on test data makes the test estimate optimistic."
+    },
+    {
+      "id": "pt-mem-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "model-evaluation-metrics",
+      "prompt": "A review team can handle at most 50 fraud alerts per day. How should you pick the threshold?",
+      "options": [
+        "Always use 0.5",
+        "From the operational constraint: choose the threshold whose daily alert volume on validation data stays within 50, then report the precision and recall it achieves",
+        "Maximise accuracy",
+        "Pick the threshold with the highest recall regardless of alerts"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Thresholds should come from costs and constraints of the real decision, not a default value."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mem-confusion",
+      "language": "python",
+      "title": "Classification metrics from a confusion matrix",
+      "difficulty": "beginner",
+      "prompt": "Write `metrics(tp, fp, fn, tn)` returning a dict with `accuracy`, `precision`, `recall` and `f1`, each rounded to 4 decimals. Use 0.0 for any metric whose denominator is zero.\n\nExample: `metrics(40, 10, 60, 890)` gives accuracy 0.93, precision 0.8, recall 0.4, f1 0.5333.",
+      "starter": "def metrics(tp, fp, fn, tn):\n    # Your code here\n    pass\n",
+      "solution": "def metrics(tp, fp, fn, tn):\n    def div(a, b):\n        return a / b if b else 0.0\n    total = tp + fp + fn + tn\n    p = div(tp, tp + fp)\n    r = div(tp, tp + fn)\n    f1 = div(2 * p * r, p + r)\n    return {'accuracy': round(div(tp + tn, total), 4), 'precision': round(p, 4), 'recall': round(r, 4), 'f1': round(f1, 4)}\n",
+      "explanation": "Each metric is a ratio from the confusion matrix. Guarding zero denominators matters in practice: a model that never predicts positive has undefined precision, which should be reported, not crash the pipeline.",
+      "hints": [
+        "Write a small `div(a, b)` helper that returns 0.0 when b is 0.",
+        "F1 is `2*p*r / (p + r)`.",
+        "Round at the end, not before computing F1."
+      ],
+      "tests": [
+        {
+          "name": "Lesson example",
+          "marks": 2,
+          "code": "assert metrics(40,10,60,890)=={'accuracy':0.93,'precision':0.8,'recall':0.4,'f1':0.5333}, metrics(40,10,60,890)"
+        },
+        {
+          "name": "Never predicts positive",
+          "marks": 2,
+          "code": "assert metrics(0,0,10,90)=={'accuracy':0.9,'precision':0.0,'recall':0.0,'f1':0.0}"
+        }
+      ]
+    },
+    {
+      "id": "code-mem-threshold",
+      "language": "python",
+      "title": "Pick a threshold for a recall target",
+      "difficulty": "intermediate",
+      "prompt": "Write `threshold_for_recall(scores, labels, target)` that returns the **highest** threshold `t` from the distinct scores such that predicting positive when `score >= t` gives recall `>= target`. Return `None` if there are no positives. `labels` are 1 (positive) or 0.\n\nExample: scores `[0.9, 0.8, 0.4, 0.3]`, labels `[1, 0, 1, 0]`, target `1.0` returns `0.4`.",
+      "starter": "def threshold_for_recall(scores, labels, target):\n    # Your code here\n    pass\n",
+      "solution": "def threshold_for_recall(scores, labels, target):\n    positives = sum(labels)\n    if positives == 0:\n        return None\n    for t in sorted(set(scores), reverse=True):\n        tp = sum(1 for s, y in zip(scores, labels) if s >= t and y == 1)\n        if tp / positives >= target:\n            return t\n    return None\n",
+      "explanation": "Lowering the threshold can only increase recall, so scanning from the highest score down and stopping at the first that meets the target gives the highest qualifying threshold, which keeps precision as high as possible for that recall.",
+      "hints": [
+        "Count positives first.",
+        "Try distinct scores from high to low.",
+        "Recall at threshold t: positives with score >= t divided by all positives."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert threshold_for_recall([0.9,0.8,0.4,0.3],[1,0,1,0],1.0)==0.4"
+        },
+        {
+          "name": "Partial recall target",
+          "marks": 2,
+          "code": "assert threshold_for_recall([0.9,0.8,0.4,0.3],[1,0,1,0],0.5)==0.9"
+        },
+        {
+          "name": "No positives",
+          "marks": 1,
+          "code": "assert threshold_for_recall([0.1,0.2],[0,0],0.9) is None and threshold_for_recall([0.5],[1],1.0)==0.5"
+        }
+      ]
+    },
+    {
+      "id": "code-mem-auc",
+      "language": "python",
+      "title": "ROC AUC by pairwise ranking",
+      "difficulty": "advanced",
+      "prompt": "Write `roc_auc(scores, labels)` using the definition from the lesson: the probability that a random positive is scored above a random negative. Compare every positive-negative pair; count 1 if the positive scores higher, 0.5 for a tie. Return the mean, rounded to 4 decimals. Raise `ValueError` if there are no positives or no negatives.",
+      "starter": "def roc_auc(scores, labels):\n    # Your code here\n    pass\n",
+      "solution": "def roc_auc(scores, labels):\n    pos = [s for s, y in zip(scores, labels) if y == 1]\n    neg = [s for s, y in zip(scores, labels) if y == 0]\n    if not pos or not neg:\n        raise ValueError('need both classes')\n    total = 0.0\n    for p in pos:\n        for n in neg:\n            if p > n:\n                total += 1\n            elif p == n:\n                total += 0.5\n    return round(total / (len(pos) * len(neg)), 4)\n",
+      "explanation": "This O(P x N) definition is exactly what ROC AUC measures, which makes it a good test oracle for a faster library implementation. AUC is threshold-free: it only cares about ranking, not about where you cut.",
+      "hints": [
+        "Split scores into positives and negatives.",
+        "Loop over all pairs; ties count 0.5.",
+        "Divide by the number of pairs."
+      ],
+      "tests": [
+        {
+          "name": "Perfect and reversed ranking",
+          "marks": 2,
+          "code": "assert roc_auc([0.9,0.8,0.2,0.1],[1,1,0,0])==1.0 and roc_auc([0.1,0.2,0.8,0.9],[1,1,0,0])==0.0"
+        },
+        {
+          "name": "Mixed with a tie",
+          "marks": 3,
+          "code": "assert roc_auc([0.9,0.5,0.5,0.1],[1,1,0,0])==0.875, roc_auc([0.9,0.5,0.5,0.1],[1,1,0,0])"
+        },
+        {
+          "name": "Needs both classes",
+          "marks": 1,
+          "code": "try:\n    roc_auc([0.1,0.2],[1,1])\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    }
+  ]
+}

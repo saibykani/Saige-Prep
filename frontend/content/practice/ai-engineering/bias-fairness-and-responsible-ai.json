@@ -1,0 +1,250 @@
+{
+  "lesson": "bias-fairness-and-responsible-ai",
+  "questions": [
+    {
+      "id": "pt-bfra-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "What is a selection rate for a group?",
+      "options": [
+        "P(y = 1 | A = a)",
+        "P(ŷ = 1 | A = a)",
+        "Accuracy for the group",
+        "The group's share of the dataset"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Selection rate is how often the model predicts positive for that group, regardless of the true label."
+    },
+    {
+      "id": "pt-bfra-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "A good overall accuracy can hide large performance gaps between groups.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Reporting only overall accuracy is a listed mistake; disaggregate by group and slice."
+    },
+    {
+      "id": "pt-bfra-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "Which is a proxy feature that can reintroduce bias after removing a protected attribute?",
+      "options": [
+        "Request timestamp",
+        "Postcode",
+        "Model version",
+        "Row id"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Postcode or school can correlate with protected attributes, so dropping the attribute does not guarantee fairness."
+    },
+    {
+      "id": "pt-bfra-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "What is the equalized odds difference?",
+      "code": "group A: TPR = 0.80, FPR = 0.10\ngroup B: TPR = 0.70, FPR = 0.30",
+      "codeLanguage": "python",
+      "options": [
+        "0.10",
+        "0.20",
+        "0.30",
+        "0.05"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "TPR gap = 0.80 - 0.70 = 0.10; FPR gap = 0.30 - 0.10 = 0.20. Fairlearn's equalized odds difference is the larger of the two: 0.20."
+    },
+    {
+      "id": "pt-bfra-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "Group A has 12 applicants and group B has 4,000. Group A's selection rate is 0.25 vs 0.40. What should you be careful about?",
+      "options": [
+        "Nothing",
+        "Small samples make group A's rate noisy; report uncertainty (intervals) and avoid strong conclusions either way",
+        "Remove group A",
+        "Use accuracy instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Ignoring sample size is a listed mistake; a small group's noisy rate can drive wrong conclusions."
+    },
+    {
+      "id": "pt-bfra-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "Why can't a typical imperfect classifier satisfy demographic parity and equalized odds at the same time when base rates differ?",
+      "options": [
+        "It always can",
+        "When groups have different base rates, equal selection rates and equal error rates generally conflict, so a definition must be chosen deliberately",
+        "Because of the learning rate",
+        "Because both metrics are the same"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Different base rates make the criteria mathematically incompatible for non-perfect classifiers; choose and document the definition based on harm."
+    },
+    {
+      "id": "pt-bfra-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "A counterfactual test swaps a name on 50 CVs, runs once, and finds no difference. The team declares the screener fair. What is wrong?",
+      "options": [
+        "Nothing",
+        "LLM scores vary between runs, so run multiple samples and compare distributions; and a passing test is evidence about the tested cases, not proof of fairness",
+        "They should swap ages only",
+        "50 is too many"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Running counterfactual tests once and treating a pass as proof are both listed mistakes."
+    },
+    {
+      "id": "pt-bfra-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "A team wants to collect applicants' ethnicity to measure fairness. What must happen first?",
+      "options": [
+        "Nothing",
+        "Privacy and legal review of collection, purpose, storage and access",
+        "Add it as a model feature",
+        "Publish it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Collecting group data without privacy and legal review is a listed mistake, even when the purpose is fairness testing."
+    },
+    {
+      "id": "pt-bfra-09",
+      "type": "single",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "bias-fairness-and-responsible-ai",
+      "prompt": "Which NIST publication groups AI bias into systemic, statistical/computational and human categories?",
+      "options": [
+        "NIST SP 1270",
+        "NIST AI 600-1",
+        "ISO/IEC 42001",
+        "SR 26-2"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "NIST SP 1270 provides that taxonomy. AI 600-1 is the Generative AI Profile; ISO/IEC 42001 is a management-system standard; SR 26-2 is US banking model risk guidance."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-bfra-rates",
+      "language": "python",
+      "title": "Group selection rates and parity difference",
+      "difficulty": "beginner",
+      "prompt": "Write `parity(preds, groups)` where `preds` are 0/1 predictions and `groups` the group label for each row. Return `(rates, diff)`: a dict of group -> selection rate (rounded to 4 decimals) and the demographic parity difference (max rate - min rate, rounded to 4).",
+      "starter": "def parity(preds, groups):\n    # Your code here\n    pass\n",
+      "solution": "def parity(preds, groups):\n    totals, positives = {}, {}\n    for p, g in zip(preds, groups):\n        totals[g] = totals.get(g, 0) + 1\n        positives[g] = positives.get(g, 0) + p\n    rates = {g: round(positives[g] / totals[g], 4) for g in totals}\n    diff = round(max(rates.values()) - min(rates.values()), 4)\n    return rates, diff\n",
+      "explanation": "Selection rate is positives over rows per group; the parity difference is the largest gap. Zero means equal selection rates, which is one, but not the only, fairness definition.",
+      "hints": [
+        "Count rows and positive predictions per group.",
+        "Rate = positives / rows.",
+        "Difference = max - min."
+      ],
+      "tests": [
+        {
+          "name": "Two groups",
+          "marks": 3,
+          "code": "assert parity([1,1,0,0,1,0,0,0],['a','a','a','a','b','b','b','b'])==({'a':0.5,'b':0.25},0.25)"
+        },
+        {
+          "name": "Equal rates",
+          "marks": 1,
+          "code": "assert parity([1,0,1,0],['x','x','y','y'])==({'x':0.5,'y':0.5},0.0)"
+        }
+      ]
+    },
+    {
+      "id": "code-bfra-eodds",
+      "language": "python",
+      "title": "Equalized odds difference",
+      "difficulty": "intermediate",
+      "prompt": "Write `equalized_odds_diff(y_true, y_pred, groups)` returning the larger of the TPR gap and the FPR gap across groups (max - min of each), rounded to 4 decimals. If a group has no positives (or no negatives), skip it for that rate.",
+      "starter": "def equalized_odds_diff(y_true, y_pred, groups):\n    # Your code here\n    pass\n",
+      "solution": "def equalized_odds_diff(y_true, y_pred, groups):\n    tpr, fpr = [], []\n    for g in set(groups):\n        rows = [(t, p) for t, p, gg in zip(y_true, y_pred, groups) if gg == g]\n        pos = [p for t, p in rows if t == 1]\n        neg = [p for t, p in rows if t == 0]\n        if pos:\n            tpr.append(sum(pos) / len(pos))\n        if neg:\n            fpr.append(sum(neg) / len(neg))\n    gap_t = max(tpr) - min(tpr) if tpr else 0.0\n    gap_f = max(fpr) - min(fpr) if fpr else 0.0\n    return round(max(gap_t, gap_f), 4)\n",
+      "explanation": "This mirrors Fairlearn's definition: equal opportunity looks only at the TPR gap; equalized odds also requires equal false positive rates and reports the worse of the two gaps.",
+      "hints": [
+        "Per group, split predictions by the true label.",
+        "TPR is mean prediction among true positives; FPR among true negatives.",
+        "Return the larger of the two gaps."
+      ],
+      "tests": [
+        {
+          "name": "FPR gap dominates",
+          "marks": 3,
+          "code": "yt=[1,1,0,0,1,1,0,0]\nyp=[1,1,0,0,1,0,1,1]\ng=['a']*4+['b']*4\nassert equalized_odds_diff(yt,yp,g)==1.0, equalized_odds_diff(yt,yp,g)"
+        },
+        {
+          "name": "TPR gap only",
+          "marks": 2,
+          "code": "yt=[1,1,0,1,1,0]\nyp=[1,1,0,1,0,0]\ng=['a','a','a','b','b','b']\nassert equalized_odds_diff(yt,yp,g)==0.5, equalized_odds_diff(yt,yp,g)"
+        }
+      ]
+    },
+    {
+      "id": "code-bfra-cf",
+      "language": "python",
+      "title": "Counterfactual name-swap test",
+      "difficulty": "advanced",
+      "prompt": "Write `counterfactual_gaps(score_fn, template, names, runs, tolerance)`. For each name, fill `template` (containing `{name}`) and call `score_fn(text)` `runs` times; take the mean score per name. Return `(means, ok)` where `means` maps name -> mean rounded to 3 decimals and `ok` is True when max mean - min mean <= tolerance (with a 1e-9 slack).",
+      "starter": "def counterfactual_gaps(score_fn, template, names, runs, tolerance):\n    # Your code here\n    pass\n",
+      "solution": "def counterfactual_gaps(score_fn, template, names, runs, tolerance):\n    means = {}\n    for name in names:\n        text = template.format(name=name)\n        scores = [score_fn(text) for _ in range(runs)]\n        means[name] = round(sum(scores) / runs, 3)\n    gap = max(means.values()) - min(means.values())\n    return means, gap <= tolerance + 1e-9\n",
+      "explanation": "Counterfactual tests are metamorphic: only the name changes, so the score should not. Averaging several runs separates a real gap from run-to-run noise, which a single run cannot.",
+      "hints": [
+        "Use `template.format(name=name)`.",
+        "Call the scorer `runs` times per name and average.",
+        "Compare the spread of means with the tolerance."
+      ],
+      "tests": [
+        {
+          "name": "Detects a biased scorer",
+          "marks": 3,
+          "code": "def s(t):\n    return 3.0 if 'Emily' in t else 4.0\nm,ok=counterfactual_gaps(s,'CV of {name}: 5 years QA',['Emily','Greg'],3,0.2)\nassert m=={'Emily':3.0,'Greg':4.0} and ok is False, (m,ok)"
+        },
+        {
+          "name": "Averages noisy runs",
+          "marks": 3,
+          "code": "import itertools\nseq=itertools.cycle([3.0,4.0])\nm,ok=counterfactual_gaps(lambda t:next(seq),'{name}',['A','B'],2,0.1)\nassert m=={'A':3.5,'B':3.5} and ok is True, (m,ok)"
+        }
+      ]
+    }
+  ]
+}

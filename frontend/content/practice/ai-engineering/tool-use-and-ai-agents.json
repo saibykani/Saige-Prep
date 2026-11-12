@@ -1,0 +1,235 @@
+{
+  "lesson": "tool-use-and-ai-agents",
+  "questions": [
+    {
+      "id": "pt-tool-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "In the tool-use protocol, who actually executes the tool function?",
+      "options": [
+        "The model provider",
+        "Your application code",
+        "The user",
+        "The tokenizer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The model only proposes a tool call (name and input). Your code validates the input, runs the function and returns a tool_result."
+    },
+    {
+      "id": "pt-tool-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "Which three fields define a tool you send to the model?",
+      "options": [
+        "id, input, output",
+        "name, description, input_schema",
+        "model, max_tokens, tools",
+        "role, content, stop_reason"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each tool has a name, a description (when to use it, what parameters mean, what it returns) and a JSON Schema for its input."
+    },
+    {
+      "id": "pt-tool-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "A system prompt saying 'never delete records' is a sufficient control if the agent has a tool with delete permission.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. The prompt is a hint; the control is a tool layer without delete permission (least privilege) plus validation and approval in code."
+    },
+    {
+      "id": "pt-tool-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "A tool call fails because the database is down. What should you send back to the model?",
+      "options": [
+        "Nothing; end the conversation",
+        "A tool_result with the matching tool_use_id, a short error message and is_error: true",
+        "A new user question",
+        "The stack trace with credentials"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Return the failure as a tool_result tied to the same id with is_error so the model can recover or explain. Never leak secrets in errors."
+    },
+    {
+      "id": "pt-tool-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "A ticket-triage task always follows the same three steps: classify, look up the owner, post a comment. Which design does the lesson recommend?",
+      "options": [
+        "A fully autonomous multi-agent system",
+        "A fixed workflow (prompt chaining with code between steps)",
+        "An agent with a run_shell tool",
+        "No automation"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Anthropic's guidance: start with the simplest thing. Predictable, fixed paths suit workflows; agents add flexibility at the cost of predictability and testing effort."
+    },
+    {
+      "id": "pt-tool-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "Which limits stop runaway agent loops? Select all that apply.",
+      "options": [
+        "Maximum steps",
+        "Token budget",
+        "Wall-clock timeout",
+        "A longer system prompt"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Step, token and time limits are code-level controls. More prompt text does not bound cost."
+    },
+    {
+      "id": "pt-tool-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "This agent loop sometimes runs for hundreds of iterations and cost spikes. What is the main defect?",
+      "code": "while True:\n    resp = call_model(messages, tools)\n    if resp.stop_reason != \"tool_use\":\n        return resp\n    messages += run_tools(resp)",
+      "codeLanguage": "python",
+      "options": [
+        "It uses the wrong model",
+        "There is no maximum step count or budget, so a model that keeps calling tools never stops",
+        "It should not append tool results",
+        "stop_reason is misspelled"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The loop only ends when the model chooses to stop. Add a step cap, a token budget and a timeout, then fail safe with a logged reason."
+    },
+    {
+      "id": "pt-tool-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "An agent has a generic run_sql tool using a database admin account. What is the best redesign?",
+      "options": [
+        "Keep it and add 'be careful' to the prompt",
+        "Replace it with narrow, purpose-built tools (e.g. get_order(order_id)) using read-only, scoped credentials, with approval for any write",
+        "Give it a run_shell tool too",
+        "Hide the tool description"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Over-powered generic tools are a listed mistake. Narrow tools validate inputs naturally and limit blast radius; least-privilege credentials are the real control."
+    },
+    {
+      "id": "pt-tool-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "tool-use-and-ai-agents",
+      "prompt": "How should you test an agent that books meeting rooms?",
+      "options": [
+        "Run it once and check the final message",
+        "Check trajectories (which tools, with which arguments, in which order), repeat runs to measure variation, and include adversarial cases such as injected instructions in calendar text",
+        "Only unit test the prompt",
+        "Test only the happy path"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing final answers once is listed as a mistake. Agents are non-deterministic and act through tools, so the trajectory and pass rate across runs are what matter."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-tool-dispatch",
+      "language": "python",
+      "title": "Validate and dispatch a tool call",
+      "difficulty": "intermediate",
+      "prompt": "Write `run_tool_call(call, registry)` where `call` is `{\"id\": str, \"name\": str, \"input\": dict}` and `registry` maps a tool name to `(function, required_params)` where `required_params` is a dict of parameter name to Python type. Return a tool_result dict:\n\n- Unknown tool: `{\"tool_use_id\": id, \"content\": \"unknown tool\", \"is_error\": True}`\n- Missing parameter, wrong type, or extra parameter: content `\"invalid input\"`, `is_error` True (do not echo the values).\n- If the function raises, content `\"tool failed\"`, `is_error` True.\n- Otherwise `{\"tool_use_id\": id, \"content\": str(result), \"is_error\": False}`.",
+      "starter": "def run_tool_call(call, registry):\n    # Your code here\n    pass\n",
+      "solution": "def run_tool_call(call, registry):\n    def result(content, err):\n        return {\"tool_use_id\": call[\"id\"], \"content\": content, \"is_error\": err}\n    if call[\"name\"] not in registry:\n        return result(\"unknown tool\", True)\n    func, params = registry[call[\"name\"]]\n    args = call.get(\"input\", {})\n    if set(args) != set(params) or any(not isinstance(args[k], t) for k, t in params.items()):\n        return result(\"invalid input\", True)\n    try:\n        value = func(**args)\n    except Exception:\n        return result(\"tool failed\", True)\n    return result(str(value), False)\n",
+      "explanation": "The model's proposed call is untrusted input: check the tool exists, the arguments match the expected names and types exactly, and only then execute. Every outcome, including failures, goes back as a tool_result tied to the same id so the model can continue sensibly.",
+      "hints": [
+        "Look up the tool first and return early if unknown.",
+        "Compare `set(args)` with `set(params)` and check `isinstance` for each.",
+        "Wrap the call in try/except Exception."
+      ],
+      "tests": [
+        {
+          "name": "Runs a valid call",
+          "marks": 2,
+          "code": "reg={'add':(lambda a,b:a+b,{'a':int,'b':int})}\nassert run_tool_call({'id':'t1','name':'add','input':{'a':2,'b':3}},reg)=={'tool_use_id':'t1','content':'5','is_error':False}"
+        },
+        {
+          "name": "Rejects unknown tools and bad input",
+          "marks": 3,
+          "code": "reg={'add':(lambda a,b:a+b,{'a':int,'b':int})}\nassert run_tool_call({'id':'x','name':'rm','input':{}},reg)=={'tool_use_id':'x','content':'unknown tool','is_error':True}\nfor bad in ({'a':1},{'a':1,'b':'2'},{'a':1,'b':2,'c':3}):\n    r=run_tool_call({'id':'y','name':'add','input':bad},reg)\n    assert r=={'tool_use_id':'y','content':'invalid input','is_error':True}, (bad,r)"
+        },
+        {
+          "name": "Reports tool exceptions",
+          "marks": 2,
+          "code": "def boom(x):\n    raise RuntimeError('db down: secret=abc')\nr=run_tool_call({'id':'z','name':'q','input':{'x':1}},{'q':(boom,{'x':int})})\nassert r=={'tool_use_id':'z','content':'tool failed','is_error':True}, r"
+        }
+      ]
+    },
+    {
+      "id": "code-tool-loop",
+      "language": "python",
+      "title": "Agent loop with a step budget",
+      "difficulty": "advanced",
+      "prompt": "Write `run_agent(model, tools, max_steps)`. `model(history)` is a function that returns either `{\"type\": \"final\", \"text\": str}` or `{\"type\": \"tool\", \"name\": str, \"input\": dict}`. `tools` maps names to functions taking `**input`. Start with `history = []`. Each step: call `model(history)`; if final, return `{\"status\": \"done\", \"text\": text, \"steps\": steps_used}`; if a tool call, run it (unknown tool -> observation `\"error: unknown tool\"`), append `(name, observation)` to history and continue. Count each model call as one step. If `max_steps` model calls happen without a final answer, return `{\"status\": \"budget_exceeded\", \"text\": None, \"steps\": max_steps}`.",
+      "starter": "def run_agent(model, tools, max_steps):\n    # Your code here\n    pass\n",
+      "solution": "def run_agent(model, tools, max_steps):\n    history = []\n    for step in range(1, max_steps + 1):\n        action = model(history)\n        if action[\"type\"] == \"final\":\n            return {\"status\": \"done\", \"text\": action[\"text\"], \"steps\": step}\n        func = tools.get(action[\"name\"])\n        if func is None:\n            observation = \"error: unknown tool\"\n        else:\n            observation = func(**action[\"input\"])\n        history.append((action[\"name\"], observation))\n    return {\"status\": \"budget_exceeded\", \"text\": None, \"steps\": max_steps}\n",
+      "explanation": "This is the ReAct loop with the most important guardrail built into code: a hard step budget. Unknown tools become observations the model can react to rather than crashes, and exceeding the budget returns an explicit status the caller can log and alert on instead of looping forever.",
+      "hints": [
+        "Use `for step in range(1, max_steps + 1)`.",
+        "Return immediately on a final action; otherwise run the tool and append to history.",
+        "After the loop, return the budget_exceeded result."
+      ],
+      "tests": [
+        {
+          "name": "Finishes after a tool call",
+          "marks": 3,
+          "code": "def model(h):\n    return {'type':'final','text':'sum is '+str(h[-1][1])} if h else {'type':'tool','name':'add','input':{'a':2,'b':2}}\nr=run_agent(model,{'add':lambda a,b:a+b},5)\nassert r=={'status':'done','text':'sum is 4','steps':2}, r"
+        },
+        {
+          "name": "Stops at the budget",
+          "marks": 3,
+          "code": "calls=[]\ndef looper(h):\n    calls.append(1)\n    return {'type':'tool','name':'ping','input':{}}\nr=run_agent(looper,{'ping':lambda:'pong'},3)\nassert r=={'status':'budget_exceeded','text':None,'steps':3} and len(calls)==3, (r,len(calls))"
+        },
+        {
+          "name": "Unknown tool becomes an observation",
+          "marks": 2,
+          "code": "def model(h):\n    return {'type':'final','text':h[0][1]} if h else {'type':'tool','name':'nope','input':{}}\nassert run_agent(model,{},4)['text']=='error: unknown tool'"
+        }
+      ]
+    }
+  ]
+}

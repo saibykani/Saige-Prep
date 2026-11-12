@@ -1,0 +1,262 @@
+{
+  "lesson": "transformers-and-attention",
+  "questions": [
+    {
+      "id": "pt-trat-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "transformers-and-attention",
+      "prompt": "In attention, what is the role of the value vector v?",
+      "options": [
+        "It decides which tokens to look for",
+        "It describes what a token contains for matching",
+        "It is the information a token passes on, mixed according to the attention weights",
+        "It encodes the token's position"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Queries ask 'what am I looking for', keys say 'what do I contain' (used for matching), and values are what actually gets mixed into the output using the softmax weights. Position comes from positional encodings."
+    },
+    {
+      "id": "pt-trat-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "transformers-and-attention",
+      "prompt": "Which architecture is typical for producing text embeddings and classification (for example BERT)?",
+      "options": [
+        "Decoder-only with a causal mask",
+        "Encoder-only with bidirectional attention",
+        "Encoder-decoder only",
+        "RNN"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Encoder-only models see all tokens in both directions, which suits understanding tasks such as classification and embeddings. Decoder-only causal models are the GPT-style generators."
+    },
+    {
+      "id": "pt-trat-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "transformers-and-attention",
+      "prompt": "After the softmax in attention, each query's weights over all keys sum to 1.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Softmax is applied along each row (one query over all keys), turning scores into a probability distribution. Applying it along the wrong axis is a listed mistake."
+    },
+    {
+      "id": "pt-trat-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "transformers-and-attention",
+      "prompt": "Using the lesson's worked example, approximately what is the output vector for token 1?",
+      "code": "q1 = [1, 0]\nk1, k2 = [1, 0], [0, 1]\nv1, v2 = [10, 0], [0, 10]\n# Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) V, d_k = 2",
+      "codeLanguage": "python",
+      "options": [
+        "[10, 0]",
+        "[5, 5]",
+        "[6.7, 3.3]",
+        "[3.3, 6.7]"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Scores 1 and 0 are scaled by 1/sqrt(2) to 0.707 and 0. Softmax gives about 0.67 and 0.33, so the output is 0.67*[10,0] + 0.33*[0,10] = [6.7, 3.3]. Token 1 attends mostly to itself because its query matches its own key best."
+    },
+    {
+      "id": "pt-trat-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "transformers-and-attention",
+      "prompt": "What does a KV cache do during generation?",
+      "options": [
+        "Stores past keys and values so each new token does not recompute them for the whole prefix",
+        "Caches final answers for repeated prompts",
+        "Stores the vocabulary",
+        "Removes the need for a causal mask"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In autoregressive decoding, earlier tokens' keys and values do not change, so caching them makes each new step much cheaper. It is not a response cache, and the mask is still needed."
+    },
+    {
+      "id": "pt-trat-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "transformers-and-attention",
+      "prompt": "A model has d_model = 768 and 12 attention heads. What is each head's dimension in the standard design?",
+      "options": [
+        "768",
+        "64",
+        "12",
+        "9216"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Multi-head attention splits d_model across heads: 768 / 12 = 64. Each head has its own projections; outputs are concatenated back to 768 and projected with W_O."
+    },
+    {
+      "id": "pt-trat-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "transformers-and-attention",
+      "prompt": "A small language model trained with this attention achieves suspiciously low training loss but generates gibberish at inference. What is the bug?",
+      "code": "scores = Q @ K.transpose(-2, -1) / math.sqrt(d_k)\nweights = scores.softmax(dim=-1)\nout = weights @ V",
+      "codeLanguage": "python",
+      "options": [
+        "The scaling by sqrt(d_k) is wrong",
+        "No causal mask: during training each position can attend to future tokens, so it learns to copy the answer instead of predicting it",
+        "Softmax should use dim=0",
+        "Values should be the same as keys"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without a causal mask the model 'leaks the future' during training: predicting token t+1 is trivial when it can see it. At inference future tokens are not available, so quality collapses. Add -inf to future positions before the softmax."
+    },
+    {
+      "id": "pt-trat-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "transformers-and-attention",
+      "prompt": "Product wants to raise a feature's input from 8k to 64k tokens on a self-hosted standard-attention model. What should you warn about?",
+      "options": [
+        "Nothing; cost is linear",
+        "The attention score matrix grows with n squared, so 8x longer input means roughly 64x more pairwise interactions per layer; plan memory, latency and cost tests at the new length",
+        "Attention cost drops with longer input",
+        "Only the vocabulary size matters"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Standard self-attention builds an n x n matrix. Optimised kernels reduce memory use, but the number of interactions is still quadratic, so latency and memory must be re-tested at the target length."
+    },
+    {
+      "id": "pt-trat-09",
+      "type": "single",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "transformers-and-attention",
+      "prompt": "A stakeholder wants to use attention weights as a complete explanation of why the model made a decision. What is the accurate response?",
+      "options": [
+        "Attention weights are a faithful, complete explanation",
+        "Attention weights are one internal signal and not a complete or faithful explanation of model reasoning",
+        "Attention weights are random and meaningless",
+        "Only encoder models have attention weights"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The lesson lists treating attention as a faithful explanation as a mistake. Weights can be informative but other components (feed-forward layers, residual paths, many heads and layers) also shape the output."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-trat-softmax",
+      "language": "python",
+      "title": "Numerically stable softmax",
+      "difficulty": "beginner",
+      "prompt": "Write `softmax(scores)` that returns a list of probabilities for a list of floats. Subtract the maximum score before exponentiating so large scores do not overflow.\n\nExample: `softmax([0.0, 0.0])` returns `[0.5, 0.5]`, and `softmax([1000.0, 1000.0])` must also return `[0.5, 0.5]` without an OverflowError.",
+      "starter": "import math\n\ndef softmax(scores):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef softmax(scores):\n    m = max(scores)\n    exps = [math.exp(s - m) for s in scores]\n    total = sum(exps)\n    return [e / total for e in exps]\n",
+      "explanation": "Softmax is unchanged when you subtract the same constant from every score, because it cancels in the ratio. Subtracting the max makes the largest exponent e^0 = 1, so nothing overflows.",
+      "hints": [
+        "Find `m = max(scores)` first.",
+        "Exponentiate `s - m` for each score with `math.exp`.",
+        "Divide each exponent by the sum of all of them."
+      ],
+      "tests": [
+        {
+          "name": "Equal scores",
+          "marks": 1,
+          "code": "assert softmax([0.0,0.0])==[0.5,0.5]"
+        },
+        {
+          "name": "Sums to one and orders correctly",
+          "marks": 2,
+          "code": "p=softmax([2.0,1.0,0.1])\nassert abs(sum(p)-1)<1e-9 and p[0]>p[1]>p[2], p"
+        },
+        {
+          "name": "Large scores do not overflow",
+          "marks": 2,
+          "code": "p=softmax([1000.0,1000.0])\nassert p==[0.5,0.5], p"
+        }
+      ]
+    },
+    {
+      "id": "code-trat-attn",
+      "language": "python",
+      "title": "Scaled dot-product attention for one query",
+      "difficulty": "intermediate",
+      "prompt": "Write `attend(q, keys, values)` for a single query vector `q`, a list of key vectors and a list of value vectors (same length as keys). Compute scores `q·k / sqrt(d_k)` where `d_k = len(q)`, softmax them, and return the weighted sum of the value vectors as a list of floats.\n\nExample (from the lesson): `attend([1,0], [[1,0],[0,1]], [[10,0],[0,10]])` is about `[6.70, 3.30]`.",
+      "starter": "import math\n\ndef attend(q, keys, values):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef attend(q, keys, values):\n    d_k = len(q)\n    scores = [sum(a * b for a, b in zip(q, k)) / math.sqrt(d_k) for k in keys]\n    m = max(scores)\n    exps = [math.exp(s - m) for s in scores]\n    total = sum(exps)\n    weights = [e / total for e in exps]\n    dim = len(values[0])\n    return [sum(w * v[j] for w, v in zip(weights, values)) for j in range(dim)]\n",
+      "explanation": "This is one row of softmax(QK^T / sqrt(d_k)) V. The dot product measures how well the query matches each key, the scaling keeps scores from getting too peaky as dimension grows, softmax turns them into weights summing to 1, and the output is the weighted mix of values.",
+      "hints": [
+        "Score each key with a dot product, then divide by `math.sqrt(len(q))`.",
+        "Softmax the scores (subtract the max first).",
+        "For each output dimension j, sum `weight * value[j]` over all values."
+      ],
+      "tests": [
+        {
+          "name": "Lesson worked example",
+          "marks": 3,
+          "code": "o=attend([1,0],[[1,0],[0,1]],[[10,0],[0,10]])\nassert abs(o[0]-6.70)<0.01 and abs(o[1]-3.30)<0.01, o"
+        },
+        {
+          "name": "Equal scores give the average",
+          "marks": 2,
+          "code": "o=attend([0,0],[[1,2],[3,4]],[[2,4],[6,8]])\nassert all(abs(a-b)<1e-9 for a,b in zip(o,[4,6])), o"
+        },
+        {
+          "name": "Uses the sqrt(d_k) scaling",
+          "marks": 2,
+          "code": "o=attend([2,0,0,0],[[1,0,0,0],[0,0,0,0]],[[1],[0]])\nexp=math.exp(1)/(math.exp(1)+1)\nassert abs(o[0]-exp)<1e-9, (o, exp)"
+        }
+      ]
+    },
+    {
+      "id": "code-trat-mask",
+      "language": "python",
+      "title": "Causal mask",
+      "difficulty": "intermediate",
+      "prompt": "Write `causal_mask(scores)` that takes an n x n list-of-lists of attention scores (row i = query i, column j = key j) and returns a **new** matrix where every entry with `j > i` is replaced by `float('-inf')`. Do not modify the input.",
+      "starter": "def causal_mask(scores):\n    # Your code here\n    pass\n",
+      "solution": "def causal_mask(scores):\n    return [[s if j <= i else float('-inf') for j, s in enumerate(row)] for i, row in enumerate(scores)]\n",
+      "explanation": "Setting future positions to -inf before the softmax makes their weights exactly 0 (e^-inf = 0), so position i can only use tokens 0..i. Returning a new matrix avoids surprising callers who reuse the original scores.",
+      "hints": [
+        "Loop over rows with `enumerate` to get i, and over each row's values to get j.",
+        "Keep the score when `j <= i`, otherwise use `float('-inf')`.",
+        "A nested list comprehension builds the new matrix in one line."
+      ],
+      "tests": [
+        {
+          "name": "Masks the upper triangle",
+          "marks": 3,
+          "code": "m=causal_mask([[1,2,3],[4,5,6],[7,8,9]])\ninf=float('-inf')\nassert m==[[1,inf,inf],[4,5,inf],[7,8,9]], m"
+        },
+        {
+          "name": "Does not mutate input",
+          "marks": 1,
+          "code": "s=[[1,2],[3,4]]\nm=causal_mask(s)\nassert s==[[1,2],[3,4]] and m is not None and m[0][1]==float('-inf')"
+        }
+      ]
+    }
+  ]
+}

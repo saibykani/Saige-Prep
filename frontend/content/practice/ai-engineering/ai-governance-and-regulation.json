@@ -1,0 +1,223 @@
+{
+  "lesson": "ai-governance-and-regulation",
+  "questions": [
+    {
+      "id": "pt-agov-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "Which of these is legislation rather than a voluntary framework or a certifiable standard?",
+      "options": [
+        "NIST AI RMF",
+        "ISO/IEC 42001",
+        "The EU AI Act",
+        "Model cards"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The EU AI Act (Regulation (EU) 2024/1689) is law. NIST AI RMF is voluntary, ISO/IEC 42001 is a certifiable management-system standard, and model cards are a documentation practice."
+    },
+    {
+      "id": "pt-agov-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "Which NIST AI RMF function is cross-cutting and covers policies, roles and accountability?",
+      "options": [
+        "Map",
+        "Measure",
+        "Manage",
+        "Govern"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Govern is cross-cutting. Map covers context and harms, Measure analyses and tests risks, Manage prioritises and acts on them."
+    },
+    {
+      "id": "pt-agov-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "Under the EU AI Act, providers and deployers have different duties.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Providers develop or place systems on the market; deployers use them. Their obligations differ."
+    },
+    {
+      "id": "pt-agov-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "Since when have the EU AI Act's prohibitions and AI-literacy provisions applied?",
+      "options": [
+        "1 August 2024",
+        "2 February 2025",
+        "2 August 2025",
+        "2 August 2026"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Act entered into force on 1 August 2024; prohibitions and AI literacy have applied since 2 February 2025; GPAI model obligations since 2 August 2025. Always verify dates against the official timeline, because they have changed before."
+    },
+    {
+      "id": "pt-agov-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "An HR team plans to use AI to screen job applicants in the EU. What is the right first step for the engineering team?",
+      "options": [
+        "Decide alone that it is minimal risk",
+        "Flag it as a likely high-risk area (employment) and involve legal/compliance to classify it, then plan the evidence (risk management, logging, human oversight)",
+        "Ship and wait",
+        "Only write a model card"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Employment is a listed high-risk area. Engineers making legal classification calls alone is a listed mistake; they should provide evidence."
+    },
+    {
+      "id": "pt-agov-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "Which engineering evidence supports a 'record-keeping' requirement? Select all that apply.",
+      "options": [
+        "Logging tests showing each decision is traceable to model version and inputs",
+        "Retention and access rules for the logs",
+        "A marketing brochure",
+        "Audit-trail queries tested in CI"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Record-keeping needs traceable, retained, testable logs; brochures are not evidence."
+    },
+    {
+      "id": "pt-agov-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "A model card reports 94% overall accuracy only. Why is this insufficient?",
+      "options": [
+        "It is sufficient",
+        "Model cards should include disaggregated results by relevant factors (groups, environments); overall metrics can hide poor subgroup performance",
+        "Accuracy should be removed",
+        "Model cards should only list the training data"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Mitchell et al. include factors and disaggregated quantitative analyses; overall-only metrics are a listed mistake."
+    },
+    {
+      "id": "pt-agov-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "A chatbot built for product FAQs is repurposed to give credit-limit recommendations. What governance issue arises?",
+      "options": [
+        "None; same model",
+        "A change of intended use can change the risk classification and obligations; reassess before deployment",
+        "Only the UI changes",
+        "It needs a bigger model"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Ignoring changes of intended use is a listed mistake."
+    },
+    {
+      "id": "pt-agov-09",
+      "type": "single",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-governance-and-regulation",
+      "prompt": "What does ISO/IEC 42001:2023 specify?",
+      "options": [
+        "A neural network architecture",
+        "Requirements for an AI management system (AIMS), similar in style to ISO/IEC 27001",
+        "EU legal obligations",
+        "A fairness metric"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "ISO/IEC 42001 defines a management system with leadership, policy, risk assessment, impact assessment, controls and audit; organisations can be certified against it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-agov-card",
+      "language": "python",
+      "title": "Model card completeness check",
+      "difficulty": "beginner",
+      "prompt": "Write `missing_sections(card)` where `card` is a dict of section name -> text. Required sections (Mitchell et al.) are: `model_details`, `intended_use`, `factors`, `metrics`, `evaluation_data`, `training_data`, `quantitative_analyses`, `ethical_considerations`, `caveats_and_recommendations`. Return the required sections that are missing or blank (only whitespace), in the order listed.",
+      "starter": "REQUIRED = [\"model_details\", \"intended_use\", \"factors\", \"metrics\", \"evaluation_data\",\n            \"training_data\", \"quantitative_analyses\", \"ethical_considerations\",\n            \"caveats_and_recommendations\"]\n\ndef missing_sections(card):\n    # Your code here\n    pass\n",
+      "solution": "REQUIRED = [\"model_details\", \"intended_use\", \"factors\", \"metrics\", \"evaluation_data\",\n            \"training_data\", \"quantitative_analyses\", \"ethical_considerations\",\n            \"caveats_and_recommendations\"]\n\ndef missing_sections(card):\n    return [s for s in REQUIRED if not str(card.get(s, \"\")).strip()]\n",
+      "explanation": "Automating documentation checks in CI turns governance from a one-off document into a lifecycle gate: a release cannot ship with an empty intended-use or ethics section.",
+      "hints": [
+        "Loop over REQUIRED in order.",
+        "Use `card.get(s, '')` and `.strip()` to detect blank text.",
+        "A list comprehension is enough."
+      ],
+      "tests": [
+        {
+          "name": "Finds missing and blank",
+          "marks": 3,
+          "code": "c={s:'x' for s in REQUIRED}\nc['factors']='   '\ndel c['ethical_considerations']\nassert missing_sections(c)==['factors','ethical_considerations'], missing_sections(c)"
+        },
+        {
+          "name": "Complete card",
+          "marks": 1,
+          "code": "assert missing_sections({s:'ok' for s in REQUIRED})==[] and len(missing_sections({}))==9"
+        }
+      ]
+    },
+    {
+      "id": "code-agov-evidence",
+      "language": "python",
+      "title": "Requirement-to-evidence traceability",
+      "difficulty": "intermediate",
+      "prompt": "Write `untested(requirements, tests)` where `requirements` maps a requirement id to its theme (e.g. `{\"R1\": \"record-keeping\"}`) and `tests` is a list of dicts `{\"id\", \"covers\": [requirement ids], \"status\": \"pass\"|\"fail\"}`. Return a dict `{\"no_evidence\": [...], \"failing\": [...]}`: requirement ids with no covering test, and requirement ids with at least one failing covering test, each sorted.",
+      "starter": "def untested(requirements, tests):\n    # Your code here\n    pass\n",
+      "solution": "def untested(requirements, tests):\n    covered, failing = set(), set()\n    for t in tests:\n        for rid in t['covers']:\n            if rid in requirements:\n                covered.add(rid)\n                if t['status'] == 'fail':\n                    failing.add(rid)\n    return {'no_evidence': sorted(set(requirements) - covered), 'failing': sorted(failing)}\n",
+      "explanation": "A traceability matrix links every requirement to engineering evidence. Gaps (no test) and red evidence (failing test) are exactly what an auditor or compliance reviewer will ask about first.",
+      "hints": [
+        "Collect covered and failing requirement ids in sets.",
+        "Ignore ids that are not in the requirements dict.",
+        "Sort both outputs."
+      ],
+      "tests": [
+        {
+          "name": "Finds gaps and failures",
+          "marks": 3,
+          "code": "req={'R1':'record-keeping','R2':'human oversight','R3':'transparency'}\ntests=[{'id':'t1','covers':['R1'],'status':'pass'},{'id':'t2','covers':['R1','R2'],'status':'fail'},{'id':'t3','covers':['R9'],'status':'pass'}]\nassert untested(req,tests)=={'no_evidence':['R3'],'failing':['R1','R2']}, untested(req,tests)"
+        },
+        {
+          "name": "All green",
+          "marks": 1,
+          "code": "assert untested({'R1':'x'},[{'id':'t','covers':['R1'],'status':'pass'}])=={'no_evidence':[],'failing':[]}"
+        }
+      ]
+    }
+  ]
+}

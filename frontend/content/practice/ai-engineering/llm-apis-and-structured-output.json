@@ -1,0 +1,267 @@
+{
+  "lesson": "llm-apis-and-structured-output",
+  "questions": [
+    {
+      "id": "pt-llmapi-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "Which response field tells you how many input and output tokens a call used?",
+      "options": [
+        "stop_reason",
+        "usage",
+        "content",
+        "model"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "usage holds input and output token counts; log it for cost and latency monitoring. stop_reason explains why generation stopped, content holds the output blocks."
+    },
+    {
+      "id": "pt-llmapi-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "A 401 authentication error should be retried with exponential backoff.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. 400, 401 and 403 errors will fail the same way every time; retrying wastes money and time. Fix the request or credentials and alert. Retry 429, overload and 5xx errors with capped backoff."
+    },
+    {
+      "id": "pt-llmapi-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "Where should an API key for the LLM provider live?",
+      "options": [
+        "Hardcoded in the source file",
+        "In an environment variable or secret manager, never committed",
+        "In the system prompt",
+        "In the README"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Keys belong in the environment or a secret manager. Hardcoded keys leak through Git history and shared notebooks, and anything in a prompt is sent to the model."
+    },
+    {
+      "id": "pt-llmapi-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "On current Claude models (Sonnet 5.5, Opus 5.5), how does the lesson say to get tool-based structured extraction?",
+      "options": [
+        "Force the call with tool_choice {\"type\": \"tool\"}",
+        "Prefill the assistant turn with '{'",
+        "Use tool_choice {\"type\": \"auto\"} with an explicit instruction to call the tool, optionally with strict: true, or use native structured outputs",
+        "Set temperature to 0"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The lesson notes current Claude models reject forced tool/any choices and assistant prefill with a 400. Use auto plus a clear instruction (strict: true on the tool), or native structured outputs via output_config.format. Non-default temperature is also rejected."
+    },
+    {
+      "id": "pt-llmapi-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "Your extraction returns schema-valid JSON {\"invoice_total\": 1250.0, \"currency\": \"EUR\"}, but the document says USD 125.00. What does this show?",
+      "options": [
+        "The schema is broken",
+        "Schema-valid is not the same as correct; you still need business-rule checks and evaluation against ground truth",
+        "The model must be retrained",
+        "JSON cannot represent currency"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A schema constrains shape and types, not truth. Well-typed wrong values are exactly why the lesson insists on validating business rules and running evaluations."
+    },
+    {
+      "id": "pt-llmapi-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "A worker process occasionally freezes for many minutes on one request. Which missing setting is the most likely cause?",
+      "code": "client = Anthropic()\nresp = client.messages.create(model=MODEL, max_tokens=1024, messages=msgs)",
+      "codeLanguage": "python",
+      "options": [
+        "max_tokens",
+        "A client timeout",
+        "The system prompt",
+        "stop_sequences"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without a timeout a stuck network call blocks the worker indefinitely. Set a timeout on the client (and cap retries) so failures surface quickly."
+    },
+    {
+      "id": "pt-llmapi-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "Which belong in a retry policy for LLM calls? Select all that apply.",
+      "options": [
+        "Exponential backoff",
+        "Random jitter on the delay",
+        "A cap on the number of attempts",
+        "Retrying forever until it succeeds"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Backoff reduces pressure on a rate-limited service, jitter stops many clients retrying in lockstep, and a cap prevents runaway cost. Retrying forever is listed as a mistake."
+    },
+    {
+      "id": "pt-llmapi-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "Pydantic validation of the model's output fails with 'priority: input should be low, medium or high'. What is the best handling?",
+      "options": [
+        "Silently set priority to 'medium' and continue",
+        "Retry the call once or twice including the validation error message, then fail safe and log if it still fails",
+        "Disable validation for this field",
+        "Retry with no limit"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The lesson's flow: validate, retry with the error fed back (bounded N), and on exhaustion fail safe and log. Silent defaults hide bad data; unlimited retries create cost spikes."
+    },
+    {
+      "id": "pt-llmapi-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-apis-and-structured-output",
+      "prompt": "The model's output field `customer_name` is inserted into an SQL query with an f-string. What is the risk and fix?",
+      "options": [
+        "No risk because the model wrote it",
+        "Model output is untrusted input: it can contain injection payloads (possibly from the source document). Use parameterised queries and validate/sanitise before use",
+        "Only a performance risk",
+        "Escape it by asking the model nicely"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Echoing raw model output into SQL, HTML or shell is a listed mistake. Text in the input document can steer the output, so treat it like any user input: parameterise and validate."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-llmapi-retry",
+      "language": "python",
+      "title": "Classify errors for retry",
+      "difficulty": "beginner",
+      "prompt": "Write `should_retry(status)` that returns `True` for HTTP status codes worth retrying (429 and any 5xx, i.e. 500-599) and `False` otherwise (including 400, 401, 403, 404 and 200).",
+      "starter": "def should_retry(status):\n    # Your code here\n    pass\n",
+      "solution": "def should_retry(status):\n    return status == 429 or 500 <= status <= 599\n",
+      "explanation": "Rate limits (429) and server/overload errors (5xx) are transient, so a later attempt can succeed. Client errors (4xx except 429) are caused by the request itself and will fail again.",
+      "hints": [
+        "429 is the only 4xx code to retry.",
+        "Use a range check for 500 to 599.",
+        "`return status == 429 or 500 <= status <= 599`"
+      ],
+      "tests": [
+        {
+          "name": "Retries 429 and 5xx",
+          "marks": 2,
+          "code": "assert should_retry(429) and should_retry(500) and should_retry(529) and should_retry(503)"
+        },
+        {
+          "name": "Does not retry client errors",
+          "marks": 2,
+          "code": "assert all(should_retry(s) is False for s in (400,401,403,404,200,600)), [s for s in (400,401,403,404,200,600) if should_retry(s) is not False]"
+        }
+      ]
+    },
+    {
+      "id": "code-llmapi-backoff",
+      "language": "python",
+      "title": "Exponential backoff schedule",
+      "difficulty": "intermediate",
+      "prompt": "Write `backoff_delays(attempts, base=1.0, cap=30.0)` returning the list of delays before each retry: `base * 2**i` for `i = 0 .. attempts-1`, each capped at `cap`.\n\nExample: `backoff_delays(6)` returns `[1.0, 2.0, 4.0, 8.0, 16.0, 30.0]`. (In production you would also add random jitter; it is left out so the result is testable.)",
+      "starter": "def backoff_delays(attempts, base=1.0, cap=30.0):\n    # Your code here\n    pass\n",
+      "solution": "def backoff_delays(attempts, base=1.0, cap=30.0):\n    return [min(cap, base * 2 ** i) for i in range(attempts)]\n",
+      "explanation": "Doubling the wait gives a struggling service time to recover, and the cap keeps a single wait bounded. Adding jitter (for example a random fraction of each delay) then spreads clients out.",
+      "hints": [
+        "Use a list comprehension over `range(attempts)`.",
+        "Each delay is `base * 2 ** i`.",
+        "Wrap it in `min(cap, ...)`."
+      ],
+      "tests": [
+        {
+          "name": "Doubles and caps",
+          "marks": 2,
+          "code": "assert backoff_delays(6)==[1.0,2.0,4.0,8.0,16.0,30.0], backoff_delays(6)"
+        },
+        {
+          "name": "Respects base and cap",
+          "marks": 2,
+          "code": "assert backoff_delays(3,base=0.5,cap=1.5)==[0.5,1.0,1.5]"
+        },
+        {
+          "name": "Zero attempts",
+          "marks": 1,
+          "code": "assert backoff_delays(0)==[] and len(backoff_delays(4))==4"
+        }
+      ]
+    },
+    {
+      "id": "code-llmapi-validate",
+      "language": "python",
+      "title": "Validate an extracted ticket",
+      "difficulty": "advanced",
+      "prompt": "Model output arrives as a JSON string. Write `validate_ticket(raw)` that returns a tuple `(ticket, errors)`:\n\n- If `raw` is not valid JSON or not a JSON object, return `(None, [\"invalid json\"])`.\n- Otherwise check: `title` is a non-empty string (`\"title required\"`), `priority` is one of `low`, `medium`, `high` (`\"bad priority\"`), `estimate_hours` is a number (int or float, not bool) `>= 0` (`\"bad estimate\"`), and there are no other keys (`\"unexpected key: <name>\"`, in sorted key order).\n- Return `(dict, [])` when valid, or `(None, errors)` with errors in the order listed above.\n\nDo not echo field values in the messages.",
+      "starter": "import json\n\ndef validate_ticket(raw):\n    # Your code here\n    pass\n",
+      "solution": "import json\n\nALLOWED = {\"title\", \"priority\", \"estimate_hours\"}\n\ndef validate_ticket(raw):\n    try:\n        data = json.loads(raw)\n    except (ValueError, TypeError):\n        return None, [\"invalid json\"]\n    if not isinstance(data, dict):\n        return None, [\"invalid json\"]\n    errors = []\n    title = data.get(\"title\")\n    if not isinstance(title, str) or not title.strip():\n        errors.append(\"title required\")\n    if data.get(\"priority\") not in (\"low\", \"medium\", \"high\"):\n        errors.append(\"bad priority\")\n    est = data.get(\"estimate_hours\")\n    if isinstance(est, bool) or not isinstance(est, (int, float)) or est < 0:\n        errors.append(\"bad estimate\")\n    for key in sorted(set(data) - ALLOWED):\n        errors.append(\"unexpected key: \" + key)\n    if errors:\n        return None, errors\n    return data, []\n",
+      "explanation": "This mirrors what pydantic does with `extra=\"forbid\"`: parse defensively, check types, enums and ranges, reject unknown keys, and collect all errors so a retry prompt can tell the model everything that was wrong. `bool` is a subclass of `int` in Python, so it must be excluded explicitly.",
+      "hints": [
+        "Wrap `json.loads` in try/except and also check `isinstance(data, dict)`.",
+        "Check each rule in order, appending messages to a list.",
+        "`isinstance(True, int)` is True, so test for bool first; use `sorted(set(data) - ALLOWED)` for extra keys."
+      ],
+      "tests": [
+        {
+          "name": "Accepts a valid ticket",
+          "marks": 2,
+          "code": "t,e=validate_ticket('{\"title\":\"Login fails\",\"priority\":\"high\",\"estimate_hours\":2.5}')\nassert e==[] and t['priority']=='high', (t,e)"
+        },
+        {
+          "name": "Rejects bad JSON",
+          "marks": 2,
+          "code": "assert validate_ticket('Sure! {\"title\":') == (None,['invalid json'])\nassert validate_ticket('[1,2]') == (None,['invalid json'])"
+        },
+        {
+          "name": "Reports every rule in order",
+          "marks": 3,
+          "code": "t,e=validate_ticket('{\"title\":\"\",\"priority\":\"urgent\",\"estimate_hours\":-1,\"zeta\":1,\"alpha\":2}')\nassert t is None and e==['title required','bad priority','bad estimate','unexpected key: alpha','unexpected key: zeta'], e"
+        },
+        {
+          "name": "Booleans are not numbers",
+          "marks": 1,
+          "code": "t,e=validate_ticket('{\"title\":\"x\",\"priority\":\"low\",\"estimate_hours\":true}')\nassert e==['bad estimate'], e"
+        }
+      ]
+    }
+  ]
+}

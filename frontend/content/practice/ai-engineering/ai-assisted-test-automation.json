@@ -1,0 +1,225 @@
+{
+  "lesson": "ai-assisted-test-automation",
+  "questions": [
+    {
+      "id": "pt-aita-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "Which Playwright feature gives a compact YAML view of roles and accessible names to ground AI test generation?",
+      "options": [
+        "Trace viewer",
+        "ARIA snapshot (locator.aria_snapshot())",
+        "Screenshots",
+        "HAR files"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "ARIA snapshots show the real roles and names, ideal for role-based locators, and help prevent invented elements."
+    },
+    {
+      "id": "pt-aita-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "Which locator style does the review checklist prefer?",
+      "options": [
+        "Long XPath chains",
+        "get_by_role / get_by_label / get_by_test_id",
+        "nth-child CSS selectors",
+        "Absolute coordinates"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Role, label and test-id locators are resilient and readable; long CSS/XPath chains are brittle."
+    },
+    {
+      "id": "pt-aita-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "It is fine to paste production customer data into an AI tool prompt if it helps generate realistic test data.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. Never paste secrets or production personal data into prompts; prompts may be retained depending on provider terms. Use synthetic data."
+    },
+    {
+      "id": "pt-aita-04",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "What should a reviewer change in this generated test?",
+      "code": "page.get_by_role(\"button\", name=\"Save\").click()\npage.wait_for_timeout(3000)\nassert page.locator(\"div.alert\").is_visible()",
+      "codeLanguage": "python",
+      "options": [
+        "Nothing",
+        "Replace the fixed wait with a web-first assertion such as expect(page.get_by_role('alert')).to_be_visible()",
+        "Increase the wait to 10 seconds",
+        "Use an XPath locator"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Fixed sleeps are slow and flaky. Web-first assertions wait automatically until the condition holds."
+    },
+    {
+      "id": "pt-aita-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "The AI suggests expected results by reading the current implementation's output. Why is that risky?",
+      "options": [
+        "It is slower",
+        "It encodes current behaviour, including bugs, as the oracle; expected results must come from requirements",
+        "It uses more tokens",
+        "It breaks locators"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Deciding expected results has low AI helpfulness; deriving them from the implementation locks in existing bugs."
+    },
+    {
+      "id": "pt-aita-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "What is the most direct proof that a generated test actually checks the behaviour?",
+      "options": [
+        "It passes once",
+        "A mutation check: deliberately break the behaviour locally and confirm the test fails",
+        "It has a long name",
+        "It runs fast"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A test that still passes when the behaviour is broken has a weak oracle."
+    },
+    {
+      "id": "pt-aita-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "A self-healing tool automatically changed a locator from the 'Delete account' button to a 'Delete draft' button after a UI change, and the test is green. What is the lesson?",
+      "options": [
+        "Self-healing is always safe",
+        "Auto-applied healing can silently test the wrong element; require human review of healing changes",
+        "Disable all locators",
+        "Use XPath"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Auto-applying self-healing changes without human checks is a listed mistake."
+    },
+    {
+      "id": "pt-aita-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "A team merged 300 AI-generated tests in one week, all green. Defect escape rate did not change. What most likely happened?",
+      "options": [
+        "The app has no bugs",
+        "Volume was mistaken for coverage: tests were not reviewed against requirements, have weak oracles, and nobody owns them",
+        "Tests ran too fast",
+        "The AI tool was outdated"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Merging green generated tests without review and lacking ownership are listed mistakes; map tests to acceptance criteria."
+    },
+    {
+      "id": "pt-aita-09",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-assisted-test-automation",
+      "prompt": "How do you expose flakiness in newly generated tests? Select all that apply.",
+      "options": [
+        "Playwright Test --repeat-each",
+        "pytest-repeat's --count",
+        "Running the test once",
+        "Running in random order to check independence"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Repeat runs and order independence expose flakiness; a single run does not."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aita-lint",
+      "language": "python",
+      "title": "Review generated test code",
+      "difficulty": "intermediate",
+      "prompt": "Write `review(test_code)` returning a sorted list of issue codes found in a generated Playwright (Python) test string:\n\n- `\"fixed-wait\"` if it contains `wait_for_timeout(` or `time.sleep(`\n- `\"xpath\"` if it contains `xpath=` or a locator string starting with `//` (i.e. the text `(\"//` or `('//`)\n- `\"no-assertion\"` if it contains neither `expect(` nor `assert `\n- `\"secret\"` if it contains `password=\"` or `password='` followed by anything other than an `os.environ` lookup (simply: the text `password=\"` or `password='`)",
+      "starter": "def review(test_code):\n    # Your code here\n    pass\n",
+      "solution": "def review(test_code):\n    issues = set()\n    if 'wait_for_timeout(' in test_code or 'time.sleep(' in test_code:\n        issues.add('fixed-wait')\n    if 'xpath=' in test_code or '(\"//' in test_code or \"('//\" in test_code:\n        issues.add('xpath')\n    if 'expect(' not in test_code and 'assert ' not in test_code:\n        issues.add('no-assertion')\n    if 'password=\"' in test_code or \"password='\" in test_code:\n        issues.add('secret')\n    return sorted(issues)\n",
+      "explanation": "Simple static checks catch the most common weaknesses of generated tests before a human spends time on deeper review (oracle quality, reality of elements, data).",
+      "hints": [
+        "Use `in` substring checks.",
+        "Collect codes in a set.",
+        "Return `sorted(...)`."
+      ],
+      "tests": [
+        {
+          "name": "Flags several issues",
+          "marks": 3,
+          "code": "c='page.locator(\"//div[3]/button\").click()\\npage.wait_for_timeout(2000)\\nlogin(password=\"hunter2\")'\nassert review(c)==['fixed-wait','no-assertion','secret','xpath'], review(c)"
+        },
+        {
+          "name": "Clean test",
+          "marks": 2,
+          "code": "c='page.get_by_role(\"button\", name=\"Save\").click()\\nexpect(page.get_by_role(\"alert\")).to_have_text(\"Saved\")'\nassert review(c)==[]"
+        }
+      ]
+    },
+    {
+      "id": "code-aita-trace",
+      "language": "python",
+      "title": "Map tests to acceptance criteria",
+      "difficulty": "intermediate",
+      "prompt": "Generated test cases arrive as a list of dicts `{\"title\", \"requirement\", \"assertions\": [...]}`. Write `coverage(criteria, cases)` where `criteria` is a list of requirement ids. Return `{\"uncovered\": [...], \"no_oracle\": [...], \"unknown\": [...]}`: criteria with no case (in criteria order), titles of cases with an empty assertion list (in order), and titles of cases referencing a requirement not in `criteria` (in order).",
+      "starter": "def coverage(criteria, cases):\n    # Your code here\n    pass\n",
+      "solution": "def coverage(criteria, cases):\n    referenced = {c['requirement'] for c in cases}\n    return {\n        'uncovered': [r for r in criteria if r not in referenced],\n        'no_oracle': [c['title'] for c in cases if not c['assertions']],\n        'unknown': [c['title'] for c in cases if c['requirement'] not in criteria],\n    }\n",
+      "explanation": "Asking the AI for structured test cases before code lets you check intent mechanically: every criterion covered, every case with an oracle, and no invented requirements.",
+      "hints": [
+        "Build the set of referenced requirements.",
+        "Use list comprehensions for each output.",
+        "Keep the original order."
+      ],
+      "tests": [
+        {
+          "name": "Finds all three gaps",
+          "marks": 3,
+          "code": "cases=[{'title':'login ok','requirement':'AC1','assertions':['dashboard heading visible']},{'title':'login bad','requirement':'AC2','assertions':[]},{'title':'export pdf','requirement':'AC9','assertions':['pdf downloaded']}]\nassert coverage(['AC1','AC2','AC3'],cases)=={'uncovered':['AC3'],'no_oracle':['login bad'],'unknown':['export pdf']}"
+        },
+        {
+          "name": "Complete",
+          "marks": 1,
+          "code": "assert coverage(['A'],[{'title':'t','requirement':'A','assertions':['x']}])=={'uncovered':[],'no_oracle':[],'unknown':[]}"
+        }
+      ]
+    }
+  ]
+}

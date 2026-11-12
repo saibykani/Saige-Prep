@@ -1,0 +1,223 @@
+{
+  "lesson": "testing-ai-systems-strategy",
+  "questions": [
+    {
+      "id": "pt-tais-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "What is a test oracle?",
+      "options": [
+        "A model that writes tests",
+        "The mechanism a test uses to decide pass or fail",
+        "A database of prompts",
+        "A load-testing tool"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "An oracle decides whether output is acceptable. AI testing usually stacks several: exact, property, metamorphic, reference-based and human."
+    },
+    {
+      "id": "pt-tais-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Which is a property oracle?",
+      "options": [
+        "The category label equals 'billing'",
+        "Every citation points to a retrieved document",
+        "Two paraphrases get the same label",
+        "An expert grades the answer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Properties are invariants every acceptable output satisfies. The first is exact, the third metamorphic and the fourth human review."
+    },
+    {
+      "id": "pt-tais-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Changing only the prompt text is a configuration change and does not need a regression eval.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. Prompt and model changes alter behaviour like code releases; treating them as configuration is a listed mistake."
+    },
+    {
+      "id": "pt-tais-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Eval results changed overnight with no commit. The app calls a floating model alias. What is the likely cause and fix?",
+      "options": [
+        "Random cosmic rays",
+        "The provider updated the model behind the alias; pin a specific model version and treat upgrades as releases",
+        "The test runner is broken",
+        "Prompt caching"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Using a floating alias means behaviour changes without your code changing. Pin versions so changes are deliberate and tested."
+    },
+    {
+      "id": "pt-tais-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Which layer best catches a bug where the JSON parser crashes on an empty tool result?",
+      "options": [
+        "Human review",
+        "Unit tests of the deterministic code with a fake model client",
+        "Fairness tests",
+        "Monitoring only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parsers, guards and tool code are deterministic and cheap to unit-test with fakes. Forgetting that layer is a listed mistake."
+    },
+    {
+      "id": "pt-tais-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Which are metamorphic relations you could test for a sentiment classifier? Select all that apply.",
+      "options": [
+        "Adding irrelevant text does not change the sentiment",
+        "Paraphrasing keeps the same label",
+        "Swapping a person's name does not change the score beyond a tolerance",
+        "The output is valid JSON"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Metamorphic oracles compare outputs across related inputs, so they work without a known expected value. JSON validity is a contract/property check."
+    },
+    {
+      "id": "pt-tais-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Your eval dataset has 400 English cases about billing and none about cancellations, other languages, or very long inputs. What concept reveals this gap?",
+      "options": [
+        "Code coverage",
+        "Input-space coverage: a matrix of intents, languages, lengths, adversarial patterns and segments with empty cells",
+        "Line coverage of the prompt",
+        "Mutation score"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Code coverage says little about model behaviour. Input-space coverage shows which important cells have no examples."
+    },
+    {
+      "id": "pt-tais-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "A test fails in 3 of 10 nightly runs. The team marks it flaky and skips it. What is the better practice?",
+      "options": [
+        "Skip it permanently",
+        "Treat the pass rate as the signal: run k samples, record the rate per case, gate on thresholds, and investigate the failing outputs",
+        "Assert exact strings instead",
+        "Only run it on Fridays"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "For AI, failures often appear as a lower pass rate rather than a reproducible crash. Measuring rates is the oracle; skipping hides real defects."
+    },
+    {
+      "id": "pt-tais-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-ai-systems-strategy",
+      "prompt": "Where should production failures end up in a mature AI testing strategy?",
+      "options": [
+        "In a slide deck",
+        "As new cases (with tags) in the eval dataset, so the regression suite learns from real failures",
+        "Nowhere; they are one-offs",
+        "In the system prompt"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A production feedback loop grows the dataset with real failures; without it the dataset never learns."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-tais-meta",
+      "language": "python",
+      "title": "Metamorphic invariance check",
+      "difficulty": "intermediate",
+      "prompt": "Write `invariance_failures(classify, cases)` where `classify(text)` returns a label and `cases` is a list of `(case_id, original, variants)` tuples. A case fails if any variant gets a different label from the original. Return the list of failing case ids in order.\n\nThis is how you test that paraphrases ('My card was stolen' vs 'Someone stole my card') get the same label without knowing the right label in advance.",
+      "starter": "def invariance_failures(classify, cases):\n    # Your code here\n    pass\n",
+      "solution": "def invariance_failures(classify, cases):\n    failing = []\n    for case_id, original, variants in cases:\n        base = classify(original)\n        if any(classify(v) != base for v in variants):\n            failing.append(case_id)\n    return failing\n",
+      "explanation": "A metamorphic oracle checks a relationship between outputs rather than an expected value, which is ideal when many outputs are acceptable or no gold label exists.",
+      "hints": [
+        "Classify the original once.",
+        "Compare every variant's label with it.",
+        "Collect the ids of cases where any differ."
+      ],
+      "tests": [
+        {
+          "name": "Finds a paraphrase inconsistency",
+          "marks": 3,
+          "code": "def clf(t):\n    return 'fraud' if 'stolen' in t else 'general'\ncases=[('c1','My card was stolen',['Someone stole my card']),('c2','My card was stolen',['my card was STOLEN'.lower()])]\nassert invariance_failures(clf,cases)==['c1'], invariance_failures(clf,cases)"
+        },
+        {
+          "name": "Consistent classifier passes",
+          "marks": 2,
+          "code": "assert invariance_failures(lambda t:'x',[('a','1',['2','3'])])==[]\nassert invariance_failures(len,[('a','ab',['abc'])])==['a']"
+        }
+      ]
+    },
+    {
+      "id": "code-tais-passrate",
+      "language": "python",
+      "title": "Pass rate per case over k runs",
+      "difficulty": "intermediate",
+      "prompt": "Write `flaky_report(run_results, min_rate)` where `run_results` maps a case id to a list of booleans (one per run). Return a dict with `rates` (case id -> rate rounded to 2 decimals), `failing` (sorted ids whose rate is below `min_rate`) and `overall` (mean of all individual runs, rounded to 2 decimals).",
+      "starter": "def flaky_report(run_results, min_rate):\n    # Your code here\n    pass\n",
+      "solution": "def flaky_report(run_results, min_rate):\n    rates = {cid: round(sum(r) / len(r), 2) for cid, r in run_results.items()}\n    failing = sorted(cid for cid, rate in rates.items() if rate < min_rate)\n    all_runs = [x for r in run_results.values() for x in r]\n    overall = round(sum(all_runs) / len(all_runs), 2)\n    return {'rates': rates, 'failing': failing, 'overall': overall}\n",
+      "explanation": "Per-case rates turn 'flaky' into a measurement. Gating on a minimum rate per case, plus an overall number, replaces exact-string assertions and retry-until-green.",
+      "hints": [
+        "`sum(list_of_bools)` counts True values.",
+        "Flatten all runs for the overall rate.",
+        "Sort the failing ids."
+      ],
+      "tests": [
+        {
+          "name": "Computes rates and failures",
+          "marks": 3,
+          "code": "r=flaky_report({'a':[True]*10,'b':[True]*7+[False]*3},0.8)\nassert r=={'rates':{'a':1.0,'b':0.7},'failing':['b'],'overall':0.85}, r"
+        },
+        {
+          "name": "Boundary is inclusive pass",
+          "marks": 1,
+          "code": "r=flaky_report({'x':[True,False]},0.5)\nassert r['failing']==[] and r['overall']==0.5"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "lesson": "experiment-design-for-ai-research",
+  "questions": [
+    {
+      "id": "pt-expd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "In an experiment comparing methods, what is the independent variable?",
+      "options": [
+        "The metric",
+        "What you change, i.e. the method",
+        "The dataset",
+        "The random seed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "You change the independent variable, hold controlled variables fixed and measure the dependent variable (the metric)."
+    },
+    {
+      "id": "pt-expd-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "When should the primary metric be chosen?",
+      "options": [
+        "After seeing results",
+        "Before running the experiment",
+        "Only if results are bad",
+        "Never"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Choosing the metric after seeing results is a listed mistake; decide it and the decision rule in advance."
+    },
+    {
+      "id": "pt-expd-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "Reporting only the best of five seeds is acceptable if you mention the seed number.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. Report all seeds (mean and spread); best-seed reporting overstates gains."
+    },
+    {
+      "id": "pt-expd-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "What does the bootstrap estimate?",
+      "options": [
+        "The best hyperparameters",
+        "Uncertainty of a metric from a finite test set, by resampling items with replacement",
+        "Training speed",
+        "The number of seeds needed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Resample test items with replacement, recompute the metric, and take percentiles as a confidence interval."
+    },
+    {
+      "id": "pt-expd-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "You test 20 prompt variants against a baseline at the 5% level and one is 'significant'. What should you conclude?",
+      "options": [
+        "It is a real improvement",
+        "About one in twenty would look significant by chance; correct for multiple comparisons (e.g. Bonferroni/Holm) or confirm on fresh data",
+        "Test 20 more",
+        "Change the metric"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Multiple comparisons inflate false discoveries."
+    },
+    {
+      "id": "pt-expd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "What does an ablation tell you?",
+      "options": [
+        "Training time",
+        "Whether each component of a method contributes, by removing it and measuring the change",
+        "The best seed",
+        "Model size"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "If removing component C costs nothing, C is not why the method works."
+    },
+    {
+      "id": "pt-expd-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "Method B beats A by 0.4 points on one run; seed-to-seed standard deviation is 0.9 points. What should you claim?",
+      "options": [
+        "B is better",
+        "No reliable difference yet: the gain is smaller than seed variance; run several seeds and report intervals",
+        "A is better",
+        "Report only B's run"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Single-run claims with gains smaller than seed variance are a listed mistake."
+    },
+    {
+      "id": "pt-expd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "An LLM-API-based experiment from March cannot be reproduced in June with the same code. What should have been recorded?",
+      "options": [
+        "Nothing could help",
+        "Exact model versions and dates, judge model and prompt versions, data and code versions",
+        "Only the code",
+        "The GPU temperature"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Hosted models can change behind the same name; record versions and dates."
+    },
+    {
+      "id": "pt-expd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "experiment-design-for-ai-research",
+      "prompt": "Both systems were scored on the same 1,000 questions, but the analysis compares two independent means. What is the better analysis?",
+      "options": [
+        "The same",
+        "A paired analysis on per-item differences (e.g. paired bootstrap), which removes item difficulty and gains power",
+        "Compare medians only",
+        "Drop half the items"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unpaired analysis of paired data wastes statistical power."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-expd-boot",
+      "language": "python",
+      "title": "Paired bootstrap confidence interval",
+      "difficulty": "advanced",
+      "prompt": "Write `paired_bootstrap(a, b, n_boot=2000, seed=0)` where `a` and `b` are per-item scores (0/1) of two systems on the same items. Using `rng = random.Random(seed)`, repeat `n_boot` times: draw `len(a)` indices with `rng.randrange(len(a))`, compute the mean of `b[i] - a[i]` over them. Sort the means and return `(low, high)` = the values at positions `int(0.025 * n_boot)` and `int(0.975 * n_boot) - 1`, each rounded to 4 decimals.",
+      "starter": "import random\n\ndef paired_bootstrap(a, b, n_boot=2000, seed=0):\n    # Your code here\n    pass\n",
+      "solution": "import random\n\ndef paired_bootstrap(a, b, n_boot=2000, seed=0):\n    rng = random.Random(seed)\n    n = len(a)\n    diffs = [y - x for x, y in zip(a, b)]\n    means = []\n    for _ in range(n_boot):\n        idx = [rng.randrange(n) for _ in range(n)]\n        means.append(sum(diffs[i] for i in idx) / n)\n    means.sort()\n    return round(means[int(0.025 * n_boot)], 4), round(means[int(0.975 * n_boot) - 1], 4)\n",
+      "explanation": "Resampling items (not systems) keeps each item's pair together, so item difficulty cancels out in the difference. If the 95% interval of B - A sits above zero, the improvement is unlikely to be test-set noise. A seeded RNG makes the analysis reproducible.",
+      "hints": [
+        "Compute per-item differences first.",
+        "Resample indices with replacement using the seeded rng.",
+        "Sort the bootstrap means and pick the 2.5% and 97.5% positions."
+      ],
+      "tests": [
+        {
+          "name": "Clear improvement excludes zero",
+          "marks": 3,
+          "code": "a=[0]*50+[1]*50\nb=[1]*80+[0]*20\nlo,hi=paired_bootstrap(a,b)\nassert lo>0 and hi>lo, (lo,hi)"
+        },
+        {
+          "name": "No difference includes zero",
+          "marks": 2,
+          "code": "a=[1,0]*50\nlo,hi=paired_bootstrap(a,list(a))\nassert lo==0.0 and hi==0.0, (lo,hi)\nlo,hi=paired_bootstrap([1,0,1,0,1,0,1,0],[0,1,1,0,1,0,0,1])\nassert lo<0<hi, (lo,hi)"
+        },
+        {
+          "name": "Reproducible with a seed",
+          "marks": 1,
+          "code": "a=[0,1,0,1,1,0,0,1,0,0]\nb=[1,1,0,1,1,1,0,1,0,1]\nr=paired_bootstrap(a,b,500,7)\nassert r is not None and r==paired_bootstrap(a,b,500,7)"
+        }
+      ]
+    },
+    {
+      "id": "code-expd-holm",
+      "language": "python",
+      "title": "Holm correction",
+      "difficulty": "intermediate",
+      "prompt": "Write `holm(pvalues, alpha=0.05)` where `pvalues` maps a variant name to its p-value. Sort by p ascending (ties by name); for rank i (0-based) out of m, reject while `p <= alpha / (m - i)`; stop at the first failure (all later ones are not rejected). Return the sorted list of rejected (significant) variant names.",
+      "starter": "def holm(pvalues, alpha=0.05):\n    # Your code here\n    pass\n",
+      "solution": "def holm(pvalues, alpha=0.05):\n    items = sorted(pvalues.items(), key=lambda kv: (kv[1], kv[0]))\n    m = len(items)\n    rejected = []\n    for i, (name, p) in enumerate(items):\n        if p <= alpha / (m - i):\n            rejected.append(name)\n        else:\n            break\n    return sorted(rejected)\n",
+      "explanation": "Holm's step-down procedure controls the chance of any false discovery across many comparisons, like Bonferroni, but is less conservative: only the smallest p-value faces the full alpha / m threshold.",
+      "hints": [
+        "Sort items by (p, name).",
+        "Threshold for rank i is alpha / (m - i).",
+        "Stop at the first p-value that fails."
+      ],
+      "tests": [
+        {
+          "name": "Step-down",
+          "marks": 3,
+          "code": "assert holm({'a':0.01,'b':0.02,'c':0.03,'d':0.5})==['a'], holm({'a':0.01,'b':0.02,'c':0.03,'d':0.5})\nassert holm({'a':0.001,'b':0.016,'c':0.04})==['a','b','c']"
+        },
+        {
+          "name": "Twenty variants, one lucky p",
+          "marks": 2,
+          "code": "p={'v%02d'%i:0.5 for i in range(20)}\np['v07']=0.04\nassert holm(p)==[]\nassert holm({'x':0.01})==['x']"
+        }
+      ]
+    }
+  ]
+}

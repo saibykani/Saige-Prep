@@ -1,0 +1,196 @@
+{
+  "lesson": "reading-ai-research-papers",
+  "questions": [
+    {
+      "id": "pt-rarp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reading-ai-research-papers",
+      "prompt": "Roughly how long should Keshav's first pass take?",
+      "options": [
+        "5 to 10 minutes",
+        "A full day",
+        "Several hours",
+        "One minute"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The first pass skims title, abstract, introduction, headings and conclusions in about 5 to 10 minutes; the third pass can take hours."
+    },
+    {
+      "id": "pt-rarp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reading-ai-research-papers",
+      "prompt": "Which section usually holds the settings needed to reproduce results?",
+      "options": [
+        "Abstract",
+        "Appendix",
+        "Related work",
+        "Title"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Skipping the limitations and appendix is a listed mistake; crucial settings often live there."
+    },
+    {
+      "id": "pt-rarp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reading-ai-research-papers",
+      "prompt": "Qualitative examples in a paper are illustrations, not evidence of general performance.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. They can be cherry-picked; look at the quantitative tables, variance and ablations."
+    },
+    {
+      "id": "pt-rarp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reading-ai-research-papers",
+      "prompt": "A paper compares its tuned method with baseline numbers copied from older papers. What should you check?",
+      "options": [
+        "Nothing",
+        "Whether conditions are matched: same data splits, compute budget, evaluation protocol and comparable tuning effort",
+        "The font",
+        "Author count"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Copied numbers may use different splits or compute; matched conditions are essential."
+    },
+    {
+      "id": "pt-rarp-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reading-ai-research-papers",
+      "prompt": "The abstract claims +3 points. The table shows a single run, no standard deviation, and seed variance elsewhere is about 2 points. How should you read it?",
+      "options": [
+        "Accept +3",
+        "Weak evidence: one run with no variance; the gain may be within noise",
+        "The result is fraudulent",
+        "It proves the method"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Ignoring variance mistakes noise for progress."
+    },
+    {
+      "id": "pt-rarp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reading-ai-research-papers",
+      "prompt": "Which are signs of possible benchmark contamination? Select all that apply.",
+      "options": [
+        "Much higher scores on an old public benchmark than on fresh similar questions",
+        "The model can complete benchmark questions verbatim",
+        "n-gram overlap between training data and test items",
+        "Consistent scores on old and new sets"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Consistent performance on new items suggests real capability; the others suggest memorisation."
+    },
+    {
+      "id": "pt-rarp-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reading-ai-research-papers",
+      "prompt": "A method introduces five changes at once and reports only the combined result. What is missing?",
+      "options": [
+        "Nothing",
+        "Ablations removing each component, so you know which changes cause the gain",
+        "A longer abstract",
+        "More references"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without ablations you cannot tell what helped."
+    },
+    {
+      "id": "pt-rarp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reading-ai-research-papers",
+      "prompt": "You will reproduce a paper. What should you do first?",
+      "options": [
+        "Re-implement every experiment",
+        "Reproduce the headline result first, using released code if available, recording environment, versions, seeds, hardware and deviations",
+        "Change the dataset to yours",
+        "Skip the appendix"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Start with the headline result; partial reproduction is still informative if documented."
+    },
+    {
+      "id": "pt-rarp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reading-ai-research-papers",
+      "prompt": "A paper uses an LLM judge as its main metric. What should you look for?",
+      "options": [
+        "Nothing",
+        "Whether the judge was validated against human labels and whether its model and prompt are pinned",
+        "The judge's price",
+        "The judge's name only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unvalidated judges can be biased; check agreement with humans."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rarp-overlap",
+      "language": "python",
+      "title": "n-gram contamination check",
+      "difficulty": "intermediate",
+      "prompt": "Write `contamination(test_items, corpus, n=8, threshold=0.5)` that lowercases and splits text into words, builds the set of all word n-grams from `corpus` (a list of strings), and for each test item computes the fraction of its n-grams found in that set. Return the indexes of test items whose fraction is `>= threshold`. Items with fewer than n words have no n-grams and are never flagged.",
+      "starter": "def contamination(test_items, corpus, n=8, threshold=0.5):\n    # Your code here\n    pass\n",
+      "solution": "def _ngrams(text, n):\n    w = text.lower().split()\n    return [tuple(w[i:i + n]) for i in range(len(w) - n + 1)]\n\ndef contamination(test_items, corpus, n=8, threshold=0.5):\n    seen = set()\n    for doc in corpus:\n        seen.update(_ngrams(doc, n))\n    flagged = []\n    for idx, item in enumerate(test_items):\n        grams = _ngrams(item, n)\n        if grams and sum(g in seen for g in grams) / len(grams) >= threshold:\n            flagged.append(idx)\n    return flagged\n",
+      "explanation": "Long n-gram overlap between training data and test items is one of the standard contamination checks; long exact word sequences rarely match by chance, so high overlap suggests the item was in the training data.",
+      "hints": [
+        "Write an n-gram helper returning tuples of n consecutive words.",
+        "Put every corpus n-gram in a set.",
+        "Fraction = matching n-grams / item n-grams."
+      ],
+      "tests": [
+        {
+          "name": "Flags a copied item",
+          "marks": 3,
+          "code": "corpus=['the quick brown fox jumps over the lazy dog near the river bank today']\ntests=['The quick brown fox jumps over the lazy dog near the river','a completely different question about matrix shapes and gradients today']\nassert contamination(tests,corpus,n=5)==[0], contamination(tests,corpus,n=5)"
+        },
+        {
+          "name": "Short items never flagged",
+          "marks": 1,
+          "code": "assert contamination(['the quick'],['the quick brown'],n=3)==[]\nassert contamination(['a b c'],['a b c'],n=3)==[0]"
+        }
+      ]
+    }
+  ]
+}

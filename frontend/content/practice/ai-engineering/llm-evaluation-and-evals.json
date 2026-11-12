@@ -1,0 +1,260 @@
+{
+  "lesson": "llm-evaluation-and-evals",
+  "questions": [
+    {
+      "id": "pt-llmev-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "Why does every golden-dataset record need a stable id?",
+      "options": [
+        "To make the file bigger",
+        "So you can track how a specific case behaves across prompt and model versions",
+        "Because JSON requires it",
+        "So the model can see it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stable ids let you compare a case over time, spot regressions on specific cases and link production bugs to the regression case created for them."
+    },
+    {
+      "id": "pt-llmev-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "BLEU and ROUGE are reliable measures of quality for open-ended chatbot answers.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. They were designed for translation and summarisation benchmarks and correlate poorly with quality for open-ended answers; use them cautiously."
+    },
+    {
+      "id": "pt-llmev-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "Which tag would you give a case that must never fail in any release?",
+      "options": [
+        "edge",
+        "multilingual",
+        "must_pass",
+        "synthetic"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A must_pass tag lets the gate require 100% on those cases even when the overall threshold allows some failures."
+    },
+    {
+      "id": "pt-llmev-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "A team tuned its prompt for two weeks on all 300 cases, then reported 94% on the same 300 cases. What is wrong?",
+      "options": [
+        "Nothing",
+        "They tuned and reported on the same data; keep a held-out split that is not looked at while tuning",
+        "300 cases is too many",
+        "They should have used BLEU"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tuning on the whole dataset overfits the prompt to those cases, so the number overstates real quality. Report on a held-out split."
+    },
+    {
+      "id": "pt-llmev-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "The overall pass rate stayed at 90% after a prompt change, but multilingual cases fell from 85% to 55%. What lesson does this illustrate?",
+      "options": [
+        "Averages are enough",
+        "Report results per tag slice; a single average hides collapses in small but important slices",
+        "Multilingual cases should be removed",
+        "Pass rates cannot change"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A small slice can collapse without moving the overall average much. Gating relative to baseline on every slice catches it."
+    },
+    {
+      "id": "pt-llmev-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "For an extracted ISO date field, which metric fits best?",
+      "options": [
+        "Embedding similarity",
+        "Exact match after normalisation",
+        "ROUGE-L",
+        "LLM judge helpfulness score"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A field with one right answer needs exact match (after normalising formats). Similarity metrics would reward a wrong but similar-looking date."
+    },
+    {
+      "id": "pt-llmev-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "Which belong to the 'system under test' that must be versioned? Select all that apply.",
+      "options": [
+        "Prompt template",
+        "Model id",
+        "Retrieval configuration",
+        "The name of the person running the eval"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Prompt, model id, parameters and retrieval config all shape behaviour, so all must be recorded to reproduce a result."
+    },
+    {
+      "id": "pt-llmev-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "Candidate prompt B scores 0.86 vs baseline 0.84 on 50 cases, each run 3 times. A manager wants to declare B better. What should you say?",
+      "options": [
+        "B is definitely better",
+        "With this sample size a 2-point difference may be noise; report intervals (e.g. Wilson) and look at per-case changes before concluding",
+        "Run until B wins",
+        "Switch to BLEU"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Small datasets give wide intervals. Look at confidence intervals and which cases flipped; a difference inside the noise is not evidence of improvement."
+    },
+    {
+      "id": "pt-llmev-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-evaluation-and-evals",
+      "prompt": "An eval run's CI log contains customer names and email addresses copied from production traffic. What should change?",
+      "options": [
+        "Nothing, logs are private",
+        "Anonymise data before it enters the dataset (with permission and privacy review) and avoid printing raw inputs in CI logs",
+        "Delete the eval",
+        "Encrypt the model"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Leaking personal data into datasets or CI logs is a listed mistake. Real traffic can be used only after privacy review and anonymisation."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-llmev-f1",
+      "language": "python",
+      "title": "Token F1",
+      "difficulty": "intermediate",
+      "prompt": "Write `token_f1(prediction, reference)` that lowercases both strings, splits on whitespace, and returns the token-overlap F1 (counting repeated tokens with multiplicity, like SQuAD), rounded to 4 decimals. If both are empty return 1.0; if only one is empty return 0.0.\n\nExample: `token_f1(\"Paris is the capital\", \"the capital is Paris France\")` returns `0.8889`.",
+      "starter": "def token_f1(prediction, reference):\n    # Your code here\n    pass\n",
+      "solution": "from collections import Counter\n\ndef token_f1(prediction, reference):\n    p = prediction.lower().split()\n    r = reference.lower().split()\n    if not p and not r:\n        return 1.0\n    if not p or not r:\n        return 0.0\n    common = sum((Counter(p) & Counter(r)).values())\n    if common == 0:\n        return 0.0\n    precision = common / len(p)\n    recall = common / len(r)\n    return round(2 * precision * recall / (precision + recall), 4)\n",
+      "explanation": "Counter intersection counts shared tokens with multiplicity. Precision is shared/predicted and recall is shared/reference; F1 is their harmonic mean. Token F1 tolerates word order and small wording changes but would happily reward a wrong number, so use it only for short free-text answers.",
+      "hints": [
+        "`Counter(p) & Counter(r)` keeps the minimum count of each shared token.",
+        "precision = common / len(p), recall = common / len(r).",
+        "Handle empty inputs and zero overlap before dividing."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert token_f1('Paris is the capital','the capital is Paris France')==0.8889, token_f1('Paris is the capital','the capital is Paris France')"
+        },
+        {
+          "name": "Counts repeats once per match",
+          "marks": 2,
+          "code": "assert token_f1('the the the','the cat')==0.4, token_f1('the the the','the cat')"
+        },
+        {
+          "name": "Empty and disjoint",
+          "marks": 1,
+          "code": "assert token_f1('','')==1.0 and token_f1('a','')==0.0 and token_f1('a','b')==0.0"
+        }
+      ]
+    },
+    {
+      "id": "code-llmev-wilson",
+      "language": "python",
+      "title": "Wilson score interval",
+      "difficulty": "intermediate",
+      "prompt": "Write `wilson(passes, n, z=1.96)` returning the Wilson score interval `(low, high)` for a pass rate, each rounded to 4 decimals:\n\n```\np = passes / n\ndenom = 1 + z**2 / n\ncentre = (p + z**2 / (2*n)) / denom\nhalf = z * sqrt(p*(1-p)/n + z**2/(4*n**2)) / denom\n```\n\nExample: `wilson(8, 10)` returns `(0.4902, 0.9433)`.",
+      "starter": "import math\n\ndef wilson(passes, n, z=1.96):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef wilson(passes, n, z=1.96):\n    p = passes / n\n    denom = 1 + z ** 2 / n\n    centre = (p + z ** 2 / (2 * n)) / denom\n    half = z * math.sqrt(p * (1 - p) / n + z ** 2 / (4 * n ** 2)) / denom\n    return round(centre - half, 4), round(centre + half, 4)\n",
+      "explanation": "The Wilson interval stays inside [0, 1] and behaves sensibly for small n and rates near 0 or 1, unlike the naive p ± z·sqrt(p(1-p)/n). The 8/10 example shows how wide the uncertainty is with ten runs: anywhere from about 49% to 94%.",
+      "hints": [
+        "Translate the formula line by line.",
+        "Use `math.sqrt`.",
+        "Return `(centre - half, centre + half)`, each rounded."
+      ],
+      "tests": [
+        {
+          "name": "Eight of ten",
+          "marks": 3,
+          "code": "assert wilson(8,10)==(0.4902,0.9433), wilson(8,10)"
+        },
+        {
+          "name": "All passes stays below 1",
+          "marks": 2,
+          "code": "lo,hi=wilson(20,20)\nassert hi==1.0 and 0.8<lo<0.85, (lo,hi)"
+        }
+      ]
+    },
+    {
+      "id": "code-llmev-gate",
+      "language": "python",
+      "title": "Regression gate by slice",
+      "difficulty": "advanced",
+      "prompt": "Write `gate(results, baseline, threshold, margin)` where `results` is a list of dicts `{\"id\", \"tags\": [...], \"passed\": bool}` and `baseline` maps tag to its previous pass rate. Return a sorted list of failure reasons (empty = release allowed):\n\n- overall pass rate `< threshold` -> `\"overall below threshold\"`\n- any case tagged `must_pass` failed -> `\"must_pass failed: <id>\"` for each\n- for each tag in `baseline` that appears in results, if its pass rate is lower than `baseline[tag] - margin` (compare with a tiny tolerance of 1e-9) -> `\"regression: <tag>\"`",
+      "starter": "def gate(results, baseline, threshold, margin):\n    # Your code here\n    pass\n",
+      "solution": "def gate(results, baseline, threshold, margin):\n    reasons = []\n    rate = sum(r['passed'] for r in results) / len(results)\n    if rate < threshold:\n        reasons.append('overall below threshold')\n    for r in results:\n        if 'must_pass' in r['tags'] and not r['passed']:\n            reasons.append('must_pass failed: ' + r['id'])\n    for tag, base in baseline.items():\n        tagged = [r for r in results if tag in r['tags']]\n        if tagged:\n            tag_rate = sum(r['passed'] for r in tagged) / len(tagged)\n            if tag_rate < base - margin - 1e-9:\n                reasons.append('regression: ' + tag)\n    return sorted(reasons)\n",
+      "explanation": "The gate combines the two styles from the lesson: an absolute threshold (with must-pass cases at 100%) and a baseline comparison on every slice. Returning reasons rather than a bare boolean makes CI output actionable.",
+      "hints": [
+        "Overall rate: number passed / number of results.",
+        "Check must_pass cases individually.",
+        "For each baseline tag, compute that slice's rate and compare with `base - margin`."
+      ],
+      "tests": [
+        {
+          "name": "Clean release",
+          "marks": 2,
+          "code": "res=[{'id':'1','tags':['a'],'passed':True},{'id':'2','tags':['a'],'passed':True}]\nassert gate(res,{'a':1.0},0.9,0.0)==[]"
+        },
+        {
+          "name": "Must-pass and slice regression",
+          "marks": 3,
+          "code": "res=[{'id':'c1','tags':['must_pass'],'passed':False},{'id':'c2','tags':['multi'],'passed':False},{'id':'c3','tags':['multi'],'passed':True},{'id':'c4','tags':[],'passed':True}]\nassert gate(res,{'multi':0.9,'other':0.5},0.4,0.05)==['must_pass failed: c1','regression: multi'], gate(res,{'multi':0.9,'other':0.5},0.4,0.05)"
+        },
+        {
+          "name": "Overall threshold and margin edge",
+          "marks": 2,
+          "code": "res=[{'id':str(i),'tags':['x'],'passed':i<8} for i in range(10)]\nassert gate(res,{'x':0.85},0.9,0.05)==['overall below threshold'], gate(res,{'x':0.85},0.9,0.05)"
+        }
+      ]
+    }
+  ]
+}

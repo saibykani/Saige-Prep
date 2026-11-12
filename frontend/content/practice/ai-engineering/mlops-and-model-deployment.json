@@ -1,0 +1,223 @@
+{
+  "lesson": "mlops-and-model-deployment",
+  "questions": [
+    {
+      "id": "pt-mlops-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "What does a model registry provide?",
+      "options": [
+        "Training data storage only",
+        "Versioned, approved models with aliases or stages so deployments reference a specific version",
+        "GPU scheduling",
+        "Prompt templates"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A registry tracks model versions and which is approved for production, so deployments are pinned and rollbacks are possible."
+    },
+    {
+      "id": "pt-mlops-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Which inference pattern suits nightly churn scores?",
+      "options": [
+        "Online",
+        "Batch",
+        "Streaming",
+        "Shadow"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Predictions that can be computed ahead of time are batch. Online is request/response; streaming handles continuous events."
+    },
+    {
+      "id": "pt-mlops-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Each prediction response should include the model version that produced it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Returning (and logging) the version makes regressions attributable and incidents traceable."
+    },
+    {
+      "id": "pt-mlops-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Which rollout sends a small percentage of real traffic to the new version and increases it gradually?",
+      "options": [
+        "Blue-green",
+        "Canary",
+        "Shadow",
+        "Big bang"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Canary limits blast radius. Blue-green switches all traffic at once; shadow mirrors traffic without returning the new output."
+    },
+    {
+      "id": "pt-mlops-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "The deployment loads `model:latest`. A retrain overwrote it and production quality dropped with no deploy event. What should change?",
+      "options": [
+        "Retrain more often",
+        "Pin a specific registered version (or a controlled alias) and keep previous versions for rollback",
+        "Use a bigger model",
+        "Disable monitoring"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Loading 'latest' lets deployments change silently, and overwriting removes the rollback path. Both are listed mistakes."
+    },
+    {
+      "id": "pt-mlops-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Which belong in a model quality gate before promotion? Select all that apply.",
+      "options": [
+        "Score on a fixed test set vs the current champion",
+        "Slice metrics",
+        "Invariance tests",
+        "Only that unit tests pass"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Gating only on code tests is a listed mistake; model quality needs its own gates."
+    },
+    {
+      "id": "pt-mlops-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Offline accuracy is 0.91 but production accuracy is 0.74. Training code computes `age_years = days / 365.25`; the serving code uses `days / 365` and fills missing values with 0 instead of the training median. What is this and the fix?",
+      "options": [
+        "Concept drift; retrain",
+        "Training-serving skew; package preprocessing with the model artefact (e.g. one pipeline) and add a skew test that runs the same raw record through both paths",
+        "Overfitting; add dropout",
+        "Latency issue"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Preprocessing implemented twice diverges. Bundling it with the model and testing that both paths produce identical features prevents skew."
+    },
+    {
+      "id": "pt-mlops-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "Leadership wants to know whether a new recommendation model increases revenue. Which rollout gives that evidence?",
+      "options": [
+        "Shadow deployment",
+        "An A/B test splitting users with statistical analysis",
+        "Blue-green",
+        "Offline accuracy only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shadow cannot measure user impact because its output is never shown. A/B tests measure business outcomes."
+    },
+    {
+      "id": "pt-mlops-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "mlops-and-model-deployment",
+      "prompt": "A colleague cannot reproduce last quarter's model. Which records would have made it reproducible?",
+      "options": [
+        "Only the model file",
+        "Code commit, data version, hyperparameters, random seed, pinned dependency versions and metrics, recorded in experiment tracking",
+        "The colleague's laptop name",
+        "A screenshot of the notebook"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Notebook-only training without seeds, data versions or pinned dependencies is a listed mistake."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mlops-skew",
+      "language": "python",
+      "title": "Training-serving skew test",
+      "difficulty": "intermediate",
+      "prompt": "Write `skew_report(records, train_fn, serve_fn, tol=1e-9)` where both functions turn a raw record dict into a features dict. Return a sorted list of `\"<record index>:<feature>\"` strings for every feature whose values differ (numbers compared with absolute tolerance `tol`, other values with `==`) or which is missing from one side.",
+      "starter": "def skew_report(records, train_fn, serve_fn, tol=1e-9):\n    # Your code here\n    pass\n",
+      "solution": "def skew_report(records, train_fn, serve_fn, tol=1e-9):\n    issues = []\n    for i, rec in enumerate(records):\n        a, b = train_fn(rec), serve_fn(rec)\n        for key in set(a) | set(b):\n            if key not in a or key not in b:\n                issues.append('%d:%s' % (i, key))\n                continue\n            x, y = a[key], b[key]\n            if isinstance(x, (int, float)) and isinstance(y, (int, float)):\n                if abs(x - y) > tol:\n                    issues.append('%d:%s' % (i, key))\n            elif x != y:\n                issues.append('%d:%s' % (i, key))\n    return sorted(issues)\n",
+      "explanation": "Running identical raw records through both code paths and diffing the features is the skew test from the lesson. It catches subtle differences such as 365 vs 365.25 or different imputation long before they show up as lower production accuracy.",
+      "hints": [
+        "Loop over records with `enumerate`.",
+        "Compare the union of feature keys from both outputs.",
+        "Use a tolerance for numbers and `==` for everything else."
+      ],
+      "tests": [
+        {
+          "name": "Finds numeric and text skew",
+          "marks": 3,
+          "code": "tr=lambda r:{'age':r['days']/365.25,'name':r['name'].lower()}\nsv=lambda r:{'age':r['days']/365,'name':r['name']}\nassert skew_report([{'days':0,'name':'a'},{'days':730,'name':'B'}],tr,sv)==['1:age','1:name'], skew_report([{'days':0,'name':'a'},{'days':730,'name':'B'}],tr,sv)"
+        },
+        {
+          "name": "Missing feature",
+          "marks": 2,
+          "code": "assert skew_report([{}],lambda r:{'x':1,'y':2},lambda r:{'x':1})==['0:y']\nassert skew_report([{}],lambda r:{'x':1.0},lambda r:{'x':1})==[]"
+        }
+      ]
+    },
+    {
+      "id": "code-mlops-promote",
+      "language": "python",
+      "title": "Champion-challenger promotion gate",
+      "difficulty": "intermediate",
+      "prompt": "Write `can_promote(challenger, champion, min_gain, max_slice_drop)` where both arguments are dicts with `\"overall\"` (a score) and `\"slices\"` (slice name -> score). Return `(ok, reasons)`. Add `\"overall gain too small\"` if `challenger overall - champion overall < min_gain`; add `\"slice drop: <name>\"` (sorted by name) for each slice where the challenger is more than `max_slice_drop` below the champion; add `\"missing slice: <name>\"` for champion slices absent from the challenger. `ok` is True when there are no reasons. Use a tolerance of 1e-9 in comparisons.",
+      "starter": "def can_promote(challenger, champion, min_gain, max_slice_drop):\n    # Your code here\n    pass\n",
+      "solution": "def can_promote(challenger, champion, min_gain, max_slice_drop):\n    reasons = []\n    if challenger['overall'] - champion['overall'] < min_gain - 1e-9:\n        reasons.append('overall gain too small')\n    for name in sorted(champion['slices']):\n        if name not in challenger['slices']:\n            reasons.append('missing slice: ' + name)\n        elif champion['slices'][name] - challenger['slices'][name] > max_slice_drop + 1e-9:\n            reasons.append('slice drop: ' + name)\n    return (not reasons), reasons\n",
+      "explanation": "Promotion should compare against the current production model, not an absolute number, and must look at slices so an overall gain cannot hide a regression for one group. Missing slices are treated as failures because 'not measured' is not 'fine'.",
+      "hints": [
+        "Check the overall gain first.",
+        "Loop over the champion's slices in sorted order.",
+        "Return `(not reasons, reasons)`."
+      ],
+      "tests": [
+        {
+          "name": "Promotes a clear improvement",
+          "marks": 2,
+          "code": "ok,r=can_promote({'overall':0.9,'slices':{'a':0.9,'b':0.88}},{'overall':0.85,'slices':{'a':0.86,'b':0.88}},0.01,0.01)\nassert ok is True and r==[], r"
+        },
+        {
+          "name": "Blocks hidden slice regressions",
+          "marks": 3,
+          "code": "ok,r=can_promote({'overall':0.92,'slices':{'a':0.99}},{'overall':0.85,'slices':{'a':0.9,'b':0.8,'c':0.7}},0.01,0.02)\nassert ok is False and r==['missing slice: b','missing slice: c'], r\nok,r=can_promote({'overall':0.851,'slices':{'en':0.9,'fr':0.6}},{'overall':0.85,'slices':{'en':0.88,'fr':0.7}},0.01,0.02)\nassert r==['overall gain too small','slice drop: fr'], r"
+        }
+      ]
+    }
+  ]
+}

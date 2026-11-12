@@ -1,0 +1,267 @@
+{
+  "lesson": "neural-networks-and-deep-learning",
+  "questions": [
+    {
+      "id": "pt-nndl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "What is one epoch?",
+      "options": [
+        "One mini-batch",
+        "One pass over the full training set",
+        "One weight update",
+        "One layer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "An epoch is a full pass over the training data, made of many mini-batches, each producing one optimiser step."
+    },
+    {
+      "id": "pt-nndl-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "Which activation is the usual default for hidden layers?",
+      "options": [
+        "Softmax",
+        "ReLU",
+        "Sigmoid",
+        "None"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "ReLU, max(0, x), is cheap and helps against vanishing gradients. Softmax is for multiclass outputs and sigmoid for a binary output probability."
+    },
+    {
+      "id": "pt-nndl-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "Initialising all weights to zero is fine because training will move them apart.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. With identical weights every unit in a layer receives the same gradient and stays identical, so the layer behaves like one unit. Use random initialisation such as He or Xavier."
+    },
+    {
+      "id": "pt-nndl-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "How many trainable parameters does this MLP have (every layer has biases)?",
+      "code": "input (4) -> Dense(16, ReLU) -> Dense(2)",
+      "codeLanguage": "python",
+      "options": [
+        "64",
+        "96",
+        "114",
+        "82"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Layer 1: 4*16 weights + 16 biases = 80. Layer 2: 16*2 + 2 = 34. Total 114. Forgetting biases gives 96."
+    },
+    {
+      "id": "pt-nndl-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "What is the cross-entropy loss when the model gives the true class probability 1.0?",
+      "options": [
+        "1",
+        "0",
+        "Infinity",
+        "-1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cross-entropy is -log(p_true). -log(1) = 0: a perfect, confident prediction costs nothing. As p_true approaches 0 the loss grows towards infinity."
+    },
+    {
+      "id": "pt-nndl-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "Training a 50-layer plain network, the early layers barely change. Which remedies target this?",
+      "options": [
+        "Residual connections, ReLU, careful initialisation and normalisation",
+        "Sigmoid everywhere and zero initialisation",
+        "Removing the loss function",
+        "Increasing the batch size only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "This is vanishing gradients. Residual connections let gradients flow directly, ReLU avoids saturation, He/Xavier initialisation and normalisation keep activations in a healthy range. Sigmoid and zero-init make it worse."
+    },
+    {
+      "id": "pt-nndl-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "This PyTorch classifier trains poorly and its loss plateaus high. What is wrong?",
+      "code": "def forward(self, x):\n    x = torch.relu(self.fc1(x))\n    return torch.softmax(self.fc2(x), dim=1)\n\nloss_fn = nn.CrossEntropyLoss()",
+      "codeLanguage": "python",
+      "options": [
+        "Linear layers need no bias",
+        "Softmax is applied before CrossEntropyLoss, which already applies log-softmax to raw logits; return logits instead",
+        "ReLU should be sigmoid",
+        "The loss should be MSE"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "CrossEntropyLoss expects raw logits. Softmax first squashes them and then log-softmax is applied again, which flattens gradients. Remove the softmax from forward and apply it only when you need probabilities."
+    },
+    {
+      "id": "pt-nndl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "Loss becomes NaN after a few hundred steps. Which two actions are the standard first remedies?",
+      "options": [
+        "Add dropout and more layers",
+        "Lower the learning rate and add gradient clipping",
+        "Remove validation",
+        "Switch from ReLU to linear activations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "NaN losses usually mean exploding updates. A smaller learning rate and clipping the gradient norm keep steps bounded. Also check for unscaled inputs."
+    },
+    {
+      "id": "pt-nndl-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "neural-networks-and-deep-learning",
+      "prompt": "A dropout model shows validation accuracy that varies randomly on every evaluation run of the same checkpoint. What is the likely cause?",
+      "options": [
+        "The validation set changes",
+        "The model was not switched to evaluation mode, so dropout is still randomly zeroing units",
+        "Too many epochs",
+        "ReLU is random"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Dropout is only meant during training. In evaluation mode (model.eval() in PyTorch) it is disabled and results become repeatable for the same inputs."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-nndl-params",
+      "language": "python",
+      "title": "Count MLP parameters",
+      "difficulty": "beginner",
+      "prompt": "Write `count_params(layer_sizes)` for a fully connected network with biases. `layer_sizes` lists widths from input to output, e.g. `[784, 128, 10]`. Each layer from `n_in` to `n_out` has `n_in * n_out + n_out` parameters. Return the total.\n\nExample: `count_params([784, 128, 10])` returns `101770`.",
+      "starter": "def count_params(layer_sizes):\n    # Your code here\n    pass\n",
+      "solution": "def count_params(layer_sizes):\n    return sum(a * b + b for a, b in zip(layer_sizes, layer_sizes[1:]))\n",
+      "explanation": "Pair each width with the next (`zip(sizes, sizes[1:])`). Each dense layer has a weight per input-output pair plus one bias per output: 784*128+128 = 100480 and 128*10+10 = 1290.",
+      "hints": [
+        "Consecutive pairs: `zip(layer_sizes, layer_sizes[1:])`.",
+        "Each layer: `n_in * n_out + n_out`.",
+        "Sum over all pairs."
+      ],
+      "tests": [
+        {
+          "name": "MNIST MLP",
+          "marks": 2,
+          "code": "assert count_params([784,128,10])==101770, count_params([784,128,10])"
+        },
+        {
+          "name": "Single layer",
+          "marks": 1,
+          "code": "assert count_params([4,3])==15"
+        },
+        {
+          "name": "Deeper network",
+          "marks": 2,
+          "code": "assert count_params([4,16,16,3])==80+272+51"
+        }
+      ]
+    },
+    {
+      "id": "code-nndl-forward",
+      "language": "python",
+      "title": "Forward pass through a tiny network",
+      "difficulty": "intermediate",
+      "prompt": "Write `forward(x, layers)` where `x` is a list of floats and `layers` is a list of `(W, b, activation)` tuples. `W` is a list of rows with shape `(n_in, n_out)` (so `W[i][j]` connects input i to output j), `b` has length `n_out`, and `activation` is `\"relu\"` or `\"linear\"`. Return the final output list.\n\nExample: `forward([1, -2], [([[1, 0], [0, 1]], [0, 0], \"relu\")])` returns `[1, 0]`.",
+      "starter": "def forward(x, layers):\n    # Your code here\n    pass\n",
+      "solution": "def forward(x, layers):\n    for W, b, act in layers:\n        out = [sum(x[i] * W[i][j] for i in range(len(x))) + b[j] for j in range(len(b))]\n        if act == \"relu\":\n            out = [max(0.0, v) for v in out]\n        x = out\n    return x\n",
+      "explanation": "Each layer computes x @ W + b and then applies the activation, and its output becomes the next layer's input. The XOR test shows why the non-linearity matters: without ReLU in the hidden layer no weights could produce that output.",
+      "hints": [
+        "Output j is `sum(x[i] * W[i][j]) + b[j]`.",
+        "Apply ReLU with `max(0, v)` only when the activation says so.",
+        "Set `x = out` and continue with the next layer."
+      ],
+      "tests": [
+        {
+          "name": "Identity plus ReLU",
+          "marks": 2,
+          "code": "assert forward([1,-2],[([[1,0],[0,1]],[0,0],'relu')])==[1,0]"
+        },
+        {
+          "name": "Linear layer keeps negatives",
+          "marks": 1,
+          "code": "assert forward([1,-2],[([[1],[1]],[0.5],'linear')])==[-0.5]"
+        },
+        {
+          "name": "Two-layer network computes XOR",
+          "marks": 3,
+          "code": "net=[([[1,1],[1,1]],[0,-1],'relu'),([[1],[-2]],[0],'linear')]\nassert [forward(p,net)[0] for p in ([0,0],[0,1],[1,0],[1,1])]==[0,1,1,0]"
+        }
+      ]
+    },
+    {
+      "id": "code-nndl-xent",
+      "language": "python",
+      "title": "Cross-entropy from logits",
+      "difficulty": "advanced",
+      "prompt": "Write `cross_entropy(logits, target)` that applies a numerically stable log-softmax to the raw `logits` list and returns `-log(p_target)`.\n\nUse the log-sum-exp trick: `log_softmax_i = z_i - (m + log(sum(exp(z_j - m))))` where `m = max(z)`.\n\nExample: `cross_entropy([0.0, 0.0], 0)` returns `log(2) ≈ 0.6931`.",
+      "starter": "import math\n\ndef cross_entropy(logits, target):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef cross_entropy(logits, target):\n    m = max(logits)\n    lse = m + math.log(sum(math.exp(z - m) for z in logits))\n    return -(logits[target] - lse)\n",
+      "explanation": "This is what CrossEntropyLoss does internally, which is why it wants raw logits. Working in log space with the max subtracted avoids overflow for large logits and avoids log(0) for very confident wrong predictions.",
+      "hints": [
+        "Compute `m = max(logits)`.",
+        "log-sum-exp is `m + log(sum(exp(z - m)))`.",
+        "Loss is `lse - logits[target]`."
+      ],
+      "tests": [
+        {
+          "name": "Uniform logits",
+          "marks": 2,
+          "code": "assert abs(cross_entropy([0.0,0.0],0)-math.log(2))<1e-9"
+        },
+        {
+          "name": "Confident and correct is near zero",
+          "marks": 2,
+          "code": "assert 0 <= cross_entropy([10.0,0.0,0.0],0) < 1e-3"
+        },
+        {
+          "name": "Huge logits do not overflow",
+          "marks": 2,
+          "code": "v=cross_entropy([1000.0,0.0],1)\nassert abs(v-1000.0)<1e-6, v"
+        }
+      ]
+    }
+  ]
+}

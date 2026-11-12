@@ -1,0 +1,168 @@
+{
+  "lesson": "ai-landscape-and-roles",
+  "questions": [
+    {
+      "id": "pt-ailr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "Which learning type uses inputs without labels, for example grouping customers by behaviour?",
+      "options": [
+        "Supervised",
+        "Unsupervised",
+        "Reinforcement",
+        "Self-supervised"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unsupervised learning finds structure without labels (k-means, PCA)."
+    },
+    {
+      "id": "pt-ailr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "How are LLMs pretrained?",
+      "options": [
+        "Reinforcement learning only",
+        "Self-supervised learning: predicting the next token over large text collections",
+        "Unsupervised clustering",
+        "Hand-written rules"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Labels come from the data itself (the next token); then supervised fine-tuning and preference methods adapt the model to follow instructions."
+    },
+    {
+      "id": "pt-ailr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "Classic ML such as fraud detection and forecasting is still widely used alongside generative AI.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "True. Thinking AI means only chatbots is a listed mistake."
+    },
+    {
+      "id": "pt-ailr-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "A spam filter that labels incoming email is what kind of model?",
+      "options": [
+        "Generative",
+        "Discriminative",
+        "Reinforcement",
+        "Diffusion"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Discriminative models predict a label or number from an input; generative models produce new samples."
+    },
+    {
+      "id": "pt-ailr-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "Which role's main question is 'Is there a better method?'",
+      "options": [
+        "AI Engineer",
+        "AI Test Engineer",
+        "AI Specialist",
+        "AI Scientist"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Scientists advance methods with hypotheses, controlled experiments and papers. Engineers ask 'can we ship it reliably?', test engineers 'can we trust it?'."
+    },
+    {
+      "id": "pt-ailr-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "A job ad titled 'AI Engineer' lists responsibilities: design eval datasets, run red-team tests, calibrate LLM judges. How should you read it?",
+      "options": [
+        "As a pure engineering role",
+        "Read responsibilities, not titles: this is mostly AI test engineering work",
+        "Ignore the ad",
+        "As a research role"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Companies use titles differently; treating them as fixed is a listed mistake."
+    },
+    {
+      "id": "pt-ailr-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "A team spends months picking the best model but has no evaluation set, no monitoring and unclear success metrics. What will most likely decide whether the product works?",
+      "options": [
+        "The model choice alone",
+        "Problem framing, data quality, evaluation and monitoring across the lifecycle",
+        "The UI colour",
+        "GPU brand"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Focusing only on the model is a listed mistake; the lifecycle stages decide success."
+    },
+    {
+      "id": "pt-ailr-08",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "Which artefacts belong to the problem-framing and data stages? Select all that apply.",
+      "options": [
+        "Success metrics",
+        "Risk assessment",
+        "Data cards",
+        "Model registry entries"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Registry entries belong to deployment. Framing produces success metrics and risk assessment; the data stage produces datasets and data cards."
+    },
+    {
+      "id": "pt-ailr-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ai-landscape-and-roles",
+      "prompt": "A developer jumps straight to calling LLM APIs and tweaks prompts by feel. Why does the lesson call skipping foundations a mistake?",
+      "options": [
+        "APIs are deprecated",
+        "Without understanding evaluation they cannot tell whether a change helped or hurt",
+        "Prompts are not needed",
+        "Foundations are only for scientists"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Evaluation literacy is foundational for every role in the track."
+    }
+  ],
+  "coding": []
+}

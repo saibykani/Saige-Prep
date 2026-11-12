@@ -1,0 +1,223 @@
+{
+  "lesson": "fine-tuning-and-adaptation",
+  "questions": [
+    {
+      "id": "pt-ftad-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "Which need is fine-tuning usually best suited for?",
+      "options": [
+        "Answering with this week's prices",
+        "Consistent style, format or a narrow skill at scale",
+        "Citing source documents",
+        "Adding knowledge of yesterday's news"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Fine-tuning shapes behaviour, tone and format. Changing facts and citations are retrieval problems."
+    },
+    {
+      "id": "pt-ftad-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "What is catastrophic forgetting?",
+      "options": [
+        "The model forgets the prompt mid-answer",
+        "New training overwrites capabilities the model had before",
+        "The adapter file gets deleted",
+        "The context window is exceeded"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Updating weights for a new task can degrade unrelated skills. A held-out regression suite of general and safety prompts detects it."
+    },
+    {
+      "id": "pt-ftad-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "Fine-tuning is a good way to teach a model facts that change every week.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "False. Facts that change belong in retrieval, which is fresh and citable. Fine-tuned facts go stale and cannot be cited."
+    },
+    {
+      "id": "pt-ftad-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "A 4096 x 4096 weight matrix gets a LoRA adapter with rank r = 8. How many trainable parameters does the adapter add?",
+      "options": [
+        "16,777,216",
+        "65,536",
+        "32,768",
+        "8"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "B is d x r = 4096*8 = 32,768 and A is r x k = 8*4096 = 32,768; total 65,536, about 0.4% of the 16.8M parameters in the full matrix."
+    },
+    {
+      "id": "pt-ftad-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "What does QLoRA change compared with LoRA?",
+      "options": [
+        "It trains all weights",
+        "It keeps the frozen base model in 4-bit precision while training LoRA adapters in higher precision",
+        "It removes the adapters",
+        "It only works for images"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "QLoRA (Dettmers et al., 2023) quantises the frozen base to 4 bits to save memory, so larger models can be fine-tuned on a single GPU."
+    },
+    {
+      "id": "pt-ftad-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "The team augmented the dataset with paraphrases and then split into train and test. Test scores are excellent but production is poor. Why?",
+      "options": [
+        "Too few epochs",
+        "Paraphrases of the same example landed in both train and test, leaking test data",
+        "LoRA rank too small",
+        "The learning rate was too low"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Split before augmentation and check near-duplicates across splits. Otherwise the test measures memorisation of paraphrases."
+    },
+    {
+      "id": "pt-ftad-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "A fine-tuned model performs well in the training notebook but badly in the app. The notebook formats examples as 'Q: ... A: ...' while the app uses the chat template with a system prompt. What is the issue?",
+      "options": [
+        "The adapter is corrupted",
+        "Training format differs from inference format; train on exactly the template and system prompt used at inference",
+        "The rank is too high",
+        "Inference should use temperature 2"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The model learns the specific format it was trained on. A different template at inference is a listed mistake."
+    },
+    {
+      "id": "pt-ftad-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "Before approving a fine-tuning project, what evidence should exist?",
+      "options": [
+        "Training loss went down",
+        "A baseline using a strong prompt (and retrieval if needed) on the same held-out task metric, plus a regression suite for general and safety behaviour",
+        "The adapter file is small",
+        "The base model is popular"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without a prompt baseline nobody knows if fine-tuning helped, and training loss does not measure task quality or regressions."
+    },
+    {
+      "id": "pt-ftad-09",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "fine-tuning-and-adaptation",
+      "prompt": "Which should be recorded with every adapter release? Select all that apply.",
+      "options": [
+        "Exact base model revision",
+        "Training data version and licences",
+        "Evaluation results on the held-out set",
+        "The colour of the training GPU"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Adapters only work on the base they were trained on, licences constrain use, and evaluation results justify release. Not recording the base revision is a listed mistake."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ftad-lora",
+      "language": "python",
+      "title": "LoRA parameter savings",
+      "difficulty": "beginner",
+      "prompt": "Write `lora_params(shapes, r)` where `shapes` is a list of `(d, k)` weight matrix shapes that get adapters. Return `(full, lora, percent)`: the total parameters in those matrices, the total LoRA parameters (`r * (d + k)` per matrix), and `100 * lora / full` rounded to 2 decimals.\n\nExample: `lora_params([(4096, 4096)], 8)` returns `(16777216, 65536, 0.39)`.",
+      "starter": "def lora_params(shapes, r):\n    # Your code here\n    pass\n",
+      "solution": "def lora_params(shapes, r):\n    full = sum(d * k for d, k in shapes)\n    lora = sum(r * (d + k) for d, k in shapes)\n    return full, lora, round(100 * lora / full, 2)\n",
+      "explanation": "LoRA replaces training a d x k update with B (d x r) and A (r x k), so it adds r(d + k) parameters instead of dk. For large square matrices and small r that is well under 1%.",
+      "hints": [
+        "Full parameters: `d * k` per matrix.",
+        "LoRA parameters: `r * (d + k)` per matrix.",
+        "Sum over all shapes, then compute the percentage."
+      ],
+      "tests": [
+        {
+          "name": "One square matrix",
+          "marks": 2,
+          "code": "assert lora_params([(4096,4096)],8)==(16777216,65536,0.39), lora_params([(4096,4096)],8)"
+        },
+        {
+          "name": "Query and value projections",
+          "marks": 2,
+          "code": "assert lora_params([(1024,1024),(1024,1024)],16)==(2097152,65536,3.12)"
+        }
+      ]
+    },
+    {
+      "id": "code-ftad-dedup",
+      "language": "python",
+      "title": "Leak-free split",
+      "difficulty": "intermediate",
+      "prompt": "Write `split_examples(examples, test_ids)` where each example is a dict with `id` and `prompt`. Normalise prompts by lowercasing, removing all characters except letters, digits and spaces, and collapsing whitespace. Deduplicate on the normalised prompt (keep the first). Then return `(train, test)` lists of ids: examples whose id is in `test_ids` go to test; others go to train **unless** their normalised prompt matches a test example's, in which case they are dropped.",
+      "starter": "def split_examples(examples, test_ids):\n    # Your code here\n    pass\n",
+      "solution": "import re\n\ndef _norm(text):\n    text = re.sub(r'[^a-z0-9 ]', '', text.lower())\n    return ' '.join(text.split())\n\ndef split_examples(examples, test_ids):\n    seen = set()\n    unique = []\n    for ex in examples:\n        key = _norm(ex['prompt'])\n        if key not in seen:\n            seen.add(key)\n            unique.append((ex['id'], key))\n    test_keys = {key for eid, key in unique if eid in test_ids}\n    test = [eid for eid, key in unique if eid in test_ids]\n    train = [eid for eid, key in unique if eid not in test_ids and key not in test_keys]\n    return train, test\n",
+      "explanation": "Exact-match deduplication misses near-duplicates that differ in case or punctuation, which is how test data quietly leaks into training. Normalising first and excluding anything matching the test set keeps the evaluation honest.",
+      "hints": [
+        "Write a `_norm` helper with `re.sub(r'[^a-z0-9 ]', '', text.lower())` and `' '.join(text.split())`.",
+        "Deduplicate on the normalised key, keeping the first.",
+        "Build the set of test keys and drop train items that match it."
+      ],
+      "tests": [
+        {
+          "name": "Drops near-duplicates",
+          "marks": 3,
+          "code": "ex=[{'id':'1','prompt':'Reset my password!'},{'id':'2','prompt':'reset  my password'},{'id':'3','prompt':'Cancel order'}]\nassert split_examples(ex,set())==(['1','3'],[]), split_examples(ex,set())"
+        },
+        {
+          "name": "Removes train items matching test",
+          "marks": 3,
+          "code": "ex2=[{'id':'t','prompt':'Where is my refund?'},{'id':'b','prompt':'Track parcel'},{'id':'c','prompt':'where is my REFUND'}]\nassert split_examples(ex2,{'t'})==(['b'],['t']), split_examples(ex2,{'t'})"
+        }
+      ]
+    }
+  ]
+}
