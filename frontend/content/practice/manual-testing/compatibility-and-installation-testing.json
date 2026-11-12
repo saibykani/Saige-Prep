@@ -1,0 +1,168 @@
+{
+  "lesson": "compatibility-and-installation-testing",
+  "questions": [
+    {
+      "id": "pt-mtcit-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISO/IEC 25010 (2011), compatibility has two sub-characteristics. Which are they?",
+      "options": [
+        "Co-existence and interoperability",
+        "Installability and replaceability",
+        "Maturity and recoverability",
+        "Learnability and operability"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Compatibility covers co-existence (sharing an environment without harm) and interoperability (exchanging and using information). Installability and replaceability belong to portability, maturity and recoverability to reliability, and learnability to usability.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Testing that a new release can be uninstalled cleanly, leaving no orphaned services or files, is part of which testing?",
+      "options": [
+        "Installation testing",
+        "Interoperability testing",
+        "Load testing",
+        "Usability testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Install, upgrade and uninstall checks are installation testing (portability: installability). Interoperability is about exchanging data with other systems, and load and usability testing address different characteristics.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Interoperability testing checks that two or more systems can exchange information and use it correctly.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Interoperability is exactly the ability to exchange information and use what was exchanged. Merely sending data is not enough; the receiver must interpret it correctly.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Analytics show 70% of users on Chrome desktop, 20% Safari on iOS, 8% Firefox and 2% others. You have one day. How should you allocate compatibility testing?",
+      "options": [
+        "Prioritise by usage and risk: full checks on Chrome and Safari iOS, key flows on Firefox, a smoke check on the rest",
+        "Spend equal time on every browser ever released",
+        "Test only Chrome because most users use it",
+        "Skip compatibility testing because browsers follow standards"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Usage data and risk drive the depth of testing. Equal effort wastes time on rare platforms, testing only Chrome ignores a fifth of users on a very different engine, and browsers still differ in rendering and API support.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are installation test scenarios worth including? Select all that apply.",
+      "options": [
+        "Upgrade from the previous two supported versions with existing user data",
+        "Install with insufficient disk space and check the error",
+        "Reinstall over an existing installation",
+        "Check the font colour of the About dialog"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Upgrades with real data, failure handling such as low disk space, and repair or reinstall are classic installation risks. The About dialog colour is a cosmetic UI check, not installation testing.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "An app works when installed alone but crashes when another vendor's plugin that uses the same port is installed. Which sub-characteristic failed?",
+      "options": [
+        "Co-existence",
+        "Interoperability",
+        "Maturity",
+        "Adaptability"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The app cannot share the environment with another product without harm, which is co-existence. Interoperability would be about exchanging data with that plugin, maturity about reliability under normal use, and adaptability about moving to different environments.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A desktop installer succeeds on a developer's machine. What is the main risk in using that as installation evidence?",
+      "options": [
+        "Developer machines already have runtimes, permissions and libraries that a clean user machine lacks",
+        "Developer machines are always slower",
+        "Installers cannot run on developer machines",
+        "There is no risk; one successful install is proof"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Developer environments hide missing prerequisites and permission problems. Installation tests should use clean, representative machines (for example fresh VMs) with normal user rights. Speed is irrelevant, and one install on an unrepresentative machine proves little.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "After an upgrade from version 3.2 to 4.0, users' saved settings are lost, but a fresh 4.0 install works perfectly. What test gap does this reveal and how should it be closed?",
+      "options": [
+        "Upgrade paths with existing data were not tested; add upgrade tests from each supported old version using realistic user data, checking data migration",
+        "Fresh installs were not tested enough; repeat fresh installs on more machines",
+        "It is an interoperability issue with the operating system",
+        "Nothing; settings loss is expected in major upgrades"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Fresh installs and upgrades exercise different code: upgrades must migrate existing data and configuration. The fix is an upgrade matrix (each supported source version to the target) seeded with realistic data. More fresh installs would never find it, the OS is not the cause, and silent data loss is not acceptable.",
+      "topic": "compatibility-and-installation-testing"
+    },
+    {
+      "id": "pt-mtcit-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Your web app integrates with a payment provider that is releasing API version 2 next month and will retire version 1 in six months. What is the best compatibility testing plan?",
+      "options": [
+        "Run interoperability tests against the provider's v2 sandbox now, including error responses, keep v1 regression running until the switch, and plan a check for retirement-date behaviour",
+        "Wait until v1 is retired and then test v2",
+        "Test only the success path against v2 because errors are the provider's responsibility",
+        "Mock v2 based on guesses about its responses"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testing early against the real sandbox finds contract differences with time to fix them, while v1 still serves production. Error handling is part of interoperability. Waiting until retirement risks an outage, ignoring errors leaves the riskiest cases untested, and guessed mocks cannot reveal real incompatibilities.",
+      "topic": "compatibility-and-installation-testing"
+    }
+  ],
+  "coding": []
+}

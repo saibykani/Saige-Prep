@@ -1,0 +1,269 @@
+{
+  "lesson": "boundary-value-analysis",
+  "questions": [
+    {
+      "id": "pt-mtbva-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A password must be 8 to 20 characters long. Which lengths are the two-value boundary tests?",
+      "options": [
+        "7, 8, 20, 21",
+        "8 and 20 only",
+        "1, 8, 20, 100",
+        "7, 9, 19, 21"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Two-value BVA tests each boundary and its closest neighbour in the adjacent partition: 7 and 8 at the lower edge, 20 and 21 at the upper edge. 8 and 20 alone miss the invalid side, and the others skip the actual boundaries.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Boundary value analysis can only be used when the partitions are ordered.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "BVA needs ordered partitions (numbers, dates, lengths, counts) so that there is a minimum and maximum. Unordered sets like colour names have no boundaries; equivalence partitioning still applies to them.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A field accepts 1 to 99. Using three-value BVA, which values test the lower boundary?",
+      "options": [
+        "0, 1, 2",
+        "1 and 2",
+        "0 and 1",
+        "1, 50, 99"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Three-value BVA tests the boundary plus both neighbours: 0, 1 and 2. Two-value BVA would use 0 and 1. 50 is a mid-partition value, not a boundary test.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Temperature input accepts -10.0 to 40.0 with one decimal place. Which value is just above the upper boundary?",
+      "options": [
+        "40.1",
+        "41",
+        "40.01",
+        "39.9"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The smallest step for one decimal place is 0.1, so the closest invalid value above 40.0 is 40.1. 41 skips values, 40.01 has a precision the field does not accept, and 39.9 is inside the valid range.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "The rule is \"free shipping for orders of 50.00 or more\". Which test exposes the defect?",
+      "code": "def shipping(total):\n    return 0 if total > 50.00 else 4.99",
+      "codeLanguage": "python",
+      "options": [
+        "Order total 50.00",
+        "Order total 49.99",
+        "Order total 100.00",
+        "Order total 0.01"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The code uses > instead of >=, so 50.00 is charged shipping although the rule says it should be free. 49.99 and 0.01 are correctly charged, and 100.00 is correctly free, so only the exact boundary reveals the bug.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A booking allows 1 to 9 passengers and a departure date from today to 330 days ahead. Which are valid boundary tests? Select all that apply.",
+      "options": [
+        "0 passengers",
+        "9 passengers",
+        "Departure date yesterday",
+        "Departure date 331 days ahead",
+        "5 passengers"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "0 and 9 sit on the passenger boundaries; yesterday and day 331 are just outside the date range. 5 passengers is a middle value from equivalence partitioning, not a boundary test.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A text field's specification says max 255 characters, but the database column is VARCHAR(250). Which tests will reveal the mismatch?",
+      "options": [
+        "Entering 250, 251 and 255 characters and checking the saved value",
+        "Entering 1 character",
+        "Entering 100 characters",
+        "Entering 256 characters only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Hidden internal boundaries are a classic BVA finding. Values from 251 to 255 pass the UI rule but may be truncated or rejected by the database, so testing 250 and 251 around the internal limit, plus 255, shows the problem. 1 and 100 are far from any edge, and 256 only tests the UI rule.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "An insurance premium has bands by age: 18-25 high, 26-60 standard, 61-80 senior. Applicants outside 18-80 are rejected. What is the minimum two-value BVA test set?",
+      "options": [
+        "17, 18, 25, 26, 60, 61, 80, 81",
+        "18, 25, 26, 60, 61, 80",
+        "17, 18, 80, 81",
+        "17, 25, 60, 81"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each partition edge needs its value and the adjacent value in the neighbouring partition. Shared edges (25/26 and 60/61) cover both bands at once, giving 17, 18, 25, 26, 60, 61, 80, 81. Dropping 17 and 81 misses the invalid partitions, and testing only the outer edges ignores the internal band boundaries.",
+      "topic": "boundary-value-analysis"
+    },
+    {
+      "id": "pt-mtbva-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A report filter accepts a date range where the end date must be on or after the start date and the range may be at most 31 days. Which pair of tests best targets the boundary of the range-length rule?",
+      "options": [
+        "A range of exactly 31 days accepted, and 32 days rejected",
+        "A range of 1 day and of 365 days",
+        "Start date equals end date, and end date before start date",
+        "Any two random ranges in the same month"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The range-length rule has its edge at 31 days, so test 31 (valid) and 32 (invalid), and agree in advance whether \"31 days\" counts the start day. Equal and reversed dates target the other rule (ordering), and 1 or 365 days are far from the length boundary.",
+      "topic": "boundary-value-analysis"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtbva-values",
+      "language": "python",
+      "title": "Generate two-value boundary tests",
+      "difficulty": "beginner",
+      "prompt": "Write `boundary_values(low, high)` that returns the **sorted list** of two-value BVA test inputs for a valid integer range `low..high` (inclusive): the value just below, both boundaries, and the value just above.\n\nExample: `boundary_values(18, 60)` returns `[17, 18, 60, 61]`.\n\nIf `low == high`, the single valid value appears once: `boundary_values(5, 5)` returns `[4, 5, 6]`.",
+      "starter": "def boundary_values(low, high):\n    # Your code here\n    pass\n",
+      "solution": "def boundary_values(low, high):\n    return sorted({low - 1, low, high, high + 1})\n",
+      "explanation": "Two-value BVA takes each boundary and its neighbour outside the range. Using a set removes the duplicate when low equals high, and sorted() returns a list in order.",
+      "hints": [
+        "You need four values: low - 1, low, high, high + 1.",
+        "If low == high two of them are the same; a set removes duplicates.",
+        "`return sorted({low - 1, low, high, high + 1})`"
+      ],
+      "tests": [
+        {
+          "name": "Normal range",
+          "marks": 2,
+          "code": "assert boundary_values(18, 60) == [17, 18, 60, 61], boundary_values(18, 60)"
+        },
+        {
+          "name": "Negative range",
+          "marks": 1,
+          "code": "assert boundary_values(-10, 40) == [-11, -10, 40, 41], boundary_values(-10, 40)"
+        },
+        {
+          "name": "Single-value range has no duplicates",
+          "marks": 2,
+          "code": "assert boundary_values(5, 5) == [4, 5, 6], boundary_values(5, 5)"
+        }
+      ]
+    },
+    {
+      "id": "code-mtbva-bands",
+      "language": "python",
+      "title": "Boundary tests for adjacent bands",
+      "difficulty": "intermediate",
+      "prompt": "A rule splits an integer input into consecutive bands, given as a list of `(low, high)` tuples, sorted and touching (each band starts one after the previous ends). Values outside all bands are invalid.\n\nWrite `band_boundaries(bands)` that returns the sorted list of unique two-value BVA inputs covering **every band edge** and the invalid values just outside the whole range.\n\nExample: `band_boundaries([(18, 25), (26, 60), (61, 80)])` returns `[17, 18, 25, 26, 60, 61, 80, 81]`.",
+      "starter": "def band_boundaries(bands):\n    # Your code here\n    return []\n",
+      "solution": "def band_boundaries(bands):\n    values = set()\n    for low, high in bands:\n        values.update({low - 1, low, high, high + 1})\n    return sorted(values)\n",
+      "explanation": "Each band contributes its edges and their outside neighbours. Because bands touch, the neighbour of one band's top is the next band's bottom, so the set collapses shared values and you get the minimal list.",
+      "hints": [
+        "Loop over the bands and collect values in a set.",
+        "For each band add low - 1, low, high and high + 1.",
+        "Touching bands produce the same numbers twice; the set removes them. Return `sorted(values)`."
+      ],
+      "tests": [
+        {
+          "name": "Three touching bands",
+          "marks": 3,
+          "code": "assert band_boundaries([(18, 25), (26, 60), (61, 80)]) == [17, 18, 25, 26, 60, 61, 80, 81]"
+        },
+        {
+          "name": "Single band",
+          "marks": 2,
+          "code": "assert band_boundaries([(1, 99)]) == [0, 1, 99, 100]"
+        },
+        {
+          "name": "One-value band in the middle",
+          "marks": 2,
+          "code": "assert band_boundaries([(0, 9), (10, 10), (11, 20)]) == [-1, 0, 9, 10, 11, 20, 21]"
+        }
+      ]
+    },
+    {
+      "id": "code-mtbva-check",
+      "language": "python",
+      "title": "Find the off-by-one",
+      "difficulty": "advanced",
+      "prompt": "You are testing a validator `is_valid(x)` that should accept integers from `low` to `high` inclusive. Write `find_boundary_bugs(is_valid, low, high)` that runs the two-value boundary tests and returns a **sorted list of the inputs where the validator gives the wrong answer**. Return `[]` if it is correct at the boundaries.\n\nExample: for `is_valid = lambda x: 18 < x <= 60` and range 18..60, it returns `[18]`.",
+      "starter": "def find_boundary_bugs(is_valid, low, high):\n    # Your code here\n    return None\n",
+      "solution": "def find_boundary_bugs(is_valid, low, high):\n    bugs = []\n    for x in sorted({low - 1, low, high, high + 1}):\n        expected = low <= x <= high\n        if bool(is_valid(x)) != expected:\n            bugs.append(x)\n    return bugs\n",
+      "explanation": "This is a tiny test oracle: for each boundary input compute the expected result from the specification (low <= x <= high) and compare with the actual result. Any mismatch is a failure at that boundary, which is exactly where off-by-one defects show up.",
+      "hints": [
+        "Generate the four boundary inputs first.",
+        "The expected result for x is `low <= x <= high`.",
+        "Collect x when `bool(is_valid(x)) != expected`."
+      ],
+      "tests": [
+        {
+          "name": "Correct validator has no bugs",
+          "marks": 2,
+          "code": "assert find_boundary_bugs(lambda x: 18 <= x <= 60, 18, 60) == []"
+        },
+        {
+          "name": "Detects exclusive lower bound",
+          "marks": 3,
+          "code": "assert find_boundary_bugs(lambda x: 18 < x <= 60, 18, 60) == [18]"
+        },
+        {
+          "name": "Detects upper bound off by one in both directions",
+          "marks": 3,
+          "code": "assert find_boundary_bugs(lambda x: 18 <= x <= 61, 18, 60) == [61]\nassert find_boundary_bugs(lambda x: 17 <= x < 60, 18, 60) == [17, 60]"
+        }
+      ]
+    }
+  ]
+}

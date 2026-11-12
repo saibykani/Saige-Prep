@@ -1,0 +1,170 @@
+{
+  "lesson": "retesting-and-confirmation-testing",
+  "questions": [
+    {
+      "id": "pt-mtret-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is the purpose of confirmation testing?",
+      "options": [
+        "To confirm that the original defect has been successfully fixed",
+        "To find new defects in unrelated areas",
+        "To check performance under load",
+        "To confirm the test plan was approved"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Confirmation testing (retesting) checks the fix. Looking for side effects elsewhere is regression testing, and performance or plan approval are unrelated.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which information from the original defect report is most important for retesting?",
+      "options": [
+        "The exact steps, data and environment that produced the failure",
+        "The reporter's job title",
+        "The date the report was created",
+        "The number of comments"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Reproducing the original conditions is essential to know whether the failure still occurs. The other fields do not help reproduce it.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "According to CTFL v4.0, confirmation testing may also be done by running new tests if the original test was not sufficient, for example when the fix needed changes in the code.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL says confirmation testing can execute all test cases that previously failed due to the defect, or add new tests to cover changes needed to fix the defect.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "You retest a fixed defect and it passes on the first try. Before closing, what extra check adds the most value?",
+      "options": [
+        "Try close variations of the original input (boundaries and related values) to check the fix is not too narrow",
+        "Retest the identical steps five more times",
+        "Close without any further checks",
+        "Test only unrelated areas"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Fixes are often narrow, addressing the exact value reported. Variations check the fix generalises. Repeating identical steps adds little, and unrelated areas are regression scope.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which must be recorded when a retest passes? Select all that apply.",
+      "options": [
+        "The build or version tested",
+        "The environment used",
+        "The steps and data executed",
+        "The developer's personal opinion of the defect"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Build, environment and steps make the closure verifiable. Opinions add no evidence.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A defect only occurred on Safari. The developer says it is fixed and it passes on Chrome. Can you close it?",
+      "options": [
+        "No; retest on Safari, the environment where the failure occurred",
+        "Yes; browsers behave the same",
+        "Yes, if the developer is confident",
+        "Only if Chrome passes twice"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Confirmation must use the original conditions; passing elsewhere proves nothing about the failing environment.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "How do confirmation testing and regression testing relate after a fix?",
+      "options": [
+        "Both are usually needed: confirmation for the fix, regression for side effects",
+        "They are the same thing",
+        "Regression replaces confirmation",
+        "Confirmation replaces regression"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "They answer different questions. A fix can work and still break something else, so each has its own role.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "The defect was \"quantity 0 is accepted\". The developer's fix is shown. Which retest variation exposes that the fix is incomplete?",
+      "code": "def validate_qty(q):\n    if q == 0:\n        raise ValueError('Quantity must be at least 1')\n    return q",
+      "codeLanguage": "python",
+      "options": [
+        "quantity = -1",
+        "quantity = 0",
+        "quantity = 1",
+        "quantity = 5"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The fix only blocks exactly 0, so negatives are still accepted. The original value 0 is now rejected, and 1 and 5 are valid. Testing the partition (all values below 1), not just the reported value, reveals the narrow fix.",
+      "topic": "retesting-and-confirmation-testing"
+    },
+    {
+      "id": "pt-mtret-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A retest of a data-corruption defect passes, but the test database was refreshed before retesting and the original corrupted rows are gone. What should the tester do?",
+      "options": [
+        "Recreate the original conditions (data state and sequence that caused corruption), retest, and also check whether existing corrupted production data needs a repair",
+        "Close the defect because the test passed",
+        "Reject the defect as no longer reproducible",
+        "Only run regression tests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The pass is not meaningful if the triggering state is missing. Recreate it, and remember that a code fix does not repair data already corrupted in production. Closing or rejecting skips verification.",
+      "topic": "retesting-and-confirmation-testing"
+    }
+  ],
+  "coding": []
+}

@@ -1,0 +1,168 @@
+{
+  "lesson": "qa-qc-and-testing",
+  "questions": [
+    {
+      "id": "pt-mtqqc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISTQB terms, quality control is mainly...",
+      "options": [
+        "Product-oriented and corrective: activities that check the product achieves the required quality",
+        "Process-oriented and preventive",
+        "Only about writing documentation",
+        "A synonym for project management"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 describes QC as product-oriented and corrective (testing is a major form of it), while QA is process-oriented and preventive.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which activity is quality assurance rather than quality control?",
+      "options": [
+        "Introducing a peer-review step into the team's development process",
+        "Executing system tests on a build",
+        "Running a static analysis tool on a code change",
+        "Inspecting a finished requirements document for defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Changing the process to prevent defects is QA. Executing tests, analysing code and inspecting a work product all evaluate a product, which is QC (including static testing).",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "According to ISTQB, QA is not the same as testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testing is a form of quality control. QA focuses on establishing, implementing and improving processes; CTFL explicitly notes they are often confused.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are quality control activities? Select all that apply.",
+      "options": [
+        "Reviewing a design document",
+        "Running regression tests",
+        "Performing an accessibility audit of a release",
+        "Defining the company's coding standards policy"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Reviews, tests and audits of a product check it against requirements, so they are QC. Defining process policies is QA work.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A tester spots that most defects come from unclear stories and proposes a story template with examples. Which kind of activity is the proposal?",
+      "options": [
+        "Quality assurance, because it improves the process to prevent defects",
+        "Quality control, because it finds defects",
+        "Testing, because a tester proposed it",
+        "Neither QA nor QC"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It is about the process and aims at prevention, so it is QA. Who does it does not change what it is; testers often contribute to QA.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which statement about test results and QA is correct according to CTFL v4.0?",
+      "options": [
+        "Test results feed QA: they give feedback on how well development and test processes perform",
+        "Test results are only used to fix defects",
+        "QA ignores test results",
+        "Test results replace QA"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Test results support QC (fixing defects) and QA (improving processes). They do not replace QA, and QA uses them.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A manager says \"We have a QA team, so developers do not need to care about quality.\" What is the best response?",
+      "options": [
+        "Quality is a shared responsibility; QA processes and testing support the team but cannot add quality at the end",
+        "Agree, because QA owns quality",
+        "Agree, as long as testers run more tests",
+        "Ask the QA team to write the code too"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL notes QA applies to the whole process and is the responsibility of everyone involved. Testing finds defects but cannot inject quality afterwards. The other answers reinforce a silo.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "After a production incident, the team (1) fixes the code, (2) adds a regression test, (3) adds a checklist item to code review, and (4) changes the CI pipeline to block merges without that check. Classify them.",
+      "options": [
+        "1 and 2 are QC; 3 and 4 are QA",
+        "All four are QC",
+        "All four are QA",
+        "1 is QA; 2, 3 and 4 are QC"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Fixing the product and adding a test that checks it are product-oriented corrective QC. Changing the review checklist and pipeline improves the process to prevent recurrence, which is QA.",
+      "topic": "qa-qc-and-testing"
+    },
+    {
+      "id": "pt-mtqqc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A company's \"QA department\" only executes test scripts at the end of each release, and escaped defects keep rising. What is the most valuable change?",
+      "options": [
+        "Shift some effort to real QA: analyse escaped defects, improve requirements and review practices, and involve testers early",
+        "Hire more script executors",
+        "Rename the department to QC",
+        "Run the same scripts twice"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Executing scripts at the end is late QC. Rising escapes suggest process problems, so prevention through analysis and earlier involvement gives the most value. More of the same, or renaming, changes nothing.",
+      "topic": "qa-qc-and-testing"
+    }
+  ],
+  "coding": []
+}

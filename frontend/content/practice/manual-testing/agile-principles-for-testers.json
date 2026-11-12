@@ -1,0 +1,168 @@
+{
+  "lesson": "agile-principles-for-testers",
+  "questions": [
+    {
+      "id": "pt-mtagp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "The Agile Manifesto values \"working software over ...\" what?",
+      "options": [
+        "Comprehensive documentation",
+        "Processes and tools",
+        "Contract negotiation",
+        "Following a plan"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The four values are individuals and interactions over processes and tools, working software over comprehensive documentation, customer collaboration over contract negotiation, and responding to change over following a plan.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "The Agile Manifesto's principles state that the primary measure of progress is working software.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is one of the twelve principles. Documents produced or test cases written are not progress measures on their own in agile thinking.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What does the whole-team approach mean for quality?",
+      "options": [
+        "Everyone on the team shares responsibility for quality, not only testers",
+        "Testers own quality and sign off every story alone",
+        "Developers stop testing because testers are on the team",
+        "The whole company must attend every test session"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In the whole-team approach quality is a shared responsibility; testers bring testing expertise but developers and the business also contribute. The other options either concentrate or abandon responsibility.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A tester is asked to write a 40-page test plan before the first sprint starts. How would an agile-minded tester respond?",
+      "options": [
+        "Propose a lightweight test strategy that covers risks and approach, and evolve it each sprint as the product is learned",
+        "Refuse to document anything because agile has no documentation",
+        "Write the 40 pages exactly as requested before any code exists",
+        "Wait until the final sprint and then document all testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Agile values working software over comprehensive documentation, not no documentation. A lean, evolving strategy keeps the useful part of planning. Refusing all documentation is a misreading, and a large upfront plan or an end-of-project write-up both ignore the need to respond to change.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which practices help a tester shift testing left in an agile team? Select all that apply.",
+      "options": [
+        "Joining backlog refinement to question stories and add examples",
+        "Pairing with a developer on unit and API tests",
+        "Reviewing acceptance criteria before development starts",
+        "Waiting until a story is marked Done to see it for the first time"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Shift-left means getting involved earlier: refinement, pairing and criteria reviews all catch problems before code is complete. Seeing a story only after it is Done is the late-testing pattern agile tries to avoid.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Requirements change in the middle of a sprint after a customer demo. Which principle tells the tester how to react?",
+      "options": [
+        "Welcome changing requirements, even late in development, and adapt tests to the new understanding",
+        "Contract negotiation over customer collaboration",
+        "Following a plan over responding to change",
+        "Comprehensive documentation over working software"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The second principle welcomes changing requirements to give the customer a competitive advantage. The other options reverse the manifesto's values. Note that in Scrum, scope changes inside a Sprint are negotiated with the Product Owner without endangering the Sprint Goal.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Testers in a team spend most of each sprint re-running the same manual regression checks. What is the most agile improvement?",
+      "options": [
+        "Automate the stable, repetitive regression checks with the team and use freed time for exploratory testing of new work",
+        "Hire more manual testers to keep up",
+        "Stop regression testing to save time",
+        "Extend every sprint to four weeks"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Agile teams rely on automation for fast feedback on regression risk, freeing people for higher-value testing. More people only scales the waste, dropping regression adds risk, and longer sprints slow feedback.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A tester notices that stories regularly arrive for testing with no acceptance criteria, and defects about misunderstood rules bounce back and forth. In the retrospective, what is the most effective proposal?",
+      "options": [
+        "Hold short three-amigos conversations (business, development, testing) for each story before it starts, capturing examples as acceptance criteria",
+        "Ask the Product Owner to write longer requirement documents in a separate tool",
+        "Have testers reject every story without criteria at the end of the sprint",
+        "Add a separate testing sprint after each development sprint"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The root cause is a shared-understanding gap before development. Three-amigos conversations with examples fix it early and collaboratively. Longer documents favour documentation over conversation, rejecting late wastes the sprint, and a separate testing sprint recreates mini-waterfall and delays feedback.",
+      "topic": "agile-principles-for-testers"
+    },
+    {
+      "id": "pt-mtagp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A manager measures testers by number of defects logged per sprint. In an agile team, why is this harmful?",
+      "options": [
+        "It rewards finding defects late instead of preventing them through early collaboration, and can encourage splitting or inflating reports",
+        "It is harmless because more defects always means better testing",
+        "It is harmful only because defect tools are slow",
+        "Agile teams are forbidden from measuring anything"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Agile testing aims to prevent defects with the team, for example by clarifying stories early. Counting defects per tester punishes prevention and encourages gaming. Agile teams do measure things, but they measure outcomes like escaped defects and cycle time, not individual defect counts.",
+      "topic": "agile-principles-for-testers"
+    }
+  ],
+  "coding": []
+}

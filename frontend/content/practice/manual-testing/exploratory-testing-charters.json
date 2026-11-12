@@ -1,0 +1,168 @@
+{
+  "lesson": "exploratory-testing-charters",
+  "questions": [
+    {
+      "id": "pt-mtetc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is a test charter?",
+      "options": [
+        "A short statement of the mission of an exploratory session: target, resources and information sought",
+        "A detailed step-by-step script",
+        "A contract between test vendor and client",
+        "A list of all defects found"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A charter guides a session without scripting it; the common format is Explore (target) with (resources) to discover (information). Scripts, contracts and defect lists are different artefacts.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is a typical length for a time-boxed exploratory session in session-based test management?",
+      "options": [
+        "About 60 to 120 minutes",
+        "Exactly 5 minutes",
+        "A full week",
+        "No time limit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Sessions are usually around 60 to 120 minutes, long enough to go deep but short enough to stay focused. 5 minutes is too short for meaningful exploration, and a week or no limit removes the time-box.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A charter should be broad enough to cover the entire application in a single session.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A charter that covers everything gives no focus and cannot be completed in a time-box. Good charters are scoped to an area, risk or quality characteristic that fits one session.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which charter is best scoped?",
+      "options": [
+        "Explore the coupon field at checkout with expired, stacked and malformed codes to discover how discounts are validated",
+        "Explore the website to find bugs",
+        "Test everything about payments",
+        "Explore checkout with every possible input"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The first names a clear target, specific resources and the information sought. The others are vague or unbounded.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which metrics are commonly recorded per session in session-based test management? Select all that apply.",
+      "options": [
+        "Time spent on test design and execution",
+        "Time spent investigating and reporting bugs",
+        "Time spent on setup",
+        "Number of keystrokes"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "SBTM often splits session time into test, bug investigation and setup (often called TBS metrics) to show how much time went into actual testing. Keystrokes are not a meaningful measure.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A session sheet shows 70% of time spent on setup because the test data kept resetting. What should the debrief lead to?",
+      "options": [
+        "Raise the environment or data problem as an impediment and fix it before more sessions, since it is reducing real testing time",
+        "Ask the tester to work faster",
+        "Ignore the metric because setup is part of testing",
+        "Lengthen the next session to 8 hours"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The session metrics revealed a blocker. Fixing it improves every future session. Pressuring the tester or lengthening sessions does not address the cause.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is a typical output of a debrief besides defect reports?",
+      "options": [
+        "New or revised charters for areas that need more exploration",
+        "A finished regression suite",
+        "The release decision",
+        "A code review"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Debriefs decide follow-up work, often new charters. They do not produce full regression suites, make the release decision alone, or review code.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A product owner wants to know how much of the new booking feature has been explored. Which approach gives the best answer?",
+      "options": [
+        "Map charters to risks and feature areas, and report sessions completed, coverage notes and open issues per area",
+        "Report the number of sessions run",
+        "Report the total hours spent",
+        "Say exploratory testing cannot be reported"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Linking charters to risks and areas turns sessions into a coverage picture. Counts of sessions or hours alone say nothing about what was covered, and exploratory work can be reported when it is structured.",
+      "topic": "exploratory-testing-charters"
+    },
+    {
+      "id": "pt-mtetc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Testers on a team write charters like \"Explore login\" and sessions keep producing few findings. Which change is most likely to help?",
+      "options": [
+        "Write charters around specific risks and hypotheses, e.g. \"Explore login with expired sessions and parallel tabs to discover session handling flaws\", and review them in refinement",
+        "Make sessions longer",
+        "Switch entirely to scripted tests",
+        "Assign more testers to the same vague charter"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Vague charters give vague sessions. Risk-focused charters with concrete resources and goals sharpen exploration. Longer sessions, more people or abandoning exploration do not fix the lack of direction.",
+      "topic": "exploratory-testing-charters"
+    }
+  ],
+  "coding": []
+}

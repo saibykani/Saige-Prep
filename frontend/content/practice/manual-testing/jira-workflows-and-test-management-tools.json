@@ -1,0 +1,249 @@
+{
+  "lesson": "jira-workflows-and-test-management-tools",
+  "questions": [
+    {
+      "id": "pt-mtjir-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In JIRA, what defines the statuses an issue can have and the transitions between them?",
+      "options": [
+        "The workflow associated with the project and issue type",
+        "The issue's priority",
+        "The user's dashboard",
+        "The JQL filter"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Workflows define statuses and transitions, and they can differ per project and issue type. Priority, dashboards and filters do not control transitions.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which JQL finds bugs in project SHOP that are not yet resolved?",
+      "options": [
+        "project = SHOP AND issuetype = Bug AND resolution = Unresolved",
+        "project = SHOP OR issuetype = Bug",
+        "SELECT * FROM SHOP WHERE bug",
+        "issuetype = Bug ORDER BY project"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`resolution = Unresolved` (or `resolution IS EMPTY`) finds open issues, combined with AND. OR would return all SHOP issues plus every bug anywhere, the SQL statement is not JQL, and the last query has no project or status filter.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Linking a defect to the story or test case it affects improves traceability.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Issue links such as \"relates to\" or \"blocks\", and test management links between tests, requirements and defects, let teams trace coverage and impact.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What does this JQL return?",
+      "code": "project = SHOP AND issuetype = Bug AND priority in (High, Highest)\nAND resolution = Unresolved ORDER BY priority DESC",
+      "codeLanguage": "sql",
+      "options": [
+        "Unresolved bugs in SHOP with priority High or Highest, highest priority first",
+        "All issues with High priority in any project",
+        "Resolved bugs sorted by date",
+        "Only bugs assigned to the current user"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`priority in (High, Highest)` matches either value, `resolution = Unresolved` keeps open issues, and `ORDER BY priority DESC` puts the highest first. No assignee filter is present.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which features do test management tools (such as those integrated with JIRA) commonly provide? Select all that apply.",
+      "options": [
+        "Test cases linked to requirements",
+        "Test cycles or runs with execution status",
+        "Traceability reports from requirements through tests to defects",
+        "Automatic proof that no defects remain"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Linking, execution tracking and traceability reports are standard. No tool can prove absence of defects; testing shows the presence of defects, not their absence.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Testers keep finding bugs in status Resolved that were never deployed to the test environment. Which workflow change helps most?",
+      "options": [
+        "Add a status such as \"Ready for test\" that is set only when the fix is in a deployed build, with the build number recorded",
+        "Let testers close bugs without testing",
+        "Remove the Resolved status",
+        "Ask developers to email testers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Making deployment explicit in the workflow tells testers when retest is possible and which build has the fix. Closing without testing loses verification, removing Resolved loses information, and email is not traceable.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the advantage of a saved JQL filter on a dashboard for the test team?",
+      "options": [
+        "Everyone sees the same live view of, for example, bugs awaiting retest, without rebuilding the query",
+        "It speeds up the server",
+        "It replaces the need for a workflow",
+        "It makes issues immutable"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Saved filters share consistent, current views. They do not change performance, workflows or editability.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Your release report shows 100% of test cases passed, but production defects appear in a story that had no linked tests. What tool practice would reveal this before release?",
+      "options": [
+        "A requirements coverage report that lists stories in the release without linked tests or executions",
+        "A count of total test cases executed",
+        "Sorting bugs by creation date",
+        "Adding more statuses to the workflow"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Coverage reports show gaps: requirements with no tests. Execution counts only describe the tests that exist, sorting bugs and adding statuses do not reveal missing coverage.",
+      "topic": "jira-workflows-and-test-management-tools"
+    },
+    {
+      "id": "pt-mtjir-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A tester wants open bugs in Checkout or Payments for release 2.4 but also gets issues from other projects, other issue types and other fix versions. Why?",
+      "code": "project = SHOP AND issuetype = Bug AND component = Checkout\nOR component = Payments AND fixVersion = 2.4",
+      "codeLanguage": "sql",
+      "options": [
+        "AND binds tighter than OR, so the OR splits the query; parentheses are needed around the component condition",
+        "JQL does not support OR",
+        "fixVersion must be in quotes",
+        "issuetype should be issueType"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "AND binds tighter than OR, so the query is read as (project = SHOP AND issuetype = Bug AND component = Checkout) OR (component = Payments AND fixVersion = 2.4). The second group has no project or type filter, and the first has no version filter. Use `component in (Checkout, Payments)` or parentheses. JQL supports OR, quotes are optional for 2.4, and field names are case-insensitive.",
+      "topic": "jira-workflows-and-test-management-tools"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtjir-retest",
+      "language": "sql",
+      "title": "Bugs waiting for retest",
+      "difficulty": "beginner",
+      "prompt": "The `issues` table mirrors a JIRA export. Write a query returning the `key` and `assignee` of every **Bug** with status **'Resolved'** or **'Reopened'** in fix version **'2.4'**, ordered by `key`.",
+      "starter": "-- Write your query here\nSELECT 1 WHERE 0;\n",
+      "solution": "SELECT key, assignee FROM issues\nWHERE type = 'Bug' AND status IN ('Resolved', 'Reopened') AND fix_version = '2.4'\nORDER BY key;",
+      "explanation": "IN keeps the status condition compact and avoids the AND/OR precedence trap that also catches people in JQL. ORDER BY makes the output predictable.",
+      "hints": [
+        "Filter on type, status and fix_version.",
+        "Use `status IN ('Resolved', 'Reopened')`.",
+        "Finish with ORDER BY key."
+      ],
+      "setup": "CREATE TABLE issues (key TEXT, type TEXT, status TEXT, priority TEXT, component TEXT, fix_version TEXT, assignee TEXT);\nINSERT INTO issues VALUES ('SHOP-1','Bug','Open','High','Checkout','2.4','ana');\nINSERT INTO issues VALUES ('SHOP-2','Bug','Resolved','High','Checkout','2.4','raj');\nINSERT INTO issues VALUES ('SHOP-3','Story','Open','Medium','Search','2.4','ana');\nINSERT INTO issues VALUES ('SHOP-4','Bug','In Progress','Highest','Payments','2.4',NULL);\nINSERT INTO issues VALUES ('SHOP-5','Bug','Closed','Low','Search','2.3','li');\nINSERT INTO issues VALUES ('SHOP-6','Bug','Reopened','Medium','Checkout','2.4','raj');\nINSERT INTO issues VALUES ('SHOP-7','Bug','Open','Low','Search','2.4',NULL);\nINSERT INTO issues VALUES ('SHOP-8','Bug','Open','High','Payments','2.5','li');",
+      "expected": {
+        "columns": [
+          "key",
+          "assignee"
+        ],
+        "rows": [
+          [
+            "SHOP-2",
+            "raj"
+          ],
+          [
+            "SHOP-6",
+            "raj"
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 3
+    },
+    {
+      "id": "code-mtjir-triage",
+      "language": "sql",
+      "title": "Open bug count per component",
+      "difficulty": "intermediate",
+      "prompt": "For fix version **'2.4'**, count the **open** bugs per component, where open means status is not 'Resolved' or 'Closed'. Also count how many of them are **unassigned** (assignee IS NULL). Return columns `component`, `open_bugs`, `unassigned`, ordered by `open_bugs` descending then `component`.",
+      "starter": "-- Write your query here\nSELECT 1 WHERE 0;\n",
+      "solution": "SELECT component, COUNT(*) AS open_bugs,\n       SUM(CASE WHEN assignee IS NULL THEN 1 ELSE 0 END) AS unassigned\nFROM issues\nWHERE type = 'Bug' AND fix_version = '2.4' AND status NOT IN ('Resolved', 'Closed')\nGROUP BY component\nORDER BY open_bugs DESC, component;",
+      "explanation": "GROUP BY gives one row per component, COUNT counts open bugs and SUM over a CASE counts the subset with no assignee. This is the kind of triage dashboard a JQL filter plus a two-dimensional gadget shows.",
+      "hints": [
+        "Filter first: Bug, version 2.4, status NOT IN ('Resolved', 'Closed').",
+        "GROUP BY component and COUNT(*).",
+        "Count unassigned with SUM(CASE WHEN assignee IS NULL THEN 1 ELSE 0 END)."
+      ],
+      "setup": "CREATE TABLE issues (key TEXT, type TEXT, status TEXT, priority TEXT, component TEXT, fix_version TEXT, assignee TEXT);\nINSERT INTO issues VALUES ('SHOP-1','Bug','Open','High','Checkout','2.4','ana');\nINSERT INTO issues VALUES ('SHOP-2','Bug','Resolved','High','Checkout','2.4','raj');\nINSERT INTO issues VALUES ('SHOP-3','Story','Open','Medium','Search','2.4','ana');\nINSERT INTO issues VALUES ('SHOP-4','Bug','In Progress','Highest','Payments','2.4',NULL);\nINSERT INTO issues VALUES ('SHOP-5','Bug','Closed','Low','Search','2.3','li');\nINSERT INTO issues VALUES ('SHOP-6','Bug','Reopened','Medium','Checkout','2.4','raj');\nINSERT INTO issues VALUES ('SHOP-7','Bug','Open','Low','Search','2.4',NULL);\nINSERT INTO issues VALUES ('SHOP-8','Bug','Open','High','Payments','2.5','li');",
+      "expected": {
+        "columns": [
+          "component",
+          "open_bugs",
+          "unassigned"
+        ],
+        "rows": [
+          [
+            "Checkout",
+            2,
+            0
+          ],
+          [
+            "Payments",
+            1,
+            1
+          ],
+          [
+            "Search",
+            1,
+            1
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 5
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "lesson": "functional-vs-non-functional-testing",
+  "questions": [
+    {
+      "id": "pt-mtfnf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which question does non-functional testing answer?",
+      "options": [
+        "How well does the system behave, for example how fast, secure or usable it is?",
+        "Does the system calculate the correct tax?",
+        "Which features does the system have?",
+        "Who wrote the code?"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Non-functional testing evaluates characteristics such as performance, security and usability. Correct calculations and feature presence are functional concerns.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Testing that a password reset email contains a working link is an example of which test type?",
+      "options": [
+        "Functional testing",
+        "Performance testing",
+        "Portability testing",
+        "Maintainability testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Whether the email contains a working link is about what the system does, so it is functional. The other types evaluate how well the system performs or how easily it can be moved or changed.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "ISTQB CTFL v4.0 lists four test types: functional, non-functional, black-box and white-box testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 names those four test types. Confirmation and regression testing are discussed as change-related testing alongside them.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which of these are non-functional tests? Select all that apply.",
+      "options": [
+        "Checking the search page returns results within 2 seconds for 500 concurrent users",
+        "Checking a screen reader announces form errors",
+        "Checking a user can change their delivery address",
+        "Checking the app still works after the database is restarted"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Response time under load is performance, screen reader support is usability/accessibility, and recovery after a restart is reliability. Changing a delivery address is a functional behaviour.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A requirement says \"The system shall be secure\". What is the best first step for the tester?",
+      "options": [
+        "Ask stakeholders to make it testable, e.g. which threats, roles and standards apply, and agree measurable criteria",
+        "Run a random penetration tool and report the result",
+        "Mark the requirement as passed",
+        "Write functional tests only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Vague non-functional requirements need concrete, measurable criteria before testing. Running a tool without agreed goals gives no pass/fail basis, and passing or ignoring it is not testing.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Why should non-functional testing start early rather than only before release?",
+      "options": [
+        "Architectural problems such as poor performance or weak security are expensive to fix late",
+        "Non-functional testing is cheaper at the end",
+        "Functional testing must finish first by rule",
+        "Non-functional defects cannot be found early"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Non-functional issues often stem from design choices, so finding them late can force major rework. CTFL notes non-functional testing can and often should be done at all test levels and as early as possible.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which ISO/IEC 25010 characteristic is the best fit for \"the app can be moved from one cloud provider to another with minimal changes\"?",
+      "options": [
+        "Portability",
+        "Usability",
+        "Functional suitability",
+        "Compatibility"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Portability covers adaptability, installability and replaceability across environments. Usability concerns users, functional suitability concerns correct functions, and compatibility concerns co-existence and interoperability.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A requirement says \"95% of searches must complete within 1.5 seconds with 200 concurrent users\". Test results show the average is 1.1 s. Can you say the requirement is met?",
+      "options": [
+        "No; the requirement is about the 95th percentile, so you need the p95 value, which can be much higher than the average",
+        "Yes, because the average is below 1.5 s",
+        "Yes, if the maximum was under 3 s",
+        "No, because averages are never valid"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A percentile requirement must be checked with that percentile. A few slow requests can leave the average low while p95 exceeds the limit. Averages are useful but not the criterion here, and the maximum is a different measure.",
+      "topic": "functional-vs-non-functional-testing"
+    },
+    {
+      "id": "pt-mtfnf-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A feature passes all functional tests, but in beta users abandon it because the form takes 12 steps to complete. What does this illustrate?",
+      "options": [
+        "Functional correctness does not guarantee fitness for use; usability needed explicit criteria and testing",
+        "Beta users are unreliable",
+        "The functional tests were wrong",
+        "Usability is not a quality characteristic"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The system did what it should but not in a way users accept. Usability is part of ISO/IEC 25010 and needs its own criteria. Blaming users or the functional tests misses the point.",
+      "topic": "functional-vs-non-functional-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtfnf-p95",
+      "language": "python",
+      "title": "Check a percentile performance requirement",
+      "difficulty": "intermediate",
+      "prompt": "Write `percentile(values, p)` using the **nearest-rank** method: sort the values and return the element at rank `ceil(p / 100 * n)` (1-based). Then write `meets_sla(times, p, limit)` returning `True` when the p-th percentile is **less than or equal to** `limit`.\n\nExample: for `[0.5, 0.7, 0.8, 1.0, 1.2, 1.3, 1.4, 1.5, 1.6, 4.0]`, `percentile(..., 95)` is `4.0` (rank 10) while the average is only 1.4.",
+      "starter": "import math\n\ndef percentile(values, p):\n    pass\n\ndef meets_sla(times, p, limit):\n    pass\n",
+      "solution": "import math\n\ndef percentile(values, p):\n    ordered = sorted(values)\n    rank = math.ceil(p / 100 * len(ordered))\n    return ordered[max(rank, 1) - 1]\n\ndef meets_sla(times, p, limit):\n    return percentile(times, p) <= limit\n",
+      "explanation": "Nearest-rank picks an actual observed value: sort, compute the rank with ceil, and convert to a 0-based index. Checking the percentile instead of the mean is what the requirement asks for, and it is far more sensitive to slow outliers.",
+      "hints": [
+        "Sort the values first.",
+        "rank = math.ceil(p / 100 * n); the index is rank - 1.",
+        "Guard rank 0 (for p = 0) with max(rank, 1)."
+      ],
+      "tests": [
+        {
+          "name": "p95 of ten values",
+          "marks": 3,
+          "code": "t = [0.5, 0.7, 0.8, 1.0, 1.2, 1.3, 1.4, 1.5, 1.6, 4.0]\nassert percentile(t, 95) == 4.0 and percentile(t, 50) == 1.2, (percentile(t, 95), percentile(t, 50))"
+        },
+        {
+          "name": "Unsorted input",
+          "marks": 2,
+          "code": "assert percentile([5, 1, 3, 2, 4], 80) == 4"
+        },
+        {
+          "name": "SLA check",
+          "marks": 3,
+          "code": "t = [0.5, 0.7, 0.8, 1.0, 1.2, 1.3, 1.4, 1.5, 1.6, 4.0]\nassert meets_sla(t, 95, 1.5) is False and meets_sla(t, 90, 1.6) is True"
+        }
+      ]
+    }
+  ]
+}

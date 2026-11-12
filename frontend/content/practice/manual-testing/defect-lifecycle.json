@@ -1,0 +1,233 @@
+{
+  "lesson": "defect-lifecycle",
+  "questions": [
+    {
+      "id": "pt-mtdlc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which state usually follows when a tester confirms a fix works?",
+      "options": [
+        "Closed",
+        "Reopened",
+        "Deferred",
+        "New"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A successful retest means the defect can be closed. Reopened is for failed retests, Deferred postpones a fix, and New is for freshly logged defects.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Who normally moves a defect to Fixed (or Resolved)?",
+      "options": [
+        "The developer who made the change",
+        "The tester who reported it",
+        "The end customer",
+        "The test management tool automatically at random"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The developer marks the defect fixed once the change is in a build; the tester then verifies it. Reporters and customers do not mark fixes, and tools only automate transitions that people configure.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A defect in the Deferred state is considered valid but its fix is postponed to a later release.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Deferred means the defect is accepted as real, but the team chose to fix it later, usually because of low priority or risk of a late change.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A defect was Closed two releases ago. The same symptom now reappears in production after an unrelated change. What is usually the best action?",
+      "options": [
+        "Reopen it or log a new defect linked to the old one, following the team's workflow, with the new build and evidence",
+        "Do nothing because closed defects cannot recur",
+        "Delete the old defect and start fresh",
+        "Mark the old defect Duplicate"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Teams differ: some reopen closed defects, others log a new linked regression defect. Either way the history is kept and evidence attached. Deleting loses history, and marking as Duplicate would make no sense for the original.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which information should a tester add when moving a defect back to Reopened? Select all that apply.",
+      "options": [
+        "The build or version retested",
+        "The exact steps and data used in the retest",
+        "Actual result, with screenshots or logs",
+        "A guess at which developer is to blame"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "A reopened defect must show what was tested and what happened so the developer can act quickly. Blaming a person is not useful information and damages the team.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Why do teams restrict who can move a defect to Closed?",
+      "options": [
+        "To make sure a fix is verified independently before the defect leaves the workflow",
+        "To slow developers down",
+        "Because only managers can read closed defects",
+        "Because tools cannot store closed defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Restricting closure (typically to the tester or reporter) ensures independent confirmation. It is a quality control, not a delay tactic, and tools store closed defects normally.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A developer marks a defect Rejected with the comment \"works as designed\", but the tester believes the design contradicts the acceptance criteria. What should the tester do?",
+      "options": [
+        "Discuss it with the developer and product owner, citing the criterion, and let the product owner decide on the expected behaviour",
+        "Reopen it repeatedly until the developer fixes it",
+        "Accept the rejection silently",
+        "Log the same defect again with a new title"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "When the expected behaviour is disputed, the product owner (or whoever owns the requirement) decides, with the evidence. Reopening in a loop or re-logging creates noise, and silent acceptance may let a real problem ship.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Metrics show 30% of fixed defects get reopened. Which analysis is most useful first?",
+      "options": [
+        "Look at the reopened defects for common causes, such as unclear reproduction steps, fixes tested only on developer environments, or missing unit tests for the fix",
+        "Ask testers to reopen less often",
+        "Remove the Reopened state from the workflow",
+        "Count reopened defects per developer and publish a ranking"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A high reopen rate is a symptom; finding its causes leads to process fixes. Pressuring testers or removing the state hides the problem, and individual rankings encourage gaming rather than improvement.",
+      "topic": "defect-lifecycle"
+    },
+    {
+      "id": "pt-mtdlc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Your workflow allows Fixed to go straight to Closed without Retest because \"developers test their own fixes\". What is the main risk and the best counter-proposal?",
+      "options": [
+        "Fixes are never confirmed independently in a test environment; require a Retest step (or automated check) before closure, at least for medium and higher severity",
+        "There is no risk if developers are careful",
+        "The only risk is that metrics look worse; keep it",
+        "Remove the Fixed state instead"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Skipping confirmation lets incomplete fixes and environment differences slip through. A proportionate control, such as mandatory retest for higher-severity defects or an automated regression check, keeps quality without bureaucracy. Trusting care alone is not evidence, and removing Fixed loses information.",
+      "topic": "defect-lifecycle"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtdlc-trans",
+      "language": "python",
+      "title": "Validate a defect state transition",
+      "difficulty": "beginner",
+      "prompt": "Here is a team's defect workflow as a dict from state to allowed next states:\n```python\nTRANSITIONS = {'New': ['Open', 'Rejected', 'Duplicate', 'Deferred'], 'Open': ['In Progress', 'Deferred'], 'In Progress': ['Fixed'], 'Fixed': ['Retest'], 'Retest': ['Closed', 'Reopened'], 'Reopened': ['In Progress'], 'Deferred': ['Open'], 'Rejected': [], 'Duplicate': [], 'Closed': ['Reopened']}\n```\nWrite `can_move(current, new)` that returns `True` only if `new` is an allowed next state of `current`. Unknown states return `False`.\n\nExample: `can_move('Retest', 'Reopened')` is `True`; `can_move('New', 'Closed')` is `False`.",
+      "starter": "TRANSITIONS = {'New': ['Open', 'Rejected', 'Duplicate', 'Deferred'], 'Open': ['In Progress', 'Deferred'], 'In Progress': ['Fixed'], 'Fixed': ['Retest'], 'Retest': ['Closed', 'Reopened'], 'Reopened': ['In Progress'], 'Deferred': ['Open'], 'Rejected': [], 'Duplicate': [], 'Closed': ['Reopened']}\n\ndef can_move(current, new):\n    # Your code here\n    pass\n",
+      "solution": "TRANSITIONS = {'New': ['Open', 'Rejected', 'Duplicate', 'Deferred'], 'Open': ['In Progress', 'Deferred'], 'In Progress': ['Fixed'], 'Fixed': ['Retest'], 'Retest': ['Closed', 'Reopened'], 'Reopened': ['In Progress'], 'Deferred': ['Open'], 'Rejected': [], 'Duplicate': [], 'Closed': ['Reopened']}\n\ndef can_move(current, new):\n    return new in TRANSITIONS.get(current, [])\n",
+      "explanation": "Looking up the allowed list with `.get(current, [])` handles unknown states safely, and the `in` check answers the question. A workflow tool performs exactly this check when you click a transition.",
+      "hints": [
+        "Look up the allowed next states for `current`.",
+        "Use `.get(current, [])` so unknown states give an empty list.",
+        "`return new in TRANSITIONS.get(current, [])`"
+      ],
+      "tests": [
+        {
+          "name": "Allowed transitions",
+          "marks": 2,
+          "code": "assert can_move('Retest', 'Reopened') is True and can_move('New', 'Open') is True"
+        },
+        {
+          "name": "Forbidden transitions",
+          "marks": 2,
+          "code": "assert can_move('New', 'Closed') is False and can_move('Rejected', 'Open') is False"
+        },
+        {
+          "name": "Unknown states",
+          "marks": 1,
+          "code": "assert can_move('Banana', 'Open') is False and can_move('Open', 'Banana') is False"
+        }
+      ]
+    },
+    {
+      "id": "code-mtdlc-history",
+      "language": "python",
+      "title": "Audit a defect's history",
+      "difficulty": "intermediate",
+      "prompt": "Using the same `TRANSITIONS`, write `audit(history)` where `history` is the list of states a defect went through, in order. Return a dict:\n- `'invalid'`: list of `(from, to)` pairs that the workflow does not allow, in order\n- `'reopen_count'`: how many times the defect entered `'Reopened'`\n- `'final'`: the last state\n\nExample: `audit(['New', 'Open', 'In Progress', 'Fixed', 'Retest', 'Reopened', 'In Progress', 'Fixed', 'Closed'])` returns `{'invalid': [('Fixed', 'Closed')], 'reopen_count': 1, 'final': 'Closed'}` (Fixed must go through Retest).",
+      "starter": "TRANSITIONS = {'New': ['Open', 'Rejected', 'Duplicate', 'Deferred'], 'Open': ['In Progress', 'Deferred'], 'In Progress': ['Fixed'], 'Fixed': ['Retest'], 'Retest': ['Closed', 'Reopened'], 'Reopened': ['In Progress'], 'Deferred': ['Open'], 'Rejected': [], 'Duplicate': [], 'Closed': ['Reopened']}\n\ndef audit(history):\n    # Your code here\n    return {}\n",
+      "solution": "TRANSITIONS = {'New': ['Open', 'Rejected', 'Duplicate', 'Deferred'], 'Open': ['In Progress', 'Deferred'], 'In Progress': ['Fixed'], 'Fixed': ['Retest'], 'Retest': ['Closed', 'Reopened'], 'Reopened': ['In Progress'], 'Deferred': ['Open'], 'Rejected': [], 'Duplicate': [], 'Closed': ['Reopened']}\n\ndef audit(history):\n    invalid = [(a, b) for a, b in zip(history, history[1:]) if b not in TRANSITIONS.get(a, [])]\n    return {'invalid': invalid, 'reopen_count': history.count('Reopened'), 'final': history[-1]}\n",
+      "explanation": "`zip(history, history[1:])` pairs each state with the next one, so every transition can be checked against the workflow. Counting 'Reopened' gives the number of failed retests, a useful quality signal for that defect.",
+      "hints": [
+        "Pair consecutive states with `zip(history, history[1:])`.",
+        "A pair is invalid if `b not in TRANSITIONS.get(a, [])`.",
+        "`history.count('Reopened')` and `history[-1]` give the other two values."
+      ],
+      "tests": [
+        {
+          "name": "Detects a skipped retest",
+          "marks": 3,
+          "code": "r = audit(['New', 'Open', 'In Progress', 'Fixed', 'Retest', 'Reopened', 'In Progress', 'Fixed', 'Closed'])\nassert r == {'invalid': [('Fixed', 'Closed')], 'reopen_count': 1, 'final': 'Closed'}, r"
+        },
+        {
+          "name": "Clean history",
+          "marks": 2,
+          "code": "r = audit(['New', 'Open', 'In Progress', 'Fixed', 'Retest', 'Closed'])\nassert r == {'invalid': [], 'reopen_count': 0, 'final': 'Closed'}, r"
+        },
+        {
+          "name": "Rejected defect",
+          "marks": 2,
+          "code": "r = audit(['New', 'Rejected'])\nassert r == {'invalid': [], 'reopen_count': 0, 'final': 'Rejected'}, r"
+        }
+      ]
+    }
+  ]
+}

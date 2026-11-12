@@ -1,0 +1,168 @@
+{
+  "lesson": "acceptance-alpha-beta-testing",
+  "questions": [
+    {
+      "id": "pt-mtaab-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Where is alpha testing normally performed?",
+      "options": [
+        "At the developing organisation's site, by potential users or an independent test team",
+        "At customers' own sites in their own environments",
+        "Only inside the CI pipeline",
+        "By auditors checking legal contracts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Alpha testing happens at the developer's site, often with potential users or an independent team. Beta testing is the one done by customers at their own locations; CI pipelines and contract audits are different activities.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A bank must prove its new loan system meets a regulator's record-keeping rules before go-live. Which form of acceptance testing is this?",
+      "options": [
+        "Regulatory acceptance testing",
+        "Operational acceptance testing",
+        "Beta testing",
+        "Alpha testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Checking compliance with laws, regulations or safety standards is regulatory acceptance testing. Operational acceptance focuses on backup, recovery and maintainability, and alpha/beta are about user feedback in different locations.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Contractual acceptance testing checks the system against the acceptance criteria written into a contract for custom-developed software.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contractual acceptance testing verifies the criteria agreed in a contract, usually before the customer accepts and pays for a bespoke system. It is not the same as user acceptance testing, though users may take part.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Beta users report many vague comments such as \"it feels slow\" with no steps. What is the best improvement for the next beta round?",
+      "options": [
+        "Give beta users a structured feedback channel: in-app reporting with screenshots, environment details and a short template",
+        "Stop running beta tests because the feedback is low quality",
+        "Ask beta users to write full test cases in the team's test tool",
+        "Ignore any feedback that does not include a stack trace"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Beta testers are real users, not trained testers, so the team must make good feedback easy: capture environment and screenshots automatically and ask a few guided questions. Dropping beta loses real-world coverage, and demanding test cases or stack traces from customers is unrealistic.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which items are typical inputs to plan user acceptance testing? Select all that apply.",
+      "options": [
+        "Business processes and user stories",
+        "Acceptance criteria agreed with the business",
+        "Production-like test data and environment",
+        "The developers' unit test coverage report"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "UAT is planned from business processes, agreed acceptance criteria and a realistic environment with representative data. Unit coverage is a lower-level development measure and does not tell you whether users can do their work.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the main objective of acceptance testing according to ISTQB?",
+      "options": [
+        "Building confidence that the system is ready for use and validating that it meets the users' needs",
+        "Measuring code coverage of every component",
+        "Finding as many defects as possible before system testing",
+        "Proving the system contains no defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Acceptance testing focuses on validation and confidence that the system is fit for deployment. Finding many defects is more the aim of earlier levels, coverage measurement is white-box work, and testing can never prove the absence of defects.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "During UAT a business user says a report \"works but is not what we need\": it matches the specification but the totals are grouped by week instead of month. How should this be handled?",
+      "options": [
+        "Log it as a requirement or change issue and take it to the product owner, because the system meets the spec but not the user need",
+        "Reject it because the system matches the specification",
+        "Log it as a critical code defect and block the release",
+        "Ask the developer to quietly change it without recording anything"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "This is a validation gap: verified against the spec, but not what users need. That is exactly what acceptance testing exists to find, so it should be recorded and prioritised by the product owner as a change. Rejecting it ignores the user, calling it a code defect misplaces the cause, and undocumented changes break traceability.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A SaaS product is about to launch. Operations staff have not yet tested restoring the database from backup, failing over to the secondary region, or rotating certificates. Sales want to skip this because UAT passed. What is the strongest response?",
+      "options": [
+        "Explain that UAT does not cover operational acceptance; recommend running OAT for backup/restore, failover and maintenance tasks, or recording the risk explicitly if the business accepts launching without it",
+        "Agree, since passing UAT proves the system is ready",
+        "Run a beta test instead, which covers the same risks",
+        "Postpone the launch indefinitely until every possible test is done"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "UAT shows users can do their work; it says nothing about whether operators can recover the service. OAT covers backup, recovery, failover and maintenance. A beta test does not exercise those either, and an indefinite delay is not a risk-based decision. The tester's job is to make the gap and its risk visible.",
+      "topic": "acceptance-alpha-beta-testing"
+    },
+    {
+      "id": "pt-mtaab-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A mobile app's beta group is 200 staff members on company-issued recent iPhones on office Wi-Fi. Which is the biggest weakness of this beta?",
+      "options": [
+        "The beta population does not represent real users' devices, networks and behaviour, so real-world problems will be missed",
+        "200 users is too many for a beta",
+        "Staff are not allowed to take part in beta testing",
+        "Beta tests must happen at the developer's site"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The value of beta testing comes from real users in real environments. A homogeneous internal group on fast Wi-Fi and new hardware hides problems with older devices, poor networks and unfamiliar users. Staff can take part (that is closer to alpha or dogfooding), the size is fine, and beta is by definition at users' locations.",
+      "topic": "acceptance-alpha-beta-testing"
+    }
+  ],
+  "coding": []
+}

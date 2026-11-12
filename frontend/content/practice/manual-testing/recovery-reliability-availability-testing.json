@@ -1,0 +1,223 @@
+{
+  "lesson": "recovery-reliability-availability-testing",
+  "questions": [
+    {
+      "id": "pt-mtrra-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What does MTTR stand for?",
+      "options": [
+        "Mean time to repair (or restore)",
+        "Maximum time to release",
+        "Mean test time ratio",
+        "Minimum time to recover requirements"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "MTTR is the average time to repair or restore a failed component or service. The other expansions are invented.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which formula gives steady-state availability from MTBF and MTTR?",
+      "options": [
+        "MTBF / (MTBF + MTTR)",
+        "MTTR / MTBF",
+        "MTBF - MTTR",
+        "(MTBF + MTTR) / MTTR"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Availability is the fraction of time the system is up: uptime over total time, which is MTBF / (MTBF + MTTR). The other formulas do not give a fraction between 0 and 1.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Recovery time objective (RTO) is the maximum acceptable time to restore a service after a disruption.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "RTO is about how long restoration may take; RPO is about how much data (measured in time) may be lost.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "99.9% availability allows roughly how much downtime in a 30-day month?",
+      "options": [
+        "About 43 minutes",
+        "About 4.3 minutes",
+        "About 7.2 hours",
+        "About 1 day"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "30 days is 43,200 minutes; 0.1% of that is 43.2 minutes. 4.3 minutes matches 99.99%, 7.2 hours matches 99%, and a day is far more.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are good recovery tests for a web service with a primary and replica database? Select all that apply.",
+      "options": [
+        "Kill the primary database and measure the failover time and data loss",
+        "Restore last night's backup into a clean environment and validate the data",
+        "Kill an application server under load and check sessions and in-flight requests",
+        "Check the login page font size"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Failover, restore and node failure under load are core recovery tests. Font size is a UI check.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "RPO is 5 minutes. Backups run hourly and transaction logs are shipped every 10 minutes. What is the testing conclusion?",
+      "options": [
+        "The design cannot meet the RPO: up to 10 minutes of data could be lost; report it before any test is run",
+        "The RPO is met by the hourly backup",
+        "RPO is not testable",
+        "The RPO is met because logs are shipped"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The worst-case loss is the interval between the last shipped log and the failure, up to 10 minutes, exceeding the 5-minute RPO. A static review of the design reveals this early. Hourly backups are worse, and RPO is testable.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which ISO/IEC 25010 (2011) reliability sub-characteristic is about the system continuing to operate despite hardware or software faults?",
+      "options": [
+        "Fault tolerance",
+        "Maturity",
+        "Recoverability",
+        "Availability"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Fault tolerance is operating as intended despite faults. Maturity is meeting reliability needs under normal operation, recoverability is restoring after failure, and availability is being operational when required.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A service has MTBF 500 hours and MTTR 2 hours. The SLA requires 99.9% availability. What should the tester report?",
+      "options": [
+        "Availability is about 99.60%, below the SLA; reducing MTTR (to roughly 0.5 hours) or increasing MTBF is needed",
+        "Availability is 99.9%, meeting the SLA",
+        "Availability is 99.99%, exceeding the SLA",
+        "Availability cannot be computed from these values"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "500 / 502 = 0.99602, about 99.60%. To reach 99.9% with MTBF 500 h, MTTR must be about 0.5 h (500/500.5 = 99.90%). The other values miscalculate.",
+      "topic": "recovery-reliability-availability-testing"
+    },
+    {
+      "id": "pt-mtrra-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A failover test is always run at 3 a.m. with no traffic and always passes. Production failovers during peak hours have caused errors. What should change?",
+      "options": [
+        "Run failover tests under realistic load with in-flight transactions, measuring errors, recovery time and data consistency",
+        "Run the test at 4 a.m. instead",
+        "Stop testing failover because production proves it works",
+        "Increase the number of 3 a.m. runs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Recovery behaviour under load differs from an idle system: connections, queues and in-flight writes must be handled. Testing in realistic conditions is the only way to find those failures. The other options keep the unrealistic setup.",
+      "topic": "recovery-reliability-availability-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtrra-avail",
+      "language": "python",
+      "title": "Availability and allowed downtime",
+      "difficulty": "beginner",
+      "prompt": "Write two functions:\n- `availability(mtbf, mttr)` returning availability as a percentage rounded to 2 decimals\n- `allowed_downtime_minutes(target_pct, days)` returning the downtime allowed in that many days at the target availability, rounded to 1 decimal\n\nExamples: `availability(199, 1)` is `99.5`; `allowed_downtime_minutes(99.9, 30)` is `43.2`.",
+      "starter": "def availability(mtbf, mttr):\n    pass\n\ndef allowed_downtime_minutes(target_pct, days):\n    pass\n",
+      "solution": "def availability(mtbf, mttr):\n    return round(100 * mtbf / (mtbf + mttr), 2)\n\ndef allowed_downtime_minutes(target_pct, days):\n    return round(days * 24 * 60 * (100 - target_pct) / 100, 1)\n",
+      "explanation": "Availability is uptime over total time. Allowed downtime is the unavailable fraction times the total minutes in the period. Converting SLAs into minutes makes them concrete for test reports.",
+      "hints": [
+        "Availability = MTBF / (MTBF + MTTR), times 100.",
+        "Minutes in the period = days * 24 * 60.",
+        "Multiply by (100 - target) / 100 and round."
+      ],
+      "tests": [
+        {
+          "name": "Availability",
+          "marks": 2,
+          "code": "assert availability(199, 1) == 99.5 and availability(500, 2) == 99.6, (availability(199, 1), availability(500, 2))"
+        },
+        {
+          "name": "Allowed downtime",
+          "marks": 2,
+          "code": "assert allowed_downtime_minutes(99.9, 30) == 43.2 and allowed_downtime_minutes(99.99, 365) == 52.6, allowed_downtime_minutes(99.99, 365)"
+        }
+      ]
+    },
+    {
+      "id": "code-mtrra-rto",
+      "language": "python",
+      "title": "Check recovery drills against RTO and RPO",
+      "difficulty": "intermediate",
+      "prompt": "Each recovery drill is a dict with `failure_at`, `restored_at` and `last_backup_at` as minutes since start of the drill. Write `evaluate_drills(drills, rto, rpo)` returning a list with one dict per drill:\n`{'downtime': restored_at - failure_at, 'data_loss': failure_at - last_backup_at, 'rto_met': bool, 'rpo_met': bool}` where the objectives are met when the value is **less than or equal to** the limit.\n\nExample: `{'failure_at': 100, 'restored_at': 125, 'last_backup_at': 97}` with rto 30 and rpo 5 gives downtime 25, data_loss 3, both met.",
+      "starter": "def evaluate_drills(drills, rto, rpo):\n    # Your code here\n    return []\n",
+      "solution": "def evaluate_drills(drills, rto, rpo):\n    results = []\n    for d in drills:\n        downtime = d['restored_at'] - d['failure_at']\n        loss = d['failure_at'] - d['last_backup_at']\n        results.append({'downtime': downtime, 'data_loss': loss, 'rto_met': downtime <= rto, 'rpo_met': loss <= rpo})\n    return results\n",
+      "explanation": "RTO is measured from failure to restoration, RPO from the last recoverable point to the failure. Computing both per drill turns a recovery test into objective pass/fail evidence.",
+      "hints": [
+        "Downtime is restored_at - failure_at.",
+        "Data loss is failure_at - last_backup_at.",
+        "Compare each with its limit using <=."
+      ],
+      "tests": [
+        {
+          "name": "Drill meeting both objectives",
+          "marks": 2,
+          "code": "r = evaluate_drills([{'failure_at': 100, 'restored_at': 125, 'last_backup_at': 97}], 30, 5)\nassert r == [{'downtime': 25, 'data_loss': 3, 'rto_met': True, 'rpo_met': True}], r"
+        },
+        {
+          "name": "Misses and exact limits",
+          "marks": 3,
+          "code": "r = evaluate_drills([{'failure_at': 10, 'restored_at': 50, 'last_backup_at': 0}, {'failure_at': 0, 'restored_at': 30, 'last_backup_at': -5}], 30, 5)\nassert [(x['rto_met'], x['rpo_met']) for x in r] == [(False, False), (True, True)], r"
+        }
+      ]
+    }
+  ]
+}

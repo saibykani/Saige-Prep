@@ -1,0 +1,233 @@
+{
+  "lesson": "regression-testing",
+  "questions": [
+    {
+      "id": "pt-mtreg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is regression testing?",
+      "options": [
+        "Testing to detect whether a change has caused unintended side effects in previously working parts",
+        "Testing that a specific defect is fixed",
+        "Testing new features for the first time",
+        "Testing only the user interface"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Regression testing looks for unintended adverse consequences of changes. Checking a specific fix is confirmation testing, and regression testing is not limited to new features or the UI.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Why are regression tests strong candidates for automation?",
+      "options": [
+        "They are run repeatedly, often after every change",
+        "They are never run more than once",
+        "They cannot be run manually",
+        "They only test new code"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL notes regression test suites run many times and grow, so automating them pays back. They can be run manually, and they focus on existing behaviour, not only new code.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Impact analysis can help choose the scope of regression testing for a change.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Impact analysis identifies which areas a change may affect, letting the team focus regression effort where risk is highest.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which changes can call for regression testing? Select all that apply.",
+      "options": [
+        "A library upgrade",
+        "A configuration change to the database",
+        "A fix in a shared utility",
+        "A typo fix in an internal design document that no code reads"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Library upgrades, configuration changes and shared-code fixes can all break existing behaviour. A typo in a document that nothing executes cannot cause a regression in the software.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A regression suite takes 14 hours and the team releases daily. What is the best strategy?",
+      "options": [
+        "Split it: a fast risk-based subset on every change, the full suite nightly or weekly, and prune obsolete or duplicate tests",
+        "Run the full suite before every release regardless",
+        "Delete the suite",
+        "Run random tests each time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tiered regression balances feedback speed and coverage, and maintenance keeps the suite lean. Full runs before every daily release are impossible, deleting it removes the safety net, and random selection ignores risk.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the main risk of never updating a regression suite?",
+      "options": [
+        "It stops finding new defects (pesticide paradox) and accumulates obsolete tests",
+        "It becomes too fast",
+        "It finds too many defects",
+        "It automatically adapts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Repeating the same tests leads them to find fewer new defects over time, and outdated tests waste time or fail falsely. Suites do not adapt on their own.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "After a fix in the tax calculation module, which regression tests should be run first?",
+      "options": [
+        "Tests covering tax calculation and the features that use it, such as checkout, invoices and refunds",
+        "Only the login tests",
+        "All tests in alphabetical order",
+        "Only the test for the reported defect"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Prioritise by impact: the changed module and its dependants. Login is unrelated, alphabetical order ignores risk, and the defect's own test is confirmation, not regression.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "The team upgrades the operating system on its servers; no application code changes. A manager says regression testing is unnecessary. What is the best response?",
+      "options": [
+        "Environment changes can break behaviour (runtimes, libraries, certificates, file paths); run a risk-based regression, focusing on integration points and system-level features",
+        "Agree, because the code did not change",
+        "Run only unit tests because the OS is low-level",
+        "Wait for users to report problems"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL lists environment changes as a trigger for regression testing. Unit tests often run elsewhere and miss system behaviour, and waiting for users moves the risk to production.",
+      "topic": "regression-testing"
+    },
+    {
+      "id": "pt-mtreg-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A regression test fails after a refactoring, but the product owner confirms the new behaviour is correct and the test's expectation is outdated. What should happen?",
+      "options": [
+        "Update the test's expected result through the normal review process and record why, so the suite stays trustworthy",
+        "Delete the test",
+        "Mark the test as skipped forever",
+        "Revert the refactoring to make the test pass"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tests must track intended behaviour. Updating with a review keeps coverage and history. Deleting or skipping loses coverage, and reverting correct behaviour to satisfy a stale test is backwards.",
+      "topic": "regression-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtreg-diff",
+      "language": "python",
+      "title": "Compare two regression runs",
+      "difficulty": "beginner",
+      "prompt": "Write `compare_runs(before, after)` where both are dicts of test id to `'pass'` or `'fail'`. Return a dict with sorted lists:\n- `'regressions'`: tests that passed before and fail now\n- `'fixed'`: tests that failed before and pass now\n- `'new'`: tests only in `after`\n\nExample: `compare_runs({'a': 'pass', 'b': 'fail'}, {'a': 'fail', 'b': 'pass', 'c': 'pass'})` returns `{'regressions': ['a'], 'fixed': ['b'], 'new': ['c']}`.",
+      "starter": "def compare_runs(before, after):\n    # Your code here\n    return {}\n",
+      "solution": "def compare_runs(before, after):\n    regressions = sorted(t for t, r in after.items() if r == 'fail' and before.get(t) == 'pass')\n    fixed = sorted(t for t, r in after.items() if r == 'pass' and before.get(t) == 'fail')\n    new = sorted(t for t in after if t not in before)\n    return {'regressions': regressions, 'fixed': fixed, 'new': new}\n",
+      "explanation": "Comparing run results is how regression reports highlight what a change broke: a pass-to-fail transition is the signal that matters most. `before.get(t)` returns None for new tests so they never count as regressions.",
+      "hints": [
+        "Loop over after.items() and look up the same test in before.",
+        "Use before.get(t) to avoid KeyError for new tests.",
+        "Sort each list."
+      ],
+      "tests": [
+        {
+          "name": "Classifies changes",
+          "marks": 2,
+          "code": "assert compare_runs({'a': 'pass', 'b': 'fail'}, {'a': 'fail', 'b': 'pass', 'c': 'pass'}) == {'regressions': ['a'], 'fixed': ['b'], 'new': ['c']}"
+        },
+        {
+          "name": "Stable runs",
+          "marks": 1,
+          "code": "assert compare_runs({'a': 'pass', 'b': 'fail'}, {'a': 'pass', 'b': 'fail'}) == {'regressions': [], 'fixed': [], 'new': []}"
+        },
+        {
+          "name": "New failing test is not a regression",
+          "marks": 2,
+          "code": "assert compare_runs({'a': 'pass'}, {'a': 'pass', 'z': 'fail'}) == {'regressions': [], 'fixed': [], 'new': ['z']}"
+        }
+      ]
+    },
+    {
+      "id": "code-mtreg-select",
+      "language": "python",
+      "title": "Select regression tests by impact",
+      "difficulty": "intermediate",
+      "prompt": "Each test is a dict `{'id': str, 'modules': [list of module names it covers], 'priority': int}` (1 = highest).\n\nWrite `select_regression(tests, changed, depends_on, budget)` where `changed` is a set of changed modules and `depends_on` maps a module to the list of modules that **use** it (direct dependants only). Impacted modules are the changed ones plus their direct dependants. Return up to `budget` test ids that cover at least one impacted module, ordered by priority then id.\n\nExample: changed `{'tax'}`, `depends_on = {'tax': ['checkout', 'invoice']}`: tests covering tax, checkout or invoice are candidates.",
+      "starter": "def select_regression(tests, changed, depends_on, budget):\n    # Your code here\n    return []\n",
+      "solution": "def select_regression(tests, changed, depends_on, budget):\n    impacted = set(changed)\n    for module in changed:\n        impacted.update(depends_on.get(module, []))\n    candidates = [t for t in tests if impacted & set(t['modules'])]\n    candidates.sort(key=lambda t: (t['priority'], t['id']))\n    return [t['id'] for t in candidates[:budget]]\n",
+      "explanation": "Impact analysis expands the change to modules that depend on it, then selects tests that touch any impacted module. Sorting by priority and cutting at the budget turns a large suite into a focused, risk-based run.",
+      "hints": [
+        "Start impacted as a copy of changed, then add each changed module's dependants.",
+        "A test is a candidate if its modules intersect impacted.",
+        "Sort by (priority, id) and slice to budget."
+      ],
+      "tests": [
+        {
+          "name": "Selects impacted tests in priority order",
+          "marks": 3,
+          "code": "T = [{'id': 'T1', 'modules': ['login'], 'priority': 1}, {'id': 'T2', 'modules': ['checkout'], 'priority': 2}, {'id': 'T3', 'modules': ['tax'], 'priority': 1}, {'id': 'T4', 'modules': ['invoice', 'pdf'], 'priority': 3}]\nr = select_regression(T, {'tax'}, {'tax': ['checkout', 'invoice']}, 10)\nassert r == ['T3', 'T2', 'T4'], r"
+        },
+        {
+          "name": "Respects budget",
+          "marks": 2,
+          "code": "T = [{'id': 'A', 'modules': ['x'], 'priority': 2}, {'id': 'B', 'modules': ['x'], 'priority': 1}, {'id': 'C', 'modules': ['x'], 'priority': 3}]\nassert select_regression(T, {'x'}, {}, 2) == ['B', 'A']"
+        },
+        {
+          "name": "Nothing impacted",
+          "marks": 1,
+          "code": "T = [{'id': 'A', 'modules': ['x'], 'priority': 1}]\nassert select_regression(T, {'y'}, {'y': ['z']}, 5) == []\nassert select_regression(T, {'y'}, {'y': ['x']}, 5) == ['A']"
+        }
+      ]
+    }
+  ]
+}

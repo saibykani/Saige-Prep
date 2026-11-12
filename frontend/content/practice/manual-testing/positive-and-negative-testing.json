@@ -1,0 +1,208 @@
+{
+  "lesson": "positive-and-negative-testing",
+  "questions": [
+    {
+      "id": "pt-mtpn-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is a positive test for a login form?",
+      "options": [
+        "Valid username and correct password log the user in",
+        "Wrong password shows an error",
+        "Empty username is rejected",
+        "SQL in the username is rejected safely"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Positive tests use valid input and check the intended behaviour. The others are negative tests that check the system rejects invalid input gracefully.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is the goal of negative testing?",
+      "options": [
+        "To check the system handles invalid input and unexpected conditions safely and with helpful feedback",
+        "To make the system fail at any cost",
+        "To prove the system has no defects",
+        "To test only the user interface"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Negative testing verifies graceful handling of what should not be accepted. It is not about destruction, cannot prove absence of defects, and applies to APIs and back ends too.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A negative test passes when the system rejects the invalid input in the specified way, for example with the right message and no data change.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A negative test has an expected result like any other: the specified rejection. If the system accepts the input or crashes, the test fails.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "For an API that creates an order, which are good negative tests? Select all that apply.",
+      "options": [
+        "Missing required field `quantity`",
+        "`quantity` is the string \"abc\"",
+        "Request with an expired auth token",
+        "Valid order with quantity 2"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Missing fields, wrong types and invalid authentication are all invalid conditions to reject. A valid order is a positive test.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A negative test sends an email address without '@'. The UI shows \"Something went wrong\" and the log has a stack trace. What should be reported?",
+      "options": [
+        "A defect: invalid input should be caught by validation with a clear message, not cause an unhandled error",
+        "The test passed because the input was rejected",
+        "No defect, because invalid input was used",
+        "A defect in the test, which should not use invalid email"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Being rejected is not enough; the rejection should be controlled and helpful. An unhandled exception reveals missing validation and possibly information leakage.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which expected result best describes a negative test for transferring more money than the balance?",
+      "options": [
+        "Transfer refused with message \"Insufficient funds\", balances of both accounts unchanged, no transaction record created",
+        "Some error appears",
+        "The page reloads",
+        "The transfer completes with a warning"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A good expected result covers the message and the absence of side effects. \"Some error\" is untestable, reloading is not a specified behaviour, and completing the transfer is the defect.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A test suite for a sign-up form has 25 positive tests and 1 negative test. What is the main risk?",
+      "options": [
+        "Input validation and error handling are barely tested, though they are where many defects and security issues hide",
+        "There are too many tests overall",
+        "Positive tests are not useful",
+        "No risk, because users mostly enter valid data"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Real users make mistakes and attackers send malicious input; error paths are often less tested by developers. Balance matters: positive tests are useful, but one negative test is not enough.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "An API returns HTTP 200 with body `{\"error\": \"quantity must be positive\"}` for quantity = -1, and no order is created. How do you judge the negative test?",
+      "options": [
+        "Report a defect: the order was correctly refused, but a 200 status signals success to clients; a 4xx such as 400 or 422 is expected",
+        "Pass; the order was not created",
+        "Pass; any message is fine",
+        "Fail the test because negative values should never be sent"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Clients and monitoring rely on status codes. Returning 200 for a rejected request can make callers assume success. The side effect is right, but the contract is wrong, so it is a defect.",
+      "topic": "positive-and-negative-testing"
+    },
+    {
+      "id": "pt-mtpn-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "This validator accepts ages 0 to 120. Which negative test exposes a defect?",
+      "code": "def valid_age(age):\n    return 0 <= age <= 120",
+      "codeLanguage": "python",
+      "options": [
+        "age = '25' (a string)",
+        "age = 25",
+        "age = 0",
+        "age = 121"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The function never checks the type. Comparing a string with an int raises TypeError in Python 3, so a string input causes a crash instead of a clean rejection. 25 and 0 are valid, and 121 is correctly rejected.",
+      "topic": "positive-and-negative-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtpn-validate",
+      "language": "python",
+      "title": "Validator with positive and negative cases",
+      "difficulty": "intermediate",
+      "prompt": "Write `validate_transfer(amount, balance)` returning a **message string**:\n- `'OK'` if the transfer is allowed\n- `'Amount must be a number'` if `amount` is not an int or float (bool is not a number here)\n- `'Amount must be positive'` if `amount <= 0`\n- `'Amount has more than 2 decimals'` if `round(amount, 2) != amount`\n- `'Insufficient funds'` if `amount > balance`\n\nCheck in that order. Example: `validate_transfer(50, 40)` returns `'Insufficient funds'`.",
+      "starter": "def validate_transfer(amount, balance):\n    # Your code here\n    pass\n",
+      "solution": "def validate_transfer(amount, balance):\n    if isinstance(amount, bool) or not isinstance(amount, (int, float)):\n        return 'Amount must be a number'\n    if amount <= 0:\n        return 'Amount must be positive'\n    if round(amount, 2) != amount:\n        return 'Amount has more than 2 decimals'\n    if amount > balance:\n        return 'Insufficient funds'\n    return 'OK'\n",
+      "explanation": "Type checks come first so later comparisons cannot crash, which is the defect from the debugging question. Each rule returns a specific message, which is exactly what negative tests should check.",
+      "hints": [
+        "Check the type first; exclude bool explicitly.",
+        "Then check positivity, decimals and balance, returning early.",
+        "`round(amount, 2) != amount` detects extra decimals."
+      ],
+      "tests": [
+        {
+          "name": "Positive case",
+          "marks": 1,
+          "code": "assert validate_transfer(25.50, 100) == 'OK'"
+        },
+        {
+          "name": "Rejects wrong types without crashing",
+          "marks": 3,
+          "code": "assert validate_transfer('10', 100) == 'Amount must be a number'\nassert validate_transfer(None, 100) == 'Amount must be a number'\nassert validate_transfer(True, 100) == 'Amount must be a number'"
+        },
+        {
+          "name": "Rejects zero, negative and precision",
+          "marks": 2,
+          "code": "assert validate_transfer(0, 100) == 'Amount must be positive'\nassert validate_transfer(-5, 100) == 'Amount must be positive'\nassert validate_transfer(1.005, 100) == 'Amount has more than 2 decimals'"
+        },
+        {
+          "name": "Balance boundary",
+          "marks": 2,
+          "code": "assert validate_transfer(100, 100) == 'OK' and validate_transfer(100.01, 100) == 'Insufficient funds'"
+        }
+      ]
+    }
+  ]
+}

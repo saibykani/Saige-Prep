@@ -1,0 +1,235 @@
+{
+  "lesson": "equivalence-partitioning",
+  "questions": [
+    {
+      "id": "pt-mtep-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is an equivalence partition?",
+      "options": [
+        "A group of values the system is expected to process in the same way",
+        "A random sample of test data",
+        "A group of tests run on the same day",
+        "A database table partition"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Partitions group inputs (or outputs, or other values) that should be handled the same, so one representative stands for the group. The other options are unrelated meanings of similar words.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A field accepts a whole-number age from 18 to 65. How many partitions, valid and invalid, for integer values?",
+      "options": [
+        "3: below 18, 18 to 65, above 65",
+        "2: valid and invalid",
+        "48: one per valid age",
+        "1: the valid range"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Values below the range and above it are handled differently from the valid range and often produce different messages, so they form separate invalid partitions. Two partitions merges them, 48 tests every value, and one ignores invalid input.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Equivalence partitioning can be applied to outputs as well as inputs.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Partitions can be identified for inputs, outputs, configuration items, internal values and time-related values; output partitions such as \"tax band A, B, C\" are common.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Shipping depends on weight: up to 2 kg standard, over 2 kg to 20 kg heavy, over 20 kg rejected. Which set achieves 100% EP coverage with the fewest tests?",
+      "options": [
+        "1 kg, 10 kg, 25 kg",
+        "1 kg, 2 kg, 3 kg",
+        "2 kg, 20 kg",
+        "10 kg, 15 kg, 25 kg"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "One value from each of the three partitions suffices. 1, 2, 3 never reaches the rejected partition, 2 and 20 cover only two partitions, and 10 and 15 are in the same partition so the standard band is missed. (Zero or negative weights would be another invalid partition worth considering.)",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A form has three fields, each with one valid and two invalid partitions. What is the minimum number of tests for EP coverage if invalid partitions are tested one at a time?",
+      "options": [
+        "7",
+        "3",
+        "9",
+        "27"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Valid partitions can be combined: 1 test with all fields valid. Each of the 6 invalid partitions needs its own test so one error does not mask another: 1 + 6 = 7. Three tests would combine invalid values, 9 just counts partitions, and 27 is all combinations.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A country dropdown has a different VAT rule for EU countries, UK, and the rest of the world. Which are sensible partitions? Select all that apply.",
+      "options": [
+        "EU countries",
+        "United Kingdom",
+        "Rest of the world",
+        "Countries whose name starts with A"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Partitions follow how the system treats values, here the VAT rules. Alphabetical grouping has nothing to do with behaviour.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Specification: quantity 1 to 10 is valid. Which equivalence partition test reveals this bug?",
+      "code": "def valid_quantity(q):\n    return q <= 10",
+      "codeLanguage": "python",
+      "options": [
+        "quantity = -5",
+        "quantity = 5",
+        "quantity = 15",
+        "quantity = 1"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The code only checks the upper limit, so the whole \"below 1\" partition (negatives and zero) is wrongly accepted. A representative such as -5 exposes it. 5 and 1 are valid, and 15 is correctly rejected.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A discount field accepts a percentage. The spec says 0 to 50 for staff, 0 to 20 for customers. A tester uses partitions only on the numeric value: below 0, 0 to 50, above 50. What is wrong?",
+      "options": [
+        "The partitions ignore the user type; 21 to 50 is valid for staff but invalid for customers, so partitions must be defined per user type",
+        "Nothing; three partitions are enough",
+        "Negative values should not be tested",
+        "Percentages cannot be partitioned"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Partitions must reflect how the system behaves, and here behaviour depends on a second input. For customers the values 21 to 50 form an invalid partition that the tester's scheme treats as valid, hiding a likely defect. Negative values are a legitimate invalid partition, and percentages can be partitioned like any ordered value.",
+      "topic": "equivalence-partitioning"
+    },
+    {
+      "id": "pt-mtep-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A tester wants to save time by testing name = \"\" and email = \"bad\" in one test. The response is \"Name is required\". Which conclusion is justified?",
+      "options": [
+        "Only that empty names are rejected; email validation is unverified because the first error may have masked it",
+        "Both validations work",
+        "Email validation is broken",
+        "The test passed so no more tests are needed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "This is defect masking: once one invalid value triggers an error, the system may never check the other. Combining invalid partitions means you cannot tell whether the email check exists. Test each invalid partition separately with all other inputs valid.",
+      "topic": "equivalence-partitioning"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtep-classify",
+      "language": "python",
+      "title": "Classify into partitions",
+      "difficulty": "beginner",
+      "prompt": "A shipping service uses weight bands:\n- `weight <= 0`: `'invalid-low'`\n- `0 < weight <= 2`: `'standard'`\n- `2 < weight <= 20`: `'heavy'`\n- `weight > 20`: `'rejected'`\n\nWrite `partition(weight)` returning the partition name, then `representatives(weights)` that returns a dict mapping each partition name found to the **first** weight from the list that falls in it.\n\nExample: `representatives([1, 1.5, 10, 25, 30])` returns `{'standard': 1, 'heavy': 10, 'rejected': 25}`.",
+      "starter": "def partition(weight):\n    pass\n\ndef representatives(weights):\n    pass\n",
+      "solution": "def partition(weight):\n    if weight <= 0:\n        return 'invalid-low'\n    if weight <= 2:\n        return 'standard'\n    if weight <= 20:\n        return 'heavy'\n    return 'rejected'\n\ndef representatives(weights):\n    reps = {}\n    for w in weights:\n        reps.setdefault(partition(w), w)\n    return reps\n",
+      "explanation": "Ordering the checks from lowest band upwards means each `if` only needs the upper limit. `setdefault` keeps the first value per partition, which is how you reduce a large data set to one representative per partition.",
+      "hints": [
+        "Check the bands in increasing order so each test needs only an upper limit.",
+        "For representatives, loop over the weights and keep the first one per partition.",
+        "`reps.setdefault(partition(w), w)` stores w only if that partition has no entry yet."
+      ],
+      "tests": [
+        {
+          "name": "Partitions by band",
+          "marks": 2,
+          "code": "assert [partition(w) for w in [-1, 0, 0.5, 2, 2.01, 20, 20.5]] == ['invalid-low', 'invalid-low', 'standard', 'standard', 'heavy', 'heavy', 'rejected']"
+        },
+        {
+          "name": "Representatives keep the first value",
+          "marks": 2,
+          "code": "assert representatives([1, 1.5, 10, 25, 30]) == {'standard': 1, 'heavy': 10, 'rejected': 25}"
+        },
+        {
+          "name": "Representatives include invalid",
+          "marks": 1,
+          "code": "assert representatives([-3, 0, 5]) == {'invalid-low': -3, 'heavy': 5}"
+        }
+      ]
+    },
+    {
+      "id": "code-mtep-cases",
+      "language": "python",
+      "title": "Build a minimal EP test set",
+      "difficulty": "intermediate",
+      "prompt": "Each form field has one valid representative and a list of invalid representatives, given as a dict: `{field: {'valid': v, 'invalid': [i1, i2, ...]}}`.\n\nWrite `ep_tests(fields)` that returns the minimal list of test cases (dicts of field to value) where:\n- the first test uses every field's valid value\n- then, for each field in dict order and each of its invalid values in order, one test with **that single field invalid** and all others valid\n\nExample: `{'qty': {'valid': 5, 'invalid': [0, 11]}, 'seat': {'valid': 'VIP', 'invalid': ['XX']}}` gives 4 tests: all valid, qty 0, qty 11, seat 'XX'.",
+      "starter": "def ep_tests(fields):\n    # Your code here\n    return []\n",
+      "solution": "def ep_tests(fields):\n    base = {name: spec['valid'] for name, spec in fields.items()}\n    tests = [dict(base)]\n    for name, spec in fields.items():\n        for bad in spec['invalid']:\n            case = dict(base)\n            case[name] = bad\n            tests.append(case)\n    return tests\n",
+      "explanation": "Valid partitions can share a test, but each invalid partition gets its own test so one error cannot mask another. Copying the all-valid base for each case keeps every other field valid.",
+      "hints": [
+        "Start with one all-valid dict.",
+        "For each invalid value, copy the base and change only that field.",
+        "Remember to copy with `dict(base)` so tests do not share one object."
+      ],
+      "tests": [
+        {
+          "name": "Minimal set with single invalid per test",
+          "marks": 3,
+          "code": "r = ep_tests({'qty': {'valid': 5, 'invalid': [0, 11]}, 'seat': {'valid': 'VIP', 'invalid': ['XX']}})\nassert r == [{'qty': 5, 'seat': 'VIP'}, {'qty': 0, 'seat': 'VIP'}, {'qty': 11, 'seat': 'VIP'}, {'qty': 5, 'seat': 'XX'}], r"
+        },
+        {
+          "name": "Count is 1 plus invalid partitions",
+          "marks": 2,
+          "code": "f = {c: {'valid': 1, 'invalid': [2, 3]} for c in 'abc'}\nassert len(ep_tests(f)) == 7"
+        },
+        {
+          "name": "Tests are independent copies",
+          "marks": 2,
+          "code": "r = ep_tests({'a': {'valid': 1, 'invalid': [9]}})\nr[0]['a'] = 'changed'\nassert r[1] == {'a': 9}"
+        }
+      ]
+    }
+  ]
+}

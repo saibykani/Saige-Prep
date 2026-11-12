@@ -1,0 +1,170 @@
+{
+  "lesson": "acceptance-criteria-dor-dod",
+  "questions": [
+    {
+      "id": "pt-mtacd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In Given/When/Then format, what does the Given part describe?",
+      "options": [
+        "The starting context or preconditions",
+        "The action the user takes",
+        "The expected outcome",
+        "The test data clean-up"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Given sets up the context, When is the action or event, Then is the observable outcome. Clean-up is not part of the format.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is the best description of a Definition of Ready?",
+      "options": [
+        "An optional team agreement on what a backlog item needs before the team takes it into a Sprint",
+        "A mandatory Scrum artifact defined in the Scrum Guide",
+        "The list of checks every increment must pass to be releasable",
+        "The acceptance criteria of a single story"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A Definition of Ready is a practice some teams adopt; the 2020 Scrum Guide does not require it. The checks that make an increment releasable are the Definition of Done, and acceptance criteria belong to an individual item.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In the 2020 Scrum Guide, the Definition of Done is the commitment for the Increment.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Scrum Guide 2020 links each artifact to a commitment: Product Goal for the Product Backlog, Sprint Goal for the Sprint Backlog and the Definition of Done for the Increment.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which acceptance criterion is written so it can be tested objectively?",
+      "options": [
+        "Given a cart totalling 49.99, when the user checks out, then a shipping fee of 4.99 is added; at 50.00 or more shipping is free",
+        "Shipping should be cheap for most customers",
+        "The checkout should handle shipping correctly",
+        "Shipping rules work as expected in all cases"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The first criterion names concrete values, an action and an observable result, including the threshold. The others use vague words like cheap, correctly and as expected, so two testers could disagree on pass or fail.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which items typically belong in a team's Definition of Done? Select all that apply.",
+      "options": [
+        "Code reviewed",
+        "Automated regression tests pass",
+        "Acceptance criteria of the item are met",
+        "The user can export invoices as PDF"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "The DoD is a quality bar that applies to every item: reviews, passing regression tests and meeting the item's own criteria. \"Export invoices as PDF\" is functionality of one specific story, so it is an acceptance criterion, not part of the DoD.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is wrong with this acceptance criterion?",
+      "code": "Given a registered user\nWhen they enter a wrong password five times\nThen the system handles it properly",
+      "codeLanguage": "gherkin",
+      "options": [
+        "The Then clause is not observable: it states an internal intention rather than a visible, checkable result",
+        "It should start with When instead of Given",
+        "Given/When/Then cannot be used for login stories",
+        "It has too many concrete values"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "\"The system handles it properly\" cannot be checked. A testable Then would say what the user sees, for example the error message and that the account is locked after five attempts. The keyword order is correct, and the format suits login stories well.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "In refinement, a story says \"Users can reset their password by email.\" Which criterion should a tester propose that the team is most likely to have missed?",
+      "options": [
+        "The reset link expires after a stated time and cannot be used twice",
+        "The reset page has a title",
+        "The developer uses a well-known library",
+        "The story is estimated in story points"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Expiry and single-use behaviour are negative and security-relevant scenarios that are often forgotten and have real impact. A page title is trivial, the library choice is an implementation detail, and estimation is not an acceptance criterion.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "At Sprint end, a story meets all of its acceptance criteria but the DoD item \"accessibility check passed\" has not been done. The Product Owner wants to count it as Done. What should happen according to the Scrum Guide?",
+      "options": [
+        "It is not Done; it goes back to the Product Backlog and cannot be part of the Increment until it meets the DoD",
+        "It counts as Done because the acceptance criteria pass",
+        "It is Done but must be marked with a warning in the review",
+        "The team should change the DoD on the spot to remove accessibility"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The 2020 Scrum Guide says an item that does not meet the DoD cannot be released or even presented at the Sprint Review; it returns to the Product Backlog. Meeting acceptance criteria is necessary but not sufficient, and quietly lowering the DoD to pass one item defeats its purpose as a shared quality commitment.",
+      "topic": "acceptance-criteria-dor-dod"
+    },
+    {
+      "id": "pt-mtacd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team's acceptance criteria for a discount story read: \"Given a VIP customer, When they buy, Then they get a discount.\" Testers keep finding disputes in review. Which rewrite fixes the root problem best?",
+      "options": [
+        "Split into concrete scenarios with examples: VIP with cart 100.00 gets 10% (90.00); non-VIP gets none; VIP with a coupon gets the larger of the two, not both",
+        "Add the word \"correct\" before discount",
+        "Move the rule into the Definition of Done",
+        "Let testers decide the discount amount during testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The disputes come from missing examples and rules. Specification by example with concrete numbers, a negative case and the interaction rule makes the behaviour unambiguous. Adding adjectives changes nothing, the DoD is not for story-specific rules, and testers should not invent business rules.",
+      "topic": "acceptance-criteria-dor-dod"
+    }
+  ],
+  "coding": []
+}

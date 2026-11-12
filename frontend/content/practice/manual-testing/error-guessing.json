@@ -1,0 +1,230 @@
+{
+  "lesson": "error-guessing",
+  "questions": [
+    {
+      "id": "pt-mtegu-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is error guessing?",
+      "options": [
+        "A technique that anticipates errors, defects and failures based on the tester's knowledge",
+        "Guessing random inputs without any reasoning",
+        "Estimating how many defects a product contains",
+        "Predicting the release date"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In CTFL v4.0 error guessing is an experience-based technique that anticipates likely errors, defects and failures from knowledge of how the application worked before, typical developer errors and failures in similar applications. It is not random, and not an estimation method.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which input is a classic error-guessing attack on a name field?",
+      "options": [
+        "A name with an apostrophe, such as O'Brien",
+        "A typical name like Anna",
+        "A name chosen by equivalence partitioning",
+        "No input at all, then closing the browser"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Apostrophes have broken many systems through poor escaping, so they are a well-known guess. Typical names are positive tests, and closing the browser does not attack the field.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A fault attack is a structured approach to error guessing, using a list of possible errors, defects and failures to design tests.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 describes fault attacks as a methodical way to implement error guessing: the tester creates or acquires a list of possible errors, defects and failures and designs tests to expose them.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which belong on an error-guessing checklist for a date input? Select all that apply.",
+      "options": [
+        "29 February in a non-leap year",
+        "Dates around daylight saving time changes",
+        "Different date formats such as 03/04 (March or April?)",
+        "Today's date in the expected format only"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Leap days, DST transitions and ambiguous formats are common sources of real defects. Entering only a normal date in the expected format is a positive test, not an attack.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Past releases had several defects when users pasted text with leading or trailing spaces into login and search fields. How should this knowledge be used?",
+      "options": [
+        "Add whitespace handling to the team's fault-attack checklist and apply it to new text inputs",
+        "Ignore it because past defects are fixed",
+        "Test only the fields that had defects before",
+        "Report it as a new defect in every release"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Error guessing draws on past failures; turning them into a reusable checklist spreads that knowledge to new features. Fixed defects show what developers tend to miss, and limiting the check to old fields misses the pattern.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which statement about error guessing compared with systematic techniques is correct?",
+      "options": [
+        "It complements techniques such as BVA and EP, often finding defects they would not target",
+        "It replaces formal techniques once testers are experienced",
+        "It always gives measurable coverage",
+        "It can only be used by developers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Error guessing is a complement: it targets known weak spots outside formal models. It has no standard coverage measure and does not replace systematic techniques, and any tester can use it.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "You test a file upload. Which set of attacks shows the best error-guessing thinking?",
+      "options": [
+        "Zero-byte file, very large file, wrong extension with valid content, file name with Unicode and spaces, upload cancelled halfway",
+        "Three normal PDF files of different sizes",
+        "The same valid file uploaded ten times",
+        "Only a file of the maximum allowed size"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The first set targets typical developer oversights: empty files, size limits, type checks by extension, encoding issues and interrupted operations. The others are mostly positive or single-boundary tests.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A new junior tester asks how to get better at error guessing quickly. Which advice is most effective?",
+      "options": [
+        "Study the team's past defect reports and production incidents, build a categorised checklist from them, and pair with experienced testers on sessions",
+        "Memorise the ISTQB glossary",
+        "Run as many random inputs as possible",
+        "Wait for years of experience to accumulate"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Error guessing is knowledge-driven. Defect history and incidents are concentrated experience, a checklist makes it reusable, and pairing transfers tacit knowledge. Glossary memorising and random inputs do not build that knowledge, and waiting is slow.",
+      "topic": "error-guessing"
+    },
+    {
+      "id": "pt-mtegu-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "This function splits a full name into first and last name. Which guessed input is most likely to reveal a defect?",
+      "code": "def split_name(full):\n    parts = full.split(' ')\n    return parts[0], parts[1]",
+      "codeLanguage": "python",
+      "options": [
+        "\"Cher\" (a single name)",
+        "\"Anna Smith\"",
+        "\"John Doe\"",
+        "\"Maria Garcia\""
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With a single word, `parts[1]` raises an IndexError. Error guessing targets assumptions in the code, here that every name has two parts. Names with exactly two words all follow the happy path.",
+      "topic": "error-guessing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtegu-list",
+      "language": "python",
+      "title": "Build an error-guessing input list",
+      "difficulty": "beginner",
+      "prompt": "Write `string_attacks(max_len)` that returns a list of attack strings for a text field with maximum length `max_len`, **in this order**:\n1. empty string `''`\n2. a single space `' '`\n3. leading and trailing spaces `'  a  '`\n4. an apostrophe name `\"O'Brien\"`\n5. a string of exactly `max_len + 1` `'x'` characters\n6. a non-ASCII name `'Zoë'`\n\nExample: `string_attacks(3)[4]` is `'xxxx'`.",
+      "starter": "def string_attacks(max_len):\n    # Your code here\n    return []\n",
+      "solution": "def string_attacks(max_len):\n    return ['', ' ', '  a  ', \"O'Brien\", 'x' * (max_len + 1), 'Zoë']\n",
+      "explanation": "Each entry targets a typical mistake: missing empty checks, whitespace handling, quote escaping, length limits and character encoding. Keeping them in a reusable function is a lightweight fault-attack checklist.",
+      "hints": [
+        "Return a list literal with six strings.",
+        "The too-long string is `'x' * (max_len + 1)`.",
+        "Mind the order given in the task."
+      ],
+      "tests": [
+        {
+          "name": "Six attacks in order",
+          "marks": 2,
+          "code": "r = string_attacks(3)\nassert r == ['', ' ', '  a  ', \"O'Brien\", 'xxxx', 'Zoë'], r"
+        },
+        {
+          "name": "Too-long string follows max_len",
+          "marks": 2,
+          "code": "assert len(string_attacks(255)[4]) == 256"
+        }
+      ]
+    },
+    {
+      "id": "code-mtegu-attack",
+      "language": "python",
+      "title": "Run a fault-attack checklist",
+      "difficulty": "intermediate",
+      "prompt": "Write `attack(func, inputs)` that calls `func` with each input from the list and returns a list of `(input, error_type_name)` for every input where `func` **raises an exception**, in input order. Inputs that work are not included.\n\nExample: with `func = lambda s: s.split(' ')[1]` and inputs `['a b', 'cher', '']`, the result is `[('cher', 'IndexError'), ('', 'IndexError')]`.",
+      "starter": "def attack(func, inputs):\n    # Your code here\n    return None\n",
+      "solution": "def attack(func, inputs):\n    found = []\n    for value in inputs:\n        try:\n            func(value)\n        except Exception as exc:\n            found.append((value, type(exc).__name__))\n    return found\n",
+      "explanation": "A fault attack is a list of risky inputs run systematically. Catching each exception and recording its type gives a compact report of which guesses hit a weakness, while working inputs are skipped.",
+      "hints": [
+        "Loop over inputs and call func inside try/except.",
+        "`type(exc).__name__` gives a string like 'IndexError'.",
+        "Only append when an exception happened."
+      ],
+      "tests": [
+        {
+          "name": "Reports crashing inputs",
+          "marks": 3,
+          "code": "r = attack(lambda s: s.split(' ')[1], ['a b', 'cher', ''])\nassert r == [('cher', 'IndexError'), ('', 'IndexError')], r"
+        },
+        {
+          "name": "Robust function gives empty report",
+          "marks": 2,
+          "code": "assert attack(lambda s: s.strip(), ['a', ' ', '']) == []"
+        },
+        {
+          "name": "Different error types",
+          "marks": 2,
+          "code": "r = attack(lambda x: 10 / int(x), ['5', '0', 'x'])\nassert r == [('0', 'ZeroDivisionError'), ('x', 'ValueError')], r"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "lesson": "error-defect-bug-failure",
+  "questions": [
+    {
+      "id": "pt-mtedf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISTQB terms, what is an error (mistake)?",
+      "options": [
+        "A human action that produces an incorrect result",
+        "A flaw in a work product",
+        "An event where the system does not do what it should",
+        "A test that fails"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "An error is the human action; it can introduce a defect (a flaw in code or a document), which can cause a failure when executed. A failing test is evidence of a failure, not the error itself.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which term describes a flaw in a work product, such as a wrong condition in code?",
+      "options": [
+        "Defect",
+        "Error",
+        "Failure",
+        "Root cause"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A defect, also called a bug or fault, is the flaw in the work product. The error is the person's mistake, the failure is what is observed, and the root cause is the underlying reason the error happened.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Defects can exist in requirements documents, not only in code.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A defect is a flaw in any work product, including requirements, designs and test cases. Reviews find these before they reach code.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Failures can be caused by things other than defects. Which is an example?",
+      "options": [
+        "Radiation or electromagnetic fields affecting hardware",
+        "A developer writing the wrong loop limit",
+        "A missing requirement",
+        "An incorrect test oracle"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL notes that failures can also be caused by environmental conditions such as radiation or electromagnetic fields. A wrong loop limit and a missing requirement are defects, and a wrong oracle is a test defect that may produce false results.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "The requirement is \"return the larger of a and b\". Which call shows a failure?",
+      "code": "def largest(a, b):\n    if a < b:\n        return a\n    return b",
+      "codeLanguage": "python",
+      "options": [
+        "largest(3, 3)",
+        "largest(0, 0)",
+        "largest(-1, -1)",
+        "largest(4, 1)"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "The comparison is reversed, so the function returns the smaller value. When a equals b the smaller and larger are the same, so the defect stays hidden and no failure is observed. Only largest(4, 1) returns 1 instead of 4. A defect causes a failure only when the input exercises it.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A test reports a failure, but investigation shows the expected result in the test case was wrong; the software behaves correctly. What is this called?",
+      "options": [
+        "A false positive",
+        "A false negative",
+        "A true positive",
+        "A regression"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A false positive is a reported failure where there is no defect in the test object (here the defect is in the test). A false negative is a missed defect, a true positive is a correctly reported defect, and nothing was broken by a change.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are examples of root causes rather than defects? Select all that apply.",
+      "options": [
+        "Time pressure that led to skipping code review",
+        "Unclear wording in the requirement template",
+        "An off-by-one comparison in the price function",
+        "No training on the date library"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Root causes are the reasons errors happen: pressure, unclear templates and lack of knowledge. The off-by-one comparison is the defect itself.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A defect in a currency rounding function has been in production for two years without any customer complaint. A tester finds it during refactoring. What best explains why it caused no failure?",
+      "options": [
+        "The defect is only triggered by inputs or conditions that have not occurred in production, so it stayed dormant",
+        "Defects in production always cause failures, so it must not be a defect",
+        "Customers saw failures but chose not to complain, so there is no way to know",
+        "Rounding defects never cause failures"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A defect only causes a failure when the faulty code runs with conditions that trigger it. Dormant defects are common and still worth fixing if the triggering conditions could occur. The other options either deny the definition or overgeneralise.",
+      "topic": "error-defect-bug-failure"
+    },
+    {
+      "id": "pt-mtedf-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "After an outage, the post-incident report lists: (1) an engineer misread the timeout units, (2) the config file set 30 instead of 30000 ms, (3) checkout requests timed out for users, (4) there was no peer review for config changes. Map them correctly.",
+      "options": [
+        "1 error, 2 defect, 3 failure, 4 root cause",
+        "1 defect, 2 error, 3 root cause, 4 failure",
+        "1 root cause, 2 failure, 3 defect, 4 error",
+        "1 failure, 2 defect, 3 error, 4 root cause"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The engineer's misreading is the human error; the wrong value in the config is the defect; users' timeouts are the observed failure; and the missing review process is the root cause that let the error go unnoticed. The other mappings reverse the cause-and-effect chain.",
+      "topic": "error-defect-bug-failure"
+    }
+  ],
+  "coding": []
+}

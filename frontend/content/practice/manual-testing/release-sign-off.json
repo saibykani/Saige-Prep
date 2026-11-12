@@ -1,0 +1,168 @@
+{
+  "lesson": "release-sign-off",
+  "questions": [
+    {
+      "id": "pt-mtrso-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is QA's main contribution to release sign-off?",
+      "options": [
+        "An objective summary of testing status, residual risks and known issues",
+        "Making the final business decision alone",
+        "Writing the release marketing notes",
+        "Approving the budget"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "QA provides evidence and a recommendation; the accountable business owner makes the decision. Marketing and budget are not QA's role in sign-off.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is a conditional sign-off?",
+      "options": [
+        "Approval to release with documented conditions, such as known issues with workarounds and a fix date",
+        "A sign-off that can be cancelled by anyone at any time",
+        "Sign-off given before testing starts",
+        "A sign-off without any record"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Conditional sign-off records the accepted risks and the follow-up commitments. It is still a documented decision made after evidence is available.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A sign-off record should state who approved the release, when, and on what evidence.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Recording the approver, time and evidence makes the decision traceable and auditable, which matters especially in regulated domains.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which belong in a release sign-off record? Select all that apply.",
+      "options": [
+        "Version or build identifier",
+        "Summary of test results and open defects",
+        "Known issues with workarounds and owners",
+        "Personal opinions about team members"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "The record should identify exactly what was approved and the evidence and risks behind it. Personal opinions do not belong in a decision record.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A stakeholder asks the test lead to sign off \"as QA\" on a release that has an untested critical integration. What should the test lead do?",
+      "options": [
+        "Decline to state it is tested; report the gap and its risk, and let the accountable owner decide whether to accept it in writing",
+        "Sign off to avoid conflict",
+        "Secretly delay the deployment",
+        "Sign but add no comments"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "QA should never certify something it has not verified. Transparent reporting lets the owner make and own a risk decision. Signing under pressure or acting secretly both remove honest information.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "After a conditional sign-off, which follow-up is most important?",
+      "options": [
+        "Tracking the agreed conditions (fixes, monitoring, workarounds) to closure by their owners and dates",
+        "Forgetting the conditions once released",
+        "Reopening the sign-off every day",
+        "Deleting the known-issues list"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Conditions only reduce risk if someone follows them through. Forgetting or deleting them turns accepted risk into hidden risk.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "The build that passed testing is 4.2.1-rc3, but the deployment request references 4.2.1-rc4. What should happen?",
+      "options": [
+        "Stop and clarify: sign-off applies to the tested build, so rc4's changes must be assessed and tested or the deployment must use rc3",
+        "Proceed, since the version numbers are close",
+        "Sign off both versions together",
+        "Ignore it, because release candidates are always similar"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Sign-off is tied to a specific build. Any difference means the evidence may not apply. Closeness of version numbers says nothing about what changed.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A medical device software release needs sign-off. Which approach is most appropriate?",
+      "options": [
+        "Formal, documented sign-off against defined exit criteria with traceability from requirements to tests, signed by the accountable roles",
+        "A thumbs-up message in chat",
+        "Verbal agreement in the stand-up",
+        "Sign-off only by the developer who wrote the most code"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Safety-critical and regulated contexts require formal, traceable, auditable records. Informal agreements cannot serve as evidence, and a single developer is not the accountable role.",
+      "topic": "release-sign-off"
+    },
+    {
+      "id": "pt-mtrso-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "During the sign-off meeting, a new medium defect is found in a reporting feature used by finance at month end, which is in three weeks. What is a balanced decision proposal?",
+      "options": [
+        "Conditional sign-off: release now, document the defect and workaround, commit to a fix before month end, and add a check to verify it",
+        "Delay the whole release until it is fixed",
+        "Release and do not mention the defect",
+        "Reject the defect because it was found late"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The defect has a known date of impact, so a time-bound fix commitment works. Delaying everything may be disproportionate, hiding it removes the owner's choice, and the timing of discovery does not make it invalid.",
+      "topic": "release-sign-off"
+    }
+  ],
+  "coding": []
+}

@@ -1,0 +1,173 @@
+{
+  "lesson": "black-white-gray-box-testing",
+  "questions": [
+    {
+      "id": "pt-mtbwg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "A tester designs tests from a requirements document without looking at the code. Which kind of testing is this?",
+      "options": [
+        "Black-box testing",
+        "White-box testing",
+        "Static analysis",
+        "Statement testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Black-box tests are derived from the specified behaviour. White-box and statement testing need the internal structure, and static analysis examines code without executing it.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What does 100% statement coverage mean?",
+      "options": [
+        "Every executable statement was executed at least once by the tests",
+        "Every possible path was executed",
+        "Every requirement has a test",
+        "Every branch outcome was taken"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Statement coverage counts executed statements. All paths is a much stronger (often impossible) goal, requirements coverage is black-box, and branch coverage is the stronger structural measure that subsumes statement coverage.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISTQB CTFL v4.0, 100% branch coverage guarantees 100% statement coverage.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Branch coverage subsumes statement coverage: if every branch outcome is exercised, every statement on those branches is executed. The reverse is not true.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Tests call `grade(80)` and `grade(30)`. What statement and branch coverage do they achieve?",
+      "code": "def grade(score):\n    passed = score >= 50\n    if passed:\n        return 'pass'\n    return 'fail'",
+      "codeLanguage": "python",
+      "options": [
+        "100% statement, 100% branch",
+        "100% statement, 50% branch",
+        "50% statement, 50% branch",
+        "75% statement, 100% branch"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "grade(80) takes the True branch and grade(30) the False branch, so both decision outcomes and every statement (including both returns and the first assignment) are exercised.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Only the test `apply_fee(100, True)` is run. Which statement is true?",
+      "code": "def apply_fee(amount, vip):\n    fee = 5\n    if vip:\n        fee = 0\n    return amount + fee",
+      "codeLanguage": "python",
+      "options": [
+        "Statement coverage is 100% but branch coverage is 50%",
+        "Both coverages are 100%",
+        "Statement coverage is 50%",
+        "Branch coverage is 100% but statement coverage is 50%"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With `vip=True` every statement runs (the if body included), so statement coverage is 100%. But the False outcome of the `if` is never taken, so only 1 of 2 branch outcomes is covered: 50%. This is the classic case where statement coverage hides a missing test.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which situation is the best example of gray-box testing?",
+      "options": [
+        "Testing an API through its public endpoints while using knowledge of the database schema to design data and check stored results",
+        "Executing every branch of a function from its unit tests",
+        "Testing a login page only from the user manual",
+        "Reviewing source code for style issues"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Gray-box testing exercises the system from outside but uses partial internal knowledge to guide tests and verify results. Branch-level unit testing is white-box, manual-only testing is black-box, and code review is static testing.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are white-box test techniques in ISTQB CTFL v4.0? Select all that apply.",
+      "options": [
+        "Statement testing",
+        "Branch testing",
+        "Equivalence partitioning",
+        "Decision table testing"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "CTFL v4.0 lists statement testing and branch testing as white-box techniques. Equivalence partitioning and decision table testing are black-box techniques derived from the specification.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A function has 100% branch coverage from its unit tests, but users report it gives the wrong discount for a customer type that the specification lists and the code never mentions. What does this show?",
+      "options": [
+        "White-box coverage cannot detect missing functionality; black-box tests from the specification are needed to find omissions",
+        "The coverage tool is broken",
+        "Branch coverage should have been 100% statement coverage instead",
+        "The defect must be in the database, not the code"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Structural coverage only measures the code that exists. If a required case was never implemented there is no branch to miss, so coverage looks perfect. Specification-based tests reveal such omissions. The tool is fine, statement coverage is weaker, and nothing points to the database.",
+      "topic": "black-white-gray-box-testing"
+    },
+    {
+      "id": "pt-mtbwg-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A tester claims these two tests give 100% branch coverage: `ship(10, False)` and `ship(200, True)`. What is wrong with the claim?",
+      "code": "def ship(weight, express):\n    cost = 5\n    if weight > 100:\n        cost = 20\n        if express:\n            cost += 15\n    return cost",
+      "codeLanguage": "python",
+      "options": [
+        "The claim is correct: both decisions see True and False",
+        "The tests never take the False outcome of `if express`",
+        "Both tests take the same outcome of `if weight > 100`",
+        "The tests never take the True outcome of `if express`"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The `if express` decision is nested, so it is only evaluated when weight > 100. ship(10, False) never reaches it, and ship(200, True) takes only its True outcome. A third test such as ship(200, False) is needed for 100% branch coverage. The outer decision does get both outcomes, so the other options are wrong.",
+      "topic": "black-white-gray-box-testing"
+    }
+  ],
+  "coding": []
+}

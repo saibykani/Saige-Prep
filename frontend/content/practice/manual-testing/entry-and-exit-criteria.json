@@ -1,0 +1,206 @@
+{
+  "lesson": "entry-and-exit-criteria",
+  "questions": [
+    {
+      "id": "pt-mteec-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISTQB CTFL v4.0, entry criteria are also known as what in agile teams?",
+      "options": [
+        "Definition of Ready",
+        "Definition of Done",
+        "Sprint Goal",
+        "Burndown"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 notes that in agile development exit criteria are often called the Definition of Done and entry criteria the Definition of Ready. The Sprint Goal and burndown are different concepts.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is an exit criterion rather than an entry criterion?",
+      "options": [
+        "No open critical defects remain",
+        "The test environment is available",
+        "The build has passed the smoke test",
+        "Test data has been loaded"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "\"No open critical defects\" describes when testing can stop. Environment availability, a passing smoke test and loaded data are preconditions for starting.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Running out of time or budget can be a valid reason to stop testing, if stakeholders accept the remaining risk.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 notes that running out of time or budget can be a valid exit criterion, as long as the stakeholders have reviewed and accepted the risk of releasing without further testing.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which exit criterion is written in the most measurable way?",
+      "options": [
+        "At least 95% of planned high-priority tests executed and passed; zero open critical or high defects",
+        "Testing is mostly complete",
+        "The product is of good quality",
+        "Testers feel confident"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Concrete percentages and defect counts can be checked objectively. The other statements depend on opinion, so they cannot settle a disagreement.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A build arrives for system testing but the release notes are missing and the smoke test fails on login. What should the test lead do?",
+      "options": [
+        "Reject the build against the entry criteria and record why, rather than starting full testing",
+        "Start full testing anyway to save time",
+        "Test only the features that do not need login, without telling anyone",
+        "Wait silently for a better build"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Entry criteria exist to avoid wasting effort on an unstable build. Rejecting it openly with reasons lets the team fix it quickly. Testing anyway yields blocked tests, hidden partial testing misleads, and waiting silently delays everyone.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are good suspension criteria for a test cycle? Select all that apply.",
+      "options": [
+        "A blocking defect prevents more than 30% of planned tests from running",
+        "The test environment is down",
+        "Test data is corrupted and results are unreliable",
+        "One cosmetic defect is found"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Suspension criteria describe conditions where continuing would waste effort or produce unreliable results. A single cosmetic defect does not stop testing.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Testing was suspended because the payment sandbox was down. What makes a good resumption criterion?",
+      "options": [
+        "The sandbox is confirmed available and a payment smoke test passes",
+        "A week has passed",
+        "The developer says it is probably fine",
+        "Any new build is deployed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Resumption criteria should be verifiable and tied to the cause of suspension. Elapsed time, informal assurances and unrelated builds do not show that the blocker is resolved.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "At the planned end date, results are: 100% of tests executed, 97% passed, 2 open high-severity defects in rarely used admin reports with workarounds. Exit criteria say zero open high defects. What should the test lead do?",
+      "options": [
+        "Report that the exit criteria are not met, present the risk and workarounds, and let stakeholders decide to fix, delay, or accept a documented exception",
+        "Downgrade the defects to medium so the criteria pass",
+        "Declare exit criteria met because 97% is high",
+        "Silently extend testing without reporting"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The tester's role is to report status honestly and support the decision. Reclassifying defects to pass a gate is falsifying evidence, the pass rate does not override an explicit criterion, and hiding the situation removes the stakeholders' choice.",
+      "topic": "entry-and-exit-criteria"
+    },
+    {
+      "id": "pt-mteec-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team's only exit criterion is \"all planned test cases passed\". Why is this weak, and what should be added?",
+      "options": [
+        "It ignores coverage of risks and defect status; add risk or requirements coverage targets and limits on open defects by severity",
+        "It is too strict; remove it",
+        "It is weak only because it uses the word \"all\"",
+        "Nothing should be added; test case pass rate is a complete measure"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Passing every planned case says nothing about whether the plan covered the important risks, or what defects remain open. Combining coverage, defect and residual-risk measures gives a fuller exit decision. Removing the criterion or tweaking wording does not address the gap.",
+      "topic": "entry-and-exit-criteria"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mteec-exit",
+      "language": "python",
+      "title": "Evaluate exit criteria",
+      "difficulty": "intermediate",
+      "prompt": "Write `check_exit(results, open_defects)` for these exit criteria:\n- at least 95% of tests **executed** (status not `'not run'`)\n- at least 90% of executed tests **passed**\n- no open defects with severity `'critical'` or `'high'`\n\n`results` is a list of statuses (`'pass'`, `'fail'`, `'blocked'`, `'not run'`); `open_defects` is a list of severity strings.\n\nReturn a list of the **failed criteria names** from `['execution', 'pass_rate', 'defects']`, in that order (empty list means exit criteria met). If nothing was executed, `pass_rate` fails.\n\nExample: 20 results with 19 executed (18 pass, 1 fail) and open defects `['low']` returns `[]`.",
+      "starter": "def check_exit(results, open_defects):\n    # Your code here\n    return None\n",
+      "solution": "def check_exit(results, open_defects):\n    failed = []\n    executed = [r for r in results if r != 'not run']\n    if not results or len(executed) / len(results) < 0.95:\n        failed.append('execution')\n    if not executed or sum(r == 'pass' for r in executed) / len(executed) < 0.90:\n        failed.append('pass_rate')\n    if any(s in ('critical', 'high') for s in open_defects):\n        failed.append('defects')\n    return failed\n",
+      "explanation": "Each criterion becomes a measurable check, which is the point of writing exit criteria precisely. Guarding the empty cases avoids division by zero and treats \"nothing executed\" as failing, which is the honest interpretation.",
+      "hints": [
+        "Executed means every status except 'not run'.",
+        "Compute execution as executed / total and pass rate as passes / executed.",
+        "Guard against dividing by zero, and append names in the given order."
+      ],
+      "tests": [
+        {
+          "name": "All criteria met",
+          "marks": 2,
+          "code": "r = ['pass'] * 18 + ['fail', 'not run']\nassert check_exit(r, ['low']) == [], check_exit(r, ['low'])"
+        },
+        {
+          "name": "Execution and defects fail",
+          "marks": 3,
+          "code": "r = ['pass'] * 8 + ['not run'] * 2\nassert check_exit(r, ['high', 'low']) == ['execution', 'defects'], check_exit(r, ['high', 'low'])"
+        },
+        {
+          "name": "Pass rate fails and blocked counts as executed",
+          "marks": 2,
+          "code": "r = ['pass'] * 8 + ['blocked', 'fail']\nassert check_exit(r, []) == ['pass_rate'], check_exit(r, [])"
+        },
+        {
+          "name": "Nothing executed",
+          "marks": 1,
+          "code": "assert check_exit(['not run'] * 3, []) == ['execution', 'pass_rate']"
+        }
+      ]
+    }
+  ]
+}

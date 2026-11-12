@@ -1,0 +1,267 @@
+{
+  "lesson": "decision-table-testing",
+  "questions": [
+    {
+      "id": "pt-mtdtt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In a decision table, what does each column (rule) represent?",
+      "options": [
+        "One combination of conditions and the resulting actions",
+        "One test environment",
+        "One tester's assignment",
+        "One requirement document"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each rule is a unique combination of condition values together with the actions that should follow. Environments, assignments and documents are not part of the table.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Three Boolean conditions are combined. How many rules does the full table have before collapsing?",
+      "options": [
+        "8",
+        "6",
+        "3",
+        "9"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each Boolean condition doubles the number of combinations: 2^3 = 8. 6 and 3 multiply or add wrongly, and 9 would be 3^2.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "An infeasible rule (a combination that cannot occur) should be removed or marked so that no test is designed for it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Infeasible combinations, such as \"age under 18\" and \"age over 65\" both true, cannot be tested. ISTQB coverage counts only feasible columns.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Conditions: member (Y/N), order over 100 (Y/N). Rules: member and over 100 get 15% off; member only gets 5%; non-member over 100 gets 5%; otherwise no discount. What does a non-member with an order of 150 get?",
+      "options": [
+        "5% off",
+        "15% off",
+        "No discount",
+        "10% off"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Non-member (N) and over 100 (Y) matches the third rule: 5%. 15% needs both conditions true, no discount needs both false, and 10% is not in the table.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "In a collapsed table, a rule reads: Account locked = Y, Password correct = \"-\", Action = Show \"Account locked\". What does this tell a tester?",
+      "options": [
+        "When the account is locked the result is the same regardless of the password, so one test (with either password value) covers the rule",
+        "The password condition was forgotten and must be added",
+        "Two tests are always required, one for each password value",
+        "The rule is infeasible"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A dash means the condition does not affect the outcome for that rule. ISTQB treats the collapsed column as one rule to cover, although a cautious tester may still try the correct password to check that locking really takes precedence.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which problems can building a decision table reveal in a requirement before any test runs? Select all that apply.",
+      "options": [
+        "Combinations the specification does not mention",
+        "Two rules giving contradictory actions for the same conditions",
+        "Slow page load time",
+        "Missing actions for some combinations"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Listing every combination exposes gaps, contradictions and missing actions in the business rules, which is why decision tables are useful in reviews. Performance is a non-functional property the table does not model.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "The rules say: free delivery if the customer is premium OR the order is over 50. Which test reveals the defect?",
+      "code": "def free_delivery(premium, total):\n    return premium and total > 50",
+      "codeLanguage": "python",
+      "options": [
+        "premium=True, total=20",
+        "premium=True, total=80",
+        "premium=False, total=20",
+        "premium=False, total=50"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The code uses `and` instead of `or`, so a premium customer with a small order wrongly pays. When both conditions are true or both are false, `and` and `or` give the same result, so options two to four pass even with the bug (50 is not over 50). Testing each condition true on its own, as a decision table would, exposes it.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A loan rule has conditions: employed (Y/N), credit score >= 700 (Y/N), existing loan (Y/N). Approve only if employed and score >= 700 and no existing loan; otherwise refer if employed; otherwise decline. After collapsing, how many rules remain?",
+      "options": [
+        "4",
+        "8",
+        "3",
+        "2"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Not employed means decline whatever the other two are: (N,-,-). Employed with score >= 700 splits on existing loan: approve (Y,Y,N) and refer (Y,Y,Y). Employed with a low score is refer regardless of loan: (Y,N,-). That is 4 rules. 8 is the uncollapsed table, and 3 or 2 would wrongly merge rules with different condition patterns.",
+      "topic": "decision-table-testing"
+    },
+    {
+      "id": "pt-mtdtt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team writes 8 tests for a 3-condition table but the requirement later adds a fourth Boolean condition that only matters when the first condition is true. What is the most efficient update?",
+      "options": [
+        "Rebuild the table with the new condition, use dashes where it does not matter, and add tests only for the new feasible rules",
+        "Double the test set to 16 tests without analysis",
+        "Ignore the new condition because the old tests still pass",
+        "Replace the table with exploratory testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Rebuilding and collapsing keeps coverage complete with the fewest extra tests: the new condition only splits rules where condition one is true. Blindly doubling wastes effort on irrelevant combinations, ignoring it leaves the new rule untested, and exploratory testing alone gives no systematic coverage.",
+      "topic": "decision-table-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtdtt-rules",
+      "language": "python",
+      "title": "Generate all rule combinations",
+      "difficulty": "beginner",
+      "prompt": "Write `all_rules(conditions)` that takes a list of Boolean condition names and returns every combination as a **list of dicts**, in the standard table order where the first condition changes slowest and `True` comes before `False`.\n\nExample: `all_rules(['member', 'big_order'])` returns\n```\n[{'member': True, 'big_order': True},\n {'member': True, 'big_order': False},\n {'member': False, 'big_order': True},\n {'member': False, 'big_order': False}]\n```",
+      "starter": "def all_rules(conditions):\n    # Your code here\n    return []\n",
+      "solution": "from itertools import product\n\ndef all_rules(conditions):\n    return [dict(zip(conditions, values)) for values in product([True, False], repeat=len(conditions))]\n",
+      "explanation": "`itertools.product([True, False], repeat=n)` yields the 2^n combinations with the first position changing slowest, exactly the order of a full decision table. Zipping each tuple with the names builds the rule dicts.",
+      "hints": [
+        "There are 2 ** len(conditions) rules.",
+        "`itertools.product([True, False], repeat=n)` gives the combinations in the right order.",
+        "Build each dict with `dict(zip(conditions, values))`."
+      ],
+      "tests": [
+        {
+          "name": "Two conditions in table order",
+          "marks": 2,
+          "code": "assert all_rules(['member', 'big_order']) == [{'member': True, 'big_order': True}, {'member': True, 'big_order': False}, {'member': False, 'big_order': True}, {'member': False, 'big_order': False}]"
+        },
+        {
+          "name": "Three conditions give eight rules",
+          "marks": 2,
+          "code": "r = all_rules(['a', 'b', 'c'])\nassert len(r) == 8, len(r)\nassert r[0] == {'a': True, 'b': True, 'c': True} and r[-1] == {'a': False, 'b': False, 'c': False}"
+        },
+        {
+          "name": "Rules are unique",
+          "marks": 1,
+          "code": "r = all_rules(['a', 'b', 'c', 'd'])\nassert len({tuple(sorted(x.items())) for x in r}) == 16"
+        }
+      ]
+    },
+    {
+      "id": "code-mtdtt-eval",
+      "language": "python",
+      "title": "Decision table evaluator with dashes",
+      "difficulty": "intermediate",
+      "prompt": "A collapsed decision table is a list of rules. Each rule is `(conditions, action)` where `conditions` is a dict mapping condition name to `True`, `False` or `'-'` (don't care).\n\nWrite `decide(table, case)` that returns the action of the **first** rule matching the case dict, or `'NO RULE'` if none matches.\n\nExample:\n```python\ntable = [({'locked': True, 'pw_ok': '-'}, 'locked msg'),\n         ({'locked': False, 'pw_ok': True}, 'login'),\n         ({'locked': False, 'pw_ok': False}, 'error')]\ndecide(table, {'locked': True, 'pw_ok': True})  # 'locked msg'\n```",
+      "starter": "def decide(table, case):\n    # Your code here\n    return None\n",
+      "solution": "def decide(table, case):\n    for conditions, action in table:\n        if all(v == '-' or case.get(k) == v for k, v in conditions.items()):\n            return action\n    return 'NO RULE'\n",
+      "explanation": "A rule matches when every condition is either a dash or equal to the case's value. Checking rules in order and returning the first match mirrors how a collapsed table is read; the fallback exposes gaps in the table.",
+      "hints": [
+        "Loop over the rules in order.",
+        "A condition matches if its value is '-' or equals case[name].",
+        "Use `all(...)` over `conditions.items()` and return 'NO RULE' after the loop."
+      ],
+      "tests": [
+        {
+          "name": "Dash matches any value",
+          "marks": 3,
+          "code": "t = [({'locked': True, 'pw_ok': '-'}, 'locked msg'), ({'locked': False, 'pw_ok': True}, 'login'), ({'locked': False, 'pw_ok': False}, 'error')]\nassert decide(t, {'locked': True, 'pw_ok': True}) == 'locked msg'\nassert decide(t, {'locked': True, 'pw_ok': False}) == 'locked msg'"
+        },
+        {
+          "name": "Exact rules",
+          "marks": 2,
+          "code": "t = [({'locked': True, 'pw_ok': '-'}, 'locked msg'), ({'locked': False, 'pw_ok': True}, 'login'), ({'locked': False, 'pw_ok': False}, 'error')]\nassert decide(t, {'locked': False, 'pw_ok': True}) == 'login'\nassert decide(t, {'locked': False, 'pw_ok': False}) == 'error'"
+        },
+        {
+          "name": "Reports a gap",
+          "marks": 2,
+          "code": "t = [({'a': True, 'b': True}, 'x')]\nassert decide(t, {'a': False, 'b': True}) == 'NO RULE'"
+        }
+      ]
+    },
+    {
+      "id": "code-mtdtt-gaps",
+      "language": "python",
+      "title": "Find gaps and conflicts in a table",
+      "difficulty": "advanced",
+      "prompt": "Review a collapsed decision table (same format as before: list of `(conditions, action)` with `True`/`False`/`'-'`) over the given Boolean `names`.\n\nWrite `review_table(names, table)` returning a dict:\n- `'missing'`: sorted list of combinations (tuples of booleans in `names` order) that **no** rule covers\n- `'conflicts'`: sorted list of combinations covered by two or more rules with **different** actions\n\nExample: for names `['a', 'b']` and table `[({'a': True, 'b': '-'}, 'X'), ({'a': '-', 'b': True}, 'Y')]`, the result is `{'missing': [(False, False)], 'conflicts': [(True, True)]}`.",
+      "starter": "def review_table(names, table):\n    # Your code here\n    return {'missing': None, 'conflicts': None}\n",
+      "solution": "from itertools import product\n\ndef review_table(names, table):\n    missing, conflicts = [], []\n    for combo in product([True, False], repeat=len(names)):\n        case = dict(zip(names, combo))\n        actions = {action for conds, action in table\n                   if all(v == '-' or case[k] == v for k, v in conds.items())}\n        if not actions:\n            missing.append(combo)\n        elif len(actions) > 1:\n            conflicts.append(combo)\n    return {'missing': sorted(missing), 'conflicts': sorted(conflicts)}\n",
+      "explanation": "Expanding every combination and collecting the set of actions from all matching rules turns the table into data you can check. An empty set is a gap in the requirement, and more than one action is a contradiction. This is the review benefit of decision tables, automated.",
+      "hints": [
+        "Generate every combination with itertools.product.",
+        "For each combination collect the set of actions of all rules that match it.",
+        "Empty set means missing; a set with 2+ actions means conflict. Sort both lists."
+      ],
+      "tests": [
+        {
+          "name": "Finds missing and conflicting combinations",
+          "marks": 4,
+          "code": "r = review_table(['a', 'b'], [({'a': True, 'b': '-'}, 'X'), ({'a': '-', 'b': True}, 'Y')])\nassert r == {'missing': [(False, False)], 'conflicts': [(True, True)]}, r"
+        },
+        {
+          "name": "Complete consistent table",
+          "marks": 3,
+          "code": "t = [({'a': True, 'b': '-'}, 'X'), ({'a': False, 'b': True}, 'Y'), ({'a': False, 'b': False}, 'Z')]\nassert review_table(['a', 'b'], t) == {'missing': [], 'conflicts': []}"
+        },
+        {
+          "name": "Same action overlap is not a conflict",
+          "marks": 2,
+          "code": "t = [({'a': True, 'b': '-'}, 'X'), ({'a': '-', 'b': True}, 'X')]\nr = review_table(['a', 'b'], t)\nassert r['conflicts'] == [] and r['missing'] == [(False, False)], r"
+        }
+      ]
+    }
+  ]
+}

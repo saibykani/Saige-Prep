@@ -1,0 +1,233 @@
+{
+  "lesson": "defect-triage",
+  "questions": [
+    {
+      "id": "pt-mtdtr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which question does severity answer during triage?",
+      "options": [
+        "How much impact does the defect have on the system or users?",
+        "How soon must it be fixed?",
+        "Who found it first?",
+        "Which sprint was it found in?"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Severity describes impact; priority describes urgency of fixing, which also considers business factors. Reporter and sprint are metadata, not severity.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which defect most likely has low severity but high priority?",
+      "options": [
+        "The company name is misspelled on the home page just before a major launch",
+        "The app crashes when exporting a rarely used legacy report",
+        "Data is silently corrupted during month-end close",
+        "A typo in an internal admin log message"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A misspelt brand on the home page has little functional impact but large business visibility, so it is urgent. The crash and data corruption are high severity, and the internal typo is low on both.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Triage meetings typically include people who can judge business impact and technical effort, such as the product owner, a developer lead and a tester.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Good triage needs business, technical and testing views together so priority and ownership decisions are informed.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A defect report says only \"Checkout broken\". What should triage do?",
+      "options": [
+        "Send it back for more information (steps, environment, expected and actual result) or ask the reporter to reproduce it with the team",
+        "Assign it to a random developer",
+        "Close it as Rejected immediately",
+        "Mark it as Critical just in case"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A report without reproduction details cannot be prioritised reliably, so triage requests information. Random assignment wastes time, immediate rejection may lose a real problem, and inflating severity distorts priorities.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which factors commonly influence a defect's priority? Select all that apply.",
+      "options": [
+        "Number of users affected",
+        "Whether a workaround exists",
+        "Upcoming release dates and commitments",
+        "The length of the defect title"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Reach, workarounds and business timing all shape urgency. Title length has nothing to do with priority.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "During triage, two defects describe different symptoms but the developer is sure they share one root cause. What is a sensible approach?",
+      "options": [
+        "Link them, fix the root cause under one, and retest both symptoms before closing",
+        "Close both as duplicates of nothing",
+        "Keep them fully separate and fix each independently",
+        "Delete the newer one"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Linking keeps both symptoms visible while avoiding double work. Both must be retested because a shared cause is a hypothesis until confirmed. Deleting or closing loses information, and separate fixes waste effort.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What does a defect triage output typically include for each reviewed defect?",
+      "options": [
+        "A decision (accept, reject, duplicate, defer, need info), priority, and an owner",
+        "Only the tester's name",
+        "A full root cause analysis",
+        "The code fix"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Triage decides what happens next and who owns it. Root cause analysis and fixing happen afterwards, and the reporter's name is already recorded.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Two days before release, triage has 40 open defects and capacity to fix 10. Which approach best supports the release decision?",
+      "options": [
+        "Rank by risk (severity, reach, workaround, area criticality), fix the top items, and record the remaining known issues with workarounds for the go/no-go decision",
+        "Fix the 10 easiest to improve the count",
+        "Fix defects in the order they were reported",
+        "Delay release until all 40 are fixed without discussion"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk-based ranking maximises value of the fixing capacity, and documenting the rest gives decision makers an honest picture. Fixing the easiest games the metric, FIFO ignores impact, and an automatic delay skips the business decision.",
+      "topic": "defect-triage"
+    },
+    {
+      "id": "pt-mtdtr-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Triage keeps rejecting defects as \"cannot reproduce\", but customers keep reporting the same intermittent failure. What should the tester push for?",
+      "options": [
+        "Keep one tracked defect open, gather more evidence (logs, timestamps, environments, frequency) and add diagnostics if needed, rather than rejecting each report",
+        "Accept the rejections because a defect that cannot be reproduced does not exist",
+        "Ask customers to stop reporting it",
+        "Mark every report Critical to force attention"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Intermittent failures are real defects that need evidence collection, not repeated rejection. Linking customer reports to one item and adding logging turns anecdotes into data. The other options either deny the problem or distort severity.",
+      "topic": "defect-triage"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtdtr-rank",
+      "language": "python",
+      "title": "Rank defects for triage",
+      "difficulty": "intermediate",
+      "prompt": "Each defect is a dict with `id`, `severity` (`'critical'`, `'major'`, `'minor'`, `'trivial'`), `users` (number affected) and `workaround` (bool).\n\nWrite `triage_order(defects)` that returns the list of ids sorted by:\n1. severity (critical first)\n2. no workaround before having a workaround\n3. more users first\n4. id ascending as a tie-breaker\n\nExample: a major with no workaround comes before a major with a workaround, even if it affects fewer users.",
+      "starter": "def triage_order(defects):\n    # Your code here\n    return []\n",
+      "solution": "RANK = {'critical': 0, 'major': 1, 'minor': 2, 'trivial': 3}\n\ndef triage_order(defects):\n    ordered = sorted(defects, key=lambda d: (RANK[d['severity']], d['workaround'], -d['users'], d['id']))\n    return [d['id'] for d in ordered]\n",
+      "explanation": "Python sorts tuples element by element, so a key tuple expresses multi-level ordering. False sorts before True, which puts defects without a workaround first, and negating users gives descending order.",
+      "hints": [
+        "Map severity names to numbers so they sort correctly.",
+        "Use a tuple key: (severity rank, workaround, -users, id).",
+        "False < True in Python, so `d['workaround']` already puts no-workaround first."
+      ],
+      "tests": [
+        {
+          "name": "Severity first",
+          "marks": 2,
+          "code": "d = [{'id': 'B', 'severity': 'minor', 'users': 900, 'workaround': False}, {'id': 'A', 'severity': 'critical', 'users': 1, 'workaround': True}]\nassert triage_order(d) == ['A', 'B'], triage_order(d)"
+        },
+        {
+          "name": "Workaround then users",
+          "marks": 3,
+          "code": "d = [{'id': 'X', 'severity': 'major', 'users': 500, 'workaround': True}, {'id': 'Y', 'severity': 'major', 'users': 10, 'workaround': False}, {'id': 'Z', 'severity': 'major', 'users': 50, 'workaround': False}]\nassert triage_order(d) == ['Z', 'Y', 'X'], triage_order(d)"
+        },
+        {
+          "name": "Tie-break by id",
+          "marks": 1,
+          "code": "d = [{'id': 'D2', 'severity': 'trivial', 'users': 1, 'workaround': True}, {'id': 'D1', 'severity': 'trivial', 'users': 1, 'workaround': True}]\nassert triage_order(d) == ['D1', 'D2']"
+        }
+      ]
+    },
+    {
+      "id": "code-mtdtr-dupes",
+      "language": "python",
+      "title": "Group likely duplicates by error signature",
+      "difficulty": "advanced",
+      "prompt": "Defect reports include a log line. Write `group_duplicates(reports)` where `reports` is a list of `(id, log_line)` tuples. Normalise each log line into a signature by:\n- lower-casing it\n- replacing every run of digits with `#`\n- collapsing whitespace to single spaces and stripping\n\nReturn a list of groups (lists of ids) that share a signature and have **2 or more** reports. Ids in a group keep input order; groups are ordered by their first id's position in the input.\n\nExample: `'NullPointer at Profile.save line 88'` and `'nullpointer at profile.save  line 91'` share the signature `'nullpointer at profile.save line #'`.",
+      "starter": "import re\n\ndef group_duplicates(reports):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef group_duplicates(reports):\n    groups = {}\n    for rid, line in reports:\n        sig = re.sub(r'\\s+', ' ', re.sub(r'\\d+', '#', line.lower())).strip()\n        groups.setdefault(sig, []).append(rid)\n    return [ids for ids in groups.values() if len(ids) >= 2]\n",
+      "explanation": "Normalising volatile parts (case, numbers, spacing) makes reports of the same failure produce the same key, which is how many tools suggest duplicates. Dicts keep insertion order, so groups come out ordered by first appearance.",
+      "hints": [
+        "Use `re.sub(r'\\d+', '#', ...)` for digits and `re.sub(r'\\s+', ' ', ...)` for whitespace.",
+        "Group ids in a dict keyed by signature with `setdefault`.",
+        "Return only the groups with at least two ids."
+      ],
+      "tests": [
+        {
+          "name": "Groups normalised duplicates",
+          "marks": 4,
+          "code": "r = group_duplicates([('D1', 'NullPointer at Profile.save line 88'), ('D2', 'Timeout calling payments'), ('D3', 'nullpointer at profile.save  line 91')])\nassert r == [['D1', 'D3']], r"
+        },
+        {
+          "name": "No duplicates",
+          "marks": 2,
+          "code": "assert group_duplicates([('A', 'x'), ('B', 'y')]) == []"
+        },
+        {
+          "name": "Several groups in order",
+          "marks": 3,
+          "code": "r = group_duplicates([('A', 'Err 500 order 1'), ('B', 'disk full'), ('C', 'err 500 order 22'), ('D', 'Disk   full ')])\nassert r == [['A', 'C'], ['B', 'D']], r"
+        }
+      ]
+    }
+  ]
+}

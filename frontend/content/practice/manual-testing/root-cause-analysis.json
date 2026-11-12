@@ -1,0 +1,168 @@
+{
+  "lesson": "root-cause-analysis",
+  "questions": [
+    {
+      "id": "pt-mtrca-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is the main goal of root cause analysis for a defect?",
+      "options": [
+        "To find why the defect was introduced and why it escaped, so the process can be improved",
+        "To find who to blame",
+        "To fix the code faster",
+        "To close the defect report"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "RCA targets causes in the process so similar defects are prevented. It is not about blame, and fixing or closing the defect is separate work.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In a fishbone (Ishikawa) diagram, what goes at the head of the fish?",
+      "options": [
+        "The problem or effect being analysed",
+        "The person responsible",
+        "The final fix",
+        "The project budget"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The head holds the effect; the bones hold categories of possible causes, such as people, process, tools and environment.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "The 5 Whys technique always requires exactly five questions.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Five is a rule of thumb. You stop when you reach a cause the team can act on, which may take fewer or more steps.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are good characteristics of a root cause statement? Select all that apply.",
+      "options": [
+        "It points to something the team can change",
+        "It explains both introduction and escape where relevant",
+        "It is supported by evidence",
+        "It names an individual as the cause"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Actionable, complete and evidence-based causes lead to useful improvements. Naming individuals creates blame and discourages honest analysis.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "5 Whys on a production timeout ends with \"Because the developer made a mistake\". What should the facilitator do?",
+      "options": [
+        "Keep asking why the mistake was possible and why it was not caught, e.g. missing review or unclear requirement",
+        "Accept it and end the session",
+        "Discipline the developer",
+        "Skip RCA in future"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Human error is a starting point, not a root cause. Asking why the process allowed and missed it leads to systemic fixes.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Why should teams analyse both why a defect was introduced and why it escaped testing?",
+      "options": [
+        "Because prevention and detection gaps need different improvements",
+        "Because escape analysis is the only thing that matters",
+        "Because introduction analysis is the only thing that matters",
+        "Because it doubles the report length"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Introduction causes lead to prevention measures (requirements, design, coding); escape causes lead to detection measures (tests, reviews, monitoring). Both matter.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "When is a full root cause analysis most worth the effort?",
+      "options": [
+        "For high-impact or recurring defects, where preventing recurrence pays back",
+        "For every cosmetic typo",
+        "Never, because defects are random",
+        "Only when a manager is angry"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "RCA costs time, so it is best spent on severe, escaped or repeating issues. Defects have causes, and emotion is not a selection criterion.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Three separate escaped defects this quarter involved time zones. Each RCA concluded \"developer error, fixed\". What is the better analysis?",
+      "options": [
+        "Look across the defects for a common cause, e.g. no time-zone test data or guidelines, and fix that systematically",
+        "Accept the three conclusions",
+        "Ban time zones from the product",
+        "Assign all time-zone work to one developer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Recurring categories indicate a systemic cause that individual RCAs missed. Fixing test data, guidance and reviews prevents the class of defects. The other options do not address the cause.",
+      "topic": "root-cause-analysis"
+    },
+    {
+      "id": "pt-mtrca-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team runs a fishbone session for frequent failed deployments and lists 25 possible causes. What is the best next step?",
+      "options": [
+        "Use data (e.g. deployment logs) to check which causes actually contributed, then act on the top few",
+        "Fix all 25 at once",
+        "Pick the cause that the most senior person suggests",
+        "Stop because there are too many causes"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A fishbone generates hypotheses; evidence decides which are real. Prioritising the main contributors gives the most improvement for the effort. Fixing everything is unrealistic and seniority is not evidence.",
+      "topic": "root-cause-analysis"
+    }
+  ],
+  "coding": []
+}

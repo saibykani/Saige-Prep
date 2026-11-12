@@ -1,0 +1,265 @@
+{
+  "lesson": "pairwise-and-combinatorial-testing",
+  "questions": [
+    {
+      "id": "pt-mtpw-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What does pairwise (all-pairs) coverage require?",
+      "options": [
+        "Every possible pair of values of any two parameters appears in at least one test",
+        "Every possible combination of all parameters is tested",
+        "Every parameter is tested with one value",
+        "Every test uses two parameters only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pairwise coverage needs each value pair for each parameter pair. All combinations is exhaustive testing, one value per parameter is much weaker, and tests still set every parameter.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Three parameters each have 2 values. How many exhaustive combinations exist?",
+      "options": [
+        "8",
+        "6",
+        "4",
+        "9"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "2 x 2 x 2 = 8. Pairwise can cover all pairs here with 4 tests, which is the point of the technique.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "The minimum number of pairwise tests is at least the product of the two largest parameter value counts.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Every pair of values from the two largest parameters must appear, and each test covers only one such pair, so the product is a lower bound.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Parameters: browser (4 values), OS (3), language (5), payment (2). What is the lower bound on pairwise tests?",
+      "options": [
+        "20",
+        "120",
+        "14",
+        "5"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The two largest parameters are language (5) and browser (4), giving 5 x 4 = 20 pairs that each need a test. 120 is exhaustive, 14 is the sum of all values, and 5 is only the largest parameter.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which situations make pairwise testing a good choice? Select all that apply.",
+      "options": [
+        "Many configuration options that interact",
+        "A tight schedule where exhaustive combinations are impossible",
+        "Evidence that most defects involve one or two interacting factors",
+        "A single input field with one valid range"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Pairwise shines when many parameters combine and time is limited, and it relies on the observation that most interaction defects involve few factors. A single range is better handled by EP and BVA.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A generated pairwise set includes the combination OS = iOS with browser = Edge for Mac, which cannot exist. What should you do?",
+      "options": [
+        "Declare the constraint in the tool so it generates a valid set, rather than deleting rows afterwards",
+        "Delete the row and keep the rest unchanged",
+        "Run the impossible test anyway",
+        "Abandon pairwise testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Deleting rows can silently remove other valid pairs that only appeared in that row. Modern tools support constraints so the set stays complete over valid combinations. Running impossible tests wastes time, and one constraint does not invalidate the technique.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A defect occurs only when currency = JPY, payment = Wallet and country = Brazil all occur together. Will a pairwise set reliably find it?",
+      "options": [
+        "No; pairwise guarantees only pairs, so this triple might not appear. Use 3-wise coverage for high-risk parameters",
+        "Yes; pairwise covers all triples too",
+        "Yes, because Brazil appears in at least one test",
+        "No, combinatorial testing never finds such defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pairwise covers every pair, not every triple. Higher-strength (t-wise) coverage can be applied where interactions of three factors are a known risk.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Your pairwise set for a booking form has 12 tests. All pass, but production users fail when using a value the tester never included: country = 'Other'. What was the main weakness?",
+      "options": [
+        "The parameter values chosen for the model were incomplete; pairwise only combines the values you give it, so EP and risk analysis must pick values first",
+        "Pairwise should have used more tests per pair",
+        "The tool generated wrong pairs",
+        "Pairwise cannot handle text values"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Combinatorial tools are only as good as the model. If a value class is missing, no combination includes it. Choosing values with EP, BVA and risk analysis comes first.",
+      "topic": "pairwise-and-combinatorial-testing"
+    },
+    {
+      "id": "pt-mtpw-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "There are 3 parameters with values A: {a1, a2}, B: {b1, b2}, C: {c1, c2}. A tester proposes: (a1,b1,c1), (a1,b2,c2), (a2,b1,c2), (a2,b2,c1). Is this a complete pairwise set?",
+      "options": [
+        "Yes; every pair for A-B, A-C and B-C appears exactly once",
+        "No; (a1, c2) is missing",
+        "No; (b2, c1) is missing",
+        "No; pairwise needs all 8 combinations"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A-B pairs: a1b1, a1b2, a2b1, a2b2. A-C: a1c1, a1c2, a2c2, a2c1. B-C: b1c1, b2c2, b1c2, b2c1. All 12 pairs are present in 4 tests, the classic orthogonal array. The claimed missing pairs are actually in rows 2 and 4.",
+      "topic": "pairwise-and-combinatorial-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtpw-count",
+      "language": "python",
+      "title": "Exhaustive count and pairwise lower bound",
+      "difficulty": "beginner",
+      "prompt": "Write `combo_stats(params)` where `params` maps each parameter name to its list of values. Return a tuple `(exhaustive, lower_bound)`: the number of exhaustive combinations, and the pairwise lower bound (product of the two largest value counts). With a single parameter, the lower bound is its value count.\n\nExample: `combo_stats({'browser': ['c', 'f', 's', 'e'], 'os': ['w', 'm', 'l'], 'lang': ['en', 'de']})` returns `(24, 12)`.",
+      "starter": "def combo_stats(params):\n    # Your code here\n    return None\n",
+      "solution": "import math\n\ndef combo_stats(params):\n    sizes = sorted((len(v) for v in params.values()), reverse=True)\n    exhaustive = math.prod(sizes)\n    lower = sizes[0] * sizes[1] if len(sizes) > 1 else sizes[0]\n    return exhaustive, lower\n",
+      "explanation": "The exhaustive count is the product of all value counts. Every pair of values from the two biggest parameters must appear in a different test, so their product is a lower bound for pairwise.",
+      "hints": [
+        "Get the list of value counts and sort it descending.",
+        "`math.prod` multiplies a list.",
+        "Handle the one-parameter case separately."
+      ],
+      "tests": [
+        {
+          "name": "Three parameters",
+          "marks": 2,
+          "code": "assert combo_stats({'browser': ['c', 'f', 's', 'e'], 'os': ['w', 'm', 'l'], 'lang': ['en', 'de']}) == (24, 12)"
+        },
+        {
+          "name": "Four parameters",
+          "marks": 2,
+          "code": "p = {'a': list(range(4)), 'b': list(range(3)), 'c': list(range(5)), 'd': list(range(2))}\nassert combo_stats(p) == (120, 20), combo_stats(p)"
+        },
+        {
+          "name": "Single parameter",
+          "marks": 1,
+          "code": "assert combo_stats({'x': [1, 2, 3]}) == (3, 3)"
+        }
+      ]
+    },
+    {
+      "id": "code-mtpw-missing",
+      "language": "python",
+      "title": "Find missing pairs in a test set",
+      "difficulty": "intermediate",
+      "prompt": "Write `missing_pairs(params, tests)` where `params` maps parameter names to value lists and `tests` is a list of dicts (one value per parameter). Return a **sorted list** of tuples `(p1, v1, p2, v2)` for every value pair not covered by any test, considering parameter pairs with `p1 < p2` alphabetically.\n\nExample: with `{'a': [1, 2], 'b': ['x', 'y']}` and tests `[{'a': 1, 'b': 'x'}, {'a': 2, 'b': 'y'}]`, the result is `[('a', 1, 'b', 'y'), ('a', 2, 'b', 'x')]`.",
+      "starter": "def missing_pairs(params, tests):\n    # Your code here\n    return None\n",
+      "solution": "from itertools import combinations\n\ndef missing_pairs(params, tests):\n    missing = []\n    for p1, p2 in combinations(sorted(params), 2):\n        covered = {(t[p1], t[p2]) for t in tests}\n        for v1 in params[p1]:\n            for v2 in params[p2]:\n                if (v1, v2) not in covered:\n                    missing.append((p1, v1, p2, v2))\n    return sorted(missing)\n",
+      "explanation": "For each pair of parameters, collect the value pairs the tests actually cover, then compare with every required pair. This is how you check a hand-made or edited pairwise set, for example after removing rows for constraints.",
+      "hints": [
+        "Use `itertools.combinations(sorted(params), 2)` for parameter pairs.",
+        "Build a set of covered (t[p1], t[p2]) for each pair.",
+        "Report every (v1, v2) not in the set."
+      ],
+      "tests": [
+        {
+          "name": "Finds missing pairs",
+          "marks": 3,
+          "code": "r = missing_pairs({'a': [1, 2], 'b': ['x', 'y']}, [{'a': 1, 'b': 'x'}, {'a': 2, 'b': 'y'}])\nassert r == [('a', 1, 'b', 'y'), ('a', 2, 'b', 'x')], r"
+        },
+        {
+          "name": "Orthogonal array is complete",
+          "marks": 3,
+          "code": "P = {'A': [1, 2], 'B': [1, 2], 'C': [1, 2]}\nT = [dict(A=1, B=1, C=1), dict(A=1, B=2, C=2), dict(A=2, B=1, C=2), dict(A=2, B=2, C=1)]\nassert missing_pairs(P, T) == []"
+        },
+        {
+          "name": "Deleted row loses pairs",
+          "marks": 2,
+          "code": "P = {'A': [1, 2], 'B': [1, 2], 'C': [1, 2]}\nT = [dict(A=1, B=1, C=1), dict(A=1, B=2, C=2), dict(A=2, B=1, C=2)]\nassert missing_pairs(P, T) == [('A', 2, 'B', 2), ('A', 2, 'C', 1), ('B', 2, 'C', 1)], missing_pairs(P, T)"
+        }
+      ]
+    },
+    {
+      "id": "code-mtpw-greedy",
+      "language": "python",
+      "title": "Generate a pairwise set greedily",
+      "difficulty": "advanced",
+      "prompt": "Write `pairwise(params)` returning a list of test dicts that covers **every value pair** of every two parameters. Use a simple greedy approach: repeatedly pick, from all exhaustive combinations, the one that covers the most still-uncovered pairs, until none remain. Iterate combinations in `itertools.product` order over parameters in **dict order**, and pick the first one on ties.\n\nThe tests check that your set is complete and small: for 4 parameters of 3 values each it must have **at most 11** tests (exhaustive would be 81).",
+      "starter": "def pairwise(params):\n    # Your code here\n    return []\n",
+      "solution": "from itertools import combinations, product\n\ndef pairwise(params):\n    names = list(params)\n    def pairs_of(test):\n        return {(a, test[a], b, test[b]) for a, b in combinations(names, 2)}\n    candidates = [dict(zip(names, vals)) for vals in product(*params.values())]\n    uncovered = set()\n    for c in candidates:\n        uncovered |= pairs_of(c)\n    tests = []\n    while uncovered:\n        best = max(candidates, key=lambda c: len(pairs_of(c) & uncovered))\n        tests.append(best)\n        uncovered -= pairs_of(best)\n    return tests\n",
+      "explanation": "The greedy algorithm always adds the combination that covers the most uncovered pairs, so coverage grows quickly and the loop stops when every pair is covered. Real tools (such as PICT) use smarter heuristics and support constraints, but the idea is the same. `max` returns the first maximal element, which gives the deterministic tie-break.",
+      "hints": [
+        "Represent a covered pair as (param1, value1, param2, value2).",
+        "The set of all required pairs is the union of pairs over all exhaustive combinations.",
+        "Loop: choose `max(candidates, key=new pairs covered)`, add it, remove its pairs."
+      ],
+      "tests": [
+        {
+          "name": "Covers every pair",
+          "marks": 4,
+          "code": "from itertools import combinations, product\nP = {'os': ['w', 'm', 'l'], 'br': ['c', 'f', 's'], 'lang': ['en', 'de', 'fr'], 'pay': ['card', 'wallet', 'paypal']}\nT = pairwise(P)\nfor a, b in combinations(P, 2):\n    for va, vb in product(P[a], P[b]):\n        assert any(t[a] == va and t[b] == vb for t in T), (a, va, b, vb)"
+        },
+        {
+          "name": "Much smaller than exhaustive",
+          "marks": 3,
+          "code": "P = {'os': ['w', 'm', 'l'], 'br': ['c', 'f', 's'], 'lang': ['en', 'de', 'fr'], 'pay': ['card', 'wallet', 'paypal']}\nn = len(pairwise(P))\nassert 9 <= n <= 11, n"
+        },
+        {
+          "name": "Two parameters need all combinations",
+          "marks": 2,
+          "code": "T = pairwise({'a': [1, 2], 'b': [1, 2, 3]})\nassert len(T) == 6 and len({(t['a'], t['b']) for t in T}) == 6"
+        }
+      ]
+    }
+  ]
+}

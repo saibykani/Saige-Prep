@@ -1,0 +1,201 @@
+{
+  "lesson": "integration-testing",
+  "questions": [
+    {
+      "id": "pt-mtint-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What does integration testing focus on?",
+      "options": [
+        "The interfaces and interactions between components or systems",
+        "The internal logic of a single function",
+        "Whether users accept the system",
+        "Only the user interface layout"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Integration testing targets interfaces and interactions. Single-function logic is component testing, acceptance is about users' needs, and layout is a UI concern.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In bottom-up integration, what replaces higher-level components that are not yet ready?",
+      "options": [
+        "Drivers",
+        "Stubs",
+        "Mocks of the database only",
+        "Nothing; they are always ready"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Bottom-up integration starts from low-level components and uses drivers to call them. Stubs replace lower-level components in top-down integration.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Big-bang integration makes it easy to locate the cause of an interface failure.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Integrating everything at once means a failure could come from any interface, so isolating the cause is hard. That is the main argument for incremental integration.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are typical integration defects? Select all that apply.",
+      "options": [
+        "Mismatched units (cents vs dollars)",
+        "Different date formats between services",
+        "Missing timeout handling when a downstream service is slow",
+        "A spelling mistake in a button label"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Unit, format and timeout problems arise where components talk to each other. A label typo is a UI defect within one component.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Order service and inventory service each pass their own tests. In integration, orders for 0 items are accepted by orders but crash inventory. What is the best next test design step?",
+      "options": [
+        "Add interface tests that send boundary and invalid values across the interface and check both sides' handling",
+        "Rerun each service's unit tests",
+        "Remove validation from inventory",
+        "Test only the happy path across the interface"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The defect lives in the contract between services, so tests must exercise boundary and invalid data across it. Unit tests already pass, removing validation adds risk, and happy paths missed this case.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the difference between component integration testing and system integration testing?",
+      "options": [
+        "Component integration tests interfaces between parts of one system; system integration tests interfaces with other systems and external services",
+        "There is no difference",
+        "System integration testing is done only by developers",
+        "Component integration testing needs real users"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 separates the two: component integration focuses on interactions within a system, system integration on interfaces with other systems and external services. Who does it varies, and real users are not needed.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A third-party shipping API is unavailable in the test environment. How can integration testing continue?",
+      "options": [
+        "Use a service virtualisation or stub that follows the API contract, and plan tests against the real sandbox when available",
+        "Skip integration with shipping completely",
+        "Test against production with real orders",
+        "Wait until release"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Stubs or virtual services let testing progress, while a later check against the real sandbox catches contract mismatches. Skipping or waiting delays risk discovery, and testing in production with real orders is unsafe.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Checkout sends `{\"amount\": 1999}` meaning cents. Payments interprets `amount` as dollars. Both teams' tests pass. Which practice would most likely have prevented this?",
+      "options": [
+        "Consumer-driven contract tests that pin field meaning and units, agreed by both teams",
+        "More unit tests in the checkout service",
+        "Increasing code coverage in payments",
+        "UI tests on the checkout page"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each side tested against its own assumption. A shared contract with explicit units, verified on both sides, catches the mismatch. More unit tests or coverage on one side reinforce that side's assumption, and UI tests may not show the charged amount.",
+      "topic": "integration-testing"
+    },
+    {
+      "id": "pt-mtint-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "An integration test fails intermittently: the order service sometimes reads inventory before an update is committed. What type of integration issue is this and how should it be tested?",
+      "options": [
+        "A timing or ordering issue; test with controlled delays, concurrent requests and retries to reproduce it reliably",
+        "A UI defect; test with screenshots",
+        "A data entry error; retrain users",
+        "Not a defect, just a flaky test to delete"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Race conditions between components are integration defects. Making timing controllable turns an intermittent failure into a reproducible one. Calling it flaky and deleting the test hides a real risk.",
+      "topic": "integration-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtint-contract",
+      "language": "python",
+      "title": "Check a message against an interface contract",
+      "difficulty": "intermediate",
+      "prompt": "The payments interface expects a JSON-like dict with:\n- `order_id`: non-empty string\n- `amount_cents`: int, at least 1 (bool is not allowed)\n- `currency`: one of `'USD'`, `'EUR'`, `'GBP'`\n\nWrite `contract_errors(msg)` that returns a **sorted list of field names** that are missing or invalid. Unexpected extra fields are reported as `'extra:<name>'` (also in the sorted list).\n\nExample: `contract_errors({'order_id': 'A1', 'amount_cents': 19.99, 'currency': 'usd'})` returns `['amount_cents', 'currency']`.",
+      "starter": "def contract_errors(msg):\n    # Your code here\n    return None\n",
+      "solution": "def contract_errors(msg):\n    errors = []\n    oid = msg.get('order_id')\n    if not isinstance(oid, str) or not oid:\n        errors.append('order_id')\n    amt = msg.get('amount_cents')\n    if not isinstance(amt, int) or isinstance(amt, bool) or amt < 1:\n        errors.append('amount_cents')\n    if msg.get('currency') not in ('USD', 'EUR', 'GBP'):\n        errors.append('currency')\n    for key in msg:\n        if key not in ('order_id', 'amount_cents', 'currency'):\n            errors.append('extra:' + key)\n    return sorted(errors)\n",
+      "explanation": "Checking types, ranges and allowed values at the interface catches mismatches such as 19.99 dollars sent where integer cents are expected. Rejecting bool explicitly matters because in Python `True` is an int.",
+      "hints": [
+        "Use `msg.get(...)` so missing fields become None.",
+        "`isinstance(True, int)` is True, so exclude bool explicitly.",
+        "Collect unexpected keys as 'extra:' + key and sort at the end."
+      ],
+      "tests": [
+        {
+          "name": "Valid message",
+          "marks": 2,
+          "code": "assert contract_errors({'order_id': 'A1', 'amount_cents': 1999, 'currency': 'USD'}) == []"
+        },
+        {
+          "name": "Unit and case mismatches",
+          "marks": 3,
+          "code": "assert contract_errors({'order_id': 'A1', 'amount_cents': 19.99, 'currency': 'usd'}) == ['amount_cents', 'currency']"
+        },
+        {
+          "name": "Missing, bool and extra fields",
+          "marks": 3,
+          "code": "assert contract_errors({'amount_cents': True, 'currency': 'EUR', 'amount': 5}) == ['amount_cents', 'extra:amount', 'order_id']"
+        }
+      ]
+    }
+  ]
+}

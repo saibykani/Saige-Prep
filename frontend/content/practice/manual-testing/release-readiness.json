@@ -1,0 +1,201 @@
+{
+  "lesson": "release-readiness",
+  "questions": [
+    {
+      "id": "pt-mtrrd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What is a release readiness checklist for?",
+      "options": [
+        "Collecting the evidence needed to make an informed go or no-go decision",
+        "Listing every test case ever written",
+        "Replacing the Definition of Done",
+        "Assigning blame for late defects"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A readiness checklist gathers evidence across scope, testing, defects, non-functional checks and operations. It does not list all tests, replace the DoD or assign blame.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which item belongs on a release readiness checklist?",
+      "options": [
+        "A tested rollback plan",
+        "The colour of the login button",
+        "The names of every developer",
+        "The number of meetings held"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Being able to roll back safely is a key readiness question. The others say nothing about the risk of releasing.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Release readiness includes operational aspects, such as monitoring and alerting being in place for the new features.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Being able to detect and respond to problems after release is part of being ready; a feature without monitoring is a blind spot.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which are good evidence items for a readiness review? Select all that apply.",
+      "options": [
+        "Open defects by severity, with workarounds",
+        "Results of performance tests against agreed targets",
+        "Coverage of high-risk areas",
+        "A statement that \"testing felt fine\""
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Readiness should rest on concrete data: defects, non-functional results and risk coverage. A feeling is not evidence.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "All functional tests pass, but the database migration has only been run on an empty test database. What is the readiness risk?",
+      "options": [
+        "The migration may be slow or fail on production-sized data; rehearse it on a production-like copy and measure duration",
+        "No risk, since the migration ran successfully",
+        "Only a cosmetic risk",
+        "Migrations do not need testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Data volume and real data shapes expose problems that empty databases hide, including locking and long downtime. A rehearsal on realistic data is standard readiness evidence.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "In Scrum, which statement about releasing is correct?",
+      "options": [
+        "An Increment must meet the Definition of Done to be usable, but whether and when to release it is a separate business decision",
+        "Every Increment must be released at the end of each Sprint",
+        "Increments can be released without meeting the DoD",
+        "Only the Scrum Master can decide to release"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Scrum Guide requires the DoD for an Increment but allows release before or after the Sprint end; the business decides when. The Product Owner, not the Scrum Master, is accountable for product value decisions.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A feature is ready but the marketing launch is two weeks away. Which technique lets the team deploy now and release later safely?",
+      "options": [
+        "Deploy behind a feature flag, turned off until launch, with tests for both flag states",
+        "Keep the code in a branch for two weeks",
+        "Deploy it fully enabled and hope no one notices",
+        "Delete the feature until launch"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Feature flags separate deployment from release; tests must cover both on and off states. Long-lived branches increase merge risk, exposing unannounced features is risky, and deleting work is wasteful.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Readiness review: one open high-severity defect affects 2% of users on an old Android version, a workaround exists, the fix needs a risky change. What should the tester recommend?",
+      "options": [
+        "Present the risk, impact and workaround clearly with options (release with known issue and support plan, or delay); the product owner decides",
+        "Insist on a delay until it is fixed",
+        "Hide the defect to keep the release on time",
+        "Downgrade it to low severity"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The tester provides balanced evidence and options; the business owns the risk decision. Insisting, hiding or reclassifying all undermine an informed decision.",
+      "topic": "release-readiness"
+    },
+    {
+      "id": "pt-mtrrd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "The release checklist is all green, but the team has never tested what happens if the payment provider times out. What is the best interpretation?",
+      "options": [
+        "The checklist has a gap; add failure-mode checks for critical dependencies and test this one before go-live or record it as a known risk",
+        "Green checklist means ready",
+        "Payment timeouts are the provider's problem",
+        "Remove the payment feature"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A checklist is only as good as its contents. Critical dependency failure modes belong on it, and if not tested they must at least be a visible accepted risk. Assuming others will handle it is not risk management.",
+      "topic": "release-readiness"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtrrd-gate",
+      "language": "python",
+      "title": "Release readiness gate",
+      "difficulty": "intermediate",
+      "prompt": "Write `readiness(report)` where `report` is a dict:\n```python\n{'open_defects': [{'severity': 'high', 'workaround': True}, ...],\n 'risk_coverage_pct': 92.0,\n 'perf_p95_ms': 850, 'perf_target_ms': 1000,\n 'rollback_tested': True}\n```\nReturn `('GO', [])`, `('GO WITH RISKS', reasons)` or `('NO GO', reasons)`:\n- **NO GO** reasons: `'critical defect open'` (any critical), `'high defect without workaround'`, `'rollback not tested'`\n- **risk** reasons: `'high defect with workaround'`, `'risk coverage below 95%'`, `'performance target missed'` (p95 > target)\n\nIf any NO GO reason exists, return NO GO with **only** the NO GO reasons. Reasons appear once each, in the order listed above.",
+      "starter": "def readiness(report):\n    # Your code here\n    return None\n",
+      "solution": "def readiness(report):\n    defects = report['open_defects']\n    blockers, risks = [], []\n    if any(d['severity'] == 'critical' for d in defects):\n        blockers.append('critical defect open')\n    if any(d['severity'] == 'high' and not d['workaround'] for d in defects):\n        blockers.append('high defect without workaround')\n    if not report['rollback_tested']:\n        blockers.append('rollback not tested')\n    if blockers:\n        return ('NO GO', blockers)\n    if any(d['severity'] == 'high' and d['workaround'] for d in defects):\n        risks.append('high defect with workaround')\n    if report['risk_coverage_pct'] < 95:\n        risks.append('risk coverage below 95%')\n    if report['perf_p95_ms'] > report['perf_target_ms']:\n        risks.append('performance target missed')\n    return ('GO WITH RISKS', risks) if risks else ('GO', [])\n",
+      "explanation": "Separating blockers from accepted-risk items mirrors a real go/no-go: blockers stop the release, while risks are listed for the decision makers to accept. Using `any()` makes each reason appear once.",
+      "hints": [
+        "Compute blockers first with any(...) over the defects.",
+        "Return early with NO GO if there are blockers.",
+        "Otherwise collect risk reasons in order and decide between GO and GO WITH RISKS."
+      ],
+      "tests": [
+        {
+          "name": "Clean GO",
+          "marks": 2,
+          "code": "r = {'open_defects': [{'severity': 'low', 'workaround': False}], 'risk_coverage_pct': 98, 'perf_p95_ms': 800, 'perf_target_ms': 1000, 'rollback_tested': True}\nassert readiness(r) == ('GO', []), readiness(r)"
+        },
+        {
+          "name": "GO WITH RISKS",
+          "marks": 3,
+          "code": "r = {'open_defects': [{'severity': 'high', 'workaround': True}, {'severity': 'high', 'workaround': True}], 'risk_coverage_pct': 90, 'perf_p95_ms': 1000, 'perf_target_ms': 1000, 'rollback_tested': True}\nassert readiness(r) == ('GO WITH RISKS', ['high defect with workaround', 'risk coverage below 95%']), readiness(r)"
+        },
+        {
+          "name": "NO GO lists only blockers",
+          "marks": 3,
+          "code": "r = {'open_defects': [{'severity': 'critical', 'workaround': True}, {'severity': 'high', 'workaround': True}], 'risk_coverage_pct': 50, 'perf_p95_ms': 2000, 'perf_target_ms': 1000, 'rollback_tested': False}\nassert readiness(r) == ('NO GO', ['critical defect open', 'rollback not tested']), readiness(r)"
+        }
+      ]
+    }
+  ]
+}

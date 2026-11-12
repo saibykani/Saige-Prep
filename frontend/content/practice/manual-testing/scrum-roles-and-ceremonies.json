@@ -1,0 +1,168 @@
+{
+  "lesson": "scrum-roles-and-ceremonies",
+  "questions": [
+    {
+      "id": "pt-mtscr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "According to the 2020 Scrum Guide, what is the maximum length of a Sprint?",
+      "options": [
+        "One month",
+        "Two weeks",
+        "Six weeks",
+        "There is no limit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Sprints are fixed-length events of one month or less. Two weeks is common but not a rule, and longer Sprints are not allowed.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which Scrum event is used to inspect the outcome of the Sprint with stakeholders and decide future adaptations?",
+      "options": [
+        "Sprint Review",
+        "Sprint Retrospective",
+        "Daily Scrum",
+        "Sprint Planning"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Sprint Review inspects the outcome with stakeholders. The Retrospective improves the team's way of working, the Daily Scrum inspects progress towards the Sprint Goal, and Planning sets up the Sprint.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "The 2020 Scrum Guide defines \"tester\" as a separate accountability in the Scrum Team.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Scrum Team has three accountabilities: Product Owner, Scrum Master and Developers. Testers are part of the Developers, who are everyone doing the work of creating the Increment.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the commitment for the Product Backlog in the 2020 Scrum Guide?",
+      "options": [
+        "The Product Goal",
+        "The Sprint Goal",
+        "The Definition of Done",
+        "The velocity"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Product Backlog: Product Goal; Sprint Backlog: Sprint Goal; Increment: Definition of Done. Velocity is not a Scrum commitment.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Where does a tester typically add the most value in Scrum events? Select all that apply.",
+      "options": [
+        "Sprint Planning: raising testing effort and risks for selected items",
+        "Daily Scrum: flagging blockers to reaching the Sprint Goal",
+        "Sprint Retrospective: proposing quality and process improvements",
+        "Sprint Review: approving the budget"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Testers contribute to planning, daily coordination and improvement. Budget approval is not part of the Sprint Review or a tester's role.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A Daily Scrum regularly turns into a 40-minute defect discussion. What should happen?",
+      "options": [
+        "Keep the Daily Scrum to 15 minutes and continue detailed defect discussions afterwards with the people who need to be involved",
+        "Extend the Daily Scrum to an hour",
+        "Cancel the Daily Scrum",
+        "Let the Scrum Master decide all defect fixes"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Daily Scrum is time-boxed to 15 minutes. Detailed discussions happen afterwards. Extending or cancelling breaks the event, and the Scrum Master does not decide technical work.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Who is accountable for ordering the Product Backlog?",
+      "options": [
+        "The Product Owner",
+        "The Scrum Master",
+        "The Developers",
+        "The stakeholders by vote"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Product Owner is accountable for Product Backlog management, including ordering. Others may influence it, but the Product Owner decides.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Mid-Sprint, a stakeholder asks a tester directly to drop current work and test a new urgent feature. What should the tester do?",
+      "options": [
+        "Direct the request to the Product Owner; the Developers and Product Owner decide whether Sprint scope changes without endangering the Sprint Goal",
+        "Start immediately because stakeholders are customers",
+        "Refuse and ignore the request",
+        "Ask the Scrum Master to approve it alone"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Scope changes go through the Product Owner, and the Sprint Goal must be protected. Acting alone bypasses Scrum, ignoring loses a real need, and the Scrum Master does not approve scope.",
+      "topic": "scrum-roles-and-ceremonies"
+    },
+    {
+      "id": "pt-mtscr-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Testing always piles up on the last two days of the Sprint, and the Retrospective keeps noting it. Which improvement fits Scrum best?",
+      "options": [
+        "Developers (including testers) limit work in progress and swarm on fewer items so they are finished and tested throughout the Sprint",
+        "Add a separate testing Sprint after each development Sprint",
+        "Move testing to the next Sprint for all items",
+        "Make the Sprint longer than one month"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Finishing fewer items at a time spreads testing across the Sprint and fits the whole-team, Done-every-Sprint approach. Testing Sprints or deferring testing produce Increments that do not meet the DoD, and Sprints cannot exceed one month.",
+      "topic": "scrum-roles-and-ceremonies"
+    }
+  ],
+  "coding": []
+}

@@ -1,0 +1,168 @@
+{
+  "lesson": "sdlc-and-stlc",
+  "questions": [
+    {
+      "id": "pt-mtsdl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is a sequential SDLC model?",
+      "options": [
+        "Waterfall",
+        "Scrum",
+        "Kanban",
+        "Spiral with iterations"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Waterfall and the V-model are sequential. Scrum and Kanban are agile, and spiral is iterative.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which test activity produces test cases and identifies the test data needed?",
+      "options": [
+        "Test design",
+        "Test analysis",
+        "Test completion",
+        "Test monitoring and control"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In CTFL v4.0, test analysis identifies test conditions (what to test), test design turns them into test cases and identifies test data (how to test). Completion and monitoring are different activities.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In the V-model, each development phase has a corresponding test level, such as requirements with acceptance testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The V-model pairs development phases with test levels, encouraging early test planning and design for each level.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "In which activity are test cases organised into test procedures and the test environment prepared?",
+      "options": [
+        "Test implementation",
+        "Test planning",
+        "Test analysis",
+        "Test completion"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Test implementation creates and arranges testware, including procedures, suites and environments. Planning defines objectives and approach, analysis defines conditions, and completion wraps up.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which happen during test completion? Select all that apply.",
+      "options": [
+        "Archiving testware for future use",
+        "Creating a test completion report",
+        "Identifying lessons learned",
+        "Executing new test cases"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Completion collects data, archives testware, reports and improves. Executing new tests belongs to test execution.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "In a V-model project, when should acceptance test design ideally start?",
+      "options": [
+        "When requirements are being defined, so acceptance tests can also find requirement defects early",
+        "Only after system testing finishes",
+        "After deployment",
+        "Never; acceptance tests are written by users at the end"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A core idea of the V-model and early testing is designing tests from each work product as soon as it exists. Late design wastes the chance to find requirement defects.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which good practice applies to any SDLC according to CTFL v4.0?",
+      "options": [
+        "Each test level has specific and different test objectives",
+        "Testing starts only after coding is complete",
+        "Testers should not review requirements",
+        "All test levels share identical objectives"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL lists good practices: every development activity has a corresponding test activity, each test level has specific objectives, test analysis and design start early, and testers review work products as soon as drafts exist.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team uses Kanban with continuous delivery. A new test manager wants to add a three-week test phase before each release. What is the main problem?",
+      "options": [
+        "It conflicts with continuous flow; testing should be built into each work item with automation and quality gates in the pipeline",
+        "Kanban forbids testing",
+        "Three weeks is too short",
+        "There is no problem"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In continuous delivery, testing is embedded and continuous. A big test phase recreates a waterfall bottleneck and delays feedback. Kanban does not forbid testing.",
+      "topic": "sdlc-and-stlc"
+    },
+    {
+      "id": "pt-mtsdl-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Test execution reveals that 40% of failures come from unclear requirements. Which change in the test process would help most in the next release?",
+      "options": [
+        "Start test analysis earlier and review requirements against testability, raising questions before development",
+        "Add more test execution cycles",
+        "Skip test analysis to save time",
+        "Write more detailed defect reports"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The root of the failures is upstream. Earlier analysis and reviews find requirement defects when they are cheapest to fix. More execution, skipping analysis or better defect reports treat the symptom.",
+      "topic": "sdlc-and-stlc"
+    }
+  ],
+  "coding": []
+}

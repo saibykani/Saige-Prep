@@ -1,0 +1,196 @@
+{
+  "lesson": "risk-based-testing",
+  "questions": [
+    {
+      "id": "pt-mtrbt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In ISTQB CTFL v4.0, what is a risk?",
+      "options": [
+        "A factor that could result in future negative consequences",
+        "A defect that has already been found",
+        "A test that failed",
+        "A planned activity"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A risk is a potential future event with negative consequences. A found defect or failed test is a fact, not a risk.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is a product risk?",
+      "options": [
+        "The system may calculate interest incorrectly",
+        "The test environment may arrive late",
+        "A key tester may leave the project",
+        "The budget may be cut"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Product risks relate to the quality of the product. Late environments, staff turnover and budget cuts are project risks affecting the project's ability to deliver.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Risk analysis in CTFL v4.0 consists of risk identification and risk assessment.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 describes risk analysis as identification followed by assessment. Risk control (mitigation and monitoring) follows as part of risk management.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which can product risk analysis influence? Select all that apply.",
+      "options": [
+        "Test scope and thoroughness",
+        "Test levels and test types to perform",
+        "Test techniques and coverage to achieve",
+        "The company's office location"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "CTFL v4.0 lists scope, levels, types, techniques, coverage, effort and prioritisation among the things risk analysis shapes. Office location is unrelated.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which is an example of risk mitigation through testing?",
+      "options": [
+        "Adding performance tests for the checkout because high load is a known risk",
+        "Accepting a risk without action",
+        "Transferring risk to an insurer",
+        "Ignoring a risk because it is unlikely"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Designing tests that target a risk mitigates it by detecting problems early. Acceptance, transfer and ignoring are different responses.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A project risk materialises: the test environment will be two weeks late. Which response is reasonable?",
+      "options": [
+        "Escalate, adjust the plan (e.g. use stubs, test earlier components, shift scope), and record the impact on product risk coverage",
+        "Pretend it will arrive on time",
+        "Stop all testing until it arrives",
+        "Test in production"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Project risks need active management and their effect on product risk coverage must be visible. Ignoring, halting completely or testing in production are poor responses.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What does risk monitoring involve during testing?",
+      "options": [
+        "Tracking whether mitigation is working, new risks emerge, and residual risk levels change, and reporting it",
+        "Running every test twice",
+        "Monitoring the testers' keyboards",
+        "Only reviewing risks at project start"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risks change as testing reveals information. Monitoring keeps the risk picture current for decisions. It is not about duplication or surveillance, and a single early review is insufficient.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "Halfway through testing, many defects are found in the reporting module, which was rated low likelihood. What should happen?",
+      "options": [
+        "Re-assess its likelihood upward, increase test depth there, and tell stakeholders the risk picture changed",
+        "Keep the original rating because the plan is fixed",
+        "Stop testing reporting to avoid more defects",
+        "Lower the impact rating to keep scores stable"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Defects found are evidence that likelihood was underestimated. Risk-based testing adapts. Keeping a wrong rating, avoiding the area or manipulating scores defeats the purpose.",
+      "topic": "risk-based-testing"
+    },
+    {
+      "id": "pt-mtrbt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "At release, the test report states \"all tests passed\". Stakeholders were never told that two medium risks had no tests at all. What principle was violated, and what should the report have included?",
+      "options": [
+        "Transparency of residual risk; the report should list risks by level with their coverage and any untested risks",
+        "Exhaustive testing; every risk must always be tested",
+        "Defect clustering; risks are irrelevant",
+        "No principle; passing tests is enough"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk-based reporting describes the residual risk so stakeholders decide with full information. Exhaustive testing is impossible, and \"all tests passed\" says nothing about what was never tested.",
+      "topic": "risk-based-testing"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtrbt-matrix",
+      "language": "python",
+      "title": "Classify risks in a risk matrix",
+      "difficulty": "intermediate",
+      "prompt": "Write `risk_level(likelihood, impact)` for a 1-5 scale returning `'high'`, `'medium'` or `'low'`:\n- `'high'` if `likelihood * impact >= 15` **or** `impact == 5` (severe impact is never below high)\n- `'medium'` if the score is 6 to 14\n- otherwise `'low'`\n\nThen write `coverage_report(risks, tested)` where `risks` is a list of `(name, likelihood, impact)` and `tested` is a set of names. Return a dict mapping each level to a dict `{'total': n, 'tested': n, 'untested': [names sorted]}` for **all three levels** (even if empty).",
+      "starter": "def risk_level(likelihood, impact):\n    pass\n\ndef coverage_report(risks, tested):\n    pass\n",
+      "solution": "def risk_level(likelihood, impact):\n    score = likelihood * impact\n    if score >= 15 or impact == 5:\n        return 'high'\n    if score >= 6:\n        return 'medium'\n    return 'low'\n\ndef coverage_report(risks, tested):\n    report = {lvl: {'total': 0, 'tested': 0, 'untested': []} for lvl in ('high', 'medium', 'low')}\n    for name, l, i in risks:\n        entry = report[risk_level(l, i)]\n        entry['total'] += 1\n        if name in tested:\n            entry['tested'] += 1\n        else:\n            entry['untested'].append(name)\n    for entry in report.values():\n        entry['untested'].sort()\n    return report\n",
+      "explanation": "The impact override prevents a severe but unlikely risk from being ranked low by multiplication. The report counts coverage per level and names the untested risks, which is what a residual-risk section of a test report needs.",
+      "hints": [
+        "Check the high condition first, including the impact override.",
+        "Pre-create all three levels in the report dict.",
+        "Sort each untested list at the end."
+      ],
+      "tests": [
+        {
+          "name": "Levels with override",
+          "marks": 3,
+          "code": "assert [risk_level(*x) for x in [(3, 5), (1, 5), (2, 3), (3, 2), (1, 1), (4, 4)]] == ['high', 'high', 'medium', 'medium', 'low', 'high']"
+        },
+        {
+          "name": "Coverage report",
+          "marks": 4,
+          "code": "r = coverage_report([('pay', 4, 4), ('tax', 1, 5), ('ui', 2, 3), ('help', 1, 2)], {'pay', 'ui'})\nassert r == {'high': {'total': 2, 'tested': 1, 'untested': ['tax']}, 'medium': {'total': 1, 'tested': 1, 'untested': []}, 'low': {'total': 1, 'tested': 0, 'untested': ['help']}}, r"
+        }
+      ]
+    }
+  ]
+}

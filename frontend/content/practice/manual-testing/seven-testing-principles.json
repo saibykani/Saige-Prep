@@ -1,0 +1,168 @@
+{
+  "lesson": "seven-testing-principles",
+  "questions": [
+    {
+      "id": "pt-mtstp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which principle says testing can show that defects are present but cannot prove they are absent?",
+      "options": [
+        "Testing shows the presence, not the absence of defects",
+        "Exhaustive testing is impossible",
+        "Defects cluster together",
+        "Tests wear out"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "This is principle one in CTFL v4.0. The others are separate principles about combinations, clustering and repetition.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In CTFL v4.0, the pesticide paradox principle is now named...",
+      "options": [
+        "Tests wear out",
+        "Absence-of-defects fallacy",
+        "Early testing saves time and money",
+        "Testing is context dependent"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL v4.0 renamed it \"tests wear out\": repeating the same tests becomes less effective at finding new defects. The others are different principles.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "\"Testing is context dependent\" means the right test approach for a banking app may differ from that for a mobile game.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk, regulation, technology and life cycle all change how testing should be done; there is no single approach for all contexts.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A login form has 3 fields, each accepting 100 different characters and up to 20 characters long. Why can't you test all inputs?",
+      "options": [
+        "The number of combinations is astronomically large, so exhaustive testing is impossible; use techniques and prioritisation",
+        "Login forms cannot be tested",
+        "All inputs can be tested in a day with automation",
+        "Only valid inputs matter"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exhaustive testing is impossible except in trivial cases, so testers use techniques, risk analysis and prioritisation. Automation does not make astronomical numbers feasible, and invalid inputs matter.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Analysis shows 80% of defects in the last three releases were found in the payment and import modules. Which principle is this, and what does it suggest?",
+      "options": [
+        "Defects cluster together; focus additional testing on those modules",
+        "Tests wear out; delete old tests",
+        "Early testing; start sooner",
+        "Absence-of-defects fallacy; stop testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Defect clustering (often a Pareto-like distribution) suggests targeting effort where defects concentrate. The other options apply other principles in ways that do not follow from the data.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which actions counter the \"tests wear out\" effect? Select all that apply.",
+      "options": [
+        "Reviewing and updating tests regularly",
+        "Adding new tests and data variations",
+        "Using exploratory sessions in changed areas",
+        "Running the same tests more often"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Updating, adding variation and exploring keep tests finding new defects. Repeating the same tests more often makes the wear-out effect worse, though they still have regression value.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A system passes all tests, has almost no open defects, yet users reject it because it does not fit their workflow. Which principle applies?",
+      "options": [
+        "Absence-of-defects fallacy",
+        "Defects cluster together",
+        "Exhaustive testing is impossible",
+        "Tests wear out"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Finding and fixing many defects does not guarantee a successful system; it must also meet user needs, which calls for validation. The others do not explain the rejection.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team skips reviews and starts testing only after coding is complete. Late-found requirement defects cause a three-week delay. Which principle best explains the cost, and what should change?",
+      "options": [
+        "Early testing saves time and money; review requirements and designs and start test analysis as early as possible",
+        "Testing is context dependent; change the context",
+        "Defects cluster together; only test requirements",
+        "Exhaustive testing is impossible; stop testing earlier"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Defects found late cost more to fix because more work depends on them. Static testing and early analysis (shift-left) remove them cheaply. The other choices misapply principles.",
+      "topic": "seven-testing-principles"
+    },
+    {
+      "id": "pt-mtstp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A startup building a prototype for investor demos adopts the full documentation and test process of a regulated medical device company. Which principle is being ignored and what is the risk?",
+      "options": [
+        "Testing is context dependent; heavy process wastes time on a short-lived prototype while missing the risks that matter (e.g. demo-critical flows)",
+        "Tests wear out; they will repeat tests",
+        "Defects cluster together; they will find too many defects",
+        "No principle; more process is always better"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The appropriate depth and formality of testing depend on context: risk, domain, lifecycle and constraints. A prototype needs fast, focused testing of what matters for its purpose, not regulated-grade documentation.",
+      "topic": "seven-testing-principles"
+    }
+  ],
+  "coding": []
+}

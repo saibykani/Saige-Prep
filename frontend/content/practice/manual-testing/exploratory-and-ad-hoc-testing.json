@@ -1,0 +1,168 @@
+{
+  "lesson": "exploratory-and-ad-hoc-testing",
+  "questions": [
+    {
+      "id": "pt-mteah-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "What best distinguishes exploratory testing from ad hoc testing?",
+      "options": [
+        "Exploratory testing is structured by goals, time-boxes and notes; ad hoc testing is informal with no planning or records",
+        "Ad hoc testing always uses test scripts",
+        "Exploratory testing never finds defects",
+        "They are identical"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exploratory testing is purposeful and accountable (charters, sessions, notes), while ad hoc testing is informal and unrecorded. Ad hoc testing does not use scripts, and exploratory testing is effective at finding defects.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which situation suits exploratory testing particularly well?",
+      "options": [
+        "Specifications are thin and time is short",
+        "A regulator requires exact, repeatable scripted evidence for every step",
+        "Thousands of identical regression checks must run nightly",
+        "The team wants exact repeatability of every run"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CTFL notes exploratory testing is useful when specifications are few or inadequate or there is time pressure. Regulated scripted evidence, nightly regression and exact repeatability favour scripted or automated tests.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Exploratory testing relies heavily on the tester's skills, experience and creativity.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "As an experience-based technique, its effectiveness depends on the tester's domain and testing knowledge. That is why pairing and debriefs help less experienced testers.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Halfway through an exploratory session, the tester finds a different, more interesting area than the charter's target. What is good practice?",
+      "options": [
+        "Note it as an opportunity or new charter, and continue the current charter unless the finding is critical",
+        "Abandon the charter and follow the new area for the rest of the day",
+        "Ignore the new area completely",
+        "Stop the session and write a full test plan"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Session-based testing values focus: log the opportunity so it gets its own session. Dropping the charter loses accountability, ignoring it loses information, and a full plan is overkill.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which should an exploratory tester record during a session? Select all that apply.",
+      "options": [
+        "What was tested and how",
+        "Defects and questions found",
+        "Data and environment used",
+        "Nothing, because exploratory testing is free-form"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Notes provide evidence of coverage, make defects reproducible and support the debrief. Not recording anything turns exploratory testing into ad hoc testing.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "What is the purpose of the debrief after an exploratory session?",
+      "options": [
+        "To review what was learned, the coverage achieved, issues found, and decide next charters",
+        "To assign blame for defects",
+        "To rerun every test exactly",
+        "To replace defect reports"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Debriefs turn session notes into shared understanding and next steps. They are not for blame, exact reruns or replacing defect reports, which are still logged.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "A tester reports \"I did some exploratory testing on checkout, looked fine\". Why is this weak evidence?",
+      "options": [
+        "There is no charter, time-box, coverage notes or record of what was tried, so stakeholders cannot judge what was tested",
+        "Exploratory testing can never be evidence",
+        "It should have been ad hoc testing",
+        "It is strong evidence because the tester is experienced"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without a record, nobody can tell what risks were covered. Session-based practices make exploratory testing auditable. It can be good evidence when documented, and experience does not replace a record.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A team uses only scripted tests written months ago, and recently escaped defects all involve unusual sequences of actions. What should the test lead propose?",
+      "options": [
+        "Add time-boxed exploratory sessions targeting workflows and state changes alongside the scripted suite",
+        "Write more scripts copying the escaped defects only",
+        "Remove all scripted tests in favour of ad hoc testing",
+        "Increase the number of times the old scripts are run"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unusual sequences are hard to anticipate in scripts but are found by testers who adapt as they learn. Combining approaches is the CTFL recommendation. Copying only escaped defects is narrow, dropping scripts loses regression value, and rerunning the same scripts repeats the pesticide paradox.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    },
+    {
+      "id": "pt-mteah-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "During exploration of a search feature, a tester notices a result count of 1,000 for several unrelated queries. Which next step shows strong exploratory skill?",
+      "options": [
+        "Form a hypothesis (a hard cap at 1,000), design quick tests to confirm it (very broad queries, paging past 1,000), then report with evidence",
+        "Log a defect saying \"search is broken\" and move on",
+        "Ignore it because 1,000 looks like a plausible number",
+        "Restart the session from the beginning"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exploratory testing is learning-driven: notice, hypothesise, test the hypothesis, report. That produces a precise, actionable report. Vague reports, ignoring anomalies and restarting all waste the insight.",
+      "topic": "exploratory-and-ad-hoc-testing"
+    }
+  ],
+  "coding": []
+}

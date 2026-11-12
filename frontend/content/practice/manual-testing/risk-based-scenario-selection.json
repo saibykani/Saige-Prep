@@ -1,0 +1,223 @@
+{
+  "lesson": "risk-based-scenario-selection",
+  "questions": [
+    {
+      "id": "pt-mtrss-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "On a 1 to 3 scale, a scenario has likelihood 3 and impact 2. Using multiplication, what is its risk score?",
+      "options": [
+        "6",
+        "5",
+        "1",
+        "9"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk score = likelihood x impact = 3 x 2 = 6. 5 adds them, 1 subtracts, and 9 is the maximum possible score.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "Which is an impact factor rather than a likelihood factor?",
+      "options": [
+        "Financial loss if the scenario fails",
+        "Code complexity",
+        "Number of recent changes in the area",
+        "Developer unfamiliarity with the technology"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Impact is about consequences, such as money, safety, reputation or legal exposure. Complexity, change frequency and unfamiliarity make failure more likely.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "prompt": "In risk-based selection, higher-risk scenarios should generally be tested earlier and more thoroughly.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testing high-risk scenarios first gives the most important information early and matches test depth to risk.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Two scenarios both score 6: refund processing (likelihood 2, impact 3) and avatar upload (likelihood 3, impact 2). How might you order them?",
+      "options": [
+        "Use a tie-break rule agreed with stakeholders, often favouring higher impact, so refunds come first",
+        "Order randomly",
+        "Always favour higher likelihood",
+        "Skip both because they tie"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Equal scores need a documented tie-break. Many teams prefer higher impact, since severe consequences matter more. Random order and skipping ignore the analysis.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Which sources help estimate likelihood for a scenario? Select all that apply.",
+      "options": [
+        "Defect history of the area",
+        "Amount and recency of code changes",
+        "Complexity and number of integrations",
+        "Number of marketing emails sent"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Past defects, change and complexity are classic likelihood indicators. Marketing email volume does not say how likely the software is to fail.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "Time allows testing only the top 10 of 30 scored scenarios. What should happen to the other 20?",
+      "options": [
+        "List them as untested with their risk scores in the test report so stakeholders see the residual risk",
+        "Delete them from the plan",
+        "Mark them as passed",
+        "Test them quickly without recording results"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Transparency about untested scope is essential for an informed release decision. Deleting or marking them passed hides risk, and unrecorded testing gives no evidence.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "prompt": "How should test depth vary with risk level?",
+      "options": [
+        "High-risk scenarios get more techniques, more data variations and more independent review; low-risk ones may get a smoke check",
+        "All scenarios get exactly the same depth",
+        "Low-risk scenarios get the most testing",
+        "Depth depends only on the tester's preference"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk drives both the order and the thoroughness of testing. Equal depth wastes effort, and reversing it inverts the logic.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "A new tax rule changes calculations for all invoices. Code change is small (likelihood 2 of 3) but errors would cause legal penalties (impact 3). The team scores it 6 and puts it below a score-9 UI animation scenario. What is wrong?",
+      "options": [
+        "Pure multiplication can rank a severe-impact risk below a nuisance; teams should add a rule that impact 3 items are never deprioritised below a threshold, or use a risk matrix with explicit categories",
+        "Nothing; scores are always right",
+        "The likelihood should be 1",
+        "UI scenarios always come first"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Scores are aids to judgement. Legal and safety impacts often justify overrides or a matrix where high impact stays high priority. Accepting the number blindly can misdirect testing.",
+      "topic": "risk-based-scenario-selection"
+    },
+    {
+      "id": "pt-mtrss-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "prompt": "After a release, a scenario scored low risk (1 x 1) caused a major outage. What should the team do in the next risk workshop?",
+      "options": [
+        "Review why likelihood and impact were underestimated, update the scoring guidance and factors, and re-score related scenarios",
+        "Stop using risk-based selection",
+        "Blame the person who scored it",
+        "Raise every score to the maximum"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Risk analysis is iterative; production feedback improves future estimates. Abandoning the method, blaming individuals or inflating all scores removes its value.",
+      "topic": "risk-based-scenario-selection"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mtrss-rank",
+      "language": "python",
+      "title": "Score and rank scenarios",
+      "difficulty": "beginner",
+      "prompt": "Each scenario is a tuple `(name, likelihood, impact)` with values 1 to 3. Write `rank_scenarios(scenarios)` returning a list of `(name, score)` sorted by score descending, then by **impact** descending, then name ascending.\n\nExample: `[('avatar', 3, 2), ('refund', 2, 3), ('help', 1, 1)]` gives `[('refund', 6), ('avatar', 6), ('help', 1)]`.",
+      "starter": "def rank_scenarios(scenarios):\n    # Your code here\n    return []\n",
+      "solution": "def rank_scenarios(scenarios):\n    ordered = sorted(scenarios, key=lambda s: (-s[1] * s[2], -s[2], s[0]))\n    return [(name, l * i) for name, l, i in ordered]\n",
+      "explanation": "Negating numbers in the sort key gives descending order while keeping names ascending. Using impact as the tie-break encodes the rule that severe consequences come first among equal scores.",
+      "hints": [
+        "Score = likelihood * impact.",
+        "Use a tuple key with negatives for descending order.",
+        "Key: (-score, -impact, name)."
+      ],
+      "tests": [
+        {
+          "name": "Ranks with impact tie-break",
+          "marks": 3,
+          "code": "assert rank_scenarios([('avatar', 3, 2), ('refund', 2, 3), ('help', 1, 1)]) == [('refund', 6), ('avatar', 6), ('help', 1)]"
+        },
+        {
+          "name": "Name tie-break",
+          "marks": 2,
+          "code": "assert rank_scenarios([('b', 2, 2), ('a', 2, 2), ('c', 3, 3)]) == [('c', 9), ('a', 4), ('b', 4)]"
+        }
+      ]
+    },
+    {
+      "id": "code-mtrss-budget",
+      "language": "python",
+      "title": "Select scenarios within a time budget",
+      "difficulty": "intermediate",
+      "prompt": "Each scenario is a dict `{'name', 'likelihood', 'impact', 'hours'}`. Write `plan(scenarios, budget)` that walks the scenarios in risk order (score descending, then impact descending, then name) and **selects each one whose hours still fit** in the remaining budget (skip ones that do not fit and keep going). Return `{'selected': [names], 'untested': [(name, score)], 'hours_used': n}`, with both lists in risk order.\n\nThis gives stakeholders both the plan and the residual risk.",
+      "starter": "def plan(scenarios, budget):\n    # Your code here\n    return {}\n",
+      "solution": "def plan(scenarios, budget):\n    ordered = sorted(scenarios, key=lambda s: (-s['likelihood'] * s['impact'], -s['impact'], s['name']))\n    selected, untested, used = [], [], 0\n    for s in ordered:\n        if used + s['hours'] <= budget:\n            selected.append(s['name'])\n            used += s['hours']\n        else:\n            untested.append((s['name'], s['likelihood'] * s['impact']))\n    return {'selected': selected, 'untested': untested, 'hours_used': used}\n",
+      "explanation": "Greedy selection in risk order spends the budget on the most important scenarios first, while skipping items that do not fit lets smaller lower-risk items use leftover time. Returning the untested list with scores is what makes residual risk visible in the report.",
+      "hints": [
+        "Sort exactly as in the ranking exercise.",
+        "Keep a running total; select if used + hours <= budget.",
+        "Otherwise append (name, score) to untested."
+      ],
+      "tests": [
+        {
+          "name": "Fills budget in risk order",
+          "marks": 4,
+          "code": "S = [{'name': 'refund', 'likelihood': 2, 'impact': 3, 'hours': 4}, {'name': 'login', 'likelihood': 3, 'impact': 3, 'hours': 3}, {'name': 'avatar', 'likelihood': 3, 'impact': 2, 'hours': 5}, {'name': 'help', 'likelihood': 1, 'impact': 1, 'hours': 1}]\nr = plan(S, 8)\nassert r == {'selected': ['login', 'refund', 'help'], 'untested': [('avatar', 6)], 'hours_used': 8}, r"
+        },
+        {
+          "name": "Zero budget lists everything as untested",
+          "marks": 2,
+          "code": "S = [{'name': 'a', 'likelihood': 1, 'impact': 2, 'hours': 1}]\nassert plan(S, 0) == {'selected': [], 'untested': [('a', 2)], 'hours_used': 0}"
+        }
+      ]
+    }
+  ]
+}
