@@ -1,0 +1,235 @@
+{
+  "lesson": "requirements-analysis-for-testers",
+  "questions": [
+    {
+      "id": "pt-sdreq-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "Which word in a requirement most often signals ambiguity that needs clarifying?",
+      "options": [
+        "must",
+        "quickly",
+        "the",
+        "button"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "'Quickly' has no measurable meaning; ask for a number (for example 95% of searches under 2 seconds). 'Must' signals obligation."
+    },
+    {
+      "id": "pt-sdreq-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "Testers can find defects in requirements before any code exists.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Reviewing requirements is static testing; contradictions, gaps and untestable statements are cheapest to fix at this stage."
+    },
+    {
+      "id": "pt-sdreq-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "What makes an acceptance criterion testable?",
+      "options": [
+        "It is long",
+        "It describes an observable outcome with clear conditions, so a test can pass or fail against it",
+        "It mentions the UI framework",
+        "It is written by a developer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testable criteria are specific and observable, for example 'Given an expired card, payment is declined with message X'."
+    },
+    {
+      "id": "pt-sdreq-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "How many distinct rules (columns) does a full decision table need for these three independent yes/no conditions?",
+      "code": "Conditions:\n- Customer is a member (Y/N)\n- Order total over £50 (Y/N)\n- Coupon applied (Y/N)",
+      "codeLanguage": "text",
+      "options": [
+        "3",
+        "6",
+        "8",
+        "9"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Each condition has 2 values, so 2 x 2 x 2 = 8 combinations. Collapsing combinations whose outcome is the same can reduce this later."
+    },
+    {
+      "id": "pt-sdreq-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "Review this criterion: 'The system shall handle large files appropriately.' Which rewrite is best?",
+      "options": [
+        "The system shall handle large files well",
+        "Uploads up to 10 MB succeed; uploads over 10 MB are rejected with the message 'File exceeds 10 MB' before the transfer starts",
+        "The system shall be robust",
+        "Files are processed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The rewrite defines the boundary, both outcomes and the user-visible message, so boundary tests (10 MB, 10 MB + 1 byte) follow directly."
+    },
+    {
+      "id": "pt-sdreq-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "Which questions uncover missing requirements for a password reset feature? Select all that apply.",
+      "options": [
+        "How long is the reset link valid, and can it be used twice?",
+        "What happens if the email is not registered (and does the message reveal that)?",
+        "Is there a rate limit on reset requests?",
+        "Which IDE will developers use?"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Expiry, account-enumeration behaviour and abuse limits are commonly forgotten requirements with security impact. The IDE is irrelevant to behaviour."
+    },
+    {
+      "id": "pt-sdreq-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "In example mapping, what goes on the red cards?",
+      "options": [
+        "Rules",
+        "Examples",
+        "Questions nobody in the room can answer yet",
+        "The story title"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Yellow is the story, blue are rules, green are examples and red are open questions to follow up."
+    },
+    {
+      "id": "pt-sdreq-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "A story says 'Premium users get free shipping.' During refinement, which example is most valuable to add?",
+      "options": [
+        "A premium user ordering a book",
+        "A user whose premium membership expires between adding to basket and paying",
+        "A non-premium user paying for shipping",
+        "A premium user browsing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Boundary and state-change examples expose undefined behaviour (is the status checked at basket or payment time?). The others are the obvious happy paths."
+    },
+    {
+      "id": "pt-sdreq-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "requirements-analysis-for-testers",
+      "prompt": "Two requirements conflict: one says accounts lock after 3 failed logins, another (from security) says 5. Development starts tomorrow. What should the tester do?",
+      "options": [
+        "Test both and see which passes",
+        "Raise the contradiction with the product owner and security now, get one decision recorded, and update the acceptance criteria",
+        "Pick 3 because it is safer",
+        "Wait until testing to report it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Contradictions are requirement defects. Resolving them before development avoids rework; testers should not make product decisions silently."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdreq-vague",
+      "title": "Flag vague words in requirements",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `vague_terms(text)` returning the sorted list of distinct vague words found in a requirement, matched case-insensitively as **whole words**. Use this list: `fast, quickly, user-friendly, appropriate, appropriately, easy, simple, flexible, robust, etc, some, many, large, minimal, as needed`. Note `user-friendly` contains a hyphen and `as needed` contains a space.\n\n```python\nvague_terms('The page must load quickly and be user-friendly.')\n# ['quickly', 'user-friendly']\n```",
+      "starter": "def vague_terms(text):\n    return []\n",
+      "solution": "import re\n\nVAGUE = ['fast', 'quickly', 'user-friendly', 'appropriate', 'appropriately', 'easy', 'simple',\n         'flexible', 'robust', 'etc', 'some', 'many', 'large', 'minimal', 'as needed']\n\ndef vague_terms(text):\n    found = set()\n    for term in VAGUE:\n        if re.search(r'(?<![\\w-])' + re.escape(term) + r'(?![\\w-])', text, re.IGNORECASE):\n            found.add(term)\n    return sorted(found)\n",
+      "explanation": "Whole-word matching avoids false positives such as 'breakfast' containing 'fast' or 'somebody' containing 'some'. The lookarounds treat hyphens as part of a word so 'fast-track' is not flagged while 'user-friendly' still matches as a term. A checker like this is a cheap first pass in requirement reviews.",
+      "hints": [
+        "Loop over the vague terms and search for each.",
+        "Use re.escape(term) and wrap it in lookarounds so it only matches whole words.",
+        "Pass re.IGNORECASE and collect matches in a set."
+      ],
+      "tests": [
+        {
+          "name": "finds vague words",
+          "code": "assert vague_terms('The page must load quickly and be user-friendly.') == ['quickly', 'user-friendly']",
+          "marks": 2
+        },
+        {
+          "name": "whole words only",
+          "code": "assert vague_terms('Breakfast menu shows somebody else') == []\nassert vague_terms('Handle LARGE files, etc.') == ['etc', 'large']",
+          "marks": 2
+        },
+        {
+          "name": "multi-word term",
+          "code": "assert vague_terms('Retry as needed.') == ['as needed']",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-sdreq-decision",
+      "title": "Evaluate a decision table",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "A decision table is a list of rules: `{ when: { member: true, over50: '-' }, then: 'free' }` where `'-'` means 'any value'. Write:\n\n- `decide(rules, input)` returning the `then` of the **first** matching rule, or `'undefined'` if none match.\n- `gaps(rules, conditions)` returning every combination of the boolean `conditions` (array of names) that matches no rule, as objects, in binary counting order with the first condition as the most significant (false before true).\n\n```js\nconst rules = [{ when: { member: true, over50: '-' }, then: 'free' }, { when: { member: false, over50: true }, then: 'free' }];\ngaps(rules, ['member', 'over50']) // [{ member: false, over50: false }]\n```",
+      "starter": "function decide(rules, input) {\n  return 'free';\n}\nfunction gaps(rules, conditions) {\n  return [];\n}",
+      "solution": "function matches(rule, input) {\n  return Object.entries(rule.when).every(([k, v]) => v === '-' || input[k] === v);\n}\nfunction decide(rules, input) {\n  const r = rules.find(rule => matches(rule, input));\n  return r ? r.then : 'undefined';\n}\nfunction gaps(rules, conditions) {\n  const out = [];\n  const n = conditions.length;\n  for (let mask = 0; mask < 2 ** n; mask++) {\n    const input = {};\n    conditions.forEach((c, i) => { input[c] = Boolean(mask & (1 << (n - 1 - i))); });\n    if (!rules.some(rule => matches(rule, input))) out.push(input);\n  }\n  return out;\n}",
+      "explanation": "Enumerating all 2^n combinations and checking each against the rules is exactly how you find incomplete requirements: every gap is a situation nobody has specified. Counting in binary with the first condition as the highest bit gives a stable, readable order.",
+      "hints": [
+        "A rule matches when every condition is '-' or equals the input value.",
+        "Loop a mask from 0 to 2**n - 1 and turn its bits into booleans.",
+        "Use bit (n - 1 - i) for condition i so the first condition is most significant."
+      ],
+      "tests": [
+        {
+          "name": "decide first match",
+          "code": "const rules = [{when:{member:true, over50:'-'}, then:'free'},{when:{member:false, over50:true}, then:'free'},{when:{member:false, over50:false}, then:'paid'}]; assertEqual(decide(rules, {member:false, over50:false}), 'paid'); assertEqual(decide(rules, {member:true, over50:false}), 'free')",
+          "marks": 2
+        },
+        {
+          "name": "no rule matches",
+          "code": "assertEqual(decide([{when:{a:true}, then:'x'}], {a:false}), 'undefined')",
+          "marks": 1
+        },
+        {
+          "name": "finds gaps in order",
+          "code": "const rules = [{when:{member:true, over50:'-'}, then:'free'},{when:{member:false, over50:true}, then:'free'}]; assertEqual(gaps(rules, ['member','over50']), [{member:false, over50:false}]); assertEqual(gaps([], ['a','b']), [{a:false,b:false},{a:false,b:true},{a:true,b:false},{a:true,b:true}])",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

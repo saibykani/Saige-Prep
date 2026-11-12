@@ -1,0 +1,237 @@
+{
+  "lesson": "github-actions-for-tests",
+  "questions": [
+    {
+      "id": "pt-sdgha-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "github-actions-for-tests",
+      "prompt": "Where must GitHub Actions workflow files live?",
+      "options": [
+        ".github/workflows/ in the repository",
+        "The repository root",
+        "A separate repository",
+        ".ci/ folder"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "GitHub looks for YAML workflow files in .github/workflows/."
+    },
+    {
+      "id": "pt-sdgha-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "github-actions-for-tests",
+      "prompt": "Each job in a workflow runs on a fresh runner, so files created in one job are not automatically available in another.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Jobs are isolated. Share files with actions/upload-artifact and actions/download-artifact, or caches."
+    },
+    {
+      "id": "pt-sdgha-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "github-actions-for-tests",
+      "prompt": "Which key makes one job wait for another?",
+      "options": [
+        "runs-on",
+        "needs",
+        "uses",
+        "with"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "needs: [build] makes the job start only after build succeeds. Without it, jobs run in parallel."
+    },
+    {
+      "id": "pt-sdgha-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "github-actions-for-tests",
+      "prompt": "How many jobs does this matrix produce?",
+      "code": "strategy:\n  matrix:\n    os: [ubuntu-latest, windows-latest]\n    node: [20, 22, 24]\n    exclude:\n      - os: windows-latest\n        node: 20",
+      "codeLanguage": "yaml",
+      "options": [
+        "6",
+        "5",
+        "4",
+        "7"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "2 OS x 3 Node versions = 6 combinations; exclude removes one (windows + 20), leaving 5."
+    },
+    {
+      "id": "pt-sdgha-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "github-actions-for-tests",
+      "prompt": "The workflow cannot read the secret: `API_TOKEN` is empty in tests run from a fork's pull request. Why?",
+      "code": "on: pull_request\njobs:\n  test:\n    runs-on: ubuntu-latest\n    env:\n      API_TOKEN: ${{ secrets.API_TOKEN }}",
+      "codeLanguage": "yaml",
+      "options": [
+        "Secrets must be in lower case",
+        "For security, secrets are not passed to workflows triggered by pull_request from forks (except GITHUB_TOKEN with read permissions)",
+        "env cannot reference secrets",
+        "The secret must be committed to the repo"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "GitHub withholds repository secrets from fork PR workflows to stop untrusted code exfiltrating them. Design such tests to run without secrets, or run secret-dependent jobs only on trusted events."
+    },
+    {
+      "id": "pt-sdgha-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "github-actions-for-tests",
+      "prompt": "Which help speed up a test workflow? Select all that apply.",
+      "options": [
+        "Caching dependencies (e.g. actions/setup-node with cache: npm)",
+        "Splitting tests across matrix shards",
+        "Running independent jobs in parallel",
+        "Adding sleep steps between jobs"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Caching, sharding and parallel jobs reduce wall-clock time. Sleeps only add time."
+    },
+    {
+      "id": "pt-sdgha-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "github-actions-for-tests",
+      "prompt": "What does `fail-fast: false` in a matrix strategy do?",
+      "options": [
+        "Makes failing jobs pass",
+        "Lets the other matrix jobs keep running when one fails, so you see every combination's result",
+        "Retries failed jobs",
+        "Skips the matrix"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "By default GitHub cancels in-progress matrix jobs when one fails. For test matrices you usually want all results."
+    },
+    {
+      "id": "pt-sdgha-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "github-actions-for-tests",
+      "prompt": "A workflow uses `uses: some-org/test-reporter@main` and has broad write permissions. What is the security improvement?",
+      "options": [
+        "None needed",
+        "Pin third-party actions to a full commit SHA and set the minimal `permissions:` the workflow needs",
+        "Fork the action and never update it",
+        "Run it only on Fridays"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A moving ref like @main can change to malicious code at any time; a commit SHA is immutable. Least-privilege permissions limit damage from any compromised step."
+    },
+    {
+      "id": "pt-sdgha-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "github-actions-for-tests",
+      "prompt": "Nightly end-to-end tests should run at 02:00 UTC and also be startable by hand with a chosen environment. Which triggers fit?",
+      "options": [
+        "on: push only",
+        "on: schedule with cron '0 2 * * *' plus workflow_dispatch with an input for the environment",
+        "on: pull_request",
+        "A manual email to the team"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "schedule handles the nightly run (cron in UTC) and workflow_dispatch adds a Run workflow button with typed inputs."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdgha-matrix",
+      "title": "Expand a job matrix",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `expand(matrix)` that mimics GitHub Actions matrix expansion. `matrix` maps keys to lists, plus optional `exclude` and `include` lists of dicts.\n\n1. Build the cartesian product of the non-special keys in the order the keys appear (first key varies slowest).\n2. Remove combinations matching any `exclude` entry (all keys in the entry must match).\n3. For each `include` entry: if all its keys that are matrix keys match one or more existing combinations **and** it adds new keys only, add those keys to the matching combinations; otherwise append it as a new combination.\n\nReturn a list of dicts.\n\n```python\nexpand({'os': ['ubuntu', 'windows'], 'node': [20, 22], 'exclude': [{'os': 'windows', 'node': 20}]})\n# [{'os':'ubuntu','node':20}, {'os':'ubuntu','node':22}, {'os':'windows','node':22}]\n```",
+      "starter": "def expand(matrix):\n    return []\n",
+      "solution": "from itertools import product\n\ndef expand(matrix):\n    keys = [k for k in matrix if k not in ('include', 'exclude')]\n    combos = [dict(zip(keys, values)) for values in product(*(matrix[k] for k in keys))]\n    for ex in matrix.get('exclude', []):\n        combos = [c for c in combos if not all(c.get(k) == v for k, v in ex.items())]\n    for inc in matrix.get('include', []):\n        matched = False\n        if keys:\n            original = {k: v for k, v in inc.items() if k in keys}\n            extra = {k: v for k, v in inc.items() if k not in keys}\n            if original and extra:\n                for c in combos:\n                    if all(c.get(k) == v for k, v in original.items()):\n                        c.update(extra)\n                        matched = True\n        if not matched:\n            combos.append(dict(inc))\n    return combos\n",
+      "explanation": "itertools.product produces the cartesian product with the first key varying slowest, the same order GitHub uses. Excludes filter on partial matches. Includes either decorate matching combinations with extra keys (for example adding experimental: true to one OS) or add brand-new combinations, which is how a matrix can test one extra configuration without multiplying everything.",
+      "hints": [
+        "Separate the special keys include/exclude from the real dimensions.",
+        "itertools.product(*lists) builds the combinations; zip them with the keys.",
+        "For an include, split its keys into matrix keys and extra keys; extend matches if both exist, otherwise append it."
+      ],
+      "tests": [
+        {
+          "name": "product and exclude",
+          "code": "r = expand({'os':['ubuntu','windows'], 'node':[20,22], 'exclude':[{'os':'windows','node':20}]})\nassert r == [{'os':'ubuntu','node':20},{'os':'ubuntu','node':22},{'os':'windows','node':22}], r",
+          "marks": 3
+        },
+        {
+          "name": "include extends a match",
+          "code": "r = expand({'os':['ubuntu','windows'], 'include':[{'os':'windows','experimental':True}]})\nassert r == [{'os':'ubuntu'},{'os':'windows','experimental':True}], r",
+          "marks": 2
+        },
+        {
+          "name": "include adds a new combination",
+          "code": "r = expand({'os':['ubuntu'], 'node':[22], 'include':[{'os':'macos','node':24}]})\nassert r == [{'os':'ubuntu','node':22},{'os':'macos','node':24}], r\nassert len(expand({'a':[1,2,3],'b':[1,2]})) == 6",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-sdgha-shard",
+      "title": "Pick this shard's test files",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "In a matrix job you get `shardIndex` (1-based) and `shardTotal`. Write `filesForShard(files, shardIndex, shardTotal)` that sorts the files alphabetically and returns those whose position `i` (0-based, in sorted order) satisfies `i % shardTotal === shardIndex - 1`. Throw an `Error` if shardIndex is not between 1 and shardTotal.\n\n```js\nfilesForShard(['c.spec','a.spec','b.spec'], 1, 2) // ['a.spec', 'c.spec']\n```",
+      "starter": "function filesForShard(files, shardIndex, shardTotal) {\n  return files;\n}",
+      "solution": "function filesForShard(files, shardIndex, shardTotal) {\n  if (!Number.isInteger(shardIndex) || shardIndex < 1 || shardIndex > shardTotal) {\n    throw new Error('shardIndex out of range');\n  }\n  return [...files].sort().filter((_, i) => i % shardTotal === shardIndex - 1);\n}",
+      "explanation": "Sorting first makes every shard compute the same ordering, so together the shards cover every file exactly once with no overlap. Round-robin assignment spreads files evenly by count. (Balancing by duration is better when test times differ widely.)",
+      "hints": [
+        "Copy before sorting so you do not mutate the input: [...files].sort().",
+        "Filter by index with i % shardTotal === shardIndex - 1.",
+        "Validate the index range first."
+      ],
+      "tests": [
+        {
+          "name": "round robin over sorted files",
+          "code": "assertEqual(filesForShard(['c.spec','a.spec','b.spec'], 1, 2), ['a.spec','c.spec']); assertEqual(filesForShard(['c.spec','a.spec','b.spec'], 2, 2), ['b.spec'])",
+          "marks": 2
+        },
+        {
+          "name": "shards cover everything once",
+          "code": "const f = ['e','d','c','b','a','g','f']; const all = [1,2,3].flatMap(i => filesForShard(f, i, 3)); assertEqual(all.sort(), ['a','b','c','d','e','f','g'])",
+          "marks": 2
+        },
+        {
+          "name": "invalid index throws",
+          "code": "let thrown = false; try { filesForShard(['a'], 0, 2); } catch (e) { thrown = true; } assert(thrown, 'index 0 should throw')",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

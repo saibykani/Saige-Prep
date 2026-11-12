@@ -1,0 +1,237 @@
+{
+  "lesson": "playwright-with-typescript",
+  "questions": [
+    {
+      "id": "pt-aupw-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "playwright-with-typescript",
+      "prompt": "Which file usually holds Playwright Test settings such as baseURL, projects and retries?",
+      "options": [
+        "playwright.config.ts",
+        "tsconfig.json",
+        "package-lock.json",
+        "jest.config.js"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "playwright.config.ts (created by npm init playwright@latest) configures the runner. tsconfig.json configures TypeScript; the others are unrelated."
+    },
+    {
+      "id": "pt-aupw-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "playwright-with-typescript",
+      "prompt": "Playwright's `locator.click()` automatically waits for the element to be visible, stable, enabled and able to receive events before clicking.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "These actionability checks are built in, which is why Playwright tests rarely need explicit waits before actions."
+    },
+    {
+      "id": "pt-aupw-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "playwright-with-typescript",
+      "prompt": "What do Playwright fixtures such as `page` give each test by default?",
+      "options": [
+        "A page shared by every test in the run",
+        "A fresh page in a new, isolated browser context",
+        "A recorded video only",
+        "A mocked browser"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each test gets its own browser context (like an incognito profile), so cookies and storage do not leak between tests."
+    },
+    {
+      "id": "pt-aupw-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "playwright-with-typescript",
+      "prompt": "What is the difference between these two assertions?",
+      "code": "await expect(page.getByTestId('status')).toHaveText('Paid');\n\nexpect(await page.getByTestId('status').textContent()).toBe('Paid');",
+      "codeLanguage": "typescript",
+      "options": [
+        "None; both retry",
+        "The first retries until the text matches or times out; the second reads the text once and asserts immediately",
+        "The second retries; the first does not",
+        "Both fail if the text is not there instantly"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Web-first assertions like toHaveText are async and retry. textContent() resolves to a snapshot, and toBe on a plain value checks it once, which races with the UI."
+    },
+    {
+      "id": "pt-aupw-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "playwright-with-typescript",
+      "prompt": "This test intermittently fails with 'Target page, context or browser has been closed'. Why?",
+      "code": "test('saves profile', async ({ page }) => {\n  await page.goto('/profile');\n  page.getByRole('button', { name: 'Save' }).click();\n});",
+      "codeLanguage": "typescript",
+      "options": [
+        "click() is deprecated",
+        "The click is not awaited, so the test function ends and the page is closed while the click is still running",
+        "getByRole cannot find buttons",
+        "Playwright does not support TypeScript"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Every Playwright action returns a Promise. Without await, the test finishes early and teardown closes the page underneath the pending action. The @typescript-eslint/no-floating-promises rule catches this."
+    },
+    {
+      "id": "pt-aupw-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "playwright-with-typescript",
+      "prompt": "Which are valid ways to make an API-dependent UI test deterministic in Playwright? Select all that apply.",
+      "options": [
+        "page.route() to fulfil the request with a fixed JSON body",
+        "Seeding data through the request fixture before visiting the page",
+        "page.waitForTimeout(5000) before each assertion",
+        "Waiting for the specific response with page.waitForResponse() when needed"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Routing, API seeding and waiting for a specific response tie the test to known data and real events. Fixed timeouts are slow and still race."
+    },
+    {
+      "id": "pt-aupw-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "playwright-with-typescript",
+      "prompt": "What is the Playwright trace viewer most useful for?",
+      "options": [
+        "Measuring code coverage",
+        "Stepping through a failed test's actions with DOM snapshots, network calls and console logs",
+        "Generating tests from requirements",
+        "Running tests on mobile devices"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A trace (for example with trace: 'on-first-retry') records each action with before/after snapshots, making CI-only failures debuggable."
+    },
+    {
+      "id": "pt-aupw-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "playwright-with-typescript",
+      "prompt": "Every test logs in through the UI, taking 6 seconds each across 300 tests. What is the recommended Playwright approach?",
+      "options": [
+        "Run with more retries",
+        "Log in once in a setup project, save storageState to a file, and have test projects reuse it",
+        "Share one page across all tests",
+        "Disable authentication in the app"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A setup project plus storageState is the documented pattern: authentication runs once and each test still gets an isolated context loaded with that state. Sharing one page breaks isolation."
+    },
+    {
+      "id": "pt-aupw-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "playwright-with-typescript",
+      "prompt": "A test checks a toast that disappears after 2 seconds. It passes locally but often fails on slow CI with 'element not found'. What is the most robust fix?",
+      "options": [
+        "Increase the global timeout to 60 seconds",
+        "Assert the toast immediately after the triggering action with a web-first assertion, and also verify the underlying state change (e.g. the saved record) rather than relying only on a transient message",
+        "Add waitForTimeout(2000) before the assertion",
+        "Take a screenshot instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Transient UI should be asserted as soon as it can appear, and the durable outcome is a better primary check. A long global timeout does not help if the toast is already gone; a fixed wait makes it more likely to be missed."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aupw-poll",
+      "title": "A retrying expect, like toHaveText",
+      "difficulty": "intermediate",
+      "language": "typescript",
+      "prompt": "Write `async function expectText(read: () => Promise<string> | string, expected: string, timeoutMs = 1000, intervalMs = 20): Promise<void>` that keeps calling `read()` until it returns `expected` (after trimming whitespace), resolving when it does. If the timeout passes, reject with an `Error` whose message is `Expected \"<expected>\" but got \"<last>\"`.\n\n```ts\nawait expectText(() => el.text, 'Paid'); // retries until el.text is 'Paid'\n```",
+      "starter": "async function expectText(read: () => Promise<string> | string, expected: string, timeoutMs = 1000, intervalMs = 20): Promise<void> {\n  const value = await read();\n}",
+      "solution": "async function expectText(read: () => Promise<string> | string, expected: string, timeoutMs = 1000, intervalMs = 20): Promise<void> {\n  const deadline = Date.now() + timeoutMs;\n  let last = '';\n  for (;;) {\n    last = (await read()).trim();\n    if (last === expected) return;\n    if (Date.now() >= deadline) {\n      throw new Error(`Expected \"${expected}\" but got \"${last}\"`);\n    }\n    await new Promise<void>((r) => setTimeout(r, intervalMs));\n  }\n}",
+      "explanation": "This is the core idea behind web-first assertions: re-read the live value until it matches or time runs out, then fail with the last observed value so the report is useful. Trimming mirrors Playwright's whitespace normalisation for text matching.",
+      "hints": [
+        "Loop: read, trim, compare, then sleep for intervalMs.",
+        "Remember the last value so the error message can include it.",
+        "Throw once Date.now() passes the deadline."
+      ],
+      "tests": [
+        {
+          "name": "resolves when text arrives",
+          "code": "let n = 0; await expectText(() => (++n >= 3 ? ' Paid ' : 'Pending'), 'Paid', 500, 5); assertEqual(n, 3)",
+          "marks": 3
+        },
+        {
+          "name": "works with async reads",
+          "code": "let k = 0; await expectText(async () => { k++; return k > 1 ? 'Done' : ''; }, 'Done', 500, 5); assertEqual(k, 2)",
+          "marks": 2
+        },
+        {
+          "name": "rejects with last value",
+          "code": "let msg = ''; try { await expectText(() => 'Pending', 'Paid', 60, 10); } catch (e) { msg = (e as Error).message; } assertEqual(msg, 'Expected \"Paid\" but got \"Pending\"')",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-aupw-route",
+      "title": "Match and fulfil routes",
+      "difficulty": "advanced",
+      "language": "typescript",
+      "prompt": "Model `page.route` for tests. Write a class `Router` with:\n\n- `route(pattern: string, body: unknown, status = 200)` registering a handler. In the pattern, `**` matches any characters (including `/`) and `*` matches any characters except `/`.\n- `fetch(url: string): { status: number; body: unknown }` returning the response of the **most recently registered** matching route, or `{ status: 404, body: null }` if none match.\n\n```ts\nconst r = new Router();\nr.route('**/api/items', [1, 2]);\nr.fetch('https://shop.test/api/items') // { status: 200, body: [1, 2] }\n```",
+      "starter": "class Router {\n  route(pattern: string, body: unknown, status = 200): void {}\n  fetch(url: string): { status: number; body: unknown } {\n    return { status: 0, body: undefined };\n  }\n}",
+      "solution": "class Router {\n  private routes: { re: RegExp; status: number; body: unknown }[] = [];\n\n  private static toRegExp(glob: string): RegExp {\n    let out = '';\n    for (let i = 0; i < glob.length; i++) {\n      const c = glob[i];\n      if (c === '*' && glob[i + 1] === '*') { out += '.*'; i++; }\n      else if (c === '*') out += '[^/]*';\n      else out += c.replace(/[.+?^${}()|[\\]\\\\]/g, '\\\\$&');\n    }\n    return new RegExp('^' + out + '$');\n  }\n\n  route(pattern: string, body: unknown, status = 200): void {\n    this.routes.push({ re: Router.toRegExp(pattern), status, body });\n  }\n\n  fetch(url: string): { status: number; body: unknown } {\n    for (let i = this.routes.length - 1; i >= 0; i--) {\n      const r = this.routes[i];\n      if (r.re.test(url)) return { status: r.status, body: r.body };\n    }\n    return { status: 404, body: null };\n  }\n}",
+      "explanation": "Converting the glob to an anchored regular expression handles ** versus * correctly while escaping everything else. Searching from the newest route backwards mirrors Playwright, where routes registered later take precedence, which lets a single test override a broad default mock.",
+      "hints": [
+        "Walk the pattern character by character: '**' becomes '.*', '*' becomes '[^/]*'.",
+        "Escape regex special characters in all other characters and anchor with ^ and $.",
+        "In fetch, loop from the last route to the first."
+      ],
+      "tests": [
+        {
+          "name": "double star matches across slashes",
+          "code": "const r = new Router(); r.route('**/api/items', [1,2]); assertEqual(r.fetch('https://shop.test/api/items'), { status: 200, body: [1,2] })",
+          "marks": 2
+        },
+        {
+          "name": "single star stays in one segment",
+          "code": "const r = new Router(); r.route('https://shop.test/api/*', 'one'); assertEqual(r.fetch('https://shop.test/api/items').body, 'one'); assertEqual(r.fetch('https://shop.test/api/items/7').status, 404)",
+          "marks": 3
+        },
+        {
+          "name": "latest route wins and status",
+          "code": "const r = new Router(); r.route('**/api/**', 'default'); r.route('**/api/orders', { error: 'down' }, 503); assertEqual(r.fetch('https://x.test/api/orders'), { status: 503, body: { error: 'down' } }); assertEqual(r.fetch('https://x.test/api/users').body, 'default')",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

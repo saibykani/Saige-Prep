@@ -1,0 +1,232 @@
+{
+  "lesson": "page-object-model",
+  "questions": [
+    {
+      "id": "pt-aupom-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "page-object-model",
+      "prompt": "What does a page object encapsulate?",
+      "options": [
+        "Test data only",
+        "A page's locators and the actions a user can perform on it",
+        "The test runner configuration",
+        "Database queries"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A page object hides how to find and interact with elements behind methods named after user intent, such as loginAs()."
+    },
+    {
+      "id": "pt-aupom-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "page-object-model",
+      "prompt": "With the Page Object Model, tests should call `driver.findElement` directly whenever they need an element.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tests should talk to page objects; direct driver calls in tests scatter locators and defeat the pattern."
+    },
+    {
+      "id": "pt-aupom-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "page-object-model",
+      "prompt": "A login action takes the user to the dashboard. What should `loginAs(user, password)` typically return?",
+      "options": [
+        "void",
+        "A DashboardPage object",
+        "A boolean",
+        "The WebDriver"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Returning the next page object models navigation and enables fluent chains such as new LoginPage(driver).loginAs(u, p).openOrders()."
+    },
+    {
+      "id": "pt-aupom-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "page-object-model",
+      "prompt": "What does this test print?",
+      "code": "class FakeDriver { text(sel) { return sel === 'h1' ? 'Dashboard' : ''; } fill() {} click() {} }\nclass DashboardPage { constructor(d) { this.d = d; } heading() { return this.d.text('h1'); } }\nclass LoginPage {\n  constructor(d) { this.d = d; }\n  loginAs(u, p) { this.d.fill('#user', u); this.d.fill('#pass', p); this.d.click('#go'); return new DashboardPage(this.d); }\n}\nconsole.log(new LoginPage(new FakeDriver()).loginAs('ana', 'pw').heading());",
+      "codeLanguage": "javascript",
+      "options": [
+        "Dashboard",
+        "Login",
+        "undefined",
+        "TypeError"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "loginAs fills the fields, clicks submit and returns a new DashboardPage; heading() reads from the fake driver, which returns 'Dashboard'."
+    },
+    {
+      "id": "pt-aupom-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "page-object-model",
+      "prompt": "This page object causes StaleElementReferenceException after the page refreshes. Why?",
+      "code": "public class CartPage {\n  private final WebElement checkout;\n  public CartPage(WebDriver d) {\n    this.checkout = d.findElement(By.id(\"checkout\"));\n  }\n  public void proceed() { checkout.click(); }\n}",
+      "codeLanguage": "java",
+      "options": [
+        "The locator is wrong",
+        "It finds the element once in the constructor and keeps the WebElement; after a refresh that reference is stale. Store the By locator and find the element when the method runs",
+        "Page objects cannot have constructors",
+        "The click needs a wait of 10 seconds"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Holding WebElements captures DOM nodes that may be replaced. Storing locators and resolving them lazily always gets the current element."
+    },
+    {
+      "id": "pt-aupom-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "page-object-model",
+      "prompt": "Which belong in a page object? Select all that apply.",
+      "options": [
+        "Locators for the page's elements",
+        "Methods for user actions such as search(term)",
+        "Methods that read state such as getCartCount()",
+        "Assertions about the expected business result of a test"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Actions and state queries belong in the page; deciding what is correct belongs in the test. Keeping assertions out lets negative and positive tests reuse the same methods."
+    },
+    {
+      "id": "pt-aupom-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "page-object-model",
+      "prompt": "A header with search and cart icons appears on every page. How should you model it?",
+      "options": [
+        "Copy its locators into every page object",
+        "As a reusable component object (e.g. Header) that pages contain",
+        "Inside BaseTest",
+        "As a static utility class with global locators"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Component objects model repeated UI sections once and are composed into pages. Copying duplicates maintenance; static globals break with parallel drivers."
+    },
+    {
+      "id": "pt-aupom-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "page-object-model",
+      "prompt": "Your page objects have grown to 1,500 lines each, with methods like clickButton3(). Tests are unreadable. What refactoring helps most?",
+      "options": [
+        "Merge all pages into one class",
+        "Split pages into components, name methods after user intent (applyCoupon, not clickButton3), and move multi-page flows into higher-level workflow helpers",
+        "Delete the page objects and use raw driver calls",
+        "Add more comments"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Components and intent-revealing methods reduce size and make tests read like user journeys; flows spanning pages belong in a separate layer."
+    },
+    {
+      "id": "pt-aupom-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "page-object-model",
+      "prompt": "A page has a 'Save' button that sometimes leads to the Details page and sometimes shows a validation error on the same page. How should `save()` be designed?",
+      "options": [
+        "Return Object and cast in the test",
+        "Provide two intent methods, e.g. saveExpectingSuccess() returning DetailsPage and saveExpectingError() returning the same page (or expose validation state), so each test states which outcome it expects",
+        "Always return DetailsPage",
+        "Throw an exception from save() when errors appear"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The test knows which outcome it is driving, so separate methods keep both typed and readable. Always returning DetailsPage lies about the error case; Object returns lose type safety."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aupom-login",
+      "title": "Write a page object against a fake driver",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "A fake driver records actions: it has `fill(selector, value)`, `click(selector)` and `text(selector)`.\n\nWrite a class `LoginPage` with a constructor taking the driver, and:\n\n- `loginAs(user, pass)`: fills `#username` and `#password`, clicks `button[type=submit]`, and returns `this`\n- `errorText()`: returns the driver's text for `.error`\n\nTests must never see selectors, only these methods.",
+      "starter": "class LoginPage {\n  constructor(driver) {\n    this.driver = driver;\n  }\n}",
+      "solution": "class LoginPage {\n  constructor(driver) {\n    this.driver = driver;\n    this.sel = { user: '#username', pass: '#password', submit: 'button[type=submit]', error: '.error' };\n  }\n  loginAs(user, pass) {\n    this.driver.fill(this.sel.user, user);\n    this.driver.fill(this.sel.pass, pass);\n    this.driver.click(this.sel.submit);\n    return this;\n  }\n  errorText() {\n    return this.driver.text(this.sel.error);\n  }\n}",
+      "explanation": "All selectors live in one place inside the page object, so a UI change means one edit. Methods are named after intent, and returning `this` lets a negative test chain loginAs(...).errorText() without any assertion inside the page.",
+      "hints": [
+        "Keep the selectors in a field on the class.",
+        "loginAs calls fill twice, then click, then returns this.",
+        "errorText just returns this.driver.text('.error')."
+      ],
+      "tests": [
+        {
+          "name": "performs actions in order",
+          "code": "const log = []; const d = { fill: (s, v) => log.push(['fill', s, v]), click: s => log.push(['click', s]), text: () => '' }; new LoginPage(d).loginAs('ana', 'pw'); assertEqual(log, [['fill','#username','ana'],['fill','#password','pw'],['click','button[type=submit]']])",
+          "marks": 3
+        },
+        {
+          "name": "chains to error text",
+          "code": "const d = { fill(){}, click(){}, text: s => s === '.error' ? 'Wrong password' : '?' }; assertEqual(new LoginPage(d).loginAs('ana','x').errorText(), 'Wrong password')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aupom-flow",
+      "title": "Page transitions and components",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Build three classes using a fake driver with `click(selector)`, `fill(selector, value)` and `text(selector)`:\n\n- `Header` (component): `cartCount()` returns `Number(driver.text('#cart-count'))`.\n- `SearchPage`: has a `header` property (a Header); `search(term)` fills `#q`, clicks `#search-btn` and returns a new `ResultsPage`.\n- `ResultsPage`: has a `header` too; `open(index)` clicks `.result:nth-of-type(<index+1>) a` and returns `this`; `titles()` returns `driver.text('.result h3').split('|')`.\n\nThe fake driver returns titles joined with `|`.",
+      "starter": "class Header {}\nclass SearchPage {}\nclass ResultsPage {}",
+      "solution": "class Header {\n  constructor(driver) { this.driver = driver; }\n  cartCount() { return Number(this.driver.text('#cart-count')); }\n}\nclass ResultsPage {\n  constructor(driver) { this.driver = driver; this.header = new Header(driver); }\n  open(index) { this.driver.click(`.result:nth-of-type(${index + 1}) a`); return this; }\n  titles() { return this.driver.text('.result h3').split('|'); }\n}\nclass SearchPage {\n  constructor(driver) { this.driver = driver; this.header = new Header(driver); }\n  search(term) {\n    this.driver.fill('#q', term);\n    this.driver.click('#search-btn');\n    return new ResultsPage(this.driver);\n  }\n}",
+      "explanation": "Each page composes the Header component rather than duplicating its locators, and search() returns the next page object, so the test reads as a journey: new SearchPage(d).search('mug').titles(). Converting the count to a Number keeps assertions numeric.",
+      "hints": [
+        "Header just wraps one locator and converts text to a Number.",
+        "Both pages create `this.header = new Header(driver)` in their constructor.",
+        "search() must return `new ResultsPage(this.driver)`; nth-of-type is 1-based, so use index + 1."
+      ],
+      "tests": [
+        {
+          "name": "search returns results page",
+          "code": "const log=[]; const d={ fill:(s,v)=>log.push(s+'='+v), click:s=>log.push(s), text:s=> s==='.result h3' ? 'Blue Mug|Red Mug' : '3' }; const r = new SearchPage(d).search('mug'); assert(r instanceof ResultsPage, 'search should return a ResultsPage'); assertEqual(r.titles(), ['Blue Mug','Red Mug']); assertEqual(log, ['#q=mug','#search-btn'])",
+          "marks": 3
+        },
+        {
+          "name": "header component on both pages",
+          "code": "const d={ fill(){}, click(){}, text:s=> s==='#cart-count' ? '3' : 'A' }; const s = new SearchPage(d); assertEqual(s.header.cartCount(), 3); assertEqual(s.search('x').header.cartCount(), 3)",
+          "marks": 2
+        },
+        {
+          "name": "open uses 1-based nth-of-type",
+          "code": "const log=[]; const d={ fill(){}, click:s=>log.push(s), text:()=>'' }; const r = new ResultsPage(d); assert(r.open(0) === r, 'open should return this'); assertEqual(log, ['.result:nth-of-type(1) a'])",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

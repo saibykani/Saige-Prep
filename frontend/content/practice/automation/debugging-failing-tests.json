@@ -1,0 +1,237 @@
+{
+  "lesson": "debugging-failing-tests",
+  "questions": [
+    {
+      "id": "pt-audbg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "debugging-failing-tests",
+      "prompt": "What is the first thing to do when a test that passed yesterday fails today?",
+      "options": [
+        "Rerun it until it passes",
+        "Read the failure message and gather evidence (logs, screenshot, what changed since the last pass)",
+        "Delete the test",
+        "Increase every timeout"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Evidence first: the message, artifacts and the diff since the last green run usually point at the cause. Rerunning hides information, and blanket timeout changes guess at a cause."
+    },
+    {
+      "id": "pt-audbg-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "debugging-failing-tests",
+      "prompt": "If a test fails only on CI and never locally, the difference in environment (data, timing, browser version, resources) is a prime suspect.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CI-only failures usually come from differences: headless mode, screen size, slower machines, other data or parallel runs. Listing the differences is a quick route to the cause."
+    },
+    {
+      "id": "pt-audbg-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "debugging-failing-tests",
+      "prompt": "In JUnit, what usually distinguishes a test failure from a test error?",
+      "options": [
+        "Nothing, they are the same",
+        "A failure is an assertion that did not hold; an error is an unexpected exception such as NullPointerException",
+        "Errors only happen in CI",
+        "Failures are warnings"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Assertion failures mean the check ran and disagreed; errors mean the test crashed before or while checking. That split guides where to look."
+    },
+    {
+      "id": "pt-audbg-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "debugging-failing-tests",
+      "prompt": "Which line of this trace should you look at first?",
+      "code": "org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {\"method\":\"css selector\",\"selector\":\"#pay\"}\n  at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:...)\n  at com.shop.pages.CheckoutPage.pay(CheckoutPage.java:31)\n  at com.shop.tests.CheckoutTest.placesOrder(CheckoutTest.java:42)\n  at org.junit.platform...",
+      "codeLanguage": "text",
+      "options": [
+        "The first line (java.lang.Thread.run)",
+        "at com.shop.tests.CheckoutTest.placesOrder(CheckoutTest.java:42)",
+        "at org.junit.platform... (framework line)",
+        "The last line of the trace"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Start at the exception message, then the first frame in your own code. Framework and JDK frames rarely contain the bug."
+    },
+    {
+      "id": "pt-audbg-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "debugging-failing-tests",
+      "prompt": "A test fails with StaleElementReferenceException on the second line. Why?",
+      "code": "WebElement firstRow = driver.findElement(By.cssSelector(\"tr.result\"));\ndriver.findElement(By.id(\"filter-paid\")).click();\nfirstRow.click();",
+      "codeLanguage": "java",
+      "options": [
+        "The locator is wrong",
+        "The page re-rendered the list after the filter click, so the stored reference points at a removed element; find it again after the change",
+        "The browser crashed",
+        "Selenium does not allow two clicks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A stale reference means the element you hold was detached from the DOM. Re-locate after the DOM changes (or locate lazily, as page objects with locator methods do)."
+    },
+    {
+      "id": "pt-audbg-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "debugging-failing-tests",
+      "prompt": "Which artifacts are most useful to capture automatically when a UI test fails? Select all that apply.",
+      "options": [
+        "A screenshot at failure",
+        "Browser console logs and network failures",
+        "The full trace or video (for example a Playwright trace)",
+        "A copy of the entire source repository"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Screenshots, console/network logs and traces show what the browser saw. The repository is already versioned; copying it adds nothing."
+    },
+    {
+      "id": "pt-audbg-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "debugging-failing-tests",
+      "prompt": "You cannot tell whether a failure is a product bug or a test bug. What is the quickest discriminating step?",
+      "options": [
+        "Reproduce the same steps manually (or via API) against the same build and environment",
+        "Rewrite the test",
+        "Ask the developer to fix it",
+        "Mark it flaky"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "If a human sees the same wrong behaviour, it is a product bug; if the manual flow works, suspect the test. The other options act before diagnosing."
+    },
+    {
+      "id": "pt-audbg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "debugging-failing-tests",
+      "prompt": "A test fails about 30% of the time in CI. You add a Playwright trace and see the 'Submit' click happens while a loading overlay still covers the button. What is the correct fix?",
+      "options": [
+        "Add a 3-second sleep before clicking",
+        "Wait for the overlay to be hidden (or rely on an actionability check that waits for the element to receive clicks), then click",
+        "Use force: true on the click",
+        "Retry the whole test 3 times"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Waiting for the real condition removes the race. A sleep is slow and still racy; force: true clicks through overlays and hides real UX bugs; retries mask the cause."
+    },
+    {
+      "id": "pt-audbg-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "debugging-failing-tests",
+      "prompt": "After a deploy, 200 UI tests fail and all screenshots show the same 'Service unavailable' page. How should you triage?",
+      "options": [
+        "Open 200 defects",
+        "Group them by shared signature, raise one environment/infrastructure issue, and rerun after it is fixed",
+        "Mark all 200 as flaky",
+        "Debug each test individually"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "One root cause produced every failure, so one issue is right. Grouping failures by error signature is the fastest triage technique for mass failures."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-audbg-frame",
+      "title": "Find the first app frame",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `first_app_frame(trace, package)` that returns the first line of a Java stack trace containing `at <package>.` (stripped), or `None` if there is none.\n\n```python\nfirst_app_frame(trace, 'com.shop')\n# 'at com.shop.pages.CheckoutPage.pay(CheckoutPage.java:31)'\n```",
+      "starter": "def first_app_frame(trace, package):\n    return 'TODO'\n",
+      "solution": "def first_app_frame(trace, package):\n    needle = f'at {package}.'\n    for line in trace.splitlines():\n        line = line.strip()\n        if line.startswith(needle):\n            return line\n    return None\n",
+      "explanation": "Stack traces list the innermost call first. The first frame from your own package is usually where your code made the failing call, which is why it is the best starting point.",
+      "hints": [
+        "Split the trace into lines and strip each one.",
+        "Check line.startswith(f'at {package}.').",
+        "Return None after the loop."
+      ],
+      "tests": [
+        {
+          "name": "finds first app frame",
+          "code": "t = 'java.lang.NullPointerException\\n  at java.base/java.util.Objects.requireNonNull(Objects.java:233)\\n  at com.shop.pages.CheckoutPage.pay(CheckoutPage.java:31)\\n  at com.shop.tests.CheckoutTest.placesOrder(CheckoutTest.java:42)'\nassert first_app_frame(t, 'com.shop') == 'at com.shop.pages.CheckoutPage.pay(CheckoutPage.java:31)'",
+          "marks": 2
+        },
+        {
+          "name": "does not match a prefix of another package",
+          "code": "t = 'Err\\n at com.shopping.X.y(X.java:1)\\n at com.shop.A.b(A.java:2)'\nassert first_app_frame(t, 'com.shop') == 'at com.shop.A.b(A.java:2)'",
+          "marks": 2
+        },
+        {
+          "name": "none when absent",
+          "code": "assert first_app_frame('Err\\n at org.junit.Foo.bar(Foo.java:1)', 'com.shop') is None",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-audbg-group",
+      "title": "Group failures by signature",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "When many tests fail at once, group them by a normalised error signature. Write `group_failures(failures)` where each failure is `{'test': name, 'error': message}`. The signature is the message with every run of digits replaced by `N` and any hex id like `0x1f3a` replaced by `ID` (do hex first). Return a dict mapping each signature to a sorted list of test names.\n\n```python\ngroup_failures([{'test':'b','error':'Timeout after 3000ms'}, {'test':'a','error':'Timeout after 5000ms'}])\n# {'Timeout after Nms': ['a', 'b']}\n```",
+      "starter": "def group_failures(failures):\n    return {}\n",
+      "solution": "import re\n\ndef group_failures(failures):\n    groups = {}\n    for f in failures:\n        sig = re.sub(r'0x[0-9a-fA-F]+', 'ID', f['error'])\n        sig = re.sub(r'\\d+', 'N', sig)\n        groups.setdefault(sig, []).append(f['test'])\n    return {k: sorted(v) for k, v in groups.items()}\n",
+      "explanation": "Volatile parts such as durations, ports and object ids make identical problems look different. Normalising them collapses 200 failures into a handful of signatures, so you triage causes rather than tests. Hex is replaced first, otherwise its digits would turn into N and 0x1f would become NxNf.",
+      "hints": [
+        "Use re.sub twice: hex ids first, then digit runs.",
+        "dict.setdefault(sig, []).append(test) builds the groups.",
+        "Sort each group's list before returning."
+      ],
+      "tests": [
+        {
+          "name": "numbers normalised",
+          "code": "r = group_failures([{'test':'b','error':'Timeout after 3000ms'},{'test':'a','error':'Timeout after 5000ms'}])\nassert r == {'Timeout after Nms': ['a','b']}, r",
+          "marks": 2
+        },
+        {
+          "name": "hex ids normalised",
+          "code": "r = group_failures([{'test':'x','error':'Session 0x1f3a died'},{'test':'y','error':'Session 0xBEEF died'}])\nassert r == {'Session ID died': ['x','y']}, r",
+          "marks": 2
+        },
+        {
+          "name": "different errors stay separate",
+          "code": "r = group_failures([{'test':'a','error':'503 Service Unavailable'},{'test':'b','error':'Element #pay not found'}])\nassert r == {'N Service Unavailable':['a'], 'Element #pay not found':['b']}, r",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

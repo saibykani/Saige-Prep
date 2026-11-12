@@ -1,0 +1,237 @@
+{
+  "lesson": "appium-locators-and-gestures",
+  "questions": [
+    {
+      "id": "pt-mbloc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "Which locator strategy is generally preferred for mobile elements that both platforms can support?",
+      "options": [
+        "XPath with indexes",
+        "Accessibility id (content-desc on Android, accessibilityIdentifier on iOS)",
+        "Screen coordinates",
+        "Class name only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Accessibility ids are fast, stable and cross-platform when developers set them. XPath is slow on mobile and indexes are brittle."
+    },
+    {
+      "id": "pt-mbloc-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "On iOS, the XCUITest driver offers `-ios predicate string` and `-ios class chain` strategies that are usually faster than XPath.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Both are evaluated natively by XCTest, avoiding the cost of building the full XML tree that XPath needs."
+    },
+    {
+      "id": "pt-mbloc-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "Which Android-specific strategy lets you use UiSelector/UiScrollable expressions with UiAutomator2?",
+      "options": [
+        "-android uiautomator",
+        "-ios predicate string",
+        "css selector",
+        "link text"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-android uiautomator accepts UiSelector Java-style expressions, including UiScrollable for scrolling into view."
+    },
+    {
+      "id": "pt-mbloc-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "On a 1080 x 2400 screen, what gesture does this W3C action sequence perform?",
+      "code": "{\"type\": \"pointer\", \"id\": \"finger1\", \"parameters\": {\"pointerType\": \"touch\"},\n \"actions\": [\n  {\"type\": \"pointerMove\", \"duration\": 0, \"x\": 540, \"y\": 1800},\n  {\"type\": \"pointerDown\", \"button\": 0},\n  {\"type\": \"pointerMove\", \"duration\": 500, \"x\": 540, \"y\": 600},\n  {\"type\": \"pointerUp\", \"button\": 0}\n ]}",
+      "codeLanguage": "json",
+      "options": [
+        "A tap at the centre",
+        "A swipe up (finger moves from lower to upper part of the screen), which scrolls content down",
+        "A swipe right",
+        "A long press"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The finger presses at y=1800, moves to y=600 over 500 ms and releases: an upward swipe, which scrolls the content to show what is further down."
+    },
+    {
+      "id": "pt-mbloc-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "A swipe works on a Pixel 8 but misses on a small tablet and a large phone. What is wrong?",
+      "code": "swipe(start_x=540, start_y=1800, end_x=540, end_y=600)",
+      "codeLanguage": "python",
+      "options": [
+        "Swipes are not supported on tablets",
+        "The coordinates are hard-coded pixels; compute them from the window size (or the target element's rectangle) as proportions",
+        "The duration is too short",
+        "pointerType must be mouse"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Absolute coordinates only fit one screen size. Proportional or element-relative coordinates adapt to each device."
+    },
+    {
+      "id": "pt-mbloc-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "Why is XPath usually a poor first choice on mobile? Select all that apply.",
+      "options": [
+        "The driver must build and search the full UI hierarchy as XML, which is slow",
+        "Hierarchy-based paths break when layouts change",
+        "XPath does not exist in Appium",
+        "Paths often differ between Android and iOS"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "XPath works in Appium but is slow and brittle, and platform hierarchies differ. Use it as a last resort."
+    },
+    {
+      "id": "pt-mbloc-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "Which Appium 2 approach replaces the deprecated TouchAction/MultiTouchAction APIs?",
+      "options": [
+        "Thread.sleep and tap",
+        "W3C Actions (pointer input sequences) or driver-specific gesture commands such as mobile: swipeGesture",
+        "JavaScript click",
+        "adb shell input only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "W3C Actions are the standard way; UiAutomator2 and XCUITest also expose convenient 'mobile:' gesture extensions."
+    },
+    {
+      "id": "pt-mbloc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "Developers ask what they can do to make the app easier to automate. What is the highest-value request?",
+      "options": [
+        "Disable animations in production",
+        "Add stable, unique accessibility identifiers (testID / accessibilityIdentifier / content-desc where appropriate) to interactive elements",
+        "Use the same text on every button",
+        "Make all screens web views"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stable ids give fast, robust locators on both platforms. On Android, content-desc is also read by screen readers, so it should be meaningful (or use resource-id for test-only ids)."
+    },
+    {
+      "id": "pt-mbloc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "appium-locators-and-gestures",
+      "prompt": "You must tap 'Delete' in a list row that only appears after swiping the row left. The list is long and the row may be off screen. What is a robust sequence?",
+      "options": [
+        "Tap fixed coordinates",
+        "Scroll until the row with the target text is visible (e.g. UiScrollable or mobile: scroll), get its rectangle, swipe left within that rectangle, then locate 'Delete' scoped to the row",
+        "Swipe the whole screen left",
+        "Use XPath //*[5]"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Finding the row by content, gesturing relative to its own bounds and scoping the button lookup survives different data, positions and screen sizes."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mbloc-swipe",
+      "title": "Proportional swipe coordinates",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `swipe_points(width, height, direction, margin=0.2)` returning `((x1, y1), (x2, y2))` integer start and end points for a swipe in the centre line of the screen. `direction` is the way the **finger** moves: `'up'`, `'down'`, `'left'` or `'right'`. The finger travels from `1 - margin` to `margin` of the screen (or the reverse), e.g. swiping up on 1080x2400 with margin 0.2 goes from (540, 1920) to (540, 480). Use `int()` to truncate. Raise `ValueError` for other directions.",
+      "starter": "def swipe_points(width, height, direction, margin=0.2):\n    return ((540, 1800), (540, 600))\n",
+      "solution": "def swipe_points(width, height, direction, margin=0.2):\n    cx, cy = int(width / 2), int(height / 2)\n    near_x, far_x = int(width * margin), int(width * (1 - margin))\n    near_y, far_y = int(height * margin), int(height * (1 - margin))\n    if direction == 'up':\n        return ((cx, far_y), (cx, near_y))\n    if direction == 'down':\n        return ((cx, near_y), (cx, far_y))\n    if direction == 'left':\n        return ((far_x, cy), (near_x, cy))\n    if direction == 'right':\n        return ((near_x, cy), (far_x, cy))\n    raise ValueError(f'unknown direction {direction}')\n",
+      "explanation": "Expressing coordinates as fractions of the window size makes the same gesture work on phones and tablets. Keeping a margin away from the edges avoids triggering system gestures such as the notification shade or back-swipe.",
+      "hints": [
+        "Compute the centre and the near/far positions from the margin.",
+        "'up' means the finger goes from far_y (low on screen) to near_y.",
+        "int() truncates floats to whole pixels."
+      ],
+      "tests": [
+        {
+          "name": "swipe up on a phone",
+          "code": "assert swipe_points(1080, 2400, 'up') == ((540, 1920), (540, 480))",
+          "marks": 2
+        },
+        {
+          "name": "left and right on a tablet",
+          "code": "assert swipe_points(1600, 2560, 'left') == ((1280, 1280), (320, 1280))\nassert swipe_points(1600, 2560, 'right', margin=0.1) == ((160, 1280), (1440, 1280))",
+          "marks": 2
+        },
+        {
+          "name": "down and invalid",
+          "code": "assert swipe_points(1000, 2000, 'down') == ((500, 400), (500, 1600))\ntry:\n    swipe_points(1000, 2000, 'diagonal')\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-mbloc-actions",
+      "title": "Build a W3C swipe action",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `swipeAction(start, end, durationMs = 500)` returning the W3C Actions payload for a one-finger swipe, ready to send to `POST /session/{id}/actions`:\n\n```js\n{ actions: [ { type: 'pointer', id: 'finger1', parameters: { pointerType: 'touch' }, actions: [\n  { type: 'pointerMove', duration: 0, x, y },  // start\n  { type: 'pointerDown', button: 0 },\n  { type: 'pause', duration: 100 },\n  { type: 'pointerMove', duration: durationMs, x, y }, // end\n  { type: 'pointerUp', button: 0 }\n] } ] }\n```\n\n`start` and `end` are `{ x, y }`; round coordinates to integers. Throw an Error if `durationMs` is not positive.\n\nAlso write `elementCenter(rect)` returning `{ x, y }` for a rect `{ x, y, width, height }` (rounded).",
+      "starter": "function swipeAction(start, end, durationMs = 500) {\n  return { actions: [] };\n}\nfunction elementCenter(rect) {\n  return { x: rect.x, y: rect.y };\n}",
+      "solution": "function swipeAction(start, end, durationMs = 500) {\n  if (!(durationMs > 0)) throw new Error('duration must be positive');\n  const r = Math.round;\n  return {\n    actions: [{\n      type: 'pointer',\n      id: 'finger1',\n      parameters: { pointerType: 'touch' },\n      actions: [\n        { type: 'pointerMove', duration: 0, x: r(start.x), y: r(start.y) },\n        { type: 'pointerDown', button: 0 },\n        { type: 'pause', duration: 100 },\n        { type: 'pointerMove', duration: durationMs, x: r(end.x), y: r(end.y) },\n        { type: 'pointerUp', button: 0 },\n      ],\n    }],\n  };\n}\nfunction elementCenter(rect) {\n  return { x: Math.round(rect.x + rect.width / 2), y: Math.round(rect.y + rect.height / 2) };\n}",
+      "explanation": "W3C Actions describe input as timed ticks for each input source. A touch pointer moves to the start instantly, presses, pauses briefly so the app registers a touch rather than a fling, moves over the given duration and lifts. Using an element's centre as an anchor keeps gestures tied to the UI rather than to a screen size.",
+      "hints": [
+        "Copy the structure from the prompt and fill in rounded coordinates.",
+        "The first pointerMove has duration 0; the second uses durationMs.",
+        "Centre = x + width/2, y + height/2, rounded."
+      ],
+      "tests": [
+        {
+          "name": "payload shape",
+          "code": "const p = swipeAction({x:540, y:1800}, {x:540.4, y:600.6}, 400); assertEqual(p.actions[0].actions, [{type:'pointerMove',duration:0,x:540,y:1800},{type:'pointerDown',button:0},{type:'pause',duration:100},{type:'pointerMove',duration:400,x:540,y:601},{type:'pointerUp',button:0}]); assertEqual(p.actions[0].parameters, {pointerType:'touch'})",
+          "marks": 3
+        },
+        {
+          "name": "element centre",
+          "code": "assertEqual(elementCenter({x:100, y:300, width:881, height:120}), {x:541, y:360})",
+          "marks": 1
+        },
+        {
+          "name": "rejects bad duration",
+          "code": "let thrown = false; try { swipeAction({x:0,y:0},{x:1,y:1},0); } catch (e) { thrown = true; } assert(thrown, 'duration 0 should throw')",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

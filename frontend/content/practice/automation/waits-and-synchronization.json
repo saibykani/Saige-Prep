@@ -1,0 +1,264 @@
+{
+  "lesson": "waits-and-synchronization",
+  "questions": [
+    {
+      "id": "pt-auwait-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "waits-and-synchronization",
+      "prompt": "What is an explicit wait?",
+      "options": [
+        "A fixed pause such as Thread.sleep(3000)",
+        "Waiting for a specific condition (e.g. element visible) up to a timeout, then continuing as soon as it is true",
+        "A global setting applied to every findElement",
+        "Waiting for the test to end"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Explicit waits poll for a condition. Thread.sleep is a fixed pause; a global setting for findElement is the implicit wait."
+    },
+    {
+      "id": "pt-auwait-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "waits-and-synchronization",
+      "prompt": "Thread.sleep(5000) always waits the full 5 seconds, even if the element appears after 100 ms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Sleep is unconditional, which wastes time when things are fast and still fails when they are slower than 5 seconds."
+    },
+    {
+      "id": "pt-auwait-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "waits-and-synchronization",
+      "prompt": "Which ExpectedConditions method waits until an element can be clicked (visible and enabled)?",
+      "options": [
+        "presenceOfElementLocated",
+        "elementToBeClickable",
+        "titleIs",
+        "alertIsPresent"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "elementToBeClickable checks visibility and enabled state. presenceOfElementLocated only checks the element is in the DOM, which may still be hidden."
+    },
+    {
+      "id": "pt-auwait-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "waits-and-synchronization",
+      "prompt": "With an implicit wait of 10 s and an explicit wait of 5 s on an element that never appears, roughly how long can this take?",
+      "code": "driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));\nnew WebDriverWait(driver, Duration.ofSeconds(5))\n    .until(ExpectedConditions.visibilityOfElementLocated(By.id(\"never\")));",
+      "codeLanguage": "java",
+      "options": [
+        "Exactly 5 seconds",
+        "Possibly longer than 5 seconds and unpredictable, because each findElement inside the explicit wait's polling may itself wait up to 10 s",
+        "Exactly 10 seconds",
+        "15 seconds exactly"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Selenium documentation warns against mixing implicit and explicit waits: the inner implicit wait can extend each poll, producing unpredictable timeouts."
+    },
+    {
+      "id": "pt-auwait-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "waits-and-synchronization",
+      "prompt": "This wait sometimes returns the old total. Why?",
+      "code": "String before = total.getText();\ncart.add(\"Mug\");\nwait.until(ExpectedConditions.visibilityOf(total));\nassertNotEquals(before, total.getText());",
+      "codeLanguage": "java",
+      "options": [
+        "visibilityOf is the wrong condition: the total element is already visible with the old value; wait for the text to change (e.g. textToBe or a custom condition comparing with the previous value)",
+        "WebDriverWait does not poll",
+        "The timeout is too long",
+        "getText() is asynchronous"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The element was visible before the update, so the condition is satisfied immediately. Wait for the state you actually need, here the new text."
+    },
+    {
+      "id": "pt-auwait-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "waits-and-synchronization",
+      "prompt": "What can FluentWait configure that a basic wait call does not? Select all that apply.",
+      "options": [
+        "The polling interval",
+        "Exceptions to ignore while polling (e.g. NoSuchElementException)",
+        "A custom timeout message",
+        "The browser version"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "FluentWait (which WebDriverWait extends) lets you set polling, ignored exceptions and messages. Browser version is a capability, not a wait setting."
+    },
+    {
+      "id": "pt-auwait-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "waits-and-synchronization",
+      "prompt": "A spinner appears while results load. Which condition best indicates loading has finished?",
+      "options": [
+        "presenceOfElementLocated(spinner)",
+        "invisibilityOfElementLocated(spinner), ideally followed by a condition on the results themselves",
+        "titleContains(\"Results\")",
+        "Sleeping 2 seconds"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Waiting for the spinner to disappear (and then for the expected results) reflects the real state. Presence would wait for it to appear, not finish."
+    },
+    {
+      "id": "pt-auwait-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "waits-and-synchronization",
+      "prompt": "A test waits for invisibility of a spinner, but sometimes passes before the spinner has even appeared and then fails on missing results. How do you fix the race?",
+      "options": [
+        "Add a sleep before the wait",
+        "Wait on the outcome rather than the spinner (e.g. results count > 0 or a specific row text), or first wait for the spinner to appear briefly then disappear",
+        "Remove all waits",
+        "Use an implicit wait of 60 s"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Invisibility is already true before the spinner shows, so the wait returns instantly. Waiting for the final outcome avoids the race entirely."
+    },
+    {
+      "id": "pt-auwait-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "waits-and-synchronization",
+      "prompt": "A page is built with a framework that re-renders a list after each filter change, causing StaleElementReferenceException in waits. What is the robust approach?",
+      "options": [
+        "Catch and ignore the exception once",
+        "Locate by By inside the condition each poll (not a stored WebElement), and ignore StaleElementReferenceException while polling",
+        "Use Thread.sleep after filtering",
+        "Store all elements in a list at the start"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Re-locating inside the condition always gets the current DOM nodes, and ignoring staleness during polling tolerates the brief re-render window."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-auwait-until",
+      "title": "Implement a polling wait",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `async function waitUntil(condition, { timeout = 1000, interval = 50, message = 'condition' } = {})` that polls `condition()` (sync or async). Return the first **truthy** value it returns. If `condition` throws, treat it as not yet satisfied and keep polling. On timeout, throw `Error('Timed out after <timeout>ms waiting for <message>')`.",
+      "starter": "async function waitUntil(condition, { timeout = 1000, interval = 50, message = 'condition' } = {}) {\n  return condition();\n}",
+      "solution": "async function waitUntil(condition, { timeout = 1000, interval = 50, message = 'condition' } = {}) {\n  const deadline = Date.now() + timeout;\n  for (;;) {\n    try {\n      const v = await condition();\n      if (v) return v;\n    } catch (e) {\n      // ignore while polling, like FluentWait.ignoring(...)\n    }\n    if (Date.now() >= deadline) throw new Error(`Timed out after ${timeout}ms waiting for ${message}`);\n    await new Promise(r => setTimeout(r, interval));\n  }\n}",
+      "explanation": "This is WebDriverWait in miniature: poll, return the truthy result as soon as it appears, ignore transient exceptions (like a not-yet-present element) and fail with a descriptive message at the deadline. Returning the value lets callers wait for and get an element in one step.",
+      "hints": [
+        "Compute the deadline once.",
+        "Wrap the call in try/catch so exceptions count as 'not yet'.",
+        "Return the value when it is truthy; throw the formatted Error after the deadline."
+      ],
+      "tests": [
+        {
+          "name": "returns first truthy value",
+          "code": "let n = 0; const v = await waitUntil(() => (++n >= 3 ? { id: 'el' } : null), { interval: 5 }); assertEqual(v, { id: 'el' })",
+          "marks": 2
+        },
+        {
+          "name": "ignores exceptions while polling",
+          "code": "let n = 0; const v = await waitUntil(() => { n++; if (n < 3) throw new Error('NoSuchElement'); return 'found'; }, { interval: 5 }); assertEqual(v, 'found')",
+          "marks": 2
+        },
+        {
+          "name": "times out with message",
+          "code": "let m = ''; try { await waitUntil(() => false, { timeout: 50, interval: 10, message: 'spinner to vanish' }); } catch (e) { m = e.message; } assertEqual(m, 'Timed out after 50ms waiting for spinner to vanish')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-auwait-changed",
+      "title": "Wait for a value to change",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Using the idea of a polling wait, write `async function waitForChange(read, before, { timeout = 1000, interval = 20 } = {})` which polls `read()` until it returns a value **different from `before`** that is also not empty (`''`, `null` or `undefined`), and returns that new value. On timeout throw `Error('value did not change from ' + JSON.stringify(before))`.\n\nThis solves the classic 'total is already visible with the old value' race.",
+      "starter": "async function waitForChange(read, before, { timeout = 1000, interval = 20 } = {}) {\n  return read();\n}",
+      "solution": "async function waitForChange(read, before, { timeout = 1000, interval = 20 } = {}) {\n  const deadline = Date.now() + timeout;\n  for (;;) {\n    const v = await read();\n    if (v !== before && v !== '' && v !== null && v !== undefined) return v;\n    if (Date.now() >= deadline) throw new Error('value did not change from ' + JSON.stringify(before));\n    await new Promise(r => setTimeout(r, interval));\n  }\n}",
+      "explanation": "Visibility was never the real condition; the change was. Comparing with the earlier value and skipping empty intermediate renders (many frameworks briefly blank a field while updating) waits for exactly the state the assertion needs.",
+      "hints": [
+        "Read the value each poll and compare with before using !==.",
+        "Also skip '', null and undefined, which often appear mid-render.",
+        "Throw with JSON.stringify(before) after the deadline."
+      ],
+      "tests": [
+        {
+          "name": "returns new value",
+          "code": "const vals = ['£10', '£10', '', '£14']; let i = 0; const v = await waitForChange(() => vals[Math.min(i++, 3)], '£10', { interval: 5 }); assertEqual(v, '£14')",
+          "marks": 3
+        },
+        {
+          "name": "times out when unchanged",
+          "code": "let m=''; try { await waitForChange(() => '£10', '£10', { timeout: 40, interval: 10 }); } catch(e) { m = e.message; } assertEqual(m, 'value did not change from \"£10\"')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-auwait-backoff",
+      "title": "Polling schedule with backoff",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Some waits poll quickly at first and back off. Write `schedule(timeout, first=0.1, factor=2.0, max_interval=1.0)` returning the list of times (seconds since start, rounded to 3 decimals) at which the condition is checked. The first check is at 0. Each subsequent gap starts at `first` and is multiplied by `factor`, capped at `max_interval`. Include a final check **exactly at `timeout`** if the last scheduled check was before it; never schedule beyond `timeout`.\n\n```python\nschedule(1.0)  # [0, 0.1, 0.3, 0.7, 1.0]\n```",
+      "starter": "def schedule(timeout, first=0.1, factor=2.0, max_interval=1.0):\n    return [0]\n",
+      "solution": "def schedule(timeout, first=0.1, factor=2.0, max_interval=1.0):\n    times = [0]\n    t, gap = 0.0, first\n    while True:\n        nxt = t + min(gap, max_interval)\n        if nxt >= timeout - 1e-9:\n            break\n        t = nxt\n        times.append(round(t, 3))\n        gap *= factor\n    if times[-1] < timeout:\n        times.append(round(timeout, 3))\n    return times\n",
+      "explanation": "Backoff checks often while things are likely to change soon and less often later, which reduces load on the browser or API. Capping the interval stops the gaps growing so large that you wait long after the condition became true, and the final check at the deadline gives the condition one last chance before failing.",
+      "hints": [
+        "Keep the current time t and the current gap.",
+        "Stop adding when t + gap would reach the timeout; cap gap with min(gap, max_interval).",
+        "Append the timeout itself at the end if the last check was earlier; use a small epsilon for float comparisons."
+      ],
+      "tests": [
+        {
+          "name": "default schedule",
+          "code": "assert schedule(1.0) == [0, 0.1, 0.3, 0.7, 1.0], schedule(1.0)",
+          "marks": 3
+        },
+        {
+          "name": "interval is capped",
+          "code": "assert schedule(3.0, first=0.5, factor=3.0, max_interval=1.0) == [0, 0.5, 1.5, 2.5, 3.0], schedule(3.0, first=0.5, factor=3.0, max_interval=1.0)",
+          "marks": 3
+        },
+        {
+          "name": "short timeout",
+          "code": "assert schedule(0.05) == [0, 0.05], schedule(0.05)",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

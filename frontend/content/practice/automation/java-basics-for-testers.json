@@ -1,0 +1,213 @@
+{
+  "lesson": "java-basics-for-testers",
+  "questions": [
+    {
+      "id": "pt-aujb-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-basics-for-testers",
+      "prompt": "Which Java type would you use to store the text of a page title?",
+      "options": [
+        "char",
+        "String",
+        "int",
+        "boolean"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "String holds a sequence of characters. char holds one character, int a whole number, boolean true/false."
+    },
+    {
+      "id": "pt-aujb-02",
+      "type": "code-output",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-basics-for-testers",
+      "prompt": "What does this print?",
+      "code": "int total = 7;\nint people = 2;\nSystem.out.println(total / people);",
+      "codeLanguage": "java",
+      "options": [
+        "7",
+        "3.5",
+        "3",
+        "3.0"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Both operands are int, so 7 / 2 is integer division and the decimal part is discarded, giving 3."
+    },
+    {
+      "id": "pt-aujb-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-basics-for-testers",
+      "prompt": "Java Strings are immutable: `name.trim()` returns a new String and leaves `name` unchanged.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "String methods never modify the original object. You must use the returned value, e.g. name = name.trim()."
+    },
+    {
+      "id": "pt-aujb-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-basics-for-testers",
+      "prompt": "What does this print?",
+      "code": "String a = \"Dashboard\";\nString b = new String(\"Dashboard\");\nSystem.out.println((a == b) + \" \" + a.equals(b));",
+      "codeLanguage": "java",
+      "options": [
+        "true true",
+        "false true",
+        "true false",
+        "false false"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "`new String` creates a distinct object, so == (reference comparison) is false; equals compares the characters and is true. This is why tests compare text with equals or assertEquals."
+    },
+    {
+      "id": "pt-aujb-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-basics-for-testers",
+      "prompt": "This price check fails on '£1,299.00'. What is the bug?",
+      "code": "String text = \"£1,299.00\";\ndouble price = Double.parseDouble(text.replace(\"£\", \"\"));",
+      "codeLanguage": "java",
+      "options": [
+        "parseDouble cannot parse numbers",
+        "The comma remains in the string, so parseDouble throws NumberFormatException; remove thousands separators too (and consider BigDecimal for money)",
+        "replace must be replaceAll with a regex",
+        "The pound sign is not a char"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "replace(\"£\", \"\") leaves \"1,299.00\", and Double.parseDouble rejects the comma. Strip the separator as well. For money, BigDecimal avoids floating-point rounding issues."
+    },
+    {
+      "id": "pt-aujb-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-basics-for-testers",
+      "prompt": "What does this loop print?",
+      "code": "for (int i = 0; i < 3; i++) {\n  System.out.print(i + \" \");\n}",
+      "codeLanguage": "java",
+      "options": [
+        "0 1 2 3",
+        "1 2 3",
+        "0 1 2",
+        "Nothing"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "i starts at 0 and the loop runs while i < 3, printing 0, 1 and 2."
+    },
+    {
+      "id": "pt-aujb-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-basics-for-testers",
+      "prompt": "Why compare strings with `\"expected\".equals(actual)` rather than `actual.equals(\"expected\")` in some helpers?",
+      "options": [
+        "It is faster",
+        "It avoids a NullPointerException if actual is null, returning false instead",
+        "It ignores case",
+        "Java requires literals first"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Calling equals on the literal is null-safe. Objects.equals(a, b) is another null-safe option. Neither form ignores case; that needs equalsIgnoreCase."
+    },
+    {
+      "id": "pt-aujb-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-basics-for-testers",
+      "prompt": "A test reads a counter '12 items' from the page and must assert it increased by one after adding to cart. Which approach is most robust?",
+      "options": [
+        "Compare the two strings with ==",
+        "Extract the digits, parse them with Integer.parseInt, and assert after == before + 1",
+        "Assert the text contains '13'",
+        "Convert both to double and compare with =="
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parsing to an int and comparing numbers expresses the real rule. String contains '13' would pass for '113 items'; == on strings compares references; double equality is unnecessary for counts."
+    },
+    {
+      "id": "pt-aujb-09",
+      "type": "code-output",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-basics-for-testers",
+      "prompt": "What does this print?",
+      "code": "double sum = 0.1 + 0.2;\nSystem.out.println(sum == 0.3);",
+      "codeLanguage": "java",
+      "options": [
+        "0.30000000000000004",
+        "0.3",
+        "true",
+        "false"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "0.1 + 0.2 in binary floating point is 0.30000000000000004, so == 0.3 is false. Compare doubles with a tolerance (assertEquals(expected, actual, delta)) or use BigDecimal for money."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aujb-normalise",
+      "title": "Normalise text read from a page",
+      "difficulty": "beginner",
+      "language": "java",
+      "prompt": "Write a class `TextUtils` with a static method `String normalise(String s)` that:\n\n- returns `\"\"` for null,\n- trims the ends,\n- collapses any run of whitespace inside the text to a single space.\n\nExample: `normalise(\"  Order   placed \\n\")` returns `\"Order placed\"`.",
+      "starter": "public class TextUtils {\n    public static String normalise(String s) {\n        return s;\n    }\n}\n",
+      "solution": "public class TextUtils {\n    public static String normalise(String s) {\n        if (s == null) {\n            return \"\";\n        }\n        return s.trim().replaceAll(\"\\\\s+\", \" \");\n    }\n}\n",
+      "explanation": "Text read from a browser often has non-obvious whitespace (newlines, double spaces). Normalising in one helper keeps assertions simple. The null check comes first so the method never throws, and the regex \\s+ matches any run of whitespace characters.",
+      "hints": [
+        "Handle null before calling any method on s.",
+        "trim() removes leading and trailing whitespace.",
+        "replaceAll(\"\\\\s+\", \" \") collapses internal runs."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\n\nimport org.junit.jupiter.api.Test;\n\nclass TextUtilsTest {\n    @Test\n    void trimsAndCollapsesWhitespace() {\n        assertEquals(\"Order placed\", TextUtils.normalise(\"  Order   placed \\n\"));\n    }\n\n    @Test\n    void handlesTabsAndNewlinesInside() {\n        assertEquals(\"Total: 3 items\", TextUtils.normalise(\"Total:\\t3\\n items\"));\n    }\n\n    @Test\n    void nullBecomesEmpty() {\n        assertEquals(\"\", TextUtils.normalise(null));\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `TextUtils.java` in `src/main/java/` and `TextUtilsTest.java` in `src/test/java/`. Run `mvn test`; all tests should pass.",
+      "marks": 4
+    },
+    {
+      "id": "code-aujb-price",
+      "title": "Parse a displayed price",
+      "difficulty": "intermediate",
+      "language": "java",
+      "prompt": "Write a class `PriceParser` with a static method `java.math.BigDecimal parse(String text)` that turns displayed prices like `\"£1,299.00\"`, `\"$ 5.5\"` or `\"12\"` into a BigDecimal with **two decimal places** (`1299.00`, `5.50`, `12.00`). Remove any currency symbol, spaces and thousands separators (commas). Throw `IllegalArgumentException` if no digits remain.",
+      "starter": "import java.math.BigDecimal;\n\npublic class PriceParser {\n    public static BigDecimal parse(String text) {\n        return BigDecimal.ZERO;\n    }\n}\n",
+      "solution": "import java.math.BigDecimal;\nimport java.math.RoundingMode;\n\npublic class PriceParser {\n    public static BigDecimal parse(String text) {\n        if (text == null) {\n            throw new IllegalArgumentException(\"no price\");\n        }\n        String cleaned = text.replaceAll(\"[^0-9.]\", \"\");\n        if (!cleaned.matches(\".*\\\\d.*\")) {\n            throw new IllegalArgumentException(\"no price\");\n        }\n        return new BigDecimal(cleaned).setScale(2, RoundingMode.HALF_UP);\n    }\n}\n",
+      "explanation": "Keeping only digits and the decimal point strips symbols, spaces and separators in one step. BigDecimal represents money exactly, unlike double, and setScale(2) normalises the scale so that assertEquals(new BigDecimal(\"5.50\"), ...) matches. Note BigDecimal.equals is scale-sensitive, which is why the scale must be fixed.",
+      "hints": [
+        "A regex like [^0-9.] removes everything except digits and dots.",
+        "Check that at least one digit is left before building the BigDecimal.",
+        "Use setScale(2, RoundingMode.HALF_UP) so 5.5 becomes 5.50."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\n\nimport java.math.BigDecimal;\nimport org.junit.jupiter.api.Test;\n\nclass PriceParserTest {\n    @Test\n    void parsesPoundsWithSeparator() {\n        assertEquals(new BigDecimal(\"1299.00\"), PriceParser.parse(\"£1,299.00\"));\n    }\n\n    @Test\n    void padsToTwoDecimals() {\n        assertEquals(new BigDecimal(\"5.50\"), PriceParser.parse(\"$ 5.5\"));\n        assertEquals(new BigDecimal(\"12.00\"), PriceParser.parse(\"12\"));\n    }\n\n    @Test\n    void rejectsTextWithoutDigits() {\n        assertThrows(IllegalArgumentException.class, () -> PriceParser.parse(\"Free!\"));\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `PriceParser.java` in `src/main/java/` and `PriceParserTest.java` in `src/test/java/`. Run `mvn test`; all tests should pass.",
+      "marks": 5
+    }
+  ]
+}

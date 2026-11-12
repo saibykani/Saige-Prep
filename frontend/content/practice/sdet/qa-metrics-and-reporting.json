@@ -1,0 +1,255 @@
+{
+  "lesson": "qa-metrics-and-reporting",
+  "questions": [
+    {
+      "id": "pt-sdmet-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "What does defect leakage (escape rate) measure?",
+      "options": [
+        "How many tests were written",
+        "The share of defects found after release out of all defects found for that release",
+        "How fast developers fix bugs",
+        "Test execution time"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Leakage = defects found in production / (defects found before release + in production). It indicates how effective pre-release testing was."
+    },
+    {
+      "id": "pt-sdmet-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "A metric becomes less useful when people are rewarded for hitting a target on it (Goodhart's law).",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Targets invite gaming, such as splitting defects to raise counts or writing trivial tests to raise coverage."
+    },
+    {
+      "id": "pt-sdmet-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Which DORA metric measures how long it takes a commit to reach production?",
+      "options": [
+        "Deployment frequency",
+        "Lead time for changes",
+        "Change failure rate",
+        "Time to restore service"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Lead time for changes tracks commit-to-production time. The others measure release cadence, the share of deployments causing failures, and recovery speed."
+    },
+    {
+      "id": "pt-sdmet-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Before release 40 defects were found; after release 10 more were found. What is the defect leakage?",
+      "code": "pre_release = 40\npost_release = 10",
+      "codeLanguage": "python",
+      "options": [
+        "10%",
+        "20%",
+        "25%",
+        "80%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "10 / (40 + 10) = 0.2, so 20%. Dividing 10 by 40 (25%) is the common mistake: the denominator must include all defects."
+    },
+    {
+      "id": "pt-sdmet-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "A dashboard shows pass rate as 98% and the team celebrates, but users report many bugs. What is a likely flaw in the metric?",
+      "options": [
+        "98% is too low",
+        "Pass rate says nothing about what is covered; a suite of easy or redundant tests can pass while risky areas have no tests. Pair it with risk coverage and escaped defects",
+        "Pass rate should be measured weekly",
+        "The dashboard colours are wrong"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Pass rate measures the tests you have, not the product's quality. Escaped defects and coverage of high-risk areas show what the pass rate cannot."
+    },
+    {
+      "id": "pt-sdmet-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Which are useful signals about a test suite's health? Select all that apply.",
+      "options": [
+        "Flaky test rate over time",
+        "Average time to get feedback on a pull request",
+        "Number of test cases written per tester",
+        "Escaped defects by area"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Flakiness, feedback time and escapes show whether the suite is trustworthy, fast and effective. Counting test cases per tester rewards volume over value."
+    },
+    {
+      "id": "pt-sdmet-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Why report the 95th percentile of test duration rather than only the average?",
+      "options": [
+        "Averages are illegal",
+        "The p95 shows the slow tail that dominates wall-clock time and is hidden by an average skewed by many fast tests",
+        "p95 is always smaller",
+        "It removes outliers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A few very slow tests can define pipeline time; percentiles expose them, while averages blur them."
+    },
+    {
+      "id": "pt-sdmet-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Leadership asks for one number to show testing is improving. What do you propose?",
+      "options": [
+        "Number of test cases",
+        "A small balanced set (e.g. escaped defects by severity, change failure rate, PR feedback time, flaky rate) with trends and context, explaining that one number can be gamed",
+        "Lines of test code",
+        "Bugs logged per tester"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A small balanced set resists gaming because improving one at the expense of another shows up. Trends with explanations tell the story behind the numbers."
+    },
+    {
+      "id": "pt-sdmet-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "qa-metrics-and-reporting",
+      "prompt": "Coverage rose from 60% to 85% in one quarter but escaped defects did not change. What is the most likely explanation and next step?",
+      "options": [
+        "Coverage tools are broken",
+        "New tests execute code without strong assertions or target low-risk code; review assertion quality (e.g. mutation testing) and focus on high-risk paths",
+        "Escaped defects always lag by a year",
+        "Increase coverage to 100%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage shows what code ran, not whether tests would detect faults. Mutation testing and risk-based targeting measure effectiveness more directly."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdmet-percentile",
+      "title": "Percentiles for test durations",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `percentile(values, p)` using the **nearest-rank** method: sort the values, take rank `ceil(p/100 * n)` (minimum 1), and return the value at that rank (1-based). Raise `ValueError` for an empty list. Then write `summary(durations)` returning `{'p50': ..., 'p95': ..., 'max': ...}`.\n\n```python\npercentile([5, 1, 3, 2, 4], 50)  # 3\n```",
+      "starter": "def percentile(values, p):\n    return sum(values) / len(values)\n\ndef summary(durations):\n    return {}\n",
+      "solution": "import math\n\ndef percentile(values, p):\n    if not values:\n        raise ValueError('no values')\n    ordered = sorted(values)\n    rank = max(1, math.ceil(p / 100 * len(ordered)))\n    return ordered[rank - 1]\n\ndef summary(durations):\n    return {'p50': percentile(durations, 50), 'p95': percentile(durations, 95), 'max': max(durations)}\n",
+      "explanation": "Nearest-rank always returns an actual observed value, which is easy to explain in a report ('95% of tests took at most X seconds'). The average in the starter is pulled around by outliers and hides the slow tail.",
+      "hints": [
+        "Sort first; percentiles are about position.",
+        "rank = ceil(p/100 * n), at least 1; the answer is ordered[rank - 1].",
+        "summary just calls percentile with 50 and 95 and adds max()."
+      ],
+      "tests": [
+        {
+          "name": "median",
+          "code": "assert percentile([5, 1, 3, 2, 4], 50) == 3\nassert percentile([10, 1, 2], 50) == 2",
+          "marks": 1
+        },
+        {
+          "name": "p95 picks the slow tail",
+          "code": "d = [1]*19 + [60]\nassert percentile(d, 95) == 1\nassert percentile(d + [60], 95) == 60\nassert summary(d) == {'p50': 1, 'p95': 1, 'max': 60}",
+          "marks": 3
+        },
+        {
+          "name": "edge cases",
+          "code": "assert percentile([7], 99) == 7\nassert percentile([3, 1], 0) == 1\ntry:\n    percentile([], 50)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-sdmet-leakage",
+      "title": "Defect leakage by area (SQL)",
+      "difficulty": "intermediate",
+      "language": "sql",
+      "prompt": "The `defects` table records where each defect was found: `found_in` is `'test'` or `'production'`.\n\nWrite a query returning each `area` with `total` defects, `escaped` (production) defects, and `leakage_pct` = escaped / total * 100 rounded to 1 decimal place. Order by `leakage_pct` descending, then area ascending.",
+      "starter": "SELECT area FROM defects;",
+      "solution": "SELECT area,\n       COUNT(*) AS total,\n       SUM(CASE WHEN found_in = 'production' THEN 1 ELSE 0 END) AS escaped,\n       ROUND(100.0 * SUM(CASE WHEN found_in = 'production' THEN 1 ELSE 0 END) / COUNT(*), 1) AS leakage_pct\nFROM defects\nGROUP BY area\nORDER BY leakage_pct DESC, area ASC;",
+      "explanation": "GROUP BY area gives one row per area, CASE inside SUM counts only production defects, and multiplying by 100.0 forces real division (integer division in SQLite would give 0). Sorting by leakage puts the areas where testing is least effective at the top.",
+      "hints": [
+        "Use GROUP BY area with COUNT(*) for the total.",
+        "SUM(CASE WHEN found_in = 'production' THEN 1 ELSE 0 END) counts escapes.",
+        "Multiply by 100.0 (not 100) before dividing, then ROUND(..., 1)."
+      ],
+      "setup": "CREATE TABLE defects (id INTEGER PRIMARY KEY, area TEXT, severity TEXT, found_in TEXT);\nINSERT INTO defects (area, severity, found_in) VALUES\n('checkout','high','test'),('checkout','high','production'),('checkout','low','test'),\n('search','low','test'),('search','medium','test'),('search','low','test'),('search','high','test'),\n('login','high','production'),('login','medium','test'),\n('profile','low','test'),('profile','low','production'),('profile','medium','test');",
+      "expected": {
+        "columns": [
+          "area",
+          "total",
+          "escaped",
+          "leakage_pct"
+        ],
+        "rows": [
+          [
+            "login",
+            2,
+            1,
+            50.0
+          ],
+          [
+            "checkout",
+            3,
+            1,
+            33.3
+          ],
+          [
+            "profile",
+            3,
+            1,
+            33.3
+          ],
+          [
+            "search",
+            4,
+            0,
+            0.0
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 6
+    }
+  ]
+}

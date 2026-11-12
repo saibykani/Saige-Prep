@@ -1,0 +1,236 @@
+{
+  "lesson": "locator-strategies",
+  "questions": [
+    {
+      "id": "pt-auloc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "locator-strategies",
+      "prompt": "Which CSS selector matches an input whose name attribute is exactly `email`?",
+      "options": [
+        "input#email",
+        "input[name='email']",
+        "input.email",
+        "//input[@name='email']"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "[name='email'] is the CSS attribute selector. #email matches an id, .email a class, and the last option is XPath, not CSS."
+    },
+    {
+      "id": "pt-auloc-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "locator-strategies",
+      "prompt": "In CSS, `div > a` matches only links that are direct children of a div, while `div a` matches links at any depth inside a div.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "> is the child combinator; a space is the descendant combinator."
+    },
+    {
+      "id": "pt-auloc-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "locator-strategies",
+      "prompt": "Which XPath selects a button by its visible text 'Save'?",
+      "options": [
+        "//button[@text='Save']",
+        "//button[text()='Save']",
+        "button:text('Save')",
+        "//button.Save"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "text() reads an element's text node. @text would look for an attribute named text, which buttons do not have."
+    },
+    {
+      "id": "pt-auloc-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "locator-strategies",
+      "prompt": "On this HTML, how many elements does the CSS selector `ul.menu li:not(.disabled) > a` match?",
+      "code": "<ul class=\"menu\">\n  <li><a href=\"/\">Home</a></li>\n  <li class=\"disabled\"><a href=\"/admin\">Admin</a></li>\n  <li><a href=\"/reports\">Reports</a></li>\n  <li><span>Help</span></li>\n</ul>",
+      "codeLanguage": "html",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The li elements without the disabled class are Home and Reports, and each has a direct child a, so two links match."
+    },
+    {
+      "id": "pt-auloc-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "locator-strategies",
+      "prompt": "This locator works today but breaks after every release. Which replacement is most robust?",
+      "code": "driver.findElement(By.xpath(\"/html/body/div[3]/div[2]/form/div[1]/input\"));",
+      "codeLanguage": "java",
+      "options": [
+        "//div[3]/div[2]/form/div[1]/input",
+        "A stable attribute such as [data-testid='search-input'] (added with the developers if missing)",
+        "input:nth-child(1)",
+        "The same XPath with contains()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Positional paths break when layout changes. A dedicated test attribute is independent of structure and styling. nth-child is still positional."
+    },
+    {
+      "id": "pt-auloc-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "locator-strategies",
+      "prompt": "An element has `id=\"btn-48213\"` where the number changes on every page load. Which locator is appropriate?",
+      "options": [
+        "#btn-48213",
+        "[id^='btn-'] combined with something unique such as its text or a nearby label",
+        "Any id is fine",
+        "//*[@id='btn-48213']"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The dynamic part must be ignored: a prefix match ^= handles the stable part, and pairing it with text or context keeps it unique. Hard-coding the number fails next load."
+    },
+    {
+      "id": "pt-auloc-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "locator-strategies",
+      "prompt": "Which XPath axes let you find an input relative to its label text? Select all that apply.",
+      "options": [
+        "//label[text()='Email']/following-sibling::input",
+        "//label[text()='Email']/../input",
+        "//input/preceding::label[1]",
+        "//label[text()='Email']/child::input"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "following-sibling and going up to the parent then down both reach a sibling input. The third selects labels, not the input. child::input finds an input only if it is nested inside the label, which is not the sibling case."
+    },
+    {
+      "id": "pt-auloc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "locator-strategies",
+      "prompt": "A product grid shows 20 cards, each with a title and an 'Add to cart' button that has no unique attributes. You need to click Add on the card titled 'Blue Mug'. What is the most robust approach?",
+      "options": [
+        "Click the 7th button",
+        "Locate the card containing the title 'Blue Mug', then find the Add button within that card (e.g. Playwright `page.locator('.card').filter({ hasText: 'Blue Mug' }).getByRole('button', { name: 'Add to cart' })`)",
+        "Use the absolute XPath of the button",
+        "Ask developers to sort the grid"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Scoping the search to the card identified by its business content survives reordering and layout changes. Index-based and absolute paths break as soon as data or layout changes."
+    },
+    {
+      "id": "pt-auloc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "locator-strategies",
+      "prompt": "A Playwright test uses `page.getByRole('button', { name: 'Submit' })` and fails with a strict-mode violation listing two buttons. What is the best fix?",
+      "options": [
+        "Use .first() everywhere",
+        "Narrow the scope to the form or dialog containing the intended button, or make the accessible names distinct",
+        "Switch to an XPath index",
+        "Disable strict mode"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Strictness is telling you the locator is ambiguous. Scoping to the right container (or fixing duplicate names, which may also be an accessibility issue) keeps the test precise. .first() picks whichever happens to come first, which can be the wrong button."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-auloc-dynamic",
+      "title": "Spot dynamic ids",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `is_dynamic(id_value)` that returns True when an id looks auto-generated, so it should not be used in a locator. Treat it as dynamic if it:\n\n- contains a run of 4 or more digits (`btn-48213`), or\n- contains a run of 8 or more hex characters that includes at least one digit (`el-3f9a12bc`), or\n- starts with a framework prefix `ember`, `react-` or `:r` (React useId ids look like `:r1:`).\n\n```python\nis_dynamic('login-button')  # False\nis_dynamic('btn-48213')     # True\n```",
+      "starter": "def is_dynamic(id_value):\n    return None\n",
+      "solution": "import re\n\ndef is_dynamic(id_value):\n    if re.search(r'\\d{4,}', id_value):\n        return True\n    for run in re.findall(r'[0-9a-fA-F]{8,}', id_value):\n        if re.search(r'\\d', run):\n            return True\n    return id_value.startswith(('ember', 'react-', ':r'))\n",
+      "explanation": "Long digit runs and hex strings are typical of generated ids, so they change between builds or page loads. Requiring a digit in the hex run avoids flagging ordinary words made only of the letters a-f, such as 'feedface'. startswith accepts a tuple, which keeps the prefix check short.",
+      "hints": [
+        "re.search(r'\\d{4,}', s) finds 4+ digits in a row.",
+        "re.findall(r'[0-9a-fA-F]{8,}', s) finds hex-looking runs; then check each contains a digit.",
+        "str.startswith accepts a tuple of prefixes."
+      ],
+      "tests": [
+        {
+          "name": "stable ids are not dynamic",
+          "code": "assert is_dynamic('login-button') is False\nassert is_dynamic('cart-2') is False",
+          "marks": 1
+        },
+        {
+          "name": "digit and hex runs",
+          "code": "assert is_dynamic('btn-48213') is True\nassert is_dynamic('el-3f9a12bc') is True\nassert is_dynamic('feedface-cafe') is False",
+          "marks": 2
+        },
+        {
+          "name": "framework prefixes",
+          "code": "assert is_dynamic('ember123') is True\nassert is_dynamic(':r1:') is True\nassert is_dynamic('react-select-5-input') is True",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-auloc-best",
+      "title": "Choose the best locator",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `bestLocator(el)` where `el` has optional fields `testId`, `role`, `name` (accessible name), `id`, `text` and `tag`. Return a locator description string using this priority:\n\n1. `getByTestId('<testId>')`\n2. `getByRole('<role>', { name: '<name>' })` if both role and name exist\n3. `#<id>` if id exists and does **not** contain a run of 4+ digits\n4. `text=<text>` if text exists\n5. otherwise the tag\n\n```js\nbestLocator({ role: 'button', name: 'Pay now', id: 'btn-48213' }) // \"getByRole('button', { name: 'Pay now' })\"\n```",
+      "starter": "function bestLocator(el) {\n  return '';\n}",
+      "solution": "function bestLocator(el) {\n  if (el.testId) return `getByTestId('${el.testId}')`;\n  if (el.role && el.name) return `getByRole('${el.role}', { name: '${el.name}' })`;\n  if (el.id && !/\\d{4,}/.test(el.id)) return `#${el.id}`;\n  if (el.text) return `text=${el.text}`;\n  return el.tag;\n}",
+      "explanation": "The order follows the usual guidance: explicit test contracts first, then user-facing role and name, then stable ids, then text, and structure only as a last resort. Skipping ids with long digit runs avoids generated ids that change each load.",
+      "hints": [
+        "Use early returns in priority order.",
+        "Role only counts when there is also a name.",
+        "Test the id with the regex /\\d{4,}/ and skip it if it matches."
+      ],
+      "tests": [
+        {
+          "name": "test id first",
+          "code": "assertEqual(bestLocator({testId:'pay', role:'button', name:'Pay', id:'pay'}), \"getByTestId('pay')\")",
+          "marks": 1
+        },
+        {
+          "name": "role beats dynamic id",
+          "code": "assertEqual(bestLocator({role:'button', name:'Pay now', id:'btn-48213'}), \"getByRole('button', { name: 'Pay now' })\")",
+          "marks": 2
+        },
+        {
+          "name": "stable id, then text, then tag",
+          "code": "assertEqual(bestLocator({id:'search', text:'Go', tag:'input'}), '#search'); assertEqual(bestLocator({id:'x-99812', text:'Go', tag:'a'}), 'text=Go'); assertEqual(bestLocator({role:'link', tag:'a'}), 'a')",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

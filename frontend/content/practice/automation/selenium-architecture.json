@@ -1,0 +1,235 @@
+{
+  "lesson": "selenium-architecture",
+  "questions": [
+    {
+      "id": "pt-ausel-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "selenium-architecture",
+      "prompt": "What is the role of a browser driver such as chromedriver or geckodriver?",
+      "options": [
+        "It renders web pages",
+        "It receives W3C WebDriver commands over HTTP and controls the browser",
+        "It runs JUnit tests",
+        "It stores test reports"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Client libraries send commands to the driver, which translates them into browser automation. The browser renders pages; the test runner runs tests."
+    },
+    {
+      "id": "pt-ausel-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "selenium-architecture",
+      "prompt": "Selenium Manager (bundled since Selenium 4.6) can locate or download a matching driver automatically when none is configured.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Selenium Manager resolves drivers (and can download browsers) so most local setups no longer need System.setProperty or a separate driver manager."
+    },
+    {
+      "id": "pt-ausel-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "selenium-architecture",
+      "prompt": "Which Selenium component lets you run tests on many machines and browsers from one endpoint?",
+      "options": [
+        "Selenium IDE",
+        "Selenium Grid",
+        "Selenium Manager",
+        "WebDriver BiDi"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Grid routes sessions to nodes. IDE records tests in the browser; Manager resolves drivers; BiDi is a bidirectional protocol for events such as console logs."
+    },
+    {
+      "id": "pt-ausel-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "selenium-architecture",
+      "prompt": "Which HTTP request does the client send for `driver.findElement(By.id(\"q\"))` under the W3C protocol?",
+      "code": "driver.findElement(By.id(\"q\"));",
+      "codeLanguage": "java",
+      "options": [
+        "GET /session/{id}/element?id=q",
+        "POST /session/{id}/element with body {\"using\": \"css selector\", \"value\": \"#q\"}",
+        "POST /find with body {\"id\": \"q\"}",
+        "PUT /session/{id}/element/q"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "W3C WebDriver has five location strategies (css selector, link text, partial link text, tag name, xpath); the Java client translates By.id into a CSS selector and POSTs to /session/{id}/element."
+    },
+    {
+      "id": "pt-ausel-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "selenium-architecture",
+      "prompt": "Tests fail with 'session not created: This version of ChromeDriver only supports Chrome version N'. What is the cause and the modern fix?",
+      "options": [
+        "The test code is wrong",
+        "The driver and browser versions do not match; let Selenium Manager pick the right driver (remove the hard-coded driver path) or update the driver",
+        "Chrome must be uninstalled",
+        "Use Thread.sleep before creating the driver"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each chromedriver major version supports a matching Chrome major version. A stale pinned driver path breaks after Chrome auto-updates; Selenium Manager resolves a compatible driver."
+    },
+    {
+      "id": "pt-ausel-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "selenium-architecture",
+      "prompt": "Which statements about the W3C WebDriver protocol are true? Select all that apply.",
+      "options": [
+        "Commands are HTTP requests with JSON bodies",
+        "Each command targets a session created with POST /session",
+        "It is a W3C Recommendation implemented by major browser vendors' drivers",
+        "It streams browser events to the client over a WebSocket"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Classic WebDriver is request/response over HTTP. Event streaming over WebSocket is WebDriver BiDi, a separate (newer) specification."
+    },
+    {
+      "id": "pt-ausel-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "selenium-architecture",
+      "prompt": "What does `driver.quit()` do that `driver.close()` does not?",
+      "options": [
+        "Nothing",
+        "Ends the whole session: closes every window and shuts down the driver process",
+        "Only closes the current tab",
+        "Clears cookies but keeps the browser open"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "close() closes the current window; when it is the last one, the session may end, but quit() reliably ends the session and frees resources. Always call quit() in teardown."
+    },
+    {
+      "id": "pt-ausel-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "selenium-architecture",
+      "prompt": "Tests on Selenium Grid queue for minutes before starting, while nodes look idle for some browsers. What is the most likely cause?",
+      "options": [
+        "The tests have too many assertions",
+        "Requested capabilities (browser name, version or platform) do not match any free node slot, so requests wait for a node that matches",
+        "Grid only runs one test at a time",
+        "The hub must be restarted every hour"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The Grid distributor matches capabilities to node slots. A request for, say, a specific browserVersion or platformName that no idle node offers stays in the queue."
+    },
+    {
+      "id": "pt-ausel-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "selenium-architecture",
+      "prompt": "You need to capture browser console errors during Selenium tests in Chrome and Firefox. What is the forward-looking approach?",
+      "options": [
+        "Parse screenshots",
+        "Use WebDriver BiDi log events (via Selenium's BiDi/log inspection APIs), which are cross-browser, instead of Chrome-only CDP calls",
+        "Read the HTML source for errors",
+        "Use Selenium IDE"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "BiDi standardises event subscriptions such as console logs across browsers. CDP is Chromium-specific and not the long-term cross-browser path."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ausel-session",
+      "title": "Build a new-session payload",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `new_session(browser, headless=False, extra=None)` that returns the JSON body (as a dict) the client sends to `POST /session`:\n\n```python\n{'capabilities': {'alwaysMatch': {'browserName': 'chrome', ...}}}\n```\n\n- `browserName` is the browser in lower case.\n- If headless and browser is chrome, add `'goog:chromeOptions': {'args': ['--headless=new']}`; for firefox add `'moz:firefoxOptions': {'args': ['-headless']}`.\n- Merge any `extra` dict of capabilities into alwaysMatch.\n- Raise `ValueError` for browsers other than chrome, firefox, edge (edge uses browserName `MicrosoftEdge`).",
+      "starter": "def new_session(browser, headless=False, extra=None):\n    return {}\n",
+      "solution": "def new_session(browser, headless=False, extra=None):\n    b = browser.lower()\n    names = {'chrome': 'chrome', 'firefox': 'firefox', 'edge': 'MicrosoftEdge'}\n    if b not in names:\n        raise ValueError(f'unsupported browser: {browser}')\n    caps = {'browserName': names[b]}\n    if headless and b == 'chrome':\n        caps['goog:chromeOptions'] = {'args': ['--headless=new']}\n    if headless and b == 'firefox':\n        caps['moz:firefoxOptions'] = {'args': ['-headless']}\n    caps.update(extra or {})\n    return {'capabilities': {'alwaysMatch': caps}}\n",
+      "explanation": "W3C sessions are negotiated with a capabilities object; alwaysMatch holds requirements for every match. Vendor-specific options use prefixed keys such as goog:chromeOptions, which is how the protocol stays standard while allowing browser-specific settings.",
+      "hints": [
+        "Normalise with browser.lower() and map to the official browserName.",
+        "Vendor options go under prefixed keys: goog:chromeOptions, moz:firefoxOptions.",
+        "caps.update(extra or {}) merges extra capabilities."
+      ],
+      "tests": [
+        {
+          "name": "chrome headless",
+          "code": "assert new_session('Chrome', headless=True) == {'capabilities': {'alwaysMatch': {'browserName': 'chrome', 'goog:chromeOptions': {'args': ['--headless=new']}}}}",
+          "marks": 2
+        },
+        {
+          "name": "edge name and extra caps",
+          "code": "assert new_session('edge', extra={'platformName': 'windows'}) == {'capabilities': {'alwaysMatch': {'browserName': 'MicrosoftEdge', 'platformName': 'windows'}}}",
+          "marks": 2
+        },
+        {
+          "name": "unsupported browser",
+          "code": "try:\n    new_session('ie')\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-ausel-endpoint",
+      "title": "Map commands to W3C endpoints",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `toRequest(sessionId, command, args)` returning `{ method, path, body }` for these W3C WebDriver commands:\n\n| command | method | path | body |\n|---|---|---|---|\n| `get` | POST | `/session/{id}/url` | `{ url: args.url }` |\n| `findElement` | POST | `/session/{id}/element` | `{ using, value }` |\n| `click` | POST | `/session/{id}/element/{elementId}/click` | `{}` |\n| `getTitle` | GET | `/session/{id}/title` | `null` |\n| `quit` | DELETE | `/session/{id}` | `null` |\n\nFor `findElement`, `args` is `{ by, value }` with `by` one of `id`, `css`, `xpath`; translate `id` to `{ using: 'css selector', value: '#' + value }`, `css` to `css selector`, and `xpath` to `xpath`. Unknown commands throw an Error.",
+      "starter": "function toRequest(sessionId, command, args) {\n  return null;\n}",
+      "solution": "function toRequest(sessionId, command, args = {}) {\n  const s = `/session/${sessionId}`;\n  switch (command) {\n    case 'get':\n      return { method: 'POST', path: `${s}/url`, body: { url: args.url } };\n    case 'findElement': {\n      const map = { id: ['css selector', '#' + args.value], css: ['css selector', args.value], xpath: ['xpath', args.value] };\n      const m = map[args.by];\n      if (!m) throw new Error('unknown strategy ' + args.by);\n      return { method: 'POST', path: `${s}/element`, body: { using: m[0], value: m[1] } };\n    }\n    case 'click':\n      return { method: 'POST', path: `${s}/element/${args.elementId}/click`, body: {} };\n    case 'getTitle':\n      return { method: 'GET', path: `${s}/title`, body: null };\n    case 'quit':\n      return { method: 'DELETE', path: s, body: null };\n    default:\n      throw new Error('unknown command ' + command);\n  }\n}",
+      "explanation": "This is the client-side half of Selenium's architecture: every API call becomes an HTTP request against the session. Translating By.id into a CSS selector mirrors what the real clients do, because W3C WebDriver has no 'id' location strategy. Deleting the session is how quit() ends it.",
+      "hints": [
+        "Build the session prefix once: `/session/${sessionId}`.",
+        "A switch on the command name keeps the mapping readable.",
+        "For findElement, map 'id' to ['css selector', '#' + value]."
+      ],
+      "tests": [
+        {
+          "name": "navigate and title",
+          "code": "assertEqual(toRequest('abc','get',{url:'https://x.test'}), {method:'POST', path:'/session/abc/url', body:{url:'https://x.test'}}); assertEqual(toRequest('abc','getTitle'), {method:'GET', path:'/session/abc/title', body:null})",
+          "marks": 2
+        },
+        {
+          "name": "findElement strategies",
+          "code": "assertEqual(toRequest('s','findElement',{by:'id', value:'q'}).body, {using:'css selector', value:'#q'}); assertEqual(toRequest('s','findElement',{by:'xpath', value:'//a'}).body, {using:'xpath', value:'//a'})",
+          "marks": 3
+        },
+        {
+          "name": "click, quit and unknown",
+          "code": "assertEqual(toRequest('s','click',{elementId:'e1'}).path, '/session/s/element/e1/click'); assertEqual(toRequest('s','quit').method, 'DELETE'); let m=''; try { toRequest('s','hover'); } catch(e) { m = e.message; } assert(m.includes('unknown'), 'unknown command should throw')",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

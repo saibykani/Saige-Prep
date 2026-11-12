@@ -1,0 +1,237 @@
+{
+  "lesson": "cypress-fundamentals",
+  "questions": [
+    {
+      "id": "pt-aucy-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cypress-fundamentals",
+      "prompt": "Where do Cypress tests execute?",
+      "options": [
+        "In a separate process that sends WebDriver commands",
+        "Inside the browser, in the same run loop as the application under test",
+        "Only in Node.js with a simulated DOM",
+        "On a Selenium Grid"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cypress runs test code inside the browser alongside the app, with a Node server process for tasks such as file access. That architecture is why it has direct DOM access and also why multi-tab support is limited."
+    },
+    {
+      "id": "pt-aucy-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cypress-fundamentals",
+      "prompt": "`cy.get()` returns the DOM element synchronously, so you can store it in a variable and call `.text()` on it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cypress commands are enqueued and run later; they return a chainable, not the element. Use .then(), .should() or aliases to work with the yielded subject."
+    },
+    {
+      "id": "pt-aucy-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cypress-fundamentals",
+      "prompt": "Which command lets you stub a network response in Cypress?",
+      "options": [
+        "cy.request()",
+        "cy.intercept()",
+        "cy.task()",
+        "cy.stub()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "cy.intercept() spies on or stubs HTTP requests made by the app. cy.request() makes a request from the test itself; cy.task() runs Node code; cy.stub() stubs functions, not network calls."
+    },
+    {
+      "id": "pt-aucy-04",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cypress-fundamentals",
+      "prompt": "This test is flaky: sometimes the assertion runs before the list loads. What is the best fix?",
+      "code": "cy.visit('/');\ncy.get('li').then($li => {\n  expect($li.length).to.equal(3);\n});",
+      "codeLanguage": "javascript",
+      "options": [
+        "Add cy.wait(5000) before the assertion",
+        "Alias the request and wait for it, then assert with should: `cy.intercept('GET','/api/items').as('items'); cy.visit('/'); cy.wait('@items'); cy.get('li').should('have.length', 3)`",
+        "Wrap the assertion in try/catch",
+        "Use expect() inside a setTimeout"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Waiting on the aliased request ties the test to the real event, and should() retries until the list has three items. A fixed wait is slow and still flaky; try/catch and setTimeout break Cypress's command queue."
+    },
+    {
+      "id": "pt-aucy-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cypress-fundamentals",
+      "prompt": "What does `cy.log` print?",
+      "code": "cy.get('#user').type('ana');\ncy.get('#user').then($el => {\n  cy.log($el.val());\n});",
+      "codeLanguage": "javascript",
+      "options": [
+        "undefined",
+        "The username value typed in",
+        "A Chainable object",
+        "An error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Inside .then() you receive the yielded subject (here the input element wrapped in jQuery), so .val() returns the value typed by the previous command."
+    },
+    {
+      "id": "pt-aucy-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cypress-fundamentals",
+      "prompt": "Which are recommended Cypress practices? Select all that apply.",
+      "options": [
+        "Select elements with dedicated data-* attributes such as data-cy",
+        "Log in programmatically (cy.request or cy.session) instead of through the UI in every test",
+        "Share state between tests by relying on the order they run",
+        "Avoid arbitrary cy.wait(ms) calls"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Dedicated selectors, programmatic login and avoiding fixed waits are in Cypress's best-practices guide. Tests should be independent; relying on order makes them fail when run alone or in parallel."
+    },
+    {
+      "id": "pt-aucy-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cypress-fundamentals",
+      "prompt": "What does `cy.session()` provide?",
+      "options": [
+        "Parallel test execution",
+        "Caching and restoring cookies, localStorage and sessionStorage for a login so later tests skip the login steps",
+        "A database transaction",
+        "Video recording"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "cy.session caches browser session data under an id and restores it, which speeds up suites that need an authenticated user."
+    },
+    {
+      "id": "pt-aucy-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cypress-fundamentals",
+      "prompt": "Your app opens a third-party payment page in a new tab via target=\"_blank\". How do you test the flow in Cypress?",
+      "options": [
+        "Use cy.switchToWindow()",
+        "Assert the link's href and target, or remove target and visit in the same tab; test the payment provider integration at the API level or with a stub",
+        "Cypress cannot test anything on that page; skip the test",
+        "Use cy.origin() to open a second tab"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cypress controls one tab, so the documented approach is to check the link attributes or drop target and follow it in the same tab. cy.origin() allows commands on another origin within the same tab; it does not open tabs. There is no cy.switchToWindow."
+    },
+    {
+      "id": "pt-aucy-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cypress-fundamentals",
+      "prompt": "A test uses `cy.intercept('POST', '/api/orders', { statusCode: 500 })` to check the error banner. Which risk should you cover elsewhere?",
+      "options": [
+        "None; the stub proves everything",
+        "That the real backend actually returns the contract the UI expects, via a non-stubbed end-to-end or contract/API test",
+        "That Cypress can stub requests",
+        "That the banner CSS is valid"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stubbing makes UI error handling deterministic but disconnects it from the real API. A small set of real end-to-end or contract tests ensures the stubbed shape still matches reality."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aucy-retry",
+      "title": "Retry until a predicate passes",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Cypress retries queries and assertions until they pass or time out. Write `async function retryUntil(fn, predicate, { timeout = 1000, interval = 50 } = {})` that calls `fn()` (which may be async), and returns its value as soon as `predicate(value)` is true. If the timeout elapses first, throw an `Error` whose message includes `Timed out` and the last value as JSON.\n\n```js\nlet n = 0;\nawait retryUntil(() => ++n, v => v >= 3, { interval: 10 }) // 3\n```",
+      "starter": "async function retryUntil(fn, predicate, { timeout = 1000, interval = 50 } = {}) {\n  return undefined;\n}",
+      "solution": "async function retryUntil(fn, predicate, { timeout = 1000, interval = 50 } = {}) {\n  const deadline = Date.now() + timeout;\n  let last;\n  while (true) {\n    last = await fn();\n    if (predicate(last)) return last;\n    if (Date.now() >= deadline) throw new Error('Timed out, last value: ' + JSON.stringify(last));\n    await new Promise(r => setTimeout(r, interval));\n  }\n}",
+      "explanation": "The loop re-runs the query, not just the assertion, which is the key to Cypress's retry-ability: re-querying picks up fresh DOM. Checking the deadline after each attempt guarantees at least one try and a bounded wait, and reporting the last value makes the timeout failure debuggable.",
+      "hints": [
+        "Compute a deadline with Date.now() + timeout.",
+        "Loop: await fn(), return if predicate passes, otherwise sleep with a Promise around setTimeout.",
+        "Throw when Date.now() passes the deadline, including JSON.stringify(last)."
+      ],
+      "tests": [
+        {
+          "name": "returns once predicate passes",
+          "code": "let n = 0; const v = await retryUntil(() => ++n, x => x >= 3, { interval: 5 }); assertEqual(v, 3)",
+          "marks": 3
+        },
+        {
+          "name": "works with async fn",
+          "code": "let k = 0; const v = await retryUntil(async () => { k++; return k > 1 ? 'Saved' : ''; }, t => t.includes('Saved'), { interval: 5 }); assertEqual(v, 'Saved')",
+          "marks": 2
+        },
+        {
+          "name": "times out with last value",
+          "code": "let msg = ''; try { await retryUntil(() => 'Loading', t => t === 'Done', { timeout: 60, interval: 10 }); } catch (e) { msg = e.message; } assert(msg.includes('Timed out') && msg.includes('Loading'), msg)",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-aucy-selector",
+      "title": "Prefer data-cy selectors",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `bestSelector(el)` where `el` is an object of attributes, e.g. `{ tag: 'button', id: 'save', class: 'btn primary', 'data-cy': 'save-btn' }`. Return, in priority order:\n\n1. `[data-cy=\"...\"]` if `data-cy` exists\n2. `[data-test=\"...\"]` if `data-test` exists\n3. `#id` if `id` exists\n4. otherwise the tag name\n\n```js\nbestSelector({ tag: 'button', id: 'save' }) // '#save'\n```",
+      "starter": "function bestSelector(el) {\n  return '';\n}",
+      "solution": "function bestSelector(el) {\n  if (el['data-cy']) return `[data-cy=\"${el['data-cy']}\"]`;\n  if (el['data-test']) return `[data-test=\"${el['data-test']}\"]`;\n  if (el.id) return `#${el.id}`;\n  return el.tag;\n}",
+      "explanation": "Dedicated test attributes are isolated from styling and behaviour changes, so they come first, as the Cypress guide recommends. ids are next best; classes are deliberately skipped because they change with styling.",
+      "hints": [
+        "Check attributes in priority order with early returns.",
+        "Bracket notation is needed for keys with a dash: el['data-cy'].",
+        "Fall back to el.tag."
+      ],
+      "tests": [
+        {
+          "name": "data-cy wins",
+          "code": "assertEqual(bestSelector({tag:'button', id:'save', 'data-cy':'save-btn', 'data-test':'x'}), '[data-cy=\"save-btn\"]')",
+          "marks": 2
+        },
+        {
+          "name": "data-test then id",
+          "code": "assertEqual(bestSelector({tag:'a', id:'home', 'data-test':'nav-home'}), '[data-test=\"nav-home\"]'); assertEqual(bestSelector({tag:'button', id:'save', class:'btn'}), '#save')",
+          "marks": 2
+        },
+        {
+          "name": "fallback to tag",
+          "code": "assertEqual(bestSelector({tag:'h1', class:'title'}), 'h1')",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

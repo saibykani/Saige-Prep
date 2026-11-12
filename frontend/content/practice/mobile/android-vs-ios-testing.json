@@ -1,0 +1,203 @@
+{
+  "lesson": "android-vs-ios-testing",
+  "questions": [
+    {
+      "id": "pt-mbplat-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "android-vs-ios-testing",
+      "prompt": "What is Google's native UI testing framework for Android apps?",
+      "options": [
+        "XCUITest",
+        "Espresso",
+        "Robot Framework",
+        "Cypress"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Espresso runs in the app's process for fast, synchronised Android UI tests. XCUITest is Apple's equivalent."
+    },
+    {
+      "id": "pt-mbplat-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "android-vs-ios-testing",
+      "prompt": "The Android hardware or gesture Back action has no single universal equivalent on iOS, so navigation tests often differ between the platforms.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "iOS relies on in-app back buttons and edge-swipe gestures; Android has a system Back. Shared test cases need platform-specific steps here."
+    },
+    {
+      "id": "pt-mbplat-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "android-vs-ios-testing",
+      "prompt": "Which tool installs an APK on a connected Android device from the command line?",
+      "options": [
+        "xcrun simctl",
+        "adb install",
+        "pod install",
+        "gradle publish"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "adb (Android Debug Bridge) installs and manages apps on devices and emulators. xcrun simctl manages iOS simulators."
+    },
+    {
+      "id": "pt-mbplat-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "android-vs-ios-testing",
+      "prompt": "What does this command do?",
+      "code": "xcrun simctl privacy booted reset camera com.example.shop",
+      "codeLanguage": "bash",
+      "options": [
+        "Installs the app on the simulator",
+        "Revokes (resets) the camera permission for the app on the booted iOS simulator so the permission prompt appears again",
+        "Uninstalls the app",
+        "Takes a screenshot"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "simctl privacy can grant, revoke or reset a privacy permission for an app on a simulator, which is useful to retest first-launch permission flows."
+    },
+    {
+      "id": "pt-mbplat-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "android-vs-ios-testing",
+      "prompt": "A push notification test passes on the iOS Simulator but users on real iPhones never get notifications. What is a likely gap?",
+      "options": [
+        "Simulators are always accurate",
+        "The simulator test injected a notification locally (e.g. simctl push), which bypasses APNs, real device tokens and certificates; test end-to-end on real devices with the APNs environment",
+        "Push does not work on iOS",
+        "The app needs Android permissions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Simulated pushes verify the app's handling, not the delivery chain. Certificate, token or environment mismatches only show up with real devices and APNs."
+    },
+    {
+      "id": "pt-mbplat-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "android-vs-ios-testing",
+      "prompt": "Which differences between Android and iOS commonly need separate test cases? Select all that apply.",
+      "options": [
+        "Runtime permission dialogs and their wording/options",
+        "Background execution limits and app lifecycle behaviour",
+        "Store review and distribution (TestFlight vs Play testing tracks)",
+        "That arithmetic gives different results"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Permissions, lifecycle and distribution differ by platform. Arithmetic in shared logic does not."
+    },
+    {
+      "id": "pt-mbplat-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "android-vs-ios-testing",
+      "prompt": "Android 13 (API 33) introduced which permission that affects many apps' notification flows?",
+      "options": [
+        "CAMERA",
+        "POST_NOTIFICATIONS runtime permission",
+        "INTERNET",
+        "READ_SMS"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "From Android 13, apps must request POST_NOTIFICATIONS at runtime, so first-launch notification behaviour needs testing on 13+ and older versions."
+    },
+    {
+      "id": "pt-mbplat-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "android-vs-ios-testing",
+      "prompt": "Your app uses one cross-platform codebase (e.g. React Native). Leadership wants to test only on Android to save time. What is your advice?",
+      "options": [
+        "Agree; the code is shared",
+        "Shared code reduces but does not remove platform risk: native modules, permissions, rendering, keyboard and lifecycle differ, so keep a risk-based iOS set (critical journeys plus platform-specific features)",
+        "Test only on iOS instead",
+        "Test only in a desktop browser"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cross-platform frameworks still render with native components and call platform APIs. A smaller but deliberate iOS suite covers the real platform risks."
+    },
+    {
+      "id": "pt-mbplat-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "android-vs-ios-testing",
+      "prompt": "A crash happens only on some Android devices from one manufacturer when the app resumes from background. How do you investigate?",
+      "options": [
+        "Ignore it; it is the manufacturer's fault",
+        "Reproduce on that device model/OS (real or device cloud), capture logcat around the resume, check vendor battery/background restrictions, and test with 'Don't keep activities' enabled to force process death",
+        "Test on an iOS simulator",
+        "Increase the app's memory"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "OEM customisations often kill background processes aggressively. Logs plus forcing process death in developer options reproduce state-restoration bugs reliably."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mbplat-caps",
+      "title": "Platform-specific capabilities",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `caps_for(platform, app_path, device_name, platform_version)` returning W3C Appium capabilities as a dict:\n\n- Android: `platformName` `'Android'`, `appium:automationName` `'UiAutomator2'`\n- iOS: `platformName` `'iOS'`, `appium:automationName` `'XCUITest'`\n- Both: `appium:app`, `appium:deviceName`, `appium:platformVersion` from the arguments.\n\n`platform` is case-insensitive (`'android'`, `'ios'`). Raise `ValueError` otherwise. Also raise `ValueError` if the app path does not end with `.apk`/`.aab` for Android or `.app`/`.ipa` for iOS.",
+      "starter": "def caps_for(platform, app_path, device_name, platform_version):\n    return {'platformName': platform}\n",
+      "solution": "def caps_for(platform, app_path, device_name, platform_version):\n    p = platform.lower()\n    if p == 'android':\n        name, engine, exts = 'Android', 'UiAutomator2', ('.apk', '.aab')\n    elif p == 'ios':\n        name, engine, exts = 'iOS', 'XCUITest', ('.app', '.ipa')\n    else:\n        raise ValueError(f'unknown platform {platform}')\n    if not app_path.lower().endswith(exts):\n        raise ValueError(f'{app_path} is not a {name} app')\n    return {\n        'platformName': name,\n        'appium:automationName': engine,\n        'appium:app': app_path,\n        'appium:deviceName': device_name,\n        'appium:platformVersion': platform_version,\n    }\n",
+      "explanation": "Each platform needs its own automation driver, and in Appium 2 non-standard capabilities must carry the appium: vendor prefix. Validating the file type catches a common mix-up (sending an .ipa to an Android session) before a slow session start fails with a vaguer error.",
+      "hints": [
+        "Normalise the platform with lower() and pick name, driver and allowed extensions.",
+        "str.endswith accepts a tuple of suffixes.",
+        "Use the appium: prefix for every non-W3C capability."
+      ],
+      "tests": [
+        {
+          "name": "android caps",
+          "code": "assert caps_for('Android', 'build/app.apk', 'Pixel 8', '15') == {'platformName':'Android','appium:automationName':'UiAutomator2','appium:app':'build/app.apk','appium:deviceName':'Pixel 8','appium:platformVersion':'15'}",
+          "marks": 2
+        },
+        {
+          "name": "ios caps",
+          "code": "c = caps_for('ios', 'Shop.app', 'iPhone 16', '18.2')\nassert c['platformName'] == 'iOS' and c['appium:automationName'] == 'XCUITest', c",
+          "marks": 2
+        },
+        {
+          "name": "validation",
+          "code": "for args in [('windows','a.exe','x','1'), ('android','Shop.ipa','x','1'), ('ios','app.apk','x','1')]:\n    try:\n        caps_for(*args)\n        raise AssertionError(f'expected ValueError for {args}')\n    except ValueError:\n        pass",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "lesson": "automation-design-patterns",
+  "questions": [
+    {
+      "id": "pt-audp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "automation-design-patterns",
+      "prompt": "Which pattern gives you readable test data like `aUser().withRole('admin').build()` while defaulting everything else?",
+      "options": [
+        "Singleton",
+        "Builder",
+        "Observer",
+        "Adapter"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A Builder sets sensible defaults and lets each test override only what matters. Singleton restricts instances, Observer is about event notification and Adapter converts one interface to another."
+    },
+    {
+      "id": "pt-audp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "automation-design-patterns",
+      "prompt": "A Facade in a test framework can hide several page objects behind one business-level method such as `checkout.placeOrder(cart)`.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is exactly the Facade pattern: a simple interface over a more complex subsystem, so tests read as business flows."
+    },
+    {
+      "id": "pt-audp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "automation-design-patterns",
+      "prompt": "What problem does the Strategy pattern solve in a test framework?",
+      "options": [
+        "Guaranteeing only one browser exists",
+        "Swapping interchangeable behaviours, such as different login methods (UI form, API token, SSO), behind one interface",
+        "Logging every click",
+        "Generating unique ids"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Strategy encapsulates a family of algorithms so the caller can choose one at runtime. It is not about instance count (Singleton) or cross-cutting logging (Decorator or listeners)."
+    },
+    {
+      "id": "pt-audp-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "automation-design-patterns",
+      "prompt": "What does this print?",
+      "code": "class UserBuilder {\n  constructor() { this.role = 'user'; this.active = true; }\n  withRole(r) { this.role = r; return this; }\n  build() { return { role: this.role, active: this.active }; }\n}\nconst u1 = new UserBuilder().withRole('admin').build();\nconst u2 = new UserBuilder().build();\nconsole.log(u2.role, u2.active);",
+      "codeLanguage": "javascript",
+      "options": [
+        "admin true",
+        "user true",
+        "admin false",
+        "user false"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "build() is called on a fresh builder each time. The first builder's withRole('admin') does not affect the second, so u2 has the default role 'user' and active true. Builders that return new objects avoid shared-state leaks between tests."
+    },
+    {
+      "id": "pt-audp-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "automation-design-patterns",
+      "prompt": "Tests run in parallel share this driver holder and interfere with each other. What is the root cause?",
+      "code": "public class DriverManager {\n  private static WebDriver driver;\n  public static WebDriver getDriver() {\n    if (driver == null) driver = new ChromeDriver();\n    return driver;\n  }\n}",
+      "codeLanguage": "java",
+      "options": [
+        "getDriver() should be static",
+        "A single static driver instance is shared across threads; it should be per thread (for example ThreadLocal) or injected per test",
+        "ChromeDriver cannot be created lazily",
+        "The method name is wrong"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A classic Singleton gives every thread the same browser session, so parallel tests click in each other's browser. Per-thread storage or dependency injection keeps sessions isolated."
+    },
+    {
+      "id": "pt-audp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "automation-design-patterns",
+      "prompt": "Which are signs a pattern is adding cost without value in your framework? Select all that apply.",
+      "options": [
+        "A Factory with only one product and no plan for another",
+        "Three layers of abstraction to click one button",
+        "A Builder that lets each test set only the fields it cares about",
+        "New team members cannot find where a click actually happens"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Patterns should remove duplication or isolate change. Single-product factories, deep indirection and code nobody can trace are overhead. A Builder that cuts test data noise is earning its keep."
+    },
+    {
+      "id": "pt-audp-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "automation-design-patterns",
+      "prompt": "In the Screenplay pattern, which element represents 'what the user wants to achieve', for example `PlaceOrder`?",
+      "options": [
+        "Actor",
+        "Ability",
+        "Task",
+        "Question"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Actors have Abilities (such as BrowseTheWeb), perform Tasks (business goals made of Interactions) and ask Questions to check state. PlaceOrder is a Task."
+    },
+    {
+      "id": "pt-audp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "automation-design-patterns",
+      "prompt": "Every test needs a logged-in user and setup takes 20 seconds through the UI. You want tests to pick 'UI login' for the login tests and 'API token injection' for everything else, without if/else in every test. Which design fits best?",
+      "options": [
+        "A Singleton that logs in once for the whole suite",
+        "A LoginStrategy interface with UiLogin and ApiLogin implementations, chosen per test or via configuration",
+        "Copying the login code into each test class",
+        "A Decorator around WebDriver"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Strategy lets the login method vary independently of the tests. A shared single login couples tests together and breaks isolation; copy-paste multiplies maintenance; a Decorator adds behaviour around calls rather than choosing an algorithm."
+    },
+    {
+      "id": "pt-audp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "automation-design-patterns",
+      "prompt": "You want every WebDriver action logged with timing, without editing each page object. Which approach is cleanest?",
+      "options": [
+        "Add log statements to every page object method",
+        "Wrap the driver in a Decorator (or use Selenium's event-firing/listener support) that logs around each call",
+        "Make the driver a Singleton",
+        "Use a Builder for the driver"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A Decorator or listener adds cross-cutting behaviour in one place and leaves page objects unchanged. Editing every method duplicates code and is easy to forget; Singleton and Builder do not add behaviour around calls."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-audp-builder",
+      "title": "Test data builder",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write a class `OrderBuilder` with defaults `{ customer: 'guest', items: [], currency: 'GBP' }`. Methods `forCustomer(name)`, `withItem(sku, qty)` (appends `{ sku, qty }`) and `inCurrency(code)` each return `this`. `build()` returns a **new** plain object each call, so mutating one built order never affects another.\n\n```js\nnew OrderBuilder().withItem('A1', 2).build()\n// { customer: 'guest', items: [{ sku: 'A1', qty: 2 }], currency: 'GBP' }\n```",
+      "starter": "class OrderBuilder {\n  // add constructor, fluent methods and build()\n}",
+      "solution": "class OrderBuilder {\n  constructor() {\n    this.customer = 'guest';\n    this.items = [];\n    this.currency = 'GBP';\n  }\n  forCustomer(name) { this.customer = name; return this; }\n  withItem(sku, qty) { this.items.push({ sku, qty }); return this; }\n  inCurrency(code) { this.currency = code; return this; }\n  build() {\n    return { customer: this.customer, items: this.items.map(i => ({ ...i })), currency: this.currency };\n  }\n}",
+      "explanation": "Returning `this` makes calls chain. build() copies the items array and each item so callers get independent objects; without the copy two orders built from one builder would share the same array, a subtle source of test pollution.",
+      "hints": [
+        "Set the defaults in the constructor.",
+        "Each fluent method changes a field and ends with `return this;`.",
+        "In build(), copy items with `this.items.map(i => ({ ...i }))`."
+      ],
+      "tests": [
+        {
+          "name": "defaults",
+          "code": "assertEqual(new OrderBuilder().build(), {customer:'guest', items:[], currency:'GBP'})",
+          "marks": 2
+        },
+        {
+          "name": "fluent overrides",
+          "code": "assertEqual(new OrderBuilder().forCustomer('ana').withItem('A1',2).withItem('B2',1).inCurrency('EUR').build(), {customer:'ana', items:[{sku:'A1',qty:2},{sku:'B2',qty:1}], currency:'EUR'})",
+          "marks": 2
+        },
+        {
+          "name": "built objects are independent",
+          "code": "const b = new OrderBuilder().withItem('A1',1); const o1 = b.build(); o1.items.push({sku:'X',qty:9}); o1.items[0].qty = 50; const o2 = b.build(); assertEqual(o2.items, [{sku:'A1',qty:1}])",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-audp-factory",
+      "title": "Driver config factory",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `driverConfig(env)` (a Factory) that returns a config object:\n\n- `'local'` -> `{ browser: 'chrome', headless: false, remoteUrl: null }`\n- `'ci'` -> `{ browser: 'chrome', headless: true, remoteUrl: null }`\n- `'grid'` -> `{ browser: 'firefox', headless: true, remoteUrl: 'http://grid:4444' }`\n\nAny other value must throw an `Error` whose message contains `unknown environment`. Each call returns a fresh object.",
+      "starter": "function driverConfig(env) {\n  return undefined;\n}",
+      "solution": "function driverConfig(env) {\n  const configs = {\n    local: { browser: 'chrome', headless: false, remoteUrl: null },\n    ci: { browser: 'chrome', headless: true, remoteUrl: null },\n    grid: { browser: 'firefox', headless: true, remoteUrl: 'http://grid:4444' },\n  };\n  if (!Object.prototype.hasOwnProperty.call(configs, env)) {\n    throw new Error('unknown environment');\n  }\n  return { ...configs[env] };\n}",
+      "explanation": "The factory centralises the decision of which browser setup to create, so tests just ask for an environment. Failing loudly on an unknown name stops a typo like 'cl' silently running against the wrong setup. The own-property check also rejects names such as 'toString'.",
+      "hints": [
+        "A lookup object keyed by environment keeps this short.",
+        "Throw `new Error('unknown environment')` when the key is missing.",
+        "Use Object.prototype.hasOwnProperty.call so inherited names like 'toString' are rejected, and return a spread copy."
+      ],
+      "tests": [
+        {
+          "name": "three environments",
+          "code": "assertEqual(driverConfig('local'), {browser:'chrome',headless:false,remoteUrl:null}); assertEqual(driverConfig('grid'), {browser:'firefox',headless:true,remoteUrl:'http://grid:4444'}); assertEqual(driverConfig('ci').headless, true)",
+          "marks": 3
+        },
+        {
+          "name": "unknown env throws",
+          "code": "let msg = ''; try { driverConfig('staging'); } catch (e) { msg = e.message; } assert(msg.includes('unknown environment'), 'expected an unknown environment error'); let m2=''; try { driverConfig('toString'); } catch (e) { m2 = e.message; } assert(m2.includes('unknown environment'), 'toString must be rejected')",
+          "marks": 2
+        },
+        {
+          "name": "fresh object each call",
+          "code": "const a = driverConfig('ci'); a.headless = false; assertEqual(driverConfig('ci').headless, true)",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "lesson": "test-pyramid-and-strategy",
+  "questions": [
+    {
+      "id": "pt-sdpyr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "Which layer of the test pyramid should usually have the most tests?",
+      "options": [
+        "End-to-end UI tests",
+        "Unit tests",
+        "Manual tests",
+        "Performance tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unit tests are fast, cheap and precise, so the pyramid puts most tests there and fewer at slower, broader levels."
+    },
+    {
+      "id": "pt-sdpyr-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "Tests higher in the pyramid are generally slower, more expensive to maintain and more likely to be flaky than unit tests.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Broader tests involve more components (browsers, networks, data), which costs time and adds sources of non-determinism."
+    },
+    {
+      "id": "pt-sdpyr-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "What is the 'ice-cream cone' anti-pattern?",
+      "options": [
+        "Too many unit tests",
+        "Mostly manual and UI tests with few unit and integration tests",
+        "Only performance tests",
+        "Testing in production"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The inverted shape gives slow, brittle feedback because most checks run through the UI or by hand."
+    },
+    {
+      "id": "pt-sdpyr-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "A bug in a tax calculation rule is found. At which level is a new regression test usually best placed?",
+      "code": "def tax(amount, region):\n    ...  # bug: wrong rate for region 'NI'",
+      "codeLanguage": "python",
+      "options": [
+        "Full UI end-to-end test",
+        "Unit test of the tax calculation (plus an existing integration test proving it is wired in)",
+        "Manual test script",
+        "Load test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The rule is pure logic, so a unit test reproduces it precisely and runs in milliseconds. Higher levels only need to prove the wiring."
+    },
+    {
+      "id": "pt-sdpyr-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "A team's suite has 20 unit, 30 API and 600 UI tests and takes 3 hours. Which change most improves feedback?",
+      "options": [
+        "Add 200 more UI tests",
+        "Identify UI tests that really check logic or API behaviour and move those checks down to unit/API level, keeping a lean set of critical user journeys in the UI",
+        "Run UI tests weekly only",
+        "Delete the unit tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Pushing checks to the lowest level that can catch the bug shrinks run time and flakiness without losing coverage."
+    },
+    {
+      "id": "pt-sdpyr-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "Which concerns are often better addressed outside the classic pyramid layers? Select all that apply.",
+      "options": [
+        "Exploratory testing of new features",
+        "Performance and load characteristics",
+        "Accessibility review with assistive technology",
+        "Checking a pure function's edge cases"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Exploratory, performance and accessibility testing are complementary activities. Edge cases of pure functions are classic unit tests."
+    },
+    {
+      "id": "pt-sdpyr-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "What is the 'testing trophy' (popularised for front-end apps) emphasising compared with the classic pyramid?",
+      "options": [
+        "Only end-to-end tests",
+        "Static analysis at the base and a large share of integration tests, because they give confidence close to how users use the app",
+        "No automated tests",
+        "Only snapshot tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The trophy shape stresses static checks and integration tests. Both models agree on the principle: choose tests by confidence per cost, not by fixed ratios."
+    },
+    {
+      "id": "pt-sdpyr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "A microservice team's unit tests all pass, yet releases often break because services disagree on message formats. Which addition fits the strategy best?",
+      "options": [
+        "More unit tests",
+        "Contract tests between producers and consumers, run in each service's pipeline",
+        "A bigger manual regression phase",
+        "Load tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The defect class is integration mismatch, which unit tests cannot see. Contract tests target exactly that, cheaply and early."
+    },
+    {
+      "id": "pt-sdpyr-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-pyramid-and-strategy",
+      "prompt": "Leadership mandates '70% unit, 20% integration, 10% UI' for every team. A team building a thin UI over a third-party API asks for advice. What do you say?",
+      "options": [
+        "Follow the ratio exactly",
+        "The pyramid is a heuristic, not a quota: this app has little internal logic, so more integration/contract tests around the API boundary and a few UI journeys give better confidence per cost",
+        "Write no tests",
+        "Use only UI tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Strategy should follow where the risk and logic live. Fixed ratios ignore architecture and can lead to pointless tests written to hit a number."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdpyr-shape",
+      "title": "Classify a suite's shape",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `shape(unit, integration, ui)` returning:\n\n- `'empty'` if all are 0\n- `'pyramid'` if unit > integration > ui\n- `'ice-cream cone'` if ui > integration > unit\n- `'hourglass'` if unit > integration and ui > integration\n- `'diamond'` if integration > unit and integration > ui\n- otherwise `'mixed'`\n\n```python\nshape(500, 120, 20)  # 'pyramid'\n```",
+      "starter": "def shape(unit, integration, ui):\n    return 'pyramid'\n",
+      "solution": "def shape(unit, integration, ui):\n    if unit == integration == ui == 0:\n        return 'empty'\n    if unit > integration > ui:\n        return 'pyramid'\n    if ui > integration > unit:\n        return 'ice-cream cone'\n    if unit > integration and ui > integration:\n        return 'hourglass'\n    if integration > unit and integration > ui:\n        return 'diamond'\n    return 'mixed'\n",
+      "explanation": "Checking the specific shapes before the general fallback keeps the logic clear. Naming the shape is a quick health indicator: an ice-cream cone or hourglass usually means slow, brittle feedback and missing integration coverage.",
+      "hints": [
+        "Python supports chained comparisons like a > b > c.",
+        "Check 'empty' first, then the specific shapes.",
+        "Return 'mixed' when nothing else matches."
+      ],
+      "tests": [
+        {
+          "name": "pyramid and cone",
+          "code": "assert shape(500, 120, 20) == 'pyramid'\nassert shape(10, 40, 600) == 'ice-cream cone'",
+          "marks": 2
+        },
+        {
+          "name": "hourglass and diamond",
+          "code": "assert shape(400, 10, 300) == 'hourglass'\nassert shape(50, 300, 40) == 'diamond'",
+          "marks": 2
+        },
+        {
+          "name": "empty and mixed",
+          "code": "assert shape(0, 0, 0) == 'empty'\nassert shape(100, 100, 5) == 'mixed'",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

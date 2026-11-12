@@ -1,0 +1,237 @@
+{
+  "lesson": "webdriverio-fundamentals",
+  "questions": [
+    {
+      "id": "pt-auwdio-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "Which file configures a WebdriverIO test runner project?",
+      "options": [
+        "wdio.conf.js / wdio.conf.ts",
+        "playwright.config.ts",
+        "cypress.config.js",
+        "testng.xml"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The WDIO testrunner reads wdio.conf.(js|ts) for specs, capabilities, framework, services and reporters."
+    },
+    {
+      "id": "pt-auwdio-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "In modern WebdriverIO, commands such as `$('#login').click()` are asynchronous and must be awaited.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "WebdriverIO v8 and later removed the synchronous mode (based on node-fibers), so commands return Promises and need await."
+    },
+    {
+      "id": "pt-auwdio-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "What does `$$('.item')` return in WebdriverIO?",
+      "options": [
+        "The first matching element",
+        "All matching elements",
+        "The number of matches",
+        "A CSS string"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "$ returns one element (the first match); $$ returns an array-like collection of all matches."
+    },
+    {
+      "id": "pt-auwdio-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "What is logged?",
+      "code": "const items = await $$('.cart-item');\nconst first = items[0].getText();\nconsole.log(first);",
+      "codeLanguage": "javascript",
+      "options": [
+        "3",
+        "A Promise object",
+        "undefined",
+        "0"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without await, getText() returns a pending Promise, so console.log prints the Promise rather than the text. Adding await gives the text."
+    },
+    {
+      "id": "pt-auwdio-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "This check fails randomly because the toast takes a moment to appear. What is the best fix?",
+      "code": "await $('#save').click();\nconst text = await $('.toast').getText();\nexpect(text).toBe('Saved');",
+      "codeLanguage": "javascript",
+      "options": [
+        "Add browser.pause(3000)",
+        "Use the WebdriverIO expect matcher, which retries: await expect($('.toast')).toHaveText('Saved')",
+        "Use a try/catch around the assertion",
+        "Call getText() twice"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "expect-webdriverio matchers wait and retry until the condition is met or the wait timeout elapses. pause() is a fixed sleep."
+    },
+    {
+      "id": "pt-auwdio-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "Which can WebdriverIO drive? Select all that apply.",
+      "options": [
+        "Desktop browsers via WebDriver or WebDriver BiDi",
+        "Native mobile apps via Appium",
+        "Unit-test components in a real browser (component testing)",
+        "Mainframe green screens"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "WebdriverIO supports browsers, mobile via Appium and component testing in the browser runner. It has no mainframe terminal support."
+    },
+    {
+      "id": "pt-auwdio-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "What is a WebdriverIO custom command typically used for?",
+      "options": [
+        "Changing the Node version",
+        "Adding a reusable action to browser or element objects, e.g. browser.addCommand('login', async (user) => { ... })",
+        "Configuring reporters",
+        "Replacing assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "addCommand extends browser or element with project-specific helpers, keeping tests concise."
+    },
+    {
+      "id": "pt-auwdio-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "A suite must run on Chrome, Firefox and a mobile Safari emulator, with different specs for mobile. What WebdriverIO features help?",
+      "options": [
+        "Three separate projects",
+        "Multiple capabilities in wdio.conf with per-capability specs/exclude, plus maxInstances to run them in parallel",
+        "Running npx wdio three times manually",
+        "Hard-coding browser names in tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "One config can list several capabilities, each with its own spec selection, and the runner launches them in parallel workers."
+    },
+    {
+      "id": "pt-auwdio-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "webdriverio-fundamentals",
+      "prompt": "Your WDIO tests use `browser.pause(2000)` 150 times and take 40 minutes. What change gives the best speed and stability?",
+      "options": [
+        "Lower each pause to 500 ms",
+        "Replace pauses with waits on real conditions (waitForDisplayed, waitUntil, retrying expect matchers)",
+        "Increase maxInstances to 50 and keep the pauses",
+        "Move pauses into hooks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Condition-based waits finish as soon as the app is ready and wait longer only when needed, so tests get both faster and more stable. Shorter pauses just get flakier."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-auwdio-element",
+      "title": "A tiny $/$$ over a fake DOM",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Model WebdriverIO's selectors over a fake DOM (an array of `{ sel, text, displayed }`). Write `makeBrowser(dom)` returning an object with:\n\n- `async $(sel)`: the first element with that `sel`, wrapped as `{ getText: async () => text, isDisplayed: async () => displayed }`; if none, an object whose `isDisplayed()` resolves to `false` and whose `getText()` rejects with `Error('element (\"<sel>\") still not existing')`.\n- `async $$(sel)`: an array of wrappers for all matches (possibly empty).",
+      "starter": "function makeBrowser(dom) {\n  return {};\n}",
+      "solution": "function makeBrowser(dom) {\n  const wrap = (el) => ({ getText: async () => el.text, isDisplayed: async () => el.displayed });\n  return {\n    async $(sel) {\n      const el = dom.find(e => e.sel === sel);\n      if (el) return wrap(el);\n      return {\n        isDisplayed: async () => false,\n        getText: async () => { throw new Error(`element (\"${sel}\") still not existing`); },\n      };\n    },\n    async $$(sel) {\n      return dom.filter(e => e.sel === sel).map(wrap);\n    },\n  };\n}",
+      "explanation": "Like WebdriverIO, a missing element from $ is not an immediate error: you get an object you can still query (isDisplayed is false), and only an action that needs the element fails. $$ returns an empty array when nothing matches, the usual way to assert absence.",
+      "hints": [
+        "Write a wrap(el) helper returning the two async methods.",
+        "$ uses dom.find; $$ uses dom.filter and maps through wrap.",
+        "For a missing element, return an object whose getText throws."
+      ],
+      "tests": [
+        {
+          "name": "$ finds first match",
+          "code": "const b = makeBrowser([{sel:'.item', text:'Mug', displayed:true},{sel:'.item', text:'Pen', displayed:true}]); assertEqual(await (await b.$('.item')).getText(), 'Mug')",
+          "marks": 2
+        },
+        {
+          "name": "$$ returns all and empty",
+          "code": "const b = makeBrowser([{sel:'.item', text:'Mug', displayed:true},{sel:'.item', text:'Pen', displayed:false}]); const all = await b.$$('.item'); assertEqual(await Promise.all(all.map(e => e.getText())), ['Mug','Pen']); assertEqual((await b.$$('.none')).length, 0)",
+          "marks": 2
+        },
+        {
+          "name": "missing element behaviour",
+          "code": "const b = makeBrowser([]); const el = await b.$('#x'); assertEqual(await el.isDisplayed(), false); let m=''; try { await el.getText(); } catch(e) { m = e.message; } assertEqual(m, 'element (\"#x\") still not existing')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-auwdio-command",
+      "title": "Add a custom command",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `addCommand(target, name, fn)` that adds a method called `name` to `target`. When called, the method must run `fn` with `this` bound to `target` and pass through all arguments, returning `fn`'s result (which may be a Promise). Throw `Error('command exists: <name>')` if `target` already has a property with that name.\n\n```js\nconst browser = { url: '/' };\naddCommand(browser, 'where', function () { return this.url; });\nbrowser.where(); // '/'\n```",
+      "starter": "function addCommand(target, name, fn) {\n}",
+      "solution": "function addCommand(target, name, fn) {\n  if (name in target) throw new Error(`command exists: ${name}`);\n  target[name] = function (...args) {\n    return fn.apply(target, args);\n  };\n}",
+      "explanation": "Binding this to the target lets a command use other browser methods (this.url, this.$), which is how WebdriverIO custom commands compose. Refusing to overwrite existing names protects built-in commands from being replaced by accident (WebdriverIO uses overwriteCommand for deliberate overrides).",
+      "hints": [
+        "Use the `in` operator to check for an existing property.",
+        "Assign a function that calls fn.apply(target, args).",
+        "Return fn's result so async commands can be awaited."
+      ],
+      "tests": [
+        {
+          "name": "binds this and passes args",
+          "code": "const b = { base: 'https://x.test' }; addCommand(b, 'open', function (p) { return this.base + p; }); assertEqual(b.open('/cart'), 'https://x.test/cart')",
+          "marks": 2
+        },
+        {
+          "name": "async commands",
+          "code": "const b = { user: 'ana' }; addCommand(b, 'login', async function (pw) { return this.user + ':' + pw.length; }); assertEqual(await b.login('secret'), 'ana:6')",
+          "marks": 2
+        },
+        {
+          "name": "refuses to overwrite",
+          "code": "const b = { click() {} }; let m=''; try { addCommand(b, 'click', () => 1); } catch(e) { m = e.message; } assertEqual(m, 'command exists: click')",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

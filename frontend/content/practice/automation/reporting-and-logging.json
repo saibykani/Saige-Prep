@@ -1,0 +1,237 @@
+{
+  "lesson": "reporting-and-logging",
+  "questions": [
+    {
+      "id": "pt-aurpt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reporting-and-logging",
+      "prompt": "Who is the main audience of a test report's summary?",
+      "options": [
+        "Only the person who wrote the tests",
+        "Anyone deciding on quality or release, so it must show what ran, what failed and why at a glance",
+        "The compiler",
+        "Search engines"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Reports exist to support decisions. Managers, developers and testers all need the summary; details are for whoever investigates."
+    },
+    {
+      "id": "pt-aurpt-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reporting-and-logging",
+      "prompt": "Logging passwords and tokens in test logs is acceptable because the logs are internal.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "CI logs are widely readable and often retained or forwarded. Secrets must be masked; many CI systems mask known secrets, but test code should not print them in the first place."
+    },
+    {
+      "id": "pt-aurpt-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "reporting-and-logging",
+      "prompt": "Which log level suits 'Starting checkout test for user test-42'?",
+      "options": [
+        "ERROR",
+        "INFO",
+        "TRACE",
+        "FATAL"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "INFO records normal milestones. ERROR is for failures; TRACE for very fine detail; FATAL for unrecoverable conditions."
+    },
+    {
+      "id": "pt-aurpt-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reporting-and-logging",
+      "prompt": "A JUnit XML file contains this. How many tests passed?",
+      "code": "<testsuite name=\"Checkout\" tests=\"4\" failures=\"1\" errors=\"1\" skipped=\"1\" time=\"12.3\">",
+      "codeLanguage": "xml",
+      "options": [
+        "4",
+        "3",
+        "2",
+        "1"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "tests=4, of which 1 failure, 1 error and 1 skipped, leaving 1 passed. Failures and errors are counted separately in JUnit XML."
+    },
+    {
+      "id": "pt-aurpt-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reporting-and-logging",
+      "prompt": "A failure message reads only 'expected true but was false'. How should the assertion be improved?",
+      "code": "assertTrue(page.status().equals(\"Paid\"));",
+      "codeLanguage": "java",
+      "options": [
+        "Use assertTrue twice",
+        "Assert on the actual values with a message, e.g. assertEquals(\"Paid\", status, \"order \" + orderId + \" status\"), so the report shows what was expected and found",
+        "Remove the assertion",
+        "Log 'test failed' before it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Asserting on values gives 'expected: <Paid> but was: <Pending>', and a message adds context. Boolean assertions lose that information."
+    },
+    {
+      "id": "pt-aurpt-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reporting-and-logging",
+      "prompt": "Which belong in a good failure report for a UI test? Select all that apply.",
+      "options": [
+        "The assertion message with expected and actual values",
+        "A screenshot and/or trace at the point of failure",
+        "Environment details (build, browser, base URL)",
+        "The full log of every passing test in the run"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Evidence specific to the failure plus environment context makes triage fast. Dumping every passing test's logs buries the signal."
+    },
+    {
+      "id": "pt-aurpt-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "reporting-and-logging",
+      "prompt": "Why add a correlation id (such as a test name or request id) to every log line?",
+      "options": [
+        "It makes logs shorter",
+        "So lines from one test can be filtered out of interleaved parallel logs and matched with backend logs",
+        "It is required by JUnit",
+        "It encrypts the logs"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parallel runs interleave output. A per-test id lets you reconstruct one test's story and join it with server-side logs for the same request."
+    },
+    {
+      "id": "pt-aurpt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reporting-and-logging",
+      "prompt": "Stakeholders complain the nightly report shows '412 passed, 9 failed' but they cannot tell if it is safe to release. What improvement is most valuable?",
+      "options": [
+        "Make the report more colourful",
+        "Group results by feature/risk area, show trends against previous runs, and classify each failure (product bug, test issue, environment) with links to tickets",
+        "Hide the failures",
+        "Report only the pass percentage"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Decision-makers need context: which areas are affected, whether things are getting better or worse, and what each failure means. A single percentage hides that."
+    },
+    {
+      "id": "pt-aurpt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "reporting-and-logging",
+      "prompt": "Test logs at DEBUG are 2 GB per run and nobody can find anything. What is the best strategy?",
+      "options": [
+        "Turn off logging",
+        "Log at INFO by default with structured fields, keep DEBUG detail in a per-test buffer that is only attached when that test fails",
+        "Email the full logs to the team",
+        "Log everything at ERROR"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Buffering detailed logs and attaching them on failure gives depth exactly where it is needed while keeping normal output small. Turning logs off or raising everything to ERROR destroys their value."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aurpt-junitxml",
+      "title": "Summarise JUnit XML",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `summarise(xml_text)` that parses a JUnit XML report (a `<testsuites>` root containing `<testsuite>` elements, or a single `<testsuite>` root) using `xml.etree.ElementTree`, and returns a dict:\n\n`{'total': n, 'passed': n, 'failed': n, 'errors': n, 'skipped': n, 'failures': [names]}`\n\nCount from `<testcase>` children: a case with a `<failure>` child is failed, `<error>` is an error, `<skipped>` is skipped, otherwise passed. `failures` lists `classname.name` for failed **and** errored cases, sorted.",
+      "starter": "import xml.etree.ElementTree as ET\n\ndef summarise(xml_text):\n    return {}\n",
+      "solution": "import xml.etree.ElementTree as ET\n\ndef summarise(xml_text):\n    root = ET.fromstring(xml_text)\n    out = {'total': 0, 'passed': 0, 'failed': 0, 'errors': 0, 'skipped': 0, 'failures': []}\n    for case in root.iter('testcase'):\n        out['total'] += 1\n        name = f\"{case.get('classname')}.{case.get('name')}\"\n        if case.find('failure') is not None:\n            out['failed'] += 1\n            out['failures'].append(name)\n        elif case.find('error') is not None:\n            out['errors'] += 1\n            out['failures'].append(name)\n        elif case.find('skipped') is not None:\n            out['skipped'] += 1\n        else:\n            out['passed'] += 1\n    out['failures'].sort()\n    return out\n",
+      "explanation": "root.iter('testcase') finds cases at any depth, so the same code handles <testsuites> and a bare <testsuite>. Counting from the cases themselves (instead of trusting the suite attributes) is more reliable when reports are merged. Note `find()` returns None when absent, so compare with `is not None`; an Element with no children is falsy.",
+      "hints": [
+        "ET.fromstring parses the text; root.iter('testcase') walks every test case.",
+        "case.find('failure') is not None tells you it failed (do not rely on truthiness).",
+        "Build the name from the classname and name attributes."
+      ],
+      "tests": [
+        {
+          "name": "counts each outcome",
+          "code": "x = '<testsuites><testsuite name=\"s\"><testcase classname=\"A\" name=\"ok\"/><testcase classname=\"A\" name=\"bad\"><failure message=\"x\"/></testcase><testcase classname=\"B\" name=\"boom\"><error/></testcase><testcase classname=\"B\" name=\"later\"><skipped/></testcase></testsuite></testsuites>'\nr = summarise(x)\nassert (r['total'], r['passed'], r['failed'], r['errors'], r['skipped']) == (4,1,1,1,1), r",
+          "marks": 3
+        },
+        {
+          "name": "lists failures and errors sorted",
+          "code": "x = '<testsuite><testcase classname=\"Z\" name=\"b\"><failure/></testcase><testcase classname=\"A\" name=\"a\"><error/></testcase></testsuite>'\nassert summarise(x)['failures'] == ['A.a', 'Z.b']",
+          "marks": 2
+        },
+        {
+          "name": "all passing",
+          "code": "r = summarise('<testsuite><testcase classname=\"A\" name=\"x\"/></testsuite>')\nassert r == {'total':1,'passed':1,'failed':0,'errors':0,'skipped':0,'failures':[]}, r",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aurpt-mask",
+      "title": "Mask secrets in log lines",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `maskSecrets(line)` that hides sensitive values before logging:\n\n- values after `password=`, `token=` or `apiKey=` (case-insensitive key) up to the next `&`, space or end become `***`\n- `Authorization: Bearer <anything>` becomes `Authorization: Bearer ***`\n\n```js\nmaskSecrets('POST /login?user=ana&password=S3cret!')\n// 'POST /login?user=ana&password=***'\n```",
+      "starter": "function maskSecrets(line) {\n  return line;\n}",
+      "solution": "function maskSecrets(line) {\n  return line\n    .replace(/\\b(password|token|apikey)=[^&\\s]*/gi, (m, key) => `${key}=***`)\n    .replace(/(Authorization:\\s*Bearer\\s+)\\S+/gi, '$1***');\n}",
+      "explanation": "A regex with a capture group keeps the key (and its original case) and replaces only the value. The value pattern [^&\\s]* stops at the next parameter or space, so the rest of the line stays readable. Masking at the logging layer means no test can leak a credential by accident.",
+      "hints": [
+        "Use String.replace with a global, case-insensitive regex.",
+        "Capture the key name so you can put it back: (password|token|apikey)=",
+        "For the header, capture 'Authorization: Bearer ' and replace the token with $1***."
+      ],
+      "tests": [
+        {
+          "name": "masks query parameters",
+          "code": "assertEqual(maskSecrets('POST /login?user=ana&password=S3cret!&remember=1'), 'POST /login?user=ana&password=***&remember=1')",
+          "marks": 2
+        },
+        {
+          "name": "case-insensitive keys",
+          "code": "assertEqual(maskSecrets('cfg apiKey=abc123 Token=xyz'), 'cfg apiKey=*** Token=***')",
+          "marks": 2
+        },
+        {
+          "name": "bearer header",
+          "code": "assertEqual(maskSecrets('Authorization: Bearer eyJhbGciOi.x.y'), 'Authorization: Bearer ***')",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

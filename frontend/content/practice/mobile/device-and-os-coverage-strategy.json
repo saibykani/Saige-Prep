@@ -1,0 +1,235 @@
+{
+  "lesson": "device-and-os-coverage-strategy",
+  "questions": [
+    {
+      "id": "pt-mbdev-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "What should primarily drive which devices you test on?",
+      "options": [
+        "The devices the team owns",
+        "Your own users' analytics (devices, OS versions, screen sizes) combined with risk",
+        "The newest flagship phones only",
+        "Random selection"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Real usage data shows where users are; risk adds devices that matter despite low share (e.g. the minimum supported OS)."
+    },
+    {
+      "id": "pt-mbdev-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "Emulators and simulators are good for fast functional feedback, but real devices are still needed for performance, battery, sensors and OEM-specific behaviour.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Virtual devices share the host's hardware and miss vendor customisations, so real devices cover what they cannot."
+    },
+    {
+      "id": "pt-mbdev-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "What is a device tier (for example tier 1, tier 2) used for?",
+      "options": [
+        "Ranking device prices",
+        "Deciding how much testing each group of devices gets, with the most important devices tested most often and most deeply",
+        "Choosing app icons",
+        "Selecting the release date"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tiers balance coverage against cost: full regression on tier 1, smoke tests on tier 2, occasional checks on tier 3."
+    },
+    {
+      "id": "pt-mbdev-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "Analytics show OS share: v15 45%, v14 30%, v13 15%, v12 7%, older 3%. Choosing the smallest set of versions covering at least 85% of users, which do you pick?",
+      "code": "v15: 45%\nv14: 30%\nv13: 15%\nv12: 7%\nolder: 3%",
+      "codeLanguage": "text",
+      "options": [
+        "v15 only",
+        "v15 and v14",
+        "v15, v14 and v13",
+        "All versions"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "45 + 30 = 75% is not enough; adding v13 gives 90%. You would still consider v12 or the minimum supported version for risk reasons."
+    },
+    {
+      "id": "pt-mbdev-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "A device matrix chosen two years ago still drives testing, and recent crashes come from devices not on it. What went wrong?",
+      "options": [
+        "Nothing",
+        "The matrix was not reviewed; it should be refreshed regularly (e.g. quarterly) from analytics, crash reports and OS releases",
+        "Too many devices were tested",
+        "Crashes are unrelated to devices"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "User bases and OS adoption shift. Regular reviews driven by data keep the matrix aligned with reality."
+    },
+    {
+      "id": "pt-mbdev-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "Which are good reasons to add a device to tier 1 despite low usage share? Select all that apply.",
+      "options": [
+        "It runs the minimum supported OS version",
+        "It has a very small screen or unusual aspect ratio that stresses layouts",
+        "It belongs to a key business customer's fleet",
+        "It has the nicest colour"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Boundary OS versions, extreme screens and contractual importance are risk factors. Colour is not."
+    },
+    {
+      "id": "pt-mbdev-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "What is a main advantage of a cloud device farm (e.g. BrowserStack, Sauce Labs, Firebase Test Lab, AWS Device Farm)?",
+      "options": [
+        "Free unlimited testing",
+        "Access to many real device models and OS versions without buying and maintaining them, with parallel runs",
+        "It removes the need for test design",
+        "Tests run faster than on any local device"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Device clouds trade cost per minute for breadth and maintenance-free access. They do not replace test design."
+    },
+    {
+      "id": "pt-mbdev-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "Budget allows four real Android devices for a banking app used mostly in markets with many low-end phones. Which set gives the broadest risk coverage?",
+      "options": [
+        "Four current flagships",
+        "A popular low-end device on an older supported OS, a popular mid-range device, a current flagship on the latest OS, and a device from a manufacturer with aggressive battery management",
+        "Four of the same popular model",
+        "Only tablets"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Spreading across performance classes, OS versions and OEM behaviours covers more distinct risks than duplicating similar hardware."
+    },
+    {
+      "id": "pt-mbdev-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "device-and-os-coverage-strategy",
+      "prompt": "A new major OS beta is released. Your app's next release ships two weeks after the OS goes public. What should the test strategy include?",
+      "options": [
+        "Nothing until users complain",
+        "Early testing of critical journeys on the beta (permissions, background behaviour, deprecated APIs), tracking OS behaviour changes, and adding the new version to tier 1 at release",
+        "Blocking users from upgrading",
+        "Testing only on the old OS"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing betas early surfaces breaking platform changes while there is still time to fix them; new OS versions gain users quickly after launch."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mbdev-cover",
+      "title": "Choose devices to reach a coverage target",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `choose(devices, target)` where `devices` maps model name to user share percentage (numbers). Pick devices greedily by highest share (ties by name ascending) until the cumulative share is **at least** `target`. Return `(chosen_list, total_share)` with total rounded to 1 decimal. If the target cannot be reached, return all devices in that order with their total.\n\n```python\nchoose({'A': 40, 'B': 25, 'C': 20, 'D': 15}, 80)  # (['A', 'B', 'C'], 85.0)\n```",
+      "starter": "def choose(devices, target):\n    return list(devices), 0.0\n",
+      "solution": "def choose(devices, target):\n    chosen, total = [], 0.0\n    for name in sorted(devices, key=lambda n: (-devices[n], n)):\n        if total >= target:\n            break\n        chosen.append(name)\n        total += devices[name]\n    return chosen, round(total, 1)\n",
+      "explanation": "Greedy selection by share is optimal for this simple goal (reaching a share threshold with the fewest devices), because taking the largest remaining share always gets you closest. In practice you then add risk-based devices, such as the minimum OS version, that usage alone would not select.",
+      "hints": [
+        "Sort names by (-share, name).",
+        "Stop once the running total reaches the target.",
+        "Round the total to 1 decimal at the end."
+      ],
+      "tests": [
+        {
+          "name": "reaches target",
+          "code": "assert choose({'A':40,'B':25,'C':20,'D':15}, 80) == (['A','B','C'], 85.0)",
+          "marks": 2
+        },
+        {
+          "name": "ties and decimals",
+          "code": "assert choose({'Z':30.5,'Y':30.5,'X':10.25}, 60) == (['Y','Z'], 61.0)",
+          "marks": 2
+        },
+        {
+          "name": "unreachable target and zero target",
+          "code": "assert choose({'A':10,'B':5}, 50) == (['A','B'], 15.0)\nassert choose({'A':10}, 0) == ([], 0.0)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-mbdev-tiers",
+      "title": "Assign device tiers",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `tier(device)` for a dict with `share` (percent), `os_major` (int), `min_supported_os` (int), `latest_os` (int) and optional `key_customer` (bool). Return:\n\n- `1` if share >= 10, or os_major equals min_supported_os, or os_major equals latest_os, or key_customer is True\n- `2` if share >= 3\n- `3` otherwise\n\nRaise `ValueError` if os_major is below min_supported_os (the app does not support it).",
+      "starter": "def tier(device):\n    return 3\n",
+      "solution": "def tier(device):\n    os_major = device['os_major']\n    if os_major < device['min_supported_os']:\n        raise ValueError('unsupported OS')\n    if (device['share'] >= 10 or os_major == device['min_supported_os']\n            or os_major == device['latest_os'] or device.get('key_customer', False)):\n        return 1\n    if device['share'] >= 3:\n        return 2\n    return 3\n",
+      "explanation": "Tiering mixes usage with risk: the boundary OS versions (oldest supported and newest) and contractual devices are tier 1 even when their share is small, because failures there are likely or costly. Rejecting unsupported OS versions keeps the matrix honest about what the app promises to support.",
+      "hints": [
+        "Validate the OS against the minimum first.",
+        "Combine the tier 1 conditions with or.",
+        "Use device.get('key_customer', False) for the optional key."
+      ],
+      "tests": [
+        {
+          "name": "high share is tier 1",
+          "code": "assert tier({'share':22,'os_major':14,'min_supported_os':10,'latest_os':15}) == 1",
+          "marks": 1
+        },
+        {
+          "name": "boundary OS and key customer",
+          "code": "assert tier({'share':1,'os_major':10,'min_supported_os':10,'latest_os':15}) == 1\nassert tier({'share':0.5,'os_major':15,'min_supported_os':10,'latest_os':15}) == 1\nassert tier({'share':0.5,'os_major':12,'min_supported_os':10,'latest_os':15,'key_customer':True}) == 1",
+          "marks": 2
+        },
+        {
+          "name": "tiers 2 and 3, unsupported",
+          "code": "assert tier({'share':4,'os_major':12,'min_supported_os':10,'latest_os':15}) == 2\nassert tier({'share':1,'os_major':12,'min_supported_os':10,'latest_os':15}) == 3\ntry:\n    tier({'share':5,'os_major':9,'min_supported_os':10,'latest_os':15})\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

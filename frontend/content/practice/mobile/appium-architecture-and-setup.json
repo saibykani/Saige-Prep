@@ -1,0 +1,203 @@
+{
+  "lesson": "appium-architecture-and-setup",
+  "questions": [
+    {
+      "id": "pt-mbapp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "In Appium's architecture, what does the Appium server do?",
+      "options": [
+        "Renders the app UI",
+        "Receives W3C WebDriver requests from clients and routes them to the right driver (e.g. UiAutomator2, XCUITest)",
+        "Compiles the app",
+        "Stores test results"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Appium is a WebDriver server; platform drivers do the actual automation via the OS's frameworks."
+    },
+    {
+      "id": "pt-mbapp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "How do you install the Android UiAutomator2 driver in Appium 2 or later?",
+      "options": [
+        "It is bundled automatically",
+        "appium driver install uiautomator2",
+        "npm install selenium",
+        "adb install appium"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Since Appium 2, drivers are installed separately with the driver CLI, which keeps the core small and drivers independently versioned."
+    },
+    {
+      "id": "pt-mbapp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "Appium client libraries exist for several languages, such as Java, Python, JavaScript and C#.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Because Appium speaks the WebDriver protocol, any language with a WebDriver client can drive it, and official clients exist for the main ones."
+    },
+    {
+      "id": "pt-mbapp-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "An Appium 2 server rejects this request with an error about the capability. Which fix is right?",
+      "code": "{\n  \"capabilities\": {\n    \"alwaysMatch\": {\n      \"platformName\": \"Android\",\n      \"appium:automationName\": \"UiAutomator2\",\n      \"deviceName\": \"Pixel 8\"\n    }\n  }\n}",
+      "codeLanguage": "json",
+      "options": [
+        "Remove platformName",
+        "Prefix the non-standard capability: \"appium:deviceName\"",
+        "Use desiredCapabilities",
+        "Send it as a query parameter"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "W3C allows only standard capabilities without a prefix (platformName, browserName ...). Appium-specific ones must use the appium: vendor prefix."
+    },
+    {
+      "id": "pt-mbapp-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "Session creation fails with 'Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported'. What is the fix?",
+      "options": [
+        "Reinstall Appium",
+        "Install the Android SDK and set ANDROID_HOME (and put platform-tools on PATH) in the environment where the Appium server runs",
+        "Use the XCUITest driver",
+        "Add a sleep before creating the session"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "UiAutomator2 needs SDK tools like adb. The environment variable must be visible to the Appium server process, not just to your test runner."
+    },
+    {
+      "id": "pt-mbapp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "Which tools help verify an Appium environment? Select all that apply.",
+      "options": [
+        "appium driver doctor <driver> (driver-specific checks)",
+        "adb devices to confirm Android devices are connected",
+        "Appium Inspector to start a session and explore elements",
+        "Chrome's Lighthouse"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Driver doctor checks, adb and Appium Inspector diagnose setup and locators. Lighthouse audits web pages."
+    },
+    {
+      "id": "pt-mbapp-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "What does the XCUITest driver use on the device to perform actions?",
+      "options": [
+        "ADB",
+        "WebDriverAgent, an app built on Apple's XCTest framework",
+        "Espresso",
+        "Selenium Grid"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The XCUITest driver builds and runs WebDriverAgent on the simulator or device, which uses XCTest APIs to drive the UI."
+    },
+    {
+      "id": "pt-mbapp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "iOS real-device sessions fail to start with WebDriverAgent signing errors. What is the most likely fix?",
+      "options": [
+        "Use an Android device",
+        "Configure code signing for WebDriverAgent (Apple developer team id, provisioning, or a pre-built signed WDA) as described in the XCUITest driver docs",
+        "Restart the Appium server repeatedly",
+        "Disable the iPhone passcode"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Real iOS devices only run signed apps. WDA must be signed with your team's identity; simulators do not need this."
+    },
+    {
+      "id": "pt-mbapp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "appium-architecture-and-setup",
+      "prompt": "Your team runs 40 Appium sessions in parallel on one server and sees port conflicts on Android. What should you configure?",
+      "options": [
+        "Fewer assertions",
+        "Unique per-session ports (e.g. appium:systemPort for UiAutomator2) and unique device udids, or spread sessions across multiple servers/a device cloud",
+        "Run every session on the same emulator",
+        "Disable parallelism in the app"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each UiAutomator2 session needs its own systemPort and device. Assigning them uniquely (or scaling out) avoids collisions."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mbapp-validate",
+      "title": "Validate Appium 2 capabilities",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `problems(caps)` returning a sorted list of problems with a capabilities dict:\n\n- `missing platformName` if absent\n- `missing appium:automationName` if absent\n- `unprefixed <key>` for any key that is not a W3C standard capability and has no vendor prefix (contains no `:`). Standard keys: `browserName, browserVersion, platformName, acceptInsecureCerts, pageLoadStrategy, proxy, setWindowRect, timeouts, strictFileInteractability, unhandledPromptBehavior, webSocketUrl`.\n- `no app or browser` if none of `appium:app`, `appium:appPackage`, `appium:bundleId`, `browserName` is present.\n\n```python\nproblems({'platformName': 'Android', 'deviceName': 'Pixel'})\n# ['missing appium:automationName', 'no app or browser', 'unprefixed deviceName']\n```",
+      "starter": "def problems(caps):\n    return []\n",
+      "solution": "STANDARD = {'browserName', 'browserVersion', 'platformName', 'acceptInsecureCerts', 'pageLoadStrategy', 'proxy',\n            'setWindowRect', 'timeouts', 'strictFileInteractability', 'unhandledPromptBehavior', 'webSocketUrl'}\n\ndef problems(caps):\n    out = []\n    if 'platformName' not in caps:\n        out.append('missing platformName')\n    if 'appium:automationName' not in caps:\n        out.append('missing appium:automationName')\n    for key in caps:\n        if key not in STANDARD and ':' not in key:\n            out.append(f'unprefixed {key}')\n    if not any(k in caps for k in ('appium:app', 'appium:appPackage', 'appium:bundleId', 'browserName')):\n        out.append('no app or browser')\n    return sorted(out)\n",
+      "explanation": "This mirrors the Appium 2 rules that trip people up when migrating from Appium 1: only W3C standard capabilities may be unprefixed, and a session needs to know which driver to use and what to launch. Reporting every problem at once is faster than fixing one session error at a time.",
+      "hints": [
+        "Keep the W3C standard keys in a set.",
+        "A key is 'unprefixed' if it is not standard and has no ':'.",
+        "Collect all problems, then return sorted(out)."
+      ],
+      "tests": [
+        {
+          "name": "example",
+          "code": "assert problems({'platformName': 'Android', 'deviceName': 'Pixel'}) == ['missing appium:automationName', 'no app or browser', 'unprefixed deviceName']",
+          "marks": 2
+        },
+        {
+          "name": "valid caps",
+          "code": "assert problems({'platformName':'iOS','appium:automationName':'XCUITest','appium:bundleId':'com.x','timeouts':{}}) == []\nassert problems({'platformName':'Android','appium:automationName':'UiAutomator2','browserName':'Chrome'}) == []\nassert problems({'platformName':'iOS','appium:automationName':'XCUITest','udid':'x','appium:app':'a.app'}) == ['unprefixed udid']",
+          "marks": 2
+        },
+        {
+          "name": "missing platform and vendor prefix ok",
+          "code": "assert problems({'appium:automationName':'UiAutomator2','appium:app':'a.apk','sauce:options':{}}) == ['missing platformName']",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

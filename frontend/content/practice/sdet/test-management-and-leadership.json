@@ -1,0 +1,203 @@
+{
+  "lesson": "test-management-and-leadership",
+  "questions": [
+    {
+      "id": "pt-sdlead-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-management-and-leadership",
+      "prompt": "What is the main purpose of a test strategy document?",
+      "options": [
+        "Listing every test case",
+        "Describing the overall approach: risks, test levels, environments, tools, responsibilities and exit criteria",
+        "Recording defects",
+        "Assigning blame for bugs"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A strategy sets direction; test cases and defect logs are separate artefacts."
+    },
+    {
+      "id": "pt-sdlead-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-management-and-leadership",
+      "prompt": "Exit criteria define the conditions under which a testing activity can be considered complete.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exit criteria (for example no open critical defects and all high-risk areas tested) make 'done' explicit and agreed in advance."
+    },
+    {
+      "id": "pt-sdlead-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-management-and-leadership",
+      "prompt": "In risk-based testing, which area deserves the most testing effort?",
+      "options": [
+        "The area with the most code",
+        "The area with the highest combination of likelihood of failure and impact if it fails",
+        "The newest feature, always",
+        "The area testers like most"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Risk = likelihood x impact. Size or novelty can raise likelihood, but impact matters just as much."
+    },
+    {
+      "id": "pt-sdlead-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-management-and-leadership",
+      "prompt": "Using risk score = likelihood x impact (each 1-5), which area is tested first?",
+      "code": "Search:   likelihood 4, impact 2\nPayments: likelihood 3, impact 5\nProfile:  likelihood 2, impact 2\nReports:  likelihood 5, impact 2",
+      "codeLanguage": "text",
+      "options": [
+        "Search (L4, I2)",
+        "Payments (L3, I5)",
+        "Profile (L2, I2)",
+        "Reports (L5, I2)"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Scores: search 8, payments 15, profile 4, reports 10. Payments has the highest risk."
+    },
+    {
+      "id": "pt-sdlead-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-management-and-leadership",
+      "prompt": "A test manager reports '95% of test cases executed, 90% passed' and the release still goes badly. What was missing from the report?",
+      "options": [
+        "Nothing",
+        "Risk context: which high-risk areas were untested or failing, open critical defects, and known limitations of the testing",
+        "More decimal places",
+        "The names of testers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Percentages of test cases hide what matters: whether the riskiest things work. A useful report states residual risk plainly."
+    },
+    {
+      "id": "pt-sdlead-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-management-and-leadership",
+      "prompt": "Which are good practices when leading a test team? Select all that apply.",
+      "options": [
+        "Making quality a whole-team responsibility rather than a QA gate",
+        "Coaching and pairing to grow automation and exploratory skills",
+        "Measuring testers by number of bugs logged",
+        "Giving honest risk-based release recommendations"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Whole-team quality, skill growth and honest risk communication build effective teams. Bug-count targets drive gaming and conflict."
+    },
+    {
+      "id": "pt-sdlead-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-management-and-leadership",
+      "prompt": "What is the tester's role in a go/no-go decision?",
+      "options": [
+        "To make the final business decision alone",
+        "To provide clear, evidence-based information about quality and residual risk so the accountable owner can decide",
+        "To block every release with open bugs",
+        "To stay silent"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testers inform the decision with facts and risk; the product or business owner, who owns the trade-offs, decides."
+    },
+    {
+      "id": "pt-sdlead-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-management-and-leadership",
+      "prompt": "Two days before release, a high-severity bug appears in a rarely used admin export. The fix is risky. How do you advise?",
+      "options": [
+        "Block the release",
+        "Present the impact (who is affected, workaround, data risk), the risk of a rushed fix, and options (release with known issue and workaround, disable the feature flag, or delay), then let the owner decide",
+        "Hide the bug until after release",
+        "Ask developers to fix it without testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Good advice lays out options with their risks. Severity alone does not decide; impact, exposure and fix risk do."
+    },
+    {
+      "id": "pt-sdlead-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-management-and-leadership",
+      "prompt": "Your team spends 60% of its time on manual regression each sprint and has no time to automate. What is the best plan?",
+      "options": [
+        "Keep doing manual regression",
+        "Prioritise regression by risk, automate the highest-value repetitive checks a slice at a time (with developers contributing), and use the time saved for exploratory testing",
+        "Stop regression testing entirely",
+        "Hire only automation engineers and stop manual testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Incremental, risk-based automation breaks the cycle while keeping coverage, and freed time goes to exploratory testing where humans add most value."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdlead-risk",
+      "title": "Rank a risk register",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `rank_risks(risks)` where each risk is `{'area': str, 'likelihood': 1-5, 'impact': 1-5}`. Return a list of `(area, score, level)` tuples sorted by score descending, then area ascending, where `score = likelihood * impact` and `level` is `'high'` for score >= 15, `'medium'` for 8-14, `'low'` otherwise. Raise `ValueError` if any likelihood or impact is outside 1-5.",
+      "starter": "def rank_risks(risks):\n    return []\n",
+      "solution": "def rank_risks(risks):\n    out = []\n    for r in risks:\n        l, i = r['likelihood'], r['impact']\n        if not (1 <= l <= 5 and 1 <= i <= 5):\n            raise ValueError(f\"bad rating for {r['area']}\")\n        score = l * i\n        level = 'high' if score >= 15 else 'medium' if score >= 8 else 'low'\n        out.append((r['area'], score, level))\n    return sorted(out, key=lambda t: (-t[1], t[0]))\n",
+      "explanation": "A likelihood x impact score turns a discussion into an ordered plan: test the high-risk areas first and most deeply. Validating ratings stops typos (like an impact of 50) from silently dominating the ranking.",
+      "hints": [
+        "Validate both ratings are within 1..5.",
+        "score = likelihood * impact; pick the level with a chained conditional.",
+        "Sort with key=lambda t: (-t[1], t[0])."
+      ],
+      "tests": [
+        {
+          "name": "ranking and levels",
+          "code": "r = rank_risks([{'area':'search','likelihood':4,'impact':2},{'area':'payments','likelihood':3,'impact':5},{'area':'profile','likelihood':2,'impact':2},{'area':'reports','likelihood':5,'impact':2}])\nassert r == [('payments',15,'high'),('reports',10,'medium'),('search',8,'medium'),('profile',4,'low')], r",
+          "marks": 3
+        },
+        {
+          "name": "ties by name",
+          "code": "assert rank_risks([{'area':'b','likelihood':2,'impact':3},{'area':'a','likelihood':3,'impact':2}]) == [('a',6,'low'),('b',6,'low')]",
+          "marks": 1
+        },
+        {
+          "name": "invalid rating",
+          "code": "try:\n    rank_risks([{'area':'x','likelihood':0,'impact':3}])\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

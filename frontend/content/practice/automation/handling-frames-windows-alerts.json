@@ -1,0 +1,237 @@
+{
+  "lesson": "handling-frames-windows-alerts",
+  "questions": [
+    {
+      "id": "pt-aufrm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "Which Selenium call switches into an iframe whose element you already located?",
+      "options": [
+        "driver.switchTo().window(frameElement)",
+        "driver.switchTo().frame(frameElement)",
+        "driver.findFrame(frameElement)",
+        "frameElement.click()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "switchTo().frame() accepts an index, a name/id string or a WebElement. switchTo().window() is for windows/tabs; there is no findFrame."
+    },
+    {
+      "id": "pt-aufrm-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "`driver.switchTo().parentFrame()` moves focus one level up, while `defaultContent()` goes straight to the top-level document.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "parentFrame steps out of the current frame to its parent; defaultContent jumps to the main document regardless of nesting depth."
+    },
+    {
+      "id": "pt-aufrm-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "Which call dismisses a JavaScript confirm dialog (the equivalent of clicking Cancel)?",
+      "options": [
+        "alert.accept()",
+        "alert.dismiss()",
+        "alert.sendKeys(\"\")",
+        "driver.close()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "dismiss() cancels; accept() clicks OK. sendKeys types into prompt() dialogs, and driver.close() closes the window."
+    },
+    {
+      "id": "pt-aufrm-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "The page has a payment iframe containing #card. What happens on the last line?",
+      "code": "driver.switchTo().frame(\"payment\");\ndriver.findElement(By.id(\"card\")).sendKeys(\"4242 4242 4242 4242\");\ndriver.findElement(By.id(\"email\")).sendKeys(\"ana@example.com\");",
+      "codeLanguage": "java",
+      "options": [
+        "It types into #email",
+        "NoSuchElementException, because focus is still inside the iframe",
+        "It switches out of the frame automatically",
+        "It types into #card"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Focus stays in the frame until you switch back. #email lives in the top document, so it cannot be found until you call defaultContent() or parentFrame()."
+    },
+    {
+      "id": "pt-aufrm-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "This code is meant to switch to the new tab but sometimes stays on the original one. What is wrong?",
+      "code": "driver.findElement(By.linkText(\"Help\")).click();\nString last = null;\nfor (String h : driver.getWindowHandles()) last = h;\ndriver.switchTo().window(last);",
+      "codeLanguage": "java",
+      "options": [
+        "getWindowHandles returns a List in random order, so the 'last' handle is not reliably the new one; record the original handle and pick the handle that differs (after waiting for the count to be 2)",
+        "switchTo().window() needs a URL",
+        "The tab must be closed first",
+        "Handles change every second"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "getWindowHandles returns a Set whose order is not guaranteed. The robust approach is to store the original handle, wait until two handles exist, and switch to the one that is not the original."
+    },
+    {
+      "id": "pt-aufrm-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "Which statements about Selenium 4's `driver.switchTo().newWindow(WindowType.TAB)` are true? Select all that apply.",
+      "options": [
+        "It opens a new tab and switches the driver to it",
+        "It returns the WebDriver focused on the new tab",
+        "It closes the current tab",
+        "You still need driver.get(url) to load a page in it"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "newWindow creates a blank tab or window and moves focus there; you load a page with get(). It does not close anything."
+    },
+    {
+      "id": "pt-aufrm-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "After `driver.close()` on a popup window, what must you do before using the driver again?",
+      "options": [
+        "Nothing, it switches back automatically",
+        "Switch to a remaining window handle",
+        "Create a new driver",
+        "Call driver.quit()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "close() closes the current window but leaves the driver pointing at it. You must switch to another open handle or commands fail with NoSuchWindowException. quit() ends the whole session."
+    },
+    {
+      "id": "pt-aufrm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "A checkout page embeds a 3-D Secure iframe inside a payment iframe. Your test must click 'Approve' in the inner frame, then click 'Back to shop' on the main page. Which sequence is correct?",
+      "options": [
+        "frame(\"payment\") -> click Approve -> click Back",
+        "frame(\"payment\") -> frame(\"3ds\") -> click Approve -> defaultContent() -> click Back to shop",
+        "frame(\"3ds\") directly from the top page -> click Approve -> click Back",
+        "window(\"3ds\") -> click Approve"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Frames are entered one level at a time, from the top. The inner frame is only visible from inside its parent, and defaultContent() returns to the main page in one step."
+    },
+    {
+      "id": "pt-aufrm-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "handling-frames-windows-alerts",
+      "prompt": "An 'Unsaved changes' browser dialog (beforeunload) sometimes appears when your test navigates away, failing later steps with UnexpectedAlertPresentException. What is the best fix?",
+      "options": [
+        "Add a sleep before navigation",
+        "Make the test state explicit: save or discard changes before leaving, or wait for and handle the alert when the scenario expects it",
+        "Catch and ignore every exception",
+        "Restart the browser after every step"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The dialog is legitimate product behaviour triggered by test state. Controlling that state (or handling the alert deliberately) makes the test deterministic. Sleeps and ignoring exceptions hide the real cause."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aufrm-newhandle",
+      "title": "Find the new window handle",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `newHandle(before, after)` where `before` is the array of window handles before a click and `after` is the array afterwards. Return the single handle that is new. If there is no new handle, throw an `Error` with message `no new window`; if more than one, throw `Error('multiple new windows')`.\n\n```js\nnewHandle(['A'], ['B', 'A']) // 'B'\n```",
+      "starter": "function newHandle(before, after) {\n  return after[after.length - 1];\n}",
+      "solution": "function newHandle(before, after) {\n  const known = new Set(before);\n  const fresh = after.filter(h => !known.has(h));\n  if (fresh.length === 0) throw new Error('no new window');\n  if (fresh.length > 1) throw new Error('multiple new windows');\n  return fresh[0];\n}",
+      "explanation": "Handle order is not guaranteed, so comparing sets is the only reliable way to find the new window. Throwing for zero or several new handles makes the test fail with a clear reason instead of switching to the wrong tab.",
+      "hints": [
+        "Do not rely on the position of the handle in the array.",
+        "Filter `after` for handles not in `before`.",
+        "Check the length of the filtered array before returning."
+      ],
+      "tests": [
+        {
+          "name": "new handle not last",
+          "code": "assertEqual(newHandle(['A'], ['B','A']), 'B')",
+          "marks": 2
+        },
+        {
+          "name": "no new window throws",
+          "code": "let m=''; try { newHandle(['A','B'], ['B','A']); } catch(e) { m = e.message; } assertEqual(m, 'no new window')",
+          "marks": 2
+        },
+        {
+          "name": "multiple new windows throws",
+          "code": "let m=''; try { newHandle(['A'], ['A','B','C']); } catch(e) { m = e.message; } assertEqual(m, 'multiple new windows')",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aufrm-path",
+      "title": "Frame path to an element",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "A page is modelled as a tree: `{ name: 'top', elements: ['#email'], frames: [ { name: 'payment', elements: ['#card'], frames: [...] } ] }`.\n\nWrite `framePath(page, elementId)` that returns the list of frame names you must switch into, from the top document, to reach the element (an empty array if it is in the top document), or `null` if it is not on the page.\n\n```js\nframePath(page, '#card') // ['payment']\n```",
+      "starter": "function framePath(page, elementId) {\n  return undefined;\n}",
+      "solution": "function framePath(page, elementId) {\n  if (page.elements.includes(elementId)) return [];\n  for (const f of page.frames || []) {\n    const sub = framePath(f, elementId);\n    if (sub !== null) return [f.name, ...sub];\n  }\n  return null;\n}",
+      "explanation": "Recursion mirrors how frames nest: if the element is not in this document, try each child frame and prefix that frame's name to the path. The result is exactly the sequence of switchTo().frame() calls needed, starting from defaultContent().",
+      "hints": [
+        "Check the current node's elements first and return [] if found.",
+        "Recurse into each frame; a non-null result means the element is inside it.",
+        "Prepend the frame name: [f.name, ...sub]."
+      ],
+      "tests": [
+        {
+          "name": "element in top document",
+          "code": "const p = {name:'top', elements:['#email'], frames:[]}; assertEqual(framePath(p, '#email'), [])",
+          "marks": 1
+        },
+        {
+          "name": "nested frames",
+          "code": "const p = {name:'top', elements:['#email'], frames:[{name:'ads', elements:['#ad'], frames:[]},{name:'payment', elements:['#card'], frames:[{name:'3ds', elements:['#approve'], frames:[]}]}]}; assertEqual(framePath(p, '#card'), ['payment']); assertEqual(framePath(p, '#approve'), ['payment','3ds'])",
+          "marks": 3
+        },
+        {
+          "name": "missing element",
+          "code": "const p = {name:'top', elements:[], frames:[{name:'a', elements:[], frames:[]}]}; assertEqual(framePath(p, '#nope'), null)",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

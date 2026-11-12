@@ -1,0 +1,205 @@
+{
+  "lesson": "jenkins-pipelines-for-tests",
+  "questions": [
+    {
+      "id": "pt-sdjnk-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "Where is a Jenkins pipeline-as-code definition usually stored?",
+      "options": [
+        "In a Jenkinsfile committed to the repository",
+        "Only in the Jenkins UI",
+        "In pom.xml",
+        "In a CSV file"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A Jenkinsfile in the repository versions the pipeline with the code and lets multibranch pipelines discover it."
+    },
+    {
+      "id": "pt-sdjnk-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "In a declarative pipeline, `agent any` lets Jenkins run the pipeline on any available agent.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "agent any picks any executor. You can also target labels (agent { label 'linux' }) or containers."
+    },
+    {
+      "id": "pt-sdjnk-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "Which build result does Jenkins usually show when tests fail but the build itself succeeded and results were published with the junit step?",
+      "options": [
+        "SUCCESS",
+        "UNSTABLE",
+        "ABORTED",
+        "NOT_BUILT"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The junit step marks the build UNSTABLE (yellow) when it records failing tests. FAILURE (red) is for steps that error out."
+    },
+    {
+      "id": "pt-sdjnk-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "Tests fail in the 'Test' stage (the sh step exits non-zero). Which stages run?",
+      "code": "pipeline {\n  agent any\n  stages {\n    stage('Build')  { steps { sh 'mvn -B compile' } }\n    stage('Test')   { steps { sh 'mvn -B test' } }\n    stage('Deploy') { steps { sh './deploy.sh' } }\n  }\n  post {\n    always { junit 'target/surefire-reports/*.xml' }\n  }\n}",
+      "codeLanguage": "groovy",
+      "options": [
+        "Build, Test, Deploy",
+        "Build, Test, and the post { always } block",
+        "Only Build",
+        "Build, Test, Deploy and post"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A failing sh step fails the stage and stops later stages, so Deploy is skipped. post { always } still runs, which is why reports are published there."
+    },
+    {
+      "id": "pt-sdjnk-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "The pipeline prints the API key in the console log. What is the correct fix?",
+      "code": "environment { API_KEY = 'sk_live_abc123' }\nsteps { sh 'echo Using $API_KEY && npm test' }",
+      "codeLanguage": "groovy",
+      "options": [
+        "Use echo with single quotes",
+        "Store the key as a Jenkins credential and inject it with withCredentials (or credentials() in environment), which masks it in logs; never echo it",
+        "Base64-encode the key in the Jenkinsfile",
+        "Make the job private"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Secrets belong in the credentials store. withCredentials binds them to environment variables and masks their values in the log. Encoding is not encryption."
+    },
+    {
+      "id": "pt-sdjnk-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "Which declarative features help test stages? Select all that apply.",
+      "options": [
+        "parallel stages to run suites side by side",
+        "options { timeout(...) } to stop hung runs",
+        "post { always { archiveArtifacts ... } } to keep screenshots",
+        "input steps inside every test"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Parallel stages, timeouts and archived artifacts are standard. An input step pauses for human approval, which is not something every test should do."
+    },
+    {
+      "id": "pt-sdjnk-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "What does a multibranch pipeline give you?",
+      "options": [
+        "One job for all branches with the same parameters",
+        "Automatic jobs for each branch (and pull request) that contains a Jenkinsfile",
+        "Faster agents",
+        "A built-in test framework"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Multibranch scans the repository and creates a pipeline per branch/PR, so feature branches get the same CI as main."
+    },
+    {
+      "id": "pt-sdjnk-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "Your UI tests need Chrome, while unit tests need only a JDK. Agents are a mix of old machines with inconsistent tools. What is a robust approach?",
+      "options": [
+        "Install Chrome manually on every agent",
+        "Run stages in pinned Docker images (agent { docker { image '...' } }) so each stage gets exactly the tools it needs",
+        "Run everything on the controller",
+        "Skip UI tests in CI"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Container agents make tooling reproducible and per-stage. Running builds on the controller is a security and stability risk."
+    },
+    {
+      "id": "pt-sdjnk-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jenkins-pipelines-for-tests",
+      "prompt": "A nightly regression takes 3 hours on one agent. You have 6 agents available. What is the most effective pipeline change?",
+      "options": [
+        "Run nightly twice",
+        "Split the suite into balanced shards and run them as parallel stages on separate agents, then aggregate the JUnit results",
+        "Increase the timeout",
+        "Remove assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parallel shards on separate agents cut wall-clock time roughly by the shard count if balanced; the junit step can aggregate results from all of them."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdjnk-result",
+      "title": "Compute the overall build result",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Jenkins results have an order of severity: `SUCCESS` < `UNSTABLE` < `FAILURE`, and `ABORTED` overrides everything. Write `build_result(stages)` where `stages` is a list of dicts `{'name': str, 'status': 'ok' | 'error' | 'aborted', 'tests_failed': int}`:\n\n- a stage with `status: 'error'` contributes `FAILURE`\n- a stage with `status: 'ok'` but `tests_failed > 0` contributes `UNSTABLE`\n- `'aborted'` makes the result `ABORTED`\n- stages after an `error` or `aborted` stage are not run and contribute nothing\n\nReturn `(result, ran)` where `ran` is the list of stage names that ran.",
+      "starter": "def build_result(stages):\n    return 'SUCCESS', []\n",
+      "solution": "def build_result(stages):\n    order = ['SUCCESS', 'UNSTABLE', 'FAILURE']\n    result = 'SUCCESS'\n    ran = []\n    for st in stages:\n        ran.append(st['name'])\n        if st['status'] == 'aborted':\n            return 'ABORTED', ran\n        if st['status'] == 'error':\n            return 'FAILURE', ran\n        if st.get('tests_failed', 0) > 0 and order.index(result) < order.index('UNSTABLE'):\n            result = 'UNSTABLE'\n    return result, ran\n",
+      "explanation": "A failing step stops the pipeline, so later stages never run, while failed tests recorded by the junit step only make the build UNSTABLE and the pipeline continues. That difference is why many teams let the test command 'succeed' with failure.ignore and rely on junit to set UNSTABLE: later stages (like publishing reports) still run.",
+      "hints": [
+        "Walk the stages in order and record each name as it runs.",
+        "Return immediately on 'aborted' or 'error'.",
+        "Keep the worst result so far; UNSTABLE never downgrades back to SUCCESS."
+      ],
+      "tests": [
+        {
+          "name": "unstable continues",
+          "code": "r = build_result([{'name':'build','status':'ok','tests_failed':0},{'name':'test','status':'ok','tests_failed':3},{'name':'report','status':'ok','tests_failed':0}])\nassert r == ('UNSTABLE', ['build','test','report']), r",
+          "marks": 2
+        },
+        {
+          "name": "error stops the pipeline",
+          "code": "r = build_result([{'name':'build','status':'ok','tests_failed':0},{'name':'test','status':'error','tests_failed':0},{'name':'deploy','status':'ok','tests_failed':0}])\nassert r == ('FAILURE', ['build','test']), r",
+          "marks": 2
+        },
+        {
+          "name": "aborted and success",
+          "code": "assert build_result([{'name':'a','status':'ok','tests_failed':1},{'name':'b','status':'aborted','tests_failed':0}]) == ('ABORTED', ['a','b'])\nassert build_result([{'name':'a','status':'ok','tests_failed':0}]) == ('SUCCESS', ['a'])",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

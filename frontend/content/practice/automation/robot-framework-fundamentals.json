@@ -1,0 +1,232 @@
+{
+  "lesson": "robot-framework-fundamentals",
+  "questions": [
+    {
+      "id": "pt-aurobot-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "In Robot Framework syntax, what separates a keyword from its arguments?",
+      "options": [
+        "A comma",
+        "Two or more spaces (or a pipe-separated format)",
+        "A colon",
+        "A single space"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Robot uses two or more spaces as the separator, so 'Input Text    id=username    demo' is one keyword with two arguments. A single space is part of the keyword name."
+    },
+    {
+      "id": "pt-aurobot-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "Which section defines reusable keywords built from other keywords?",
+      "options": [
+        "*** Settings ***",
+        "*** Variables ***",
+        "*** Keywords ***",
+        "*** Test Cases ***"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "*** Keywords *** holds user keywords. Settings imports libraries and resources; Variables defines variables; Test Cases holds tests."
+    },
+    {
+      "id": "pt-aurobot-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "Robot Framework keyword libraries can be written in plain Python.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A Python module or class whose functions/methods become keywords is the most common way to extend Robot Framework."
+    },
+    {
+      "id": "pt-aurobot-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "How many tests does this file contain, and how many times does 'Open Browser To Login Page' run in total?",
+      "code": "*** Settings ***\nLibrary        SeleniumLibrary\nTest Setup     Open Browser To Login Page\nTest Teardown  Close Browser\n\n*** Test Cases ***\nValid Login\n    Login As    demo    mode\n\nInvalid Password\n    Login As    demo    wrong",
+      "codeLanguage": "robotframework",
+      "options": [
+        "1 test, 1 run",
+        "2 tests, 2 runs",
+        "2 tests, 1 run",
+        "3 tests, 3 runs"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Test Setup runs before every test, so two tests mean two runs. Suite Setup would run once."
+    },
+    {
+      "id": "pt-aurobot-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "This variable assignment is rejected. Why?",
+      "code": "*** Variables ***\n${URL} https://example.test",
+      "codeLanguage": "robotframework",
+      "options": [
+        "Variables must be lower case",
+        "In the *** Variables *** section, the value must be separated from the name by two or more spaces, not one",
+        "${} is not valid syntax",
+        "URLs cannot be variables"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With a single space Robot treats the line as one cell. Use '${URL}    https://example.test' (or 'Set Variable' in a test)."
+    },
+    {
+      "id": "pt-aurobot-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "Which are Robot Framework variable types? Select all that apply.",
+      "options": [
+        "${scalar}",
+        "@{list}",
+        "&{dictionary}",
+        "#{tuple}"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Scalars use $, lists @ and dictionaries &. There is no # variable type; # starts a comment."
+    },
+    {
+      "id": "pt-aurobot-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "Which command runs only tests tagged `smoke`?",
+      "options": [
+        "robot --include smoke tests/",
+        "robot --tag smoke tests/",
+        "robot -k smoke tests/",
+        "robot smoke tests/"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "--include (or -i) selects tests by tag; --exclude removes them. -k is a pytest option."
+    },
+    {
+      "id": "pt-aurobot-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "Business users want to read the tests, but your suite has keywords like 'Click Element    xpath=//div[3]/button'. What is the best improvement?",
+      "options": [
+        "Add comments next to each line",
+        "Introduce domain-level user keywords (e.g. 'Add Product To Cart    Blue Mug') in a resource file that wrap the low-level SeleniumLibrary calls",
+        "Switch to pytest",
+        "Rename the XPath variables"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Layering keywords keeps tests in business language and isolates locators in one place, the keyword-driven equivalent of page objects."
+    },
+    {
+      "id": "pt-aurobot-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "robot-framework-fundamentals",
+      "prompt": "You need a keyword that calls an internal REST API and returns parsed JSON. No library offers it. What is the cleanest approach?",
+      "options": [
+        "Write it with dozens of Robot built-in keywords",
+        "Write a small Python library class with a method like get_order(order_id), import it in Settings, and call 'Get Order' from tests",
+        "Call curl via Run Process and parse text",
+        "Hard-code expected responses"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Python libraries are Robot's extension mechanism; method names map to keywords (get_order becomes 'Get Order'). Complex logic in Robot syntax or shell output parsing is harder to maintain."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aurobot-kwname",
+      "title": "Keyword name to method name",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Robot Framework maps keyword names to Python library methods by lower-casing and turning spaces into underscores, so `Get Order Total` calls `get_order_total`. It also ignores case and spaces when matching.\n\nWrite `to_method(keyword)` returning the method name, and `matches(keyword, method)` returning True if the keyword would call that method.\n\n```python\nto_method('Get Order Total')            # 'get_order_total'\nmatches('get   order total', 'get_order_total')  # True\n```",
+      "starter": "def to_method(keyword):\n    return keyword\n\ndef matches(keyword, method):\n    return False\n",
+      "solution": "def to_method(keyword):\n    return '_'.join(keyword.split()).lower()\n\ndef _norm(s):\n    return s.replace('_', '').replace(' ', '').lower()\n\ndef matches(keyword, method):\n    return _norm(keyword) == _norm(method)\n",
+      "explanation": "split() with no arguments collapses any whitespace, so extra spaces do not produce double underscores. For matching, Robot normalises by removing spaces and underscores and ignoring case, which is why 'GetOrderTotal', 'get order total' and 'Get_Order_Total' all find the same method.",
+      "hints": [
+        "str.split() without arguments splits on runs of whitespace.",
+        "Join the words with '_' and lower-case the result.",
+        "For matching, remove spaces and underscores from both sides and compare lower-case."
+      ],
+      "tests": [
+        {
+          "name": "converts names",
+          "code": "assert to_method('Get Order Total') == 'get_order_total'\nassert to_method('  Login   As  ') == 'login_as'",
+          "marks": 2
+        },
+        {
+          "name": "matching ignores case, spaces and underscores",
+          "code": "assert matches('get   order total', 'get_order_total')\nassert matches('GetOrderTotal', 'get_order_total')\nassert not matches('Get Order', 'get_order_total')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aurobot-library",
+      "title": "A Python keyword library",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write a Robot-style library class `CartLibrary` with methods (which would become keywords):\n\n- `add_item(name, price, qty='1')`: Robot passes arguments as strings, so convert price to a `Decimal` and qty to int. Reject qty < 1 with `ValueError`.\n- `cart_total_should_be(expected)`: raise `AssertionError` with message `Expected total X but was Y` if the total (sum of price*qty) differs from `Decimal(expected)`.\n- `clear_cart()`.\n\n```python\nlib = CartLibrary()\nlib.add_item('Mug', '4.50', '2')\nlib.cart_total_should_be('9.00')\n```",
+      "starter": "from decimal import Decimal\n\nclass CartLibrary:\n    pass\n",
+      "solution": "from decimal import Decimal\n\nclass CartLibrary:\n    ROBOT_LIBRARY_SCOPE = 'TEST'\n\n    def __init__(self):\n        self.items = []\n\n    def add_item(self, name, price, qty='1'):\n        qty = int(qty)\n        if qty < 1:\n            raise ValueError('qty must be at least 1')\n        self.items.append((name, Decimal(price), qty))\n\n    def cart_total_should_be(self, expected):\n        total = sum((p * q for _, p, q in self.items), Decimal('0'))\n        if total != Decimal(expected):\n            raise AssertionError(f'Expected total {expected} but was {total}')\n\n    def clear_cart(self):\n        self.items = []\n",
+      "explanation": "Robot passes arguments from test data as strings unless type hints say otherwise, so the library converts them. Decimal avoids floating-point errors with money. Raising AssertionError with a clear message is how a keyword fails a test, and ROBOT_LIBRARY_SCOPE = 'TEST' gives each test a fresh instance so carts do not leak between tests.",
+      "hints": [
+        "Store items in a list created in __init__.",
+        "Convert with Decimal(price) and int(qty).",
+        "Sum price*qty starting from Decimal('0') and raise AssertionError on a mismatch."
+      ],
+      "tests": [
+        {
+          "name": "adds string arguments",
+          "code": "lib = CartLibrary()\nlib.add_item('Mug', '4.50', '2')\nlib.add_item('Pen', '0.10')\nlib.cart_total_should_be('9.10')",
+          "marks": 3
+        },
+        {
+          "name": "fails with a clear message",
+          "code": "lib = CartLibrary()\nlib.add_item('Mug', '4.50')\ntry:\n    lib.cart_total_should_be('5.00')\n    raise RuntimeError('should have failed')\nexcept AssertionError as e:\n    assert 'Expected total 5.00 but was 4.50' in str(e), str(e)",
+          "marks": 2
+        },
+        {
+          "name": "rejects bad qty and clears",
+          "code": "lib = CartLibrary()\ntry:\n    lib.add_item('Mug', '1', '0')\n    raise RuntimeError('expected ValueError')\nexcept ValueError:\n    pass\nlib.add_item('A', '2')\nlib.clear_cart()\nlib.cart_total_should_be('0')",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

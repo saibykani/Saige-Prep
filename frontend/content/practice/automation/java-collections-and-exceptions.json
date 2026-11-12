@@ -1,0 +1,209 @@
+{
+  "lesson": "java-collections-and-exceptions",
+  "questions": [
+    {
+      "id": "pt-aujce-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "Which collection keeps insertion order and allows duplicates?",
+      "options": [
+        "HashSet",
+        "ArrayList",
+        "TreeSet",
+        "HashMap keys"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A List such as ArrayList is ordered and allows duplicates. Sets reject duplicates (HashSet has no guaranteed order; TreeSet sorts)."
+    },
+    {
+      "id": "pt-aujce-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "`driver.findElements(...)` returns an empty list when nothing matches, while `findElement(...)` throws NoSuchElementException.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That difference is why findElements(...).isEmpty() is the usual way to assert that something is absent."
+    },
+    {
+      "id": "pt-aujce-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "Which Map would you use to count how many products appear in each category?",
+      "options": [
+        "Map<String, Integer>",
+        "Map<Integer, Integer>",
+        "List<String>",
+        "Set<Integer>"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Category name (String) maps to a count (Integer). A List or Set cannot associate a count with each key."
+    },
+    {
+      "id": "pt-aujce-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "What does this print?",
+      "code": "Set<String> ids = new HashSet<>(List.of(\"a\", \"b\", \"a\", \"c\"));\nSystem.out.println(ids.size());",
+      "codeLanguage": "java",
+      "options": [
+        "4",
+        "3",
+        "[b, a, c]",
+        "An exception"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A Set ignores the duplicate \"a\", leaving three elements."
+    },
+    {
+      "id": "pt-aujce-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "This loop throws ConcurrentModificationException. Why, and what is the fix?",
+      "code": "List<String> names = new ArrayList<>(List.of(\"ana\", \"\", \"bo\"));\nfor (String n : names) {\n  if (n.isBlank()) names.remove(n);\n}",
+      "codeLanguage": "java",
+      "options": [
+        "Lists cannot contain strings",
+        "Removing from a list while iterating it with for-each invalidates the iterator; use removeIf(s -> s.isBlank()) or an Iterator's remove()",
+        "isBlank is not a String method",
+        "The list must be a LinkedList"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The enhanced for loop uses an iterator that detects structural changes made outside it. removeIf or iterator.remove() modify the list safely. (isBlank exists since Java 11.)"
+    },
+    {
+      "id": "pt-aujce-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "Which is an unchecked exception (you are not forced to catch or declare it)?",
+      "options": [
+        "IOException",
+        "NoSuchElementException (Selenium)",
+        "InterruptedException",
+        "FileNotFoundException"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Selenium's exceptions extend WebDriverException, a RuntimeException, so they are unchecked. IOException, FileNotFoundException and InterruptedException are checked."
+    },
+    {
+      "id": "pt-aujce-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "What does this print?",
+      "code": "try {\n  System.out.print(\"try \");\n  Integer.parseInt(\"abc\");\n} catch (NumberFormatException e) {\n  System.out.print(\"catch \");\n} finally {\n  System.out.print(\"finally\");\n}",
+      "codeLanguage": "java",
+      "options": [
+        "try finally",
+        "try catch finally",
+        "catch finally",
+        "try"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The exception from parseInt is caught (printing 'catch'), and finally always runs."
+    },
+    {
+      "id": "pt-aujce-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "A helper `isDisplayed(By by)` catches every Exception and returns false. Tests using it pass even when the locator has a typo in the CSS syntax. What is the better design?",
+      "options": [
+        "Catch Throwable instead",
+        "Catch only NoSuchElementException (the expected 'not present' case) and let other exceptions such as InvalidSelectorException fail the test",
+        "Remove the try/catch and let NoSuchElementException fail every absence check",
+        "Log the exception and return true"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Catch only what you expect and can handle. A broad catch converts real errors (bad selectors, dead sessions) into false negatives. Catching nothing makes the helper useless for absence checks."
+    },
+    {
+      "id": "pt-aujce-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-collections-and-exceptions",
+      "prompt": "You need to verify that a table's 'Invoice' column is sorted descending by date and has no duplicate invoice numbers. Which combination fits best?",
+      "options": [
+        "Two Strings compared with ==",
+        "Collect invoice numbers into a List and compare its size with a HashSet of the same values; collect dates as LocalDate into a List and compare it with a copy sorted in reverse order",
+        "Store everything in one Map<String,String>",
+        "Use an array and print it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Size differences between a List and a Set reveal duplicates, and comparing to a sorted copy checks order. Parsing to LocalDate avoids lexicographic mistakes with date strings."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aujce-dupes",
+      "title": "Find duplicate values",
+      "difficulty": "beginner",
+      "language": "java",
+      "prompt": "Write a class `TableChecks` with a static method `java.util.List<String> duplicates(java.util.List<String> values)` returning each value that appears more than once, **in the order of its second occurrence**, listed once.\n\nExample: `duplicates(List.of(\"INV-1\", \"INV-2\", \"INV-1\", \"INV-3\", \"INV-2\", \"INV-1\"))` returns `[INV-1, INV-2]`.",
+      "starter": "import java.util.List;\n\npublic class TableChecks {\n    public static List<String> duplicates(List<String> values) {\n        return List.of();\n    }\n}\n",
+      "solution": "import java.util.ArrayList;\nimport java.util.HashSet;\nimport java.util.LinkedHashSet;\nimport java.util.List;\nimport java.util.Set;\n\npublic class TableChecks {\n    public static List<String> duplicates(List<String> values) {\n        Set<String> seen = new HashSet<>();\n        Set<String> dupes = new LinkedHashSet<>();\n        for (String v : values) {\n            if (!seen.add(v)) {\n                dupes.add(v);\n            }\n        }\n        return new ArrayList<>(dupes);\n    }\n}\n",
+      "explanation": "Set.add returns false when the value is already present, which detects the second occurrence in one pass. A LinkedHashSet keeps insertion order and ignores the third occurrence, so each duplicate is reported once in the order it was found.",
+      "hints": [
+        "Set.add() returns false if the element was already there.",
+        "Use one set for values seen and another for duplicates.",
+        "LinkedHashSet preserves insertion order."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\n\nimport java.util.List;\nimport org.junit.jupiter.api.Test;\n\nclass TableChecksTest {\n    @Test\n    void reportsEachDuplicateOnceInOrder() {\n        assertEquals(List.of(\"INV-1\", \"INV-2\"),\n            TableChecks.duplicates(List.of(\"INV-1\", \"INV-2\", \"INV-1\", \"INV-3\", \"INV-2\", \"INV-1\")));\n    }\n\n    @Test\n    void orderIsBySecondOccurrence() {\n        assertEquals(List.of(\"b\", \"a\"), TableChecks.duplicates(List.of(\"a\", \"b\", \"b\", \"a\")));\n    }\n\n    @Test\n    void noDuplicatesGivesEmptyList() {\n        assertEquals(List.of(), TableChecks.duplicates(List.of(\"x\", \"y\")));\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `TableChecks.java` in `src/main/java/` and `TableChecksTest.java` in `src/test/java/`. Run `mvn test`; all tests should pass.",
+      "marks": 4
+    },
+    {
+      "id": "code-aujce-count",
+      "title": "Count by status and fail clearly",
+      "difficulty": "intermediate",
+      "language": "java",
+      "prompt": "Write a class `StatusCounter` with a static method `java.util.Map<String, Integer> count(java.util.List<String> statuses)` that counts each status, ignoring case and surrounding spaces, and stores keys in upper case (e.g. `\" paid\"` and `\"PAID\"` both count as `PAID`). Keys must be in alphabetical order (use a TreeMap). If any status is null or blank, throw `IllegalArgumentException` with a message containing the **row index** (0-based), e.g. `\"blank status at row 2\"`.",
+      "starter": "import java.util.List;\nimport java.util.Map;\n\npublic class StatusCounter {\n    public static Map<String, Integer> count(List<String> statuses) {\n        return Map.of();\n    }\n}\n",
+      "solution": "import java.util.List;\nimport java.util.Map;\nimport java.util.TreeMap;\n\npublic class StatusCounter {\n    public static Map<String, Integer> count(List<String> statuses) {\n        Map<String, Integer> counts = new TreeMap<>();\n        for (int i = 0; i < statuses.size(); i++) {\n            String s = statuses.get(i);\n            if (s == null || s.isBlank()) {\n                throw new IllegalArgumentException(\"blank status at row \" + i);\n            }\n            counts.merge(s.trim().toUpperCase(), 1, Integer::sum);\n        }\n        return counts;\n    }\n}\n",
+      "explanation": "Map.merge adds 1 to an existing count or inserts 1 for a new key, which keeps counting to one line. A TreeMap sorts keys so assertions and reports are deterministic. Throwing an unchecked exception with the row index makes bad data easy to locate, which is better than silently skipping it.",
+      "hints": [
+        "Normalise each status with trim().toUpperCase().",
+        "counts.merge(key, 1, Integer::sum) increments the count.",
+        "Use an index loop so you can put i in the exception message."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\nimport static org.junit.jupiter.api.Assertions.assertTrue;\n\nimport java.util.Arrays;\nimport java.util.List;\nimport java.util.Map;\nimport org.junit.jupiter.api.Test;\n\nclass StatusCounterTest {\n    @Test\n    void countsCaseInsensitively() {\n        Map<String, Integer> c = StatusCounter.count(List.of(\" paid\", \"PAID\", \"pending\", \"Failed\"));\n        assertEquals(Map.of(\"FAILED\", 1, \"PAID\", 2, \"PENDING\", 1), c);\n    }\n\n    @Test\n    void keysAreSorted() {\n        Map<String, Integer> c = StatusCounter.count(List.of(\"b\", \"a\", \"c\"));\n        assertEquals(List.of(\"A\", \"B\", \"C\"), List.copyOf(c.keySet()));\n    }\n\n    @Test\n    void blankStatusReportsRow() {\n        IllegalArgumentException e = assertThrows(IllegalArgumentException.class,\n            () -> StatusCounter.count(Arrays.asList(\"paid\", \"paid\", \"  \")));\n        assertTrue(e.getMessage().contains(\"row 2\"), e.getMessage());\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `StatusCounter.java` in `src/main/java/` and `StatusCounterTest.java` in `src/test/java/`. Run `mvn test`; all tests should pass.",
+      "marks": 5
+    }
+  ]
+}

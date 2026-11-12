@@ -1,0 +1,230 @@
+{
+  "lesson": "mobile-testing-fundamentals",
+  "questions": [
+    {
+      "id": "pt-mbfun-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "What is a native mobile app?",
+      "options": [
+        "A website opened in a mobile browser",
+        "An app built with the platform's own SDK and UI components (e.g. Kotlin/Java for Android, Swift for iOS) and installed from a store",
+        "A web page saved to the home screen",
+        "A desktop app"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Native apps use platform SDKs. Mobile web runs in a browser; hybrid apps wrap web content in a native shell."
+    },
+    {
+      "id": "pt-mbfun-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "Mobile testing should include interruptions such as incoming calls, notifications and switching to another app.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Interruptions trigger lifecycle changes (pause, resume, process death) that often cause lost state or crashes."
+    },
+    {
+      "id": "pt-mbfun-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "Which network condition is most important to test for an app used by commuters?",
+      "options": [
+        "Only fast Wi-Fi",
+        "Intermittent and slow connections, including switching between Wi-Fi and mobile data and going offline",
+        "Wired Ethernet",
+        "No network ever"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Real mobile networks drop and change. Apps must handle slow responses, retries and offline states gracefully."
+    },
+    {
+      "id": "pt-mbfun-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "How many test configurations does this full combination create?",
+      "code": "platform: Android, iOS\nnetwork: wifi, 4g, offline\norientation: portrait, landscape\nstate: fresh install, upgrade",
+      "codeLanguage": "text",
+      "options": [
+        "7",
+        "12",
+        "24",
+        "36"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "2 platforms x 3 network conditions x 2 orientations x 2 app states = 24 combinations. This growth is why teams use risk-based selection or pairwise techniques."
+    },
+    {
+      "id": "pt-mbfun-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "A form loses all typed data when the user switches to their email app and returns. Which test would have caught it?",
+      "options": [
+        "A unit test of the validation logic",
+        "A lifecycle test that fills the form, backgrounds the app (and ideally forces process death, e.g. with 'Don't keep activities'), then returns and checks the data is restored",
+        "A load test",
+        "A screenshot comparison"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Backgrounding can destroy the activity or kill the process. State must be saved and restored, which only lifecycle tests exercise."
+    },
+    {
+      "id": "pt-mbfun-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "Which are mobile-specific areas to include in a test plan? Select all that apply.",
+      "options": [
+        "Permissions (granted, denied, 'only this time', revoked later)",
+        "App upgrade from the previous store version with existing data",
+        "Battery and data usage",
+        "Testing that CSS works in Internet Explorer"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Permissions, upgrades and resource usage are core mobile concerns. Internet Explorer is irrelevant (and retired)."
+    },
+    {
+      "id": "pt-mbfun-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "Why test an app upgrade path and not just fresh installs?",
+      "options": [
+        "Upgrades are identical to installs",
+        "Existing users keep local data, settings and tokens; migrations or changed storage formats can break them even when fresh installs work",
+        "Stores require it",
+        "To test the store page"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Most users upgrade rather than install fresh. Data migration bugs only appear when old data meets new code."
+    },
+    {
+      "id": "pt-mbfun-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "Users in areas with poor coverage report duplicate orders. What is the most likely cause to test for?",
+      "options": [
+        "Users clicking twice on purpose",
+        "The app retries a timed-out order request that actually succeeded on the server, without an idempotency key; test by throttling or dropping responses after the server processes the request",
+        "Slow phones",
+        "Too many images"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "On flaky networks a request can succeed while the response is lost. Retrying without idempotency creates duplicates. Network conditioning tools can reproduce it."
+    },
+    {
+      "id": "pt-mbfun-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "mobile-testing-fundamentals",
+      "prompt": "A release must ship in a week. You have time for about 20% of the full device x OS x scenario matrix. How do you choose?",
+      "options": [
+        "Random 20%",
+        "Prioritise by risk and usage: critical journeys on tier 1 devices, platform-specific features on both OSes, recent code changes, and pairwise coverage for the remaining parameters",
+        "Only the newest phone",
+        "Only emulators"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Risk-based selection focuses limited time where failures are most likely and most costly; pairwise spreads the rest efficiently."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mbfun-matrix",
+      "title": "Build a configuration matrix",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `matrix(params, exclude=None)` where `params` is a dict of parameter name to list of values. Return all combinations as a list of dicts (first key varies slowest, values in the given order), skipping any combination for which a function `exclude(combo)` returns True.\n\n```python\nmatrix({'platform': ['Android', 'iOS'], 'network': ['wifi', 'offline']})\n# 4 combinations\n```",
+      "starter": "def matrix(params, exclude=None):\n    return [params]\n",
+      "solution": "from itertools import product\n\ndef matrix(params, exclude=None):\n    keys = list(params)\n    combos = [dict(zip(keys, values)) for values in product(*(params[k] for k in keys))]\n    if exclude:\n        combos = [c for c in combos if not exclude(c)]\n    return combos\n",
+      "explanation": "itertools.product generates every combination, which makes the multiplication of mobile test conditions concrete. The exclude hook removes impossible combinations (for example a feature that only exists on one platform), the first step before applying risk-based selection.",
+      "hints": [
+        "itertools.product(*lists) gives tuples of values.",
+        "zip the keys with each tuple and convert to dict.",
+        "Filter with the exclude function if one is given."
+      ],
+      "tests": [
+        {
+          "name": "full product order",
+          "code": "r = matrix({'platform':['Android','iOS'], 'network':['wifi','offline']})\nassert r == [{'platform':'Android','network':'wifi'},{'platform':'Android','network':'offline'},{'platform':'iOS','network':'wifi'},{'platform':'iOS','network':'offline'}], r",
+          "marks": 2
+        },
+        {
+          "name": "size and exclusion",
+          "code": "p = {'platform':['Android','iOS'], 'network':['wifi','4g','offline'], 'orientation':['portrait','landscape'], 'state':['fresh','upgrade']}\nassert len(matrix(p)) == 24\nr = matrix(p, exclude=lambda c: c['network'] == 'offline' and c['state'] == 'fresh')\nassert len(r) == 20, len(r)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-mbfun-lifecycle",
+      "title": "Model state saving across lifecycle events",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Model a form screen that must survive lifecycle events. Write a class `FormScreen` with:\n\n- `type(field, value)` storing the value in the in-memory `fields` object\n- `onPause()` saving a copy of `fields` to `this.savedState`\n- `processDeath()` clearing in-memory `fields` to `{}` (the OS killed the process; `savedState` survives, like a saved instance state bundle)\n- `onResume()` restoring `fields` from `savedState` **only if** fields is empty\n- `value(field)` returning the current value or `''`\n\nA correct implementation keeps typed text through pause -> process death -> resume.",
+      "starter": "class FormScreen {\n  constructor() { this.fields = {}; }\n  type(field, value) { this.fields[field] = value; }\n  value(field) { return this.fields[field] || ''; }\n  onPause() {}\n  processDeath() { this.fields = {}; }\n  onResume() {}\n}",
+      "solution": "class FormScreen {\n  constructor() { this.fields = {}; this.savedState = null; }\n  type(field, value) { this.fields[field] = value; }\n  value(field) { return this.fields[field] || ''; }\n  onPause() { this.savedState = { ...this.fields }; }\n  processDeath() { this.fields = {}; }\n  onResume() {\n    if (Object.keys(this.fields).length === 0 && this.savedState) {\n      this.fields = { ...this.savedState };\n    }\n  }\n}",
+      "explanation": "Saving a copy when the screen pauses and restoring it only when memory was lost mirrors how Android's saved instance state (and iOS state restoration) protect users. Copying matters: saving a reference would mean later edits or clears change the saved state too. A test that drives pause, process death and resume is exactly the lifecycle test that catches the 'lost form' bug.",
+      "hints": [
+        "onPause should store a copy: { ...this.fields }.",
+        "processDeath only clears fields; savedState stays.",
+        "onResume restores when fields is empty and something was saved."
+      ],
+      "tests": [
+        {
+          "name": "survives process death",
+          "code": "const s = new FormScreen(); s.type('email', 'ana@x.com'); s.onPause(); s.processDeath(); s.onResume(); assertEqual(s.value('email'), 'ana@x.com')",
+          "marks": 3
+        },
+        {
+          "name": "saved copy is independent",
+          "code": "const s = new FormScreen(); s.type('name', 'Ana'); s.onPause(); s.fields.name = 'changed'; s.processDeath(); s.onResume(); assertEqual(s.value('name'), 'Ana')",
+          "marks": 2
+        },
+        {
+          "name": "no restore over live data",
+          "code": "const s = new FormScreen(); s.type('a', '1'); s.onPause(); s.type('a', '2'); s.onResume(); assertEqual(s.value('a'), '2'); assert(s.savedState && s.savedState.a === '1', 'pause should save state')",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "lesson": "parallel-execution",
+  "questions": [
+    {
+      "id": "pt-aupar-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "parallel-execution",
+      "prompt": "What is the main requirement before tests can safely run in parallel?",
+      "options": [
+        "They must be written in Java",
+        "They must be independent: no shared mutable state, no dependence on order, and their own data",
+        "They must all take the same time",
+        "They must use XPath"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Parallel runs interleave tests unpredictably, so any shared state or ordering assumption causes intermittent failures."
+    },
+    {
+      "id": "pt-aupar-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "parallel-execution",
+      "prompt": "Running tests in parallel can expose bugs in the test code that never appeared in serial runs.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Hidden dependencies on shared data, static fields or run order only show up when tests overlap."
+    },
+    {
+      "id": "pt-aupar-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "parallel-execution",
+      "prompt": "In TestNG, which setting runs each test method in its own thread?",
+      "options": [
+        "parallel=\"classes\"",
+        "parallel=\"methods\"",
+        "parallel=\"none\"",
+        "thread-count=\"0\""
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "parallel=\"methods\" spreads methods across threads; classes keeps a class's methods on one thread."
+    },
+    {
+      "id": "pt-aupar-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "parallel-execution",
+      "prompt": "Four workers, tests taking 10, 10, 10, 10, 40 minutes (no other bottleneck). What is the shortest possible wall-clock time?",
+      "code": "durations = [10, 10, 10, 10, 40]\nworkers = 4",
+      "codeLanguage": "python",
+      "options": [
+        "16 minutes",
+        "20 minutes",
+        "40 minutes",
+        "80 minutes"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "One worker must run the 40-minute test, so the run can never finish before 40 minutes; the other tests fit on the remaining workers. The longest single test bounds parallel speed-up."
+    },
+    {
+      "id": "pt-aupar-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "parallel-execution",
+      "prompt": "Parallel tests occasionally fail with 'email already registered'. What is the most likely cause and fix?",
+      "code": "@Test\nvoid registersUser() {\n  api.register(\"qa.user@example.com\", \"Secret1!\");\n  ...\n}",
+      "codeLanguage": "java",
+      "options": [
+        "The database is too slow",
+        "Tests share a fixed email address; generate unique data per test (e.g. append a UUID or worker id)",
+        "Parallelism must be disabled for all tests",
+        "The assertion is wrong"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Two tests registering the same address at once collide. Unique data per test removes the shared resource."
+    },
+    {
+      "id": "pt-aupar-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "parallel-execution",
+      "prompt": "Which help isolate WebDriver sessions in parallel Java tests? Select all that apply.",
+      "options": [
+        "A ThreadLocal<WebDriver> set in @BeforeMethod and removed in @AfterMethod",
+        "Creating the driver per test and passing it into page objects",
+        "A public static WebDriver field shared by all tests",
+        "Calling quit() and ThreadLocal.remove() after each test"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "ThreadLocal or per-test drivers keep sessions separate, and remove() prevents leaks on reused pool threads. A shared static driver is the classic cause of cross-test interference."
+    },
+    {
+      "id": "pt-aupar-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "parallel-execution",
+      "prompt": "What does Selenium Grid add for parallel runs?",
+      "options": [
+        "It makes each test faster",
+        "It distributes sessions across nodes with different browsers and machines, so more sessions run at once",
+        "It retries failures",
+        "It removes the need for waits"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Grid routes new-session requests to nodes with matching capabilities, increasing capacity and browser coverage. It does not speed individual tests or fix synchronisation."
+    },
+    {
+      "id": "pt-aupar-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "parallel-execution",
+      "prompt": "You move from 1 to 16 threads on one CI machine and total time drops only from 40 to 25 minutes, with more timeouts. What is the most likely explanation?",
+      "options": [
+        "Parallelism never helps",
+        "The machine (CPU/RAM) or a shared backend is saturated; measure resource usage, lower the thread count to what the hardware supports, or scale out across machines/shards",
+        "The tests need more Thread.sleep",
+        "TestNG has a 4-thread limit"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each browser needs CPU and memory, and the system under test has its own limits. Beyond the bottleneck, more threads add contention and timeouts instead of speed."
+    },
+    {
+      "id": "pt-aupar-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "parallel-execution",
+      "prompt": "CI splits 300 test files into 4 shards alphabetically. One shard always takes twice as long. How do you balance it?",
+      "options": [
+        "Use more shards alphabetically",
+        "Split by historical duration (e.g. greedy assignment of the longest files to the least-loaded shard)",
+        "Delete slow tests",
+        "Run shards sequentially"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Alphabetical splitting ignores test cost. Duration-based balancing equalises shard times, so the slowest shard (the wall-clock time) shrinks."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aupar-shard",
+      "title": "Balance shards by duration",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `shard(durations, n)` where `durations` maps test file to seconds. Assign files to `n` shards using the greedy longest-first rule: sort files by duration descending (ties by name ascending) and put each into the shard with the smallest current total (ties: lowest shard index). Return a list of `n` lists of file names (each list in assignment order).\n\n```python\nshard({'a': 10, 'b': 8, 'c': 5, 'd': 4}, 2)\n# [['a', 'd'], ['b', 'c']]\n```",
+      "starter": "def shard(durations, n):\n    return [[] for _ in range(n)]\n",
+      "solution": "def shard(durations, n):\n    shards = [[] for _ in range(n)]\n    totals = [0] * n\n    for name in sorted(durations, key=lambda k: (-durations[k], k)):\n        i = min(range(n), key=lambda j: (totals[j], j))\n        shards[i].append(name)\n        totals[i] += durations[name]\n    return shards\n",
+      "explanation": "Placing the biggest items first, each into the least-loaded shard, is the classic LPT heuristic. It is not always optimal but gets close, and it fixes the 'one slow shard' problem that alphabetical splitting causes. Deterministic tie-breaking keeps CI shards stable between runs.",
+      "hints": [
+        "Sort with key=lambda k: (-durations[k], k).",
+        "Track a running total per shard.",
+        "min(range(n), key=lambda j: (totals[j], j)) finds the least-loaded shard."
+      ],
+      "tests": [
+        {
+          "name": "greedy assignment",
+          "code": "assert shard({'a':10,'b':8,'c':5,'d':4}, 2) == [['a','d'],['b','c']]",
+          "marks": 2
+        },
+        {
+          "name": "ties by name and shard index",
+          "code": "assert shard({'x':5,'y':5,'z':5}, 2) == [['x','z'],['y']]",
+          "marks": 2
+        },
+        {
+          "name": "more shards than files",
+          "code": "assert shard({'a':1}, 3) == [['a'],[],[]]",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aupar-makespan",
+      "title": "Predict the wall-clock time",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `wall_clock(durations, workers)` that simulates a pool of `workers` pulling tests **in the given list order**: each free worker takes the next test; when all are busy, the next test goes to whichever worker frees up first. Return the time when the last test finishes. Also write `speedup(durations, workers)` returning serial time divided by wall-clock time, rounded to 2 decimals.\n\n```python\nwall_clock([10, 10, 10, 10, 40], 4)  # 50 (the 40 starts after a 10 finishes)\n```",
+      "starter": "def wall_clock(durations, workers):\n    return sum(durations) / workers\n\ndef speedup(durations, workers):\n    return float(workers)\n",
+      "solution": "import heapq\n\ndef wall_clock(durations, workers):\n    if not durations:\n        return 0\n    free_at = [0] * workers\n    heapq.heapify(free_at)\n    end = 0\n    for d in durations:\n        start = heapq.heappop(free_at)\n        finish = start + d\n        end = max(end, finish)\n        heapq.heappush(free_at, finish)\n    return end\n\ndef speedup(durations, workers):\n    return round(sum(durations) / wall_clock(durations, workers), 2)\n",
+      "explanation": "A min-heap of 'time each worker becomes free' always yields the next available worker. The example shows why order matters: queuing the 40-minute test last makes the run take 50 minutes, while starting it first would take 40. Speed-up is therefore usually well below the worker count.",
+      "hints": [
+        "Keep a list of the times at which each worker becomes free.",
+        "For each test, pop the earliest free time, add the duration, push it back.",
+        "The answer is the largest finish time; serial time is sum(durations)."
+      ],
+      "tests": [
+        {
+          "name": "long test last costs time",
+          "code": "assert wall_clock([10,10,10,10,40], 4) == 50\nassert wall_clock([40,10,10,10,10], 4) == 40",
+          "marks": 3
+        },
+        {
+          "name": "more workers than tests",
+          "code": "assert wall_clock([3,4,5], 3) == 5",
+          "marks": 1
+        },
+        {
+          "name": "speedup",
+          "code": "assert speedup([10,10,10,10], 2) == 2.0\nassert speedup([10,10,10,10,40], 4) == 1.6",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

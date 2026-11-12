@@ -1,0 +1,269 @@
+{
+  "lesson": "accessibility-automation",
+  "questions": [
+    {
+      "id": "pt-aua11y-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-automation",
+      "prompt": "Which WCAG level do most legal and procurement requirements target?",
+      "options": [
+        "Level A only",
+        "Level AA",
+        "Level AAA",
+        "No level; WCAG has no levels"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Most laws and policies (for example EN 301 549 and the ADA case law baseline) point to WCAG AA. Level A is the minimum and leaves big gaps; AAA is not required as a whole because some criteria cannot be met for all content."
+    },
+    {
+      "id": "pt-aua11y-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-automation",
+      "prompt": "An image that is purely decorative should usually have an empty alt attribute (alt=\"\") rather than no alt attribute at all.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "alt=\"\" tells assistive technology to skip the image. With no alt attribute at all, many screen readers read the file name instead, which is noise, and axe flags it as a violation."
+    },
+    {
+      "id": "pt-aua11y-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-automation",
+      "prompt": "Which of these checks needs a human rather than an automated scanner?",
+      "options": [
+        "A form input has no associated label",
+        "Text contrast is below 4.5:1",
+        "The alt text accurately describes what the image shows",
+        "The html element has no lang attribute"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A tool can detect that alt text exists but not whether it is meaningful. Missing labels, low contrast on plain text and a missing lang attribute are all rule-based checks that axe performs automatically."
+    },
+    {
+      "id": "pt-aua11y-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-automation",
+      "prompt": "You run an axe scan in a Playwright test. Which practices make the result more trustworthy? Select all that apply.",
+      "options": [
+        "Scan after the page reaches the state you care about (dialogs open, data loaded)",
+        "Scan each important state, not just the initial page load",
+        "Disable every rule that currently fails so the build is green",
+        "Tag the scan with the WCAG levels you are targeting (for example wcag2a, wcag2aa)"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Scanning the right state, scanning several states and limiting rules to the WCAG tags you target all make results meaningful. Blanket-disabling failing rules hides real defects; known issues should be tracked individually (for example by excluding a specific selector with a ticket) rather than switched off."
+    },
+    {
+      "id": "pt-aua11y-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-automation",
+      "prompt": "With @axe-core/playwright, what does this test assert?",
+      "code": "const results = await new AxeBuilder({ page })\n  .withTags(['wcag2a', 'wcag2aa'])\n  .analyze();\nexpect(results.violations).toEqual([]);",
+      "codeLanguage": "typescript",
+      "options": [
+        "That the page has no violations of any severity in the scanned rules",
+        "That the page has fewer than one critical violation only",
+        "That axe ran without throwing, regardless of findings",
+        "That the page passes WCAG 2.2 AA completely"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "results.violations lists every failed rule in the scanned set, and the assertion requires it to be empty. It does not filter by impact, and an empty list still does not mean full WCAG conformance, because many criteria cannot be tested automatically."
+    },
+    {
+      "id": "pt-aua11y-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-automation",
+      "prompt": "A legacy page has 40 existing axe violations. The team wants accessibility checks in CI now without blocking every build. What is the best approach?",
+      "options": [
+        "Skip the scan until all 40 are fixed",
+        "Fail the build only on new violations by comparing against a recorded baseline, and burn the baseline down over time",
+        "Run the scan but never fail the build",
+        "Fail the build only on 'minor' impact violations"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A baseline stops regressions immediately while existing debt is fixed. Skipping or never failing gives no protection, and failing only on minor issues is backwards: critical and serious issues matter most."
+    },
+    {
+      "id": "pt-aua11y-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-automation",
+      "prompt": "This check never fails even though the page has a button with no accessible name. Why?",
+      "code": "const results = await new AxeBuilder({ page })\n  .include('#footer')\n  .analyze();\nexpect(results.violations).toEqual([]);",
+      "codeLanguage": "typescript",
+      "options": [
+        "Buttons are not checked by axe",
+        "The include() scope limits the scan to #footer, and the button is outside it",
+        "analyze() must be called twice",
+        "withTags is required for button rules"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "include() restricts analysis to that region. The unlabelled button sits elsewhere, so the button-name rule never sees it. axe does check buttons, and tags are optional (without them all rules run)."
+    },
+    {
+      "id": "pt-aua11y-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "accessibility-automation",
+      "prompt": "A custom dropdown passes axe, but keyboard users report they cannot open it. Which test would catch this regression in future?",
+      "options": [
+        "Another axe scan with all rules enabled",
+        "A Playwright test that tabs to the control, presses Enter or Space, and asserts the listbox is visible and an option can be chosen with arrow keys",
+        "A visual snapshot of the dropdown",
+        "Checking the element has role=\"combobox\""
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Keyboard operability is behaviour, which static rule checks cannot fully verify. A scripted keyboard interaction proves it works. A role attribute only declares intent, and a screenshot cannot show focus behaviour."
+    },
+    {
+      "id": "pt-aua11y-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "accessibility-automation",
+      "prompt": "Your axe results list the same color-contrast violation on 300 product cards. How should you report it?",
+      "options": [
+        "As 300 separate defects",
+        "As one defect against the shared card component, with a count and a couple of example targets",
+        "Not at all, because contrast is subjective",
+        "As a single 'page fails WCAG' defect with no detail"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The violations share one root cause, the card component's colours, so one actionable defect with evidence is right. 300 tickets bury the team; 'page fails' has no actionable detail; contrast is a measurable ratio, not subjective."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aua11y-blocking",
+      "title": "Filter blocking violations",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "axe returns violations shaped like `{ id, impact, nodes: [...] }` where impact is `minor`, `moderate`, `serious` or `critical`.\n\nWrite `blocking(violations)` that returns the ids of violations whose impact is `serious` or `critical`, sorted alphabetically.\n\n```js\nblocking([{id:'color-contrast',impact:'serious',nodes:[1]},{id:'region',impact:'moderate',nodes:[1]}])\n// ['color-contrast']\n```",
+      "starter": "function blocking(violations) {\n  // return the ids of serious and critical violations, sorted\n  return null;\n}",
+      "solution": "function blocking(violations) {\n  return violations\n    .filter(v => v.impact === 'serious' || v.impact === 'critical')\n    .map(v => v.id)\n    .sort();\n}",
+      "explanation": "filter keeps only the high-impact entries, map pulls out the rule id, and sort makes the result deterministic so the test does not depend on axe's ordering. Many teams gate CI on exactly this subset.",
+      "hints": [
+        "Use Array.prototype.filter on the impact field.",
+        "Then map each violation to v.id.",
+        "Finish with .sort() so ['b','a'] becomes ['a','b']."
+      ],
+      "tests": [
+        {
+          "name": "keeps serious and critical",
+          "code": "assertEqual(blocking([{id:'b',impact:'critical',nodes:[]},{id:'a',impact:'serious',nodes:[]},{id:'c',impact:'minor',nodes:[]}]), ['a','b'])",
+          "marks": 2
+        },
+        {
+          "name": "drops moderate and minor",
+          "code": "assertEqual(blocking([{id:'x',impact:'moderate',nodes:[]},{id:'y',impact:'minor',nodes:[]}]), [])",
+          "marks": 1
+        },
+        {
+          "name": "empty input",
+          "code": "assertEqual(blocking([]), [])",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aua11y-newonly",
+      "title": "Compare against a baseline",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "To roll out accessibility checks on a legacy page, CI fails only on violations that are not in the recorded baseline. A violation instance is identified by `ruleId + '|' + target`.\n\nWrite `newViolations(current, baseline)` where both are arrays of `{ ruleId, target }`. Return the instances in `current` that are not in `baseline`, as `'ruleId|target'` strings, without duplicates, in the order first seen.\n\n```js\nnewViolations([{ruleId:'label',target:'#email'}], [])  // ['label|#email']\n```",
+      "starter": "function newViolations(current, baseline) {\n  return null;\n}",
+      "solution": "function newViolations(current, baseline) {\n  const known = new Set(baseline.map(v => v.ruleId + '|' + v.target));\n  const out = [];\n  for (const v of current) {\n    const key = v.ruleId + '|' + v.target;\n    if (!known.has(key) && !out.includes(key)) out.push(key);\n  }\n  return out;\n}",
+      "explanation": "A Set of baseline keys gives fast lookups. Building the same key for current results and skipping repeats yields only genuinely new problems, so the build stays green for known debt but fails on regressions.",
+      "hints": [
+        "Turn each baseline entry into a string key.",
+        "A Set makes 'is this known?' a simple has() call.",
+        "Loop over current, build the key, and push it if it is neither known nor already in the output."
+      ],
+      "tests": [
+        {
+          "name": "reports a new instance",
+          "code": "assertEqual(newViolations([{ruleId:'label',target:'#a'},{ruleId:'label',target:'#b'}],[{ruleId:'label',target:'#a'}]), ['label|#b'])",
+          "marks": 2
+        },
+        {
+          "name": "same rule on new element counts as new",
+          "code": "assertEqual(newViolations([{ruleId:'image-alt',target:'img.hero'}],[{ruleId:'image-alt',target:'img.logo'}]), ['image-alt|img.hero'])",
+          "marks": 2
+        },
+        {
+          "name": "no duplicates and empty when all known",
+          "code": "assertEqual(newViolations([{ruleId:'x',target:'t'},{ruleId:'x',target:'t'}],[]), ['x|t']); assertEqual(newViolations([{ruleId:'x',target:'t'}],[{ruleId:'x',target:'t'}]), [])",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aua11y-contrast",
+      "title": "Compute a contrast ratio",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "WCAG defines contrast as `(L1 + 0.05) / (L2 + 0.05)` where L1 is the lighter relative luminance. Relative luminance of an sRGB colour is `0.2126*R + 0.7152*G + 0.0722*B`, where each channel c (0-255) is first converted: `s = c/255`, then `s/12.92` if `s <= 0.04045` else `((s+0.055)/1.055) ** 2.4`.\n\nWrite `contrast(hex1, hex2)` returning the ratio rounded to 2 decimals, and `passes_aa(hex1, hex2, large=False)` returning True when the ratio is at least 4.5 (or 3.0 for large text).\n\n```python\ncontrast('#000000', '#ffffff')  # 21.0\n```",
+      "starter": "def contrast(hex1, hex2):\n    pass\n\ndef passes_aa(hex1, hex2, large=False):\n    pass\n",
+      "solution": "def _lum(hex_):\n    hex_ = hex_.lstrip('#')\n    vals = []\n    for i in (0, 2, 4):\n        s = int(hex_[i:i + 2], 16) / 255\n        vals.append(s / 12.92 if s <= 0.04045 else ((s + 0.055) / 1.055) ** 2.4)\n    r, g, b = vals\n    return 0.2126 * r + 0.7152 * g + 0.0722 * b\n\ndef contrast(hex1, hex2):\n    a, b = _lum(hex1), _lum(hex2)\n    hi, lo = max(a, b), min(a, b)\n    return round((hi + 0.05) / (lo + 0.05), 2)\n\ndef passes_aa(hex1, hex2, large=False):\n    return contrast(hex1, hex2) >= (3.0 if large else 4.5)\n",
+      "explanation": "Each channel is linearised before weighting because perceived brightness is not linear in sRGB values. Taking max/min makes the function order-independent, which is why contrast('#fff', '#000') equals contrast('#000', '#fff'). This is exactly the calculation axe's color-contrast rule performs.",
+      "hints": [
+        "Parse the hex string in pairs with int(x, 16).",
+        "Write a helper that returns relative luminance for one colour.",
+        "Use max() and min() of the two luminances so argument order does not matter, then compare with 4.5 or 3.0."
+      ],
+      "tests": [
+        {
+          "name": "black on white is 21",
+          "code": "assert contrast('#000000', '#ffffff') == 21.0, contrast('#000000', '#ffffff')",
+          "marks": 2
+        },
+        {
+          "name": "order does not matter and grey value",
+          "code": "assert contrast('#ffffff', '#767676') == contrast('#767676', '#ffffff') == 4.54",
+          "marks": 3
+        },
+        {
+          "name": "AA thresholds",
+          "code": "assert passes_aa('#767676', '#ffffff') is True\nassert passes_aa('#777777', '#ffffff') is False\nassert passes_aa('#949494', '#ffffff', large=True) is True",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

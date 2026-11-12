@@ -1,0 +1,230 @@
+{
+  "lesson": "test-architecture-and-system-design",
+  "questions": [
+    {
+      "id": "pt-sdarch-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "Why separate a test framework into layers (tests, business flows, page/API clients, utilities)?",
+      "options": [
+        "To make it longer",
+        "So each kind of change is made in one place and tests read as intent rather than mechanics",
+        "Because frameworks require it",
+        "To slow down execution"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Layering isolates change: a locator change touches one page object, an API change one client, and tests stay readable."
+    },
+    {
+      "id": "pt-sdarch-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "Test data that each test creates for itself (and cleans up) makes parallel execution safer than shared fixed accounts.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unique per-test data removes collisions between concurrently running tests."
+    },
+    {
+      "id": "pt-sdarch-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "Where should environment-specific values like base URLs and credentials live?",
+      "options": [
+        "Hard-coded in each test",
+        "In configuration (files plus environment variables or a secrets store), selected at runtime",
+        "In test names",
+        "In page objects"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Configuration separated from code lets the same tests run against different environments without edits, and keeps secrets out of the repository."
+    },
+    {
+      "id": "pt-sdarch-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "A retry helper uses delays of base * 2^attempt with base = 200 ms. What are the waits before attempts 2, 3 and 4 (attempt index starting at 0 for the first retry)?",
+      "code": "delay = base_ms * (2 ** attempt)",
+      "codeLanguage": "python",
+      "options": [
+        "200, 200, 200 ms",
+        "200, 400, 800 ms",
+        "400, 800, 1600 ms",
+        "100, 200, 400 ms"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "With attempt 0, 1, 2 the delays are 200 x 1, 200 x 2, 200 x 4 = 200, 400, 800 ms. Real implementations usually add jitter and a cap."
+    },
+    {
+      "id": "pt-sdarch-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "UI tests in a microservices system fail whenever the recommendations service is down, even for tests about checkout. What is the architectural fix?",
+      "options": [
+        "Retry everything five times",
+        "Isolate tests from unrelated dependencies with service virtualisation or stubs for those services, and cover the real integration with a few dedicated tests",
+        "Remove checkout tests",
+        "Run tests only when all services are up"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tests should fail only for reasons related to what they verify. Virtualising unrelated dependencies removes noise while dedicated integration tests keep real coverage."
+    },
+    {
+      "id": "pt-sdarch-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "Which components belong in a mature test platform? Select all that apply.",
+      "options": [
+        "A test data service or factories for creating isolated data",
+        "Centralised results storage with history (for flakiness and trends)",
+        "Environment provisioning (e.g. ephemeral environments per PR)",
+        "A shared spreadsheet of passwords"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Data management, results history and environment provisioning are core platform capabilities. Shared password spreadsheets are a security risk."
+    },
+    {
+      "id": "pt-sdarch-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "What is the main benefit of contract testing between services?",
+      "options": [
+        "It replaces all other tests",
+        "It verifies provider and consumer agree on the API shape independently, catching breaking changes without full end-to-end environments",
+        "It load-tests APIs",
+        "It generates UI tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Consumer-driven contracts let each side verify compatibility in its own pipeline, much faster and more reliably than full end-to-end runs."
+    },
+    {
+      "id": "pt-sdarch-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "A company has 12 teams each building their own Selenium framework. Maintenance costs are high and practices diverge. What would you propose as test architect?",
+      "options": [
+        "Force all teams to stop UI testing",
+        "A shared core library (driver management, reporting, config, data helpers) with versioned releases and an inner-source contribution model, while teams own their domain page objects and tests",
+        "One central team writes all tests",
+        "Let each team continue independently"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A shared core removes duplicated plumbing while teams keep ownership of what they know best. Centralising all test writing creates a bottleneck."
+    },
+    {
+      "id": "pt-sdarch-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-architecture-and-system-design",
+      "prompt": "End-to-end tests take 90 minutes and are the only thing catching integration bugs. You need feedback in under 15 minutes on each PR. What is a sound design?",
+      "options": [
+        "Delete the end-to-end tests",
+        "Push coverage down: contract tests between services, API-level integration tests for business rules, a small critical-path UI smoke set on PRs, and the full suite post-merge or nightly",
+        "Buy faster machines only",
+        "Run end-to-end tests on Fridays"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Moving checks to the cheapest level that can find each bug type shortens feedback, while the full suite still runs where its cost is acceptable."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdarch-retry",
+      "title": "Retry with exponential backoff",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `async function retry(fn, { retries = 3, baseMs = 10, isRetryable = () => true, sleep } = {})`:\n\n- Call `fn(attempt)` (attempt starts at 0). Return its result if it succeeds.\n- If it throws and the error is retryable and retries remain, wait `baseMs * 2 ** attempt` ms using `sleep(ms)` (default: a real setTimeout-based sleep), then try again.\n- Otherwise rethrow the last error.\n\nA test can pass a fake `sleep` to record delays.\n\n```js\n// fails twice, then succeeds; delays recorded: [10, 20]\n```",
+      "starter": "async function retry(fn, { retries = 3, baseMs = 10, isRetryable = () => true, sleep } = {}) {\n  return fn(0);\n}",
+      "solution": "async function retry(fn, { retries = 3, baseMs = 10, isRetryable = () => true, sleep } = {}) {\n  const wait = sleep || (ms => new Promise(r => setTimeout(r, ms)));\n  for (let attempt = 0; ; attempt++) {\n    try {\n      return await fn(attempt);\n    } catch (err) {\n      if (attempt >= retries || !isRetryable(err)) throw err;\n      await wait(baseMs * 2 ** attempt);\n    }\n  }\n}",
+      "explanation": "Backoff spaces out retries so a struggling service gets time to recover. Only retrying errors the caller marks as transient (for example 503 or timeouts) avoids hammering on permanent failures such as 400 Bad Request. Injecting sleep keeps tests fast and lets them assert the exact schedule.",
+      "hints": [
+        "Loop over attempts with try/catch around `await fn(attempt)`.",
+        "Rethrow when attempts are used up or isRetryable(err) is false.",
+        "Before the next attempt await sleep(baseMs * 2 ** attempt)."
+      ],
+      "tests": [
+        {
+          "name": "succeeds after transient failures",
+          "code": "const delays = []; let n = 0; const v = await retry(async () => { if (n++ < 2) throw new Error('503'); return 'ok'; }, { sleep: async ms => { delays.push(ms); } }); assertEqual([v, delays], ['ok', [10, 20]])",
+          "marks": 3
+        },
+        {
+          "name": "gives up after retries",
+          "code": "let calls = 0; let m=''; try { await retry(() => { calls++; throw new Error('down'); }, { retries: 2, sleep: async () => {} }); } catch(e) { m = e.message; } assertEqual([m, calls], ['down', 3])",
+          "marks": 2
+        },
+        {
+          "name": "does not retry permanent errors",
+          "code": "let calls = 0; let m=''; try { await retry(() => { calls++; throw new Error('400'); }, { isRetryable: e => e.message !== '400', sleep: async () => {} }); } catch(e) { m = e.message; } assertEqual([m, calls], ['400', 1]); let c2 = 0; await retry(async () => { if (c2++ < 1) throw new Error('503'); return 1; }, { sleep: async () => {} }); assertEqual(c2, 2)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-sdarch-data",
+      "title": "Unique test data per worker",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write a class `DataFactory` that creates collision-free test users for parallel runs. `DataFactory(run_id, worker)` stores both; `user(role='customer')` returns a dict `{'email': ..., 'role': role}` where the email is `qa+<run_id>-w<worker>-<n>@example.test` and `n` counts up from 1 for each factory instance.\n\n```python\nf = DataFactory('r42', 3)\nf.user()['email']  # 'qa+r42-w3-1@example.test'\n```",
+      "starter": "class DataFactory:\n    def __init__(self, run_id, worker):\n        pass\n\n    def user(self, role='customer'):\n        return {'email': 'qa@example.test', 'role': role}\n",
+      "solution": "class DataFactory:\n    def __init__(self, run_id, worker):\n        self.run_id = run_id\n        self.worker = worker\n        self.n = 0\n\n    def user(self, role='customer'):\n        self.n += 1\n        return {'email': f'qa+{self.run_id}-w{self.worker}-{self.n}@example.test', 'role': role}\n",
+      "explanation": "Combining a run id, a worker id and a per-factory counter guarantees uniqueness across runs, across parallel workers and within one test. Keeping the counter on the instance (not a global) means workers never share state. Plus-addressing keeps emails readable and traceable back to a run.",
+      "hints": [
+        "Store run_id and worker and start a counter at 0 in __init__.",
+        "Increment the counter in user() before building the email.",
+        "Use an f-string to build qa+<run>-w<worker>-<n>@example.test."
+      ],
+      "tests": [
+        {
+          "name": "format and counter",
+          "code": "f = DataFactory('r42', 3)\nassert f.user()['email'] == 'qa+r42-w3-1@example.test'\nassert f.user('admin') == {'email': 'qa+r42-w3-2@example.test', 'role': 'admin'}",
+          "marks": 2
+        },
+        {
+          "name": "workers never collide",
+          "code": "a, b = DataFactory('r1', 1), DataFactory('r1', 2)\nemails = [a.user()['email'] for _ in range(3)] + [b.user()['email'] for _ in range(3)]\nassert len(set(emails)) == 6, emails\nassert len({DataFactory('r', 1).user()['email'], DataFactory('s', 1).user()['email']}) == 2",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

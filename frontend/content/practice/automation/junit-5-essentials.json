@@ -1,0 +1,209 @@
+{
+  "lesson": "junit-5-essentials",
+  "questions": [
+    {
+      "id": "pt-auj5-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "junit-5-essentials",
+      "prompt": "Which annotation runs once before all tests in a class (and must be static by default)?",
+      "options": [
+        "@BeforeEach",
+        "@BeforeAll",
+        "@Before",
+        "@Setup"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "@BeforeAll runs once per class and must be static unless the class uses @TestInstance(Lifecycle.PER_CLASS). @Before is JUnit 4."
+    },
+    {
+      "id": "pt-auj5-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "junit-5-essentials",
+      "prompt": "In JUnit 5, the expected value is the first argument of `assertEquals(expected, actual)`.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The order matters for readable failure messages: 'expected: <X> but was: <Y>'. Swapping them produces misleading output."
+    },
+    {
+      "id": "pt-auj5-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "junit-5-essentials",
+      "prompt": "Which annotation temporarily skips a test and shows it as skipped in the report?",
+      "options": [
+        "@Ignore",
+        "@Disabled",
+        "@Skip",
+        "@Off"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "@Disabled is JUnit 5's skip annotation (optionally with a reason). @Ignore is JUnit 4."
+    },
+    {
+      "id": "pt-auj5-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "junit-5-essentials",
+      "prompt": "With the default lifecycle, how many times is the constructor called?",
+      "code": "class CartTest {\n  CartTest() { System.out.println(\"new\"); }\n  @Test void a() {}\n  @Test void b() {}\n  @Test void c() {}\n}",
+      "codeLanguage": "java",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "0"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "JUnit 5 creates a new instance of the test class for each test method by default (PER_METHOD), so three tests means three instances."
+    },
+    {
+      "id": "pt-auj5-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "junit-5-essentials",
+      "prompt": "This test passes even when no exception is thrown. What is wrong?",
+      "code": "@Test\nvoid rejectsNegative() {\n  try {\n    account.withdraw(-5);\n  } catch (IllegalArgumentException e) {\n    // expected\n  }\n}",
+      "codeLanguage": "java",
+      "options": [
+        "@Test needs expected=",
+        "Nothing checks for the exception; use `assertThrows(IllegalArgumentException.class, () -> account.withdraw(-5))`",
+        "withdraw must be static",
+        "try/catch is not allowed in tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "If withdraw does not throw, execution simply continues and the test passes. assertThrows fails when nothing is thrown and returns the exception for further checks. @Test(expected=...) is JUnit 4 syntax."
+    },
+    {
+      "id": "pt-auj5-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "junit-5-essentials",
+      "prompt": "What is the benefit of `assertAll(...)`?",
+      "options": [
+        "It runs tests in parallel",
+        "It executes every grouped assertion and reports all failures together instead of stopping at the first",
+        "It retries failed assertions",
+        "It skips slow assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "assertAll collects failures from all its executables, which is useful when checking several fields of one object."
+    },
+    {
+      "id": "pt-auj5-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "junit-5-essentials",
+      "prompt": "Which are valid sources for `@ParameterizedTest`? Select all that apply.",
+      "options": [
+        "@ValueSource",
+        "@CsvSource",
+        "@MethodSource",
+        "@DataProvider"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "@ValueSource, @CsvSource and @MethodSource are in junit-jupiter-params. @DataProvider belongs to TestNG."
+    },
+    {
+      "id": "pt-auj5-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "junit-5-essentials",
+      "prompt": "A suite has fast unit tests and slow browser tests in the same module. You want developers to run only the fast ones locally and CI to run both. What is the JUnit 5 way?",
+      "options": [
+        "Put slow tests in comments",
+        "Tag slow tests with @Tag(\"ui\") and include or exclude the tag via the build tool (for example Surefire's groups/excludedGroups or a JUnit Platform tag expression)",
+        "Name slow tests with a prefix and delete them locally",
+        "Use @Disabled on slow tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Tags plus build configuration select tests without changing code. @Disabled would also skip them in CI; renaming or commenting out is error-prone."
+    },
+    {
+      "id": "pt-auj5-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "junit-5-essentials",
+      "prompt": "Each test in a class opens a 5-second database connection. You switch to @BeforeAll with @TestInstance(PER_CLASS) and share the connection. What must you now watch out for?",
+      "options": [
+        "Nothing, it is always better",
+        "Tests now share an instance and the connection, so state left by one test can affect another; reset or isolate data per test (for example a transaction rolled back in @AfterEach)",
+        "@BeforeAll methods cannot open connections",
+        "PER_CLASS disables assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Sharing expensive resources is fine, but shared mutable state reintroduces order dependence. Resetting data per test keeps tests independent."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-auj5-policy",
+      "title": "Password policy with parameterised tests",
+      "difficulty": "intermediate",
+      "language": "java",
+      "prompt": "Implement `PasswordPolicy.isValid(String p)` returning true only when the password is 8 to 64 characters long (inclusive), contains at least one digit and at least one upper-case letter. null is invalid.\n\nThen run the provided parameterised JUnit 5 tests, which use `@CsvSource` boundary values. Study how each row maps to a boundary.",
+      "starter": "public class PasswordPolicy {\n    public static boolean isValid(String p) {\n        return false;\n    }\n}\n",
+      "solution": "public class PasswordPolicy {\n    public static boolean isValid(String p) {\n        if (p == null || p.length() < 8 || p.length() > 64) {\n            return false;\n        }\n        boolean digit = p.chars().anyMatch(Character::isDigit);\n        boolean upper = p.chars().anyMatch(Character::isUpperCase);\n        return digit && upper;\n    }\n}\n",
+      "explanation": "Length is checked first, including null, so the character checks only run on candidate strings. The tests sit exactly on the 7/8 and 64/65 boundaries, where off-by-one mistakes live, and add one missing-digit and one missing-upper case for each rule.",
+      "hints": [
+        "Check null and length before anything else.",
+        "String.chars() gives an IntStream you can test with anyMatch.",
+        "Character::isDigit and Character::isUpperCase are the predicates you need."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertFalse;\n\nimport org.junit.jupiter.api.Test;\nimport org.junit.jupiter.params.ParameterizedTest;\nimport org.junit.jupiter.params.provider.CsvSource;\n\nclass PasswordPolicyTest {\n    @ParameterizedTest(name = \"{0} -> {1}\")\n    @CsvSource({\n        \"Abcdef1, false\",\n        \"Abcdefg1, true\",\n        \"abcdefg1, false\",\n        \"Abcdefgh, false\"\n    })\n    void checksRules(String password, boolean expected) {\n        assertEquals(expected, PasswordPolicy.isValid(password));\n    }\n\n    @Test\n    void upperLengthBoundary() {\n        String sixtyFour = \"A1\" + \"x\".repeat(62);\n        assertEquals(true, PasswordPolicy.isValid(sixtyFour));\n        assertEquals(false, PasswordPolicy.isValid(sixtyFour + \"x\"));\n    }\n\n    @Test\n    void nullIsInvalid() {\n        assertFalse(PasswordPolicy.isValid(null));\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `PasswordPolicy.java` in `src/main/java/` and `PasswordPolicyTest.java` in `src/test/java/`. `junit-jupiter` includes the params module. Run `mvn test`; all tests should pass.",
+      "marks": 5
+    },
+    {
+      "id": "code-auj5-assertall",
+      "title": "Group assertions with assertAll",
+      "difficulty": "beginner",
+      "language": "java",
+      "prompt": "A `User` record is provided. Write `UserAssertions.assertActiveAdmin(User u)` that uses `assertAll` to check, in one go, that `u.role()` equals `\"admin\"`, `u.active()` is true and `u.email()` ends with `\"@example.com\"`, so that a failing user reports **all** problems at once.\n\n```java\npublic record User(String email, String role, boolean active) {}\n```",
+      "starter": "public class UserAssertions {\n    public static void assertActiveAdmin(User u) {\n    }\n}\n",
+      "solution": "import static org.junit.jupiter.api.Assertions.assertAll;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertTrue;\n\npublic class UserAssertions {\n    public static void assertActiveAdmin(User u) {\n        assertAll(\"active admin\",\n            () -> assertEquals(\"admin\", u.role(), \"role\"),\n            () -> assertTrue(u.active(), \"active\"),\n            () -> assertTrue(u.email().endsWith(\"@example.com\"), \"email domain\"));\n    }\n}\n",
+      "explanation": "assertAll runs every lambda and throws a MultipleFailuresError listing each failed check, so one run shows the full picture. Messages on each assertion make that report readable. Because it lives in test code, put UserAssertions under src/test/java.",
+      "hints": [
+        "Import assertAll, assertEquals and assertTrue statically.",
+        "Each check is a lambda: () -> assertEquals(...).",
+        "Give each assertion a short message so the combined report is clear."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;\nimport static org.junit.jupiter.api.Assertions.assertEquals;\nimport static org.junit.jupiter.api.Assertions.assertThrows;\n\nimport org.junit.jupiter.api.Test;\nimport org.opentest4j.MultipleFailuresError;\n\nclass UserAssertionsTest {\n    @Test\n    void passesForActiveAdmin() {\n        assertDoesNotThrow(() -> UserAssertions.assertActiveAdmin(new User(\"ana@example.com\", \"admin\", true)));\n    }\n\n    @Test\n    void reportsAllFailuresTogether() {\n        MultipleFailuresError e = assertThrows(MultipleFailuresError.class,\n            () -> UserAssertions.assertActiveAdmin(new User(\"bo@other.org\", \"viewer\", false)));\n        assertEquals(3, e.getFailures().size());\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `User.java` in `src/main/java/`, and `UserAssertions.java` plus `UserAssertionsTest.java` in `src/test/java/` (Java 16+ for records). Run `mvn test`; all tests should pass.",
+      "marks": 4
+    }
+  ]
+}

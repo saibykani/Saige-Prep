@@ -1,0 +1,237 @@
+{
+  "lesson": "docker-for-testers",
+  "questions": [
+    {
+      "id": "pt-sddock-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "docker-for-testers",
+      "prompt": "What is the difference between an image and a container?",
+      "options": [
+        "They are the same",
+        "An image is a read-only template; a container is a running (or stopped) instance created from it",
+        "A container is a template for images",
+        "Images only exist in the cloud"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "You build or pull images and run containers from them. Many containers can come from one image."
+    },
+    {
+      "id": "pt-sddock-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "docker-for-testers",
+      "prompt": "Data written inside a container's filesystem is lost when the container is removed, unless it is stored in a volume or bind mount.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The container's writable layer is deleted with it. Volumes persist data independently of container lifecycles."
+    },
+    {
+      "id": "pt-sddock-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "docker-for-testers",
+      "prompt": "Which command lists running containers?",
+      "options": [
+        "docker images",
+        "docker ps",
+        "docker build",
+        "docker pull"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "docker ps shows running containers (add -a for stopped ones). docker images lists images."
+    },
+    {
+      "id": "pt-sddock-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "docker-for-testers",
+      "prompt": "Inside the `tests` service, which host name and port reach the database?",
+      "code": "services:\n  db:\n    image: postgres:16\n    ports:\n      - \"5433:5432\"\n  tests:\n    build: .\n    depends_on:\n      - db",
+      "codeLanguage": "yaml",
+      "options": [
+        "localhost:5433",
+        "db:5432",
+        "localhost:5432",
+        "postgres:5433"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Compose services share a network where each service name is a DNS name. Containers talk to each other on the container port (5432). The 5433 mapping is only for reaching the database from the host machine."
+    },
+    {
+      "id": "pt-sddock-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "docker-for-testers",
+      "prompt": "Test results written by a container disappear after the run. What is the fix?",
+      "code": "docker run --rm my-tests:1.0 npm test -- --reporter=junit --output=/app/reports/junit.xml",
+      "codeLanguage": "bash",
+      "options": [
+        "Run the container as root",
+        "Mount a host directory or volume for the results path (e.g. -v \"$PWD/reports:/app/reports\") or copy them out with docker cp before removing the container",
+        "Use a bigger image",
+        "Add --rm"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Files written inside a removed container are gone. A bind mount writes them straight to the host; docker cp retrieves them. --rm removes the container even sooner."
+    },
+    {
+      "id": "pt-sddock-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "docker-for-testers",
+      "prompt": "Which help make Docker-based test runs reproducible? Select all that apply.",
+      "options": [
+        "Pinning image tags or digests (postgres:16.4 rather than latest)",
+        "Seeding test data from scripts in the repository",
+        "Using `latest` for every image",
+        "Healthchecks so dependent services start only when ready"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Pinned versions, scripted data and readiness checks give the same environment every time. latest can change underneath you."
+    },
+    {
+      "id": "pt-sddock-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "docker-for-testers",
+      "prompt": "What does `depends_on` with `condition: service_healthy` add over a plain `depends_on`?",
+      "options": [
+        "Nothing",
+        "Compose waits for the dependency's healthcheck to pass, not just for its container to start",
+        "It restarts failed tests",
+        "It exposes ports"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Plain depends_on only orders container startup. With service_healthy, Compose waits until the healthcheck reports healthy, preventing 'connection refused' races."
+    },
+    {
+      "id": "pt-sddock-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "docker-for-testers",
+      "prompt": "Integration tests need a real PostgreSQL and Kafka. Developers on laptops and CI should run the same setup with one command, and each test run should start clean. What approach fits?",
+      "options": [
+        "A shared staging database",
+        "A Compose file (or Testcontainers in the test code) that starts pinned images with healthchecks and seeded data, torn down after each run",
+        "Install PostgreSQL and Kafka manually on every machine",
+        "Mock both in every test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Containerised dependencies give identical, disposable environments everywhere. Shared staging databases cause data collisions, and manual installs drift."
+    },
+    {
+      "id": "pt-sddock-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "docker-for-testers",
+      "prompt": "Your test image takes 8 minutes to build in CI because `npm ci` runs on every code change. Which Dockerfile change helps most?",
+      "options": [
+        "Use a larger base image",
+        "Copy package.json and package-lock.json first and run npm ci before copying the rest of the source, so the dependency layer is cached when only code changes",
+        "Combine everything into one RUN line",
+        "Add --no-cache"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Docker caches layers until an input changes. Putting rarely-changing dependency install before frequently-changing source keeps that expensive layer cached. --no-cache does the opposite."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sddock-lint",
+      "title": "Lint a Dockerfile for test images",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `lint(dockerfile)` returning a list of warning strings for these rules, in line order (line numbers 1-based):\n\n- `L<n>: unpinned image` for a `FROM` image with no tag or with tag `latest` (ignore `FROM scratch`; a digest `@sha256:` counts as pinned).\n- `L<n>: copy before install` for a `RUN npm ci` or `RUN npm install` line that appears **after** a `COPY . .` line.\n\nKeywords are case-insensitive. `FROM image AS name` is allowed.\n\n```python\nlint('FROM node\\nCOPY . .\\nRUN npm ci')\n# ['L1: unpinned image', 'L3: copy before install']\n```",
+      "starter": "def lint(dockerfile):\n    return []\n",
+      "solution": "def lint(dockerfile):\n    warnings = []\n    copied_all = False\n    for n, raw in enumerate(dockerfile.splitlines(), 1):\n        parts = raw.strip().split()\n        if not parts:\n            continue\n        kw = parts[0].upper()\n        if kw == 'FROM' and len(parts) > 1:\n            image = parts[1]\n            if image.lower() != 'scratch' and '@sha256:' not in image:\n                name_tag = image.rsplit('/', 1)[-1]\n                tag = name_tag.split(':', 1)[1] if ':' in name_tag else None\n                if tag is None or tag == 'latest':\n                    warnings.append(f'L{n}: unpinned image')\n        elif kw == 'COPY' and parts[1:] == ['.', '.']:\n            copied_all = True\n        elif kw == 'RUN' and copied_all and parts[1:3] in (['npm', 'ci'], ['npm', 'install']):\n            warnings.append(f'L{n}: copy before install')\n    return warnings\n",
+      "explanation": "Unpinned images make environments drift silently, and installing dependencies after copying all source defeats Docker's layer cache. Looking at the tag after the last '/' matters because a registry host can contain a port (localhost:5000/app has no tag). These are the same checks tools like hadolint perform.",
+      "hints": [
+        "Split each line into words; the first word upper-cased is the instruction.",
+        "Take the part after the last '/' before looking for ':' so registry ports are not mistaken for tags.",
+        "Remember whether you have seen `COPY . .` and flag npm installs that come after it."
+      ],
+      "tests": [
+        {
+          "name": "both rules",
+          "code": "assert lint('FROM node\\nCOPY . .\\nRUN npm ci') == ['L1: unpinned image', 'L3: copy before install']",
+          "marks": 2
+        },
+        {
+          "name": "pinned image, late install flagged",
+          "code": "df = 'FROM node:22.11-alpine AS build\\nWORKDIR /app\\nCOPY package*.json ./\\nRUN npm ci\\nCOPY . .\\nCMD [\"npm\", \"test\"]\\nRUN npm install'\nassert lint(df) == ['L7: copy before install'], lint(df)",
+          "marks": 2
+        },
+        {
+          "name": "latest, registry port and digest",
+          "code": "df = 'from localhost:5000/tests\\nFROM postgres:latest\\nFROM redis@sha256:abc123\\nFROM scratch'\nassert lint(df) == ['L1: unpinned image', 'L2: unpinned image'], lint(df)",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-sddock-ready",
+      "title": "Wait for services to be healthy",
+      "difficulty": "advanced",
+      "language": "javascript",
+      "prompt": "Write `async function waitForServices(check, names, { timeout = 1000, interval = 20 } = {})` where `check(name)` returns (or resolves to) `'starting'`, `'healthy'` or `'unhealthy'`. Poll all services until every one is healthy, then return the number of polling rounds used. If any service reports `'unhealthy'`, reject immediately with `Error('<name> is unhealthy')`. On timeout, reject with `Error('timed out waiting for: <comma-separated names not yet healthy>')`.",
+      "starter": "async function waitForServices(check, names, { timeout = 1000, interval = 20 } = {}) {\n  return 0;\n}",
+      "solution": "async function waitForServices(check, names, { timeout = 1000, interval = 20 } = {}) {\n  const deadline = Date.now() + timeout;\n  let rounds = 0;\n  for (;;) {\n    rounds++;\n    const states = await Promise.all(names.map(async n => [n, await check(n)]));\n    const bad = states.find(([, s]) => s === 'unhealthy');\n    if (bad) throw new Error(`${bad[0]} is unhealthy`);\n    const waiting = states.filter(([, s]) => s !== 'healthy').map(([n]) => n);\n    if (waiting.length === 0) return rounds;\n    if (Date.now() >= deadline) throw new Error('timed out waiting for: ' + waiting.join(', '));\n    await new Promise(r => setTimeout(r, interval));\n  }\n}",
+      "explanation": "This mirrors depends_on with service_healthy: tests start only when every dependency is ready. Checking all services in parallel each round is faster than one by one, failing fast on 'unhealthy' avoids waiting out the full timeout for a service that will never recover, and listing the stragglers makes timeouts easy to diagnose.",
+      "hints": [
+        "Each round, check all names with Promise.all.",
+        "Throw at once if any state is 'unhealthy'.",
+        "Collect names that are not healthy yet; return the round count when none remain."
+      ],
+      "tests": [
+        {
+          "name": "waits for all healthy",
+          "code": "const calls = {db: 0, kafka: 0}; const check = n => (++calls[n] >= (n === 'db' ? 2 : 3) ? 'healthy' : 'starting'); assertEqual(await waitForServices(check, ['db', 'kafka'], { interval: 5 }), 3)",
+          "marks": 3
+        },
+        {
+          "name": "fails fast when unhealthy",
+          "code": "let m=''; try { await waitForServices(async n => (n === 'kafka' ? 'unhealthy' : 'healthy'), ['db','kafka'], { timeout: 5000 }); } catch(e) { m = e.message; } assertEqual(m, 'kafka is unhealthy')",
+          "marks": 2
+        },
+        {
+          "name": "timeout lists stragglers",
+          "code": "let m=''; try { await waitForServices(n => (n === 'db' ? 'healthy' : 'starting'), ['db','kafka','redis'], { timeout: 40, interval: 10 }); } catch(e) { m = e.message; } assertEqual(m, 'timed out waiting for: kafka, redis')",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "lesson": "maven-for-test-projects",
+  "questions": [
+    {
+      "id": "pt-aumvn-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "maven-for-test-projects",
+      "prompt": "Where does Maven expect test source code by default?",
+      "options": [
+        "src/main/java",
+        "src/test/java",
+        "test/",
+        "src/java/test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The standard layout puts tests in src/test/java and test resources in src/test/resources."
+    },
+    {
+      "id": "pt-aumvn-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "maven-for-test-projects",
+      "prompt": "Which file defines a Maven project's dependencies and plugins?",
+      "options": [
+        "build.gradle",
+        "pom.xml",
+        "package.json",
+        "settings.gradle"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "pom.xml (Project Object Model) is Maven's project file. build.gradle is Gradle; package.json is npm."
+    },
+    {
+      "id": "pt-aumvn-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "maven-for-test-projects",
+      "prompt": "Running `mvn verify` also runs the `test` phase.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Lifecycle phases run in order, so verify includes compile, test, package and integration-test before it."
+    },
+    {
+      "id": "pt-aumvn-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "maven-for-test-projects",
+      "prompt": "Which tests does this command run with the Surefire plugin?",
+      "code": "mvn test -Dtest=LoginTest#loginFails",
+      "codeLanguage": "bash",
+      "options": [
+        "All tests",
+        "Only the loginFails method in LoginTest",
+        "Every class whose name contains login",
+        "No tests; -Dtest is not valid"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Surefire's -Dtest accepts Class#method, so only that method in that class runs."
+    },
+    {
+      "id": "pt-aumvn-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "maven-for-test-projects",
+      "prompt": "Integration tests in `CheckoutIT.java` never run with `mvn test`. Why?",
+      "options": [
+        "IT classes must be in src/main",
+        "By default Surefire (the test phase) excludes *IT classes; Failsafe runs them in integration-test/verify, so add the Failsafe plugin and run mvn verify",
+        "The class name must start with Test",
+        "Maven cannot run Selenium tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Surefire's default includes are Test*, *Test, *Tests and *TestCase. *IT is Failsafe's convention, bound to the integration-test and verify phases."
+    },
+    {
+      "id": "pt-aumvn-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "maven-for-test-projects",
+      "prompt": "Which statements about dependency scopes are correct? Select all that apply.",
+      "options": [
+        "scope test: available when compiling and running tests only",
+        "scope compile (default): available everywhere and packaged",
+        "scope provided: expected to be supplied by the runtime environment",
+        "scope test dependencies are shipped in the final JAR"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Test-scoped dependencies such as JUnit are not packaged. compile is the default and is transitive; provided is for things like a servlet API supplied by the container."
+    },
+    {
+      "id": "pt-aumvn-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "maven-for-test-projects",
+      "prompt": "Why should you pin plugin versions such as maven-surefire-plugin in the pom?",
+      "options": [
+        "It is not allowed to omit them",
+        "So builds are reproducible: the same versions on every machine and CI run, rather than whatever the Maven default happens to be",
+        "It makes tests faster",
+        "It disables the cache"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unpinned plugin versions come from Maven's super-POM defaults, which differ across Maven versions, leading to 'works on my machine' differences."
+    },
+    {
+      "id": "pt-aumvn-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "maven-for-test-projects",
+      "prompt": "Two libraries pull in different versions of the same JSON library and tests fail with NoSuchMethodError. How do you investigate and fix it?",
+      "options": [
+        "Delete ~/.m2 and hope",
+        "Run `mvn dependency:tree` to see which versions are resolved and from where, then pin the right version (dependencyManagement) or exclude the conflicting transitive dependency",
+        "Add both versions",
+        "Switch to Gradle"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "NoSuchMethodError at runtime usually means a version conflict. dependency:tree shows Maven's 'nearest wins' result; dependencyManagement or exclusions control it."
+    },
+    {
+      "id": "pt-aumvn-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "maven-for-test-projects",
+      "prompt": "You want CI to run the smoke suite on every push and the full suite nightly, from the same project. What is a clean Maven approach?",
+      "options": [
+        "Two separate repositories",
+        "Profiles (or properties) that set Surefire's groups/suite file, e.g. `mvn test -Psmoke` vs `mvn verify -Pfull`",
+        "Comment out tests before pushing",
+        "Rename test classes nightly"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Profiles keep one codebase while varying what runs. The alternatives duplicate code or depend on manual edits."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aumvn-includes",
+      "title": "Which classes will Surefire run?",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "By default Surefire includes classes whose simple name matches `Test*`, `*Test`, `*Tests` or `*TestCase`. Failsafe includes `IT*`, `*IT` and `*ITCase`.\n\nWrite `runner_for(path)` taking a path like `src/test/java/com/shop/LoginTest.java` and returning `'surefire'`, `'failsafe'` or `None`. Check Failsafe patterns first.\n\n```python\nrunner_for('src/test/java/CheckoutIT.java')  # 'failsafe'\n```",
+      "starter": "def runner_for(path):\n    return 'TODO'\n",
+      "solution": "import fnmatch\n\ndef runner_for(path):\n    name = path.rsplit('/', 1)[-1]\n    if not name.endswith('.java'):\n        return None\n    name = name[:-5]\n    if any(fnmatch.fnmatchcase(name, p) for p in ('IT*', '*IT', '*ITCase')):\n        return 'failsafe'\n    if any(fnmatch.fnmatchcase(name, p) for p in ('Test*', '*Test', '*Tests', '*TestCase')):\n        return 'surefire'\n    return None\n",
+      "explanation": "Matching on the simple class name with case-sensitive globbing mirrors Surefire's defaults. A class called CheckoutSpec matches neither list, which is the classic 'Tests run: 0' cause. fnmatchcase is used because fnmatch would ignore case on Windows.",
+      "hints": [
+        "Take the part after the last '/' and drop '.java'.",
+        "fnmatch.fnmatchcase(name, 'Test*') checks one pattern case-sensitively.",
+        "Check the Failsafe patterns before the Surefire ones."
+      ],
+      "tests": [
+        {
+          "name": "surefire patterns",
+          "code": "assert runner_for('src/test/java/com/shop/LoginTest.java') == 'surefire'\nassert runner_for('src/test/java/TestCart.java') == 'surefire'\nassert runner_for('src/test/java/ApiTests.java') == 'surefire'",
+          "marks": 2
+        },
+        {
+          "name": "failsafe patterns",
+          "code": "assert runner_for('src/test/java/CheckoutIT.java') == 'failsafe'\nassert runner_for('src/test/java/PaymentITCase.java') == 'failsafe'",
+          "marks": 2
+        },
+        {
+          "name": "not picked up",
+          "code": "assert runner_for('src/test/java/CheckoutSpec.java') is None\nassert runner_for('src/test/java/logintest.java') is None",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aumvn-version",
+      "title": "Compare Maven versions",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `newer(a, b)` returning the newer of two simple versions like `3.2.5` or `3.10.0`, compared numerically part by part. Missing parts count as 0 (`3.2` equals `3.2.0`). A version with a `-SNAPSHOT` suffix is **older** than the same version without it. If they are equal, return `a`.\n\n```python\nnewer('3.9.0', '3.10.0')  # '3.10.0'\n```",
+      "starter": "def newer(a, b):\n    return max(a, b)\n",
+      "solution": "def _key(v):\n    snapshot = v.endswith('-SNAPSHOT')\n    core = v[:-9] if snapshot else v\n    parts = [int(p) for p in core.split('.')]\n    while len(parts) < 3:\n        parts.append(0)\n    return (parts, 0 if snapshot else 1)\n\ndef newer(a, b):\n    return b if _key(b) > _key(a) else a\n",
+      "explanation": "Comparing strings would rank '3.9.0' above '3.10.0' because '9' > '1'. Converting each part to an int fixes that, padding makes '3.2' equal '3.2.0', and a trailing flag (0 for SNAPSHOT, 1 for release) makes 1.0-SNAPSHOT sort before 1.0.",
+      "hints": [
+        "String comparison is the bug in the starter: '3.9' > '3.10' as text.",
+        "Build a sort key: a list of ints padded to length 3.",
+        "Add a second element that is 0 for SNAPSHOT and 1 for releases, then compare tuples."
+      ],
+      "tests": [
+        {
+          "name": "numeric not text order",
+          "code": "assert newer('3.9.0', '3.10.0') == '3.10.0'\nassert newer('3.10.0', '3.9.0') == '3.10.0'",
+          "marks": 2
+        },
+        {
+          "name": "missing parts are zero",
+          "code": "assert newer('3.2', '3.2.0') == '3.2'\nassert newer('3.2', '3.2.1') == '3.2.1'",
+          "marks": 2
+        },
+        {
+          "name": "snapshot is older",
+          "code": "assert newer('1.0-SNAPSHOT', '1.0') == '1.0'\nassert newer('1.1-SNAPSHOT', '1.0') == '1.1-SNAPSHOT'",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

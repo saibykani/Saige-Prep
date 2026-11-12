@@ -1,0 +1,264 @@
+{
+  "lesson": "test-doubles-and-mocking",
+  "questions": [
+    {
+      "id": "pt-aumock-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "Which test double returns canned answers to calls but does not verify how it was called?",
+      "options": [
+        "Mock",
+        "Stub",
+        "Spy",
+        "Dummy"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A stub supplies fixed responses. A mock is set up with expectations about calls; a spy records calls for later checks; a dummy is passed but never used."
+    },
+    {
+      "id": "pt-aumock-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "A dummy object is passed to satisfy a parameter list but is never actually used by the code under test.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is the definition of a dummy, for example a null-safe placeholder logger the test path never touches."
+    },
+    {
+      "id": "pt-aumock-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "Why replace a real email service with a test double in a unit test of the sign-up logic?",
+      "options": [
+        "Email services cannot be tested",
+        "To keep the test fast, deterministic and free of side effects (no real emails sent)",
+        "Because mocks find more bugs than real services",
+        "To avoid writing assertions"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Doubles isolate the unit from slow, flaky or side-effecting dependencies. They do not replace integration testing of the real service."
+    },
+    {
+      "id": "pt-aumock-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "What does this print?",
+      "code": "from unittest.mock import Mock\n\nmailer = Mock()\nmailer.notify('ana')\nmailer.notify('bo')\nprint(mailer.notify.call_count)",
+      "codeLanguage": "python",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "An AssertionError"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The Mock records every call; notify was called twice, so call_count is 2."
+    },
+    {
+      "id": "pt-aumock-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "This test passes even though `register` never sends the welcome email. Why?",
+      "code": "mailer = Mock()\nregister('ana@example.com', mailer)\nassert mailer.send_welcome",
+      "codeLanguage": "python",
+      "options": [
+        "Mock cannot be used with classes",
+        "Accessing any attribute of a Mock creates a new (truthy) Mock, so `assert mailer.send_welcome` is always true. Verify the call with `mailer.send_welcome.assert_called_once_with('ana@example.com')`",
+        "The test needs a sleep",
+        "register must return the mailer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Mock creates attributes on demand, so checking that an attribute exists proves nothing. The assert_called_* methods inspect the recorded calls and fail when the expected call did not happen. Using spec/autospec additionally limits a mock to the real interface."
+    },
+    {
+      "id": "pt-aumock-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "Which are signs of over-mocking? Select all that apply.",
+      "options": [
+        "Tests break whenever internal method calls are refactored, even though behaviour is unchanged",
+        "Every collaborator, including simple value objects, is mocked",
+        "The test checks the returned result of the unit",
+        "A test passes while the real integration is broken because the mock no longer matches the real API"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Over-mocked tests verify implementation details and drift from reality. Asserting on returned results (state verification) is healthy."
+    },
+    {
+      "id": "pt-aumock-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "What is a fake?",
+      "options": [
+        "A mock with strict expectations",
+        "A working lightweight implementation, such as an in-memory repository, suitable for tests but not production",
+        "A real production service",
+        "A spy that records calls"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Fakes have real behaviour with shortcuts (in-memory storage). They are often better than mocks for repositories because tests can check state."
+    },
+    {
+      "id": "pt-aumock-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "Your checkout service calls a payment provider. Unit tests mock the provider, and production broke when the provider renamed a response field. What closes this gap?",
+      "options": [
+        "More mocks",
+        "Contract tests (e.g. consumer-driven contracts) or a small set of integration tests against the provider's sandbox that verify the real response shape",
+        "Remove all unit tests",
+        "Mock the HTTP library instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Mocks encode your assumptions about the provider. Contract or integration tests check those assumptions against reality, so drift is caught before production."
+    },
+    {
+      "id": "pt-aumock-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-doubles-and-mocking",
+      "prompt": "A function calls `datetime.now()` to decide whether a coupon has expired. Tests fail around midnight. What is the best design for testability?",
+      "options": [
+        "Run tests only at noon",
+        "Inject a clock (a function or object returning the current time) and pass a fixed fake clock in tests",
+        "Patch the system clock of the CI machine",
+        "Assert both outcomes are possible"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Injecting time as a dependency makes it controllable, which makes the test deterministic and lets you test the exact expiry boundary."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aumock-spy",
+      "title": "Write a spy by hand",
+      "difficulty": "beginner",
+      "language": "javascript",
+      "prompt": "Write `createSpy(impl)` that returns a function which:\n\n- calls `impl` (if given) with the same arguments and returns its result,\n- records each call's arguments in `spy.calls` (an array of argument arrays),\n- exposes `spy.callCount()`.\n\n```js\nconst add = createSpy((a, b) => a + b);\nadd(1, 2); // 3\nadd.calls  // [[1, 2]]\n```",
+      "starter": "function createSpy(impl) {\n  return function () {};\n}",
+      "solution": "function createSpy(impl) {\n  const spy = function (...args) {\n    spy.calls.push(args);\n    return impl ? impl(...args) : undefined;\n  };\n  spy.calls = [];\n  spy.callCount = () => spy.calls.length;\n  return spy;\n}",
+      "explanation": "Functions are objects in JavaScript, so the spy can carry its own call log. Recording arguments before delegating means calls are captured even if the implementation throws. This is what jest.fn() and vi.fn() do under the hood.",
+      "hints": [
+        "Create the spy function with rest parameters (...args).",
+        "Attach a calls array and a callCount method to the function itself.",
+        "Call impl(...args) only if impl was provided."
+      ],
+      "tests": [
+        {
+          "name": "delegates and returns",
+          "code": "const add = createSpy((a, b) => a + b); assertEqual(add(1, 2), 3)",
+          "marks": 1
+        },
+        {
+          "name": "records calls",
+          "code": "const s = createSpy(); s('a'); s('b', 2); assertEqual(s.calls, [['a'], ['b', 2]]); assertEqual(s.callCount(), 2)",
+          "marks": 2
+        },
+        {
+          "name": "records even when impl throws",
+          "code": "const s = createSpy(() => { throw new Error('x'); }); try { s(7); } catch (e) {} assertEqual(s.calls, [[7]])",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-aumock-inject",
+      "title": "Stub a dependency and verify a call",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `register(email, repo, mailer)` that:\n\n- raises `ValueError('already registered')` if `repo.exists(email)` is True (and sends nothing),\n- otherwise calls `repo.save(email)` and then `mailer.send_welcome(email)`, and returns `True`.\n\nThen the tests use `unittest.mock.Mock` as stubs and mocks. (Read the tests to see how `return_value` and `assert_called_once_with` work.)",
+      "starter": "def register(email, repo, mailer):\n    pass\n",
+      "solution": "def register(email, repo, mailer):\n    if repo.exists(email):\n        raise ValueError('already registered')\n    repo.save(email)\n    mailer.send_welcome(email)\n    return True\n",
+      "explanation": "Because the dependencies are passed in, tests can substitute Mocks: repo.exists acts as a stub (return_value controls the branch) and mailer acts as a mock (assert_called_once_with verifies the interaction). The duplicate case checks that nothing is sent, which is the behaviour users care about.",
+      "hints": [
+        "Check repo.exists(email) first.",
+        "On the happy path call save, then send_welcome.",
+        "Return True at the end."
+      ],
+      "tests": [
+        {
+          "name": "happy path saves and emails",
+          "code": "from unittest.mock import Mock\nrepo = Mock(); repo.exists.return_value = False\nmailer = Mock()\nassert register('ana@x.com', repo, mailer) is True\nrepo.save.assert_called_once_with('ana@x.com')\nmailer.send_welcome.assert_called_once_with('ana@x.com')",
+          "marks": 3
+        },
+        {
+          "name": "duplicate sends nothing",
+          "code": "from unittest.mock import Mock\nrepo = Mock(); repo.exists.return_value = True\nmailer = Mock()\ntry:\n    register('ana@x.com', repo, mailer)\n    raise AssertionError('expected ValueError')\nexcept ValueError as e:\n    assert 'already registered' in str(e)\nrepo.save.assert_not_called()\nmailer.send_welcome.assert_not_called()",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-aumock-clock",
+      "title": "Inject a fake clock",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `is_expired(coupon, now=None)` where `coupon` has an `expires_at` datetime. `now` is a zero-argument callable returning the current datetime; if omitted use `datetime.now`. A coupon is expired when the current time is **at or after** `expires_at`.\n\nAlso write a class `FakeClock` with `__init__(start)`, `__call__()` returning the current fake time, and `advance(**kwargs)` that moves time forward using `timedelta(**kwargs)`.",
+      "starter": "from datetime import datetime, timedelta\n\ndef is_expired(coupon, now=None):\n    return datetime.now() >= coupon['expires_at']\n\nclass FakeClock:\n    pass\n",
+      "solution": "from datetime import datetime, timedelta\n\ndef is_expired(coupon, now=None):\n    now = now or datetime.now\n    return now() >= coupon['expires_at']\n\nclass FakeClock:\n    def __init__(self, start):\n        self.current = start\n\n    def __call__(self):\n        return self.current\n\n    def advance(self, **kwargs):\n        self.current += timedelta(**kwargs)\n",
+      "explanation": "Passing the clock in turns time into an ordinary dependency, so tests can sit exactly on the boundary (one second before, at, and after expiry) instead of hoping the real clock cooperates. FakeClock is a fake: a tiny working implementation with controllable behaviour.",
+      "hints": [
+        "Default now to datetime.now when it is None.",
+        "FakeClock stores the time; __call__ returns it.",
+        "advance adds timedelta(**kwargs) to the stored time."
+      ],
+      "tests": [
+        {
+          "name": "boundary is expired",
+          "code": "from datetime import datetime\nc = {'expires_at': datetime(2026, 1, 1, 0, 0, 0)}\nclock = FakeClock(datetime(2025, 12, 31, 23, 59, 59))\nassert is_expired(c, clock) is False\nclock.advance(seconds=1)\nassert is_expired(c, clock) is True",
+          "marks": 3
+        },
+        {
+          "name": "advance by days",
+          "code": "from datetime import datetime\nclock = FakeClock(datetime(2026, 3, 1))\nclock.advance(days=2, hours=3)\nassert clock() == datetime(2026, 3, 3, 3), clock()",
+          "marks": 2
+        },
+        {
+          "name": "defaults to the real clock",
+          "code": "from datetime import datetime\nassert is_expired({'expires_at': datetime(2000, 1, 1)}) is True\nassert is_expired({'expires_at': datetime(2999, 1, 1)}) is False\nassert callable(FakeClock(datetime(2026,1,1)))",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

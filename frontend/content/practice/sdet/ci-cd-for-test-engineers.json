@@ -1,0 +1,237 @@
+{
+  "lesson": "ci-cd-for-test-engineers",
+  "questions": [
+    {
+      "id": "pt-sdcicd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "What is continuous integration (CI)?",
+      "options": [
+        "Deploying every commit to production automatically",
+        "Merging small changes to a shared branch frequently, with each change built and tested automatically",
+        "Writing tests after release",
+        "Running tests once per month"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "CI is about integrating often with automated build and test feedback. Automatically deploying every change to production is continuous deployment."
+    },
+    {
+      "id": "pt-sdcicd-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "A CI step fails the pipeline when the command it runs exits with a non-zero exit code.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exit codes are how CI tools know a step failed. That is why swallowing a test runner's exit code (for example with `|| true`) hides failures."
+    },
+    {
+      "id": "pt-sdcicd-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "Which tests belong in the fast feedback stage that runs on every pull request?",
+      "options": [
+        "The full 3-hour regression suite",
+        "Unit tests, static checks and a small set of quick integration or smoke tests",
+        "Only manual exploratory tests",
+        "Load tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "PR feedback must arrive in minutes, so the fastest high-value checks run there; longer suites run later or on a schedule."
+    },
+    {
+      "id": "pt-sdcicd-04",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "This pipeline step never fails even when tests fail. Why?",
+      "code": "npm test | tee test-output.log",
+      "codeLanguage": "bash",
+      "options": [
+        "npm test cannot fail",
+        "The pipe into tee makes the step's exit status that of tee (which succeeds) unless pipefail is set; use `set -o pipefail` or avoid the pipe",
+        "tee deletes the output",
+        "Results must be written in XML"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "In POSIX shells a pipeline's exit status is the last command's. tee succeeds, masking the test failure. pipefail returns the first failing command's status."
+    },
+    {
+      "id": "pt-sdcicd-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "Which practices keep a CI pipeline trustworthy for test engineers? Select all that apply.",
+      "options": [
+        "Publishing test reports and artifacts even when tests fail",
+        "Quarantining known-flaky tests with an owner and a deadline",
+        "Letting developers merge on red when they are confident",
+        "Pinning tool and dependency versions"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Visible results, managed flakiness and reproducible environments keep the signal reliable. Merging on red teaches everyone to ignore the pipeline."
+    },
+    {
+      "id": "pt-sdcicd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "What is a quality gate?",
+      "options": [
+        "A physical security door",
+        "An automated rule in the pipeline that blocks promotion unless criteria are met, such as all tests passing or no new critical issues",
+        "A meeting before release",
+        "A test environment"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Gates turn agreed quality criteria into automated decisions at stage boundaries."
+    },
+    {
+      "id": "pt-sdcicd-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "Given these stage durations run sequentially, and the e2e stage only on main, how long does a pull request pipeline take?",
+      "code": "stages:\n  lint: 2 min\n  unit: 5 min\n  integration: 6 min\n  e2e: 25 min   # only on main",
+      "codeLanguage": "yaml",
+      "options": [
+        "8 minutes",
+        "13 minutes",
+        "38 minutes",
+        "25 minutes"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "On a PR the e2e stage is skipped, so lint (2) + unit (5) + integration (6) = 13 minutes."
+    },
+    {
+      "id": "pt-sdcicd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "The main branch pipeline is red 40% of the time because of environment issues, and the team now ignores it. What should a test engineer do first?",
+      "options": [
+        "Disable the pipeline",
+        "Make failures visible and categorised (product, test, environment), fix or isolate the top environment causes, and agree that a red main is stop-the-line",
+        "Add retries to every step",
+        "Move all tests to nightly"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Trust comes from a reliable signal. Categorising failures shows where to invest; fixing the top causes and treating red as urgent restores the pipeline's value. Blanket retries hide problems."
+    },
+    {
+      "id": "pt-sdcicd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "ci-cd-for-test-engineers",
+      "prompt": "Releases go to production via continuous delivery. Which test strategy reduces the risk of a bad release most without slowing every commit?",
+      "options": [
+        "Run every test on every commit",
+        "Fast tests on each commit, broader suites before promotion, then progressive delivery (canary or feature flags) with production monitoring and automatic rollback",
+        "Manual sign-off only",
+        "Skip tests and rely on monitoring"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Layered checks match test cost to risk, and progressive delivery limits the blast radius of anything the tests missed."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sdcicd-gate",
+      "title": "Implement a quality gate",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `gate(results, max_flaky=0)` where `results` is a dict like `{'passed': 120, 'failed': 0, 'errors': 0, 'skipped': 3, 'flaky': 1}`. Return a tuple `(exit_code, reasons)`:\n\n- `reasons` lists, in this order, `'failed tests'` if failed > 0, `'errors'` if errors > 0, `'too many flaky'` if flaky > max_flaky, and `'no tests ran'` if passed + failed + errors == 0.\n- `exit_code` is 0 when reasons is empty, otherwise 1.\n\nMissing keys count as 0.",
+      "starter": "def gate(results, max_flaky=0):\n    return 0, []\n",
+      "solution": "def gate(results, max_flaky=0):\n    g = lambda k: results.get(k, 0)\n    reasons = []\n    if g('failed') > 0:\n        reasons.append('failed tests')\n    if g('errors') > 0:\n        reasons.append('errors')\n    if g('flaky') > max_flaky:\n        reasons.append('too many flaky')\n    if g('passed') + g('failed') + g('errors') == 0:\n        reasons.append('no tests ran')\n    return (1 if reasons else 0), reasons\n",
+      "explanation": "The gate turns agreed rules into an exit code the CI tool understands. The 'no tests ran' rule catches a classic silent failure: a misconfigured runner that finds zero tests would otherwise look green.",
+      "hints": [
+        "Use results.get(key, 0) so missing keys are 0.",
+        "Append reasons in the given order.",
+        "Return 1 if there is any reason, else 0."
+      ],
+      "tests": [
+        {
+          "name": "green run",
+          "code": "assert gate({'passed': 10, 'skipped': 2}) == (0, [])\nassert gate({'passed': 1, 'failed': 2}) == (1, ['failed tests'])",
+          "marks": 1
+        },
+        {
+          "name": "failures and flaky",
+          "code": "assert gate({'passed': 10, 'failed': 1, 'flaky': 2}, max_flaky=1) == (1, ['failed tests', 'too many flaky'])",
+          "marks": 2
+        },
+        {
+          "name": "no tests ran is a failure",
+          "code": "assert gate({'skipped': 5}) == (1, ['no tests ran'])\nassert gate({'passed': 0, 'errors': 1}) == (1, ['errors'])",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-sdcicd-select",
+      "title": "Choose stages for a pipeline run",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `stages_for(event, branch, changed_files)` returning the list of stages to run, in order, from: `lint`, `unit`, `integration`, `e2e`, `deploy-staging`.\n\nRules:\n- If every changed file is under `docs/` or ends with `.md`, run only `lint`.\n- Otherwise always run `lint`, `unit`, `integration`.\n- Add `e2e` when the event is `push` to `main`, or when any changed file is under `src/checkout/`.\n- Add `deploy-staging` only for `push` to `main`.\n\n```python\nstages_for('pull_request', 'feature/x', ['README.md'])  # ['lint']\n```",
+      "starter": "def stages_for(event, branch, changed_files):\n    return ['lint', 'unit', 'integration', 'e2e', 'deploy-staging']\n",
+      "solution": "def stages_for(event, branch, changed_files):\n    docs_only = all(f.startswith('docs/') or f.endswith('.md') for f in changed_files)\n    if changed_files and docs_only:\n        return ['lint']\n    stages = ['lint', 'unit', 'integration']\n    main_push = event == 'push' and branch == 'main'\n    if main_push or any(f.startswith('src/checkout/') for f in changed_files):\n        stages.append('e2e')\n    if main_push:\n        stages.append('deploy-staging')\n    return stages\n",
+      "explanation": "Selecting stages from the change and the event keeps PR feedback fast while protecting main. Risky areas (checkout) earn the slow e2e stage even on PRs. The `changed_files and` guard matters because all() of an empty list is True, and an empty change list should not skip testing.",
+      "hints": [
+        "all(...) over the files detects a docs-only change.",
+        "Note all([]) is True, so guard against an empty list.",
+        "Build the base list then append e2e and deploy-staging conditionally."
+      ],
+      "tests": [
+        {
+          "name": "docs-only change",
+          "code": "assert stages_for('pull_request', 'feature/x', ['README.md', 'docs/guide.md']) == ['lint']",
+          "marks": 1
+        },
+        {
+          "name": "checkout change on PR runs e2e",
+          "code": "assert stages_for('pull_request', 'feature/y', ['src/checkout/pay.ts']) == ['lint', 'unit', 'integration', 'e2e']\nassert stages_for('pull_request', 'feature/y', ['src/cart/add.ts']) == ['lint', 'unit', 'integration']",
+          "marks": 2
+        },
+        {
+          "name": "main push deploys",
+          "code": "assert stages_for('push', 'main', ['src/cart/add.ts']) == ['lint', 'unit', 'integration', 'e2e', 'deploy-staging']\nassert stages_for('push', 'main', []) == ['lint', 'unit', 'integration', 'e2e', 'deploy-staging']\nassert stages_for('push', 'main', ['docs/a.md']) == ['lint']",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

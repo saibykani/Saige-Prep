@@ -1,0 +1,237 @@
+{
+  "lesson": "cucumber-bdd",
+  "questions": [
+    {
+      "id": "pt-aucuke-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cucumber-bdd",
+      "prompt": "What runs once before every scenario in a feature file?",
+      "options": [
+        "Examples",
+        "Background",
+        "Scenario Outline",
+        "Rule"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Background steps run before each scenario in that feature (or Rule). Examples supply data rows for an outline; Rule groups scenarios under a business rule."
+    },
+    {
+      "id": "pt-aucuke-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cucumber-bdd",
+      "prompt": "In Gherkin, `And` and `But` take on the meaning of the step keyword before them.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "And/But continue the previous Given, When or Then. Cucumber matches step text, not the keyword, but readers interpret And as the same kind of step."
+    },
+    {
+      "id": "pt-aucuke-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cucumber-bdd",
+      "prompt": "A Scenario Outline has an Examples table with 4 data rows. How many scenarios does Cucumber run?",
+      "options": [
+        "1",
+        "4",
+        "5 (including the header)",
+        "It depends on the number of steps"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each data row produces one scenario; the header row only names the placeholders."
+    },
+    {
+      "id": "pt-aucuke-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cucumber-bdd",
+      "prompt": "Given this Cucumber expression, which step text matches?",
+      "code": "@Given(\"I have {int} cucumbers in my basket\")\npublic void iHave(int count) { ... }",
+      "codeLanguage": "java",
+      "options": [
+        "Given I have \"5\" cucumbers in my basket",
+        "Given I have 5 cucumbers in my basket",
+        "Given I have five cucumbers in my basket",
+        "Given I have 5.5 cucumbers in my basket"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "{int} matches an integer such as 5, without quotes. Quoted text would need {string}; 'five' is not an integer; 5.5 would need {float} (it would not fully match {int})."
+    },
+    {
+      "id": "pt-aucuke-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cucumber-bdd",
+      "prompt": "This scenario is hard to maintain and breaks whenever the UI changes. What is wrong?",
+      "code": "Scenario: Login\n  Given I am on \"/login\"\n  When I type \"ana@example.com\" into \"#email\"\n  And I type \"S3cret!\" into \"#password\"\n  And I click \"#submit\"\n  Then I should see \"#dashboard\"",
+      "codeLanguage": "gherkin",
+      "options": [
+        "It is too short",
+        "It is imperative: it describes clicks and fields instead of behaviour. Rewrite it declaratively, for example 'When Ana logs in with valid credentials'",
+        "It must use Scenario Outline",
+        "Then steps must come first"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Scenarios should describe what the system does in business language; the how belongs in step definitions. UI-level steps couple the spec to the screen layout."
+    },
+    {
+      "id": "pt-aucuke-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cucumber-bdd",
+      "prompt": "Which are good uses of Cucumber tags such as @smoke or @wip? Select all that apply.",
+      "options": [
+        "Selecting a subset of scenarios to run",
+        "Attaching hooks that run only for tagged scenarios",
+        "Replacing assertions",
+        "Excluding work-in-progress scenarios from CI"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Tags filter what runs and can scope hooks (for example @Before(\"@db\")). They are labels, so they cannot verify behaviour; assertions still live in step definitions."
+    },
+    {
+      "id": "pt-aucuke-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cucumber-bdd",
+      "prompt": "In Cucumber JVM, two step definition classes need the same logged-in user object. What is the recommended way to share it?",
+      "options": [
+        "A static field",
+        "Dependency injection (for example cucumber-picocontainer) of a shared context object",
+        "Writing it to a temp file",
+        "Making both steps live in one giant class"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cucumber creates fresh step class instances per scenario, and a DI container can inject one shared context into each. Static fields leak state between scenarios and break parallel runs."
+    },
+    {
+      "id": "pt-aucuke-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cucumber-bdd",
+      "prompt": "Business analysts wrote 60 scenarios, each with 25 steps, covering every validation message. Runs are slow and nobody reads them. What should you recommend?",
+      "options": [
+        "Convert them all to Scenario Outlines",
+        "Keep a few key behaviour examples in Gherkin and move exhaustive validation checks to lower-level (unit or API) tests",
+        "Add more tags",
+        "Run them in parallel and change nothing else"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Gherkin is for shared understanding of behaviour through key examples, not exhaustive test suites. Detailed validation is cheaper and faster below the UI. Outlines or parallelism treat the symptom but keep unreadable specs."
+    },
+    {
+      "id": "pt-aucuke-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cucumber-bdd",
+      "prompt": "A step 'Given a customer with an expired card' passes, but the following When step fails because no customer exists. The steps live in different classes. What is the likely cause?",
+      "options": [
+        "Gherkin does not allow Given steps to create data",
+        "The Given step stored the customer in an instance field of its own class, which the other class cannot see; use a shared injected context",
+        "The steps run in random order",
+        "Cucumber requires all steps in one file"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each step class has its own instance per scenario, so data in one class's fields is invisible to another. Steps run in order and can live in many classes; shared state needs DI."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aucuke-outline",
+      "title": "Expand a Scenario Outline",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `expand(steps, table)` which mimics how Cucumber expands a Scenario Outline.\n\n- `steps` is a list of step strings containing placeholders like `<username>`.\n- `table` is a list of rows; the first row is the header.\n\nReturn a list of scenarios, one per data row, each being the list of steps with placeholders replaced.\n\n```python\nexpand(['Given user <u>', 'Then I see <msg>'], [['u', 'msg'], ['ana', 'Hi'], ['bo', 'Locked']])\n# [['Given user ana', 'Then I see Hi'], ['Given user bo', 'Then I see Locked']]\n```",
+      "starter": "def expand(steps, table):\n    return []\n",
+      "solution": "def expand(steps, table):\n    header, *rows = table\n    scenarios = []\n    for row in rows:\n        values = dict(zip(header, row))\n        scenario = []\n        for step in steps:\n            for name, value in values.items():\n                step = step.replace(f'<{name}>', value)\n            scenario.append(step)\n        scenarios.append(scenario)\n    return scenarios\n",
+      "explanation": "The header names the placeholders, so zipping it with each row gives a name-to-value map. Replacing `<name>` in every step produces one concrete scenario per data row, which is why 4 data rows means 4 scenarios.",
+      "hints": [
+        "Split the table into header and data rows: `header, *rows = table`.",
+        "dict(zip(header, row)) gives {'u': 'ana', ...}.",
+        "For each step, call str.replace(f'<{name}>', value) for every pair."
+      ],
+      "tests": [
+        {
+          "name": "one scenario per data row",
+          "code": "r = expand(['Given user <u>', 'Then I see <msg>'], [['u','msg'],['ana','Hi'],['bo','Locked']])\nassert r == [['Given user ana','Then I see Hi'],['Given user bo','Then I see Locked']], r",
+          "marks": 3
+        },
+        {
+          "name": "placeholder used twice",
+          "code": "r = expand(['When <a> pays <a>'], [['a'],['x']])\nassert r == [['When x pays x']], r",
+          "marks": 2
+        },
+        {
+          "name": "header only gives no scenarios",
+          "code": "assert expand(['Given <a>'], [['a']]) == []\nassert len(expand(['Given <a>'], [['a'],['1'],['2'],['3']])) == 3",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-aucuke-match",
+      "title": "Match a Cucumber expression",
+      "difficulty": "advanced",
+      "language": "javascript",
+      "prompt": "Write `matchStep(expression, text)` supporting the parameter types `{int}` (optional minus sign and digits, returned as a Number) and `{string}` (text in double quotes, returned without the quotes). The whole text must match. Return the array of arguments, or `null` if it does not match. Other characters in the expression are literal (escape regex specials).\n\n```js\nmatchStep('I have {int} cukes', 'I have 42 cukes')   // [42]\nmatchStep('I log in as {string}', 'I log in as \"ana\"') // ['ana']\n```",
+      "starter": "function matchStep(expression, text) {\n  return undefined;\n}",
+      "solution": "function matchStep(expression, text) {\n  const types = [];\n  const parts = expression.split(/(\\{int\\}|\\{string\\})/);\n  let pattern = '^';\n  for (const part of parts) {\n    if (part === '{int}') { pattern += '(-?\\\\d+)'; types.push('int'); }\n    else if (part === '{string}') { pattern += '\"([^\"]*)\"'; types.push('string'); }\n    else pattern += part.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');\n  }\n  const m = new RegExp(pattern + '$').exec(text);\n  if (!m) return null;\n  return types.map((t, i) => (t === 'int' ? Number(m[i + 1]) : m[i + 1]));\n}",
+      "explanation": "Splitting on the parameter tokens keeps them as separate parts, so literal text can be escaped safely and each parameter becomes a capture group. Anchoring with ^ and $ enforces a whole-step match, which is how Cucumber avoids partial matches; converting {int} captures to numbers mirrors how Cucumber passes typed arguments to step methods.",
+      "hints": [
+        "Split the expression with a capturing regex so the {int}/{string} tokens stay in the array.",
+        "Escape regex special characters in the literal parts, then add ^ and $.",
+        "{int} becomes (-?\\d+) and {string} becomes \"([^\"]*)\"; convert int captures with Number()."
+      ],
+      "tests": [
+        {
+          "name": "int parameter",
+          "code": "assertEqual(matchStep('I have {int} cukes', 'I have 42 cukes'), [42]); assertEqual(matchStep('balance is {int}', 'balance is -5'), [-5])",
+          "marks": 3
+        },
+        {
+          "name": "string parameter and mix",
+          "code": "assertEqual(matchStep('{string} buys {int} items', '\"Ana\" buys 3 items'), ['Ana', 3])",
+          "marks": 3
+        },
+        {
+          "name": "no partial or wrong-type matches",
+          "code": "assertEqual(matchStep('I have {int} cukes', 'I have 4.5 cukes'), null); assertEqual(matchStep('I have {int} cukes', 'Given I have 4 cukes today'), null); assertEqual(matchStep('price (GBP)', 'price (GBP)'), [])",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

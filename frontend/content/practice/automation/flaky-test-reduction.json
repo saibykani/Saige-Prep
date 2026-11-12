@@ -1,0 +1,235 @@
+{
+  "lesson": "flaky-test-reduction",
+  "questions": [
+    {
+      "id": "pt-auflk-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "flaky-test-reduction",
+      "prompt": "A test failed, you rerun it on the same commit with no changes, and it passes. What does this tell you?",
+      "options": [
+        "The bug is fixed",
+        "The test (or the system) is non-deterministic: this is flaky behaviour to investigate",
+        "Nothing at all",
+        "The first run was a product bug"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Same code, different results means non-determinism. It might be the test or a real race in the product, but either way it needs investigation, not dismissal."
+    },
+    {
+      "id": "pt-auflk-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "flaky-test-reduction",
+      "prompt": "Quarantining a flaky test means deleting it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Quarantine moves it out of the blocking pipeline (it still runs and reports) while someone fixes it, with an owner and a deadline. Deleting loses coverage."
+    },
+    {
+      "id": "pt-auflk-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "flaky-test-reduction",
+      "prompt": "Which is a common source of flakiness?",
+      "options": [
+        "Tests that depend on the order they run in",
+        "Tests with descriptive names",
+        "Tests that use a page object",
+        "Tests that assert on one thing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Order dependence means shared state; when order changes (parallel runs, random ordering) the test fails. The other items are good practice."
+    },
+    {
+      "id": "pt-auflk-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "flaky-test-reduction",
+      "prompt": "Which root causes produce flaky UI tests? Select all that apply.",
+      "options": [
+        "Asserting before an asynchronous update completes",
+        "Test data shared between tests running in parallel",
+        "Dependence on the current date or time zone",
+        "Using a stable data-testid locator"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Races, shared data and time dependence all vary between runs. A stable data-testid is a fix, not a cause."
+    },
+    {
+      "id": "pt-auflk-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "flaky-test-reduction",
+      "prompt": "This test fails on the last day of some months. Why?",
+      "code": "const today = new Date();\nconst due = new Date(today);\ndue.setDate(today.getDate() + 30);\nexpect(due.getMonth()).toBe((today.getMonth() + 1) % 12);",
+      "codeLanguage": "javascript",
+      "options": [
+        "toISOString is slow",
+        "Adding 30 days does not always land in 'next month' (for example 31 January + 30 days is 2 March), and the result also depends on the run date",
+        "Dates cannot be compared as strings",
+        "setDate is not a function"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Date logic tied to 'now' produces results that vary with the calendar. Inject a fixed clock and compute expectations from the same rule the product uses."
+    },
+    {
+      "id": "pt-auflk-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "flaky-test-reduction",
+      "prompt": "Why are automatic retries a risky long-term fix for flaky tests?",
+      "options": [
+        "Retries are not supported by any framework",
+        "They hide the flakiness (and possibly real intermittent product bugs) while making the suite slower",
+        "They always cause more failures",
+        "They delete test reports"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Retries can be a temporary safety net, but they mask the signal. Track retried-then-passed tests as flaky and fix them."
+    },
+    {
+      "id": "pt-auflk-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "flaky-test-reduction",
+      "prompt": "What is the best way to measure whether a test is flaky?",
+      "options": [
+        "Ask the team",
+        "Run it many times on the same commit and environment and count inconsistent outcomes, or mine CI history for pass-and-fail on the same commit",
+        "Check its line count",
+        "Run it once with a debugger"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Flakiness is defined by inconsistent outcomes for identical inputs, so repeated runs or history on the same commit measure it directly."
+    },
+    {
+      "id": "pt-auflk-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "flaky-test-reduction",
+      "prompt": "A checkout test is flaky. Logs show that when it fails, the payment API took 2 extra seconds and the order page displayed 'Pending'. Users have also complained of seeing 'Pending'. What should you do?",
+      "options": [
+        "Increase the test timeout and close the issue",
+        "Treat it as a possible product issue: report the slow payment and 'Pending' state, and make the test wait for the final status explicitly",
+        "Quarantine the test forever",
+        "Mock the payment API in every test so it never happens"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Flaky tests sometimes reveal real intermittent product behaviour. Here users see it too, so it must be reported. The test should also wait for the documented final state rather than snapshotting an intermediate one."
+    },
+    {
+      "id": "pt-auflk-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "flaky-test-reduction",
+      "prompt": "Your suite of 2,000 tests has 40 flaky tests that each fail about 2% of runs independently. Roughly how often does a full run hit at least one flaky failure?",
+      "options": [
+        "About 2%",
+        "About 40%",
+        "About 55%",
+        "About 80%"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The chance that all 40 pass is 0.98^40, about 0.45, so about 55% of runs see at least one flaky failure. This is why a few 'slightly flaky' tests destroy trust in a whole suite."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-auflk-detect",
+      "title": "Detect flaky tests from history",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `flaky_tests(runs)` where `runs` is a list of `(commit, test, outcome)` tuples and outcome is `'pass'` or `'fail'`. A test is flaky if it both passed and failed on the **same commit**. Return a sorted list of flaky test names.\n\n```python\nflaky_tests([('c1','login','pass'), ('c1','login','fail'), ('c2','cart','fail')])\n# ['login']\n```",
+      "starter": "def flaky_tests(runs):\n    return None\n",
+      "solution": "def flaky_tests(runs):\n    seen = {}\n    for commit, test, outcome in runs:\n        seen.setdefault((commit, test), set()).add(outcome)\n    return sorted({test for (commit, test), outs in seen.items() if len(outs) > 1})\n",
+      "explanation": "Grouping outcomes by (commit, test) isolates runs where the code was identical. Both outcomes for the same key means the result depended on something other than the code. A test that fails on one commit and passes on another may simply have been fixed, which is why commits must match.",
+      "hints": [
+        "Key a dict by (commit, test).",
+        "Collect outcomes in a set for each key.",
+        "A key with two outcomes marks the test as flaky; return sorted unique names."
+      ],
+      "tests": [
+        {
+          "name": "same-commit pass and fail is flaky",
+          "code": "assert flaky_tests([('c1','login','pass'),('c1','login','fail'),('c2','cart','fail')]) == ['login']",
+          "marks": 2
+        },
+        {
+          "name": "fail then pass on different commits is not flaky",
+          "code": "assert flaky_tests([('c1','cart','fail'),('c2','cart','pass')]) == []",
+          "marks": 2
+        },
+        {
+          "name": "sorted unique names",
+          "code": "r = flaky_tests([('a','z','pass'),('a','z','fail'),('b','z','pass'),('b','z','fail'),('a','m','fail'),('a','m','pass')])\nassert r == ['m','z'], r",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "id": "code-auflk-rate",
+      "title": "Flake rate and quarantine list",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `quarantineList(results, threshold)` where `results` maps test name to an array of outcomes for repeated runs on one commit, e.g. `{ login: ['pass','fail','pass','pass'] }`. A test's flake rate is `failures / runs`, computed only for tests that have **at least one pass and one fail** (always-failing tests are broken, not flaky). Return objects `{ test, rate }` for flaky tests with rate >= threshold, rate rounded to 2 decimals, sorted by rate descending then name.\n\n```js\nquarantineList({ login: ['pass','fail','pass','pass'], cart: ['fail','fail'] }, 0.1)\n// [{ test: 'login', rate: 0.25 }]\n```",
+      "starter": "function quarantineList(results, threshold) {\n  return [];\n}",
+      "solution": "function quarantineList(results, threshold) {\n  const out = [];\n  for (const [test, runs] of Object.entries(results)) {\n    const fails = runs.filter(r => r === 'fail').length;\n    if (fails === 0 || fails === runs.length) continue;\n    const rate = Math.round((fails / runs.length) * 100) / 100;\n    if (rate >= threshold) out.push({ test, rate });\n  }\n  return out.sort((a, b) => b.rate - a.rate || a.test.localeCompare(b.test));\n}",
+      "explanation": "Excluding all-pass and all-fail tests separates flaky tests from healthy and consistently broken ones, which need different handling. Sorting by rate puts the worst offenders first so the team fixes those first.",
+      "hints": [
+        "Object.entries gives [name, runs] pairs.",
+        "Skip tests where fails is 0 or equals runs.length.",
+        "Sort with `b.rate - a.rate || a.test.localeCompare(b.test)`."
+      ],
+      "tests": [
+        {
+          "name": "basic",
+          "code": "assertEqual(quarantineList({login:['pass','fail','pass','pass'], cart:['fail','fail']}, 0.1), [{test:'login', rate:0.25}])",
+          "marks": 2
+        },
+        {
+          "name": "threshold and sort",
+          "code": "assertEqual(quarantineList({a:['pass','fail'], b:['fail','pass','pass','pass','pass','pass','pass','pass','pass','pass'], c:['pass','fail','fail','pass']}, 0.2), [{test:'a',rate:0.5},{test:'c',rate:0.5}])",
+          "marks": 3
+        },
+        {
+          "name": "healthy and broken tests excluded",
+          "code": "assertEqual(quarantineList({ok:['pass','pass'], broken:['fail','fail'], f:['fail','pass','pass','pass']}, 0), [{test:'f',rate:0.25}])",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}

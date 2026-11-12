@@ -1,0 +1,192 @@
+{
+  "lesson": "java-oop-for-test-automation",
+  "questions": [
+    {
+      "id": "pt-aujoop-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "What is a constructor used for?",
+      "options": [
+        "Deleting an object",
+        "Initialising a new object's state when it is created with new",
+        "Running tests",
+        "Importing classes"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A constructor runs once when an object is created and sets up its fields, for example storing the WebDriver in a page object."
+    },
+    {
+      "id": "pt-aujoop-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "A Java class can extend only one class but implement many interfaces.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Java has single inheritance of classes and multiple inheritance of interface types."
+    },
+    {
+      "id": "pt-aujoop-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "Which keyword lets a subclass call its parent's constructor?",
+      "options": [
+        "this()",
+        "super()",
+        "parent()",
+        "extends()"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "super(...) calls the superclass constructor and must be the first statement. this() calls another constructor in the same class."
+    },
+    {
+      "id": "pt-aujoop-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "What does this print?",
+      "code": "class BasePage { String name() { return \"Base\"; } }\nclass LoginPage extends BasePage { @Override String name() { return \"Login\"; } }\n\nBasePage p = new LoginPage();\nSystem.out.println(p.name());",
+      "codeLanguage": "java",
+      "options": [
+        "Base",
+        "Login",
+        "BaseLogin",
+        "Compile error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Method calls are resolved at runtime on the actual object type (dynamic dispatch). The object is a LoginPage, so its overriding name() runs."
+    },
+    {
+      "id": "pt-aujoop-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "This does not compile. Why?",
+      "code": "public abstract class BasePage {\n  protected final WebDriver driver;\n  protected BasePage(WebDriver driver) { this.driver = driver; }\n  public abstract boolean isLoaded();\n}\n\nBasePage page = new BasePage(driver);",
+      "codeLanguage": "java",
+      "options": [
+        "Abstract classes cannot have constructors",
+        "BasePage is abstract and cannot be instantiated with new; create a concrete subclass such as LoginPage",
+        "isLoaded must be static",
+        "WebDriver cannot be a field"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Abstract classes can have constructors (called by subclasses via super) but cannot be instantiated directly. The abstract method forces each concrete page to define what 'loaded' means."
+    },
+    {
+      "id": "pt-aujoop-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "Which are good uses of inheritance in a test framework? Select all that apply.",
+      "options": [
+        "A BasePage holding shared waits and the driver reference",
+        "A BaseTest with setup and teardown hooks shared by test classes",
+        "CheckoutPage extends LoginPage so it can reuse the login method",
+        "Component classes (Header, Footer) reused by many pages"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "BasePage and BaseTest capture genuine 'is-a' relationships. CheckoutPage is not a LoginPage; reuse there should come from composition, and shared components such as Header are also composition (a page has a header), not inheritance."
+    },
+    {
+      "id": "pt-aujoop-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "What does the `final` keyword on a field such as `private final WebDriver driver;` guarantee?",
+      "options": [
+        "The driver can never be closed",
+        "The field must be assigned exactly once (in the declaration or constructor) and cannot be reassigned",
+        "The field is shared across all instances",
+        "The class cannot be extended"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "final on a field prevents reassignment. It does not make the object immutable, nor static (shared), and final on a class is what prevents extension."
+    },
+    {
+      "id": "pt-aujoop-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "Tests must run against both a web checkout and a mobile-web checkout whose locators differ but whose steps are the same. Which design is cleanest?",
+      "options": [
+        "Copy every test class for mobile",
+        "Define a CheckoutPage interface (addToCart, pay) with WebCheckoutPage and MobileCheckoutPage implementations; tests depend on the interface and a factory picks the implementation",
+        "Use if (mobile) checks inside every test",
+        "Make every locator static and change them at runtime"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Programming to an interface (polymorphism) lets the same tests drive either implementation. Copying tests doubles maintenance; if-checks scatter platform logic everywhere; mutable static locators break parallel runs."
+    },
+    {
+      "id": "pt-aujoop-09",
+      "type": "code-output",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "java-oop-for-test-automation",
+      "prompt": "What does this print?",
+      "code": "class Session {\n  static int count = 0;\n  Session() { count++; }\n}\nSession a = new Session();\nSession b = new Session();\nSystem.out.println(a.count + \" \" + b.count);",
+      "codeLanguage": "java",
+      "options": [
+        "1 1",
+        "2 2",
+        "1 2",
+        "2 1"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "count is static, so it belongs to the class, not each instance. Both constructors increment the same counter, so both reads see 2. Static mutable state like this is a common cause of interference in parallel tests."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-aujoop-discount",
+      "title": "Polymorphic discount rules",
+      "difficulty": "intermediate",
+      "language": "java",
+      "prompt": "Model checkout discounts so tests can compute expected totals.\n\n1. An interface `Discount` with `long apply(long totalPence)`.\n2. `PercentOff` (constructor takes an int percent) returning the total minus percent, rounding the discount **down** to whole pence.\n3. `FixedOff` (constructor takes pence) that never makes the total negative.\n4. A class `Basket` with `Basket(long totalPence)`, `void add(Discount d)` and `long total()` that applies discounts in the order added.\n\nExample: total 10000, add `new PercentOff(10)` then `new FixedOff(500)` gives 8500.",
+      "starter": "public interface Discount {\n    long apply(long totalPence);\n}\n\n// PercentOff.java, FixedOff.java and Basket.java go here\n",
+      "solution": "// Discount.java\npublic interface Discount {\n    long apply(long totalPence);\n}\n\n// PercentOff.java\npublic class PercentOff implements Discount {\n    private final int percent;\n\n    public PercentOff(int percent) {\n        this.percent = percent;\n    }\n\n    @Override\n    public long apply(long totalPence) {\n        return totalPence - (totalPence * percent / 100);\n    }\n}\n\n// FixedOff.java\npublic class FixedOff implements Discount {\n    private final long pence;\n\n    public FixedOff(long pence) {\n        this.pence = pence;\n    }\n\n    @Override\n    public long apply(long totalPence) {\n        return Math.max(0, totalPence - pence);\n    }\n}\n\n// Basket.java\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class Basket {\n    private final long totalPence;\n    private final List<Discount> discounts = new ArrayList<>();\n\n    public Basket(long totalPence) {\n        this.totalPence = totalPence;\n    }\n\n    public void add(Discount d) {\n        discounts.add(d);\n    }\n\n    public long total() {\n        long t = totalPence;\n        for (Discount d : discounts) {\n            t = d.apply(t);\n        }\n        return t;\n    }\n}\n",
+      "explanation": "Basket depends only on the Discount interface, so new rules can be added without changing it: that is polymorphism and the open/closed principle. Integer division on long rounds the discount down, and Math.max guards against negative totals. Fields are private and final, which is encapsulation.",
+      "hints": [
+        "Put each public type in its own file named after it.",
+        "Integer division (total * percent / 100) already rounds down for positive numbers.",
+        "Basket loops over its List<Discount> and calls apply on each in turn."
+      ],
+      "junit": "import static org.junit.jupiter.api.Assertions.assertEquals;\n\nimport org.junit.jupiter.api.Test;\n\nclass BasketTest {\n    @Test\n    void appliesDiscountsInOrder() {\n        Basket b = new Basket(10000);\n        b.add(new PercentOff(10));\n        b.add(new FixedOff(500));\n        assertEquals(8500, b.total());\n    }\n\n    @Test\n    void percentRoundsDiscountDown() {\n        assertEquals(900, new PercentOff(10).apply(999) + 0 - 0 == 900 ? 900 : new PercentOff(10).apply(999));\n        assertEquals(900, new PercentOff(10).apply(999));\n    }\n\n    @Test\n    void fixedNeverNegative() {\n        assertEquals(0, new FixedOff(500).apply(300));\n    }\n\n    @Test\n    void noDiscountsKeepsTotal() {\n        assertEquals(1234, new Basket(1234).total());\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit 5 (`org.junit.jupiter:junit-jupiter`, scope `test`). Put `Discount.java`, `PercentOff.java`, `FixedOff.java` and `Basket.java` in `src/main/java/` and `BasketTest.java` in `src/test/java/`. Run `mvn test`; all tests should pass.",
+      "marks": 6
+    }
+  ]
+}

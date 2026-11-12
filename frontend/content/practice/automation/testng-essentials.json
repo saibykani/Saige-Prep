@@ -1,0 +1,237 @@
+{
+  "lesson": "testng-essentials",
+  "questions": [
+    {
+      "id": "pt-autng-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testng-essentials",
+      "prompt": "Which file is traditionally used to define TestNG suites, groups and parallel settings?",
+      "options": [
+        "pom.xml",
+        "testng.xml",
+        "junit-platform.properties",
+        "suite.json"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "testng.xml describes suites and tests; Maven Surefire can point at it with suiteXmlFiles."
+    },
+    {
+      "id": "pt-autng-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testng-essentials",
+      "prompt": "TestNG's `@Test(enabled = false)` skips that test.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "enabled = false excludes the method from the run."
+    },
+    {
+      "id": "pt-autng-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testng-essentials",
+      "prompt": "Which attribute makes a test run only after another test method has passed?",
+      "options": [
+        "priority",
+        "dependsOnMethods",
+        "groups",
+        "invocationCount"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "dependsOnMethods declares a hard dependency: if the dependency fails, the dependent test is skipped. priority only influences order."
+    },
+    {
+      "id": "pt-autng-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testng-essentials",
+      "prompt": "In what order do these tests run (single thread, default settings)?",
+      "code": "@Test(priority = 1) public void b() {}\n@Test public void a() {}\n@Test(priority = -1) public void c() {}",
+      "codeLanguage": "java",
+      "options": [
+        "a, b, c",
+        "c, a, b",
+        "b, a, c",
+        "c, b, a"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Lower priority runs first, and the default priority is 0. So c (priority -1) runs first, then a (0), then b (1)."
+    },
+    {
+      "id": "pt-autng-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testng-essentials",
+      "prompt": "This SoftAssert test passes even when both checks fail. Why?",
+      "code": "SoftAssert soft = new SoftAssert();\nsoft.assertEquals(profile.email(), \"ana@example.com\");\nsoft.assertEquals(profile.phone(), \"0123\");",
+      "codeLanguage": "java",
+      "options": [
+        "SoftAssert only works with strings",
+        "assertAll() is never called, so collected failures are never reported",
+        "SoftAssert must be static",
+        "assertEquals arguments are reversed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "SoftAssert gathers failures and throws only when assertAll() runs, typically at the end of the test."
+    },
+    {
+      "id": "pt-autng-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testng-essentials",
+      "prompt": "Which statements about TestNG groups are true? Select all that apply.",
+      "options": [
+        "A test can belong to several groups",
+        "testng.xml can include or exclude groups",
+        "Groups can have @BeforeGroups/@AfterGroups configuration methods",
+        "Groups replace the need for assertions"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Groups are labels for selection and group-level setup; they do not verify anything."
+    },
+    {
+      "id": "pt-autng-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testng-essentials",
+      "prompt": "What does `@Test(invocationCount = 5, threadPoolSize = 5)` do?",
+      "options": [
+        "Runs the test once with five retries",
+        "Runs the method five times, concurrently on up to five threads",
+        "Runs five different test methods",
+        "Fails if the test takes more than five seconds"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "invocationCount repeats a method; threadPoolSize runs those invocations in parallel. It is a quick way to stress a piece of code or check thread safety."
+    },
+    {
+      "id": "pt-autng-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testng-essentials",
+      "prompt": "Your suite uses `dependsOnMethods` to chain 30 tests (create user, then log in, then order, ...). One early failure skips 29 tests and nobody knows their real status. What should you change?",
+      "options": [
+        "Use alwaysRun = true everywhere",
+        "Make each test set up its own preconditions (via API calls or fixtures) so tests are independent; keep dependencies only for genuine prerequisites",
+        "Increase retries",
+        "Put all steps in one huge test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Long dependency chains hide information and make the suite fragile. Independent tests with fast setup give each behaviour its own pass/fail signal. One huge test has the same problem in a different shape."
+    },
+    {
+      "id": "pt-autng-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testng-essentials",
+      "prompt": "You add an IRetryAnalyzer that retries every failed test 3 times. Flaky failures disappear from reports. What is the risk and how should you mitigate it?",
+      "options": [
+        "There is no risk",
+        "Real intermittent bugs and flaky tests get hidden; report retried-then-passed tests separately, limit retries to known-flaky categories, and track them for fixing",
+        "Retries make tests deterministic",
+        "TestNG ignores retry analyzers in CI"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Retries trade signal for green builds. Visibility (marking them flaky) and a plan to fix them keep the safety net from becoming a blindfold."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-autng-order",
+      "title": "Predict TestNG run order",
+      "difficulty": "intermediate",
+      "language": "javascript",
+      "prompt": "Write `runOrder(tests)` where each test is `{ name, priority = 0, dependsOn = [] }`. Return the method names in run order using these simplified TestNG rules:\n\n1. A test only runs after all the tests it depends on.\n2. Among tests that are ready, pick the lowest priority, then alphabetical name.\n\nThrow an `Error('cycle')` if dependencies make it impossible.\n\n```js\nrunOrder([{ name: 'b', priority: 1 }, { name: 'a' }, { name: 'c', priority: -1 }])\n// ['c', 'a', 'b']\n```",
+      "starter": "function runOrder(tests) {\n  return tests.map(t => t.name);\n}",
+      "solution": "function runOrder(tests) {\n  const done = new Set();\n  const order = [];\n  const pending = tests.map(t => ({ name: t.name, priority: t.priority ?? 0, dependsOn: t.dependsOn ?? [] }));\n  while (pending.length) {\n    const ready = pending.filter(t => t.dependsOn.every(d => done.has(d)));\n    if (!ready.length) throw new Error('cycle');\n    ready.sort((x, y) => x.priority - y.priority || x.name.localeCompare(y.name));\n    const next = ready[0];\n    order.push(next.name);\n    done.add(next.name);\n    pending.splice(pending.indexOf(next), 1);\n  }\n  return order;\n}",
+      "explanation": "Repeatedly choosing the best ready test is a topological sort with a tie-breaker. Dependencies override priority: a priority -5 test still waits for its dependency. If no test is ready but some remain, the dependencies form a cycle, which TestNG also rejects.",
+      "hints": [
+        "Keep a Set of finished tests.",
+        "Each round, filter tests whose dependsOn are all done, then sort by priority then name.",
+        "If nothing is ready but tests remain, throw Error('cycle')."
+      ],
+      "tests": [
+        {
+          "name": "priority and name order",
+          "code": "assertEqual(runOrder([{name:'b',priority:1},{name:'a'},{name:'c',priority:-1}]), ['c','a','b'])",
+          "marks": 2
+        },
+        {
+          "name": "dependencies beat priority",
+          "code": "assertEqual(runOrder([{name:'login', priority:5},{name:'order', priority:-5, dependsOn:['login']},{name:'about'}]), ['about','login','order'])",
+          "marks": 3
+        },
+        {
+          "name": "cycle detected",
+          "code": "let m=''; try { runOrder([{name:'x', dependsOn:['y']},{name:'y', dependsOn:['x']}]); } catch(e) { m = e.message; } assertEqual(m, 'cycle')",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-autng-skips",
+      "title": "Which tests get skipped?",
+      "difficulty": "advanced",
+      "language": "javascript",
+      "prompt": "Given tests `{ name, dependsOn = [] }` and the set of tests that **failed** when run, write `outcomes(tests, failed)` returning an object mapping each name to `'pass'`, `'fail'` or `'skip'`. A test is skipped if any test it depends on (directly or indirectly) failed or was skipped; skipped tests never run, so they cannot be in `failed` with any effect.\n\n```js\noutcomes([{ name: 'create' }, { name: 'edit', dependsOn: ['create'] }], ['create'])\n// { create: 'fail', edit: 'skip' }\n```",
+      "starter": "function outcomes(tests, failed) {\n  return {};\n}",
+      "solution": "function outcomes(tests, failed) {\n  const byName = Object.fromEntries(tests.map(t => [t.name, t.dependsOn || []]));\n  const failedSet = new Set(failed);\n  const memo = {};\n  function resolve(name) {\n    if (memo[name]) return memo[name];\n    const deps = byName[name] || [];\n    const blocked = deps.some(d => resolve(d) !== 'pass');\n    memo[name] = blocked ? 'skip' : failedSet.has(name) ? 'fail' : 'pass';\n    return memo[name];\n  }\n  for (const t of tests) resolve(t.name);\n  return memo;\n}",
+      "explanation": "Each test's result depends on its dependencies' results, so a memoised recursive resolve computes them in the right order. A skip propagates through the chain just like in TestNG, which is why one early failure can hide the status of many later tests.",
+      "hints": [
+        "Resolve each test recursively from its dependencies.",
+        "If any dependency is not 'pass', the test is 'skip' regardless of the failed list.",
+        "Memoise results in an object so each test is resolved once."
+      ],
+      "tests": [
+        {
+          "name": "direct dependency",
+          "code": "assertEqual(outcomes([{name:'create'},{name:'edit',dependsOn:['create']}], ['create']), {create:'fail', edit:'skip'})",
+          "marks": 2
+        },
+        {
+          "name": "skips cascade",
+          "code": "assertEqual(outcomes([{name:'a'},{name:'b',dependsOn:['a']},{name:'c',dependsOn:['b']},{name:'d'}], ['a','c']), {a:'fail', b:'skip', c:'skip', d:'pass'})",
+          "marks": 3
+        },
+        {
+          "name": "independent failures",
+          "code": "assertEqual(outcomes([{name:'x'},{name:'y'}], ['y']), {x:'pass', y:'fail'})",
+          "marks": 1
+        }
+      ]
+    }
+  ]
+}
