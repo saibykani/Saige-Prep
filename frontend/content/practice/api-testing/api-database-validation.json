@@ -1,0 +1,254 @@
+{
+  "lesson": "api-database-validation",
+  "questions": [
+    {
+      "id": "pt-apidb-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-database-validation",
+      "prompt": "Why do API testers sometimes check the database after a POST succeeds?",
+      "options": [
+        "To confirm the data was actually stored correctly, not just echoed back in the response",
+        "Because API responses are never trustworthy",
+        "To make the test run faster",
+        "Because status codes are optional"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A 201 response can echo the request body even when persistence is wrong (truncated, mis-mapped or not committed). A targeted DB check confirms the stored state. Responses are usually trustworthy for what they claim; DB checks add speed cost, not speed."
+    },
+    {
+      "id": "pt-apidb-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-database-validation",
+      "prompt": "Which database account should an automated API test use for its verification queries?",
+      "options": [
+        "A read-only account scoped to the test database",
+        "The production admin account",
+        "The application's own owner account with DDL rights",
+        "Any account; it does not matter in test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Verification only needs SELECT. A read-only, test-scoped account limits damage if a query is wrong. Admin or owner accounts can alter schema or data by mistake, and production credentials never belong in tests."
+    },
+    {
+      "id": "pt-apidb-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-database-validation",
+      "prompt": "A database assertion should look up the exact row the test created (for example by the returned id) rather than counting all rows in the table.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Counting the whole table breaks as soon as other tests or users insert rows in parallel. Looking up by the id returned from the API checks exactly the record this test is responsible for."
+    },
+    {
+      "id": "pt-apidb-04",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-database-validation",
+      "prompt": "This check is flaky: it sometimes finds no row even though the API returned 201. What is the most likely cause?",
+      "code": "resp = api.post('/orders', json=order)\nassert resp.status_code == 201\nrow = db.fetchone('SELECT * FROM orders WHERE id = %s', [resp.json()['id']])\nassert row is not None",
+      "codeLanguage": "python",
+      "options": [
+        "The write is processed asynchronously (queue or eventual consistency), so the row may not exist yet when the query runs",
+        "SQL is case-sensitive on column names",
+        "The API returned the wrong status code",
+        "Parameterised queries are slower"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "If the API accepts the request and persists through a background worker, an immediate SELECT can race the write. Poll with a timeout instead of a single query (or a fixed sleep). The status code was correct, and parameters do not cause missing rows."
+    },
+    {
+      "id": "pt-apidb-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-database-validation",
+      "prompt": "POST /customers returned 201. Which database checks add real value? Select all that apply.",
+      "options": [
+        "Stored values match the request after any documented normalisation (e.g. trimmed email, lower-cased)",
+        "Server-generated fields such as created_at and status are set correctly",
+        "Sensitive fields such as the password are stored hashed, never in plain text",
+        "The table still has the same column names as yesterday"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Normalisation, server-set fields and hashing of secrets are invisible in most responses but matter. Re-checking the schema on every test is a migration or contract concern, not a per-request assertion."
+    },
+    {
+      "id": "pt-apidb-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-database-validation",
+      "prompt": "PATCH /orders/7 changes the status to cancelled and returns 200. The orders row shows cancelled, but the stock reservation rows for that order still exist. What should you report?",
+      "options": [
+        "A defect: the cancel did not release related data, a side effect the API response could not show",
+        "Nothing, because the response and the order row agree",
+        "A test bug, because tests should only check the response",
+        "A performance issue"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Database validation is about the whole effect of the operation, including related tables. The response and main row look right, which is exactly why a DB check of side effects found the bug."
+    },
+    {
+      "id": "pt-apidb-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-database-validation",
+      "prompt": "This helper is meant to verify a customer by email. Which problem is the most serious?",
+      "code": "def find_customer(email):\n    return db.fetchone(\"SELECT id, email FROM customers WHERE email = '\" + email + \"'\")",
+      "codeLanguage": "python",
+      "options": [
+        "It builds SQL by string concatenation, so test data with a quote breaks it and it models an injection-prone pattern; use a parameterised query",
+        "It uses fetchone instead of fetchall",
+        "It should use SELECT * for completeness",
+        "Email columns cannot be queried"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "String-built SQL fails on values like O'Brien and teaches an injection-prone habit. Parameters fix both. fetchone is fine when email is unique; SELECT * makes tests brittle to new columns."
+    },
+    {
+      "id": "pt-apidb-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-database-validation",
+      "prompt": "Your suite deletes every row in orders before each test so DB counts are predictable. Tests now pass alone but fail randomly in the parallel CI job. What is the best fix?",
+      "options": [
+        "Give each test its own unique data (e.g. a run-id prefix) and assert on the specific rows it created, cleaning up only those",
+        "Run all tests serially forever",
+        "Add retries to the failing tests",
+        "Truncate the table more often"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Global truncation lets one test wipe another's data. Unique per-test data plus targeted assertions makes tests independent and parallel-safe. Serial runs and retries hide the problem rather than fix it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apidb-created-order",
+      "language": "sql",
+      "title": "Verify the order a test created",
+      "difficulty": "beginner",
+      "prompt": "Your API test created order `ord_102`. Write a query returning that order's `id`, `status` and `total` from `orders`.\n\nExpected: one row `ord_102 | open | 59.5`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT id, status, total FROM orders WHERE id = 'ord_102';",
+      "explanation": "Filtering by the exact id the API returned makes the check independent of any other rows in the table.",
+      "hints": [
+        "Use a WHERE clause on the primary key.",
+        "SELECT id, status, total FROM orders WHERE id = ..."
+      ],
+      "setup": "CREATE TABLE orders (id TEXT PRIMARY KEY, customer_id INTEGER, status TEXT, total REAL);\nINSERT INTO orders VALUES ('ord_101',1,'paid',20.0),('ord_102',2,'open',59.5),('ord_103',2,'cancelled',12.0);",
+      "expected": {
+        "columns": [
+          "id",
+          "status",
+          "total"
+        ],
+        "rows": [
+          [
+            "ord_102",
+            "open",
+            59.5
+          ]
+        ]
+      },
+      "ordered": false,
+      "marks": 3
+    },
+    {
+      "id": "code-apidb-orphans",
+      "language": "sql",
+      "title": "Find order items with no parent order",
+      "difficulty": "intermediate",
+      "prompt": "After a bulk API import, check referential integrity: list the `id` of every row in `order_items` whose `order_id` has no matching row in `orders`, ordered by `id`.\n\nExpected ids: 4, 5.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT oi.id FROM order_items oi LEFT JOIN orders o ON o.id = oi.order_id WHERE o.id IS NULL ORDER BY oi.id;",
+      "explanation": "A LEFT JOIN keeps every item; where no order matched, the order columns are NULL. Filtering on `o.id IS NULL` keeps exactly the orphans, including the item whose order_id is NULL (a NOT IN subquery would behave differently with NULLs).",
+      "hints": [
+        "Start from order_items and LEFT JOIN orders.",
+        "Unmatched rows have NULL in the joined table's columns.",
+        "WHERE o.id IS NULL ORDER BY oi.id"
+      ],
+      "setup": "CREATE TABLE orders (id INTEGER PRIMARY KEY, status TEXT);\nCREATE TABLE order_items (id INTEGER PRIMARY KEY, order_id INTEGER, sku TEXT);\nINSERT INTO orders VALUES (1,'paid'),(2,'open');\nINSERT INTO order_items VALUES (1,1,'A'),(2,1,'B'),(3,2,'C'),(4,9,'D'),(5,NULL,'E');",
+      "expected": {
+        "columns": [
+          "id"
+        ],
+        "rows": [
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 4
+    },
+    {
+      "id": "code-apidb-compare",
+      "language": "python",
+      "title": "Compare an API response with the stored row",
+      "difficulty": "advanced",
+      "prompt": "Write `diff_record(api, row, mapping)` that compares an API response dict with a DB row dict. `mapping` maps API field names to DB column names. Return a sorted list of API field names whose values differ. Treat strings as equal if they match after stripping whitespace and ignoring case **only for the field `email`**.\n\nExample: `diff_record({'name':'Ravi','email':'A@X.COM'}, {'full_name':'Ravi','email':'a@x.com'}, {'name':'full_name','email':'email'})` returns `[]`.",
+      "starter": "def diff_record(api, row, mapping):\n    # Your code here\n    pass\n",
+      "solution": "def diff_record(api, row, mapping):\n    out = []\n    for field, column in mapping.items():\n        a, b = api.get(field), row.get(column)\n        if field == 'email' and isinstance(a, str) and isinstance(b, str):\n            a, b = a.strip().lower(), b.strip().lower()\n        if a != b:\n            out.append(field)\n    return sorted(out)\n",
+      "explanation": "Walking the mapping keeps API names and column names separate, which is exactly the problem in real systems (camelCase JSON, snake_case columns). Normalising only the documented field avoids hiding real defects elsewhere.",
+      "hints": [
+        "Loop over `mapping.items()` to get (api field, db column) pairs.",
+        "Use `.get()` so a missing column counts as a difference.",
+        "Lower-case and strip both sides only when `field == 'email'`."
+      ],
+      "tests": [
+        {
+          "name": "Equal records give no differences",
+          "marks": 2,
+          "code": "assert diff_record({'name':'Ravi','email':'A@X.COM'}, {'full_name':'Ravi','email':' a@x.com'}, {'name':'full_name','email':'email'}) == []"
+        },
+        {
+          "name": "Reports mismatched fields sorted",
+          "marks": 3,
+          "code": "r = diff_record({'total':10,'status':'open','email':'a@x.com'}, {'amount':12,'state':'paid','email':'a@x.com'}, {'total':'amount','status':'state','email':'email'})\nassert r == ['status','total'], r"
+        },
+        {
+          "name": "Case is only ignored for email",
+          "marks": 2,
+          "code": "assert diff_record({'name':'ravi'}, {'n':'Ravi'}, {'name':'n'}) == ['name']"
+        },
+        {
+          "name": "Missing column counts as a difference",
+          "marks": 1,
+          "code": "assert diff_record({'phone':'1'}, {}, {'phone':'phone'}) == ['phone']"
+        }
+      ]
+    }
+  ]
+}

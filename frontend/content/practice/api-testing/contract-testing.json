@@ -1,0 +1,183 @@
+{
+  "lesson": "contract-testing",
+  "questions": [
+    {
+      "id": "pt-ctr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "contract-testing",
+      "prompt": "What does a contract test check?",
+      "options": [
+        "That a provider and a consumer agree on the requests and responses they exchange",
+        "That the UI looks correct",
+        "The provider's full business logic",
+        "The response time under load"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contract tests verify the shape of the interaction both sides depend on, without a full end-to-end environment. Business logic and performance need other tests."
+    },
+    {
+      "id": "pt-ctr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "contract-testing",
+      "prompt": "In Pact, what does the provider do with the consumer's pact file?",
+      "options": [
+        "Replays the recorded requests against the real provider and checks the responses match",
+        "Generates a UI from it",
+        "Deploys it to production",
+        "Ignores it unless the build fails"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Provider verification replays each interaction (with provider states set up) and compares real responses to the consumer's expectations."
+    },
+    {
+      "id": "pt-ctr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "contract-testing",
+      "prompt": "A consumer contract should include only the fields the consumer actually uses, not every field the provider returns.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Over-specified contracts break on harmless provider changes. Consumer-driven contracts express real needs, which gives providers freedom to change everything else."
+    },
+    {
+      "id": "pt-ctr-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "contract-testing",
+      "prompt": "The provider wants to remove field `legacyCode`. How can they know whether it is safe?",
+      "options": [
+        "Check whether any consumer's verified contract uses `legacyCode` (for example via a Pact Broker's can-i-deploy)",
+        "Remove it and watch for incidents",
+        "Ask only the newest consumer",
+        "Read the provider's unit tests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contracts document which consumers depend on which fields. A broker can answer whether a version is compatible with what is deployed. Guessing or asking one team misses other consumers."
+    },
+    {
+      "id": "pt-ctr-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "contract-testing",
+      "prompt": "What is a provider state in Pact?",
+      "options": [
+        "A named precondition (e.g. \"order 42 exists\") the provider sets up before replaying an interaction",
+        "The provider's HTTP status",
+        "The version of the provider",
+        "The provider's database password"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Provider states let an interaction be verified with the right data present, without the consumer knowing how the provider stores it."
+    },
+    {
+      "id": "pt-ctr-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "contract-testing",
+      "prompt": "Which matchers make a consumer contract robust? Select all that apply.",
+      "options": [
+        "Type matching for an id (any string), rather than a fixed value",
+        "A regex for a date format",
+        "\"Each like\" for arrays with at least one element",
+        "Exact match on a server-generated timestamp"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Matchers express the rule the consumer needs, not a sample value. Exact matching on a generated timestamp would fail on every real run."
+    },
+    {
+      "id": "pt-ctr-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "contract-testing",
+      "prompt": "Consumer tests pass, provider verification passes, yet production breaks: the provider returns `price` as a string \"9.99\" in one rare branch. What is the most likely gap?",
+      "options": [
+        "The contract only covered the common interaction; add an interaction (and provider state) for the rare branch",
+        "Contract testing cannot catch type changes",
+        "The consumer should parse everything as strings",
+        "Pact files are not versioned"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contracts verify only the interactions they contain. Type matchers would catch the string if that branch were part of the contract."
+    },
+    {
+      "id": "pt-ctr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "contract-testing",
+      "prompt": "A team runs a full end-to-end environment of 14 services for every pull request just to check API compatibility, and it is slow and flaky. What would you propose?",
+      "options": [
+        "Consumer-driven contract tests per pair, verified in each service's pipeline, plus a small number of end-to-end smoke tests",
+        "More retries in the end-to-end suite",
+        "Delete all integration testing",
+        "Test only in production"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contracts move compatibility checks to fast, isolated builds. A thin end-to-end layer still checks wiring and configuration."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ctr-compat",
+      "language": "python",
+      "title": "Detect breaking changes against a consumer contract",
+      "difficulty": "intermediate",
+      "prompt": "A consumer contract is a dict of field name -> expected type name (`'str'`, `'int'`, `'float'`, `'bool'`, `'list'`, `'dict'`). Write `breaking(contract, response)` returning a sorted list of messages: `'<field>: missing'` when absent, `'<field>: expected <type>'` when present with the wrong type. Extra fields in the response are fine. `bool` must not count as `int`.\n\nExample: `breaking({'id': 'str', 'total': 'float'}, {'id': 'a', 'total': '9.99', 'x': 1})` returns `['total: expected float']`.",
+      "starter": "def breaking(contract, response):\n    # Your code here\n    pass\n",
+      "solution": "def breaking(contract, response):\n    types = {'str': str, 'int': int, 'float': float, 'bool': bool, 'list': list, 'dict': dict}\n    out = []\n    for field, tname in contract.items():\n        if field not in response:\n            out.append(f'{field}: missing')\n            continue\n        v = response[field]\n        ok = isinstance(v, types[tname])\n        if tname == 'int' and isinstance(v, bool):\n            ok = False\n        if not ok:\n            out.append(f'{field}: expected {tname}')\n    return sorted(out)\n",
+      "explanation": "This is the heart of consumer-driven contracts: check only what the consumer needs, tolerate additions, and flag removals and type changes, the two changes that actually break clients.",
+      "hints": [
+        "Map type names to Python types with a dict.",
+        "Skip fields that are not in the contract.",
+        "Handle `True`/`False` specially for `int`."
+      ],
+      "tests": [
+        {
+          "name": "Compatible response with extra fields",
+          "marks": 2,
+          "code": "assert breaking({'id': 'str', 'n': 'int'}, {'id': 'a', 'n': 2, 'extra': True}) == []"
+        },
+        {
+          "name": "Type change detected",
+          "marks": 2,
+          "code": "assert breaking({'id': 'str', 'total': 'float'}, {'id': 'a', 'total': '9.99', 'x': 1}) == ['total: expected float']"
+        },
+        {
+          "name": "Missing fields and bool vs int",
+          "marks": 3,
+          "code": "r = breaking({'a': 'int', 'b': 'list', 'c': 'str'}, {'a': True, 'b': []})\nassert r == ['a: expected int', 'c: missing'], r"
+        }
+      ]
+    }
+  ]
+}

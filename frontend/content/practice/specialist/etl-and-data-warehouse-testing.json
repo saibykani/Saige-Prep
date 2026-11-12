@@ -1,0 +1,215 @@
+{
+  "lesson": "etl-and-data-warehouse-testing",
+  "questions": [
+    {
+      "id": "pt-etl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "What do the letters ETL stand for?",
+      "options": [
+        "Extract, Transform, Load",
+        "Export, Test, Launch",
+        "Encrypt, Transfer, Log",
+        "Evaluate, Track, List"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Data is extracted from sources, transformed (cleaned, mapped, aggregated), and loaded into the target."
+    },
+    {
+      "id": "pt-etl-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "What is a source-to-target mapping document?",
+      "options": [
+        "A specification of how each target column is derived from source columns and rules",
+        "A network diagram",
+        "A list of database users",
+        "A backup schedule"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The mapping is the test oracle for transformation testing: every target column's rule should be checked."
+    },
+    {
+      "id": "pt-etl-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "Row counts matching between source and target prove the data was transformed correctly.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Counts can match while values are wrong, duplicated or swapped. Count checks are necessary but far from sufficient."
+    },
+    {
+      "id": "pt-etl-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "Which are standard ETL test checks? Select all that apply.",
+      "options": [
+        "Completeness: every in-scope source record arrives",
+        "Transformation: values follow the mapping rules",
+        "Data quality: nulls, formats, ranges, duplicates",
+        "Checking the colours of the BI dashboard"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Completeness, correctness and quality are the core. Dashboard styling is a UI concern."
+    },
+    {
+      "id": "pt-etl-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "A nightly job is rerun after a failure and the fact table now has duplicate sales. What property was missing?",
+      "options": [
+        "Idempotent loads: rerunning should not duplicate data (e.g. upsert on a business key or replace the partition)",
+        "Encryption",
+        "Indexing",
+        "Compression"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Reruns are common in operations. Loads must be safe to repeat."
+    },
+    {
+      "id": "pt-etl-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "In a Type 2 slowly changing dimension, how do you find a customer's current row?",
+      "options": [
+        "The row with is_current = 1 (or the open-ended valid_to date)",
+        "The row with the lowest surrogate key",
+        "Any row; they are identical",
+        "The row loaded first"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Type 2 keeps history as multiple rows; a current flag or an open end date marks the active version."
+    },
+    {
+      "id": "pt-etl-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "Source amounts are in several currencies; the target stores EUR. Totals match the source sum exactly. Why should this worry you?",
+      "options": [
+        "Matching raw sums suggests no currency conversion was applied; check a sample of non-EUR rows against the rate rules",
+        "It proves the job is perfect",
+        "EUR totals always match",
+        "It means rows are missing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "If conversion happened, the EUR total should differ from the mixed-currency raw sum. Suspiciously perfect reconciliation can reveal a skipped transformation."
+    },
+    {
+      "id": "pt-etl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "etl-and-data-warehouse-testing",
+      "prompt": "A Type 2 dimension shows two rows with is_current = 1 for the same customer. What is the impact and the test?",
+      "options": [
+        "Facts joining on the current row double-count; add a test that each business key has exactly one current row and non-overlapping validity ranges",
+        "No impact",
+        "Only a cosmetic issue",
+        "Delete the dimension"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Multiple current rows break joins and history. Uniqueness of the current row per business key is a core SCD2 check."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-etl-missing",
+      "language": "sql",
+      "title": "Find records lost in the load",
+      "difficulty": "beginner",
+      "prompt": "List the `order_id`s present in `src_orders` but missing from `dw_orders`, ordered by `order_id`.\n\nExpected: 3, 5.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT order_id FROM src_orders EXCEPT SELECT order_id FROM dw_orders ORDER BY order_id;",
+      "explanation": "EXCEPT returns rows in the first query not in the second. Run it in both directions to find missing and unexpected records.",
+      "hints": [
+        "EXCEPT (set difference) works in SQLite.",
+        "Or LEFT JOIN dw_orders and keep rows where the joined id IS NULL."
+      ],
+      "setup": "CREATE TABLE src_orders (order_id INTEGER, amount REAL);\nCREATE TABLE dw_orders (order_id INTEGER, amount REAL);\nINSERT INTO src_orders VALUES (1, 10), (2, 20), (3, 30), (4, 40), (5, 50);\nINSERT INTO dw_orders VALUES (1, 10), (2, 20), (4, 40), (6, 60);",
+      "expected": {
+        "columns": [
+          "order_id"
+        ],
+        "rows": [
+          [
+            3
+          ],
+          [
+            5
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 3
+    },
+    {
+      "id": "code-etl-scd2",
+      "language": "sql",
+      "title": "Check SCD2 current-row uniqueness",
+      "difficulty": "intermediate",
+      "prompt": "In `dim_customer(customer_id, city, is_current)`, list each `customer_id` that does **not** have exactly one current row, with `current_rows`, ordered by `customer_id`.\n\nExpected: `2 | 2`, `3 | 0`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT customer_id, SUM(is_current) AS current_rows FROM dim_customer GROUP BY customer_id HAVING SUM(is_current) <> 1 ORDER BY customer_id;",
+      "explanation": "Summing the flag per business key counts current rows. Both 0 (the customer vanished from 'current' views) and 2+ (double counting) are defects.",
+      "hints": [
+        "GROUP BY customer_id.",
+        "SUM(is_current) counts current rows.",
+        "Keep groups where it is not exactly 1."
+      ],
+      "setup": "CREATE TABLE dim_customer (sk INTEGER PRIMARY KEY, customer_id INTEGER, city TEXT, is_current INTEGER);\nINSERT INTO dim_customer (customer_id, city, is_current) VALUES (1,'Pune',0),(1,'Delhi',1),(2,'Goa',1),(2,'Agra',1),(3,'Lyon',0),(4,'Oslo',1);",
+      "expected": {
+        "columns": [
+          "customer_id",
+          "current_rows"
+        ],
+        "rows": [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 4
+    }
+  ]
+}

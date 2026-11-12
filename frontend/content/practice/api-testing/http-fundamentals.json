@@ -1,0 +1,221 @@
+{
+  "lesson": "http-fundamentals",
+  "questions": [
+    {
+      "id": "pt-httpf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "http-fundamentals",
+      "prompt": "Which part of an HTTP request says what the client wants to do with a resource?",
+      "options": [
+        "The method (GET, POST, PUT, ...)",
+        "The Host header",
+        "The status code",
+        "The response body"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The method expresses the intended action. Host names the server; status codes and bodies belong to responses (requests can have bodies too, but they carry data, not the action)."
+    },
+    {
+      "id": "pt-httpf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "http-fundamentals",
+      "prompt": "Which header tells the server which response formats the client can handle?",
+      "options": [
+        "Accept",
+        "Content-Type",
+        "Content-Length",
+        "Allow"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Accept is for content negotiation of the response. Content-Type describes the body actually sent; Allow lists permitted methods."
+    },
+    {
+      "id": "pt-httpf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "http-fundamentals",
+      "prompt": "HTTP is stateless: each request must carry everything the server needs to process it, such as authentication.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The protocol does not remember previous requests. Sessions are built on top with cookies or tokens sent on every request."
+    },
+    {
+      "id": "pt-httpf-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "http-fundamentals",
+      "prompt": "Which method should you use to apply a partial update to a resource?",
+      "options": [
+        "PATCH",
+        "PUT",
+        "POST",
+        "HEAD"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "PATCH applies partial modifications. PUT replaces the target resource's whole representation, POST is for processing/creating, and HEAD is GET without a body."
+    },
+    {
+      "id": "pt-httpf-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "http-fundamentals",
+      "prompt": "What does this command show, and why is it useful to testers?",
+      "code": "curl -I https://api.example.test/products/1",
+      "codeLanguage": "bash",
+      "options": [
+        "Only the response status line and headers, because HEAD returns no body; useful for checking headers and existence cheaply",
+        "The full response body",
+        "An error, because HEAD is not a real method",
+        "The request headers only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`curl -I` sends HEAD. The server returns the same headers a GET would, without the body, so you can check Content-Type, caching headers or status quickly."
+    },
+    {
+      "id": "pt-httpf-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "http-fundamentals",
+      "prompt": "Which caching-related headers should a tester check on a GET for a public product catalogue? Select all that apply.",
+      "options": [
+        "Cache-Control",
+        "ETag",
+        "Last-Modified",
+        "Authorization"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Cache-Control sets the policy; ETag and Last-Modified enable conditional requests (304 Not Modified). Authorization is a request credential header, not a caching header."
+    },
+    {
+      "id": "pt-httpf-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "http-fundamentals",
+      "prompt": "A GET with `If-None-Match: \"v7\"` returns 200 with the full body even though the resource's ETag is still \"v7\". What is the defect?",
+      "options": [
+        "Conditional requests are not honoured: it should return 304 Not Modified with no body, wasting bandwidth otherwise",
+        "ETags must be numbers",
+        "It should return 412",
+        "Nothing; 200 is always correct for GET"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "When the ETag matches, the server should reply 304 so the client reuses its cache. 412 Precondition Failed is for If-Match failures on writes."
+    },
+    {
+      "id": "pt-httpf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "http-fundamentals",
+      "prompt": "Two testers update the same product. Tester 1 sends PUT with `If-Match: \"v3\"` after tester 2 already changed it to v4. What should a well-built API return?",
+      "options": [
+        "412 Precondition Failed, so the stale update does not overwrite tester 2's change",
+        "200 and overwrite",
+        "304 Not Modified",
+        "201 Created"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "If-Match gives optimistic concurrency control. A mismatched ETag means the client's view is stale; overwriting would silently lose an update."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-httpf-parse",
+      "language": "python",
+      "title": "Parse a raw HTTP response",
+      "difficulty": "intermediate",
+      "prompt": "Write `parse_response(raw)` that parses a raw HTTP/1.1 response string (lines separated by `\\r\\n`, a blank line before the body) into a dict `{'status': int, 'headers': dict, 'body': str}`. Header names must be lower-cased; values stripped.\n\nExample: `parse_response('HTTP/1.1 201 Created\\r\\nContent-Type: application/json\\r\\n\\r\\n{\"id\":1}')` returns `{'status': 201, 'headers': {'content-type': 'application/json'}, 'body': '{\"id\":1}'}`.",
+      "starter": "def parse_response(raw):\n    # Your code here\n    pass\n",
+      "solution": "def parse_response(raw):\n    head, _, body = raw.partition('\\r\\n\\r\\n')\n    lines = head.split('\\r\\n')\n    status = int(lines[0].split(' ')[1])\n    headers = {}\n    for line in lines[1:]:\n        name, _, value = line.partition(':')\n        headers[name.strip().lower()] = value.strip()\n    return {'status': status, 'headers': headers, 'body': body}\n",
+      "explanation": "The first blank line separates head from body. The status line's second token is the code. Header names are case-insensitive, so lower-casing makes lookups reliable; partition on the first colon keeps values that contain colons (like URLs or times).",
+      "hints": [
+        "`str.partition('\\r\\n\\r\\n')` splits head from body once.",
+        "The status code is the second word of the first line.",
+        "Use `partition(':')` so a value containing ':' is not cut."
+      ],
+      "tests": [
+        {
+          "name": "Status, headers, body",
+          "marks": 3,
+          "code": "r = parse_response('HTTP/1.1 201 Created\\r\\nContent-Type: application/json\\r\\n\\r\\n{\"id\":1}')\nassert r == {'status': 201, 'headers': {'content-type': 'application/json'}, 'body': '{\"id\":1}'}, r"
+        },
+        {
+          "name": "Header value with colons",
+          "marks": 2,
+          "code": "r = parse_response('HTTP/1.1 302 Found\\r\\nLocation: http://x.test:8080/a\\r\\n\\r\\n')\nassert r['headers']['location'] == 'http://x.test:8080/a' and r['body'] == '' and r['status'] == 302"
+        },
+        {
+          "name": "Case-insensitive names",
+          "marks": 1,
+          "code": "r = parse_response('HTTP/1.1 200 OK\\r\\nETAG:  \"v7\" \\r\\n\\r\\nok')\nassert r['headers'] == {'etag': '\"v7\"'}"
+        }
+      ]
+    },
+    {
+      "id": "code-httpf-props",
+      "language": "python",
+      "title": "Method properties table",
+      "difficulty": "beginner",
+      "prompt": "Write `method_props(method)` returning a tuple `(safe, idempotent)` of booleans per RFC 9110 for GET, HEAD, OPTIONS, TRACE, PUT, DELETE, POST, PATCH (case-insensitive). Raise `ValueError` for unknown methods.\n\nExample: `method_props('put')` returns `(False, True)`.",
+      "starter": "def method_props(method):\n    # Your code here\n    pass\n",
+      "solution": "def method_props(method):\n    table = {'GET': (True, True), 'HEAD': (True, True), 'OPTIONS': (True, True), 'TRACE': (True, True),\n             'PUT': (False, True), 'DELETE': (False, True), 'POST': (False, False), 'PATCH': (False, False)}\n    m = method.upper()\n    if m not in table:\n        raise ValueError(method)\n    return table[m]\n",
+      "explanation": "All safe methods are idempotent; PUT and DELETE are idempotent but not safe; POST and PATCH are neither (in general). Knowing this tells you which requests can be retried automatically.",
+      "hints": [
+        "A dict lookup is enough.",
+        "Upper-case the input first."
+      ],
+      "tests": [
+        {
+          "name": "Safe methods",
+          "marks": 1,
+          "code": "assert method_props('GET') == (True, True) and method_props('options') == (True, True)"
+        },
+        {
+          "name": "Idempotent but unsafe",
+          "marks": 2,
+          "code": "assert method_props('put') == (False, True) and method_props('DELETE') == (False, True)"
+        },
+        {
+          "name": "Neither",
+          "marks": 1,
+          "code": "assert method_props('POST') == (False, False) and method_props('patch') == (False, False)"
+        },
+        {
+          "name": "Unknown raises",
+          "marks": 1,
+          "code": "try:\n    method_props('FETCH')\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass"
+        }
+      ]
+    }
+  ]
+}

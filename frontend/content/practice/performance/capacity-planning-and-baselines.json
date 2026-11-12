@@ -1,0 +1,217 @@
+{
+  "lesson": "capacity-planning-and-baselines",
+  "questions": [
+    {
+      "id": "pt-cap-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "What is a performance baseline?",
+      "options": [
+        "A recorded set of results under known conditions that later runs are compared against",
+        "The minimum hardware the vendor recommends",
+        "The first test that ever passed",
+        "The slowest acceptable response"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A baseline is a reference point: same script, data, environment and load, so changes in results can be attributed to changes in the system."
+    },
+    {
+      "id": "pt-cap-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "What is headroom in capacity planning?",
+      "options": [
+        "The spare capacity between current peak load and the maximum the system can handle within its SLO",
+        "The size of HTTP headers",
+        "Memory reserved for the OS",
+        "The time before a test starts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Headroom tells you how much growth or spike you can absorb before breaching objectives."
+    },
+    {
+      "id": "pt-cap-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "Capacity results measured in a test environment with half the production servers can be multiplied by two to predict production capacity.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Scaling is rarely linear: shared resources such as the database, locks and network often become limits. Extrapolation needs evidence (tests at several sizes) and a stated margin of uncertainty."
+    },
+    {
+      "id": "pt-cap-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "Peak traffic is 180 req/s and grows 5% per month (compounded). Capacity at SLO is 300 req/s and the team wants to stay at or below 70% of capacity. After how many whole months is the threshold first exceeded?",
+      "code": "threshold = 0.70 * 300\nload = 180 * 1.05 ** months",
+      "codeLanguage": "python",
+      "options": [
+        "Month 4",
+        "Month 2",
+        "Month 8",
+        "Month 11"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "70% of 300 = 210 req/s. 180 x 1.05^3 = 208.4 (still under), 180 x 1.05^4 = 218.8 (over). So month 4."
+    },
+    {
+      "id": "pt-cap-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "Which make a baseline comparison valid? Select all that apply.",
+      "options": [
+        "Same test script and workload mix",
+        "Comparable data volume in the database",
+        "Same environment sizing and configuration",
+        "Running at a different time of day with background batch jobs"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Any uncontrolled difference (batch jobs, data size, config) becomes an alternative explanation for a change in results."
+    },
+    {
+      "id": "pt-cap-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "A release's p95 is 8% slower than the baseline in one run. What is the right next step?",
+      "options": [
+        "Repeat runs to understand normal run-to-run variation before calling it a regression",
+        "Block the release immediately",
+        "Ignore it",
+        "Update the baseline to the new value"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Runs vary. Knowing the spread across repeated runs tells you whether 8% is signal or noise."
+    },
+    {
+      "id": "pt-cap-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "A system handles 400 req/s at SLO with 4 app nodes. With 8 nodes it handles 520 req/s. What should you conclude and investigate?",
+      "options": [
+        "Scaling is sub-linear, so a shared resource (database, cache, lock or external service) is limiting; find it before planning further growth",
+        "The test was wrong because it should be 800",
+        "8 nodes are always enough",
+        "App nodes should be removed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Doubling nodes added only 30%, so the bottleneck is not the app tier. Capacity plans must name the true limit."
+    },
+    {
+      "id": "pt-cap-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "capacity-planning-and-baselines",
+      "prompt": "Marketing expects a campaign to bring 3x normal peak for two hours. Current tested capacity is 2.2x normal peak. What do you recommend?",
+      "options": [
+        "Test at 3x (plus margin) with the campaign's realistic mix, then scale or optimise the identified bottleneck, and prepare graceful degradation such as a queue or feature shedding",
+        "Hope the cache absorbs it",
+        "Run the existing 2.2x test again",
+        "Tell marketing to cancel"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Plan with evidence: test the expected load and mix, address the limit, and have a fallback in case the estimate is wrong."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-cap-months",
+      "language": "python",
+      "title": "Months until capacity threshold",
+      "difficulty": "intermediate",
+      "prompt": "Write `months_until(current, growth_pct, capacity, max_util_pct)` returning the first whole month `m >= 0` where `current * (1 + growth_pct/100) ** m` exceeds `capacity * max_util_pct/100`. Return `None` if growth is 0 or negative and the threshold is not already exceeded.\n\nExample: `months_until(180, 5, 300, 70)` returns `4`.",
+      "starter": "def months_until(current, growth_pct, capacity, max_util_pct):\n    # Your code here\n    pass\n",
+      "solution": "def months_until(current, growth_pct, capacity, max_util_pct):\n    threshold = capacity * max_util_pct / 100\n    if current > threshold:\n        return 0\n    if growth_pct <= 0:\n        return None\n    m, load = 0, current\n    while load <= threshold:\n        m += 1\n        load = current * (1 + growth_pct / 100) ** m\n    return m\n",
+      "explanation": "Compounding growth means each month grows on the last. Checking month 0 first handles systems already over the line; the no-growth guard prevents an infinite loop.",
+      "hints": [
+        "Compute the threshold once.",
+        "Handle the already-exceeded and no-growth cases first.",
+        "Loop month by month until the load exceeds the threshold."
+      ],
+      "tests": [
+        {
+          "name": "Lesson-style example",
+          "marks": 3,
+          "code": "assert months_until(180, 5, 300, 70) == 4"
+        },
+        {
+          "name": "Already over",
+          "marks": 1,
+          "code": "assert months_until(250, 5, 300, 70) == 0"
+        },
+        {
+          "name": "No growth",
+          "marks": 1,
+          "code": "assert months_until(100, 0, 300, 70) is None and months_until(100, 100, 300, 70) == 2"
+        }
+      ]
+    },
+    {
+      "id": "code-cap-regress",
+      "language": "python",
+      "title": "Flag regressions against a baseline",
+      "difficulty": "advanced",
+      "prompt": "Write `regressions(baseline, current, tolerance_pct)` where both are dicts of transaction -> list of p95 values from repeated runs. A transaction regresses if the **median** of `current` is more than `tolerance_pct` percent above the **max** of `baseline` runs. Return a sorted list of regressed names. Transactions missing from `current` are reported as `'<name> (missing)'`.\n\nExample: baseline `{'login': [200, 210, 205]}`, current `{'login': [240, 250, 245]}`, tolerance 10 -> `['login']` (245 > 231).",
+      "starter": "def regressions(baseline, current, tolerance_pct):\n    # Your code here\n    pass\n",
+      "solution": "import statistics\n\ndef regressions(baseline, current, tolerance_pct):\n    out = []\n    for name, runs in baseline.items():\n        if name not in current:\n            out.append(f'{name} (missing)')\n            continue\n        limit = max(runs) * (1 + tolerance_pct / 100)\n        if statistics.median(current[name]) > limit:\n            out.append(name)\n    return sorted(out)\n",
+      "explanation": "Comparing the median of repeated current runs against the worst baseline run plus tolerance is a conservative rule that tolerates normal run-to-run variation, so the gate does not cry wolf.",
+      "hints": [
+        "`statistics.median` is in the standard library.",
+        "The limit is `max(baseline_runs) * (1 + tolerance/100)`.",
+        "Check for missing transactions first."
+      ],
+      "tests": [
+        {
+          "name": "Detects a regression",
+          "marks": 3,
+          "code": "assert regressions({'login': [200, 210, 205]}, {'login': [240, 250, 245]}, 10) == ['login']"
+        },
+        {
+          "name": "Noise within tolerance passes",
+          "marks": 2,
+          "code": "assert regressions({'a': [100, 120]}, {'a': [125, 130, 500]}, 10) == []"
+        },
+        {
+          "name": "Missing transactions",
+          "marks": 2,
+          "code": "assert regressions({'a': [1], 'b': [1]}, {'b': [1]}, 10) == ['a (missing)']"
+        }
+      ]
+    }
+  ]
+}

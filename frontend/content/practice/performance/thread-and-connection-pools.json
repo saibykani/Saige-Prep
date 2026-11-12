@@ -1,0 +1,185 @@
+{
+  "lesson": "thread-and-connection-pools",
+  "questions": [
+    {
+      "id": "pt-tcp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "thread-and-connection-pools",
+      "prompt": "Why do applications use a database connection pool?",
+      "options": [
+        "Opening a connection is expensive, so connections are reused across requests",
+        "To store query results",
+        "To encrypt traffic",
+        "To limit the number of tables"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Creating connections costs network round trips, authentication and server resources. A pool keeps a set ready for reuse."
+    },
+    {
+      "id": "pt-tcp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "thread-and-connection-pools",
+      "prompt": "What happens when every connection in the pool is in use and another request needs one?",
+      "options": [
+        "It waits up to a configured timeout, then fails if none becomes free",
+        "A new connection is always created without limit",
+        "The query runs without a connection",
+        "The database restarts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pools have a maximum size. Excess requests queue; if the wait exceeds the timeout (e.g. HikariCP's connectionTimeout), they fail."
+    },
+    {
+      "id": "pt-tcp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "thread-and-connection-pools",
+      "prompt": "Making a connection pool much larger always improves performance.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Beyond the point the database can run efficiently, more connections cause contention, memory use and context switching. Larger pools can make things slower."
+    },
+    {
+      "id": "pt-tcp-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "thread-and-connection-pools",
+      "prompt": "An instance handles 200 req/s. Each request holds a DB connection for 30 ms on average. What is the average number of busy connections, and is a pool of 10 enough?",
+      "code": "rate = 200      # req/s\nhold = 0.030    # s per request",
+      "codeLanguage": "python",
+      "options": [
+        "6 on average; 10 gives some headroom for bursts but should be verified under load",
+        "200; 10 is far too small",
+        "0.15; 10 is huge",
+        "30; 10 is too small"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Little's Law: 200 x 0.03 = 6 busy on average. Peaks will be higher, so 10 is plausible but must be checked with pool-wait metrics."
+    },
+    {
+      "id": "pt-tcp-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "thread-and-connection-pools",
+      "prompt": "Which pool metrics should you graph during a load test? Select all that apply.",
+      "options": [
+        "Active connections",
+        "Threads waiting for a connection",
+        "Connection acquisition time",
+        "Number of tables in the database"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Active, pending and acquire time show utilization and saturation of the pool. Table count is not a pool metric."
+    },
+    {
+      "id": "pt-tcp-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "thread-and-connection-pools",
+      "prompt": "Each request makes an HTTP call to a slow partner API while holding a DB connection from a transaction it opened earlier. What is the risk?",
+      "options": [
+        "Connections are held during the remote call, so the pool exhausts when the partner is slow; release DB resources before the external call",
+        "No risk",
+        "The partner API will see the DB connection",
+        "The thread pool shrinks"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Hold time includes everything done while the connection is checked out. Slow external calls inflate it and starve other requests."
+    },
+    {
+      "id": "pt-tcp-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "thread-and-connection-pools",
+      "prompt": "10 app instances each have a pool max of 50. The database allows 300 connections. During autoscaling to 10 instances, errors appear: \"too many connections\". What is the fix?",
+      "options": [
+        "Size pools so instances x pool max stays below the DB limit (with room for admin/maintenance), or put a connection proxy in front of the DB",
+        "Increase each pool to 100",
+        "Disable autoscaling forever",
+        "Retry the failed queries"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "500 possible connections exceed the 300 limit. Pool sizing must account for the total across all instances."
+    },
+    {
+      "id": "pt-tcp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "thread-and-connection-pools",
+      "prompt": "A web server has 200 worker threads. Under load, CPU is 20%, thread pool active = 200, queued requests grow, and thread dumps show most threads waiting on HTTP calls to a slow service. What do you recommend?",
+      "options": [
+        "Set sensible timeouts and a bulkhead (separate limited pool) for the slow dependency, or use async I/O, so it cannot consume every worker thread",
+        "Add CPU",
+        "Raise the thread count to 10,000",
+        "Remove the timeout"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Threads are blocked waiting, not computing. Isolating the slow dependency and bounding its waiting time protects the rest of the service."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-tcp-pool",
+      "language": "python",
+      "title": "Simulate a bounded pool",
+      "difficulty": "advanced",
+      "prompt": "Simulate a connection pool. Write `simulate(requests, size, timeout)` where each request is `(arrival_ms, hold_ms)` sorted by arrival. A request takes a free connection immediately if one exists; otherwise it waits for the earliest connection to free up. If its wait would exceed `timeout` ms, it fails (and never takes a connection). Return `(succeeded, failed, max_wait)` where `max_wait` is the longest wait among successful requests.\n\nExample: `simulate([(0, 100), (0, 100), (10, 50)], 2, 200)` returns `(3, 0, 90)`.",
+      "starter": "def simulate(requests, size, timeout):\n    # Your code here\n    pass\n",
+      "solution": "import heapq\n\ndef simulate(requests, size, timeout):\n    free_at = [0] * size\n    heapq.heapify(free_at)\n    ok = failed = max_wait = 0\n    for arrival, hold in requests:\n        earliest = free_at[0]\n        start = max(arrival, earliest)\n        wait = start - arrival\n        if wait > timeout:\n            failed += 1\n            continue\n        heapq.heapreplace(free_at, start + hold)\n        ok += 1\n        max_wait = max(max_wait, wait)\n    return ok, failed, max_wait\n",
+      "explanation": "A min-heap of 'time each connection becomes free' always gives the earliest available connection. This mirrors how pool timeouts turn slow queries (long holds) into errors for unrelated requests.",
+      "hints": [
+        "Track when each connection becomes free, starting at 0.",
+        "`heapq` gives you the earliest free time at index 0.",
+        "Only replace a heap entry when the request succeeds."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert simulate([(0, 100), (0, 100), (10, 50)], 2, 200) == (3, 0, 90)"
+        },
+        {
+          "name": "Timeouts fail",
+          "marks": 3,
+          "code": "assert simulate([(0, 1000), (0, 10), (5, 10)], 1, 100) == (1, 2, 0)"
+        },
+        {
+          "name": "No waiting with enough connections",
+          "marks": 1,
+          "code": "assert simulate([(0, 5), (1, 5), (2, 5)], 3, 0) == (3, 0, 0)"
+        }
+      ]
+    }
+  ]
+}

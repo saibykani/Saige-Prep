@@ -1,0 +1,215 @@
+{
+  "lesson": "sql-for-testers",
+  "questions": [
+    {
+      "id": "pt-sqlt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "sql-for-testers",
+      "prompt": "Which statement reads data without changing it?",
+      "options": [
+        "SELECT",
+        "UPDATE",
+        "DELETE",
+        "INSERT"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "SELECT only reads. Testers verifying data should mostly use SELECT, ideally with a read-only account."
+    },
+    {
+      "id": "pt-sqlt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "sql-for-testers",
+      "prompt": "Which clause sorts the result?",
+      "options": [
+        "ORDER BY",
+        "GROUP BY",
+        "WHERE",
+        "HAVING"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "ORDER BY sorts. Without it, row order is not guaranteed, so tests must not depend on it."
+    },
+    {
+      "id": "pt-sqlt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "sql-for-testers",
+      "prompt": "`WHERE name LIKE 'A%'` matches names that start with A.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`%` matches any sequence of characters, so 'A%' means 'starts with A'. Case sensitivity depends on the database and collation."
+    },
+    {
+      "id": "pt-sqlt-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "sql-for-testers",
+      "prompt": "Using the lesson-style customers table (Asha Pune, Ben Mumbai, Chen Pune, Dana NULL city), how many rows does this return?",
+      "code": "SELECT name FROM customers WHERE city IN ('Pune');",
+      "codeLanguage": "sql",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "1"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "IN ('Pune') matches Asha and Chen. Dana's NULL city is not equal to anything, so she is not returned by IN or by NOT IN."
+    },
+    {
+      "id": "pt-sqlt-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "sql-for-testers",
+      "prompt": "Which query safely checks how many rows an UPDATE will affect before you run it in a test environment?",
+      "options": [
+        "A SELECT COUNT(*) with the same WHERE clause",
+        "Run the UPDATE and look",
+        "DELETE first, then UPDATE",
+        "SELECT * without a WHERE"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Running the same WHERE as a SELECT first shows exactly which rows would change. Better still, do the change inside a transaction you can roll back."
+    },
+    {
+      "id": "pt-sqlt-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "sql-for-testers",
+      "prompt": "Which are good habits for testers writing SQL against shared test databases? Select all that apply.",
+      "options": [
+        "Use explicit column lists instead of SELECT * in automated checks",
+        "Filter by the ids your test created",
+        "Use LIMIT when exploring large tables",
+        "Run UPDATE without WHERE to reset data quickly"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Explicit columns resist schema additions, id filters isolate tests, and LIMIT protects shared databases. An UPDATE without WHERE changes every row."
+    },
+    {
+      "id": "pt-sqlt-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "sql-for-testers",
+      "prompt": "This check should find customers without a city, but returns no rows although Dana has a NULL city. Why?",
+      "code": "SELECT name FROM customers WHERE city = NULL;",
+      "codeLanguage": "sql",
+      "options": [
+        "Comparisons with NULL using = are never true; use IS NULL",
+        "Empty string and NULL are the same",
+        "The table needs an index",
+        "NULL must be in quotes"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "NULL means unknown, so `city = NULL` evaluates to unknown and filters the row out. `city IS NULL` is the correct test. (Some data may also use '' and needs a separate check.)"
+    },
+    {
+      "id": "pt-sqlt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "sql-for-testers",
+      "prompt": "A tester verifies a bug fix by running `SELECT * FROM orders WHERE status = 'Paid'` and gets zero rows, then reports the fix as broken. The data uses lower-case 'paid'. What lesson applies?",
+      "options": [
+        "Check the actual stored values (e.g. SELECT DISTINCT status) before writing assertions; string comparison can be case-sensitive",
+        "SQL is always case-insensitive",
+        "The fix is broken",
+        "Use LIKE for everything"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Know your data: DISTINCT reveals the real values and their case. Whether '=' is case-sensitive depends on the database and collation."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-sqlt-paid",
+      "language": "sql",
+      "title": "Filter and sort orders",
+      "difficulty": "beginner",
+      "prompt": "List `id` and `amount` of **paid** orders with an amount of at least 100, highest amount first.\n\nExpected: `103 | 300.0`, `101 | 120.0`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT id, amount FROM orders WHERE status = 'paid' AND amount >= 100 ORDER BY amount DESC;",
+      "explanation": "Combine conditions with AND in WHERE, then ORDER BY ... DESC. `>=` includes the boundary value 100.",
+      "hints": [
+        "Two conditions joined with AND.",
+        "ORDER BY amount DESC."
+      ],
+      "setup": "CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, created_at TEXT);\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, amount REAL, status TEXT, created_at TEXT);\nINSERT INTO customers VALUES (1,'Asha','Pune','2026-01-05'),(2,'Ben','Mumbai','2026-02-11'),(3,'Chen','Pune','2026-03-20'),(4,'Dana',NULL,'2026-04-02');\nINSERT INTO orders VALUES (101,1,120.0,'paid','2026-05-01'),(102,1,80.0,'refunded','2026-05-03'),(103,2,300.0,'paid','2026-05-04'),(104,3,45.5,'paid','2026-05-06'),(105,2,60.0,'open','2026-05-07');",
+      "expected": {
+        "columns": [
+          "id",
+          "amount"
+        ],
+        "rows": [
+          [
+            103,
+            300.0
+          ],
+          [
+            101,
+            120.0
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 3
+    },
+    {
+      "id": "code-sqlt-nullcity",
+      "language": "sql",
+      "title": "Customers with no city",
+      "difficulty": "beginner",
+      "prompt": "Data-quality check: list `name` of customers whose `city` is missing (NULL or an empty string), ordered by name.\n\nExpected: Dana.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT name FROM customers WHERE city IS NULL OR city = '' ORDER BY name;",
+      "explanation": "IS NULL catches real NULLs; the `= ''` branch catches empty strings that some imports produce. Testing both is a good habit.",
+      "hints": [
+        "`= NULL` never matches.",
+        "Use IS NULL OR city = ''."
+      ],
+      "setup": "CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, created_at TEXT);\nCREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, amount REAL, status TEXT, created_at TEXT);\nINSERT INTO customers VALUES (1,'Asha','Pune','2026-01-05'),(2,'Ben','Mumbai','2026-02-11'),(3,'Chen','Pune','2026-03-20'),(4,'Dana',NULL,'2026-04-02');\nINSERT INTO orders VALUES (101,1,120.0,'paid','2026-05-01'),(102,1,80.0,'refunded','2026-05-03'),(103,2,300.0,'paid','2026-05-04'),(104,3,45.5,'paid','2026-05-06'),(105,2,60.0,'open','2026-05-07');",
+      "expected": {
+        "columns": [
+          "name"
+        ],
+        "rows": [
+          [
+            "Dana"
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 2
+    }
+  ]
+}

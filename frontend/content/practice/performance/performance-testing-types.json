@@ -1,0 +1,182 @@
+{
+  "lesson": "performance-testing-types",
+  "questions": [
+    {
+      "id": "pt-ptt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "performance-testing-types",
+      "prompt": "Which test checks behaviour at the expected normal and peak load?",
+      "options": [
+        "Load test",
+        "Stress test",
+        "Soak test",
+        "Spike test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A load test verifies the system meets its objectives at expected load. Stress goes beyond it, soak runs for a long time, spike applies sudden jumps."
+    },
+    {
+      "id": "pt-ptt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "performance-testing-types",
+      "prompt": "What is the main goal of a soak (endurance) test?",
+      "options": [
+        "Find problems that appear only over long durations, such as leaks and slow degradation",
+        "Find the maximum users",
+        "Measure single-user response time",
+        "Test sudden traffic jumps"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Running at steady, realistic load for hours exposes accumulation problems that short tests miss."
+    },
+    {
+      "id": "pt-ptt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "performance-testing-types",
+      "prompt": "A stress test is expected to push the system past its limits so you can see how it fails and whether it recovers.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Stress tests deliberately exceed capacity to learn the breaking point and failure mode (graceful degradation vs collapse) and recovery."
+    },
+    {
+      "id": "pt-ptt-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "performance-testing-types",
+      "prompt": "A news site gets 10x normal traffic within one minute when a story breaks. Which test type models this best?",
+      "options": [
+        "Spike test",
+        "Soak test",
+        "Volume test",
+        "Load test at normal peak"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Spike tests apply a sudden jump and check autoscaling, queueing and recovery when the spike ends."
+    },
+    {
+      "id": "pt-ptt-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "performance-testing-types",
+      "prompt": "Which belong in a test plan for a scalability test? Select all that apply.",
+      "options": [
+        "Run the same workload at several resource sizes (e.g. 2, 4, 8 nodes)",
+        "Record throughput at SLO for each size",
+        "Compare the gain per added node",
+        "Run once on the smallest size only"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Scalability is about how capacity changes as resources change, so it needs several sizes and a comparison of gains."
+    },
+    {
+      "id": "pt-ptt-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "performance-testing-types",
+      "prompt": "Which question does a volume test answer?",
+      "options": [
+        "Does performance hold up with production-sized (or projected) amounts of data?",
+        "How many users break the system?",
+        "What happens after 24 hours?",
+        "How fast can one user log in?"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Volume tests focus on data size: big tables, large files, long lists. A single user can hit volume problems."
+    },
+    {
+      "id": "pt-ptt-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "performance-testing-types",
+      "prompt": "The team has one week before launch and can run only two kinds of test. Expected traffic is steady with a known daily peak, and the service had a memory leak last release. Which two are most valuable?",
+      "options": [
+        "A load test at expected peak, and a soak test long enough to show the leak's trend",
+        "A spike test and a volume test",
+        "Two stress tests",
+        "Unit tests and a smoke test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Choose tests that answer the biggest risks: meeting peak load, and the known leak, which only a long run reveals."
+    },
+    {
+      "id": "pt-ptt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "performance-testing-types",
+      "prompt": "In a stress test, at 3x peak the service starts returning 503s quickly instead of timing out, and recovers within 30 s once load drops. How do you assess this?",
+      "options": [
+        "Good failure behaviour: it sheds load gracefully and recovers; report the breaking point and confirm 503s include Retry-After where appropriate",
+        "A critical defect because errors occurred",
+        "The test is invalid",
+        "The service should accept unlimited load"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Every system has a limit. Fast, clean rejections and quick recovery are what you want from a stress test; collapse or a stuck state after load drops would be the defect."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ptt-classify",
+      "language": "python",
+      "title": "Name the test from its profile",
+      "difficulty": "intermediate",
+      "prompt": "Write `classify(profile)` where `profile` is a dict with `peak_factor` (max load / normal peak), `ramp_seconds` (time to reach max), `duration_hours`, and `data_factor` (data size / production). Return the first matching name in this order:\n\n1. `'volume'` if `data_factor >= 2`\n2. `'spike'` if `peak_factor >= 2` and `ramp_seconds <= 60`\n3. `'stress'` if `peak_factor > 1`\n4. `'soak'` if `duration_hours >= 4`\n5. otherwise `'load'`\n\nExample: `classify({'peak_factor': 5, 'ramp_seconds': 30, 'duration_hours': 0.5, 'data_factor': 1})` returns `'spike'`.",
+      "starter": "def classify(profile):\n    # Your code here\n    pass\n",
+      "solution": "def classify(profile):\n    if profile['data_factor'] >= 2:\n        return 'volume'\n    if profile['peak_factor'] >= 2 and profile['ramp_seconds'] <= 60:\n        return 'spike'\n    if profile['peak_factor'] > 1:\n        return 'stress'\n    if profile['duration_hours'] >= 4:\n        return 'soak'\n    return 'load'\n",
+      "explanation": "Each test type is defined by which dimension it pushes: data size, speed of change, load beyond peak, or time. Ordering the checks resolves profiles that push several dimensions.",
+      "hints": [
+        "Follow the rule order exactly.",
+        "Use the boundary operators given (>=, <=, >)."
+      ],
+      "tests": [
+        {
+          "name": "Spike and stress",
+          "marks": 2,
+          "code": "assert classify({'peak_factor': 5, 'ramp_seconds': 30, 'duration_hours': 0.5, 'data_factor': 1}) == 'spike'\nassert classify({'peak_factor': 3, 'ramp_seconds': 600, 'duration_hours': 1, 'data_factor': 1}) == 'stress'"
+        },
+        {
+          "name": "Soak and load",
+          "marks": 2,
+          "code": "assert classify({'peak_factor': 1, 'ramp_seconds': 300, 'duration_hours': 8, 'data_factor': 1}) == 'soak'\nassert classify({'peak_factor': 1, 'ramp_seconds': 300, 'duration_hours': 1, 'data_factor': 1}) == 'load'"
+        },
+        {
+          "name": "Volume wins and boundaries",
+          "marks": 2,
+          "code": "assert classify({'peak_factor': 5, 'ramp_seconds': 10, 'duration_hours': 8, 'data_factor': 2}) == 'volume'\nassert classify({'peak_factor': 2, 'ramp_seconds': 61, 'duration_hours': 1, 'data_factor': 1}) == 'stress'"
+        }
+      ]
+    }
+  ]
+}

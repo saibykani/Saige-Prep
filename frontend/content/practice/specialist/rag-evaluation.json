@@ -1,0 +1,217 @@
+{
+  "lesson": "rag-evaluation",
+  "questions": [
+    {
+      "id": "pt-rage-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rag-evaluation",
+      "prompt": "In a RAG system, what are the two stages you evaluate separately?",
+      "options": [
+        "Retrieval (did we fetch the right context?) and generation (did the answer use it correctly?)",
+        "Training and fine-tuning",
+        "Tokenising and detokenising",
+        "Frontend and backend"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Separating the stages tells you where a bad answer came from: missing context or misuse of good context."
+    },
+    {
+      "id": "pt-rage-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rag-evaluation",
+      "prompt": "What does recall@k measure for a retriever?",
+      "options": [
+        "The fraction of relevant chunks that appear in the top k results",
+        "The fraction of the top k that are relevant",
+        "The answer's length",
+        "The response time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Recall@k asks 'how much of what we needed did we fetch?'. Precision@k asks 'how much of what we fetched was needed?'."
+    },
+    {
+      "id": "pt-rage-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rag-evaluation",
+      "prompt": "An answer can be faithful to the retrieved context and still be wrong, if the retrieved document itself is wrong or outdated.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Faithfulness (groundedness) checks support by context, not truth. Source freshness and correctness need their own checks."
+    },
+    {
+      "id": "pt-rage-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rag-evaluation",
+      "prompt": "Relevant = {A, D}. The retriever returns [B, A, C, D, E]. What is precision@3?",
+      "code": "relevant = {'A', 'D'}\nresults = ['B', 'A', 'C', 'D', 'E']",
+      "codeLanguage": "python",
+      "options": [
+        "1/3",
+        "2/3",
+        "1/2",
+        "2/5"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Top 3 = [B, A, C]; only A is relevant: 1/3. (recall@3 would be 1/2.)"
+    },
+    {
+      "id": "pt-rage-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rag-evaluation",
+      "prompt": "Which belong in a good RAG eval set? Select all that apply.",
+      "options": [
+        "Questions whose answers need information from two documents",
+        "Questions the knowledge base cannot answer",
+        "Questions phrased with synonyms not used in the documents",
+        "Only questions copied verbatim from document headings"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Multi-hop, unanswerable and paraphrased questions test the hard cases. Heading-copies make retrieval look artificially good."
+    },
+    {
+      "id": "pt-rage-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rag-evaluation",
+      "prompt": "Retrieval recall@5 is 95%, but users still get wrong answers about refund periods. Answers cite the right chunk. Where do you look?",
+      "options": [
+        "Generation: check faithfulness, since the model is misreading or overriding the retrieved context",
+        "The retriever",
+        "The embedding model",
+        "The vector index size"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "If the right chunk is present and cited but the answer is wrong, the generator is the weak link (prompt, model, or conflicting context)."
+    },
+    {
+      "id": "pt-rage-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "rag-evaluation",
+      "prompt": "After changing chunk size from 1,000 to 200 tokens, recall@5 drops and answers lose details that span paragraphs. What do you conclude and test next?",
+      "options": [
+        "Smaller chunks split related information; compare sizes and overlaps on the same eval set, measuring both retrieval and answer quality",
+        "Smaller chunks are always better",
+        "Recall does not matter",
+        "Switch to keyword search only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Chunking is a trade-off between precision and context. Decide with the eval set, not intuition."
+    },
+    {
+      "id": "pt-rage-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "rag-evaluation",
+      "prompt": "For questions the documents do not cover, the assistant confidently invents answers. What should the eval and fix include?",
+      "options": [
+        "Unanswerable test cases that expect an explicit 'I don't know / not in our docs' response, plus prompt or threshold changes that allow abstaining",
+        "Remove unanswerable questions from the eval",
+        "Lower the temperature only",
+        "Add more documents of any kind"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Abstention is a behaviour to test. Without unanswerable cases, the eval rewards guessing."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rage-ret",
+      "language": "python",
+      "title": "Retrieval metrics",
+      "difficulty": "intermediate",
+      "prompt": "Write `metrics(results, relevant, k)` returning `{'precision': p, 'recall': r, 'mrr': m}` rounded to 3 decimals: precision@k and recall@k over the top `k` results, and the reciprocal rank of the **first** relevant result in the full list (0 if none). If `relevant` is empty, recall is 0.\n\nExample: `metrics(['B','A','C','D','E'], {'A','D'}, 3)` returns `{'precision': 0.333, 'recall': 0.5, 'mrr': 0.5}`.",
+      "starter": "def metrics(results, relevant, k):\n    # Your code here\n    pass\n",
+      "solution": "def metrics(results, relevant, k):\n    top = results[:k]\n    hits = sum(1 for r in top if r in relevant)\n    precision = hits / k if k else 0\n    recall = hits / len(relevant) if relevant else 0\n    mrr = 0\n    for i, r in enumerate(results, start=1):\n        if r in relevant:\n            mrr = 1 / i\n            break\n    return {'precision': round(precision, 3), 'recall': round(recall, 3), 'mrr': round(mrr, 3)}\n",
+      "explanation": "Precision and recall describe the top-k set; MRR rewards putting the first relevant chunk near the top, which matters because generators attend more to early context.",
+      "hints": [
+        "Slice the top k first.",
+        "Count hits in the slice.",
+        "Use `enumerate(results, start=1)` for the rank."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert metrics(['B','A','C','D','E'], {'A','D'}, 3) == {'precision': 0.333, 'recall': 0.5, 'mrr': 0.5}"
+        },
+        {
+          "name": "Perfect top result",
+          "marks": 2,
+          "code": "assert metrics(['A','D','X'], {'A','D'}, 2) == {'precision': 1.0, 'recall': 1.0, 'mrr': 1.0}"
+        },
+        {
+          "name": "No relevant results",
+          "marks": 1,
+          "code": "assert metrics(['X','Y'], {'A'}, 2) == {'precision': 0.0, 'recall': 0.0, 'mrr': 0}"
+        }
+      ]
+    },
+    {
+      "id": "code-rage-support",
+      "language": "python",
+      "title": "Naive groundedness check",
+      "difficulty": "advanced",
+      "prompt": "Write `unsupported(answer, context, threshold=0.6)` that splits the answer into sentences (on `.`, `!`, `?`), lower-cases words (letters and digits only, via `re.findall(r'[a-z0-9]+', ...)`), ignores the stop words `{'the','a','an','is','are','of','to','in','and','for','within','your'}`, and returns the list of sentences (stripped) whose fraction of remaining words found in the context's words is below `threshold`.\n\nExample: answer `'Refunds are accepted within 30 days. Shipping is free worldwide.'` with context `'Refunds are accepted within 30 days of delivery.'` returns `['Shipping is free worldwide']`.",
+      "starter": "import re\n\ndef unsupported(answer, context, threshold=0.6):\n    # Your code here\n    pass\n",
+      "solution": "import re\n\nSTOP = {'the', 'a', 'an', 'is', 'are', 'of', 'to', 'in', 'and', 'for', 'within', 'your'}\n\ndef _words(text):\n    return [w for w in re.findall(r'[a-z0-9]+', text.lower()) if w not in STOP]\n\ndef unsupported(answer, context, threshold=0.6):\n    ctx = set(_words(context))\n    out = []\n    for sentence in re.split(r'[.!?]', answer):\n        sentence = sentence.strip()\n        words = _words(sentence)\n        if not words:\n            continue\n        support = sum(1 for w in words if w in ctx) / len(words)\n        if support < threshold:\n            out.append(sentence)\n    return out\n",
+      "explanation": "Word overlap is a crude but transparent first-pass groundedness signal: it flags claims with no lexical basis in the context. It misses paraphrases and negations ('not accepted'), which is why production evals add NLI models or LLM judges, validated against humans.",
+      "hints": [
+        "Split sentences with `re.split(r'[.!?]', answer)` and skip empty ones.",
+        "Build a set of context words once.",
+        "Support = matched words / total non-stop words."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "r = unsupported('Refunds are accepted within 30 days. Shipping is free worldwide.', 'Refunds are accepted within 30 days of delivery.')\nassert r == ['Shipping is free worldwide'], r"
+        },
+        {
+          "name": "Fully supported",
+          "marks": 2,
+          "code": "assert unsupported('Delivery takes 5 days!', 'Standard delivery takes 5 business days.') == []"
+        },
+        {
+          "name": "Changed number is caught at a strict threshold",
+          "marks": 2,
+          "code": "assert unsupported('Refunds accepted 60 days.', 'Refunds accepted 30 days.', threshold=0.9) == ['Refunds accepted 60 days']"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "lesson": "chaos-engineering-basics",
+  "questions": [
+    {
+      "id": "pt-chaos-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chaos-engineering-basics",
+      "prompt": "What is chaos engineering?",
+      "options": [
+        "Running controlled experiments that inject failures to build confidence that a system withstands turbulent conditions",
+        "Randomly breaking production without a plan",
+        "Load testing with random data",
+        "Deleting backups to test recovery"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Chaos engineering is disciplined experimentation: a hypothesis, a small blast radius, monitoring and a way to stop."
+    },
+    {
+      "id": "pt-chaos-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chaos-engineering-basics",
+      "prompt": "What is the blast radius of a chaos experiment?",
+      "options": [
+        "The scope of users, services or traffic that could be affected",
+        "The size of the server",
+        "The number of alerts fired",
+        "The duration of the test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Start with the smallest blast radius that can still teach you something, and grow it as confidence increases."
+    },
+    {
+      "id": "pt-chaos-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "chaos-engineering-basics",
+      "prompt": "Every chaos experiment should have a clear way to stop it and roll back the injected fault quickly.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "An abort mechanism (a stop button, automatic halt on SLO breach) is a basic safety requirement."
+    },
+    {
+      "id": "pt-chaos-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chaos-engineering-basics",
+      "prompt": "Which is a well-formed chaos hypothesis?",
+      "options": [
+        "If one of three payment pods is terminated, checkout success rate stays above 99.5% and p95 below 800 ms",
+        "Let's see what happens if we kill a pod",
+        "The system is resilient",
+        "Payments might fail"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A hypothesis predicts measurable steady-state behaviour under a specific fault, so the result is clearly confirmed or refuted."
+    },
+    {
+      "id": "pt-chaos-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chaos-engineering-basics",
+      "prompt": "Which faults are common starting experiments? Select all that apply.",
+      "options": [
+        "Terminate one instance of a stateless service",
+        "Add latency to a downstream dependency",
+        "Make a dependency return errors for a percentage of calls",
+        "Delete the production database"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Instance loss, latency and partial errors are realistic and reversible. Destroying data is not an experiment."
+    },
+    {
+      "id": "pt-chaos-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "chaos-engineering-basics",
+      "prompt": "Adding 300 ms latency to the recommendations service causes checkout to time out, although checkout does not need recommendations. What did the experiment reveal?",
+      "options": [
+        "A hidden hard dependency: checkout should use a timeout and fallback (or call recommendations asynchronously)",
+        "Recommendations are too slow in general",
+        "The experiment was invalid",
+        "Checkout needs more CPU"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "This is exactly the kind of weakness chaos experiments exist to find: a non-critical dependency taking down a critical path."
+    },
+    {
+      "id": "pt-chaos-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "chaos-engineering-basics",
+      "prompt": "A team wants to run its first chaos experiment in production on Black Friday to make it realistic. What should you advise?",
+      "options": [
+        "Start in a pre-production or low-traffic window with a small blast radius, good observability and an abort plan; graduate to production after earlier experiments succeed",
+        "Go ahead; realism matters most",
+        "Never run chaos in production",
+        "Run all experiments at once to save time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Production experiments are valuable but must be earned. Peak events are the worst time for a first experiment."
+    },
+    {
+      "id": "pt-chaos-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "chaos-engineering-basics",
+      "prompt": "An experiment terminating one database replica shows no user impact, but the failover took 4 minutes and alerting never fired. How do you report it?",
+      "options": [
+        "The steady state held, but there are findings: slow failover and missing alerting; both get follow-up actions",
+        "A complete success with nothing to do",
+        "A failed experiment to be deleted",
+        "A database bug only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Experiments teach through observations beyond the pass/fail hypothesis. Missing alerts mean the next, bigger failure could go unnoticed."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-chaos-steady",
+      "language": "python",
+      "title": "Evaluate a steady-state hypothesis",
+      "difficulty": "intermediate",
+      "prompt": "Write `evaluate(before, during, max_drop_pct, max_p95_ms)` where `before` and `during` are dicts with `'success_rate'` (0-100) and `'p95'` (ms). Return `(held, reasons)`: `held` is False if the success rate dropped by more than `max_drop_pct` percentage points or `during['p95']` exceeds `max_p95_ms`. `reasons` lists `'success_rate'` and/or `'p95'` in that order.\n\nExample: `evaluate({'success_rate': 99.9, 'p95': 400}, {'success_rate': 99.7, 'p95': 650}, 0.5, 800)` returns `(True, [])`.",
+      "starter": "def evaluate(before, during, max_drop_pct, max_p95_ms):\n    # Your code here\n    pass\n",
+      "solution": "def evaluate(before, during, max_drop_pct, max_p95_ms):\n    reasons = []\n    if before['success_rate'] - during['success_rate'] > max_drop_pct:\n        reasons.append('success_rate')\n    if during['p95'] > max_p95_ms:\n        reasons.append('p95')\n    return (not reasons, reasons)\n",
+      "explanation": "A chaos experiment compares a measured steady state against the hypothesis' thresholds. Returning reasons makes the result actionable and lets an automated halt condition say why it stopped.",
+      "hints": [
+        "Compute the drop as before minus during.",
+        "Collect reasons; held is simply 'no reasons'."
+      ],
+      "tests": [
+        {
+          "name": "Held",
+          "marks": 2,
+          "code": "assert evaluate({'success_rate': 99.9, 'p95': 400}, {'success_rate': 99.7, 'p95': 650}, 0.5, 800) == (True, [])"
+        },
+        {
+          "name": "Both breached",
+          "marks": 2,
+          "code": "assert evaluate({'success_rate': 99.9, 'p95': 400}, {'success_rate': 97.0, 'p95': 2000}, 0.5, 800) == (False, ['success_rate', 'p95'])"
+        },
+        {
+          "name": "Only latency",
+          "marks": 1,
+          "code": "assert evaluate({'success_rate': 99, 'p95': 1}, {'success_rate': 99, 'p95': 801}, 0.5, 800) == (False, ['p95'])"
+        }
+      ]
+    },
+    {
+      "id": "code-chaos-fallback",
+      "language": "javascript",
+      "title": "Timeout with fallback",
+      "difficulty": "advanced",
+      "prompt": "Write `async function withFallback(call, ms, fallback)` that awaits the promise returned by `call()` but gives up after `ms` milliseconds, returning `{source: 'fallback', value: fallback}`. If `call()` resolves in time, return `{source: 'live', value}`; if it rejects, also return the fallback.\n\nThis is the pattern that keeps checkout working when a non-critical dependency slows down.",
+      "starter": "async function withFallback(call, ms, fallback) {\n  // Your code here\n}\n",
+      "solution": "async function withFallback(call, ms, fallback) {\n  let timer;\n  const timeout = new Promise((resolve) => {\n    timer = setTimeout(() => resolve({ source: 'fallback', value: fallback }), ms);\n  });\n  const live = Promise.resolve()\n    .then(call)\n    .then((value) => ({ source: 'live', value }))\n    .catch(() => ({ source: 'fallback', value: fallback }));\n  try {\n    return await Promise.race([live, timeout]);\n  } finally {\n    clearTimeout(timer);\n  }\n}\n",
+      "explanation": "`Promise.race` returns whichever settles first. Catching errors on the live branch turns failures into the fallback too, and clearing the timer avoids leaving work behind. Chaos experiments that add latency verify exactly this behaviour.",
+      "hints": [
+        "Create a timeout promise with `setTimeout`.",
+        "Race it against the live call.",
+        "Use `.catch` on the live branch so a rejection becomes the fallback."
+      ],
+      "tests": [
+        {
+          "name": "Fast call is live",
+          "marks": 2,
+          "code": "const r = await withFallback(() => Promise.resolve(['a']), 200, []);\nassertEqual(r, {source: 'live', value: ['a']});"
+        },
+        {
+          "name": "Slow call falls back",
+          "marks": 3,
+          "code": "const slow = () => new Promise((res) => setTimeout(() => res('late'), 500));\nconst r = await withFallback(slow, 50, 'default');\nassertEqual(r, {source: 'fallback', value: 'default'});"
+        },
+        {
+          "name": "Errors fall back",
+          "marks": 2,
+          "code": "const r = await withFallback(() => Promise.reject(new Error('boom')), 200, 0);\nassertEqual(r, {source: 'fallback', value: 0});"
+        }
+      ]
+    }
+  ]
+}

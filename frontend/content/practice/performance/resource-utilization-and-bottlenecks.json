@@ -1,0 +1,213 @@
+{
+  "lesson": "resource-utilization-and-bottlenecks",
+  "questions": [
+    {
+      "id": "pt-rub-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "In the USE method, what do U, S and E stand for?",
+      "options": [
+        "Utilization, Saturation, Errors",
+        "Users, Speed, Efficiency",
+        "Uptime, Scale, Events",
+        "Usage, Storage, Exceptions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Brendan Gregg's USE method checks, for every resource, how busy it is, how much work is queued, and error counts."
+    },
+    {
+      "id": "pt-rub-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "What is a bottleneck?",
+      "options": [
+        "The resource whose capacity limits the throughput of the whole system",
+        "Any server with high memory",
+        "The slowest test script",
+        "A network cable"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Throughput cannot exceed the capacity of the most constrained resource on the path."
+    },
+    {
+      "id": "pt-rub-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "A CPU at 100% utilization with a long run queue is both highly utilized and saturated.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Utilization is how busy; saturation is waiting work. A long run queue means threads wait for CPU."
+    },
+    {
+      "id": "pt-rub-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "Which are saturation signals? Select all that apply.",
+      "options": [
+        "Run-queue length above the number of CPU cores",
+        "Threads waiting for a database connection",
+        "Disk I/O queue depth growing",
+        "CPU at 40%"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Queues and waiting work are saturation. 40% CPU is a utilization value with no evidence of queueing."
+    },
+    {
+      "id": "pt-rub-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "A 4-core server shows 25% average CPU, but one core is at 100% and response times are high. What is likely?",
+      "options": [
+        "A single-threaded component is CPU-bound on one core, which the average hides",
+        "CPU is idle; look elsewhere",
+        "The OS is misreporting",
+        "Too many cores"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Averages across cores hide per-core saturation. Single-threaded event loops, locks or GC phases can pin one core."
+    },
+    {
+      "id": "pt-rub-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "Under load the app shows frequent long GC pauses and heap after GC near the maximum. What is the most useful next step?",
+      "options": [
+        "Capture a heap dump or allocation profile to see what is retained, and check whether the heap size suits the workload",
+        "Add CPU",
+        "Restart the database",
+        "Reduce think time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A full heap after GC means live data fills it: either a leak or an undersized heap. Profiling distinguishes the two."
+    },
+    {
+      "id": "pt-rub-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "You add a second app server and throughput does not change; response time stays high. DB CPU is 30%, but DB connection waits are high in both app servers. What is the bottleneck?",
+      "options": [
+        "The connection pool sizes (or a DB-side connection limit), not app CPU or DB CPU",
+        "App server CPU",
+        "Network bandwidth",
+        "The load generator"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Requests queue for connections. Adding app servers only adds more queues unless the pool or DB-side limit is the change you make; then verify the DB can take the extra concurrency."
+    },
+    {
+      "id": "pt-rub-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "resource-utilization-and-bottlenecks",
+      "prompt": "After fixing the slow database query, p95 improves only slightly and throughput is still capped. What principle explains this?",
+      "options": [
+        "The bottleneck has moved (or was elsewhere); re-measure to find the new limiting resource",
+        "Fixes never help",
+        "Database tuning is always wasted",
+        "The test was too short"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Removing one constraint reveals the next. Performance work is iterative: measure, fix the current bottleneck, measure again."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rub-use",
+      "language": "python",
+      "title": "Apply the USE method",
+      "difficulty": "intermediate",
+      "prompt": "Write `use_report(metrics)` where `metrics` is a dict `resource -> {'util': percent, 'queue': number, 'capacity': number, 'errors': number}`. Return a sorted list of `(resource, problem)` tuples where problem is `'saturated'` if `queue > capacity`, `'high-util'` if `util >= 80`, and `'errors'` if `errors > 0` (a resource can appear several times).\n\nExample: `use_report({'cpu': {'util': 95, 'queue': 9, 'capacity': 8, 'errors': 0}})` returns `[('cpu', 'high-util'), ('cpu', 'saturated')]`.",
+      "starter": "def use_report(metrics):\n    # Your code here\n    pass\n",
+      "solution": "def use_report(metrics):\n    out = []\n    for name, m in metrics.items():\n        if m['queue'] > m['capacity']:\n            out.append((name, 'saturated'))\n        if m['util'] >= 80:\n            out.append((name, 'high-util'))\n        if m['errors'] > 0:\n            out.append((name, 'errors'))\n    return sorted(out)\n",
+      "explanation": "Systematically checking every resource for all three signals avoids the common trap of looking only at CPU. Saturation is judged against the resource's capacity (cores for CPU, pool size for connections).",
+      "hints": [
+        "Check each condition independently.",
+        "Return tuples and sort them at the end."
+      ],
+      "tests": [
+        {
+          "name": "CPU example",
+          "marks": 2,
+          "code": "assert use_report({'cpu': {'util': 95, 'queue': 9, 'capacity': 8, 'errors': 0}}) == [('cpu', 'high-util'), ('cpu', 'saturated')]"
+        },
+        {
+          "name": "Healthy resources",
+          "marks": 1,
+          "code": "assert use_report({'disk': {'util': 79, 'queue': 1, 'capacity': 1, 'errors': 0}}) == []"
+        },
+        {
+          "name": "Pool saturated at low util",
+          "marks": 3,
+          "code": "r = use_report({'pool': {'util': 50, 'queue': 30, 'capacity': 20, 'errors': 2}, 'cpu': {'util': 30, 'queue': 0, 'capacity': 4, 'errors': 0}})\nassert r == [('pool', 'errors'), ('pool', 'saturated')], r"
+        }
+      ]
+    },
+    {
+      "id": "code-rub-knee",
+      "language": "python",
+      "title": "Find the saturation point",
+      "difficulty": "advanced",
+      "prompt": "Load steps are a list of `(users, throughput)` pairs in increasing users. Write `knee(steps, min_gain=0.1)` that returns the `users` value of the first step where throughput grew by less than `min_gain` (relative, e.g. 10%) **compared with the previous step's throughput**, scaled by the relative increase in users. Formally, for step i: `gain = (tp[i]/tp[i-1] - 1) / (u[i]/u[i-1] - 1)`; return `u[i]` for the first `gain < min_gain`. Return `None` if throughput keeps scaling.\n\nExample: `knee([(100, 50), (200, 100), (300, 120), (400, 121)])` returns `400`.",
+      "starter": "def knee(steps, min_gain=0.1):\n    # Your code here\n    pass\n",
+      "solution": "def knee(steps, min_gain=0.1):\n    for (u0, t0), (u1, t1) in zip(steps, steps[1:]):\n        gain = (t1 / t0 - 1) / (u1 / u0 - 1)\n        if gain < min_gain:\n            return u1\n    return None\n",
+      "explanation": "Gain near 1 means throughput scales linearly with users; near 0 means extra users only queue. In the example, 200->300 users (+50%) gives +20% throughput (gain 0.4); 300->400 (+33%) gives +0.8% (gain 0.025), the knee.",
+      "hints": [
+        "Pair each step with the previous one using `zip(steps, steps[1:])`.",
+        "Compute relative throughput growth divided by relative user growth."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert knee([(100, 50), (200, 100), (300, 120), (400, 121)]) == 400"
+        },
+        {
+          "name": "Keeps scaling",
+          "marks": 2,
+          "code": "assert knee([(10, 5), (20, 10), (40, 19)]) is None and knee([(10, 5), (20, 5)]) == 20"
+        },
+        {
+          "name": "Custom threshold",
+          "marks": 2,
+          "code": "assert knee([(100, 50), (200, 100), (300, 120)], min_gain=0.5) == 300"
+        }
+      ]
+    }
+  ]
+}

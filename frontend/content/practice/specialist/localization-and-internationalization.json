@@ -1,0 +1,217 @@
+{
+  "lesson": "localization-and-internationalization",
+  "questions": [
+    {
+      "id": "pt-l10n-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "localization-and-internationalization",
+      "prompt": "What is localization (l10n)?",
+      "options": [
+        "Adapting a product for a specific locale: translated text, formats, images and local conventions",
+        "Making code able to support many locales",
+        "Moving servers to another country",
+        "Compressing images"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Internationalization prepares the product; localization adapts it to each target locale."
+    },
+    {
+      "id": "pt-l10n-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "localization-and-internationalization",
+      "prompt": "What is pseudo-localization used for?",
+      "options": [
+        "Replacing UI text with accented, lengthened versions to find hardcoded strings and layout problems before real translation",
+        "Machine-translating everything",
+        "Testing only right-to-left languages",
+        "Hiding text from users"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Text like \"[Ŝàvé çĥàñĝéš ~~~]\" reveals untranslated strings, truncation and encoding problems early and cheaply."
+    },
+    {
+      "id": "pt-l10n-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "localization-and-internationalization",
+      "prompt": "German translations are often noticeably longer than English, so buttons and labels must allow text to grow.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Text expansion of 30% or more is common for short strings. Fixed-width designs truncate or overflow."
+    },
+    {
+      "id": "pt-l10n-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "localization-and-internationalization",
+      "prompt": "What does this print?",
+      "code": "console.log(new Intl.NumberFormat('de-DE').format(1234567.89));",
+      "codeLanguage": "javascript",
+      "options": [
+        "1.234.567,89",
+        "1,234,567.89",
+        "1 234 567,89",
+        "1234567.89"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "German uses '.' for grouping and ',' as the decimal separator."
+    },
+    {
+      "id": "pt-l10n-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "localization-and-internationalization",
+      "prompt": "Which should a right-to-left (Arabic or Hebrew) test check? Select all that apply.",
+      "options": [
+        "The layout is mirrored (e.g. navigation and icons with direction)",
+        "Mixed content such as numbers and English product names displays correctly",
+        "`dir=\"rtl\"` is set on the page or relevant elements",
+        "Phone numbers are reversed digit by digit"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "RTL needs mirroring and correct bidirectional text handling. Numbers keep their left-to-right digit order."
+    },
+    {
+      "id": "pt-l10n-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "localization-and-internationalization",
+      "prompt": "Dates show as 03/04/2026 to all users. A UK user reads it as 3 April, a US user as 4 March. What should you recommend?",
+      "options": [
+        "Format dates per user locale (or an unambiguous format such as 3 Apr 2026 / ISO 8601 where appropriate)",
+        "Use US format everywhere",
+        "Remove dates",
+        "Show the Unix timestamp"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Locale-aware formatting (Intl.DateTimeFormat) or unambiguous formats prevent misreading."
+    },
+    {
+      "id": "pt-l10n-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "localization-and-internationalization",
+      "prompt": "A message is built as `count + ' file' + (count === 1 ? '' : 's') + ' deleted'`. Translators for Polish and Arabic complain. Why?",
+      "options": [
+        "Plural rules differ by language (Polish has several forms; Arabic has six categories); use ICU MessageFormat / Intl.PluralRules with per-locale forms",
+        "They dislike string concatenation style",
+        "Numbers cannot be translated",
+        "Only the word order is wrong"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "English's one/other rule does not generalise. CLDR plural categories (zero, one, two, few, many, other) handled by the i18n library solve this."
+    },
+    {
+      "id": "pt-l10n-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "localization-and-internationalization",
+      "prompt": "Search for \"cafe\" does not find \"Café\" entered by a French user, and sorting puts \"Zoë\" before \"Ångström\" in a Swedish list where Å should come after Z. What do these show?",
+      "options": [
+        "Missing Unicode normalisation/accent-insensitive search and locale-unaware collation; use proper normalisation and locale-aware sorting (e.g. Intl.Collator)",
+        "Database corruption",
+        "Font problems",
+        "Correct behaviour"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Text comparison needs normalisation (NFC/NFD, accent folding where wanted) and sorting needs the locale's collation rules."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-l10n-pseudo",
+      "language": "javascript",
+      "title": "Pseudo-localize a string",
+      "difficulty": "beginner",
+      "prompt": "Write `pseudo(text)` that returns `'[' + transformed + ' ' + '~'.repeat(n) + ']'`, where `transformed` replaces a→à, e→é, i→î, o→ö, u→ü (lower case only), and `n` is `Math.ceil(text.length * 0.3)`. Text inside `{curly}` placeholders must be left unchanged.\n\nExample: `pseudo('Save {count} files')` returns `'[Sàvé {count} fîlés ~~~~~~]'`.",
+      "starter": "function pseudo(text) {\n  // Your code here\n}\n",
+      "solution": "function pseudo(text) {\n  const map = { a: 'à', e: 'é', i: 'î', o: 'ö', u: 'ü' };\n  let out = '';\n  let inPlaceholder = false;\n  for (const ch of text) {\n    if (ch === '{') inPlaceholder = true;\n    if (ch === '}') inPlaceholder = false;\n    out += !inPlaceholder && map[ch] ? map[ch] : ch;\n  }\n  return '[' + out + ' ' + '~'.repeat(Math.ceil(text.length * 0.3)) + ']';\n}\n",
+      "explanation": "Accents prove the string went through the translation pipeline and the font supports them; padding simulates expansion; brackets show truncation. Placeholders must stay intact or the app breaks at runtime.",
+      "hints": [
+        "Walk the characters and track whether you are inside braces.",
+        "Map only lower-case vowels.",
+        "Padding length uses the original text length."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assertEqual(pseudo('Save {count} files'), '[Sàvé {count} fîlés ~~~~~~]');"
+        },
+        {
+          "name": "Upper case unchanged",
+          "marks": 1,
+          "code": "assertEqual(pseudo('OK'), '[OK ~]');"
+        },
+        {
+          "name": "Placeholder protected",
+          "marks": 2,
+          "code": "assertEqual(pseudo('{name} out'), '[{name} öüt ~~~]');"
+        }
+      ]
+    },
+    {
+      "id": "code-l10n-plural",
+      "language": "javascript",
+      "title": "Choose plural forms with Intl.PluralRules",
+      "difficulty": "intermediate",
+      "prompt": "Write `message(locale, count, forms)` where `forms` maps CLDR plural categories (`one`, `few`, `many`, `other`, ...) to templates containing `#`. Use `new Intl.PluralRules(locale).select(count)` to pick the category (falling back to `other`) and replace `#` with the count.\n\nExample: `message('pl', 5, {one: '# plik', few: '# pliki', many: '# plików', other: '# pliku'})` returns `'5 plików'`.",
+      "starter": "function message(locale, count, forms) {\n  // Your code here\n}\n",
+      "solution": "function message(locale, count, forms) {\n  const category = new Intl.PluralRules(locale).select(count);\n  const template = forms[category] ?? forms.other;\n  return template.replace(/#/g, String(count));\n}\n",
+      "explanation": "Intl.PluralRules knows each locale's CLDR rules: Polish uses 'few' for 2-4 (but not 12-14) and 'many' for 5+. Tests across 1, 2, 5, 12, 22 catch hand-written rules that only handle one/other.",
+      "hints": [
+        "Call `select(count)` on a PluralRules instance.",
+        "Fallback with `??`.",
+        "Replace every `#`."
+      ],
+      "tests": [
+        {
+          "name": "Polish forms",
+          "marks": 3,
+          "code": "const f = {one: '# plik', few: '# pliki', many: '# plików', other: '# pliku'};\nassertEqual([1, 2, 5, 12, 22].map((n) => message('pl', n, f)), ['1 plik', '2 pliki', '5 plików', '12 plików', '22 pliki']);"
+        },
+        {
+          "name": "English",
+          "marks": 1,
+          "code": "assertEqual(message('en', 1, {one: '# file', other: '# files'}), '1 file');\nassertEqual(message('en', 0, {one: '# file', other: '# files'}), '0 files');"
+        },
+        {
+          "name": "Fallback to other",
+          "marks": 1,
+          "code": "assertEqual(message('ja', 3, {other: '#件'}), '3件');"
+        }
+      ]
+    }
+  ]
+}

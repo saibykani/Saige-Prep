@@ -1,0 +1,182 @@
+{
+  "lesson": "newman-command-line-runs",
+  "questions": [
+    {
+      "id": "pt-newm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "newman-command-line-runs",
+      "prompt": "What is Newman?",
+      "options": [
+        "A command-line runner for Postman collections",
+        "A Postman cloud workspace",
+        "A JSON Schema validator",
+        "A load testing tool"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Newman runs exported (or API-fetched) collections from a terminal, which makes them usable in CI."
+    },
+    {
+      "id": "pt-newm-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "newman-command-line-runs",
+      "prompt": "Which option passes an environment file to Newman?",
+      "options": [
+        "-e env.json",
+        "--env-var env.json",
+        "-g env.json",
+        "--folder env.json"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`-e`/`--environment` loads an environment file. `--env-var` sets single variables, `-g` loads globals, `--folder` selects a folder."
+    },
+    {
+      "id": "pt-newm-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "newman-command-line-runs",
+      "prompt": "`newman run` exits with a non-zero code when an assertion fails, which lets CI fail the build.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A non-zero exit code is how the pipeline knows the run failed. That is why Newman suits CI."
+    },
+    {
+      "id": "pt-newm-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "newman-command-line-runs",
+      "prompt": "Which command sets a secret from a CI variable without writing it into the environment file?",
+      "options": [
+        "newman run c.json -e qa.json --env-var \"apiKey=$API_KEY\"",
+        "newman run c.json -e qa.json --apiKey $API_KEY",
+        "newman run c.json --secret apiKey",
+        "export apiKey and Newman reads it automatically"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`--env-var name=value` overrides an environment variable for the run. Newman does not read shell variables automatically, and there is no `--apiKey` option."
+    },
+    {
+      "id": "pt-newm-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "newman-command-line-runs",
+      "prompt": "You want to run the same collection once per row of a CSV file. Which option do you use?",
+      "options": [
+        "-d data.csv (iteration data)",
+        "-r csv",
+        "--folder data.csv",
+        "-n data.csv"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`-d`/`--iteration-data` runs one iteration per row with columns as variables. `-r` selects reporters and `-n` sets the number of iterations."
+    },
+    {
+      "id": "pt-newm-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "newman-command-line-runs",
+      "prompt": "Which reporters are commonly used in CI with Newman? Select all that apply.",
+      "options": [
+        "cli for the console log",
+        "junit for test results the CI server can display",
+        "htmlextra (a separate npm package) for a readable HTML report",
+        "jmeter"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "cli and junit are built in; htmlextra is a widely used external reporter installed separately. There is no jmeter reporter."
+    },
+    {
+      "id": "pt-newm-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "newman-command-line-runs",
+      "prompt": "Your CI job runs `newman run ... || true` so the HTML report is always published. Months later you discover failing tests never failed the build. What is the better approach?",
+      "options": [
+        "Remove `|| true`; publish the report in a step configured to run even on failure (e.g. `if: always()`)",
+        "Keep `|| true` and read the report manually",
+        "Use `--bail` instead",
+        "Use fewer assertions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`|| true` swallows the exit code. CI systems can run publishing steps after a failure, so you keep both the report and a red build."
+    },
+    {
+      "id": "pt-newm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "newman-command-line-runs",
+      "prompt": "A collection passes locally but every request fails in CI with ECONNREFUSED to localhost:8080. What is the most likely cause?",
+      "options": [
+        "The CI run uses an environment whose baseUrl points to localhost, where no API is running in the CI container",
+        "Newman cannot run in CI",
+        "The JUnit reporter is missing",
+        "The tests are too strict"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "ECONNREFUSED means nothing is listening at that address. The environment used in CI must point to the deployed test API (or the job must start the API first)."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-newm-junit",
+      "language": "python",
+      "title": "Summarise a JUnit report",
+      "difficulty": "intermediate",
+      "prompt": "Newman's junit reporter writes XML like `<testsuites><testsuite name=\"Login\"><testcase name=\"status is 200\"/><testcase name=\"has token\"><failure message=\"expected undefined\"/></testcase></testsuite></testsuites>`. Write `summarise(xml_text)` returning `{'total': n, 'failed': n, 'failures': ['<suite> / <case>', ...]}` in document order. A testcase with a `<failure>` or `<error>` child counts as failed.",
+      "starter": "import xml.etree.ElementTree as ET\n\ndef summarise(xml_text):\n    # Your code here\n    pass\n",
+      "solution": "import xml.etree.ElementTree as ET\n\ndef summarise(xml_text):\n    root = ET.fromstring(xml_text)\n    total, failures = 0, []\n    for suite in root.iter('testsuite'):\n        for case in suite.findall('testcase'):\n            total += 1\n            if case.find('failure') is not None or case.find('error') is not None:\n                failures.append(f\"{suite.get('name')} / {case.get('name')}\")\n    return {'total': total, 'failed': len(failures), 'failures': failures}\n",
+      "explanation": "JUnit XML is the lingua franca of CI test results. Parsing it lets you post a short summary to chat or fail a job on specific suites. Note `is not None`: an Element with no children is falsy, so `if case.find('failure')` would be wrong.",
+      "hints": [
+        "Iterate `root.iter('testsuite')`, then `suite.findall('testcase')`.",
+        "Compare `find(...)` with `is not None`, not truthiness."
+      ],
+      "tests": [
+        {
+          "name": "Counts and lists failures",
+          "marks": 3,
+          "code": "x = '<testsuites><testsuite name=\"Login\"><testcase name=\"status is 200\"/><testcase name=\"has token\"><failure message=\"m\"/></testcase></testsuite></testsuites>'\nassert summarise(x) == {'total': 2, 'failed': 1, 'failures': ['Login / has token']}, summarise(x)"
+        },
+        {
+          "name": "Errors count as failures",
+          "marks": 2,
+          "code": "x = '<testsuites><testsuite name=\"A\"><testcase name=\"a1\"><error/></testcase></testsuite><testsuite name=\"B\"><testcase name=\"b1\"/></testsuite></testsuites>'\nassert summarise(x) == {'total': 2, 'failed': 1, 'failures': ['A / a1']}"
+        },
+        {
+          "name": "All passing",
+          "marks": 1,
+          "code": "assert summarise('<testsuites><testsuite name=\"A\"><testcase name=\"x\"/></testsuite></testsuites>') == {'total': 1, 'failed': 0, 'failures': []}"
+        }
+      ]
+    }
+  ]
+}

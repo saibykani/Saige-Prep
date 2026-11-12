@@ -1,0 +1,214 @@
+{
+  "lesson": "api-test-data-management",
+  "questions": [
+    {
+      "id": "pt-apitdm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-test-data-management",
+      "prompt": "What is the most reliable way for an API test to get the data it needs?",
+      "options": [
+        "Create its own data through the API or a fixture at the start of the test",
+        "Use whatever records happen to be in the shared database",
+        "Copy production data",
+        "Hardcode ids from yesterday's run"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Test-owned data has known state and does not disappear when someone else edits the shared environment. Shared or hardcoded data makes tests fail for reasons unrelated to the code."
+    },
+    {
+      "id": "pt-apitdm-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-test-data-management",
+      "prompt": "Why add a unique run id (for example a UUID) to emails and names created by tests?",
+      "options": [
+        "So parallel runs and reruns do not collide on unique constraints or find each other's data",
+        "Because APIs require UUIDs",
+        "To make the data look realistic",
+        "To speed up the database"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unique values prevent duplicate-key failures and let each test query exactly its own records."
+    },
+    {
+      "id": "pt-apitdm-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-test-data-management",
+      "prompt": "Copying real customer records into the test environment is fine as long as the environment is internal.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Production personal data in test environments is a privacy and compliance risk (for example under GDPR). Use synthetic data or properly anonymised data instead."
+    },
+    {
+      "id": "pt-apitdm-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-test-data-management",
+      "prompt": "A test deletes its customer in a cleanup step at the end of the test body. When an assertion fails midway, the customer is left behind. What is the fix?",
+      "options": [
+        "Put cleanup in a fixture teardown or finally block that runs even when the test fails",
+        "Remove the assertion",
+        "Delete all customers before each run",
+        "Run tests serially"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Code after a failed assertion never runs. Teardown (pytest fixture `yield`, JUnit `@AfterEach`, try/finally) runs regardless. Deleting everything breaks parallel runs."
+    },
+    {
+      "id": "pt-apitdm-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-test-data-management",
+      "prompt": "Which are valid strategies for providing test data? Select all that apply.",
+      "options": [
+        "Create via the public API in a setup step",
+        "Seed via SQL scripts into an isolated test database",
+        "Use builders/factories with sensible defaults",
+        "Rely on manual records a tester created last month"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "API setup, scripted seeding and factories are repeatable. Manually created records drift and are deleted or edited without notice."
+    },
+    {
+      "id": "pt-apitdm-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-test-data-management",
+      "prompt": "A factory `make_order(**overrides)` returns a valid order with defaults. What is its main benefit in negative tests?",
+      "options": [
+        "Each test overrides only the field it is testing, so the reason for failure is obvious",
+        "It removes the need for assertions",
+        "It generates production-like volumes",
+        "It makes tests run in parallel"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With a valid default object, `make_order(quantity=0)` differs from valid in exactly one field, so a 400 can only be about that field."
+    },
+    {
+      "id": "pt-apitdm-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-test-data-management",
+      "prompt": "Tests share one 'standard' customer. Test X changes its address; test Y, running in parallel, asserts on the old address and fails intermittently. What is the best long-term fix?",
+      "options": [
+        "Give each test its own customer created in setup",
+        "Reorder the tests so X runs last",
+        "Add retries to Y",
+        "Reset the address in X's teardown only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Ordering and retries hide the coupling. Restoring state still races in parallel. Per-test data removes the shared mutable state entirely."
+    },
+    {
+      "id": "pt-apitdm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-test-data-management",
+      "prompt": "Your nightly suite leaves 50,000 test orders behind each week and the test database slows down. Cleanup in teardown is already in place but sometimes the runner is killed. What should you add?",
+      "options": [
+        "A scheduled sweeper that deletes records tagged with a test prefix older than a set age",
+        "Bigger database hardware",
+        "Disable teardown to save time",
+        "Stop creating orders in tests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Teardown cannot run if the process is killed. Tagging test data (a prefix or a marker column) lets a safe sweeper remove leftovers by age without touching other data."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apitdm-factory",
+      "language": "python",
+      "title": "Test-data factory with overrides",
+      "difficulty": "beginner",
+      "prompt": "Write `make_customer(run_id, **overrides)` returning a dict with defaults `{'name': 'Test User', 'email': f'user-{run_id}@example.test', 'tier': 'basic'}`, updated with any overrides.\n\nExample: `make_customer('r1', tier='gold')` returns `{'name': 'Test User', 'email': 'user-r1@example.test', 'tier': 'gold'}`.",
+      "starter": "def make_customer(run_id, **overrides):\n    # Your code here\n    pass\n",
+      "solution": "def make_customer(run_id, **overrides):\n    data = {'name': 'Test User', 'email': f'user-{run_id}@example.test', 'tier': 'basic'}\n    data.update(overrides)\n    return data\n",
+      "explanation": "Defaults keep each test short; overrides let a test change only what it cares about; the run id keeps emails unique; `example.test` is a reserved domain, so no real person gets mail.",
+      "hints": [
+        "Build the default dict first.",
+        "`dict.update(overrides)` applies the changes."
+      ],
+      "tests": [
+        {
+          "name": "Defaults use the run id",
+          "marks": 2,
+          "code": "assert make_customer('r1') == {'name': 'Test User', 'email': 'user-r1@example.test', 'tier': 'basic'}"
+        },
+        {
+          "name": "Overrides replace defaults",
+          "marks": 2,
+          "code": "c = make_customer('r2', tier='gold', name='Ana')\nassert c == {'name': 'Ana', 'email': 'user-r2@example.test', 'tier': 'gold'}, c"
+        },
+        {
+          "name": "Each call returns a new dict",
+          "marks": 1,
+          "code": "a = make_customer('x'); b = make_customer('x'); a['tier'] = 'z'\nassert b['tier'] == 'basic'"
+        }
+      ]
+    },
+    {
+      "id": "code-apitdm-mask",
+      "language": "python",
+      "title": "Mask personal data before using it in test",
+      "difficulty": "intermediate",
+      "prompt": "Write `mask(record)` that returns a copy of a dict where: `email` becomes `user<id>@example.test` using the record's `id`; `phone` keeps only its last 2 digits with every earlier digit replaced by `*` (non-digits removed); any other field is unchanged. The original dict must not be modified.\n\nExample: `mask({'id': 7, 'email': 'ravi@corp.com', 'phone': '+91 98765-43210', 'tier': 'gold'})` returns `{'id': 7, 'email': 'user7@example.test', 'phone': '**********10', 'tier': 'gold'}`.",
+      "starter": "def mask(record):\n    # Your code here\n    pass\n",
+      "solution": "def mask(record):\n    out = dict(record)\n    if 'email' in out:\n        out['email'] = f\"user{record['id']}@example.test\"\n    if 'phone' in out:\n        digits = ''.join(ch for ch in str(out['phone']) if ch.isdigit())\n        out['phone'] = '*' * max(len(digits) - 2, 0) + digits[-2:]\n    return out\n",
+      "explanation": "Deterministic masking (based on id) keeps relationships consistent across tables while removing the personal data. Copying first protects the caller's original.",
+      "hints": [
+        "Start with `out = dict(record)`.",
+        "Extract digits with a comprehension using `ch.isdigit()`.",
+        "Stars count is `len(digits) - 2`."
+      ],
+      "tests": [
+        {
+          "name": "Masks email and phone",
+          "marks": 3,
+          "code": "r = mask({'id': 7, 'email': 'ravi@corp.com', 'phone': '+91 98765-43210', 'tier': 'gold'})\nassert r == {'id': 7, 'email': 'user7@example.test', 'phone': '**********10', 'tier': 'gold'}, r"
+        },
+        {
+          "name": "Does not modify the input",
+          "marks": 2,
+          "code": "src = {'id': 1, 'email': 'a@b.com'}\nmask(src)\nassert src['email'] == 'a@b.com'\nassert mask(src)['email'] == 'user1@example.test'"
+        },
+        {
+          "name": "Fields absent stay absent",
+          "marks": 1,
+          "code": "assert mask({'id': 3, 'tier': 'x'}) == {'id': 3, 'tier': 'x'}"
+        }
+      ]
+    }
+  ]
+}

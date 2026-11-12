@@ -1,0 +1,220 @@
+{
+  "lesson": "json-and-xml-for-testers",
+  "questions": [
+    {
+      "id": "pt-jsx-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "Which JSON value types exist?",
+      "options": [
+        "string, number, boolean, null, object, array",
+        "string, int, float, date, list",
+        "text, number, true, nil",
+        "string, number, object only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JSON has exactly six value types. There is no separate integer or date type; dates are usually strings in an agreed format such as ISO 8601."
+    },
+    {
+      "id": "pt-jsx-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "In XML, what is the difference between `<price currency=\"EUR\">9.99</price>`'s `currency` and `9.99`?",
+      "options": [
+        "currency is an attribute; 9.99 is the element's text content",
+        "Both are attributes",
+        "Both are child elements",
+        "currency is a namespace"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Attributes live inside the start tag; text content sits between the tags. XPath reaches them differently (`@currency` vs `text()`)."
+    },
+    {
+      "id": "pt-jsx-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "JSON allows a trailing comma after the last item in an array, like [1, 2, 3,].",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Trailing commas are invalid in JSON (RFC 8259), even though JavaScript literals accept them. Strict parsers reject them."
+    },
+    {
+      "id": "pt-jsx-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "What does this Python print?",
+      "code": "import json\nd = json.loads('{\"a\": 0.1, \"b\": 0.2}')\nprint(d['a'] + d['b'] == 0.3)",
+      "codeLanguage": "python",
+      "options": [
+        "True",
+        "False",
+        "An error",
+        "None"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "JSON numbers are parsed to float when they have a decimal part, and 0.1 + 0.2 in binary floating point is 0.30000000000000004, so the equality is False. Compare money as strings/decimals or with a tolerance."
+    },
+    {
+      "id": "pt-jsx-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "Given this XML, which XPath returns the titles of books that cost more than 10?",
+      "code": "<library>\n  <book><title>A</title><price>8</price></book>\n  <book><title>B</title><price>12</price></book>\n</library>",
+      "codeLanguage": "xml",
+      "options": [
+        "//book[price > 10]/title",
+        "//book/title[price > 10]",
+        "/book[@price > 10]",
+        "//title[> 10]"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The predicate goes on `book`, where `price` is a child; then step to `title`. Option 2 looks for price under title; option 3 treats price as an attribute of a root book."
+    },
+    {
+      "id": "pt-jsx-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "A response field `discount` may be absent, null, or 0. Which statements are true? Select all that apply.",
+      "options": [
+        "These can mean different things, so the API spec should say which is used when",
+        "A test using `body.get('discount') or 0` cannot tell them apart",
+        "JSON forbids null for numeric fields",
+        "Absent and null are always equivalent"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Absent (not sent), null (explicitly no value) and 0 (no discount) can differ in meaning. `or 0` collapses all three, hiding defects. JSON allows null for any field."
+    },
+    {
+      "id": "pt-jsx-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "This test sometimes fails although the API is correct. Why?",
+      "code": "expected = '{\"id\": 1, \"name\": \"Ana\"}'\nassert resp.text == expected",
+      "codeLanguage": "python",
+      "options": [
+        "It compares serialized JSON strings, so a different but valid key order or spacing fails; parse and compare as objects",
+        "json.dumps cannot handle dicts",
+        "The status should be 201",
+        "The API must return keys alphabetically"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JSON object member order is not significant. Compare parsed structures (dicts) rather than raw text."
+    },
+    {
+      "id": "pt-jsx-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "json-and-xml-for-testers",
+      "prompt": "An order id 9007199254740993 arrives in JSON and a JavaScript front end shows it as 9007199254740992. What is happening and what should you recommend?",
+      "options": [
+        "The value exceeds JavaScript's safe integer range (2^53 - 1) and loses precision; send large ids as strings",
+        "The API has an off-by-one bug",
+        "The browser cache is stale",
+        "JSON cannot contain numbers this large"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JSON numbers have no size limit, but JS parses them as doubles. Ids above Number.MAX_SAFE_INTEGER get rounded. Many APIs send such ids as strings to avoid this."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jsx-getpath",
+      "language": "python",
+      "title": "Read a value by path",
+      "difficulty": "beginner",
+      "prompt": "Write `get_path(data, path)` that reads a value from parsed JSON using a dotted path where numeric parts are list indexes. Return `None` if any part is missing.\n\nExample: `get_path({'items': [{'price': 5}]}, 'items.0.price')` returns `5`.",
+      "starter": "def get_path(data, path):\n    # Your code here\n    pass\n",
+      "solution": "def get_path(data, path):\n    cur = data\n    for part in path.split('.'):\n        if isinstance(cur, list) and part.isdigit() and int(part) < len(cur):\n            cur = cur[int(part)]\n        elif isinstance(cur, dict) and part in cur:\n            cur = cur[part]\n        else:\n            return None\n    return cur\n",
+      "explanation": "Walking one segment at a time and checking the container type at each step is how JSONPath-like tools work. Returning None on any miss makes a test's failure message clear instead of a KeyError deep in a helper.",
+      "hints": [
+        "Split the path on '.'.",
+        "If the current value is a list, convert the part to int.",
+        "Return None as soon as a step fails."
+      ],
+      "tests": [
+        {
+          "name": "Nested lookup",
+          "marks": 2,
+          "code": "assert get_path({'items': [{'price': 5}]}, 'items.0.price') == 5"
+        },
+        {
+          "name": "Missing parts return None",
+          "marks": 2,
+          "code": "assert get_path({'a': [1]}, 'a.0') == 1\nassert get_path({'a': [1]}, 'a.3') is None and get_path({'a': {}}, 'a.b.c') is None"
+        },
+        {
+          "name": "Falsy values are returned as-is",
+          "marks": 1,
+          "code": "assert get_path({'a': {'n': 0, 'z': None}}, 'a.n') == 0"
+        }
+      ]
+    },
+    {
+      "id": "code-jsx-xmlsum",
+      "language": "python",
+      "title": "Total an XML order",
+      "difficulty": "intermediate",
+      "prompt": "Using `xml.etree.ElementTree`, write `order_total(xml_text)` that returns the sum of `qty * price` over every `<line>` element, rounded to 2 decimals. `qty` is an attribute; `price` is a child element's text.\n\nExample input:\n```xml\n<order><line qty=\"2\"><price>9.99</price></line><line qty=\"1\"><price>5</price></line></order>\n```\nreturns `24.98`.",
+      "starter": "import xml.etree.ElementTree as ET\n\ndef order_total(xml_text):\n    # Your code here\n    pass\n",
+      "solution": "import xml.etree.ElementTree as ET\n\ndef order_total(xml_text):\n    root = ET.fromstring(xml_text)\n    total = 0.0\n    for line in root.iter('line'):\n        total += int(line.get('qty')) * float(line.find('price').text)\n    return round(total, 2)\n",
+      "explanation": "`iter('line')` finds lines at any depth; attributes are read with `.get()`, child text with `.find(...).text`. Everything in XML is text, so convert explicitly.",
+      "hints": [
+        "Parse with `ET.fromstring`.",
+        "`line.get('qty')` reads the attribute.",
+        "`line.find('price').text` reads the child's text; convert to float."
+      ],
+      "tests": [
+        {
+          "name": "Example order",
+          "marks": 3,
+          "code": "assert order_total('<order><line qty=\"2\"><price>9.99</price></line><line qty=\"1\"><price>5</price></line></order>') == 24.98"
+        },
+        {
+          "name": "Nested lines are found",
+          "marks": 2,
+          "code": "assert order_total('<o><group><line qty=\"3\"><price>1.5</price></line></group></o>') == 4.5"
+        },
+        {
+          "name": "Empty order",
+          "marks": 1,
+          "code": "assert order_total('<order/>') == 0"
+        }
+      ]
+    }
+  ]
+}

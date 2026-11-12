@@ -1,0 +1,185 @@
+{
+  "lesson": "api-security-testing",
+  "questions": [
+    {
+      "id": "pt-apisec-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-security-testing",
+      "prompt": "Which OWASP API Security Top 10 (2023) risk is about one user reading another user's object by changing an id?",
+      "options": [
+        "API1 Broken Object Level Authorization (BOLA)",
+        "API4 Unrestricted Resource Consumption",
+        "API8 Security Misconfiguration",
+        "API10 Unsafe Consumption of APIs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "BOLA is the number one API risk: the API must check that the caller is allowed to access that specific object. Resource consumption is about limits, misconfiguration about settings, and unsafe consumption about trusting third-party APIs."
+    },
+    {
+      "id": "pt-apisec-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-security-testing",
+      "prompt": "Before running any security test against an API, what must you have?",
+      "options": [
+        "Written authorization and a defined scope for a system you are allowed to test",
+        "A fast network",
+        "Production admin credentials",
+        "A list of known vulnerabilities"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Security testing without permission can be illegal and harmful. Test your own system or a lab, within an agreed scope. Admin credentials and vulnerability lists are not prerequisites."
+    },
+    {
+      "id": "pt-apisec-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-security-testing",
+      "prompt": "An API that returns 401 for a missing token and 403 for a valid token without permission is distinguishing authentication from authorization correctly.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "401 means the caller is not authenticated; 403 means the server knows who they are but they are not allowed. (Some APIs return 404 to hide existence, which is also acceptable.)"
+    },
+    {
+      "id": "pt-apisec-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-security-testing",
+      "prompt": "Which response details can leak information an attacker could use? Select all that apply.",
+      "options": [
+        "A stack trace with framework versions in a 500 body",
+        "An error saying \"user exists but password is wrong\"",
+        "A `Server: nginx/1.18.0` header with an exact version",
+        "A generic \"Invalid credentials\" message"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Stack traces, account-enumeration messages and exact version banners all help an attacker. A generic credential error is the recommended safe response."
+    },
+    {
+      "id": "pt-apisec-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-security-testing",
+      "prompt": "Your own test account calls GET /api/users?limit=1000000 and the API returns all 2 million users in one response after 50 s. Which risk is this, and what fix should you suggest?",
+      "options": [
+        "Unrestricted resource consumption: enforce a maximum page size and rate limits",
+        "BOLA: hide user ids",
+        "Injection: escape the limit parameter",
+        "No risk: the caller is authenticated"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unbounded limits let one caller exhaust memory, CPU and bandwidth (and often expose more data than needed). Cap `limit`, paginate and rate-limit."
+    },
+    {
+      "id": "pt-apisec-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-security-testing",
+      "prompt": "PATCH /users/me accepts `{\"isVerified\": true}` from a normal user and the account becomes verified. What is this called?",
+      "options": [
+        "Mass assignment (broken object property level authorization)",
+        "Cross-site scripting",
+        "Rate limiting",
+        "Server-side request forgery"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Binding every client-supplied property onto the model lets users set fields they should never control. The fix is an allow-list of writable fields per role; the test sends extra privileged fields and checks they are ignored or rejected."
+    },
+    {
+      "id": "pt-apisec-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-security-testing",
+      "prompt": "This authorization test in your lab passes, but the BOLA bug is still in production. What is wrong with the test?",
+      "code": "token_a = login('alice')\ninv = create_invoice(token_a)\nr = get(f'/invoices/{inv.id}', token=token_a)\nassert r.status_code == 200",
+      "codeLanguage": "python",
+      "options": [
+        "It only checks that user A can read A's own invoice; it never uses B's token against A's invoice",
+        "It should use POST instead of GET",
+        "The status should be 201",
+        "It needs a longer timeout"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A BOLA test needs two identities: create or pick an object owned by A, then request it with B's credentials and expect 403/404 and no data. Testing only the owner proves the happy path."
+    },
+    {
+      "id": "pt-apisec-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-security-testing",
+      "prompt": "A JWT-protected endpoint in your test environment still accepts a token after you change the payload's `role` from `user` to `admin` without re-signing it. What does this show?",
+      "options": [
+        "The server is not verifying the token signature, a critical authentication flaw",
+        "JWT payloads are encrypted, so this is expected",
+        "The token simply has not expired yet",
+        "The client cached the response"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A signed JWT's payload is readable but any change must invalidate the signature. Accepting a modified token means the signature is not verified (or `alg: none` is allowed). Expiry and caching do not explain an altered role being honoured."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apisec-leaks",
+      "language": "python",
+      "title": "Scan a response for sensitive fields",
+      "difficulty": "intermediate",
+      "prompt": "Write `find_leaks(obj, forbidden)` that walks a parsed JSON value (nested dicts and lists) and returns a sorted list of dotted paths whose key is in `forbidden` (case-insensitive). List indexes appear as numbers in the path.\n\nExample: `find_leaks({'user': {'name': 'A', 'PasswordHash': 'x'}, 'items': [{'ssn': 1}]}, {'passwordhash', 'ssn'})` returns `['items.0.ssn', 'user.PasswordHash']`.",
+      "starter": "def find_leaks(obj, forbidden):\n    # Your code here\n    pass\n",
+      "solution": "def find_leaks(obj, forbidden):\n    banned = {f.lower() for f in forbidden}\n    found = []\n    def walk(value, path):\n        if isinstance(value, dict):\n            for k, v in value.items():\n                p = f'{path}.{k}' if path else str(k)\n                if str(k).lower() in banned:\n                    found.append(p)\n                walk(v, p)\n        elif isinstance(value, list):\n            for i, v in enumerate(value):\n                walk(v, f'{path}.{i}' if path else str(i))\n    walk(obj, '')\n    return sorted(found)\n",
+      "explanation": "A recursive walk handles any nesting depth. Lower-casing both sides catches `PasswordHash` and `passwordHash`. This is a practical excessive-data-exposure check you can run on every response in your own test suite.",
+      "hints": [
+        "Write an inner recursive function `walk(value, path)`.",
+        "For dicts, build the child path and check the key; for lists, use the index.",
+        "Lower-case the forbidden set once at the start."
+      ],
+      "tests": [
+        {
+          "name": "Finds nested keys",
+          "marks": 3,
+          "code": "r = find_leaks({'user': {'name': 'A', 'PasswordHash': 'x'}, 'items': [{'ssn': 1}]}, {'passwordhash', 'ssn'})\nassert r == ['items.0.ssn', 'user.PasswordHash'], r"
+        },
+        {
+          "name": "Clean response gives empty list",
+          "marks": 1,
+          "code": "assert find_leaks({'id': 1, 'tags': ['a']}, {'token'}) == []"
+        },
+        {
+          "name": "Top-level and deep keys",
+          "marks": 2,
+          "code": "r = find_leaks({'token': 't', 'a': {'b': [{'c': {'Token': 1}}]}}, {'TOKEN'})\nassert r == ['a.b.0.c.Token', 'token'], r"
+        }
+      ]
+    }
+  ]
+}

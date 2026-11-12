@@ -1,0 +1,225 @@
+{
+  "lesson": "database-testing",
+  "questions": [
+    {
+      "id": "pt-dbt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-testing",
+      "prompt": "What does ACID's 'A' (atomicity) guarantee?",
+      "options": [
+        "A transaction's changes either all happen or none do",
+        "Data is always encrypted",
+        "Queries run in alphabetical order",
+        "Only one user can connect"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Atomicity means no partial transactions: if any step fails, everything rolls back."
+    },
+    {
+      "id": "pt-dbt-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-testing",
+      "prompt": "Which constraint ensures no two customers share the same email?",
+      "options": [
+        "UNIQUE on email",
+        "NOT NULL on email",
+        "CHECK on email",
+        "FOREIGN KEY on email"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "UNIQUE rejects duplicates. NOT NULL only forbids missing values; CHECK tests a condition per row; FOREIGN KEY references another table."
+    },
+    {
+      "id": "pt-dbt-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-testing",
+      "prompt": "A database test should run against a disposable or dedicated test database, never against shared production data.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tests create, change and delete data. Isolated databases keep them repeatable and safe."
+    },
+    {
+      "id": "pt-dbt-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-testing",
+      "prompt": "Two users try to buy the last ticket at the same time and both succeed. Which kind of test would have caught this?",
+      "options": [
+        "A concurrency test that runs both transactions in parallel and checks the stock never goes below zero",
+        "A unit test of the price calculation",
+        "A UI layout test",
+        "A backup test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Race conditions only show up when operations overlap. Constraints (CHECK stock >= 0), locking or atomic updates prevent them, and concurrent tests prove it."
+    },
+    {
+      "id": "pt-dbt-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-testing",
+      "prompt": "Which should a database migration test check? Select all that apply.",
+      "options": [
+        "The migration runs on a copy of realistic, production-sized data within the maintenance window",
+        "Existing data is preserved and transformed correctly",
+        "The rollback (down) script works",
+        "The migration file name is alphabetical"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Migrations fail on real data volume, edge-case values and rollback. File naming conventions matter for ordering, but are not what a test validates."
+    },
+    {
+      "id": "pt-dbt-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-testing",
+      "prompt": "What does this return when `discount` is NULL for one of three rows (values 10, NULL, 20)?",
+      "code": "SELECT AVG(discount) FROM orders;",
+      "codeLanguage": "sql",
+      "options": [
+        "15",
+        "10",
+        "NULL",
+        "30"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "AVG ignores NULLs, so it averages 10 and 20 = 15. COUNT(discount) would be 2, while COUNT(*) is 3."
+    },
+    {
+      "id": "pt-dbt-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "database-testing",
+      "prompt": "This transfer sometimes leaves money missing after a crash between the two statements. What is the fix?",
+      "code": "UPDATE accounts SET balance = balance - 100 WHERE id = 1;\n-- process crashes here\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;",
+      "codeLanguage": "sql",
+      "options": [
+        "Wrap both updates in one transaction (BEGIN ... COMMIT) so a failure rolls both back",
+        "Swap the order of the updates",
+        "Add an index on id",
+        "Run the updates in two separate connections"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without a transaction, each statement commits separately (autocommit), so a crash between them loses the money. A single transaction makes the transfer atomic."
+    },
+    {
+      "id": "pt-dbt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "database-testing",
+      "prompt": "A stored procedure produces correct totals in tests with 100 rows but times out in production with 20 million. What testing gap does this show, and how do you close it?",
+      "options": [
+        "No volume testing: run database tests against production-like data volumes and check execution plans",
+        "Missing unit tests for the UI",
+        "Production has a different SQL language",
+        "Stored procedures cannot be tested"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Functional correctness at small scale says nothing about performance at large scale. Representative volume and EXPLAIN plans close the gap."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-dbt-dupes",
+      "language": "sql",
+      "title": "Find duplicate emails",
+      "difficulty": "beginner",
+      "prompt": "Data-quality check: list every email that appears more than once in `customers` (compare case-insensitively, output in lower case) with its count as `n`, ordered by email.\n\nExpected: `ana@x.test | 2`, `ravi@x.test | 3`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT LOWER(email) AS email, COUNT(*) AS n FROM customers GROUP BY LOWER(email) HAVING COUNT(*) > 1 ORDER BY email;",
+      "explanation": "Normalising with LOWER before grouping finds duplicates that a case-sensitive UNIQUE constraint would allow. HAVING filters on the aggregated count.",
+      "hints": [
+        "GROUP BY LOWER(email).",
+        "Use HAVING COUNT(*) > 1."
+      ],
+      "setup": "CREATE TABLE customers (id INTEGER PRIMARY KEY, email TEXT);\nINSERT INTO customers (email) VALUES ('ana@x.test'),('ANA@x.test'),('bo@x.test'),('ravi@x.test'),('Ravi@x.test'),('ravi@X.test');",
+      "expected": {
+        "columns": [
+          "email",
+          "n"
+        ],
+        "rows": [
+          [
+            "ana@x.test",
+            2
+          ],
+          [
+            "ravi@x.test",
+            3
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 3
+    },
+    {
+      "id": "code-dbt-balance",
+      "language": "sql",
+      "title": "Reconcile balances with the ledger",
+      "difficulty": "intermediate",
+      "prompt": "Each account's `balance` should equal the sum of its `ledger.amount` rows. List `account_id`, `balance` and `ledger_total` for accounts where they differ (treat no ledger rows as 0), ordered by `account_id`.\n\nExpected: `2 | 50 | 40`, `3 | 10 | 0`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT a.account_id, a.balance, COALESCE(SUM(l.amount), 0) AS ledger_total FROM accounts a LEFT JOIN ledger l ON l.account_id = a.account_id GROUP BY a.account_id, a.balance HAVING a.balance <> COALESCE(SUM(l.amount), 0) ORDER BY a.account_id;",
+      "explanation": "The LEFT JOIN keeps accounts with no ledger rows; COALESCE turns their NULL sum into 0 so the comparison works. Reconciliation queries like this catch lost or double-applied transactions.",
+      "hints": [
+        "LEFT JOIN ledger onto accounts.",
+        "SUM is NULL with no rows: wrap it in COALESCE.",
+        "Compare in HAVING after grouping."
+      ],
+      "setup": "CREATE TABLE accounts (account_id INTEGER PRIMARY KEY, balance INTEGER);\nCREATE TABLE ledger (id INTEGER PRIMARY KEY, account_id INTEGER, amount INTEGER);\nINSERT INTO accounts VALUES (1, 100), (2, 50), (3, 10);\nINSERT INTO ledger (account_id, amount) VALUES (1, 150), (1, -50), (2, 40);",
+      "expected": {
+        "columns": [
+          "account_id",
+          "balance",
+          "ledger_total"
+        ],
+        "rows": [
+          [
+            2,
+            50,
+            40
+          ],
+          [
+            3,
+            10,
+            0
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 5
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "lesson": "llm-evaluation",
+  "questions": [
+    {
+      "id": "pt-llme-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation",
+      "prompt": "Why can't most LLM outputs be tested with an exact string match?",
+      "options": [
+        "The same correct answer can be phrased in many ways, and outputs can vary between runs",
+        "LLMs never produce text",
+        "String comparison is too slow",
+        "Exact match is illegal"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Generation is often non-deterministic and many phrasings are correct, so evaluation uses criteria, rubrics and properties instead."
+    },
+    {
+      "id": "pt-llme-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation",
+      "prompt": "What is an evaluation set (eval set)?",
+      "options": [
+        "A fixed collection of inputs with expected properties or reference answers, used to score a model or prompt repeatedly",
+        "The model's training data",
+        "A list of API keys",
+        "A UI test suite"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A stable eval set lets you compare versions on the same cases over time."
+    },
+    {
+      "id": "pt-llme-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "llm-evaluation",
+      "prompt": "When using a model as a grader (LLM-as-judge), you should check its grades against a sample of human judgements.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Model graders have biases (length, position, self-preference). Calibrating against human labels shows whether you can trust them."
+    },
+    {
+      "id": "pt-llme-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation",
+      "prompt": "Which can be graded reliably with plain code? Select all that apply.",
+      "options": [
+        "The output is valid JSON with the required keys",
+        "The reply is under 120 words",
+        "The answer contains the correct order number",
+        "The tone is empathetic"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Structure, length and exact facts are code-checkable. Tone needs human or model judgement with a rubric."
+    },
+    {
+      "id": "pt-llme-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation",
+      "prompt": "A prompt change raises your eval score from 82% to 84% on 50 cases. What should you do before declaring it better?",
+      "options": [
+        "Look at which cases changed and consider the noise: one case is 2%; rerun or enlarge the set",
+        "Ship it; 84 > 82",
+        "Delete the cases that failed",
+        "Switch to a larger model"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "One case flipping explains the difference. Inspect changed cases and use enough examples (and repeated runs) to separate signal from noise."
+    },
+    {
+      "id": "pt-llme-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "llm-evaluation",
+      "prompt": "Which practice reduces position bias in pairwise LLM-as-judge comparisons?",
+      "options": [
+        "Run each comparison twice with the answer order swapped and only count consistent verdicts",
+        "Always put the new answer first",
+        "Use a higher temperature",
+        "Ask for a one-word answer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Judges often prefer the first (or second) option. Swapping order and checking agreement controls for that."
+    },
+    {
+      "id": "pt-llme-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-evaluation",
+      "prompt": "Your eval set was built from 200 real support tickets last year. A new product line now makes up 30% of tickets, and production complaints rise while eval scores stay at 90%. What is wrong?",
+      "options": [
+        "The eval set no longer represents production; add new, real cases (especially failures) and keep refreshing it",
+        "The model is fine because the score is 90%",
+        "The grader is too strict",
+        "Complaints are unrelated to quality"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Eval sets drift out of date. A score is only meaningful for the distribution it measures."
+    },
+    {
+      "id": "pt-llme-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "llm-evaluation",
+      "prompt": "A model grader scores answers 1-10 and every answer gets 7-9. What change makes the grading more useful?",
+      "options": [
+        "Use a specific rubric with discrete, observable criteria (e.g. pass/fail per criterion) and examples of each grade",
+        "Ask the grader to be more generous",
+        "Use a 1-100 scale",
+        "Remove the rubric"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Vague numeric scales compress into the middle. Concrete binary criteria are more consistent and easier to validate against humans."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-llme-checks",
+      "language": "python",
+      "title": "Code-graded checks for a reply",
+      "difficulty": "intermediate",
+      "prompt": "Write `grade(reply, order_id, max_words)` that returns a dict of check -> bool:\n\n- `'mentions_order'`: the order id appears in the reply\n- `'length_ok'`: word count (split on whitespace) is at most `max_words`\n- `'no_placeholder'`: the reply contains none of `[NAME]`, `{{`, `TODO` (case-sensitive)\n- `'polite_close'`: the reply's last non-empty line starts with `Thanks` or `Best` \n\nExample: `grade('Hi,\\nOrder A-17 ships today.\\nThanks, Support', 'A-17', 50)` returns all True.",
+      "starter": "def grade(reply, order_id, max_words):\n    # Your code here\n    pass\n",
+      "solution": "def grade(reply, order_id, max_words):\n    lines = [l.strip() for l in reply.splitlines() if l.strip()]\n    last = lines[-1] if lines else ''\n    return {\n        'mentions_order': order_id in reply,\n        'length_ok': len(reply.split()) <= max_words,\n        'no_placeholder': not any(p in reply for p in ('[NAME]', '{{', 'TODO')),\n        'polite_close': last.startswith(('Thanks', 'Best')),\n    }\n",
+      "explanation": "Deterministic checks are cheap, fast and never flaky, so use them for every property that code can decide and save human or model judgement for the rest.",
+      "hints": [
+        "`str.split()` with no argument splits on any whitespace.",
+        "`str.startswith` accepts a tuple.",
+        "Ignore empty lines when finding the last line."
+      ],
+      "tests": [
+        {
+          "name": "All pass",
+          "marks": 2,
+          "code": "r = grade('Hi,\\nOrder A-17 ships today.\\nThanks, Support', 'A-17', 50)\nassert r == {'mentions_order': True, 'length_ok': True, 'no_placeholder': True, 'polite_close': True}, r"
+        },
+        {
+          "name": "Detects failures",
+          "marks": 3,
+          "code": "r = grade('Dear [NAME], your order ships.\\n\\n', 'A-17', 3)\nassert r == {'mentions_order': False, 'length_ok': False, 'no_placeholder': False, 'polite_close': False}, r"
+        },
+        {
+          "name": "Trailing blank lines ignored",
+          "marks": 1,
+          "code": "assert grade('ok A1\\nBest\\n\\n', 'A1', 10)['polite_close'] is True"
+        }
+      ]
+    },
+    {
+      "id": "code-llme-agree",
+      "language": "python",
+      "title": "Grader agreement with humans",
+      "difficulty": "advanced",
+      "prompt": "Write `agreement(human, model)` for two equal-length lists of binary labels (1 = pass, 0 = fail). Return a dict with `'accuracy'` (fraction of matches) and `'kappa'` (Cohen's kappa), both rounded to 3 decimals. Kappa = (po - pe) / (1 - pe) where po is accuracy and pe = p_h1*p_m1 + p_h0*p_m0 (the marginal proportions). If `pe == 1`, return kappa 1.0.\n\nExample: `agreement([1,1,0,0], [1,0,0,0])` returns `{'accuracy': 0.75, 'kappa': 0.5}`.",
+      "starter": "def agreement(human, model):\n    # Your code here\n    pass\n",
+      "solution": "def agreement(human, model):\n    n = len(human)\n    po = sum(h == m for h, m in zip(human, model)) / n\n    ph1 = sum(human) / n\n    pm1 = sum(model) / n\n    pe = ph1 * pm1 + (1 - ph1) * (1 - pm1)\n    kappa = 1.0 if pe == 1 else (po - pe) / (1 - pe)\n    return {'accuracy': round(po, 3), 'kappa': round(kappa, 3)}\n",
+      "explanation": "Raw accuracy looks high when most answers pass, because a grader that always says pass agrees often by chance. Kappa subtracts chance agreement, so it tells you whether the model grader is really tracking human judgement.",
+      "hints": [
+        "po = matches / n.",
+        "pe uses each rater's own proportion of 1s.",
+        "Guard the pe == 1 case to avoid division by zero."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert agreement([1,1,0,0], [1,0,0,0]) == {'accuracy': 0.75, 'kappa': 0.5}"
+        },
+        {
+          "name": "Always-pass grader",
+          "marks": 3,
+          "code": "r = agreement([1]*9 + [0], [1]*10)\nassert r == {'accuracy': 0.9, 'kappa': 0.0}, r"
+        },
+        {
+          "name": "Perfect agreement",
+          "marks": 1,
+          "code": "assert agreement([1,1,1], [1,1,1]) == {'accuracy': 1.0, 'kappa': 1.0}"
+        }
+      ]
+    }
+  ]
+}

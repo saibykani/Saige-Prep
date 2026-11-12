@@ -1,0 +1,217 @@
+{
+  "lesson": "database-and-caching-bottlenecks",
+  "questions": [
+    {
+      "id": "pt-dbc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "What does a cache hit ratio of 0.95 mean?",
+      "options": [
+        "95% of lookups were served from the cache without going to the backing store",
+        "The cache is 95% full",
+        "5% of requests failed",
+        "The cache is 95% faster"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Hit ratio = hits / (hits + misses). It says nothing directly about fullness or errors."
+    },
+    {
+      "id": "pt-dbc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "What does an index on `orders(customer_id)` mainly speed up?",
+      "options": [
+        "Queries that filter or join on customer_id",
+        "Inserts into orders",
+        "Every query on any table",
+        "Backups"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Indexes speed lookups on their columns at the cost of extra work on writes."
+    },
+    {
+      "id": "pt-dbc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "Running EXPLAIN (or EXPLAIN ANALYZE) on a slow query shows how the database plans to execute it, such as whether it uses an index or scans the whole table.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Execution plans reveal full scans, join strategies and row estimates, which is where most query performance fixes start."
+    },
+    {
+      "id": "pt-dbc-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "A cache entry for a popular product expires and 500 concurrent requests all miss and query the database at once. What is this called and how is it mitigated?",
+      "options": [
+        "A cache stampede; mitigate with request coalescing or locking, early refresh, or jittered expiry",
+        "A memory leak; restart the cache",
+        "Cache poisoning; validate input",
+        "A deadlock; add retries"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Simultaneous misses on a hot key hammer the backing store. Letting one request rebuild while others wait, or refreshing before expiry, prevents it."
+    },
+    {
+      "id": "pt-dbc-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "Which make a load test's caching behaviour unrealistic? Select all that apply.",
+      "options": [
+        "Every virtual user requests the same product id",
+        "The test data set is far smaller than production",
+        "Starting with a warm cache and never measuring a cold start",
+        "Using a realistic distribution of ids with some popular items"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Same-id requests and tiny data sets give near-100% hit ratios; only measuring warm caches hides the cold-start behaviour after deploys. A realistic distribution is the right approach."
+    },
+    {
+      "id": "pt-dbc-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "This code runs for a page listing 50 orders. How many SQL queries does it issue?",
+      "code": "orders = db.query('SELECT * FROM orders LIMIT 50')\nfor o in orders:\n    o.customer = db.query('SELECT * FROM customers WHERE id = ?', o.customer_id)",
+      "codeLanguage": "python",
+      "options": [
+        "51",
+        "1",
+        "50",
+        "2"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "One query loads the orders, then one per order loads the customer: 1 + 50 = 51. That is the N+1 pattern; a join or batch `IN (...)` query reduces it to 1 or 2."
+    },
+    {
+      "id": "pt-dbc-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "After adding an index, a search query is fast in tests but write throughput on the table drops 30% in a load test. What is the trade-off, and what would you check?",
+      "options": [
+        "Each insert/update must also maintain the index; check whether the index is actually used by important reads and whether a narrower or composite index serves them with less write cost",
+        "Indexes never affect writes; look elsewhere",
+        "Drop all indexes",
+        "Increase the cache TTL"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Indexes are not free. Confirm the read benefit, measure the write cost, and choose the smallest index that helps."
+    },
+    {
+      "id": "pt-dbc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "database-and-caching-bottlenecks",
+      "prompt": "Under load, the database shows low CPU but many sessions waiting on row locks for the `inventory` table, and checkout p95 is high. What is the likely bottleneck?",
+      "options": [
+        "Lock contention: many transactions updating the same hot rows serialise; shorten transactions, reduce hot-row updates or redesign the reservation logic",
+        "CPU starvation",
+        "Network bandwidth",
+        "Missing cache headers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Low CPU with high wait time means the work is queued on locks, not computation. Adding CPU would not help."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-dbc-lru",
+      "language": "python",
+      "title": "LRU cache with hit ratio",
+      "difficulty": "intermediate",
+      "prompt": "Implement `class LRUCache(capacity)` with `get(key, loader)`: if `key` is cached return it (a hit) and mark it most recently used; otherwise call `loader(key)`, store the result (evicting the least recently used entry if over capacity), and return it (a miss). Property-like method `hit_ratio()` returns hits / total lookups rounded to 2 decimals (0.0 if none).",
+      "starter": "class LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n\n    def get(self, key, loader):\n        # Your code here\n        pass\n\n    def hit_ratio(self):\n        # Your code here\n        pass\n",
+      "solution": "from collections import OrderedDict\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.data = OrderedDict()\n        self.hits = 0\n        self.misses = 0\n\n    def get(self, key, loader):\n        if key in self.data:\n            self.hits += 1\n            self.data.move_to_end(key)\n            return self.data[key]\n        self.misses += 1\n        value = loader(key)\n        self.data[key] = value\n        if len(self.data) > self.capacity:\n            self.data.popitem(last=False)\n        return value\n\n    def hit_ratio(self):\n        total = self.hits + self.misses\n        return round(self.hits / total, 2) if total else 0.0\n",
+      "explanation": "OrderedDict keeps insertion order; moving a key to the end on each hit makes the front the least recently used. Simulating access patterns with this lets you see how data-set size and key distribution change the hit ratio, which is why same-id load tests mislead.",
+      "hints": [
+        "Use `collections.OrderedDict`.",
+        "`move_to_end(key)` on a hit; `popitem(last=False)` evicts the oldest.",
+        "Count hits and misses separately."
+      ],
+      "tests": [
+        {
+          "name": "Hits and loader calls",
+          "marks": 3,
+          "code": "calls = []\nc = LRUCache(2)\nf = lambda k: calls.append(k) or k * 10\nassert c.get(1, f) == 10 and c.get(1, f) == 10\nassert calls == [1] and c.hit_ratio() == 0.5"
+        },
+        {
+          "name": "Evicts least recently used",
+          "marks": 3,
+          "code": "calls = []\nc = LRUCache(2)\nf = lambda k: calls.append(k) or k\nfor k in [1, 2, 1, 3, 2, 1]:\n    c.get(k, f)\nassert calls == [1, 2, 3, 2, 1], calls"
+        },
+        {
+          "name": "Ratio with no lookups",
+          "marks": 1,
+          "code": "c = LRUCache(1)\nassert c.hit_ratio() == 0.0\nc.get('a', str.upper)\nassert c.get('a', str.upper) == 'A' and c.hit_ratio() == 0.5"
+        }
+      ]
+    },
+    {
+      "id": "code-dbc-slowcount",
+      "language": "sql",
+      "title": "Find N+1 suspects in a query log",
+      "difficulty": "intermediate",
+      "prompt": "The table `query_log(request_id, sql_template)` records each SQL statement issued per request. List each `request_id` and `sql_template` executed **more than 10 times** within the same request, with the count as `executions`, ordered by `executions` descending.\n\nExpected: `r1 | SELECT * FROM customers WHERE id = ? | 12`.",
+      "starter": "-- Write your query here\nSELECT 1 AS placeholder;\n",
+      "solution": "SELECT request_id, sql_template, COUNT(*) AS executions FROM query_log GROUP BY request_id, sql_template HAVING COUNT(*) > 10 ORDER BY executions DESC;",
+      "explanation": "Grouping by request and statement template counts repeats; HAVING filters groups after aggregation. A template executed dozens of times in one request is the fingerprint of N+1. Exactly 10 is not more than 10, so r2 is excluded.",
+      "hints": [
+        "GROUP BY both request_id and sql_template.",
+        "Filter aggregates with HAVING, not WHERE.",
+        "ORDER BY executions DESC"
+      ],
+      "setup": "CREATE TABLE query_log (request_id TEXT, sql_template TEXT);\nINSERT INTO query_log VALUES ('r1','SELECT * FROM orders LIMIT 50');\nWITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i+1 FROM n WHERE i < 12) INSERT INTO query_log SELECT 'r1','SELECT * FROM customers WHERE id = ?' FROM n;\nWITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i+1 FROM n WHERE i < 10) INSERT INTO query_log SELECT 'r2','SELECT * FROM items WHERE id = ?' FROM n;\nINSERT INTO query_log VALUES ('r2','SELECT * FROM carts WHERE id = ?');",
+      "expected": {
+        "columns": [
+          "request_id",
+          "sql_template",
+          "executions"
+        ],
+        "rows": [
+          [
+            "r1",
+            "SELECT * FROM customers WHERE id = ?",
+            12
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 4
+    }
+  ]
+}

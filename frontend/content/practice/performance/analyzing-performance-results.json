@@ -1,0 +1,216 @@
+{
+  "lesson": "analyzing-performance-results",
+  "questions": [
+    {
+      "id": "pt-apr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "analyzing-performance-results",
+      "prompt": "What is the first thing to check before analysing response times from a load test run?",
+      "options": [
+        "Whether the run was valid: errors, load generator health and whether the intended load was actually applied",
+        "The colour scheme of the report",
+        "The fastest response",
+        "The total number of graphs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Response times from a run with a failing script, an overloaded load generator or the wrong load are meaningless. Validate the run first."
+    },
+    {
+      "id": "pt-apr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "analyzing-performance-results",
+      "prompt": "Why is the average response time alone a weak summary?",
+      "options": [
+        "It hides the slow tail that a meaningful share of users experience",
+        "It is always higher than p99",
+        "It cannot be calculated for HTTP",
+        "It ignores fast requests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A few very slow requests barely move the mean, yet those users suffer. Percentiles (p90/p95/p99) describe the tail."
+    },
+    {
+      "id": "pt-apr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "analyzing-performance-results",
+      "prompt": "Very fast responses combined with a high error rate can mean the server is failing quickly rather than performing well.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Error pages and rejected connections often return in a few milliseconds. Always read response time together with error rate."
+    },
+    {
+      "id": "pt-apr-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "analyzing-performance-results",
+      "prompt": "Throughput rises with users up to 200 and then stays flat while response time climbs linearly. What does this pattern usually indicate?",
+      "options": [
+        "A saturated resource: the system is at capacity and extra users just queue",
+        "The load generator is too fast",
+        "Caching started working",
+        "The test is too short"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Flat throughput with growing latency is the queueing signature of a bottleneck. Find which resource saturated at that point."
+    },
+    {
+      "id": "pt-apr-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "analyzing-performance-results",
+      "prompt": "Load generator CPU sits at 98% during the test. What follows? Select all that apply.",
+      "options": [
+        "Measured response times may include client-side delays",
+        "The applied load may be lower than planned",
+        "Add load generators or reduce per-generator load and rerun",
+        "The server is definitely the bottleneck"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "A saturated generator distorts timing and under-delivers load. You cannot conclude anything about the server until the generator is healthy."
+    },
+    {
+      "id": "pt-apr-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "analyzing-performance-results",
+      "prompt": "Two runs of the same test: run A p95 = 820 ms with 0.1% errors; run B p95 = 610 ms with 12% errors (connection refused). Which statement is correct?",
+      "code": "run  p95_ms  error_rate\nA    820     0.1%\nB    610     12%",
+      "codeLanguage": "text",
+      "options": [
+        "Run B is not better; its errors make its response times incomparable and point to a capacity or configuration problem",
+        "Run B is 25% faster, so it is better",
+        "Both runs are equivalent",
+        "Run A failed because its p95 is higher"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Refused connections are fast failures that pull percentiles down. Compare runs only when error rates are similar and low."
+    },
+    {
+      "id": "pt-apr-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "analyzing-performance-results",
+      "prompt": "p95 is fine for the first 40 minutes of a 2-hour soak test, then rises steadily while throughput stays constant and errors appear after 90 minutes. What is the most likely class of problem, and what evidence would you collect?",
+      "options": [
+        "A resource leak (memory, connections, threads or file handles); collect heap after GC, pool usage and handle counts over time",
+        "Insufficient warm-up",
+        "Network jitter",
+        "Too few virtual users"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Time-dependent degradation at constant load points to accumulation. Trend metrics that should be flat (heap after GC, open connections) will reveal which resource leaks."
+    },
+    {
+      "id": "pt-apr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "analyzing-performance-results",
+      "prompt": "A colleague concludes from a graph that the database caused the slowdown because DB CPU and response time rose together. What should you ask for before agreeing?",
+      "options": [
+        "Evidence of causation: DB query times or wait events, whether DB CPU reached saturation, and whether something else (e.g. a pool or GC) also changed",
+        "A bigger graph",
+        "The average response time",
+        "Nothing; correlation is enough"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Under more load, many metrics rise together. Show that the DB was the constrained resource (saturation, waits, slow queries) before tuning it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apr-summary",
+      "language": "python",
+      "title": "Summarise a results file",
+      "difficulty": "intermediate",
+      "prompt": "Write `summarise(samples)` where each sample is a dict `{'label': str, 'elapsed': int ms, 'success': bool}`. Return a dict per label: `{'count': n, 'errors': n, 'error_pct': float rounded to 1 decimal, 'p95': int}` where p95 uses the nearest-rank method over **successful** samples only (None if there are none).\n\nNearest-rank p95: sort values, take the value at position `ceil(0.95 * n)` (1-based).",
+      "starter": "import math\n\ndef summarise(samples):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef summarise(samples):\n    groups = {}\n    for s in samples:\n        groups.setdefault(s['label'], []).append(s)\n    out = {}\n    for label, rows in groups.items():\n        ok = sorted(r['elapsed'] for r in rows if r['success'])\n        errors = sum(1 for r in rows if not r['success'])\n        p95 = ok[math.ceil(0.95 * len(ok)) - 1] if ok else None\n        out[label] = {'count': len(rows), 'errors': errors, 'error_pct': round(100 * errors / len(rows), 1), 'p95': p95}\n    return out\n",
+      "explanation": "Grouping by label mirrors JMeter's aggregate report. Excluding failures from percentiles stops fast error responses from making the system look quicker; the error rate is reported separately.",
+      "hints": [
+        "Group with `setdefault(label, []).append(row)`.",
+        "Filter successful elapsed values and sort them.",
+        "Index `ceil(0.95*n) - 1` because lists are 0-based."
+      ],
+      "tests": [
+        {
+          "name": "Counts and error rate",
+          "marks": 2,
+          "code": "r = summarise([{'label': 'a', 'elapsed': 100, 'success': True}, {'label': 'a', 'elapsed': 5, 'success': False}, {'label': 'a', 'elapsed': 200, 'success': True}])\nassert r['a']['count'] == 3 and r['a']['errors'] == 1 and r['a']['error_pct'] == 33.3, r"
+        },
+        {
+          "name": "p95 ignores failures",
+          "marks": 3,
+          "code": "rows = [{'label': 'x', 'elapsed': v, 'success': True} for v in range(1, 21)] + [{'label': 'x', 'elapsed': 1, 'success': False}]\nr = summarise(rows)['x']\nassert r['p95'] == 19, r"
+        },
+        {
+          "name": "All failed gives None",
+          "marks": 1,
+          "code": "assert summarise([{'label': 'b', 'elapsed': 3, 'success': False}])['b'] == {'count': 1, 'errors': 1, 'error_pct': 100.0, 'p95': None}"
+        }
+      ]
+    },
+    {
+      "id": "code-apr-steady",
+      "language": "python",
+      "title": "Cut ramp-up and ramp-down",
+      "difficulty": "beginner",
+      "prompt": "Write `steady_state(samples, start, end)` that keeps only samples whose `ts` (seconds) is within `start <= ts < end`, and returns the average `elapsed` of those, rounded to 1 decimal (None if empty).\n\nExample: with samples at ts 0..9 and `start=2, end=8`, only ts 2..7 count.",
+      "starter": "def steady_state(samples, start, end):\n    # Your code here\n    pass\n",
+      "solution": "def steady_state(samples, start, end):\n    kept = [s['elapsed'] for s in samples if start <= s['ts'] < end]\n    if not kept:\n        return None\n    return round(sum(kept) / len(kept), 1)\n",
+      "explanation": "Ramp-up includes cold caches and partial load, ramp-down includes partial load; both distort steady-state numbers. A half-open window avoids counting the boundary twice when you split a run into intervals.",
+      "hints": [
+        "Filter with a comprehension and a chained comparison.",
+        "Guard against an empty list before dividing."
+      ],
+      "tests": [
+        {
+          "name": "Window is applied",
+          "marks": 3,
+          "code": "s = [{'ts': t, 'elapsed': 1000 if t < 2 else 100} for t in range(10)]\nassert steady_state(s, 2, 8) == 100.0, steady_state(s, 2, 8)"
+        },
+        {
+          "name": "End is exclusive",
+          "marks": 1,
+          "code": "s = [{'ts': 0, 'elapsed': 10}, {'ts': 5, 'elapsed': 999}]\nassert steady_state(s, 0, 5) == 10.0"
+        },
+        {
+          "name": "Empty window",
+          "marks": 1,
+          "code": "assert steady_state([{'ts': 1, 'elapsed': 5}], 2, 3) is None and steady_state([{'ts': 2, 'elapsed': 5}], 2, 3) == 5.0"
+        }
+      ]
+    }
+  ]
+}

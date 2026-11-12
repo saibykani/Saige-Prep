@@ -1,0 +1,226 @@
+{
+  "lesson": "authentication-and-authorization",
+  "questions": [
+    {
+      "id": "pt-authz-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "authentication-and-authorization",
+      "prompt": "What is the difference between authentication and authorization?",
+      "options": [
+        "Authentication proves who the caller is; authorization decides what that caller may do",
+        "They are two names for the same check",
+        "Authorization happens first, then authentication",
+        "Authentication is only for humans, authorization only for services"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Authentication establishes identity (password, token, certificate). Authorization then checks permissions for that identity on the requested action or resource."
+    },
+    {
+      "id": "pt-authz-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "authentication-and-authorization",
+      "prompt": "Which header usually carries an OAuth 2.0 access token to an API?",
+      "options": [
+        "Authorization: Bearer <token>",
+        "Cookie: token=<token>",
+        "X-Token-Type: OAuth",
+        "Accept: Bearer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "RFC 6750 defines the Bearer scheme in the Authorization header. Cookies can carry sessions but are not the standard for bearer tokens; the other headers do not exist for this purpose."
+    },
+    {
+      "id": "pt-authz-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "authentication-and-authorization",
+      "prompt": "An API key identifies the calling application, but on its own it does not identify which end user is acting.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "API keys are usually per application or per client. To know the end user you need user authentication such as OAuth tokens or sessions."
+    },
+    {
+      "id": "pt-authz-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "authentication-and-authorization",
+      "prompt": "A JWT payload decodes to this JSON. The current Unix time is 1767225600. What should a correctly configured API do?",
+      "code": "{\"sub\": \"u_42\", \"role\": \"user\", \"iat\": 1767218400, \"exp\": 1767222000, \"aud\": \"orders-api\"}",
+      "codeLanguage": "json",
+      "options": [
+        "Reject it with 401 because the token has expired",
+        "Accept it because the signature is valid",
+        "Return 403 because the role is wrong",
+        "Accept it because iat is in the past"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`exp` (1767222000) is before now (1767225600), so the token expired an hour ago and must be rejected as unauthenticated (401). A valid signature does not override expiry; `iat` being in the past is normal."
+    },
+    {
+      "id": "pt-authz-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "authentication-and-authorization",
+      "prompt": "Which authorization tests belong in a suite for GET /accounts/{id}? Select all that apply.",
+      "options": [
+        "Owner reads own account: 200",
+        "Another normal user reads it: 403 or 404, no data",
+        "Support role reads it, if the policy allows: 200",
+        "No token: 401",
+        "Owner reads it twice: 200 both times"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "A role/ownership matrix covers owner, other user, privileged role and anonymous. Repeating the same owner call twice is not an authorization case."
+    },
+    {
+      "id": "pt-authz-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "authentication-and-authorization",
+      "prompt": "After a user logs out, their old access token still works for 50 more minutes. Is this a defect?",
+      "options": [
+        "It depends on the design: stateless JWTs stay valid until exp unless the API checks revocation; flag it if the requirements say logout must end access immediately",
+        "Always a critical defect in every design",
+        "Never a defect",
+        "Only a defect if the token is an API key"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Self-contained JWTs are usually not revoked on logout; mitigation is short lifetimes plus refresh-token revocation or a deny-list. Testers compare behaviour with the stated requirement and report the risk clearly."
+    },
+    {
+      "id": "pt-authz-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "authentication-and-authorization",
+      "prompt": "A token issued for `aud: reporting-api` is accepted by the payments API. What is the risk and the right test?",
+      "options": [
+        "The payments API is not validating the audience, so tokens for other services can be replayed against it; test that a wrong-aud token gets 401",
+        "No risk because the signature is valid",
+        "The token needs a longer expiry",
+        "It is a CORS issue"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Audience validation ensures a token is used only for the API it was issued to. Without it, any service holding a token for another API could call payments."
+    },
+    {
+      "id": "pt-authz-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "authentication-and-authorization",
+      "prompt": "This lab test for role checks passes even though normal users can delete products. Why?",
+      "code": "user_token = login('admin@example.test')  # copied from another test\nr = delete('/products/5', token=user_token)\nassert r.status_code == 204",
+      "codeLanguage": "python",
+      "options": [
+        "The token used is the admin's, so the test never exercises the normal-user path",
+        "DELETE should return 200",
+        "The assertion should be `!= 204`",
+        "Bearer tokens cannot be used on DELETE"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The variable name says user but it holds the admin token, so the 204 is correct for that caller. Build tokens from clearly separated fixtures per role and assert 403 for the normal user."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-authz-jwtcheck",
+      "language": "python",
+      "title": "Check JWT claims",
+      "difficulty": "intermediate",
+      "prompt": "Write `check_claims(claims, now, audience)` returning a list of problems for a decoded JWT payload dict (assume the signature was already verified). Return, in this order where they apply: `'expired'` if `exp` is missing or `exp <= now`; `'not yet valid'` if `nbf` is present and `nbf > now`; `'wrong audience'` if `aud` (a string or a list of strings) does not contain `audience`.\n\nExample: `check_claims({'exp': 200, 'aud': 'api'}, 100, 'api')` returns `[]`.",
+      "starter": "def check_claims(claims, now, audience):\n    # Your code here\n    pass\n",
+      "solution": "def check_claims(claims, now, audience):\n    problems = []\n    exp = claims.get('exp')\n    if exp is None or exp <= now:\n        problems.append('expired')\n    nbf = claims.get('nbf')\n    if nbf is not None and nbf > now:\n        problems.append('not yet valid')\n    aud = claims.get('aud')\n    auds = aud if isinstance(aud, list) else [aud]\n    if audience not in auds:\n        problems.append('wrong audience')\n    return problems\n",
+      "explanation": "These are the standard registered-claim checks from RFC 7519 that an API must apply after verifying the signature. `aud` can be a single string or an array, so normalise it to a list.",
+      "hints": [
+        "Use `claims.get(...)` so missing claims do not crash.",
+        "A missing exp should be treated as invalid for access tokens here.",
+        "Wrap a string `aud` in a list before checking membership."
+      ],
+      "tests": [
+        {
+          "name": "Valid token",
+          "marks": 1,
+          "code": "assert check_claims({'exp': 200, 'aud': 'api'}, 100, 'api') == []"
+        },
+        {
+          "name": "Expiry boundary",
+          "marks": 2,
+          "code": "assert check_claims({'exp': 100, 'aud': 'api'}, 100, 'api') == ['expired']\nassert check_claims({'aud': 'api'}, 100, 'api') == ['expired']"
+        },
+        {
+          "name": "nbf and list audience",
+          "marks": 2,
+          "code": "assert check_claims({'exp': 500, 'nbf': 150, 'aud': ['web', 'api']}, 100, 'api') == ['not yet valid']"
+        },
+        {
+          "name": "All problems reported in order",
+          "marks": 2,
+          "code": "assert check_claims({'exp': 1, 'nbf': 900, 'aud': ['web']}, 100, 'api') == ['expired', 'not yet valid', 'wrong audience']"
+        }
+      ]
+    },
+    {
+      "id": "code-authz-matrix",
+      "language": "python",
+      "title": "Authorization matrix from a policy",
+      "difficulty": "advanced",
+      "prompt": "Write `expected_status(role, action, is_owner)` for this policy and use it to drive parametrised tests:\n\n- `anonymous` -> always `401`\n- `admin` -> `200` for any action\n- `user` -> `read`/`update` allowed (`200`) only on own resources; `delete` never allowed. Not allowed -> `403`.\n- any other role -> `403`\n\nExample: `expected_status('user', 'update', False)` returns `403`.",
+      "starter": "def expected_status(role, action, is_owner):\n    # Your code here\n    pass\n",
+      "solution": "def expected_status(role, action, is_owner):\n    if role == 'anonymous':\n        return 401\n    if role == 'admin':\n        return 200\n    if role == 'user' and action in ('read', 'update') and is_owner:\n        return 200\n    return 403\n",
+      "explanation": "Encoding the policy as an oracle lets you generate every role x action x ownership combination as a test case, so none are forgotten. Unknown roles fall through to deny-by-default.",
+      "hints": [
+        "Handle anonymous first, then admin.",
+        "The only allowed user combination needs all three conditions.",
+        "Default to 403 (deny by default)."
+      ],
+      "tests": [
+        {
+          "name": "Anonymous and admin",
+          "marks": 2,
+          "code": "assert expected_status('anonymous', 'read', True) == 401\nassert expected_status('admin', 'delete', False) == 200"
+        },
+        {
+          "name": "User ownership rules",
+          "marks": 3,
+          "code": "assert expected_status('user', 'read', True) == 200\nassert expected_status('user', 'update', False) == 403\nassert expected_status('user', 'delete', True) == 403"
+        },
+        {
+          "name": "Unknown role is denied",
+          "marks": 1,
+          "code": "assert expected_status('guest', 'read', True) == 403"
+        }
+      ]
+    }
+  ]
+}

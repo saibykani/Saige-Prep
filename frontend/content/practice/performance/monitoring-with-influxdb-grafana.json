@@ -1,0 +1,182 @@
+{
+  "lesson": "monitoring-with-influxdb-grafana",
+  "questions": [
+    {
+      "id": "pt-mig-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "In a JMeter + InfluxDB + Grafana setup, what does InfluxDB do?",
+      "options": [
+        "Stores the time-series metrics JMeter sends during the test",
+        "Generates the load",
+        "Draws the dashboards",
+        "Runs the application under test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter's Backend Listener writes metrics to InfluxDB, a time-series database; Grafana queries and visualises them."
+    },
+    {
+      "id": "pt-mig-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Which JMeter component sends live results to InfluxDB?",
+      "options": [
+        "Backend Listener",
+        "View Results Tree",
+        "Summary Report",
+        "Constant Timer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Backend Listener (with the InfluxDB client implementation) streams aggregated metrics. View Results Tree is a debugging listener and should be disabled under load."
+    },
+    {
+      "id": "pt-mig-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Watching live dashboards during a test lets you stop a run early when errors spike, instead of discovering a wasted run afterwards.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Live monitoring saves time and protects shared environments."
+    },
+    {
+      "id": "pt-mig-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Which should be stored as InfluxDB fields rather than tags? Select all that apply.",
+      "options": [
+        "Response time in ms",
+        "Bytes received",
+        "Transaction name",
+        "Test run id"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Fields hold measured values. Tags are indexed metadata for filtering and grouping, such as transaction name or run id, and should have bounded cardinality."
+    },
+    {
+      "id": "pt-mig-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Somebody tags each point with the full request URL including order ids, and InfluxDB memory usage explodes. Why?",
+      "options": [
+        "High tag cardinality: every unique tag value creates a new series",
+        "URLs are too long for fields",
+        "Grafana caches too much",
+        "JMeter sends too few points"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each unique tag combination is a series held in the index. Unbounded values like ids create millions of series. Use a normalised label instead."
+    },
+    {
+      "id": "pt-mig-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "A Grafana panel shows the mean of p95 values over 10-second intervals for a 30-minute test. What is wrong with treating that number as the test's p95?",
+      "options": [
+        "Percentiles cannot be averaged; the mean of interval p95s is not the overall p95",
+        "Grafana cannot compute means",
+        "10 seconds is too long",
+        "Nothing; it is exact"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Percentiles do not compose. The overall p95 must come from all raw samples (or a mergeable histogram/sketch)."
+    },
+    {
+      "id": "pt-mig-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Your dashboard shows response times only from JMeter. Response time rises at minute 20. What should you add to make the dashboard useful for diagnosis?",
+      "options": [
+        "Server-side metrics on the same time axis: CPU, memory/GC, DB and pool metrics, plus error rates and active threads",
+        "More colours",
+        "A larger font",
+        "A separate dashboard per minute"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Client-side numbers say that it got slow, not why. Correlating with server resources on one time axis is how you find the cause."
+    },
+    {
+      "id": "pt-mig-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "monitoring-with-influxdb-grafana",
+      "prompt": "Graphs from the load generator and the database are 90 s apart for the same spike. What is the most likely cause and fix?",
+      "options": [
+        "Clock skew between machines; synchronise all hosts with NTP before testing",
+        "InfluxDB retention policy",
+        "Grafana timezone setting only",
+        "The spike happened twice"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Metrics are timestamped by the host that produced them. Skewed clocks misalign events and mislead root-cause analysis."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-mig-line",
+      "language": "python",
+      "title": "Write InfluxDB line protocol",
+      "difficulty": "intermediate",
+      "prompt": "Write `to_line(measurement, tags, fields, ts_ns)` that returns an InfluxDB line protocol string: `measurement,tag1=v1,tag2=v2 field1=v1,field2=v2 timestamp`. Tags sorted by key (Influx recommends this). Fields sorted by key. Integer fields get an `i` suffix, floats are written as-is, strings are double-quoted. Booleans as `true`/`false`. Spaces and commas in tag values are escaped with a backslash.\n\nExample: `to_line('jmeter', {'tx': 'Log in', 'app': 'shop'}, {'rt': 120, 'ok': True}, 1700000000000000000)` returns `jmeter,app=shop,tx=Log\\ in ok=true,rt=120i 1700000000000000000`.",
+      "starter": "def to_line(measurement, tags, fields, ts_ns):\n    # Your code here\n    pass\n",
+      "solution": "def _esc(v):\n    return str(v).replace(',', '\\\\,').replace(' ', '\\\\ ').replace('=', '\\\\=')\n\ndef _field(v):\n    if isinstance(v, bool):\n        return 'true' if v else 'false'\n    if isinstance(v, int):\n        return f'{v}i'\n    if isinstance(v, float):\n        return repr(v)\n    return '\"' + str(v).replace('\"', '\\\\\"') + '\"'\n\ndef to_line(measurement, tags, fields, ts_ns):\n    head = measurement + ''.join(f',{k}={_esc(tags[k])}' for k in sorted(tags))\n    body = ','.join(f'{k}={_field(fields[k])}' for k in sorted(fields))\n    return f'{head} {body} {ts_ns}'\n",
+      "explanation": "Line protocol separates tags (indexed metadata) from fields (values) with a space, so unescaped spaces in tag values corrupt the point. Checking bool before int matters because bool is an int subclass in Python.",
+      "hints": [
+        "Build the measurement-plus-tags part, then the fields part, then join with spaces.",
+        "Escape ',', ' ' and '=' in tag values.",
+        "Check `bool` before `int`."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "r = to_line('jmeter', {'tx': 'Log in', 'app': 'shop'}, {'rt': 120, 'ok': True}, 1700000000000000000)\nassert r == 'jmeter,app=shop,tx=Log\\\\ in ok=true,rt=120i 1700000000000000000', r"
+        },
+        {
+          "name": "Float and string fields",
+          "marks": 2,
+          "code": "r = to_line('m', {}, {'p95': 12.5, 'msg': 'x'}, 1)\nassert r == 'm msg=\"x\",p95=12.5 1', r"
+        },
+        {
+          "name": "Comma escaped in tag",
+          "marks": 1,
+          "code": "assert to_line('m', {'t': 'a,b'}, {'v': 1}, 2) == 'm,t=a\\\\,b v=1i 2'"
+        }
+      ]
+    }
+  ]
+}

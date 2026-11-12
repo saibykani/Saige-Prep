@@ -1,0 +1,225 @@
+{
+  "lesson": "api-negative-and-boundary-testing",
+  "questions": [
+    {
+      "id": "pt-apineg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "What is a negative API test?",
+      "options": [
+        "A test that sends invalid or unexpected input and checks the API rejects it safely",
+        "A test that is expected to fail in CI",
+        "A test that checks response time",
+        "A test that deletes data"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Negative tests confirm the API refuses bad input with a clear 4xx and no side effects. They are expected to pass (the rejection is correct behaviour); they are not about speed or deletion."
+    },
+    {
+      "id": "pt-apineg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "A `name` field accepts 1 to 50 characters. Which set covers its length boundaries most efficiently?",
+      "options": [
+        "0, 1, 50, 51 characters",
+        "10, 20, 30 characters",
+        "1 and 1000 characters only",
+        "25 characters only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Boundary value analysis tests just inside and just outside each edge: 0 and 51 are invalid, 1 and 50 are valid. Mid-range values rarely find off-by-one bugs."
+    },
+    {
+      "id": "pt-apineg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "Sending a field with the wrong type (for example \"quantity\": \"five\") should normally produce a 4xx response, not 500.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Type errors are client mistakes, so a 400 or 422 with a helpful message is correct. A 500 means the server failed to validate and crashed."
+    },
+    {
+      "id": "pt-apineg-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "An endpoint expects JSON `{\"email\": string, \"age\": integer 18-120}`. Which are distinct negative cases worth automating? Select all that apply.",
+      "options": [
+        "Missing email",
+        "age = 17",
+        "age = 18.5",
+        "Content-Type: text/plain with a JSON body",
+        "age = 40"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Missing required field, just-below boundary, non-integer number and wrong media type each exercise different validation paths. age = 40 is a valid mid-range value, a positive case."
+    },
+    {
+      "id": "pt-apineg-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "POST /transfers with amount -50 returns 400 \"amount must be positive\". What else should the negative test assert?",
+      "options": [
+        "That no transfer was created and neither balance changed",
+        "That the response took under 10 ms",
+        "That a retry succeeds",
+        "Nothing; the 400 is enough"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The dangerous failure is a request that is rejected in the response but partially applied. Checking for no side effects (no record, balances unchanged) makes the negative test meaningful."
+    },
+    {
+      "id": "pt-apineg-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "The API caps `limit` at 100 and rejects values below 1. Which statuses should this parametrised test expect, in order?",
+      "code": "for limit in [0, 1, 100, 101]:\n    r = get(f'/orders?limit={limit}')\n    print(r.status_code)",
+      "codeLanguage": "python",
+      "options": [
+        "400, 200, 200, 400",
+        "200, 200, 200, 200",
+        "400, 200, 200, 200",
+        "400, 400, 200, 400"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "0 is below the minimum (400), 1 and 100 are the valid edges (200), 101 is just above the maximum (400). If the API silently clamps 101 to 100 instead, that must be documented behaviour; otherwise it is a defect."
+    },
+    {
+      "id": "pt-apineg-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "This negative test always passes, even after a developer removes the validation. Why?",
+      "code": "r = post('/orders', json={'quantity': -1})\nassert r.status_code >= 400 or r.status_code < 300",
+      "codeLanguage": "python",
+      "options": [
+        "The condition is true for every status except 3xx, so a 201 (bad input accepted) also passes",
+        "The test should use 422",
+        "requests cannot send negative numbers",
+        "assert does not run in pytest"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`status >= 400 or status < 300` is true for 201 as well, so the test cannot fail when the bad input is accepted. Assert the specific expected status (400 or 422) and the error body instead."
+    },
+    {
+      "id": "pt-apineg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-negative-and-boundary-testing",
+      "prompt": "A 10 MB JSON body to POST /comments makes the API respond after 40 s with 500 and the service restarts. What is the best classification?",
+      "options": [
+        "A robustness and availability defect: the API should reject oversized bodies early (e.g. 413) without crashing",
+        "Expected behaviour; clients should not send big bodies",
+        "A test environment problem only",
+        "A cosmetic issue"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Size limits are a boundary too. The correct behaviour is an early 413 Content Too Large and a healthy service; crashing on large input can be abused to take the service down."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apineg-bva",
+      "language": "python",
+      "title": "Generate boundary values for a range",
+      "difficulty": "beginner",
+      "prompt": "Write `boundaries(lo, hi)` returning the sorted list of integer boundary test values for an inclusive valid range `lo..hi`: `lo-1, lo, lo+1, hi-1, hi, hi+1`, without duplicates.\n\nExample: `boundaries(1, 99)` returns `[0, 1, 2, 98, 99, 100]`.",
+      "starter": "def boundaries(lo, hi):\n    # Your code here\n    pass\n",
+      "solution": "def boundaries(lo, hi):\n    return sorted({lo - 1, lo, lo + 1, hi - 1, hi, hi + 1})\n",
+      "explanation": "A set removes duplicates when the range is tiny (for example lo == hi), and sorting gives a stable order for parametrised tests.",
+      "hints": [
+        "List the six candidate values.",
+        "Put them in a set to drop duplicates, then sort."
+      ],
+      "tests": [
+        {
+          "name": "Normal range",
+          "marks": 2,
+          "code": "assert boundaries(1, 99) == [0, 1, 2, 98, 99, 100], boundaries(1, 99)"
+        },
+        {
+          "name": "Small range drops duplicates",
+          "marks": 2,
+          "code": "assert boundaries(5, 6) == [4, 5, 6, 7], boundaries(5, 6)"
+        },
+        {
+          "name": "Single-value range",
+          "marks": 1,
+          "code": "assert boundaries(0, 0) == [-1, 0, 1], boundaries(0, 0)"
+        }
+      ]
+    },
+    {
+      "id": "code-apineg-validate",
+      "language": "python",
+      "title": "Validator that reports every problem",
+      "difficulty": "intermediate",
+      "prompt": "Write `validate_order(body)` for an order dict. Rules: `quantity` must be an `int` (not bool) from 1 to 99; `sku` must be a non-empty `str`. Return a sorted list of error strings using exactly these messages: `'quantity: required'`, `'quantity: must be integer'`, `'quantity: out of range'`, `'sku: required'`, `'sku: must be non-empty string'`. Return `[]` if valid.\n\nExample: `validate_order({'quantity': 0})` returns `['quantity: out of range', 'sku: required']`.",
+      "starter": "def validate_order(body):\n    # Your code here\n    pass\n",
+      "solution": "def validate_order(body):\n    errors = []\n    if 'quantity' not in body:\n        errors.append('quantity: required')\n    else:\n        q = body['quantity']\n        if isinstance(q, bool) or not isinstance(q, int):\n            errors.append('quantity: must be integer')\n        elif not 1 <= q <= 99:\n            errors.append('quantity: out of range')\n    if 'sku' not in body:\n        errors.append('sku: required')\n    elif not isinstance(body['sku'], str) or not body['sku'].strip():\n        errors.append('sku: must be non-empty string')\n    return sorted(errors)\n",
+      "explanation": "Collecting all errors (instead of stopping at the first) gives clients a complete 400 message. Note that `bool` is a subclass of `int` in Python, so `True` must be rejected explicitly; real APIs often have exactly this bug.",
+      "hints": [
+        "Check presence first, then type, then range.",
+        "`isinstance(True, int)` is True in Python; exclude bools.",
+        "Treat a whitespace-only sku as empty with `.strip()`."
+      ],
+      "tests": [
+        {
+          "name": "Valid order has no errors",
+          "marks": 1,
+          "code": "assert validate_order({'quantity': 1, 'sku': 'A1'}) == []\nassert validate_order({'quantity': 99, 'sku': 'A1'}) == []"
+        },
+        {
+          "name": "Boundaries are enforced",
+          "marks": 3,
+          "code": "assert validate_order({'quantity': 0}) == ['quantity: out of range', 'sku: required']\nassert validate_order({'quantity': 100, 'sku': 'x'}) == ['quantity: out of range']"
+        },
+        {
+          "name": "Wrong types are rejected",
+          "marks": 3,
+          "code": "assert validate_order({'quantity': '5', 'sku': 'x'}) == ['quantity: must be integer']\nassert validate_order({'quantity': True, 'sku': 'x'}) == ['quantity: must be integer']\nassert validate_order({'quantity': 2.5, 'sku': 'x'}) == ['quantity: must be integer']"
+        },
+        {
+          "name": "Empty sku and missing quantity",
+          "marks": 2,
+          "code": "assert validate_order({'sku': '  '}) == ['quantity: required', 'sku: must be non-empty string']"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "lesson": "json-schema-validation",
+  "questions": [
+    {
+      "id": "pt-jsv-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-schema-validation",
+      "prompt": "What does a JSON Schema describe?",
+      "options": [
+        "The allowed structure and types of a JSON document",
+        "The database tables",
+        "The API's response time",
+        "How to render JSON in a browser"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A schema is a contract for shape: types, required properties, formats, ranges. It does not cover storage, speed or display."
+    },
+    {
+      "id": "pt-jsv-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-schema-validation",
+      "prompt": "Which keyword lists the properties that must be present?",
+      "options": [
+        "required",
+        "properties",
+        "mandatory",
+        "minProperties"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`required` is an array of names that must exist. `properties` only describes them if present; `minProperties` sets a count, not names."
+    },
+    {
+      "id": "pt-jsv-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "json-schema-validation",
+      "prompt": "A response that passes schema validation can still contain the wrong values, such as a total that does not equal the sum of its lines.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Schemas check shape and simple constraints. Business rules and cross-field calculations need explicit assertions."
+    },
+    {
+      "id": "pt-jsv-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-schema-validation",
+      "prompt": "Does `{\"qty\": 0}` validate against this schema?",
+      "code": "{\"type\": \"object\", \"properties\": {\"qty\": {\"type\": \"integer\", \"exclusiveMinimum\": 0}}}",
+      "codeLanguage": "json",
+      "options": [
+        "No, because exclusiveMinimum 0 means qty must be greater than 0",
+        "Yes, because 0 is an integer",
+        "Yes, because minimum is inclusive",
+        "No, because qty is not required"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`exclusiveMinimum: 0` (a number in draft 2019-09/2020-12) rejects 0 itself. `minimum` would be inclusive."
+    },
+    {
+      "id": "pt-jsv-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-schema-validation",
+      "prompt": "Which schema accepts `\"status\"` values only from open, paid and cancelled?",
+      "options": [
+        "{\"type\": \"string\", \"enum\": [\"open\", \"paid\", \"cancelled\"]}",
+        "{\"type\": \"string\", \"pattern\": \"open|paid|cancelled\"}",
+        "{\"type\": \"array\", \"items\": [\"open\", \"paid\", \"cancelled\"]}",
+        "{\"const\": \"open\"}"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`enum` restricts to an exact set. The unanchored pattern would also accept \"reopened\" or \"unpaid\"; `const` allows only one value."
+    },
+    {
+      "id": "pt-jsv-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "json-schema-validation",
+      "prompt": "Which statements about `format: \"email\"` are true? Select all that apply.",
+      "options": [
+        "In draft 2020-12, format is annotation-only by default, so a validator may not enforce it",
+        "Many validators need an option to make format assertive",
+        "It guarantees the mailbox exists",
+        "It replaces the need for any email tests"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Since 2019-09, `format` is an annotation unless the format-assertion vocabulary or a validator option is enabled. Even when enforced it checks syntax, never that the mailbox exists."
+    },
+    {
+      "id": "pt-jsv-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "json-schema-validation",
+      "prompt": "This schema is meant to forbid unexpected fields, but `{\"id\": 1, \"secret\": \"x\"}` still validates. Why?",
+      "code": "{\"type\": \"object\", \"properties\": {\"id\": {\"type\": \"integer\"}}, \"additionalProperty\": false}",
+      "codeLanguage": "json",
+      "options": [
+        "`additionalProperties` is misspelled as `additionalProperty`, so it is an unknown keyword and ignored",
+        "additionalProperties only works on arrays",
+        "id must be a string",
+        "Schemas cannot forbid fields"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unknown keywords are ignored by JSON Schema validators, so a typo silently disables the rule. Some validators have a strict mode that reports unknown keywords; use it."
+    },
+    {
+      "id": "pt-jsv-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "json-schema-validation",
+      "prompt": "A provider adds an optional field and the consumer's tests fail because their response schema uses additionalProperties: false. What is the better design?",
+      "options": [
+        "Consumer-side schemas should usually tolerate unknown fields; keep strict schemas for request validation or provider-owned contracts",
+        "Providers should never add fields",
+        "Drop schema validation",
+        "Make every field required"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Adding an optional field is a backward-compatible change. Consumers that reject it are brittle (Postel's principle). Strictness is valuable where you own the format."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jsv-mini",
+      "language": "python",
+      "title": "A tiny schema validator",
+      "difficulty": "advanced",
+      "prompt": "Write `validate(instance, schema)` returning a sorted list of error paths for a subset of JSON Schema: `type` (`object`, `array`, `string`, `integer`, `number`, `boolean`, `null`), `required`, `properties`, `items` (single schema), `minimum`, `maxLength`, `enum`. Error messages are `'<path>: <keyword>'` where path starts at `$` and adds `.name` or `[i]`. If `type` fails, skip the other checks for that value. `integer` rejects bools and floats; `number` accepts int and float but not bool.\n\nExample: `validate({'id': 'x'}, {'type': 'object', 'required': ['id', 'n'], 'properties': {'id': {'type': 'integer'}}})` returns `['$.id: type', '$: required']`.",
+      "starter": "def validate(instance, schema, path='$'):\n    # Your code here\n    pass\n",
+      "solution": "def _type_ok(v, t):\n    if t == 'object':\n        return isinstance(v, dict)\n    if t == 'array':\n        return isinstance(v, list)\n    if t == 'string':\n        return isinstance(v, str)\n    if t == 'boolean':\n        return isinstance(v, bool)\n    if t == 'null':\n        return v is None\n    if t == 'integer':\n        return isinstance(v, int) and not isinstance(v, bool)\n    if t == 'number':\n        return isinstance(v, (int, float)) and not isinstance(v, bool)\n    return False\n\ndef validate(instance, schema, path='$'):\n    errors = []\n    if 'type' in schema and not _type_ok(instance, schema['type']):\n        return [f'{path}: type']\n    if 'enum' in schema and instance not in schema['enum']:\n        errors.append(f'{path}: enum')\n    if 'minimum' in schema and isinstance(instance, (int, float)) and instance < schema['minimum']:\n        errors.append(f'{path}: minimum')\n    if 'maxLength' in schema and isinstance(instance, str) and len(instance) > schema['maxLength']:\n        errors.append(f'{path}: maxLength')\n    if isinstance(instance, dict):\n        for name in schema.get('required', []):\n            if name not in instance:\n                errors.append(f'{path}: required')\n        for name, sub in schema.get('properties', {}).items():\n            if name in instance:\n                errors += validate(instance[name], sub, f'{path}.{name}')\n    if isinstance(instance, list) and 'items' in schema:\n        for i, item in enumerate(instance):\n            errors += validate(item, schema['items'], f'{path}[{i}]')\n    return sorted(errors)\n",
+      "explanation": "Validators work recursively: check this value's own keywords, then descend into properties and items with an extended path. Stopping after a type error avoids confusing follow-on errors, much like real validators' output.",
+      "hints": [
+        "Write a helper that checks one type name; remember bool is an int subclass.",
+        "Recurse into `properties` only for names present in the instance.",
+        "Build child paths as `f'{path}.{name}'` and `f'{path}[{i}]'`."
+      ],
+      "tests": [
+        {
+          "name": "Example from the prompt",
+          "marks": 3,
+          "code": "r = validate({'id': 'x'}, {'type': 'object', 'required': ['id', 'n'], 'properties': {'id': {'type': 'integer'}}})\nassert r == ['$.id: type', '$: required'], r"
+        },
+        {
+          "name": "Valid document",
+          "marks": 2,
+          "code": "s = {'type': 'object', 'properties': {'tags': {'type': 'array', 'items': {'type': 'string', 'maxLength': 3}}, 'n': {'type': 'number', 'minimum': 0}}}\nassert validate({'tags': ['a', 'bc'], 'n': 1.5}, s) == []"
+        },
+        {
+          "name": "Array items and ranges",
+          "marks": 3,
+          "code": "s = {'type': 'array', 'items': {'type': 'object', 'properties': {'q': {'type': 'integer', 'minimum': 1}, 's': {'enum': ['a', 'b']}}}}\nr = validate([{'q': 0, 's': 'a'}, {'q': True, 's': 'z'}], s)\nassert r == ['$[0].q: minimum', '$[1].q: type', '$[1].s: enum'], r"
+        }
+      ]
+    }
+  ]
+}

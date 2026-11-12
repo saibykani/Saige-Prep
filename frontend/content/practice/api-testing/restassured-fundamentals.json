@@ -1,0 +1,171 @@
+{
+  "lesson": "restassured-fundamentals",
+  "questions": [
+    {
+      "id": "pt-rasf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "restassured-fundamentals",
+      "prompt": "In RestAssured's given/when/then style, what goes in `when()`?",
+      "options": [
+        "The HTTP action, such as .get(\"/orders/1\")",
+        "Assertions on the response",
+        "Headers and query parameters",
+        "Test data cleanup"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "given() builds the request, when() performs the call, then() verifies the response."
+    },
+    {
+      "id": "pt-rasf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "restassured-fundamentals",
+      "prompt": "Which assertion checks that a JSON field `status` equals \"open\"?",
+      "options": [
+        ".body(\"status\", equalTo(\"open\"))",
+        ".status(\"open\")",
+        ".json(\"status\") == \"open\"",
+        ".header(\"status\", \"open\")"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`.body(path, matcher)` uses a GPath expression and a Hamcrest matcher. `.header` checks HTTP headers, not body fields."
+    },
+    {
+      "id": "pt-rasf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "restassured-fundamentals",
+      "prompt": "`.statusCode(201)` inside then() fails the test if the response status is anything other than 201.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It is an assertion. A different status throws an AssertionError with the actual value."
+    },
+    {
+      "id": "pt-rasf-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "restassured-fundamentals",
+      "prompt": "The body is `{\"items\":[{\"price\":5},{\"price\":12},{\"price\":8}]}`. Which assertion passes?",
+      "options": [
+        ".body(\"items.price\", hasItems(5, 12))",
+        ".body(\"items.price\", equalTo(5))",
+        ".body(\"items.size()\", equalTo(2))",
+        ".body(\"items[3].price\", equalTo(8))"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`items.price` collects [5, 12, 8], which has items 5 and 12. It is a list, not 5; the size is 3; index 3 does not exist (zero-based, the last is items[2])."
+    },
+    {
+      "id": "pt-rasf-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "restassured-fundamentals",
+      "prompt": "How do you extract the created id to use in a later request?",
+      "options": [
+        "String id = given()...when().post(\"/orders\").then().statusCode(201).extract().path(\"id\");",
+        "String id = then().id();",
+        "String id = response.body.id;",
+        "String id = given().id;"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`extract().path(...)` returns the value after the assertions run, so the id is only used if creation succeeded."
+    },
+    {
+      "id": "pt-rasf-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "restassured-fundamentals",
+      "prompt": "Which belong in a shared RequestSpecification built with RequestSpecBuilder? Select all that apply.",
+      "options": [
+        "Base URI and base path",
+        "Default content type",
+        "An authentication filter or header",
+        "The expected status of each test"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Request specs hold common request setup. Expected statuses vary per test and belong in then() (or a ResponseSpecification for shared response checks)."
+    },
+    {
+      "id": "pt-rasf-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "restassured-fundamentals",
+      "prompt": "This test fails with: Expected: <19.99> but was: <19.99>. Why?",
+      "code": "given().spec(spec)\n.when().get(\"/products/1\")\n.then().body(\"price\", equalTo(19.99));",
+      "codeLanguage": "java",
+      "options": [
+        "The JSON number is parsed as a Float, while 19.99 in Java is a double; compare with 19.99f or configure JsonConfig to use doubles/BigDecimal",
+        "The API returned a string",
+        "equalTo cannot compare numbers",
+        "The path is wrong"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "By default RestAssured maps JSON decimals to Float, and Float(19.99) does not equal Double(19.99). Use `equalTo(19.99f)`, `closeTo`, or `JsonConfig.jsonConfig().numberReturnType(BIG_DECIMAL)`."
+    },
+    {
+      "id": "pt-rasf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "restassured-fundamentals",
+      "prompt": "Your suite logs every request and response with `.log().all()` in CI. A reviewer raises a concern. What is it?",
+      "options": [
+        "Logs can expose Authorization headers, tokens and personal data in CI output; log only on failure (`log().ifValidationFails()`) and mask secrets",
+        "Logging makes assertions fail",
+        "log() is deprecated",
+        "CI cannot show logs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CI logs are widely readable and retained. Logging only on failure keeps debugging power while limiting exposure; RestAssured can also blacklist headers from logs."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rasf-spec",
+      "language": "java",
+      "title": "A tiny request builder with checks",
+      "difficulty": "intermediate",
+      "prompt": "RestAssured needs a running API, so practise the same ideas in plain Java. Create `OrderRequest` with a fluent builder: `OrderRequest.builder().baseUri(String).path(String).query(String key, String value).build()` and a method `url()` that returns the full URL. Query parameters appear in insertion order, URL-encoded with `URLEncoder.encode(value, StandardCharsets.UTF_8)`. `build()` must throw `IllegalStateException` if `baseUri` is missing.\n\nExample: base `https://api.test`, path `/orders`, query `status=open`, `q=a b` -> `https://api.test/orders?status=open&q=a+b`.",
+      "starter": "public class OrderRequest {\n    // TODO: fields, builder(), url()\n}\n",
+      "solution": "import java.net.URLEncoder;\nimport java.nio.charset.StandardCharsets;\nimport java.util.LinkedHashMap;\nimport java.util.Map;\nimport java.util.StringJoiner;\n\npublic class OrderRequest {\n    private final String baseUri;\n    private final String path;\n    private final Map<String, String> query;\n\n    private OrderRequest(String baseUri, String path, Map<String, String> query) {\n        this.baseUri = baseUri;\n        this.path = path;\n        this.query = query;\n    }\n\n    public static Builder builder() { return new Builder(); }\n\n    public String url() {\n        StringBuilder sb = new StringBuilder(baseUri).append(path);\n        if (!query.isEmpty()) {\n            StringJoiner j = new StringJoiner(\"&\", \"?\", \"\");\n            query.forEach((k, v) -> j.add(k + \"=\" + URLEncoder.encode(v, StandardCharsets.UTF_8)));\n            sb.append(j);\n        }\n        return sb.toString();\n    }\n\n    public static class Builder {\n        private String baseUri;\n        private String path = \"\";\n        private final Map<String, String> query = new LinkedHashMap<>();\n\n        public Builder baseUri(String b) { this.baseUri = b; return this; }\n        public Builder path(String p) { this.path = p; return this; }\n        public Builder query(String k, String v) { query.put(k, v); return this; }\n\n        public OrderRequest build() {\n            if (baseUri == null) throw new IllegalStateException(\"baseUri is required\");\n            return new OrderRequest(baseUri, path, new LinkedHashMap<>(query));\n        }\n    }\n}\n",
+      "explanation": "This is the pattern behind RequestSpecBuilder: fluent setters returning `this`, validation in `build()`, and an immutable result. LinkedHashMap keeps insertion order so URLs are predictable in assertions.",
+      "hints": [
+        "Each builder method sets a field and returns `this`.",
+        "Use a LinkedHashMap for query parameters.",
+        "URLEncoder turns a space into '+'."
+      ],
+      "junit": "import org.junit.jupiter.api.Test;\nimport static org.junit.jupiter.api.Assertions.*;\n\nclass OrderRequestTest {\n    @Test\n    void buildsUrlWithEncodedQuery() {\n        String url = OrderRequest.builder().baseUri(\"https://api.test\").path(\"/orders\")\n            .query(\"status\", \"open\").query(\"q\", \"a b\").build().url();\n        assertEquals(\"https://api.test/orders?status=open&q=a+b\", url);\n    }\n\n    @Test\n    void noQueryMeansNoQuestionMark() {\n        assertEquals(\"https://api.test/orders\", OrderRequest.builder().baseUri(\"https://api.test\").path(\"/orders\").build().url());\n    }\n\n    @Test\n    void missingBaseUriFails() {\n        assertThrows(IllegalStateException.class, () -> OrderRequest.builder().path(\"/x\").build());\n    }\n}\n",
+      "runInstructions": "Create a Maven project with JUnit Jupiter 5 as a test dependency (Java 17+). Put `OrderRequest.java` in `src/main/java/` and `OrderRequestTest.java` in `src/test/java/`, then run `mvn test`. All three tests should pass.",
+      "marks": 6
+    }
+  ]
+}

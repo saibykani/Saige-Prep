@@ -1,0 +1,183 @@
+{
+  "lesson": "rest-principles",
+  "questions": [
+    {
+      "id": "pt-rest-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rest-principles",
+      "prompt": "In REST, what is a resource?",
+      "options": [
+        "Any named thing the API exposes, such as an order or a customer, identified by a URI",
+        "A server's CPU and memory",
+        "A database table only",
+        "An HTTP method"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Resources are the nouns of the API. They may map to tables, but often do not; clients interact with representations of them."
+    },
+    {
+      "id": "pt-rest-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rest-principles",
+      "prompt": "Which URI is the most conventional for the collection of a customer's orders?",
+      "options": [
+        "/customers/42/orders",
+        "/getOrdersForCustomer?id=42",
+        "/orders/list/customer42",
+        "/customer/orders/get/42"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Plural nouns and nesting express relationships; verbs belong in the HTTP method, not the path."
+    },
+    {
+      "id": "pt-rest-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "rest-principles",
+      "prompt": "A representation is the format in which a resource is transferred, for example JSON or XML.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The same resource can have several representations, chosen by content negotiation (Accept header)."
+    },
+    {
+      "id": "pt-rest-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rest-principles",
+      "prompt": "Which REST constraint lets intermediaries such as CDNs store responses?",
+      "options": [
+        "Cacheable",
+        "Uniform interface",
+        "Code on demand",
+        "Layered system only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Responses must label themselves cacheable or not, which lets clients and intermediaries reuse them. Layered system allows the intermediaries to exist; caching is its own constraint."
+    },
+    {
+      "id": "pt-rest-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rest-principles",
+      "prompt": "An API exposes `POST /orders/42/cancel`. Is that acceptable REST design?",
+      "options": [
+        "Often acceptable for actions that are not simple CRUD; alternatives are PATCH status or creating a cancellation resource. Test that it is idempotent-safe and documented",
+        "Never; REST forbids any verb in a path",
+        "Only if it uses GET",
+        "Only in SOAP"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pure resource modelling is ideal, but action endpoints are a common, pragmatic choice. What matters to testers is consistent, documented semantics."
+    },
+    {
+      "id": "pt-rest-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "rest-principles",
+      "prompt": "Which are signs of a REST API that ignores HTTP semantics? Select all that apply.",
+      "options": [
+        "GET /deleteUser?id=5 deletes a user",
+        "Errors returned as 200 with {\"success\": false}",
+        "POST used for all operations",
+        "DELETE /users/5 returns 204"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Deleting via GET breaks safety (crawlers and prefetchers can trigger it); errors-as-200 hide failures from clients and monitoring; POST-for-everything loses caching and idempotency. 204 on DELETE is correct."
+    },
+    {
+      "id": "pt-rest-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "rest-principles",
+      "prompt": "A browser prefetch extension caused users' items to vanish from carts. Logs show GET /cart/remove?item=9. What is the root cause?",
+      "options": [
+        "A state-changing action exposed through GET, which clients and tools assume is safe to call automatically",
+        "The extension has a bug",
+        "The cart table lacks an index",
+        "The API needs rate limiting"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "GET must be safe. Prefetchers, crawlers and link previews call GETs freely. The action belongs in DELETE or POST."
+    },
+    {
+      "id": "pt-rest-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "rest-principles",
+      "prompt": "PUT /users/7 with only `{\"email\": \"new@x.test\"}` sets the user's name to null. Is this a defect?",
+      "options": [
+        "Not necessarily: PUT replaces the full representation, so omitted fields can be cleared; if a partial update is intended, the client should use PATCH. Check the API's documented semantics",
+        "Always a defect",
+        "It proves PUT is not idempotent",
+        "It means the API is not RESTful"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "PUT semantics are full replacement. Tests should check that the API documents and behaves consistently with this, and that PATCH (if offered) updates only supplied fields."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-rest-lint",
+      "language": "python",
+      "title": "Lint REST endpoint designs",
+      "difficulty": "intermediate",
+      "prompt": "Write `lint(method, path)` returning a sorted list of warnings for an endpoint:\n\n- `'verb-in-path'` if any path segment (case-insensitive) is one of `get, create, update, delete, remove, add`\n- `'unsafe-get'` if method is GET and a segment is `delete`, `remove`, `update` or `create`\n- `'singular-collection'` if the first segment does not end in `s`\n\nPath segments are split on `/`, ignoring empty ones and query strings.\n\nExample: `lint('GET', '/user/delete?id=5')` returns `['singular-collection', 'unsafe-get', 'verb-in-path']`.",
+      "starter": "def lint(method, path):\n    # Your code here\n    pass\n",
+      "solution": "def lint(method, path):\n    segs = [s.lower() for s in path.split('?')[0].split('/') if s]\n    warnings = set()\n    if any(s in {'get', 'create', 'update', 'delete', 'remove', 'add'} for s in segs):\n        warnings.add('verb-in-path')\n    if method.upper() == 'GET' and any(s in {'delete', 'remove', 'update', 'create'} for s in segs):\n        warnings.add('unsafe-get')\n    if segs and not segs[0].endswith('s'):\n        warnings.add('singular-collection')\n    return sorted(warnings)\n",
+      "explanation": "Simple heuristics like these catch most design smells during API review. A set avoids duplicates; stripping the query keeps `?id=5` from becoming a segment.",
+      "hints": [
+        "Remove the query with `path.split('?')[0]`.",
+        "Filter out empty segments from leading slashes.",
+        "Collect warnings in a set, then sort."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert lint('GET', '/user/delete?id=5') == ['singular-collection', 'unsafe-get', 'verb-in-path']"
+        },
+        {
+          "name": "Good design",
+          "marks": 2,
+          "code": "assert lint('DELETE', '/orders/42') == [] and lint('GET', '/customers/1/orders') == []"
+        },
+        {
+          "name": "Verb in POST path",
+          "marks": 1,
+          "code": "assert lint('POST', '/orders/Create') == ['verb-in-path']"
+        }
+      ]
+    }
+  ]
+}

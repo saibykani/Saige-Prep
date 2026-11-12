@@ -1,0 +1,183 @@
+{
+  "lesson": "cross-browser-testing",
+  "questions": [
+    {
+      "id": "pt-xbr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cross-browser-testing",
+      "prompt": "Which rendering engine does Safari use?",
+      "options": [
+        "WebKit",
+        "Blink",
+        "Gecko",
+        "Trident"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Safari uses WebKit. Chrome and Edge use Blink; Firefox uses Gecko; Trident was Internet Explorer's."
+    },
+    {
+      "id": "pt-xbr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cross-browser-testing",
+      "prompt": "What should mainly decide which browsers you test on?",
+      "options": [
+        "Your real users' analytics plus business requirements",
+        "The tester's favourite browser",
+        "Whatever is newest",
+        "Alphabetical order"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Usage data and contractual or accessibility requirements define the browser matrix."
+    },
+    {
+      "id": "pt-xbr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "cross-browser-testing",
+      "prompt": "On iOS, all browsers (including Chrome for iOS) have historically had to use the WebKit engine, so Chrome on iPhone behaves much like Safari.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Apple's App Store rules required WebKit for iOS browsers; alternative engines are only permitted in some regions (such as the EU) since 2024, and most iOS browsers still use WebKit."
+    },
+    {
+      "id": "pt-xbr-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cross-browser-testing",
+      "prompt": "Which issues commonly differ between browsers? Select all that apply.",
+      "options": [
+        "Support for newer CSS features",
+        "Date input controls and their formats",
+        "Autofill and password manager behaviour",
+        "The HTTP status codes the server returns"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Rendering, form controls and browser features vary. Server status codes do not depend on the browser (unless the server sniffs user agents)."
+    },
+    {
+      "id": "pt-xbr-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cross-browser-testing",
+      "prompt": "In Playwright, which `projects` setting runs tests against desktop Safari's engine?",
+      "options": [
+        "{ name: 'webkit', use: { ...devices['Desktop Safari'] } }",
+        "{ name: 'safari', use: { browserName: 'blink' } }",
+        "{ name: 'webkit', use: { channel: 'msedge' } }",
+        "Playwright cannot run WebKit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Playwright ships a WebKit build and device descriptors such as 'Desktop Safari'. `channel: 'msedge'` selects Edge (Chromium)."
+    },
+    {
+      "id": "pt-xbr-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "cross-browser-testing",
+      "prompt": "A layout bug appears only on an iPhone, not in Chrome DevTools' iPhone emulation. Why?",
+      "options": [
+        "Device emulation changes viewport and user agent but still renders with Chrome's Blink engine, not WebKit",
+        "The bug is random",
+        "DevTools is out of date",
+        "iPhones do not support CSS"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Emulation is useful for responsive layout, but engine-specific bugs need the real engine (WebKit in Playwright, a real device or a device cloud)."
+    },
+    {
+      "id": "pt-xbr-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cross-browser-testing",
+      "prompt": "A feature uses a new CSS property that one supported browser lacks. The page breaks there. What is the best fix to recommend?",
+      "options": [
+        "Progressive enhancement: use @supports (or a fallback value) so unsupported browsers get a working, simpler layout",
+        "Tell users to switch browsers",
+        "Detect the browser by user agent and block it",
+        "Remove all CSS"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Feature detection degrades gracefully and keeps working as browsers update. User-agent sniffing is brittle."
+    },
+    {
+      "id": "pt-xbr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "cross-browser-testing",
+      "prompt": "You have budget for one full regression pass per release plus smoke tests. Analytics: Chrome 61%, Safari iOS 24%, Edge 8%, Firefox 4%, Samsung Internet 3%. What is a sensible plan?",
+      "options": [
+        "Full pass on Chrome and iOS Safari (different engines, 85% of users); smoke on Edge, Firefox and Samsung Internet; revisit as analytics change",
+        "Full pass on all five",
+        "Only Chrome, since Edge is the same engine",
+        "Only Firefox, the hardest one"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Cover the biggest share and each engine family deeply, and spread lighter checks across the rest. Edge shares Blink with Chrome, so a smoke run there is usually enough."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-xbr-matrix",
+      "language": "python",
+      "title": "Choose a browser matrix",
+      "difficulty": "intermediate",
+      "prompt": "Write `choose(usage, engines, coverage_pct)` where `usage` maps browser -> percent of users and `engines` maps browser -> engine name. Pick browsers in descending usage until cumulative usage reaches `coverage_pct`, **then** add the most-used browser of any engine not yet covered. Return the list in the order chosen.\n\nExample: `choose({'chrome': 61, 'ios-safari': 24, 'edge': 8, 'firefox': 4, 'samsung': 3}, {'chrome': 'blink', 'ios-safari': 'webkit', 'edge': 'blink', 'firefox': 'gecko', 'samsung': 'blink'}, 85)` returns `['chrome', 'ios-safari', 'firefox']`.",
+      "starter": "def choose(usage, engines, coverage_pct):\n    # Your code here\n    pass\n",
+      "solution": "def choose(usage, engines, coverage_pct):\n    ordered = sorted(usage, key=lambda b: -usage[b])\n    chosen, total = [], 0\n    for b in ordered:\n        if total >= coverage_pct:\n            break\n        chosen.append(b)\n        total += usage[b]\n    covered = {engines[b] for b in chosen}\n    for b in ordered:\n        if engines[b] not in covered:\n            chosen.append(b)\n            covered.add(engines[b])\n    return chosen\n",
+      "explanation": "Usage-based selection gives the biggest audience coverage; adding one browser per uncovered engine catches engine-specific bugs cheaply.",
+      "hints": [
+        "Sort browsers by usage descending.",
+        "Stop adding once the running total reaches the target.",
+        "Then walk the ordered list again for missing engines."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "u = {'chrome': 61, 'ios-safari': 24, 'edge': 8, 'firefox': 4, 'samsung': 3}\ne = {'chrome': 'blink', 'ios-safari': 'webkit', 'edge': 'blink', 'firefox': 'gecko', 'samsung': 'blink'}\nassert choose(u, e, 85) == ['chrome', 'ios-safari', 'firefox'], choose(u, e, 85)"
+        },
+        {
+          "name": "Higher coverage",
+          "marks": 2,
+          "code": "u = {'a': 50, 'b': 30, 'c': 20}\ne = {'a': 'blink', 'b': 'blink', 'c': 'gecko'}\nassert choose(u, e, 90) == ['a', 'b', 'c']"
+        },
+        {
+          "name": "Engine added after target",
+          "marks": 2,
+          "code": "u = {'a': 90, 'b': 6, 'c': 4}\ne = {'a': 'blink', 'b': 'blink', 'c': 'webkit'}\nassert choose(u, e, 80) == ['a', 'c']"
+        }
+      ]
+    }
+  ]
+}

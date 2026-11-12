@@ -1,0 +1,216 @@
+{
+  "lesson": "pagination-sorting-filtering",
+  "questions": [
+    {
+      "id": "pt-pag-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "With offset pagination, `?offset=20&limit=10` returns which items (1-based)?",
+      "options": [
+        "Items 21 to 30",
+        "Items 20 to 30",
+        "Items 11 to 20",
+        "Items 1 to 10 of page 20"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Offset skips the first 20 items, then limit takes 10: positions 21-30."
+    },
+    {
+      "id": "pt-pag-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "What is cursor (keyset) pagination?",
+      "options": [
+        "The response gives an opaque token pointing after the last item, and the next request passes it to continue",
+        "Pages are numbered 1, 2, 3",
+        "The client downloads everything at once",
+        "The server stores a cursor per user forever"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A cursor encodes the position (often the last sort key). It stays stable when rows are inserted, unlike offsets."
+    },
+    {
+      "id": "pt-pag-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "If the last page has fewer items than the limit, that is normal and not a defect.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The final page holds whatever remains. A defect would be a missing item, a duplicate, or a next link on the last page."
+    },
+    {
+      "id": "pt-pag-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "Which checks prove that paging through all results is correct? Select all that apply.",
+      "options": [
+        "No item appears on two pages",
+        "The union of pages equals the full filtered set",
+        "Each page respects the requested sort order, including across page boundaries",
+        "Every page has exactly `limit` items"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "No duplicates, no gaps and consistent order across boundaries are the real properties. The last page can be short."
+    },
+    {
+      "id": "pt-pag-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "`GET /products?sort=price` returns items with equal prices in a different order on each call, and some products appear twice across pages. What is the fix to request?",
+      "options": [
+        "Add a unique tiebreaker to the sort (e.g. price, then id)",
+        "Use a larger page size",
+        "Sort on the client",
+        "Remove sorting"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without a total order, the database may return ties in any order, so offsets shift between calls. A unique tiebreaker makes the order deterministic."
+    },
+    {
+      "id": "pt-pag-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "`GET /orders?status=paid&status=open` should return paid OR open orders, but the API returns only open ones. What has probably happened?",
+      "options": [
+        "The framework keeps only the last value of a repeated query parameter",
+        "The filter is case-sensitive",
+        "Paid orders do not exist",
+        "The API uses cursor pagination"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Many frameworks read a single value by default and silently take the last. Tests for multi-value filters catch this."
+    },
+    {
+      "id": "pt-pag-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "A tester requests `?limit=1000` against a documented maximum of 100 and gets 1000 items. Why does this matter beyond the spec?",
+      "options": [
+        "Unbounded page sizes let a caller pull huge datasets and exhaust server resources; the API should reject or cap the value",
+        "It only matters for UI layout",
+        "It is better for clients, so it is fine",
+        "Limits only matter for POST"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Page-size caps protect performance and limit data exposure. The expected behaviour (400 or capping to 100 with that reflected in the response) should be documented and tested."
+    },
+    {
+      "id": "pt-pag-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "pagination-sorting-filtering",
+      "prompt": "This crawler sometimes returns the same order twice, and on days with deletions it misses orders. Why?",
+      "code": "offset, seen = 0, []\nwhile True:\n    page = get(f'/orders?sort=-createdAt&offset={offset}&limit=100').json()\n    if not page: break\n    seen += page\n    offset += 100",
+      "codeLanguage": "python",
+      "options": [
+        "Rows inserted or deleted during the crawl shift every later offset, so items slide across page boundaries; use cursor pagination or a fixed snapshot",
+        "limit should be 50",
+        "The while loop never ends",
+        "Sorting by newest is not allowed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Offsets count positions, not items. An insert at the top pushes the last item of a page onto the next page (a duplicate); a delete pulls the first item of the next page back onto an already-read page (a miss). A cursor anchored on the last seen sort key is immune to both."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-pag-pages",
+      "language": "python",
+      "title": "Check a paginated crawl",
+      "difficulty": "intermediate",
+      "prompt": "Write `check_pages(pages, total_ids)` where `pages` is a list of lists of ids returned page by page and `total_ids` is the full expected set. Return a dict `{'duplicates': sorted ids seen more than once, 'missing': sorted ids never seen, 'unexpected': sorted ids not in total_ids}`.\n\nExample: `check_pages([[1,2],[2,3]], {1,2,3,4})` returns `{'duplicates': [2], 'missing': [4], 'unexpected': []}`.",
+      "starter": "def check_pages(pages, total_ids):\n    # Your code here\n    pass\n",
+      "solution": "def check_pages(pages, total_ids):\n    seen, dupes = set(), set()\n    for page in pages:\n        for i in page:\n            if i in seen:\n                dupes.add(i)\n            seen.add(i)\n    return {'duplicates': sorted(dupes), 'missing': sorted(set(total_ids) - seen), 'unexpected': sorted(seen - set(total_ids))}\n",
+      "explanation": "Duplicates and gaps are the two classic pagination defects, and set arithmetic finds both in one pass.",
+      "hints": [
+        "Track a `seen` set and a `dupes` set while iterating.",
+        "Missing = expected - seen; unexpected = seen - expected."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert check_pages([[1,2],[2,3]], {1,2,3,4}) == {'duplicates': [2], 'missing': [4], 'unexpected': []}"
+        },
+        {
+          "name": "Clean crawl",
+          "marks": 1,
+          "code": "assert check_pages([[1,2],[3]], {1,2,3}) == {'duplicates': [], 'missing': [], 'unexpected': []}"
+        },
+        {
+          "name": "Unexpected ids",
+          "marks": 2,
+          "code": "assert check_pages([[9,1],[1]], {1}) == {'duplicates': [1], 'missing': [], 'unexpected': [9]}"
+        }
+      ]
+    },
+    {
+      "id": "code-pag-sorted",
+      "language": "python",
+      "title": "Verify multi-key sort order",
+      "difficulty": "advanced",
+      "prompt": "Write `sort_violations(items, keys)` where `keys` is a list like `['-price', 'id']` (a leading `-` means descending). Return the list of indexes `i` such that `items[i]` and `items[i+1]` are out of order.\n\nExample: `sort_violations([{'price': 5, 'id': 2}, {'price': 5, 'id': 1}], ['-price', 'id'])` returns `[0]`.",
+      "starter": "def sort_violations(items, keys):\n    # Your code here\n    pass\n",
+      "solution": "def _cmp(a, b, keys):\n    for k in keys:\n        desc = k.startswith('-')\n        name = k.lstrip('-')\n        x, y = a[name], b[name]\n        if x == y:\n            continue\n        if desc:\n            return -1 if x > y else 1\n        return -1 if x < y else 1\n    return 0\n\ndef sort_violations(items, keys):\n    return [i for i in range(len(items) - 1) if _cmp(items[i], items[i + 1], keys) > 0]\n",
+      "explanation": "Compare adjacent pairs key by key: the first key that differs decides the order, and ties move to the next key. This is exactly how to assert an API's `sort=-price,id` across a whole crawl.",
+      "hints": [
+        "Write a comparison that returns -1, 0 or 1.",
+        "Strip the '-' and flip the direction for descending keys.",
+        "Only adjacent pairs need checking."
+      ],
+      "tests": [
+        {
+          "name": "Tiebreaker violation",
+          "marks": 3,
+          "code": "assert sort_violations([{'price': 5, 'id': 2}, {'price': 5, 'id': 1}], ['-price', 'id']) == [0]"
+        },
+        {
+          "name": "Correct order",
+          "marks": 2,
+          "code": "items = [{'price': 9, 'id': 3}, {'price': 5, 'id': 1}, {'price': 5, 'id': 2}]\nassert sort_violations(items, ['-price', 'id']) == []"
+        },
+        {
+          "name": "Ascending violations",
+          "marks": 2,
+          "code": "assert sort_violations([{'n': 1}, {'n': 3}, {'n': 2}, {'n': 2}], ['n']) == [1]"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "lesson": "workload-modeling",
+  "questions": [
+    {
+      "id": "pt-wlm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "workload-modeling",
+      "prompt": "What is a workload model?",
+      "options": [
+        "A description of who does what, how often and in what mix, used to drive a realistic load test",
+        "A diagram of servers",
+        "A list of test cases for a feature",
+        "The hardware sizing document"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Workload models translate production usage (transactions, rates, mix, think times, data) into test parameters."
+    },
+    {
+      "id": "pt-wlm-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "workload-modeling",
+      "prompt": "Where does a good workload model mostly get its numbers?",
+      "options": [
+        "Production analytics and logs for peak periods, plus business forecasts",
+        "Guesses by the test team",
+        "The vendor's marketing material",
+        "The number of test cases"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Real usage data, especially at peak, is the best source; forecasts adjust it for growth or events."
+    },
+    {
+      "id": "pt-wlm-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "workload-modeling",
+      "prompt": "Think time represents the pause a real user takes between actions, such as reading a page.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Think time keeps the request rate per user realistic. Without it, each virtual user behaves like a script hammering the server."
+    },
+    {
+      "id": "pt-wlm-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "workload-modeling",
+      "prompt": "Peak hour: 54,000 product views, 9,000 add-to-cart, 1,800 checkouts. What share of the mix is checkout?",
+      "code": "views, carts, checkouts = 54000, 9000, 1800",
+      "codeLanguage": "python",
+      "options": [
+        "About 2.8%",
+        "18%",
+        "10%",
+        "33%"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Total = 64,800. 1,800 / 64,800 ≈ 0.0278, about 2.8%. Mix percentages must come from the same period."
+    },
+    {
+      "id": "pt-wlm-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "workload-modeling",
+      "prompt": "Peak hour shows 7,200 checkouts. Traffic in that hour is spread evenly. What arrival rate should the test target?",
+      "options": [
+        "2 checkouts per second",
+        "7,200 per second",
+        "120 per second",
+        "0.5 per second"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "7,200 / 3,600 s = 2 per second."
+    },
+    {
+      "id": "pt-wlm-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "workload-modeling",
+      "prompt": "Which details belong in a workload model? Select all that apply.",
+      "options": [
+        "Transaction mix and rates at peak",
+        "Think time and pacing",
+        "Data variety (e.g. number of distinct products and users)",
+        "The names of the developers"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Mix, rates, pacing and data distribution all affect load; people's names do not."
+    },
+    {
+      "id": "pt-wlm-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "workload-modeling",
+      "prompt": "Production analytics show 80% of traffic arrives in a 15-minute burst after a daily email. The test uses the daily average rate. What is the problem?",
+      "options": [
+        "The test underestimates peak load by a large factor; model the burst rate (and ramp) instead of the daily average",
+        "None; averages are fine",
+        "The test should use 24 hours of think time",
+        "Emails do not affect load"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Systems fail at peaks. A daily average flattens the burst that actually stresses the system."
+    },
+    {
+      "id": "pt-wlm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "workload-modeling",
+      "prompt": "A public API's clients send requests independently of how fast the API responds. Which load model should the test use, and why?",
+      "options": [
+        "An open model (fixed arrival rate), because real arrivals do not slow down when the system slows, so queues build up as they would in production",
+        "A closed model with few users, because it is simpler",
+        "No think time with 10 users",
+        "Any model; results are the same"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Closed models self-throttle when responses slow, hiding overload. Open models match independent arrivals and reveal it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-wlm-mix",
+      "language": "python",
+      "title": "Build a transaction mix",
+      "difficulty": "beginner",
+      "prompt": "Write `mix(counts)` that converts a dict of transaction -> count into a dict of transaction -> percentage rounded to 1 decimal.\n\nExample: `mix({'view': 54000, 'cart': 9000, 'checkout': 1800})` returns `{'view': 83.3, 'cart': 13.9, 'checkout': 2.8}`.",
+      "starter": "def mix(counts):\n    # Your code here\n    pass\n",
+      "solution": "def mix(counts):\n    total = sum(counts.values())\n    return {k: round(100 * v / total, 1) for k, v in counts.items()}\n",
+      "explanation": "Percentages make the mix independent of the absolute volume, so you can scale the test up or down while keeping the realistic proportions.",
+      "hints": [
+        "Compute the total first.",
+        "Use a dict comprehension."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert mix({'view': 54000, 'cart': 9000, 'checkout': 1800}) == {'view': 83.3, 'cart': 13.9, 'checkout': 2.8}"
+        },
+        {
+          "name": "Single transaction",
+          "marks": 1,
+          "code": "assert mix({'a': 5}) == {'a': 100.0}"
+        },
+        {
+          "name": "Even split",
+          "marks": 1,
+          "code": "assert mix({'a': 1, 'b': 1, 'c': 2}) == {'a': 25.0, 'b': 25.0, 'c': 50.0}"
+        }
+      ]
+    },
+    {
+      "id": "code-wlm-plan",
+      "language": "python",
+      "title": "Turn a peak hour into test parameters",
+      "difficulty": "intermediate",
+      "prompt": "Write `plan(peak_hour_counts, iteration_seconds)` where `peak_hour_counts` maps transaction -> count in the peak hour, and each virtual user iteration performs **one** transaction and takes `iteration_seconds` (response + think time). Return a dict transaction -> `{'per_sec': rate rounded to 2 decimals, 'users': ceil(rate × iteration_seconds)}`.\n\nExample: `plan({'search': 36000}, 6)` returns `{'search': {'per_sec': 10.0, 'users': 60}}`.",
+      "starter": "import math\n\ndef plan(peak_hour_counts, iteration_seconds):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef plan(peak_hour_counts, iteration_seconds):\n    out = {}\n    for tx, count in peak_hour_counts.items():\n        rate = count / 3600\n        out[tx] = {'per_sec': round(rate, 2), 'users': math.ceil(round(rate * iteration_seconds, 9))}\n    return out\n",
+      "explanation": "Peak-hour count / 3600 gives the arrival rate; Little's Law (users = rate × cycle time) gives the closed-model user count. Rounding up ensures the target rate is reachable.",
+      "hints": [
+        "Rate per second = count / 3600.",
+        "Users = ceil(rate × iteration_seconds).",
+        "Round before ceil to avoid floating point surprises."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert plan({'search': 36000}, 6) == {'search': {'per_sec': 10.0, 'users': 60}}"
+        },
+        {
+          "name": "Several transactions",
+          "marks": 3,
+          "code": "r = plan({'view': 54000, 'checkout': 1800}, 10)\nassert r == {'view': {'per_sec': 15.0, 'users': 150}, 'checkout': {'per_sec': 0.5, 'users': 5}}, r"
+        },
+        {
+          "name": "Rounds users up",
+          "marks": 2,
+          "code": "assert plan({'x': 1000}, 7)['x'] == {'per_sec': 0.28, 'users': 2}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "lesson": "postman-tests-and-request-chaining",
+  "questions": [
+    {
+      "id": "pt-pmtst-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "Which Postman script statement asserts that the status code is 201?",
+      "options": [
+        "pm.response.to.have.status(201);",
+        "pm.status == 201;",
+        "assert(201);",
+        "pm.expect(201);"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`pm.response.to.have.status(201)` is the built-in assertion. The others either compare without asserting or assert nothing useful."
+    },
+    {
+      "id": "pt-pmtst-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "Why do tests go inside `pm.test('name', () => { ... })`?",
+      "options": [
+        "So each check is reported as a named pass/fail and one failure does not stop the others",
+        "Because Postman cannot run code outside it",
+        "To make the request faster",
+        "To set environment variables"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "pm.test isolates and names each assertion in the results. Code outside it still runs, but a failed expect there is an error rather than a named test."
+    },
+    {
+      "id": "pt-pmtst-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "Saving an id from one response with pm.collectionVariables.set and using {{orderId}} in the next request is called request chaining.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Chaining passes data (ids, tokens) from one response into later requests, which lets a collection test a full flow."
+    },
+    {
+      "id": "pt-pmtst-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "The response body is `{\"items\": [{\"sku\": \"A\"}, {\"sku\": \"B\"}]}`. What is the test result?",
+      "code": "pm.test('two items, second is B', () => {\n  const body = pm.response.json();\n  pm.expect(body.items).to.have.lengthOf(2);\n  pm.expect(body.items[1].sku).to.eql('B');\n});",
+      "codeLanguage": "javascript",
+      "options": [
+        "Pass",
+        "Fail: expected 1 to equal 2",
+        "Error: items is undefined",
+        "Fail: B is not A"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`items` has 2 elements and the second sku is \"B\", so both expectations hold."
+    },
+    {
+      "id": "pt-pmtst-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "In a run, request 2 uses {{orderId}} but the URL shows `/orders/{{orderId}}` literally. What is the most likely cause?",
+      "options": [
+        "Request 1 failed or never set the variable (e.g. wrong name or scope), so it was unresolved",
+        "Postman does not support chaining",
+        "The order id is a number",
+        "Request 2 ran first in parallel"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unresolved `{{...}}` means no scope had that variable. Check that request 1 succeeded, that the set call ran, and that the names match exactly."
+    },
+    {
+      "id": "pt-pmtst-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "Which make chained Postman tests more robust? Select all that apply.",
+      "options": [
+        "Assert the status before extracting values from the body",
+        "Use pm.execution.setNextRequest only when you really need branching, and document it",
+        "Clear or unset temporary variables at the end of the flow",
+        "Hardcode the id from a previous successful run"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Asserting status first gives a clear failure instead of a later confusing one; explicit flow control and cleanup avoid hidden state. Hardcoded ids break on the next environment reset."
+    },
+    {
+      "id": "pt-pmtst-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "This test passes even when the token is missing. Why?",
+      "code": "pm.test('login returns token', () => {\n  const body = pm.response.json();\n  pm.expect(body.token);\n  pm.collectionVariables.set('token', body.token);\n});",
+      "codeLanguage": "javascript",
+      "options": [
+        "`pm.expect(body.token)` without a matcher asserts nothing; add `.to.be.a('string').and.not.be.empty`",
+        "pm.response.json() returns a string",
+        "Tests must be async",
+        "expect must be capitalised"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Chai's `expect(x)` just creates an assertion object. Without a matcher such as `.to.exist` or `.to.be.a('string')`, nothing is checked."
+    },
+    {
+      "id": "pt-pmtst-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "postman-tests-and-request-chaining",
+      "prompt": "A collection's 'Delete order' request runs before 'Create order' in some runs after a teammate reorganised folders, causing 404s. What is the most robust fix?",
+      "options": [
+        "Make each folder's flow self-contained (create then delete within the same folder, in order), and avoid depending on another folder's side effects",
+        "Add retries",
+        "Accept 404 as a pass",
+        "Run the collection twice"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Requests run in collection order; cross-folder dependencies break when the structure changes. Self-contained flows survive reordering and `--folder` runs."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-pmtst-chain",
+      "language": "javascript",
+      "title": "Simulate a chained flow",
+      "difficulty": "intermediate",
+      "prompt": "Write `async function runFlow(api)` that tests a create-then-read flow. `api.post(path, body)` and `api.get(path)` return promises of `{status, json}`.\n\n1. POST `/orders` with `{sku: 'A1', qty: 2}`; if the status is not 201, return `{ok: false, step: 'create'}`.\n2. Take `json.id` and GET `/orders/<id>`; if status is not 200 or the returned `qty` is not 2, return `{ok: false, step: 'read'}`.\n3. Otherwise return `{ok: true, id: <id>}`.",
+      "starter": "async function runFlow(api) {\n  // Your code here\n}\n",
+      "solution": "async function runFlow(api) {\n  const created = await api.post('/orders', { sku: 'A1', qty: 2 });\n  if (created.status !== 201) return { ok: false, step: 'create' };\n  const id = created.json.id;\n  const read = await api.get(`/orders/${id}`);\n  if (read.status !== 200 || read.json.qty !== 2) return { ok: false, step: 'read' };\n  return { ok: true, id };\n}\n",
+      "explanation": "Each step checks its status before using the body, so a failure names the step that broke instead of producing a confusing error later. The id flows from step 1 into step 2 exactly like a Postman collection variable.",
+      "hints": [
+        "`await` each call.",
+        "Check `created.status` before reading `created.json.id`.",
+        "Use a template literal for the GET path."
+      ],
+      "tests": [
+        {
+          "name": "Happy path",
+          "marks": 3,
+          "code": "const store = {};\nconst api = { post: async (p, b) => { store.x = b; return { status: 201, json: { id: 'ord_1', ...b } }; }, get: async (p) => p === '/orders/ord_1' ? { status: 200, json: store.x } : { status: 404, json: {} } };\nassertEqual(await runFlow(api), { ok: true, id: 'ord_1' });"
+        },
+        {
+          "name": "Create failure is reported",
+          "marks": 2,
+          "code": "const api = { post: async () => ({ status: 500, json: {} }), get: async () => { throw new Error('should not be called'); } };\nassertEqual(await runFlow(api), { ok: false, step: 'create' });"
+        },
+        {
+          "name": "Wrong data on read",
+          "marks": 2,
+          "code": "const api = { post: async () => ({ status: 201, json: { id: 9 } }), get: async () => ({ status: 200, json: { qty: 3 } }) };\nassertEqual(await runFlow(api), { ok: false, step: 'read' });"
+        }
+      ]
+    },
+    {
+      "id": "code-pmtst-checks",
+      "language": "javascript",
+      "title": "Reusable response checks",
+      "difficulty": "beginner",
+      "prompt": "Write `checkResponse(res)` for a response `{status, headers, body}` that returns an array of failure messages (empty if all pass):\n\n- `'status'` if status is not 200\n- `'content-type'` if `headers['content-type']` does not start with `application/json`\n- `'id'` if `body.id` is not a non-empty string\n\nExample: `checkResponse({status: 200, headers: {'content-type': 'application/json; charset=utf-8'}, body: {id: 'a'}})` returns `[]`.",
+      "starter": "function checkResponse(res) {\n  // Your code here\n}\n",
+      "solution": "function checkResponse(res) {\n  const failures = [];\n  if (res.status !== 200) failures.push('status');\n  const ct = (res.headers && res.headers['content-type']) || '';\n  if (!ct.startsWith('application/json')) failures.push('content-type');\n  if (!res.body || typeof res.body.id !== 'string' || res.body.id === '') failures.push('id');\n  return failures;\n}\n",
+      "explanation": "Returning all failures (instead of throwing at the first) mirrors separate pm.test blocks: you see every problem in one run. `startsWith` allows the charset parameter.",
+      "hints": [
+        "Start with an empty array and push names.",
+        "Guard against missing headers or body.",
+        "Use `typeof` to check the id is a string."
+      ],
+      "tests": [
+        {
+          "name": "All pass",
+          "marks": 1,
+          "code": "assertEqual(checkResponse({status: 200, headers: {'content-type': 'application/json; charset=utf-8'}, body: {id: 'a'}}), []);"
+        },
+        {
+          "name": "All fail",
+          "marks": 2,
+          "code": "assertEqual(checkResponse({status: 500, headers: {'content-type': 'text/html'}, body: {id: 5}}), ['status', 'content-type', 'id']);"
+        },
+        {
+          "name": "Missing pieces",
+          "marks": 2,
+          "code": "assertEqual(checkResponse({status: 200, headers: {}, body: null}), ['content-type', 'id']);"
+        }
+      ]
+    }
+  ]
+}

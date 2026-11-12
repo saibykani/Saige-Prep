@@ -1,0 +1,215 @@
+{
+  "lesson": "microservices-testing",
+  "questions": [
+    {
+      "id": "pt-msvc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "microservices-testing",
+      "prompt": "In a microservices system, what does a component test usually cover?",
+      "options": [
+        "One service in isolation, with its external dependencies replaced by test doubles",
+        "The whole system end to end",
+        "One function only",
+        "The network hardware"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Component tests exercise a service through its API with stubs or fakes for its collaborators, giving fast, reliable feedback."
+    },
+    {
+      "id": "pt-msvc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "microservices-testing",
+      "prompt": "Why do teams keep end-to-end tests few in microservices systems?",
+      "options": [
+        "They are slow, flaky and hard to diagnose because they depend on many services being deployed and healthy",
+        "They are illegal",
+        "They cannot find bugs",
+        "They only test the database"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A small number of critical-journey E2E tests is valuable; the bulk of testing belongs at lower levels."
+    },
+    {
+      "id": "pt-msvc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "microservices-testing",
+      "prompt": "A message consumer should be idempotent, because most brokers deliver at least once and can redeliver the same message.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "At-least-once delivery means duplicates happen. Idempotent handling (e.g. de-duplicating by message id) keeps state correct."
+    },
+    {
+      "id": "pt-msvc-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "microservices-testing",
+      "prompt": "Which help test eventual consistency without flaky sleeps? Select all that apply.",
+      "options": [
+        "Poll for the expected state with a timeout",
+        "Subscribe to the resulting event and wait for it",
+        "Assert on a correlation id across services",
+        "sleep(5) then assert"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Polling or waiting on events finishes as soon as the condition holds and fails clearly on timeout. Fixed sleeps are either too short (flaky) or too long (slow)."
+    },
+    {
+      "id": "pt-msvc-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "microservices-testing",
+      "prompt": "The order service calls inventory synchronously. In a test, inventory is down and order creation hangs for 60 s. What should the test drive the team to add?",
+      "options": [
+        "A short timeout plus a circuit breaker or fallback, and a clear error to the client",
+        "A longer timeout",
+        "More inventory instances only",
+        "Retries with no limit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Resilience patterns keep one failing dependency from exhausting threads in the caller. Tests should simulate the failure and assert fast, defined behaviour."
+    },
+    {
+      "id": "pt-msvc-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "microservices-testing",
+      "prompt": "What is a correlation id used for?",
+      "options": [
+        "Tracing one request across several services' logs and traces",
+        "Encrypting messages",
+        "Load balancing",
+        "Generating database keys"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Passing the same id through every call and message lets you follow a request end to end when debugging tests or incidents."
+    },
+    {
+      "id": "pt-msvc-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "microservices-testing",
+      "prompt": "Service A publishes OrderPlaced; service B consumes it. B's team changed the event schema expectations and production broke, although both teams' unit tests passed. What test was missing?",
+      "options": [
+        "A message contract test between A (provider) and B (consumer) for the event",
+        "More unit tests in A",
+        "A load test",
+        "A UI test"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Contracts apply to asynchronous messages too. Pact and similar tools support message pacts that verify the producer still creates what consumers expect."
+    },
+    {
+      "id": "pt-msvc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "microservices-testing",
+      "prompt": "PaymentCaptured is processed twice after a broker redelivery and the customer is emailed two receipts and stock is decremented twice. Which test and fix do you propose?",
+      "options": [
+        "Test by delivering the same message id twice; fix with an idempotent consumer that records processed message ids (inbox pattern) inside the same transaction",
+        "Ask the broker team to stop redeliveries",
+        "Add a delay before processing",
+        "Process messages in parallel"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Duplicates are normal. The consumer must detect and skip them atomically with its state change, otherwise a crash between the two steps reintroduces duplicates."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-msvc-poll",
+      "language": "javascript",
+      "title": "Poll for eventual consistency",
+      "difficulty": "intermediate",
+      "prompt": "Write `async function waitFor(check, timeoutMs, intervalMs)` that calls the async `check()` repeatedly until it returns a truthy value, then returns that value. If `timeoutMs` passes first, throw an `Error` whose message starts with `'Timed out'`. Wait `intervalMs` between attempts.",
+      "starter": "async function waitFor(check, timeoutMs, intervalMs) {\n  // Your code here\n}\n",
+      "solution": "async function waitFor(check, timeoutMs, intervalMs) {\n  const deadline = Date.now() + timeoutMs;\n  while (true) {\n    const value = await check();\n    if (value) return value;\n    if (Date.now() + intervalMs > deadline) throw new Error(`Timed out after ${timeoutMs} ms`);\n    await new Promise((r) => setTimeout(r, intervalMs));\n  }\n}\n",
+      "explanation": "Polling returns as soon as the system is consistent, so tests are fast when things work and fail with a clear message when they do not, unlike a fixed sleep.",
+      "hints": [
+        "Compute a deadline from `Date.now()`.",
+        "Await the check, return if truthy, otherwise sleep with a Promise around setTimeout.",
+        "Throw once the next wait would pass the deadline."
+      ],
+      "tests": [
+        {
+          "name": "Returns when ready",
+          "marks": 3,
+          "code": "let n = 0;\nconst v = await waitFor(async () => (++n >= 3 ? 'reserved' : null), 1000, 10);\nassertEqual(v, 'reserved');\nassertEqual(n, 3);"
+        },
+        {
+          "name": "Times out",
+          "marks": 3,
+          "code": "let msg = '';\ntry { await waitFor(async () => false, 100, 20); } catch (e) { msg = e.message; }\nassert(msg.startsWith('Timed out'), 'expected a timeout error, got: ' + msg);"
+        },
+        {
+          "name": "Immediate success",
+          "marks": 1,
+          "code": "assertEqual(await waitFor(async () => 42, 50, 10), 42);"
+        }
+      ]
+    },
+    {
+      "id": "code-msvc-inbox",
+      "language": "python",
+      "title": "Idempotent message consumer",
+      "difficulty": "advanced",
+      "prompt": "Implement `class StockConsumer` with `stock` (dict sku -> qty, set in `__init__(stock)`) and `handle(message)`, where a message is `{'id': str, 'sku': str, 'qty': int}`. Decrement stock for each new message id; ignore a message whose id was already processed. Return `'processed'` or `'duplicate'`. If stock would go negative, raise `ValueError` and do **not** record the id (so a later retry can succeed after restocking).",
+      "starter": "class StockConsumer:\n    def __init__(self, stock):\n        self.stock = dict(stock)\n\n    def handle(self, message):\n        # Your code here\n        pass\n",
+      "solution": "class StockConsumer:\n    def __init__(self, stock):\n        self.stock = dict(stock)\n        self.processed = set()\n\n    def handle(self, message):\n        if message['id'] in self.processed:\n            return 'duplicate'\n        new_qty = self.stock.get(message['sku'], 0) - message['qty']\n        if new_qty < 0:\n            raise ValueError('insufficient stock')\n        self.stock[message['sku']] = new_qty\n        self.processed.add(message['id'])\n        return 'processed'\n",
+      "explanation": "Recording the id only together with a successful state change keeps the two consistent (in a real service, both happen in one database transaction). A failed message stays unrecorded so redelivery can retry it.",
+      "hints": [
+        "Keep a set of processed ids.",
+        "Check for duplicates first.",
+        "Validate stock before changing anything or recording the id."
+      ],
+      "tests": [
+        {
+          "name": "Processes once",
+          "marks": 3,
+          "code": "c = StockConsumer({'A': 5})\nm = {'id': 'm1', 'sku': 'A', 'qty': 2}\nassert c.handle(m) == 'processed' and c.handle(m) == 'duplicate'\nassert c.stock == {'A': 3}, c.stock"
+        },
+        {
+          "name": "Failure is retryable",
+          "marks": 3,
+          "code": "c = StockConsumer({'A': 1})\nm = {'id': 'm2', 'sku': 'A', 'qty': 2}\ntry:\n    c.handle(m)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass\nc.stock['A'] = 4\nassert c.handle(m) == 'processed' and c.stock == {'A': 2}"
+        },
+        {
+          "name": "Different ids both apply",
+          "marks": 1,
+          "code": "c = StockConsumer({'A': 5})\nc.handle({'id': 'a', 'sku': 'A', 'qty': 1}); c.handle({'id': 'b', 'sku': 'A', 'qty': 1})\nassert c.stock['A'] == 3"
+        }
+      ]
+    }
+  ]
+}

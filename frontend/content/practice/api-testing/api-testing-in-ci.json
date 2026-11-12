@@ -1,0 +1,214 @@
+{
+  "lesson": "api-testing-in-ci",
+  "questions": [
+    {
+      "id": "pt-apici-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-testing-in-ci",
+      "prompt": "What is the main benefit of running API tests in a CI pipeline?",
+      "options": [
+        "Every change is checked automatically and quickly, so breaking changes are caught before merge or deploy",
+        "Tests no longer need assertions",
+        "CI makes the API faster",
+        "Developers can skip code review"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CI gives fast, consistent feedback on every change. It does not replace assertions or review."
+    },
+    {
+      "id": "pt-apici-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-testing-in-ci",
+      "prompt": "Which job outcome should a failing API test produce in CI?",
+      "options": [
+        "A failed (red) job that blocks the merge or deployment",
+        "A warning only",
+        "A passing job with a log message",
+        "A skipped job"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tests only protect the main branch if failures fail the pipeline."
+    },
+    {
+      "id": "pt-apici-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "api-testing-in-ci",
+      "prompt": "CI test reports in JUnit XML format let most CI servers display which individual tests failed.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JUnit XML is widely supported by GitHub Actions, GitLab, Jenkins and Azure DevOps for per-test results."
+    },
+    {
+      "id": "pt-apici-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-testing-in-ci",
+      "prompt": "Which make API tests reliable in CI? Select all that apply.",
+      "options": [
+        "Each run creates its own test data",
+        "The API under test is healthy before tests start (a readiness check)",
+        "Secrets come from the CI secret store",
+        "Tests depend on the order of yesterday's data"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Own data, readiness checks and managed secrets remove common sources of flakiness and leaks."
+    },
+    {
+      "id": "pt-apici-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-testing-in-ci",
+      "prompt": "API tests start immediately after `docker compose up -d` and the first few fail with connection refused, then pass on rerun. What is the fix?",
+      "options": [
+        "Wait for a health endpoint to report ready (with a timeout) before running tests",
+        "Add retries to every test",
+        "Run the tests twice",
+        "Remove the failing tests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Containers start before the application is ready. Polling a health check removes the race."
+    },
+    {
+      "id": "pt-apici-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "api-testing-in-ci",
+      "prompt": "Where should a fast API smoke suite run, and where should the full regression suite run?",
+      "options": [
+        "Smoke on every pull request; full regression on merge to main or nightly, depending on its duration",
+        "Both only before a release",
+        "Full suite on every keystroke",
+        "Smoke only in production"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Fast feedback on PRs plus broader coverage later balances speed and safety."
+    },
+    {
+      "id": "pt-apici-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-testing-in-ci",
+      "prompt": "A token printed in a CI log by a debug statement is now visible to everyone with repository access. What should happen?",
+      "options": [
+        "Rotate the secret immediately, remove the logging, and rely on the CI's secret masking without echoing values",
+        "Delete the log and continue",
+        "Make the repository private",
+        "Nothing; tokens expire eventually"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Once exposed, a secret must be treated as compromised. Masking helps, but deliberately printing secrets defeats it."
+    },
+    {
+      "id": "pt-apici-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "api-testing-in-ci",
+      "prompt": "The API suite takes 40 minutes and developers have started skipping it. What should you propose?",
+      "options": [
+        "Split into a fast PR smoke set and a parallelised full run, remove duplicate coverage, and track slow and flaky tests",
+        "Delete half the tests at random",
+        "Run it only monthly",
+        "Ask developers to wait"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A suite people skip protects nothing. Tiering, parallelism and pruning restore fast feedback."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-apici-ready",
+      "language": "python",
+      "title": "Wait for a service to be ready",
+      "difficulty": "intermediate",
+      "prompt": "Write `wait_until_ready(check, timeout_s, interval_s, clock, sleep)` that calls `check()` (returns True when healthy) until it succeeds, returning the number of attempts. If the time from `clock()` passes `timeout_s` since the start before success, raise `TimeoutError`. `sleep(interval_s)` is called between attempts. (Passing `clock` and `sleep` in makes the function testable without real waiting.)",
+      "starter": "def wait_until_ready(check, timeout_s, interval_s, clock, sleep):\n    # Your code here\n    pass\n",
+      "solution": "def wait_until_ready(check, timeout_s, interval_s, clock, sleep):\n    start = clock()\n    attempts = 0\n    while True:\n        attempts += 1\n        if check():\n            return attempts\n        if clock() - start + interval_s > timeout_s:\n            raise TimeoutError(f'not ready after {attempts} attempts')\n        sleep(interval_s)\n",
+      "explanation": "Readiness polling removes the start-up race in CI. Injecting the clock and sleep functions is a standard way to test time-based code instantly and deterministically.",
+      "hints": [
+        "Record the start time from `clock()`.",
+        "Count attempts; return on success.",
+        "Raise TimeoutError if another wait would exceed the timeout."
+      ],
+      "tests": [
+        {
+          "name": "Becomes ready on third attempt",
+          "marks": 3,
+          "code": "t = [0]\nstate = {'n': 0}\ndef check():\n    state['n'] += 1\n    return state['n'] >= 3\ndef sleep(s):\n    t[0] += s\nassert wait_until_ready(check, 10, 1, lambda: t[0], sleep) == 3\nassert t[0] == 2"
+        },
+        {
+          "name": "Times out",
+          "marks": 3,
+          "code": "t = [0]\ndef sleep(s):\n    t[0] += s\ntry:\n    wait_until_ready(lambda: False, 5, 2, lambda: t[0], sleep)\n    raise AssertionError('expected TimeoutError')\nexcept TimeoutError:\n    pass\nassert t[0] <= 5"
+        },
+        {
+          "name": "Ready immediately",
+          "marks": 1,
+          "code": "assert wait_until_ready(lambda: True, 1, 1, lambda: 0, lambda s: None) == 1"
+        }
+      ]
+    },
+    {
+      "id": "code-apici-tier",
+      "language": "python",
+      "title": "Pick tests for a pipeline stage",
+      "difficulty": "beginner",
+      "prompt": "Write `select_tests(tests, stage)` where each test is `{'name': str, 'tags': list, 'seconds': int}`. For stage `'pr'` return names tagged `smoke`; for `'nightly'` return all names; for `'deploy'` return names tagged `smoke` that are **not** tagged `destructive`. Keep input order. Raise `ValueError` for unknown stages.",
+      "starter": "def select_tests(tests, stage):\n    # Your code here\n    pass\n",
+      "solution": "def select_tests(tests, stage):\n    if stage == 'pr':\n        return [t['name'] for t in tests if 'smoke' in t['tags']]\n    if stage == 'nightly':\n        return [t['name'] for t in tests]\n    if stage == 'deploy':\n        return [t['name'] for t in tests if 'smoke' in t['tags'] and 'destructive' not in t['tags']]\n    raise ValueError(stage)\n",
+      "explanation": "Tagging tests and selecting by stage keeps PR feedback fast and makes post-deploy checks safe (no destructive tests against a live environment).",
+      "hints": [
+        "One list comprehension per stage.",
+        "Raise for anything else."
+      ],
+      "tests": [
+        {
+          "name": "PR and nightly",
+          "marks": 2,
+          "code": "ts = [{'name': 'a', 'tags': ['smoke'], 'seconds': 1}, {'name': 'b', 'tags': [], 'seconds': 9}]\nassert select_tests(ts, 'pr') == ['a'] and select_tests(ts, 'nightly') == ['a', 'b']"
+        },
+        {
+          "name": "Deploy excludes destructive",
+          "marks": 2,
+          "code": "ts = [{'name': 'a', 'tags': ['smoke', 'destructive'], 'seconds': 1}, {'name': 'c', 'tags': ['smoke'], 'seconds': 1}]\nassert select_tests(ts, 'deploy') == ['c']"
+        },
+        {
+          "name": "Unknown stage",
+          "marks": 1,
+          "code": "try:\n    select_tests([], 'weekly')\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass\nassert select_tests([{'name': 'x', 'tags': ['smoke'], 'seconds': 1}], 'pr') == ['x']"
+        }
+      ]
+    }
+  ]
+}

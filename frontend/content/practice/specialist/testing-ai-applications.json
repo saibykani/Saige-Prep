@@ -1,0 +1,219 @@
+{
+  "lesson": "testing-ai-applications",
+  "questions": [
+    {
+      "id": "pt-tai-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-applications",
+      "prompt": "Why are AI features harder to test than ordinary functions?",
+      "options": [
+        "Outputs can vary between runs and many different outputs can be acceptable",
+        "They have no inputs",
+        "They cannot be called from code",
+        "They never fail"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Non-determinism and open-ended outputs mean tests check properties and quality criteria rather than one exact answer."
+    },
+    {
+      "id": "pt-tai-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-applications",
+      "prompt": "Which part of an AI chatbot is usually tested with ordinary deterministic tests?",
+      "options": [
+        "Input validation, authentication, rate limits and the tools/APIs it calls",
+        "The exact wording of every reply",
+        "The model's internal weights",
+        "Creativity"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The surrounding software behaves like any other code and should have normal unit and integration tests."
+    },
+    {
+      "id": "pt-tai-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-ai-applications",
+      "prompt": "Prompt injection means untrusted text (from a user or a document) contains instructions that try to override the application's intended behaviour.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Direct injection comes from the user; indirect injection hides in content the model reads, such as web pages, emails or files."
+    },
+    {
+      "id": "pt-tai-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-applications",
+      "prompt": "Which are reasonable defences to verify against prompt injection in your own application? Select all that apply.",
+      "options": [
+        "The model's tools run with least privilege and server-side authorization checks",
+        "Risky actions (sending money, deleting data) need explicit user confirmation",
+        "Untrusted content is clearly separated from instructions and treated as data",
+        "A system prompt line saying \"ignore injections\" is sufficient on its own"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Defence in depth limits what a successful injection can do. A system-prompt instruction helps a little but is not a security control by itself."
+    },
+    {
+      "id": "pt-tai-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-applications",
+      "prompt": "A support bot answers correctly in English but, in Spanish, it sometimes leaks internal notes from retrieved tickets. What should you add to the test plan?",
+      "options": [
+        "Multilingual test cases for safety and data-exposure rules, plus a server-side filter so internal fields are never sent to the model or the user",
+        "Nothing; English tests are enough",
+        "Block Spanish users",
+        "Raise the temperature"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Behaviour can differ by language. Tests must cover the languages you support, and sensitive fields should be removed before they reach the model at all."
+    },
+    {
+      "id": "pt-tai-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-ai-applications",
+      "prompt": "To reduce flakiness when testing an LLM feature in CI, which practice helps most?",
+      "options": [
+        "Assert on properties (schema, required facts, forbidden content) and run each case several times, tracking a pass rate",
+        "Assert on exact text",
+        "Run each case once and retry until it passes",
+        "Disable the tests"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Property checks tolerate harmless variation; repeated runs measure reliability instead of hiding it with retries."
+    },
+    {
+      "id": "pt-tai-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-ai-applications",
+      "prompt": "An AI assistant can call a `refund(order_id, amount)` tool. In your test environment, a crafted customer message makes it refund another customer's order. Where is the real defect?",
+      "options": [
+        "The refund tool lacks server-side authorization: it must check the order belongs to the authenticated customer and enforce limits, regardless of what the model asks",
+        "The model is too helpful",
+        "The system prompt is too short",
+        "Customers should not be allowed to message the bot"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Treat model output as untrusted input. Authorization belongs in the tool/API layer, where the model cannot talk its way past it."
+    },
+    {
+      "id": "pt-tai-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-ai-applications",
+      "prompt": "Your AI feature passed its eval set last month. Since then the vendor updated the model behind the same API name. What should your process include?",
+      "options": [
+        "Pin model versions where possible and rerun the eval and safety suite on any model change before rollout, with monitoring in production",
+        "Assume the update is better",
+        "Only test when users complain",
+        "Switch vendors every month"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Model updates change behaviour. Version pinning plus regression evals turns silent changes into visible, tested ones."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-tai-props",
+      "language": "python",
+      "title": "Property checks for structured AI output",
+      "difficulty": "intermediate",
+      "prompt": "An AI feature must return JSON like `{\"category\": ..., \"priority\": ..., \"summary\": ...}`. Write `check_output(raw)` returning a sorted list of problems: `'invalid json'` (stop there), `'category'` if not one of `billing`, `technical`, `account`; `'priority'` if not an int 1-3 (bools rejected); `'summary'` if not a string of 1-200 characters; `'pii'` if the summary contains something that looks like an email (`re.search(r'[\\w.+-]+@[\\w-]+\\.[\\w.]+', summary)`).\n\nExample: `check_output('{\"category\":\"billing\",\"priority\":2,\"summary\":\"Double charge\"}')` returns `[]`.",
+      "starter": "import json, re\n\ndef check_output(raw):\n    # Your code here\n    pass\n",
+      "solution": "import json, re\n\ndef check_output(raw):\n    try:\n        data = json.loads(raw)\n    except ValueError:\n        return ['invalid json']\n    if not isinstance(data, dict):\n        return ['invalid json']\n    problems = []\n    if data.get('category') not in ('billing', 'technical', 'account'):\n        problems.append('category')\n    p = data.get('priority')\n    if isinstance(p, bool) or not isinstance(p, int) or not 1 <= p <= 3:\n        problems.append('priority')\n    s = data.get('summary')\n    if not isinstance(s, str) or not 1 <= len(s) <= 200:\n        problems.append('summary')\n    elif re.search(r'[\\w.+-]+@[\\w-]+\\.[\\w.]+', s):\n        problems.append('pii')\n    return sorted(problems)\n",
+      "explanation": "These checks are deterministic, so they never flake even though the model output varies. Run them on every eval case and in production as a guard before the output is used.",
+      "hints": [
+        "Wrap `json.loads` in try/except ValueError.",
+        "Exclude bools from the priority check.",
+        "Only check for PII when the summary is a valid string."
+      ],
+      "tests": [
+        {
+          "name": "Valid output",
+          "marks": 1,
+          "code": "assert check_output('{\"category\":\"billing\",\"priority\":2,\"summary\":\"Double charge\"}') == []"
+        },
+        {
+          "name": "Invalid JSON",
+          "marks": 2,
+          "code": "assert check_output('Sure! Here is the JSON: {') == ['invalid json'] and check_output('[1]') == ['invalid json']"
+        },
+        {
+          "name": "Field problems",
+          "marks": 3,
+          "code": "r = check_output('{\"category\":\"sales\",\"priority\":true,\"summary\":\"\"}')\nassert r == ['category', 'priority', 'summary'], r"
+        },
+        {
+          "name": "PII detected",
+          "marks": 2,
+          "code": "assert check_output('{\"category\":\"account\",\"priority\":1,\"summary\":\"Contact ana.r@example.com\"}') == ['pii']"
+        }
+      ]
+    },
+    {
+      "id": "code-tai-rate",
+      "language": "python",
+      "title": "Pass rate over repeated runs",
+      "difficulty": "beginner",
+      "prompt": "LLM tests are run several times per case. Write `flaky_cases(results, min_rate)` where `results` maps case name -> list of booleans (one per run). Return a sorted list of case names whose pass rate is below `min_rate` (0-1).\n\nExample: `flaky_cases({'refund': [True, True, False], 'greet': [True]*3}, 0.9)` returns `['refund']`.",
+      "starter": "def flaky_cases(results, min_rate):\n    # Your code here\n    pass\n",
+      "solution": "def flaky_cases(results, min_rate):\n    return sorted(name for name, runs in results.items() if runs and sum(runs) / len(runs) < min_rate or not runs)\n",
+      "explanation": "A pass-rate threshold measures reliability honestly, rather than retrying until green. Cases with no runs are reported too, because an untested case is not a passing one.",
+      "hints": [
+        "`sum` of booleans counts the passes.",
+        "Treat an empty list as failing."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 2,
+          "code": "assert flaky_cases({'refund': [True, True, False], 'greet': [True]*3}, 0.9) == ['refund']"
+        },
+        {
+          "name": "Boundary is a pass",
+          "marks": 1,
+          "code": "assert flaky_cases({'a': [True, False]}, 0.5) == [] and flaky_cases({'a': [True, False]}, 0.51) == ['a']"
+        },
+        {
+          "name": "No runs counts as failing",
+          "marks": 1,
+          "code": "assert flaky_cases({'z': [], 'y': [True]}, 0.5) == ['z']"
+        }
+      ]
+    }
+  ]
+}

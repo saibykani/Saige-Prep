@@ -1,0 +1,218 @@
+{
+  "lesson": "screen-reader-and-keyboard-testing",
+  "questions": [
+    {
+      "id": "pt-srkb-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Which key moves keyboard focus to the next interactive element?",
+      "options": [
+        "Tab",
+        "Enter",
+        "Space",
+        "Escape"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tab moves forward (Shift+Tab backward). Enter and Space activate controls; Escape usually closes dialogs or menus."
+    },
+    {
+      "id": "pt-srkb-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Which free screen reader for Windows is widely used for testing?",
+      "options": [
+        "NVDA",
+        "VoiceOver",
+        "TalkBack",
+        "Orca"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "NVDA is free and popular on Windows. VoiceOver is built into Apple platforms, TalkBack into Android, and Orca is for Linux."
+    },
+    {
+      "id": "pt-srkb-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Every interactive element must show a visible focus indicator when it receives keyboard focus.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "WCAG 2.4.7 Focus Visible (AA) requires it. Removing outlines without a replacement leaves keyboard users lost."
+    },
+    {
+      "id": "pt-srkb-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Which keys should activate a native <button>?",
+      "options": [
+        "Both Enter and Space",
+        "Only Enter",
+        "Only Space",
+        "Only a mouse click"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Native buttons respond to Enter and Space. Custom 'buttons' built from divs often handle only one, or neither."
+    },
+    {
+      "id": "pt-srkb-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Which checks belong in a keyboard test of a modal dialog? Select all that apply.",
+      "options": [
+        "Focus moves into the dialog when it opens",
+        "Tab cycles within the dialog while it is open",
+        "Escape closes it",
+        "Focus returns to the opening control after it closes",
+        "The dialog has a drop shadow"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "These four make a dialog usable without a mouse. Visual styling is not a keyboard criterion."
+    },
+    {
+      "id": "pt-srkb-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "A product list updates after filtering, but NVDA users hear nothing and do not know results changed. What is a good fix?",
+      "options": [
+        "Announce the change through a polite live region (e.g. role=\"status\" with \"24 results\")",
+        "Move focus to the top of the page",
+        "Play a sound",
+        "Reload the page"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Live regions announce dynamic updates without stealing focus. Moving focus unexpectedly is disorienting."
+    },
+    {
+      "id": "pt-srkb-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "Keyboard users report the visual order and Tab order do not match on this form. What causes it?",
+      "code": "<input name=\"city\" tabindex=\"2\">\n<input name=\"name\" tabindex=\"1\">\n<input name=\"email\">\n<button>Save</button>",
+      "codeLanguage": "html",
+      "options": [
+        "Positive tabindex values override the natural DOM order; remove them and fix the DOM order instead",
+        "Inputs cannot be focused",
+        "The button is missing type=\"submit\"",
+        "tabindex must be 0 on labels"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "tabindex greater than 0 creates a separate, earlier tab sequence that is hard to maintain. Use DOM order and tabindex 0/-1 only."
+    },
+    {
+      "id": "pt-srkb-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "screen-reader-and-keyboard-testing",
+      "prompt": "A toggle switch is announced as \"Dark mode, button\" both when on and off. What should be added and tested?",
+      "options": [
+        "Expose the state, e.g. role=\"switch\" with aria-checked (or a button with aria-pressed), and verify the announcement changes when toggled",
+        "A different colour when on",
+        "A tooltip",
+        "tabindex=\"0\""
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Screen-reader users need the state, not just the name. ARIA state attributes, updated on toggle, provide it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-srkb-taborder",
+      "language": "python",
+      "title": "Compute the tab order",
+      "difficulty": "intermediate",
+      "prompt": "Given a list of elements in DOM order as dicts `{'id': str, 'tabindex': int or None, 'focusable': bool}` (native focusable elements have `focusable=True`), write `tab_order(elements)` following browser rules: elements with `tabindex > 0` come first, ascending by tabindex (DOM order for ties); then elements with `tabindex == 0`, or `tabindex is None` and `focusable`, in DOM order. `tabindex < 0` elements are skipped.\n\nExample: for city(2), name(1), email(None, focusable), div(None, not focusable), save(0) the order is `['name', 'city', 'email', 'save']`.",
+      "starter": "def tab_order(elements):\n    # Your code here\n    pass\n",
+      "solution": "def tab_order(elements):\n    positive = [(e['tabindex'], i, e['id']) for i, e in enumerate(elements) if e['tabindex'] is not None and e['tabindex'] > 0]\n    normal = [e['id'] for e in elements if e['tabindex'] == 0 or (e['tabindex'] is None and e['focusable'])]\n    return [x[2] for x in sorted(positive)] + normal\n",
+      "explanation": "Sorting by (tabindex, DOM index) reproduces the browser's sequential navigation order. Computing this for a page and comparing it with the visual order is a quick audit for WCAG 2.4.3 Focus Order.",
+      "hints": [
+        "Split elements into positive-tabindex and natural groups.",
+        "Sort positives by a (tabindex, index) tuple.",
+        "Skip negatives and non-focusable elements without tabindex."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "els = [{'id': 'city', 'tabindex': 2, 'focusable': True}, {'id': 'name', 'tabindex': 1, 'focusable': True}, {'id': 'email', 'tabindex': None, 'focusable': True}, {'id': 'div', 'tabindex': None, 'focusable': False}, {'id': 'save', 'tabindex': 0, 'focusable': True}]\nassert tab_order(els) == ['name', 'city', 'email', 'save'], tab_order(els)"
+        },
+        {
+          "name": "Negative tabindex skipped",
+          "marks": 2,
+          "code": "els = [{'id': 'a', 'tabindex': -1, 'focusable': True}, {'id': 'b', 'tabindex': 0, 'focusable': False}]\nassert tab_order(els) == ['b']"
+        },
+        {
+          "name": "Ties keep DOM order",
+          "marks": 1,
+          "code": "els = [{'id': 'x', 'tabindex': 1, 'focusable': True}, {'id': 'y', 'tabindex': 1, 'focusable': True}]\nassert tab_order(els) == ['x', 'y']"
+        }
+      ]
+    },
+    {
+      "id": "code-srkb-trap",
+      "language": "javascript",
+      "title": "Focus trap for a dialog",
+      "difficulty": "advanced",
+      "prompt": "Write `nextFocus(ids, currentId, shift)` that returns which element id should receive focus when Tab (or Shift+Tab if `shift` is true) is pressed inside a modal dialog whose focusable elements are `ids` in order. Focus must wrap around (last -> first on Tab, first -> last on Shift+Tab). If `currentId` is not in the list (focus escaped), return the first id. Return `null` for an empty list.\n\nExample: `nextFocus(['close', 'name', 'save'], 'save', false)` returns `'close'`.",
+      "starter": "function nextFocus(ids, currentId, shift) {\n  // Your code here\n}\n",
+      "solution": "function nextFocus(ids, currentId, shift) {\n  if (ids.length === 0) return null;\n  const i = ids.indexOf(currentId);\n  if (i === -1) return ids[0];\n  const step = shift ? -1 : 1;\n  return ids[(i + step + ids.length) % ids.length];\n}\n",
+      "explanation": "Modular arithmetic gives the wrap-around in both directions; adding `ids.length` avoids a negative index on Shift+Tab from the first element. Pulling focus back when it has escaped is what keeps keyboard users inside the modal.",
+      "hints": [
+        "Find the current index with `indexOf`.",
+        "Use `(i + step + n) % n` to wrap both ways."
+      ],
+      "tests": [
+        {
+          "name": "Wraps forward",
+          "marks": 2,
+          "code": "assertEqual(nextFocus(['close', 'name', 'save'], 'save', false), 'close');\nassertEqual(nextFocus(['close', 'name', 'save'], 'close', false), 'name');"
+        },
+        {
+          "name": "Wraps backward",
+          "marks": 2,
+          "code": "assertEqual(nextFocus(['close', 'name', 'save'], 'close', true), 'save');"
+        },
+        {
+          "name": "Escaped focus and empty",
+          "marks": 1,
+          "code": "assertEqual(nextFocus(['a', 'b'], 'outside', false), 'a');\nassertEqual(nextFocus([], 'a', false), null);"
+        }
+      ]
+    }
+  ]
+}

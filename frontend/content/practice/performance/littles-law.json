@@ -1,0 +1,216 @@
+{
+  "lesson": "littles-law",
+  "questions": [
+    {
+      "id": "pt-ll-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "littles-law",
+      "prompt": "Little's Law states:",
+      "options": [
+        "L = λ × W: average items in the system = arrival rate × average time in the system",
+        "Throughput = users / response time squared",
+        "Response time doubles when users double",
+        "Errors = load × latency"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Little's Law relates average concurrency, throughput and time in system for any stable system."
+    },
+    {
+      "id": "pt-ll-02",
+      "type": "code-output",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "littles-law",
+      "prompt": "A service handles 50 requests per second with an average response time of 0.2 s. How many requests are in progress on average?",
+      "code": "lam = 50   # req/s\nW = 0.2    # s\nL = lam * W",
+      "codeLanguage": "python",
+      "options": [
+        "10",
+        "250",
+        "0.004",
+        "50"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "L = 50 × 0.2 = 10 concurrent requests."
+    },
+    {
+      "id": "pt-ll-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "littles-law",
+      "prompt": "For a closed load test, the number of virtual users needed depends on both response time and think time.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each user's cycle time is response time plus think time. Users = throughput × (response time + think time)."
+    },
+    {
+      "id": "pt-ll-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "littles-law",
+      "prompt": "You need 40 orders per second. Each user iteration takes 2 s of response time plus 8 s of think time and pacing. How many virtual users are required?",
+      "code": "X = 40\nR = 2\nZ = 8",
+      "codeLanguage": "python",
+      "options": [
+        "400",
+        "80",
+        "320",
+        "50"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "N = X × (R + Z) = 40 × (2 + 8) = 400. Forgetting think time gives 80."
+    },
+    {
+      "id": "pt-ll-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "littles-law",
+      "prompt": "A test runs 300 virtual users with 5 s think time. Response time is 1 s. What throughput should you expect, and what does it mean if you measure only 30 iterations/s?",
+      "options": [
+        "About 50 iterations/s; measuring 30 means response time rose (to about 5 s) or users are blocked, so investigate",
+        "About 300/s; 30 is fine",
+        "About 1500/s",
+        "It cannot be calculated"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "X = N / (R + Z) = 300 / 6 = 50/s. At 30/s, R + Z = 10 s, so R ≈ 5 s, assuming think time is unchanged. The law gives a sanity check on test results."
+    },
+    {
+      "id": "pt-ll-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "littles-law",
+      "prompt": "A connection pool must support 200 queries per second, each holding a connection for 25 ms on average. What is the minimum average number of busy connections?",
+      "options": [
+        "5",
+        "8",
+        "50",
+        "200"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "L = 200 × 0.025 = 5 connections busy on average. Size above this for bursts and variance."
+    },
+    {
+      "id": "pt-ll-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "littles-law",
+      "prompt": "In an open-model test arriving at 100 req/s, response time climbs from 0.3 s to 6 s. What happens to concurrency in the system, and why does this matter?",
+      "options": [
+        "It rises from about 30 to about 600 in-flight requests, which can exhaust threads, connections and memory and make things worse",
+        "It stays at 100",
+        "It falls because users wait",
+        "It cannot change in an open model"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In an open model arrivals do not slow when the system does, so L = λW grows with W. That is why open-model tests expose collapse that closed-model tests can hide."
+    },
+    {
+      "id": "pt-ll-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "littles-law",
+      "prompt": "A team claims their app server handles 1,000 concurrent users and has an average response time of 200 ms, while the load balancer shows 800 req/s. Assuming no think time, what does Little's Law say?",
+      "options": [
+        "The figures are inconsistent: 1,000 in system at 0.2 s implies 5,000 req/s; at 800 req/s, 1,000 in system implies 1.25 s average time. One of the measurements is wrong or measured differently",
+        "The figures are consistent",
+        "Little's Law does not apply to web servers",
+        "The load balancer is caching"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Little's Law is a cross-check between independently measured numbers. If they do not agree, something is mismeasured (e.g. users include idle sessions, or response time excludes queueing)."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-ll-users",
+      "language": "python",
+      "title": "Virtual users from target throughput",
+      "difficulty": "beginner",
+      "prompt": "Write `users_needed(target_tps, response_s, think_s)` returning the number of virtual users (rounded **up** to a whole user) for a closed test, using N = X × (R + Z).\n\nExample: `users_needed(40, 2, 8)` returns `400`; `users_needed(10, 0.25, 1)` returns `13`.",
+      "starter": "import math\n\ndef users_needed(target_tps, response_s, think_s):\n    # Your code here\n    pass\n",
+      "solution": "import math\n\ndef users_needed(target_tps, response_s, think_s):\n    return math.ceil(round(target_tps * (response_s + think_s), 9))\n",
+      "explanation": "You cannot run a fraction of a user, and rounding down would miss the target, so round up. Rounding to 9 decimals first avoids a floating-point artefact such as 400.00000000000006 becoming 401.",
+      "hints": [
+        "Multiply throughput by the full cycle time.",
+        "Use `math.ceil`.",
+        "Beware floating point: round slightly before ceiling."
+      ],
+      "tests": [
+        {
+          "name": "Whole result",
+          "marks": 2,
+          "code": "assert users_needed(40, 2, 8) == 400"
+        },
+        {
+          "name": "Rounds up",
+          "marks": 2,
+          "code": "assert users_needed(10, 0.25, 1) == 13"
+        },
+        {
+          "name": "Float safety",
+          "marks": 1,
+          "code": "assert users_needed(0.1, 0.1, 0.2) == 1 and users_needed(3, 0.1, 0.2) == 1"
+        }
+      ]
+    },
+    {
+      "id": "code-ll-check",
+      "language": "python",
+      "title": "Cross-check test results with Little's Law",
+      "difficulty": "intermediate",
+      "prompt": "Write `consistent(users, throughput, response_s, think_s, tolerance=0.1)` returning `True` if `users` is within `tolerance` (relative) of `throughput * (response_s + think_s)`, else `False`. Raise `ValueError` if throughput is not positive.\n\nExample: `consistent(300, 50, 1, 5)` returns `True`; `consistent(300, 30, 1, 5)` returns `False`.",
+      "starter": "def consistent(users, throughput, response_s, think_s, tolerance=0.1):\n    # Your code here\n    pass\n",
+      "solution": "def consistent(users, throughput, response_s, think_s, tolerance=0.1):\n    if throughput <= 0:\n        raise ValueError('throughput must be positive')\n    expected = throughput * (response_s + think_s)\n    return abs(users - expected) <= tolerance * expected\n",
+      "explanation": "If measured users, throughput and timings do not satisfy the law, something in the test is off: users stuck, think time not applied, or a timer measuring the wrong thing. This is a cheap automated sanity check for every run.",
+      "hints": [
+        "Compute the expected users.",
+        "Compare the absolute difference with `tolerance * expected`."
+      ],
+      "tests": [
+        {
+          "name": "Consistent run",
+          "marks": 2,
+          "code": "assert consistent(300, 50, 1, 5) is True"
+        },
+        {
+          "name": "Inconsistent run",
+          "marks": 2,
+          "code": "assert consistent(300, 30, 1, 5) is False and consistent(100, 50, 1, 5) is False"
+        },
+        {
+          "name": "Invalid throughput",
+          "marks": 1,
+          "code": "try:\n    consistent(1, 0, 1, 1)\n    raise AssertionError('expected ValueError')\nexcept ValueError:\n    pass\nassert consistent(1, 1, 0.5, 0.5)"
+        }
+      ]
+    }
+  ]
+}

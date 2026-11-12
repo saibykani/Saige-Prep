@@ -1,0 +1,253 @@
+{
+  "lesson": "idempotency-retries-rate-limiting",
+  "questions": [
+    {
+      "id": "pt-idem-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "What does it mean for an API operation to be idempotent?",
+      "options": [
+        "Repeating the same request has the same effect on the server as sending it once",
+        "It always returns the same response body",
+        "It is fast",
+        "It cannot fail"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Idempotency is about server state, not identical responses: a second DELETE may return 404 while the state (resource gone) is unchanged."
+    },
+    {
+      "id": "pt-idem-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "Which status code signals that a client has hit a rate limit?",
+      "options": [
+        "429 Too Many Requests",
+        "403 Forbidden",
+        "503 Service Unavailable",
+        "409 Conflict"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "429 is defined for rate limiting, often with Retry-After. 503 means the service itself is unavailable."
+    },
+    {
+      "id": "pt-idem-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "Adding random jitter to retry delays helps avoid many clients retrying at exactly the same moment.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without jitter, clients that failed together retry together, creating synchronized spikes (thundering herd). Jitter spreads them out."
+    },
+    {
+      "id": "pt-idem-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "POST /payments with Idempotency-Key k1 succeeds. The client resends the same key with a different amount. What is the safest behaviour?",
+      "options": [
+        "Reject with an error (e.g. 422 or 409) because the key is being reused with a different payload",
+        "Charge the new amount",
+        "Return the original 201 silently",
+        "Create a second payment"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Keys identify one intended operation. Reusing a key with a different body is a client bug; processing it or silently returning the old result can hide money errors. Stripe-style APIs return an error here."
+    },
+    {
+      "id": "pt-idem-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "Which should a retry policy include? Select all that apply.",
+      "options": [
+        "A maximum number of attempts",
+        "Exponential backoff between attempts",
+        "Retrying only errors that are likely transient",
+        "Retrying 400 responses until they succeed"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Bounded, backed-off retries of transient errors help; retrying a 400 just repeats the same invalid request."
+    },
+    {
+      "id": "pt-idem-06",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "A limiter allows 5 requests per rolling 10-second window. Requests arrive at t = 0, 1, 2, 3, 4, 5, 11 seconds. Which ones are rejected?",
+      "code": "limit = 5\nwindow = 10\narrivals = [0, 1, 2, 3, 4, 5, 11]",
+      "codeLanguage": "python",
+      "options": [
+        "Only the request at t=5",
+        "t=5 and t=11",
+        "None",
+        "All after t=4"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "At t=5 the window (−5, 5] already has 5 requests (0-4), so it is rejected. At t=11 the window (1, 11] contains t=2,3,4 (and the rejected t=5, which was not counted), so it is allowed."
+    },
+    {
+      "id": "pt-idem-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "Your retry wrapper retries any failed POST /orders up to 3 times. During an incident customers report duplicate orders. What is the root cause and fix?",
+      "options": [
+        "Timeouts after the server already created the order were retried; send an Idempotency-Key and have the server de-duplicate",
+        "Too few retries",
+        "The server should return 500 less often",
+        "Jitter was too large"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A timeout does not mean the request failed. Retrying a non-idempotent POST without a key can apply it twice. Idempotency keys make retries safe."
+    },
+    {
+      "id": "pt-idem-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "idempotency-retries-rate-limiting",
+      "prompt": "In a load test, all 200 virtual users hit 429 and every one retries after exactly 1 s, producing waves of 429s. What would you change in the client?",
+      "options": [
+        "Honour Retry-After and use exponential backoff with jitter",
+        "Retry immediately instead",
+        "Increase users to 400",
+        "Treat 429 as success"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Synchronized fixed delays recreate the burst. Backoff plus jitter (and respecting Retry-After) spreads load out."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-idem-backoff",
+      "language": "python",
+      "title": "Exponential backoff schedule",
+      "difficulty": "beginner",
+      "prompt": "Write `backoff_delays(base_ms, attempts, cap_ms)` returning the list of delays (ms) before each retry: `base_ms * 2**i` for i = 0..attempts-1, never more than `cap_ms`.\n\nExample: `backoff_delays(200, 5, 2000)` returns `[200, 400, 800, 1600, 2000]`.",
+      "starter": "def backoff_delays(base_ms, attempts, cap_ms):\n    # Your code here\n    pass\n",
+      "solution": "def backoff_delays(base_ms, attempts, cap_ms):\n    return [min(base_ms * 2 ** i, cap_ms) for i in range(attempts)]\n",
+      "explanation": "Doubling grows quickly; the cap keeps a long outage from producing absurd waits.",
+      "hints": [
+        "Use a list comprehension over `range(attempts)`.",
+        "Wrap each value with `min(..., cap_ms)`."
+      ],
+      "tests": [
+        {
+          "name": "Doubling with a cap",
+          "marks": 3,
+          "code": "assert backoff_delays(200, 5, 2000) == [200, 400, 800, 1600, 2000]"
+        },
+        {
+          "name": "Zero attempts",
+          "marks": 1,
+          "code": "assert backoff_delays(100, 0, 1000) == []"
+        },
+        {
+          "name": "Cap below base",
+          "marks": 1,
+          "code": "assert backoff_delays(500, 3, 300) == [300, 300, 300]"
+        }
+      ]
+    },
+    {
+      "id": "code-idem-idemstore",
+      "language": "python",
+      "title": "Idempotency-key store",
+      "difficulty": "intermediate",
+      "prompt": "Implement class `IdempotentHandler` with method `handle(key, payload)` that simulates a payment endpoint:\n\n- First time a key is seen: create a payment with an incrementing id starting at 1, store it, return `(201, {'id': n, 'amount': payload['amount']})`.\n- Same key and same payload again: return `(201, <same stored body>)` without creating anything.\n- Same key with a different payload: return `(422, {'error': 'key reused with different payload'})`.\n- Attribute `count` = number of payments actually created.",
+      "starter": "class IdempotentHandler:\n    def __init__(self):\n        self.count = 0\n\n    def handle(self, key, payload):\n        # Your code here\n        pass\n",
+      "solution": "class IdempotentHandler:\n    def __init__(self):\n        self.count = 0\n        self.store = {}\n\n    def handle(self, key, payload):\n        if key in self.store:\n            saved_payload, body = self.store[key]\n            if saved_payload != payload:\n                return 422, {'error': 'key reused with different payload'}\n            return 201, body\n        self.count += 1\n        body = {'id': self.count, 'amount': payload['amount']}\n        self.store[key] = (dict(payload), body)\n        return 201, body\n",
+      "explanation": "Storing the original payload alongside the response lets the server both replay the result and detect misuse. `count` is what a test should assert to prove retries did not double-charge.",
+      "hints": [
+        "Keep a dict `key -> (payload, body)`.",
+        "Compare the stored payload to detect reuse with different data.",
+        "Only increment `count` on the first sighting of a key."
+      ],
+      "tests": [
+        {
+          "name": "First call creates",
+          "marks": 2,
+          "code": "h = IdempotentHandler()\nassert h.handle('k1', {'amount': 10}) == (201, {'id': 1, 'amount': 10}) and h.count == 1"
+        },
+        {
+          "name": "Replay returns same result",
+          "marks": 3,
+          "code": "h = IdempotentHandler()\nh.handle('k1', {'amount': 10})\nassert h.handle('k1', {'amount': 10}) == (201, {'id': 1, 'amount': 10})\nassert h.count == 1, h.count"
+        },
+        {
+          "name": "Different payload rejected",
+          "marks": 2,
+          "code": "h = IdempotentHandler()\nh.handle('k1', {'amount': 10})\nassert h.handle('k1', {'amount': 99})[0] == 422 and h.count == 1"
+        },
+        {
+          "name": "Different keys create separately",
+          "marks": 1,
+          "code": "h = IdempotentHandler()\nh.handle('a', {'amount': 1}); r = h.handle('b', {'amount': 1})\nassert r == (201, {'id': 2, 'amount': 1}) and h.count == 2"
+        }
+      ]
+    },
+    {
+      "id": "code-idem-limiter",
+      "language": "python",
+      "title": "Sliding-window rate limiter",
+      "difficulty": "advanced",
+      "prompt": "Write `rate_limit(times, limit, window)` that takes request arrival times (seconds, ascending) and returns a list of booleans: allowed or rejected. A request at time t is allowed if fewer than `limit` *allowed* requests happened in the interval `(t - window, t]`. Rejected requests do not count.\n\nExample: `rate_limit([0,1,2,3,4,5,11], 5, 10)` returns `[True, True, True, True, True, False, True]`.",
+      "starter": "def rate_limit(times, limit, window):\n    # Your code here\n    pass\n",
+      "solution": "def rate_limit(times, limit, window):\n    allowed_times = []\n    result = []\n    for t in times:\n        recent = [a for a in allowed_times if a > t - window]\n        if len(recent) < limit:\n            allowed_times.append(t)\n            result.append(True)\n        else:\n            result.append(False)\n    return result\n",
+      "explanation": "Only accepted requests consume quota, and only those still inside the window count. Writing the oracle like this lets you predict exactly which requests a rate-limit test should see rejected.",
+      "hints": [
+        "Keep a list of times that were allowed.",
+        "For each t, count allowed times greater than `t - window`.",
+        "Append to the allowed list only when accepting."
+      ],
+      "tests": [
+        {
+          "name": "Lesson example",
+          "marks": 3,
+          "code": "assert rate_limit([0,1,2,3,4,5,11], 5, 10) == [True, True, True, True, True, False, True]"
+        },
+        {
+          "name": "Window edge is exclusive",
+          "marks": 2,
+          "code": "assert rate_limit([0, 0, 10], 2, 10) == [True, True, True]"
+        },
+        {
+          "name": "Rejected requests do not count",
+          "marks": 2,
+          "code": "assert rate_limit([0, 1, 2, 3], 1, 3) == [True, False, False, True]"
+        }
+      ]
+    }
+  ]
+}

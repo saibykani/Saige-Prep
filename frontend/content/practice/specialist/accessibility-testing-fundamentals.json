@@ -1,0 +1,216 @@
+{
+  "lesson": "accessibility-testing-fundamentals",
+  "questions": [
+    {
+      "id": "pt-a11yf-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "What do the four WCAG principles (POUR) stand for?",
+      "options": [
+        "Perceivable, Operable, Understandable, Robust",
+        "Portable, Open, Usable, Reliable",
+        "Perceivable, Optimised, Usable, Responsive",
+        "Public, Operable, Universal, Readable"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "WCAG organises all success criteria under Perceivable, Operable, Understandable and Robust."
+    },
+    {
+      "id": "pt-a11yf-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "Which attribute gives an informative image a text alternative?",
+      "options": [
+        "alt",
+        "title",
+        "aria-hidden",
+        "role"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`alt` provides the text alternative. `title` is not reliably announced, `aria-hidden` hides content, and `role` sets semantics."
+    },
+    {
+      "id": "pt-a11yf-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "A decorative image should have an empty alt attribute (alt=\"\") so screen readers skip it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Empty alt marks the image as decorative. Omitting alt entirely makes some screen readers read the file name."
+    },
+    {
+      "id": "pt-a11yf-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "Under WCAG 2.2 AA, what is the minimum contrast ratio for large text (at least 18pt, or 14pt bold)?",
+      "options": [
+        "3:1",
+        "4.5:1",
+        "7:1",
+        "2:1"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Large text needs 3:1 at AA. Normal text needs 4.5:1; 7:1 is the AAA level for normal text."
+    },
+    {
+      "id": "pt-a11yf-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "Which were added as new success criteria in WCAG 2.2? Select all that apply.",
+      "options": [
+        "2.4.11 Focus Not Obscured (Minimum)",
+        "2.5.8 Target Size (Minimum)",
+        "3.3.8 Accessible Authentication (Minimum)",
+        "1.1.1 Non-text Content"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Focus Not Obscured, Target Size (Minimum) and Accessible Authentication are among the WCAG 2.2 additions. 1.1.1 has existed since WCAG 2.0."
+    },
+    {
+      "id": "pt-a11yf-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "An automated scanner reports zero issues on a checkout page. What should you conclude?",
+      "options": [
+        "Only that the automatically detectable issues are absent; keyboard, screen-reader and content checks are still needed",
+        "The page conforms to WCAG AA",
+        "No manual testing is needed",
+        "The scanner is broken"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Automated tools catch a subset of issues (missing alt, contrast, some ARIA errors). Many criteria need human judgement."
+    },
+    {
+      "id": "pt-a11yf-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "A form passes a scanner, but screen-reader users cannot tell what the field is for. What is wrong?",
+      "code": "<span>Email</span>\n<input id=\"email\" type=\"email\" placeholder=\"you@example.com\">",
+      "codeLanguage": "html",
+      "options": [
+        "The placeholder is not a reliable label and disappears on typing; the visible text is not programmatically associated. Use <label for=\"email\">",
+        "type should be text",
+        "The input needs tabindex=\"0\"",
+        "Nothing; placeholders are labels"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Placeholders are not a substitute for labels: they vanish, often fail contrast, and may not be announced. A `<label>` linked by `for`/`id` names the field."
+    },
+    {
+      "id": "pt-a11yf-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "accessibility-testing-fundamentals",
+      "prompt": "A custom dropdown built from <div>s works with a mouse but not with the keyboard, and NVDA announces it as \"clickable\". What is the best recommendation?",
+      "options": [
+        "Use a native <select> if possible; otherwise implement the ARIA combobox/listbox pattern with full keyboard support and states",
+        "Add aria-label to the div",
+        "Add tabindex=\"-1\"",
+        "Hide it from screen readers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Native elements come with semantics and keyboard behaviour for free. A custom widget needs correct roles, states and keyboard handling; an aria-label alone does not make it operable."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-a11yf-contrast",
+      "language": "python",
+      "title": "WCAG contrast ratio",
+      "difficulty": "intermediate",
+      "prompt": "Write `contrast(hex1, hex2)` that returns the WCAG contrast ratio of two `#rrggbb` colours, rounded to 2 decimals. Relative luminance: for each channel c in 0..1, linear = c/12.92 if c <= 0.04045 else ((c+0.055)/1.055)**2.4; L = 0.2126R + 0.7152G + 0.0722B. Ratio = (L1 + 0.05)/(L2 + 0.05) with L1 the lighter.\n\nExample: `contrast('#000000', '#ffffff')` returns `21.0`.",
+      "starter": "def contrast(hex1, hex2):\n    # Your code here\n    pass\n",
+      "solution": "def _lum(h):\n    h = h.lstrip('#')\n    vals = []\n    for i in (0, 2, 4):\n        c = int(h[i:i + 2], 16) / 255\n        vals.append(c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4)\n    r, g, b = vals\n    return 0.2126 * r + 0.7152 * g + 0.0722 * b\n\ndef contrast(hex1, hex2):\n    a, b = _lum(hex1), _lum(hex2)\n    hi, lo = max(a, b), min(a, b)\n    return round((hi + 0.05) / (lo + 0.05), 2)\n",
+      "explanation": "This is the WCAG 2.x definition. Taking the max/min makes the order of arguments irrelevant. #767676 on white is about 4.54:1, the classic 'just passes AA' grey.",
+      "hints": [
+        "Convert each pair of hex digits with `int(x, 16) / 255`.",
+        "Apply the linearisation per channel before weighting.",
+        "Put the lighter luminance on top."
+      ],
+      "tests": [
+        {
+          "name": "Black on white",
+          "marks": 2,
+          "code": "assert contrast('#000000', '#ffffff') == 21.0"
+        },
+        {
+          "name": "Order does not matter",
+          "marks": 2,
+          "code": "assert contrast('#ffffff', '#767676') == contrast('#767676', '#ffffff') == 4.54, contrast('#ffffff', '#767676')"
+        },
+        {
+          "name": "Same colour",
+          "marks": 1,
+          "code": "assert contrast('#336699', '#336699') == 1.0 and contrast('#777777', '#ffffff') == 4.48"
+        }
+      ]
+    },
+    {
+      "id": "code-a11yf-aa",
+      "language": "python",
+      "title": "Pass or fail at AA",
+      "difficulty": "beginner",
+      "prompt": "Write `passes_aa(ratio, size_pt, bold)` returning True if the contrast ratio meets WCAG 2.2 AA: large text (size >= 18pt, or >= 14pt and bold) needs 3.0; other text needs 4.5.\n\nExample: `passes_aa(3.2, 14, True)` returns `True`; `passes_aa(3.2, 14, False)` returns `False`.",
+      "starter": "def passes_aa(ratio, size_pt, bold):\n    # Your code here\n    pass\n",
+      "solution": "def passes_aa(ratio, size_pt, bold):\n    large = size_pt >= 18 or (size_pt >= 14 and bold)\n    return ratio >= (3.0 if large else 4.5)\n",
+      "explanation": "Large text is easier to read at lower contrast, so WCAG relaxes the threshold. Note the ratio is compared without rounding up: 4.49 fails.",
+      "hints": [
+        "Work out `large` first.",
+        "Pick the threshold with a conditional expression."
+      ],
+      "tests": [
+        {
+          "name": "Bold 14pt is large",
+          "marks": 2,
+          "code": "assert passes_aa(3.2, 14, True) is True and passes_aa(3.2, 14, False) is False"
+        },
+        {
+          "name": "Normal text thresholds",
+          "marks": 2,
+          "code": "assert passes_aa(4.5, 12, False) is True and passes_aa(4.49, 12, False) is False"
+        },
+        {
+          "name": "18pt is large",
+          "marks": 1,
+          "code": "assert passes_aa(3.0, 18, False) is True and passes_aa(2.99, 24, True) is False"
+        }
+      ]
+    }
+  ]
+}

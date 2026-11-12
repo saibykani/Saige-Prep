@@ -1,0 +1,182 @@
+{
+  "lesson": "postman-collections-and-environments",
+  "questions": [
+    {
+      "id": "pt-pmcol-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-collections-and-environments",
+      "prompt": "What is a Postman collection?",
+      "options": [
+        "A saved, ordered group of requests (with folders, scripts and variables) that can be run together",
+        "A list of environments",
+        "A database export",
+        "A browser extension"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Collections organise requests and their tests so they can be shared, versioned and run by the Collection Runner or Newman."
+    },
+    {
+      "id": "pt-pmcol-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-collections-and-environments",
+      "prompt": "How do you reference a variable named baseUrl in a request URL?",
+      "options": [
+        "{{baseUrl}}/orders",
+        "${baseUrl}/orders",
+        "%baseUrl%/orders",
+        "$baseUrl/orders"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Postman substitutes `{{name}}` in URLs, headers and bodies. The other syntaxes are from shells or other tools."
+    },
+    {
+      "id": "pt-pmcol-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "postman-collections-and-environments",
+      "prompt": "Switching the selected environment from QA to Staging changes which baseUrl the same collection calls, without editing any request.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is the main purpose of environments: the same requests run against different targets by changing variable values."
+    },
+    {
+      "id": "pt-pmcol-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-collections-and-environments",
+      "prompt": "Which variable scope has the highest precedence when the same name is defined in several scopes?",
+      "options": [
+        "Local (set during a run, e.g. pm.variables.set)",
+        "Global",
+        "Collection",
+        "Environment"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Postman resolves from the narrowest scope: local, then data (iteration), then environment, then collection, then global."
+    },
+    {
+      "id": "pt-pmcol-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-collections-and-environments",
+      "prompt": "What should NOT be committed to Git in an exported environment file? Select all that apply.",
+      "options": [
+        "Real passwords and API secrets",
+        "Production access tokens",
+        "The variable names the collection needs",
+        "A placeholder baseUrl for local runs"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Secrets and tokens must come from a vault or CI secret at run time. Variable names and harmless defaults are useful to commit so others know what to set."
+    },
+    {
+      "id": "pt-pmcol-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "postman-collections-and-environments",
+      "prompt": "A teammate's run uses an old token even after you updated it in the environment. What is a likely reason?",
+      "options": [
+        "You changed only your local (current) value; the shared (initial) value they sync is still old, or they have their own current value",
+        "Postman caches responses",
+        "Environments cannot hold tokens",
+        "The collection must be re-imported every time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Postman separates the shared initial value from each user's current value. Current values stay local, which is good for secrets but surprises teams."
+    },
+    {
+      "id": "pt-pmcol-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "postman-collections-and-environments",
+      "prompt": "Your collection has 120 requests in one flat list, many repeating the same auth header. What restructuring helps most?",
+      "options": [
+        "Group requests into folders by feature, set auth and shared scripts at collection/folder level, and keep variables for hosts and ids",
+        "Split into 120 collections",
+        "Duplicate the header into each request explicitly",
+        "Move everything into one big pre-request script"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Folder and collection-level auth and scripts are inherited, so they are written once. Folders also let Newman run a subset with `--folder`."
+    },
+    {
+      "id": "pt-pmcol-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "postman-collections-and-environments",
+      "prompt": "A collection works in QA, but against Staging the first request returns 301 to https and the test asserts 200. What should you do?",
+      "options": [
+        "Fix the Staging environment's baseUrl to use https, rather than loosening the assertion",
+        "Change the assertion to accept 301",
+        "Turn off redirects permanently",
+        "Delete the Staging environment"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The environment value is wrong; the test correctly caught it. Loosening tests to accept the redirect would hide a real misconfiguration."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-pmcol-resolve",
+      "language": "javascript",
+      "title": "Resolve Postman-style variables",
+      "difficulty": "intermediate",
+      "prompt": "Write `resolve(template, scopes)` that replaces every `{{name}}` in `template`. `scopes` is an array of objects ordered from **highest** to lowest precedence (e.g. `[local, data, environment, collection, global]`). Unknown variables are left unchanged.\n\nExample: `resolve('{{baseUrl}}/orders/{{id}}', [{id: '7'}, {baseUrl: 'https://qa.test', id: '1'}])` returns `'https://qa.test/orders/7'`.",
+      "starter": "function resolve(template, scopes) {\n  // Your code here\n}\n",
+      "solution": "function resolve(template, scopes) {\n  return template.replace(/\\{\\{([^{}]+)\\}\\}/g, (match, name) => {\n    for (const scope of scopes) {\n      if (Object.prototype.hasOwnProperty.call(scope, name)) return String(scope[name]);\n    }\n    return match;\n  });\n}\n",
+      "explanation": "A regex with a replacer function handles every placeholder. Searching scopes in order reproduces Postman's precedence, and returning the original match for unknown names mirrors how Postman leaves unresolved variables visible (which is how you spot a missing environment).",
+      "hints": [
+        "Use `String.prototype.replace` with a global regex and a function.",
+        "Loop the scopes in order and return the first one that has the name.",
+        "Use `hasOwnProperty` so a value of empty string still counts."
+      ],
+      "tests": [
+        {
+          "name": "Precedence order",
+          "marks": 3,
+          "code": "assertEqual(resolve('{{baseUrl}}/orders/{{id}}', [{id: '7'}, {baseUrl: 'https://qa.test', id: '1'}]), 'https://qa.test/orders/7');"
+        },
+        {
+          "name": "Unknown variables stay",
+          "marks": 2,
+          "code": "assertEqual(resolve('{{host}}/x/{{missing}}', [{host: 'h'}]), 'h/x/{{missing}}');"
+        },
+        {
+          "name": "Empty string values are used",
+          "marks": 1,
+          "code": "assertEqual(resolve('a{{v}}b', [{v: ''}, {v: 'X'}]), 'ab');"
+        }
+      ]
+    }
+  ]
+}
