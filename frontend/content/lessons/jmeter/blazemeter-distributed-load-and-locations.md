@@ -146,6 +146,40 @@ The calibration run's Engine Health curve climbs steadily with users; past the k
 
 A retailer planned a 10,000-user Black Friday rehearsal across three regions. Their first attempt used the plan's default ratio; Engine Health showed 95% CPU because the script parsed large JSON with regular expressions. Switching to a JSON Extractor and lowering users per engine fixed it. Their login error rate of 4% turned out to be data collisions: every engine read the same 3,000-row CSV. They generated 12,000 accounts, gave each engine its own slice, and errors dropped to zero. Their internal stock service was tested separately from a private location inside the data centre.
 
+## Worked example: interpreting a calibration run
+
+Here is how a calibration run typically reads, minute by minute, for one engine ramping to 500 threads over 40 minutes (about 12 new users per minute):
+
+| Minute | Virtual users | Engine CPU | Hits/s | p90 response time |
+|---|---|---|---|---|
+| 10 | 125 | 22% | 41 | 310 ms |
+| 20 | 250 | 44% | 82 | 320 ms |
+| 30 | 375 | 69% | 121 | 340 ms |
+| 34 | 425 | 78% | 133 | 420 ms |
+| 38 | 475 | 94% | 136 | 910 ms |
+
+How to read it:
+
+- Up to minute 30, users, CPU and hits/s grow in proportion and response time is flat. The engine is doing its job.
+- At minute 34 CPU crosses 75%. Hits/s is still rising, but more slowly. This is the point the calibration guide tells you to note: about 425 users.
+- At minute 38 hits/s barely moves while users keep rising, and p90 more than doubles. Is the application slow, or the engine? Check the target's own monitoring. If the application's CPU and response times on its side are steady, the jump is caused by the overloaded engine queueing requests, and the measurement is no longer trustworthy.
+
+Safe users per engine: about 10% under 425, so roughly 380. That is the number used in the walkthrough above. Repeat calibration whenever the script changes significantly (new heavy extractors, larger payloads, more embedded resources), because users per engine is a property of the script, not of BlazeMeter.
+
+## Comparing locations without fooling yourself
+
+When you filter the report by location, differences in response time are expected: a region farther from your servers adds network round-trip time to every request. To separate network distance from application behaviour:
+
+1. Compare **connect time** and **latency** per location. If the distant region's connect time is higher by roughly the same amount as its response time, the difference is network distance, not your application.
+2. Compare **error rates**. Errors that appear in only one location suggest something regional: a CDN edge, a DNS answer, a geo-blocking rule or a firewall that allows some engine addresses and not others.
+3. Compare **throughput per user**. If one location's users complete far fewer iterations, they are waiting longer per request, which compounds over a journey.
+
+Report regional results separately when they matter to the business, for example "European shoppers see p90 checkout of 640 ms, North American shoppers 820 ms, both within criteria".
+
+## Planning data for several engines
+
+A quick sizing rule: unique records needed = peak concurrent users x records each user holds at once. For a login journey where each virtual user keeps one session, 2,000 users need at least 2,000 accounts. For a "register a new account every iteration" journey, multiply by the expected iterations per user too. Write the calculation into your test plan, and ask the environment owner to confirm the data can be created and cleaned up afterwards.
+
 ## Common mistakes
 
 - **Never calibrating**, then blaming the app for generator saturation.

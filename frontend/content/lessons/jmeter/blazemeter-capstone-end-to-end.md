@@ -197,6 +197,50 @@ Locally: a Taurus dashboard and final stats with all criteria passing at 10 user
 
 A learner used their own Flask shop app. Locally all criteria passed at 10 users. In the cloud at 200 users, p90 for search jumped to 2.4 s at around 120 users while engine CPU stayed at 30%, so the app was the bottleneck. The Timeline showed hits/s flattening at 120 users; the app's own logs showed a full table scan on product search. An index fixed it; the second run passed with p90 at 310 ms and became the baseline. The PR gate later caught a pagination change that doubled response time.
 
+## Worked example: a sample REPORT.md results section
+
+Learners often find the report the hardest part, so here is what a finished results section can look like for the learner's Flask shop described above (second run, after the index fix):
+
+```text
+Run: shop-load #2, staging VM in own cloud account, 2 locations
+Validity: 2 engines, CPU max 41%, memory max 55%, Max Users 200/200
+Steady state analysed: minutes 6 to 25 (ramp-up excluded)
+
+Transaction      Samples   p90      p99      Errors   Verdict
+01 Home           41,880   190 ms   420 ms   0.00%    PASS
+02 Search         27,910   310 ms   780 ms   0.02%    PASS
+03 Product        27,850   240 ms   610 ms   0.00%    PASS
+04 Add to cart    12,560   380 ms   1.1 s    0.05%    PASS
+05 Checkout        4,170   690 ms   1.8 s    0.31%    PASS (close to p90 limit)
+
+Observations:
+- Checkout p90 is within 15% of the 800 ms criterion; it is the first
+  transaction likely to breach as load grows.
+- Errors on checkout are 409 Conflict on stock reservation when two
+  users buy the last unit; this is expected behaviour, not a defect,
+  but the test data should include more stock.
+Recommendations:
+- Increase seeded stock; re-run to confirm checkout errors disappear.
+- Run a step test (200, 300, 400 users) to find the knee before the sale.
+```
+
+Notice the structure: validity first, then numbers per transaction against criteria, then interpretation with evidence, then concrete next steps. A manager can read the verdict column; an engineer can follow the evidence.
+
+## Interpreting your own results
+
+Use these questions while writing the analysis, and answer each one with a link or screenshot:
+
+1. **Was the test valid?** Engines within limits, planned users reached, no script errors in the logs.
+2. **Did each transaction meet its criteria in steady state?** Report per label, not one blended average.
+3. **Where is the knee?** If throughput stopped growing before your target users, say at what load.
+4. **What do the errors mean?** Group by code and label; decide which are defects, which are data problems and which are expected business rules.
+5. **What changed since the baseline?** Only compare runs with the same script, data and environment.
+6. **What would you test next?** A step test, a longer soak test, or the same test after a fix.
+
+## Time-boxing and stopping safely
+
+Plan the cloud run inside the window written in `AUTHORISATION.md`, and keep the BlazeMeter report open while it runs. If a stop condition is met, stop the test from the report or by stopping the `bzt` process once (one Ctrl+C, then wait for a graceful shutdown), note the time, and record it in the report. A stopped test is still a result: it tells you the load level at which the system stopped coping. Afterwards, delete test accounts or reset the database, shut down the cloud host, and revoke any temporary API key you created for the capstone.
+
 ## Common mistakes
 
 - **Testing a site you do not own** or forgetting to stub third-party calls.

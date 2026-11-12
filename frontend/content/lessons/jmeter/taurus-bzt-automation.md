@@ -209,6 +209,65 @@ The console dashboard shows active users, hits, response times and errors live. 
 
 A SaaS team kept twelve JMX files with thread counts edited by hand before each run, and nobody remembered which numbers were used last month. They wrapped each JMX in a Taurus YAML stored next to it, with load settings and criteria visible in code review. Environment hosts came from `-o scenarios.shop.properties.host=...`. A pull request that raised `concurrency` from 50 to 500 was questioned in review and correctly redirected to the weekly cloud run. CI now runs `bzt smoke.yml` on every merge and fails on exit code 3.
 
+## Worked example: one config, three environments
+
+Taurus merges several config files given on the command line, with later files overriding earlier ones, and `-o` overrides any single setting. That lets you keep one base file and small environment files instead of copying the whole test.
+
+`perf/base.yml` holds the scenario and criteria (as in the first example above). `perf/env-staging.yml` holds only what differs:
+
+```yaml
+scenarios:
+  shop:
+    properties:
+      host: staging.example.test
+$execution:
+- concurrency: 50
+  hold-for: 10m
+```
+
+Runs then look like this:
+
+```text
+bzt perf/base.yml                                  (local defaults)
+bzt perf/base.yml perf/env-staging.yml             (staging profile)
+bzt perf/base.yml perf/env-staging.yml -o execution.0.concurrency=5   (quick check)
+```
+
+Watch the `$` in front of `execution`. By default Taurus merges dictionaries but **joins lists**, so a plain `execution:` list in the second file would be appended and you would run two load tests. The `$` prefix merges list items element by element instead, so the staging values update the first execution. (A `~` prefix replaces a value outright.) Also use the same form (always a list, or always a single dictionary) for `execution` in every file you merge. Then check the result: Taurus saves `merged.yml` (your files combined) and `effective.yml` (after defaults are applied) in the artifacts folder next to `bzt.log`. Reading it after a surprising run is the fastest way to see which value actually won.
+
+## Reading the artifacts folder
+
+After a run, the artifacts folder is your evidence. The exact file names vary by version, but you will typically find:
+
+| File | What to use it for |
+|---|---|
+| `bzt.log` | Full Taurus log; the first place to look when the exit code is 1 |
+| Effective (merged) config | Proves which settings were used |
+| Modified JMX | The plan JMeter really ran, with your overrides applied |
+| JTL / KPI results | Raw samples, usable with JMeter's HTML report generator |
+| JMeter log | Errors from inside JMeter, such as missing CSV files or script exceptions |
+
+To set the folder name yourself, for example in CI, use `-o settings.artifacts-dir=perf-artifacts`.
+
+## Interpreting pass/fail output
+
+Suppose a run ends like this (simplified):
+
+```text
+Failed requests: 0.6%
+Percentiles: 90.0 -> 0.912 s
+Pass/Fail criterion triggered: p90>800ms for 30s, stop as failed
+Done performing with code: 3
+```
+
+Read it in three steps. First, the criterion text tells you which rule fired. Second, `for 30s` means p90 stayed above 800 ms for thirty consecutive seconds, so this was a sustained problem, not a single slow sample. Third, exit code 3 means Taurus stopped the test deliberately; your CI job will fail, which is the intended behaviour. Exit code 1 would instead mean Taurus itself had a problem (bad YAML, missing Java, unreachable host), and that must not be read as a performance verdict.
+
+A good habit is to calibrate criteria from evidence: run the test a few times against a stable build, note the typical p90 and error rate, and set thresholds with a margin above them. Thresholds pulled from thin air either never fire or fire on every run, and in both cases people stop trusting them.
+
+## Debugging a YAML-only scenario
+
+When a generated scenario misbehaves, run it with one user and short duration (`-o execution.0.concurrency=1 -o execution.0.hold-for=30s`) and open the generated JMX from the artifacts folder in the JMeter GUI. You will see exactly how Taurus translated your `requests`, extractors and assertions, which makes mistakes such as a wrong JSONPath obvious.
+
 ## Common mistakes
 
 - **Spaces around operators** in short-form criteria.
@@ -228,6 +287,9 @@ A SaaS team kept twelve JMX files with thread counts edited by hand before each 
 | Criterion never triggers | Check syntax, label spelling, timeframe logic |
 | Exit code 1 | Generic error; read `bzt.log` in the artifacts folder |
 | Cloud test refuses to start | Token, plan limits or not enough engines in the account |
+| Override seems ignored | Check `merged.yml`/`effective.yml` in artifacts; a later file or `-o` may win, and lists are appended unless the key has a `$` prefix |
+| CSV not found in cloud runs | Reference the file by name only and list it so Taurus uploads it with the test |
+| Local results much slower than expected | Your machine may be saturated; watch its CPU and reduce concurrency |
 
 ## Hands-on exercise
 

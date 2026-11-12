@@ -215,6 +215,37 @@ A passing PR shows the smoke step green and a `perf-artifacts` download. A faili
 
 A payments team had a nightly JMeter job that "always passed" because nobody read the report. They moved to Taurus with criteria `p90>700ms` and `failures>0.5%` and a baseline criterion on the authorisation endpoint. Two weeks later, the nightly cloud run failed with exit code 3: p90 rose 30% after an ORM upgrade. The report link in the failed job took the developer straight to Request Stats. They also added API Monitoring checks on the public status and token endpoints every few minutes, which caught a certificate problem in production that no load test would have.
 
+## Worked example: tuning a noisy gate
+
+A team adds the smoke workflow above and, in the first week, it fails on 4 of 20 pull requests that changed only documentation. A gate that fails randomly teaches people to re-run until green, which destroys its value. Here is how they made it trustworthy.
+
+1. **Measure the noise.** They ran the smoke test ten times on the unchanged main branch and recorded p90: values ranged from 410 ms to 760 ms. The 800 ms threshold sat too close to normal variation on shared CI runners.
+2. **Remove avoidable variation.** The app container and the load generator shared the same runner, and the first requests hit a cold cache. They added a 30-second warm-up phase (a short first execution or simply discarding the first minute) and made the database seed deterministic.
+3. **Choose what the smoke test is for.** A five-user run on a CI runner cannot measure capacity. Its job is to catch large regressions and broken scripts: a request that suddenly takes seconds, or an endpoint that returns errors. They kept `failures>1%` strict and relaxed p90 to a generous threshold based on the measured runs.
+4. **Move precise checks to the right place.** Tight percentile criteria and baseline comparisons moved to the nightly cloud run, where the environment is stable and the load is realistic.
+
+After the change the gate failed only when something was really wrong, and developers started reading its output instead of re-running it.
+
+## Reading a failed pipeline
+
+When the job goes red, decide which kind of failure it is before anyone starts optimising code:
+
+| Exit code and log | Meaning | First action |
+|---|---|---|
+| 3, with a "criterion triggered" line | Performance verdict: a threshold was breached | Open the artifacts or report, find the label and the time it breached |
+| 3, cloud test marked failed | BlazeMeter failure criteria or a failed cloud test | Open the report link printed in the log |
+| 1 | Taurus or environment error | Read `bzt.log`; check YAML, Java, network, token |
+| 2 | Someone or something stopped the run | Check whether the job was cancelled or timed out |
+| 0 but the app looked broken | Criteria too weak or missing assertions | Add assertions and an error-rate criterion |
+
+## API Monitoring versus load tests in practice
+
+Think of the two as answering different questions. API Monitoring asks "is this API working correctly right now, from where our users are?" every few minutes, with a handful of requests and detailed assertions on the responses. A load test asks "how does the system behave when many users act at once?" for a limited window. A good setup uses both: monitoring for always-on correctness and alerts, scheduled load tests for capacity trends. Keep monitoring checks light, point them only at endpoints you own, and avoid steps that create real orders or send real emails unless they are designed for it.
+
+## Housekeeping for CI keys
+
+Rotate the CI API key on a schedule and whenever someone with access to it leaves. Because each integration has its own key, you can revoke one without disrupting others. Record in the repository README which secret names the workflows expect, never their values.
+
 ## Common mistakes
 
 - **Secrets in YAML or workflow files**, or printed with `echo`.

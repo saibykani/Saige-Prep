@@ -166,6 +166,52 @@ After cleanup, View Results Tree shows every sampler green with your business na
 
 A travel site's team recorded a booking journey with the extension and got 214 requests. 140 were analytics, a chat widget, fonts and an ad network. Narrowing the filter pattern to their two domains brought it to 31 requests. The first replay at 20 users failed on payment because the recording contained a fixed `bookingRef` in the URL; a JSON Extractor on the "create booking" response fixed it. They also noticed the recording included calls to a third-party payment sandbox; they replaced it with their own stub, because the payment provider had not authorised load tests.
 
+## Worked example: finding what to correlate
+
+After a recording, the hardest question is "which values are dynamic?". A reliable method is to **record the same journey twice** and compare.
+
+1. Record `shop-login-search` as above and save the JMX as `rec-a.jmx`.
+2. Click **Reset**, log out, clear cookies for your site, and record exactly the same clicks again as `rec-b.jmx`.
+3. Compare the two files with any text diff tool (for example `git diff --no-index rec-a.jmx rec-b.jmx`).
+
+Lines that differ are your correlation candidates. A typical diff for a small shop looks like this:
+
+```text
+-  csrf=7f3a9c1e5b2d4a60
++  csrf=b81d02e4c9f7a315
+-  /api/cart/5512/items
++  /api/cart/5519/items
+-  _=1762851200345
++  _=1762851297811
+```
+
+Read each one and decide:
+
+| Value | Where it came from | Action |
+|---|---|---|
+| `csrf` | Hidden field in the GET /login HTML | Regular Expression or CSS Selector Extractor on the login page, then `${csrfToken}` |
+| Cart ID `5512` | JSON body of POST /api/cart | JSON Extractor `$.id` into `cartId`, then `/api/cart/${cartId}/items` |
+| `_=1762851200345` | A cache-busting timestamp added by the browser | Replace with `${__time()}` or remove the parameter if the server ignores it |
+
+Values that are identical in both recordings but tied to one account (for example a user ID returned after login) will still break when many different users replay the script, so also look for anything that appears in a response and is later sent back in a request.
+
+## Interpreting the first replay
+
+Run the cleaned script with one thread and View Results Tree, and read the result carefully rather than just looking for green icons.
+
+- **Green but wrong.** A login request can return HTTP 200 with a page that says "Invalid session". Without an assertion it shows green. Add a Response Assertion that checks for something only a logged-in page contains, such as the user's name or a "Log out" link.
+- **Redirect chains.** If you recorded "Top Level Requests and the Following", redirects may appear as separate samplers and JMeter may also follow them, doubling requests. Keep one approach: either let JMeter follow redirects, or keep the recorded redirect samplers and turn following off.
+- **Embedded resources.** With "Only Top-Level Requests" you can enable "Retrieve All Embedded Resources" in HTTP Request Defaults to fetch CSS, scripts and images at run time. Restrict it with a URL pattern so you do not load third-party content you have no permission to test.
+- **Think time.** The recorded pauses reflect how slowly you clicked. Replace them with timers based on your workload model, not your recording speed.
+
+## When to use which save format
+
+| Format | Use it when |
+|---|---|
+| JMX only | You will refine the script in JMeter and run it locally or on BlazeMeter |
+| Taurus YAML of JMeter and Selenium | You want one file for a combined performance and browser test, run with `bzt` |
+| Selenium only | You need a functional browser script, not load |
+
 ## Common mistakes
 
 - **Leaving the default filter**, so you record (and later load-test) Google, ad networks and BlazeMeter itself.

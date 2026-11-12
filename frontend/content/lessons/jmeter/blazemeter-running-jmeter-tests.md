@@ -146,6 +146,44 @@ The debug test report shows about 10 users, a short timeline and zero or explain
 
 An insurance team uploaded a quote-journey JMX with two thread groups: "browse" with 8 threads and "buy" with 2. They set 500 total users and expected 250 each; BlazeMeter kept the 4:1 ratio and ran 400 and 100, which was actually their intended mix. Their first run hung at start: the CSV Data Set Config pointed at `D:\perf\quotes.csv`. Changing it to `quotes.csv` and uploading the file fixed it. The debug test then showed connection timeouts: the staging firewall blocked the engines; the infrastructure team allowed the test traffic for the agreed window.
 
+## Worked example: predicting what an override will do
+
+Before you click Run Test, predict the effective load on paper. It catches surprises that otherwise cost a whole run.
+
+Your script has three thread groups:
+
+```text
+Browse   threads 6   loops forever   (with a Uniform Random Timer)
+Cart     threads 3   loops forever
+Checkout threads 1   loops forever
+```
+
+You set Total Users 300, Ramp Up 5 minutes, Duration 20 minutes. Because the thread counts differ, BlazeMeter keeps the ratio 6:3:1, so you should expect about 180 browse, 90 cart and 30 checkout users. Write that prediction down. After the run, open `modified_shop.jmx` from `artifacts.zip` and compare: if the numbers differ (for example because there is more than one engine and rounding was applied per engine), you now know why the Request Stats mix looks different from your plan.
+
+Now consider iterations instead of duration. If you switch to Iterations 50 and each checkout iteration takes about 40 seconds including think time, checkout users finish in roughly 33 minutes, but browse users with shorter iterations finish much earlier. The load therefore drops off unevenly at the end of the run. For a steady-state test, duration is usually easier to analyse; iterations suit "process exactly N orders" style tests.
+
+## Reading the debug test like a checklist
+
+The debug test is cheap insurance. Go through its report in this order:
+
+1. **Logs.** Open the engine log in the Logs tab and search for `ERROR`, `FileNotFoundException` and `NoClassDefFoundError`. Any of these means a missing file or plugin, not a performance problem.
+2. **Errors tab.** Group by response code. A wall of 401 or 403 almost always means correlation or test data; a wall of connection errors means the engines cannot reach the target.
+3. **Request Stats.** Check every label you expect is present. A missing label means that sampler never ran, often because an earlier failure stopped the thread or a controller condition was false.
+4. **Engine Health.** Even at 10 users, CPU should be low. High CPU this early points at heavy listeners, a big regular expression on large responses or a JSR223 script without caching.
+5. **Target side.** Ask the application owner (or check your own monitoring) whether they saw the traffic. Seeing requests arrive confirms the route, host and firewall rules are right.
+
+Only move to the full run when you can explain every error in the debug report.
+
+## Using JMeter properties for one script, many environments
+
+The properties section of the test is the cleanest way to reuse one script across environments. If your script reads `${__P(host,staging.example.test)}`, `${__P(thinkMin,3000)}` and `${__P(thinkMax,6000)}`, you can set different values per BlazeMeter test without uploading a new JMX. Keep a short table in your repository listing each property, its default and what it controls, so nobody has to open the script to know what to change.
+
+| Property | Default | Purpose |
+|---|---|---|
+| `host` | `staging.example.test` | Target host |
+| `thinkMin` / `thinkMax` | 3000 / 6000 | Think-time range in ms |
+| `searchTerms` | `terms.csv` | Data file for searches |
+
 ## Common mistakes
 
 - **Skipping the debug test** and burning a full run on a broken script.

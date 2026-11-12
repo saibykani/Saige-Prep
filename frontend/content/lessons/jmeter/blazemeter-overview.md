@@ -144,6 +144,37 @@ A ticketing company sells concert tickets. Normal traffic is modest, but when a 
 | Internal app behind a firewall at scale | Private location, or self-hosted distributed JMeter |
 | Strict data residency, no third parties allowed | Self-hosted JMeter |
 
+## Worked example: from a local script to a cloud plan
+
+Suppose you have `shop.jmx`, built and debugged in earlier lessons, and your product owner asks: "Will the shop cope with 1,500 concurrent shoppers during the spring sale?" Here is how the parts of BlazeMeter map to that question before you click anything.
+
+1. **Can one machine do it?** You run the script non-GUI on your laptop at 150 threads and watch the operating system's CPU monitor. It sits at 85% and the JMeter log warns about long garbage-collection pauses. Your laptop is now part of the measurement, so 1,500 users locally is not credible. This is the classic reason to move to cloud engines.
+2. **Where are the shoppers?** Analytics says roughly two thirds of traffic comes from Europe and one third from North America. That becomes a load distribution of two locations, weighted about 67/33.
+3. **What does "cope" mean?** You agree with the owner: p90 of checkout at most 1 second, error rate at most 1%, during a 30-minute steady state. Those become failure criteria, so the report will say pass or fail instead of leaving it to opinion.
+4. **What is the target?** The staging environment, which the operations lead has approved for a named window, with a contact who can stop the test. You write that down before configuring anything.
+5. **What will the run cost in plan terms?** You check your account's billing page for concurrent-user, engine and duration limits. If the test does not fit, you either shorten it, reduce users and extrapolate cautiously, or ask for a plan change; you do not try to work around limits.
+
+Only now do you create the test. Because you thought it through first, every BlazeMeter setting has a reason you can explain in a review.
+
+## Reading the platform's vocabulary correctly
+
+New users often misread a few terms, which leads to wrong conclusions later.
+
+| Term | What people assume | What it actually means |
+|---|---|---|
+| Total Users | Users per location or per engine | Peak concurrent users for the whole test, split across engines and locations |
+| Engine | A server of your application | A load generator that BlazeMeter starts; it sends traffic, it is not the system under test |
+| Location | Where your app runs | Where load is generated from (a cloud region or your private location) |
+| Debug Test | A dry run that sends no traffic | A small real run with reduced users and duration; it still hits your target |
+| Report | Only produced at the end | Fills in live while the test runs, so you can watch and stop early |
+| Override | A change to your JMX file | A run-time replacement of thread-group values; your uploaded file is unchanged |
+
+## How BlazeMeter fits a team's workflow
+
+A healthy pattern is to keep the source of truth in Git: the `.jmx`, CSV files and, ideally, a Taurus YAML that records the load settings. Developers run small checks locally or in CI. BlazeMeter is used for the runs that need scale, several regions or shared reports that managers and developers can open from a link. The Taurus lessons later in this module show how the same YAML can run on a laptop, in CI and on BlazeMeter, which avoids the drift that happens when settings live only in a web form.
+
+Treat the BlazeMeter workspace like any shared production tool: give people the least access they need, use a dedicated API key per integration so you can revoke one without breaking others, and record who approved each large run.
+
 ## Common mistakes
 
 - **Uploading an undebugged script.** Errors at 1,000 users cost money and time; debug at one user locally first.

@@ -137,6 +137,50 @@ For a healthy run: engine CPU flat below 70%, hits/s plateau matching your model
 
 A bank's run "passed" on average response time (310 ms) but customers complained. The Request Stats 99% line for `Transfer` was 7 seconds, and the Errors tab showed 0.3% timeouts clustered in two-minute bursts. The Timeline revealed those bursts every 10 minutes, matching a scheduled batch job on the shared database. They replaced the average criterion with p90 and p99 criteria per critical label, made the batch run outside the test window, and set the next good run as baseline with a 10% offset.
 
+## Worked example: diagnosing a saturated run
+
+A team runs 800 users with a 10-minute ramp and a 30-minute hold. The Summary says p90 is 1.9 s and errors are 3.2%, both breaching criteria. Here is a realistic analysis path.
+
+**1. Validity.** Engine Health shows four engines, CPU peaking at 61%, memory flat. Logs show no exceptions. Max Users is 800. The numbers can be trusted.
+
+**2. Timeline.** With Virtual Users, Hits and Response Time on one chart:
+
+```text
+minute  users  hits/s  avg rt
+   5     400    210     280 ms
+   8     640    330     300 ms
+  10     800    352     610 ms
+  15     800    348    1,450 ms
+  25     800    341    1,520 ms
+```
+
+Between minutes 8 and 10, users grew by 25% but hits/s grew by only about 7%, and response time doubled. That is the knee: the system reached its maximum useful throughput, around 350 hits/s. After it, extra users only wait in queues. Little's Law gives a sanity check: concurrent users roughly equal throughput multiplied by (response time + think time). If each user's iteration is far longer than your think time alone explains, the extra time is queueing.
+
+**3. Request Stats.** Sorting by 90% line shows `04 Search` at 3.4 s, while `01 Home` stays at 220 ms. The slowdown is not uniform, which points at a specific dependency rather than the network or the engines.
+
+**4. Errors.** Grouped by response code: 96% are 504 Gateway Timeout on `04 Search`. Opening the first unique error body shows the proxy's timeout page, so the search service did not answer in time.
+
+**5. Verdict.** "System saturates near 350 hits/s, about 650 users, at the current workload mix. Search is the bottleneck. Recommend investigating search service capacity and query performance, then re-running the same test for comparison."
+
+Notice what the analysis does not claim: it does not say "the database is slow" without evidence. The report shows where and when; the application's own monitoring shows why.
+
+## Patterns to recognise on the Timeline
+
+| Shape | Usual meaning |
+|---|---|
+| Hits/s flat while users rise, response time rising | Saturation (the knee) |
+| Response time climbing steadily during a flat hold | Resource leak, growing queue or data growth (for example a cart that keeps growing) |
+| Regular spikes every N minutes | Scheduled job, garbage collection, cache expiry or log rotation |
+| Sudden step change, then stable | Autoscaling event, failover or a cache warming up |
+| Errors starting at once with a drop in response time | Fast failures: the server rejects requests quickly instead of serving them |
+| Hits/s drops to zero briefly on all labels | Engine or network interruption; check Engine Health and Logs |
+
+The last pattern is a trap: falling response time can look like good news when it really means requests are failing quickly. Always read response time together with errors.
+
+## Comparing two runs fairly
+
+Before calling something a regression, confirm the two runs share the same script version, data, load configuration, locations, target build and environment size. Note them in the analysis note. If any differ, describe the result as "different" rather than "worse", and re-run under matching conditions.
+
 ## Common mistakes
 
 - **Trusting numbers from overloaded engines.**
