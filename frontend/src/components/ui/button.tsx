@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 const variants = {
-  primary: "shimmer ripple bg-accent text-accent-foreground shadow-soft hover:bg-accent-strong hover:shadow-card hover:shadow-accent/25 disabled:bg-accent/50 disabled:shadow-none",
+  primary: "shimmer ripple bg-accent text-accent-foreground shadow-soft hover:bg-accent-strong hover:shadow-card hover:shadow-accent/25 disabled:bg-surface-raised disabled:text-muted disabled:border disabled:border-dashed disabled:border-border-strong disabled:shadow-none disabled:hover:bg-surface-raised",
   secondary: "bg-surface-raised text-foreground border border-border hover:border-border-strong hover:bg-surface-hover",
   ghost: "text-muted hover:text-foreground hover:bg-surface-raised",
   danger: "bg-danger-soft text-danger border border-danger/30 hover:bg-danger/20",
@@ -37,7 +37,7 @@ export function Button({
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       className={cn(
-        "inline-flex items-center rounded-lg font-medium transition-[color,background-color,border-color,box-shadow,transform] duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100 motion-reduce:active:scale-100",
+        "inline-flex items-center rounded-lg font-medium transition-[color,background-color,border-color,box-shadow,transform] duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-80 disabled:active:scale-100 motion-reduce:active:scale-100",
         variants[variant],
         sizes[size],
         className,

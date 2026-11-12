@@ -38,7 +38,7 @@ function Ring({ pct }: { pct: number }) {
   const r = 52;
   const c = 2 * Math.PI * r;
   return (
-    <div className="cine-ring relative h-36 w-36 shrink-0 sm:h-44 sm:w-44">
+    <div className="cine-ring relative h-24 w-24 shrink-0 sm:h-44 sm:w-44">
       <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90" aria-hidden>
         <defs>
           <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
@@ -61,11 +61,11 @@ function Ring({ pct }: { pct: number }) {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="stat-value text-4xl font-semibold tracking-tight sm:text-5xl">
+        <span className="stat-value text-2xl font-semibold tracking-tight sm:text-5xl">
           <CountUp value={pct} />
-          <span className="text-xl text-white/75">%</span>
+          <span className="text-sm text-white/75 sm:text-xl">%</span>
         </span>
-        <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/75">ready</span>
+        <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/75 sm:text-[11px]">ready</span>
       </div>
     </div>
   );
@@ -112,7 +112,7 @@ export function CinematicHero({
       ref={ref}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      className="cine-hero relative isolate mb-8 overflow-hidden rounded-2xl px-5 py-8 text-white shadow-elevated sm:px-10 sm:py-10"
+      className="cine-hero relative isolate mb-8 overflow-hidden rounded-2xl px-4 py-5 text-white shadow-elevated sm:px-10 sm:py-10"
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="cine-mesh absolute -inset-[20%]" />
@@ -120,30 +120,30 @@ export function CinematicHero({
         <div className="cine-vignette absolute inset-0" />
       </div>
 
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-4 sm:gap-8 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0 max-w-2xl">
-          <p className="cine-chip mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-medium text-white/90">
+          <p className="cine-chip mb-3 hidden sm:mb-4 sm:inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-xs font-medium text-white/90">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-bright opacity-60 [animation-iteration-count:3] motion-reduce:animate-none" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-bright" />
             </span>
             Your testing career HQ
           </p>
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-[44px]">
+          <h1 className="text-2xl font-semibold leading-tight tracking-tight sm:text-[44px]">
             {title.split(" ").map((w, i) => (
               <span key={i} className="cine-word inline-block" style={{ "--i": i } as CSSProperties}>
                 {w}&nbsp;
               </span>
             ))}
           </h1>
-          <p className="cine-sub mt-3 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+          <p className="cine-sub mt-2 max-w-xl text-sm sm:mt-3 sm:text-base leading-relaxed text-white/80 sm:text-lg">
             Learn. Practice. Test. <span className="cine-shine font-semibold">Get hired.</span> Everything below reflects only what you have actually done.
           </p>
 
           {nextStep ? (
             <Link
               href={nextStep.href}
-              className="cine-cta group mt-6 inline-flex max-w-full items-center gap-3 rounded-xl bg-white py-2.5 pl-3 pr-4 text-[#14211f] shadow-[0_12px_32px_-14px_rgb(0_0_0/0.6)] transition-transform hover:-translate-y-0.5 motion-reduce:transform-none"
+              className="cine-cta group mt-4 inline-flex sm:mt-6 max-w-full items-center gap-3 rounded-xl bg-white py-2.5 pl-3 pr-4 text-[#14211f] shadow-[0_12px_32px_-14px_rgb(0_0_0/0.6)] transition-transform hover:-translate-y-0.5 motion-reduce:transform-none"
             >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-ink text-accent-bright">
                 <Target className="h-4 w-4" aria-hidden />
@@ -157,13 +157,13 @@ export function CinematicHero({
           ) : (
             <Link
               href="/planner"
-              className="cine-cta mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-[#14211f]"
+              className="cine-cta mt-4 inline-flex sm:mt-6 items-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-[#14211f]"
             >
               <Sparkles className="h-4 w-4" aria-hidden /> All starter missions done. Open your study plan
             </Link>
           )}
 
-          <dl className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-sm">
+          <dl className="mt-7 hidden flex-wrap gap-x-7 gap-y-3 text-sm sm:flex">
             {[
               [content.tracks, "tracks"],
               [content.lessons, "lessons"],
@@ -180,9 +180,9 @@ export function CinematicHero({
           </dl>
         </div>
 
-        <div className="cine-panel flex shrink-0 flex-col items-center gap-5 rounded-2xl border border-white/10 bg-white/[0.05] p-5 sm:flex-row lg:flex-col xl:flex-row">
+        <div className="cine-panel flex shrink-0 flex-row items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-3 sm:gap-5 sm:p-5 lg:flex-col xl:flex-row">
           <Ring pct={pct} />
-          <div className="w-full min-w-[200px] space-y-4">
+          <div className="min-w-0 flex-1 space-y-2 sm:min-w-[200px] sm:space-y-4">
             <div className="flex items-center gap-3">
               <span className={`cine-flame flex h-10 w-10 items-center justify-center rounded-xl ${streak ? "bg-[#f2b65c] text-[#3a2506]" : "bg-white/10"}`}>
                 <Flame className="h-5 w-5" aria-hidden />
@@ -195,7 +195,7 @@ export function CinematicHero({
               </div>
             </div>
             <div>
-              <div className="flex h-14 items-end gap-1" role="img" aria-label={`Active on ${activeDays} of the last 14 days`}>
+              <div className="flex h-8 items-end gap-0.5 sm:h-14 sm:gap-1" role="img" aria-label={`Active on ${activeDays} of the last 14 days`}>
                 {series.map((d, i) => (
                   <span
                     key={i}
