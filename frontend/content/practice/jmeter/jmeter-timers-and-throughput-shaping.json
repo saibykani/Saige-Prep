@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-timers-and-throughput-shaping",
+  "questions": [
+    {
+      "id": "pt-jtim-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "Why do realistic load tests use timers?",
+      "options": [
+        "To model user think time between actions",
+        "To make JMeter use less memory",
+        "To make response times look faster",
+        "Because samplers fail without timers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Real users pause. Without think time each thread fires requests back to back, creating unrealistic load per user."
+    },
+    {
+      "id": "pt-jtim-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "Which timer adds a random delay with a normal (bell-curve) distribution around an offset?",
+      "options": [
+        "Gaussian Random Timer",
+        "Constant Timer",
+        "Uniform Random Timer",
+        "Synchronizing Timer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Gaussian Random Timer uses a deviation around a constant offset. Constant is fixed, Uniform is evenly spread, and Synchronizing blocks threads to release them together."
+    },
+    {
+      "id": "pt-jtim-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "The Constant Throughput Timer's target is expressed in samples per minute.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "For 10 requests per second you enter 600."
+    },
+    {
+      "id": "pt-jtim-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "What does the Synchronizing Timer do?",
+      "options": [
+        "Holds threads until a set number have arrived, then releases them together to create a spike",
+        "Synchronises JMeter's clock with the server",
+        "Makes all samplers run in the same thread",
+        "Spreads requests evenly over time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It creates simultaneous bursts, useful for testing concurrency issues. It does not touch clocks or threading model."
+    },
+    {
+      "id": "pt-jtim-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "A Precise Throughput Timer targets 30 samples per minute for the sampler it is attached to. What request rate per second is that?",
+      "code": "Target throughput: 30\nThroughput period: 60 seconds",
+      "codeLanguage": "text",
+      "options": [
+        "0.5 per second",
+        "30 per second",
+        "2 per second",
+        "0.05 per second"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "30 per minute / 60 = 0.5 per second, one request every 2 seconds."
+    },
+    {
+      "id": "pt-jtim-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "Why can a Constant Throughput Timer fail to reach its target? Select all that apply.",
+      "options": [
+        "Not enough threads: it can only delay, never speed up",
+        "Response times are so long that threads cannot issue requests fast enough",
+        "Other timers add extra delay",
+        "It always overshoots by design"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "The timer only pauses threads. With too few threads, slow responses or extra timers, the target is unreachable. It does not overshoot by design."
+    },
+    {
+      "id": "pt-jtim-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "You need 10 rps for 5 minutes, then a step to 50 rps for 10 minutes, with JMeter adding threads as needed. Which combination is the standard approach?",
+      "options": [
+        "Throughput Shaping Timer (plugin) with a schedule, plus a Concurrency Thread Group fed back via ${__tstFeedback(...)}",
+        "Constant Timer of 100 ms and 50 threads",
+        "Two Synchronizing Timers",
+        "A Uniform Random Timer with a 50 ms maximum"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Throughput Shaping Timer defines the rps schedule and __tstFeedback lets the Concurrency Thread Group add threads to hit it. Fixed delays and synchronizing timers do not follow a schedule."
+    },
+    {
+      "id": "pt-jtim-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-timers-and-throughput-shaping",
+      "prompt": "A Constant Throughput Timer at 6,000/min with 'this thread only' and 20 threads produces about 2,000 rps instead of 100 rps. What is wrong?",
+      "options": [
+        "'This thread only' applies the target per thread (20 x 100 rps); use 'all active threads' (or divide the target)",
+        "The timer counts in seconds",
+        "The timer needs a Synchronizing Timer",
+        "Throughput is limited by the heap"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Per-thread mode multiplies the target by the thread count (if response times allow it). Shared mode applies the target across threads. The unit is per minute, and the other options are unrelated."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jtim-ctt",
+      "language": "python",
+      "title": "Delay needed to hit a throughput target",
+      "difficulty": "intermediate",
+      "prompt": "Model the Constant Throughput Timer in shared mode. Write `delay_ms(target_per_min, threads, avg_response_ms)` returning the pause (ms, rounded to an int) each thread must add after each request so that all threads together hit the target. Each thread's cycle is `response + delay`, and it must equal `threads * 60000 / target`. If the needed delay is negative (target unreachable), return `0`.\n\nExample: `delay_ms(600, 5, 200)` returns `300` (10 rps over 5 threads = each thread every 500 ms).",
+      "starter": "def delay_ms(target_per_min, threads, avg_response_ms):\n    # Your code here\n    return -1\n",
+      "solution": "def delay_ms(target_per_min, threads, avg_response_ms):\n    cycle = threads * 60000 / target_per_min\n    return max(0, round(cycle - avg_response_ms))\n",
+      "explanation": "Each thread must start a request every `threads * 60000 / target` ms; the timer fills the gap after the response. A negative gap shows why the timer can only slow threads down, never speed them up.",
+      "hints": [
+        "Convert the target into the per-thread cycle time first.",
+        "Delay = cycle - response time.",
+        "Clamp negatives to 0 with `max`."
+      ],
+      "tests": [
+        {
+          "name": "Reachable",
+          "marks": 3,
+          "code": "assert delay_ms(600, 5, 200) == 300"
+        },
+        {
+          "name": "Unreachable",
+          "marks": 3,
+          "code": "assert delay_ms(6000, 20, 400) == 0"
+        },
+        {
+          "name": "Single thread",
+          "marks": 2,
+          "code": "assert delay_ms(60, 1, 250) == 750"
+        }
+      ]
+    },
+    {
+      "id": "code-jtim-timers",
+      "language": "python",
+      "title": "Timer delay ranges",
+      "difficulty": "beginner",
+      "prompt": "Write `timer_range(kind, **cfg)` returning `(min_ms, max_ms)` for one pause:\n\n- `'constant'`: `delay` -> `(delay, delay)`\n- `'uniform'`: `offset`, `random_max` -> `(offset, offset + random_max)`\n- `'poisson'`: return `(offset, None)` (unbounded above)\n\nRaise `ValueError` for any other kind. Example: `timer_range('uniform', offset=2000, random_max=4000)` returns `(2000, 6000)`.",
+      "starter": "def timer_range(kind, **cfg):\n    # Your code here\n    return (0, 0)\n",
+      "solution": "def timer_range(kind, **cfg):\n    if kind == 'constant':\n        return (cfg['delay'], cfg['delay'])\n    if kind == 'uniform':\n        return (cfg['offset'], cfg['offset'] + cfg['random_max'])\n    if kind == 'poisson':\n        return (cfg['offset'], None)\n    raise ValueError(kind)\n",
+      "explanation": "Knowing the bounds lets you estimate think time per iteration: the uniform timer's average is offset + random_max / 2.",
+      "hints": [
+        "Branch on `kind`.",
+        "Uniform adds the random maximum on top of the offset.",
+        "Raise `ValueError` at the end."
+      ],
+      "tests": [
+        {
+          "name": "Uniform",
+          "marks": 2,
+          "code": "assert timer_range('uniform', offset=2000, random_max=4000) == (2000, 6000)"
+        },
+        {
+          "name": "Constant and Poisson",
+          "marks": 2,
+          "code": "assert timer_range('constant', delay=300) == (300, 300) and timer_range('poisson', offset=100) == (100, None)"
+        },
+        {
+          "name": "Unknown",
+          "marks": 2,
+          "code": "try:\n    timer_range('gaussianish')\n    raise AssertionError('no error')\nexcept ValueError:\n    pass"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "lesson": "jmeter-best-practices-and-troubleshooting",
+  "questions": [
+    {
+      "id": "pt-jbp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Where should you look first when a non-GUI run behaves oddly?",
+      "options": [
+        "jmeter.log",
+        "The .jmx file's XML",
+        "The Windows event log",
+        "The HTML report's colour legend"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "jmeter.log records script errors, missing classes and warnings. The others rarely explain JMeter-side problems."
+    },
+    {
+      "id": "pt-jbp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Which scripting option is recommended for performance?",
+      "options": [
+        "JSR223 with Groovy and script caching",
+        "BeanShell",
+        "JavaScript in If Controllers",
+        "Running external shell scripts per sample"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Groovy with caching compiles once and runs fast. The others are slower."
+    },
+    {
+      "id": "pt-jbp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Increasing JMeter's heap beyond the machine's free RAM will make tests more stable.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A heap larger than available RAM causes swapping or failures. Size the heap well under the physical memory."
+    },
+    {
+      "id": "pt-jbp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Many samples fail with `java.net.SocketException: Connection reset` at high load, but the app logs show no errors. What do you check?",
+      "options": [
+        "Load balancer/proxy limits, server connection backlogs and keep-alive timeouts between JMeter and the app",
+        "The JMeter GUI theme",
+        "The CSV file encoding",
+        "The Constant Timer value"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Resets usually come from network components or server connection limits. Unrelated settings will not fix them."
+    },
+    {
+      "id": "pt-jbp-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "What does 'Non HTTP response code: java.net.BindException' on Windows usually indicate?",
+      "options": [
+        "The load generator ran out of ephemeral ports",
+        "The server returned 500",
+        "The CSV file is missing",
+        "A JSON path is wrong"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "BindException means the client could not bind a local port, typically ephemeral port exhaustion. Keep-alive and tuning the port range help."
+    },
+    {
+      "id": "pt-jbp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Which reduce memory use on the load generator? Select all that apply.",
+      "options": [
+        "Do not save response data in the JTL",
+        "Disable View Results Tree and Aggregate Graph during load",
+        "Use CSV JTL output rather than XML",
+        "Add a Debug Sampler to every iteration"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Response data, heavy listeners and XML output all consume memory. Debug Samplers add samples and should be disabled."
+    },
+    {
+      "id": "pt-jbp-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "A plan works in GUI on the laptop but non-GUI on the CI agent logs `FileNotFoundException: data\\users.csv`. The agent runs Linux. What is the most likely fix?",
+      "options": [
+        "Use forward slashes or a relative path built per OS (data/users.csv); backslashes are not path separators on Linux",
+        "Increase the heap",
+        "Install the Plugins Manager on CI",
+        "Run in GUI mode on CI"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Windows-style separators break on Linux. Heap, plugins and GUI mode are unrelated."
+    },
+    {
+      "id": "pt-jbp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-best-practices-and-troubleshooting",
+      "prompt": "Your first 3 minutes always show high response times, then results stabilise. How should you treat that period?",
+      "options": [
+        "As warm-up (JIT, caches, connection pools): exclude it from the SLA analysis or run a warm-up phase before measuring, and report it separately",
+        "Delete the first 3 minutes from the JTL without mentioning it",
+        "Ignore warm-up entirely; it is never relevant",
+        "Add a Constant Timer at the start"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Warm-up is real but distinct from steady state. Excluding it transparently, or having an explicit warm-up phase, keeps analysis honest. Silently deleting data is misleading."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jbp-log",
+      "language": "python",
+      "title": "Triage jmeter.log",
+      "difficulty": "beginner",
+      "prompt": "Write `triage(log_text)` returning a dict `{'ERROR': n, 'WARN': m, 'top': message}` where `n`/`m` count lines whose level field is `ERROR`/`WARN`, and `top` is the most common ERROR message (text after `: ` following the logger name), or `None`. Line format: `2026-11-12 10:00:01,123 ERROR o.a.j.t.JMeterThread: Test failed!`. On ties pick the message seen first.",
+      "starter": "def triage(log_text):\n    # Your code here\n    return {}\n",
+      "solution": "def triage(log_text):\n    counts = {'ERROR': 0, 'WARN': 0}\n    msgs = {}\n    for line in log_text.splitlines():\n        parts = line.split(' ', 4)\n        if len(parts) < 5:\n            continue\n        level = parts[2]\n        if level in counts:\n            counts[level] += 1\n        if level == 'ERROR':\n            msg = parts[4].split(': ', 1)[-1]\n            msgs[msg] = msgs.get(msg, 0) + 1\n    top = max(msgs, key=msgs.get) if msgs else None\n    return {'ERROR': counts['ERROR'], 'WARN': counts['WARN'], 'top': top}\n",
+      "explanation": "Counting by level and grouping messages points you at the dominant problem in a long log. `max` over a dict keeps the first key on ties because dicts preserve insertion order.",
+      "hints": [
+        "Split each line into date, time, level, logger and message.",
+        "Count levels in a dict.",
+        "Use `max(msgs, key=msgs.get)` for the most common message."
+      ],
+      "tests": [
+        {
+          "name": "Counts",
+          "marks": 3,
+          "code": "log = '2026-11-12 10:00:01,123 ERROR o.a.j.t.JMeterThread: Test failed!\\n2026-11-12 10:00:02,000 WARN o.a.j.s.FileServer: slow\\n2026-11-12 10:00:03,000 ERROR o.a.j.p.h.s.HTTPSampler: Connection reset\\n2026-11-12 10:00:04,000 ERROR o.a.j.p.h.s.HTTPSampler: Connection reset\\n2026-11-12 10:00:05,000 INFO o.a.j.e.StandardJMeterEngine: Running'\nassert triage(log) == {'ERROR': 3, 'WARN': 1, 'top': 'Connection reset'}"
+        },
+        {
+          "name": "No errors",
+          "marks": 2,
+          "code": "assert triage('2026-11-12 10:00:05,000 INFO o.a.j.e.X: ok') == {'ERROR': 0, 'WARN': 0, 'top': None}"
+        }
+      ]
+    },
+    {
+      "id": "code-jbp-heap",
+      "language": "python",
+      "title": "Choose a safe heap size",
+      "difficulty": "intermediate",
+      "prompt": "Write `heap_setting(total_ram_gb, other_usage_gb)` returning the `HEAP` value string. Use 70% of `(total_ram_gb - other_usage_gb)`, rounded **down** to whole GB, capped at 31 GB, and at least 1 GB. Use the same value for `-Xms` and `-Xmx`.\n\nExample: `heap_setting(16, 2)` returns `'-Xms9g -Xmx9g'`.",
+      "starter": "def heap_setting(total_ram_gb, other_usage_gb):\n    # Your code here\n    return ''\n",
+      "solution": "import math\n\ndef heap_setting(total_ram_gb, other_usage_gb):\n    gb = math.floor((total_ram_gb - other_usage_gb) * 0.7)\n    gb = max(1, min(31, gb))\n    return f'-Xms{gb}g -Xmx{gb}g'\n",
+      "explanation": "Leaving headroom for the OS and other processes avoids swapping, and staying under about 32 GB keeps compressed object pointers. Equal min and max avoids heap resizing during the run.",
+      "hints": [
+        "Compute the free RAM, then 70% of it.",
+        "Clamp between 1 and 31 with `max(1, min(31, x))`.",
+        "Format as `-Xms{n}g -Xmx{n}g`."
+      ],
+      "tests": [
+        {
+          "name": "Typical",
+          "marks": 3,
+          "code": "assert heap_setting(16, 2) == '-Xms9g -Xmx9g'"
+        },
+        {
+          "name": "Cap",
+          "marks": 2,
+          "code": "assert heap_setting(128, 8) == '-Xms31g -Xmx31g'"
+        },
+        {
+          "name": "Floor",
+          "marks": 2,
+          "code": "assert heap_setting(2, 1.5) == '-Xms1g -Xmx1g'"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-csv-data-set-config",
+  "questions": [
+    {
+      "id": "pt-jcsv-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "What does the 'Variable Names' field of CSV Data Set Config do?",
+      "options": [
+        "Names the variables that receive each column of the current row",
+        "Lists the files to read",
+        "Sets the file encoding",
+        "Defines the header line written to the results file"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Comma-separated names map to the columns in order, e.g. username,password gives ${username} and ${password}."
+    },
+    {
+      "id": "pt-jcsv-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "What is the default Sharing mode?",
+      "options": [
+        "All threads",
+        "Current thread group",
+        "Current thread",
+        "Edit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "By default all threads share one file pointer, so each row is handed out once in turn."
+    },
+    {
+      "id": "pt-jcsv-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "With 'Recycle on EOF?' True, JMeter goes back to the first data row after the last one.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Recycle restarts from the beginning, which means rows (and accounts) get reused."
+    },
+    {
+      "id": "pt-jcsv-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "Your password column contains values like `pa,ss`. Logins fail for those users. What setting helps?",
+      "options": [
+        "Tick 'Allow quoted data?' and quote such values in the file (\"pa,ss\")",
+        "Change Sharing mode to Current thread",
+        "Set Recycle to False",
+        "Use a .txt extension instead of .csv"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without quoting, the comma splits the field. Allowing quoted data keeps the value intact. Sharing mode, recycling and file extension do not affect parsing."
+    },
+    {
+      "id": "pt-jcsv-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "Where is a relative Filename resolved from?",
+      "options": [
+        "The directory of the .jmx test plan",
+        "The JMeter bin directory always",
+        "The user's home directory",
+        "The directory of jmeter.log"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Relative paths are resolved against the test plan's location, which keeps plan and data portable together."
+    },
+    {
+      "id": "pt-jcsv-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "Recycle on EOF False, Stop thread on EOF True, Sharing All threads. What happens when rows run out? Select all that apply.",
+      "options": [
+        "Threads that try to read past the end stop",
+        "No row is used twice",
+        "Variables become <EOF> and requests continue",
+        "The test may end before the configured loops finish"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Stop thread on EOF ends threads cleanly at the end of the data, so rows are unique and the run can finish early. <EOF> values appear only when both Recycle and Stop thread are False."
+    },
+    {
+      "id": "pt-jcsv-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "4 threads share one file (All threads) with 10 rows, Recycle False, Stop thread False, each thread loops 3 times. What do the last 2 iterations send?",
+      "options": [
+        "The literal value <EOF> in the variables, producing bogus requests",
+        "Rows 1 and 2 again",
+        "Nothing; the threads stop",
+        "Random rows"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "12 reads are needed and only 10 rows exist. With both options False, JMeter sets the variables to <EOF>, which then appear in requests. That is why Stop thread on EOF True is safer for unique data."
+    },
+    {
+      "id": "pt-jcsv-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-csv-data-set-config",
+      "prompt": "You run 2 load generators in distributed mode with the same users.csv (200 rows) on each, Sharing All threads. Logins fail with 'already logged in' errors. Why, and what is the fix?",
+      "options": [
+        "Each server reads its own copy from row 1, so both use the same accounts; give each generator a different slice of the file",
+        "Distributed mode ignores CSV Data Set Config",
+        "Sharing mode must be Current thread group",
+        "The file must be on the controller only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In distributed mode each server runs the plan independently with its local file, so rows overlap. Splitting the data per generator keeps accounts unique. The CSV config works, changing sharing mode does not fix cross-machine overlap, and files must exist on each server."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jcsv-dist",
+      "language": "python",
+      "title": "Simulate CSV row distribution",
+      "difficulty": "intermediate",
+      "prompt": "Write `csv_reads(rows, threads, loops, recycle, stop_thread)` modelling Sharing mode **All threads**. Threads take turns in order: iteration 1 of threads 1..N, then iteration 2, etc. Each read takes the next row. At the end of data:\n\n- `recycle=True`: wrap to the first row.\n- else if `stop_thread=True`: that thread stops (it does not read again).\n- else: the read returns `'<EOF>'`.\n\nReturn a dict `{thread_number: [values read]}` with threads numbered from 1.\n\nExample: `csv_reads(['a','b','c'], 2, 2, False, True)` returns `{1: ['a','c'], 2: ['b']}`.",
+      "starter": "def csv_reads(rows, threads, loops, recycle, stop_thread):\n    # Your code here\n    return {}\n",
+      "solution": "def csv_reads(rows, threads, loops, recycle, stop_thread):\n    out = {t: [] for t in range(1, threads + 1)}\n    stopped = set()\n    pos = 0\n    for _ in range(loops):\n        for t in range(1, threads + 1):\n            if t in stopped:\n                continue\n            if pos >= len(rows):\n                if recycle:\n                    pos = 0\n                elif stop_thread:\n                    stopped.add(t)\n                    continue\n                else:\n                    out[t].append('<EOF>')\n                    continue\n            out[t].append(rows[pos])\n            pos += 1\n    return out\n",
+      "explanation": "A single shared pointer models 'All threads'. The three end-of-file branches correspond to the two checkboxes and show why Recycle reuses accounts and why both-False leaks `<EOF>` into requests.",
+      "hints": [
+        "Keep one position index shared by all threads.",
+        "Loop iterations outermost, threads innermost.",
+        "Handle the end of data before reading: wrap, stop the thread, or append '<EOF>'."
+      ],
+      "tests": [
+        {
+          "name": "Stop thread on EOF",
+          "marks": 3,
+          "code": "assert csv_reads(['a','b','c'], 2, 2, False, True) == {1: ['a','c'], 2: ['b']}"
+        },
+        {
+          "name": "Recycle",
+          "marks": 3,
+          "code": "assert csv_reads(['a','b'], 2, 2, True, False) == {1: ['a','a'], 2: ['b','b']}"
+        },
+        {
+          "name": "EOF leaks",
+          "marks": 3,
+          "code": "assert csv_reads(['a'], 1, 3, False, False) == {1: ['a','<EOF>','<EOF>']}"
+        }
+      ]
+    },
+    {
+      "id": "code-jcsv-split",
+      "language": "python",
+      "title": "Split test data between generators",
+      "difficulty": "advanced",
+      "prompt": "To avoid two load generators sharing accounts, write `split_rows(rows, n)` that splits `rows` into `n` contiguous chunks whose sizes differ by at most one, earlier chunks taking the extra rows. Raise `ValueError` if `n` is less than 1 or greater than `len(rows)` (some generator would get no data).\n\nExample: `split_rows([1,2,3,4,5], 2)` returns `[[1,2,3],[4,5]]`.",
+      "starter": "def split_rows(rows, n):\n    # Your code here\n    return []\n",
+      "solution": "def split_rows(rows, n):\n    if n < 1 or n > len(rows):\n        raise ValueError('bad number of generators')\n    size, extra = divmod(len(rows), n)\n    chunks, start = [], 0\n    for i in range(n):\n        end = start + size + (1 if i < extra else 0)\n        chunks.append(rows[start:end])\n        start = end\n    return chunks\n",
+      "explanation": "`divmod` gives the base size and how many chunks get one extra row. Contiguous, non-overlapping slices guarantee each account is used by exactly one generator.",
+      "hints": [
+        "Use `divmod(len(rows), n)`.",
+        "The first `extra` chunks get one more row.",
+        "Track a moving `start` index and slice."
+      ],
+      "tests": [
+        {
+          "name": "Uneven split",
+          "marks": 3,
+          "code": "assert split_rows([1,2,3,4,5], 2) == [[1,2,3],[4,5]]"
+        },
+        {
+          "name": "Even split",
+          "marks": 2,
+          "code": "assert split_rows(list(range(6)), 3) == [[0,1],[2,3],[4,5]]"
+        },
+        {
+          "name": "Invalid counts",
+          "marks": 3,
+          "code": "for n in (0, 4):\n    try:\n        split_rows([1,2,3], n)\n        raise AssertionError('expected ValueError for n=%d' % n)\n    except ValueError:\n        pass"
+        }
+      ]
+    }
+  ]
+}

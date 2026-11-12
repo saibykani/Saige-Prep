@@ -1,0 +1,210 @@
+{
+  "lesson": "jmeter-recording-scripts",
+  "questions": [
+    {
+      "id": "pt-jrec-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Where does the JMeter HTTP(S) Test Script Recorder sit during recording?",
+      "options": [
+        "As a proxy between the browser and the application",
+        "Inside the application server",
+        "As a browser extension that reads the DOM",
+        "On the database"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The recorder is an HTTP(S) proxy; the browser sends traffic through it and JMeter turns requests into samplers."
+    },
+    {
+      "id": "pt-jrec-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Which template gives you a ready-made plan with a recorder and Recording Controller?",
+      "options": [
+        "File > Templates > Recording",
+        "File > Open > Recorder.jmx from bin",
+        "Options > Plugins Manager",
+        "Run > Remote Start"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The built-in Recording template sets up the recorder, a Thread Group with a Recording Controller and useful defaults."
+    },
+    {
+      "id": "pt-jrec-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "To record HTTPS sites, the browser must trust JMeter's generated root CA certificate.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter performs a man-in-the-middle on TLS to see requests, so the browser must trust ApacheJMeterTemporaryRootCA."
+    },
+    {
+      "id": "pt-jrec-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Your recording contains hundreds of requests to .png, .css, .js and analytics domains. What is the best way to keep the script focused?",
+      "options": [
+        "Use 'URL Patterns to Exclude' (e.g. the 'Add suggested Excludes' button) and exclude third-party hosts",
+        "Delete the Cookie Manager",
+        "Set the Thread Group to 1 thread",
+        "Record in Firefox private mode"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Exclude patterns stop static and third-party requests from becoming samplers; you can model static resources separately if needed. The other options do not filter requests."
+    },
+    {
+      "id": "pt-jrec-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Which setting groups recorded requests per page/user action so the plan is readable?",
+      "options": [
+        "Grouping: 'Put each group in a new Transaction Controller' (with a pause between groups)",
+        "HTTP Sampler settings > Follow redirects",
+        "Naming scheme: use URL only",
+        "Recycle on EOF"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Grouping uses idle gaps between requests to split actions into controllers. The others do not group requests."
+    },
+    {
+      "id": "pt-jrec-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Which are typical clean-up steps after recording? Select all that apply.",
+      "options": [
+        "Correlate dynamic values such as session ids and CSRF tokens",
+        "Parameterise test data like usernames",
+        "Add assertions to check real success",
+        "Keep hard-coded recorded tokens so the replay matches exactly"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Recorded tokens expire and are user-specific, so they must be extracted at run time. Data and assertions make the script realistic and trustworthy."
+    },
+    {
+      "id": "pt-jrec-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "Recording works for HTTP pages but HTTPS pages fail in the browser with a certificate error, even after importing the CA last month. What is the most likely reason?",
+      "options": [
+        "The generated CA certificate has a limited validity (7 days by default) and was regenerated; import the new ApacheJMeterTemporaryRootCA.crt from bin",
+        "HTTPS recording requires JMeter in non-GUI mode",
+        "The browser needs JavaScript disabled",
+        "The recorder port must be 443"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter's temporary root CA is valid for a limited time (7 days by default) and is recreated, so the browser trusts an outdated one. Non-GUI mode, disabling JS or using port 443 do not fix trust."
+    },
+    {
+      "id": "pt-jrec-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-recording-scripts",
+      "prompt": "A recorded login works once, but under 20 users every login after the first few returns 'invalid request'. The recorded POST contains `execution=e1s1&_eventId=submit&lt=LT-123-abc`. What is needed?",
+      "options": [
+        "Extract the lt/execution values from the login page response for each user and substitute them, because they are one-time tokens",
+        "Add a Constant Timer of 5 seconds",
+        "Change the method to GET",
+        "Increase the heap size"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Login flows (such as CAS-style forms) issue per-session tokens that must be correlated. Timers, method changes or heap size do not make an expired token valid."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jrec-exclude",
+      "language": "python",
+      "title": "Apply recorder exclude patterns",
+      "difficulty": "beginner",
+      "prompt": "The recorder's 'URL Patterns to Exclude' are regular expressions that must match the **whole** URL. Write `kept(urls, excludes)` returning the URLs that match none of the patterns (use `re.fullmatch`), in original order.\n\nExample: with excludes `[r'.*\\.(png|css|js)', r'https?://[^/]*google-analytics\\.com/.*']`, `http://shop/app.js` is dropped and `http://shop/cart` is kept.",
+      "starter": "def kept(urls, excludes):\n    # Your code here\n    return urls\n",
+      "solution": "import re\n\ndef kept(urls, excludes):\n    return [u for u in urls if not any(re.fullmatch(p, u) for p in excludes)]\n",
+      "explanation": "JMeter applies recorder patterns to the whole URL, which is why suggested excludes start with `.*`. A pattern like `\\.png` alone would match nothing.",
+      "hints": [
+        "Use `re.fullmatch`, not `re.search`.",
+        "Keep a URL only if no pattern matches.",
+        "`[u for u in urls if not any(re.fullmatch(p, u) for p in excludes)]`"
+      ],
+      "tests": [
+        {
+          "name": "Static and analytics removed",
+          "marks": 3,
+          "code": "ex = [r'.*\\.(png|css|js)', r'https?://[^/]*google-analytics\\.com/.*']\nurls = ['http://shop/app.js', 'http://shop/cart', 'https://www.google-analytics.com/collect', 'http://shop/logo.png']\nassert kept(urls, ex) == ['http://shop/cart']"
+        },
+        {
+          "name": "Whole-URL matching",
+          "marks": 3,
+          "code": "assert kept(['http://shop/png-guide', 'http://shop/a.png'], [r'.*\\.png']) == ['http://shop/png-guide']\nassert kept(['http://shop/a.png'], [r'\\.png']) == ['http://shop/a.png']"
+        }
+      ]
+    },
+    {
+      "id": "code-jrec-dynamic",
+      "language": "python",
+      "title": "Spot values that need correlation",
+      "difficulty": "intermediate",
+      "prompt": "Compare two recordings of the same journey. Write `dynamic_params(rec1, rec2)` where each recording is a list of query/body strings like `'user=bob&token=ab12'`, one per request in the same order. Return a sorted list of parameter names whose value differs between the two recordings for the same request.\n\nExample: `['a=1&t=x'], ['a=1&t=y']` returns `['t']`.",
+      "starter": "def dynamic_params(rec1, rec2):\n    # Your code here\n    return []\n",
+      "solution": "from urllib.parse import parse_qsl\n\ndef dynamic_params(rec1, rec2):\n    names = set()\n    for a, b in zip(rec1, rec2):\n        da, db = dict(parse_qsl(a, keep_blank_values=True)), dict(parse_qsl(b, keep_blank_values=True))\n        for k in da.keys() | db.keys():\n            if da.get(k) != db.get(k):\n                names.add(k)\n    return sorted(names)\n",
+      "explanation": "Recording a journey twice and diffing is a standard way to find session ids and tokens: anything that changes between identical journeys is a correlation candidate.",
+      "hints": [
+        "`urllib.parse.parse_qsl` splits `a=1&b=2` into pairs.",
+        "Compare the dicts key by key (include keys present in only one).",
+        "Collect differing names in a set and return it sorted."
+      ],
+      "tests": [
+        {
+          "name": "Single token",
+          "marks": 3,
+          "code": "assert dynamic_params(['a=1&t=x'], ['a=1&t=y']) == ['t']"
+        },
+        {
+          "name": "Several requests",
+          "marks": 3,
+          "code": "r1 = ['user=bob&lt=LT-1', 'execution=e1s1&q=shoes']\nr2 = ['user=bob&lt=LT-9', 'execution=e2s1&q=shoes']\nassert dynamic_params(r1, r2) == ['execution', 'lt']"
+        },
+        {
+          "name": "Missing key counts",
+          "marks": 2,
+          "code": "assert dynamic_params(['a=1'], ['a=1&sid=5']) == ['sid']"
+        }
+      ]
+    }
+  ]
+}

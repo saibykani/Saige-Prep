@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-listeners-and-results",
+  "questions": [
+    {
+      "id": "pt-jlis-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "What does the Error % column in the Summary Report show?",
+      "options": [
+        "The percentage of samples that failed",
+        "The percentage of CPU used by JMeter",
+        "The share of requests slower than the 90% line",
+        "The percentage of threads that stopped"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Error % is failed samples / total samples for that label. CPU, latency percentiles and thread counts are separate."
+    },
+    {
+      "id": "pt-jlis-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "What file format does JMeter use by default for results written with -l?",
+      "options": [
+        "CSV (a .jtl file with a header row)",
+        "Binary Java serialisation",
+        "PDF",
+        "HTML"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JTL results default to CSV; XML is available but larger. The HTML dashboard is generated from the JTL, not written directly."
+    },
+    {
+      "id": "pt-jlis-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "In the Aggregate Report, the Median is the 50th percentile of response times.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Half of the samples are at or below the median."
+    },
+    {
+      "id": "pt-jlis-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "A label shows Average 400 ms and 90% Line 380 ms. What does that suggest?",
+      "options": [
+        "A few very slow samples pull the average above most samples; look at the max and the distribution",
+        "The report is broken; the average is always lower than the 90% line",
+        "90% of samples took exactly 380 ms",
+        "The error rate must be high"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Rare large outliers can raise the mean above the 90th percentile. The 90% line says 90% were at or below 380 ms, not exactly that. Nothing here implies errors."
+    },
+    {
+      "id": "pt-jlis-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "How is the Throughput column calculated?",
+      "options": [
+        "Number of samples / (end time of the last sample - start time of the first sample)",
+        "Number of threads / ramp-up",
+        "Average response time x samples",
+        "Bytes received per sample"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Throughput is samples over the elapsed time window of those samples, which is why idle time at the start or end lowers it."
+    },
+    {
+      "id": "pt-jlis-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "Which listener practices are recommended for load runs? Select all that apply.",
+      "options": [
+        "Run non-GUI with -l results.jtl and build the HTML report afterwards",
+        "Disable View Results Tree",
+        "Save response data for every sample so you can debug later",
+        "Use View Results Tree with 'Errors' only while debugging a script"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Saving response data for every sample uses huge disk and memory; save it only for errors if needed. The other three are standard practice."
+    },
+    {
+      "id": "pt-jlis-07",
+      "type": "code-output",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "A results file has 3 samples. What is the throughput?",
+      "code": "timeStamp,elapsed,label,success\n1000,500,Home,true\n2000,500,Home,true\n3500,500,Home,true",
+      "codeLanguage": "text",
+      "options": [
+        "1.0 per second",
+        "1.5 per second",
+        "3.0 per second",
+        "0.75 per second"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The window runs from the first start (1000 ms) to the last end (3500 + 500 = 4000 ms), i.e. 3,000 ms. 3 samples / 3 s = 1.0 per second."
+    },
+    {
+      "id": "pt-jlis-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-listeners-and-results",
+      "prompt": "During a 30-minute run, the Summary Report shows p90 of 900 ms, but users complained of 5-second pages for two minutes at 10:20. Why is the aggregate table not enough, and what do you check?",
+      "options": [
+        "Aggregates hide time-based spikes; check Response Times Over Time and Active Threads Over Time in the HTML dashboard around 10:20",
+        "The Summary Report is wrong; rerun it in GUI mode",
+        "Percentiles include only the first minute",
+        "The complaint must be a client network issue"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A 2-minute spike is a small fraction of 30 minutes, so it barely moves p90. Time-series graphs show when it happened and what else changed. The report is not wrong, percentiles cover all samples, and you should not dismiss user reports without data."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jlis-agg",
+      "language": "python",
+      "title": "Build an Aggregate Report row",
+      "difficulty": "intermediate",
+      "prompt": "Write `aggregate(samples)` where each sample is `(timestamp_ms, elapsed_ms, success)` for one label. Return a dict with:\n\n- `samples`: count\n- `average`: mean elapsed, rounded to the nearest int\n- `median` and `p90`: **nearest-rank** percentiles (sort elapsed; index `ceil(p/100*n) - 1`)\n- `error_pct`: failed / n * 100, rounded to 2 decimals\n- `throughput`: n / ((max(timestamp + elapsed) - min(timestamp)) / 1000), rounded to 2 decimals\n\nExample: `[(1000,500,True),(2000,500,True),(3500,500,True)]` gives throughput `1.0`.",
+      "starter": "def aggregate(samples):\n    # Your code here\n    return {}\n",
+      "solution": "import math\n\ndef aggregate(samples):\n    n = len(samples)\n    times = sorted(e for _, e, _ in samples)\n    def pct(p):\n        return times[max(0, math.ceil(p / 100 * n) - 1)]\n    start = min(t for t, _, _ in samples)\n    end = max(t + e for t, e, _ in samples)\n    return {\n        'samples': n,\n        'average': round(sum(times) / n),\n        'median': pct(50),\n        'p90': pct(90),\n        'error_pct': round(sum(1 for *_, ok in samples if not ok) * 100 / n, 2),\n        'throughput': round(n / ((end - start) / 1000), 2),\n    }\n",
+      "explanation": "These are the formulas behind the Aggregate Report columns. Note throughput uses the window from the first start to the last end, not the sum of response times.",
+      "hints": [
+        "Sort the elapsed times once and reuse them for both percentiles.",
+        "The time window ends at the latest `timestamp + elapsed`.",
+        "Use `math.ceil(p / 100 * n) - 1` for nearest-rank indexes."
+      ],
+      "tests": [
+        {
+          "name": "Throughput window",
+          "marks": 3,
+          "code": "r = aggregate([(1000,500,True),(2000,500,True),(3500,500,True)])\nassert r['throughput'] == 1.0 and r['samples'] == 3 and r['average'] == 500, r"
+        },
+        {
+          "name": "Percentiles and errors",
+          "marks": 4,
+          "code": "s = [(i * 100, e, e < 900) for i, e in enumerate([100,200,300,400,500,600,700,800,900,1000])]\nr = aggregate(s)\nassert r['median'] == 500 and r['p90'] == 900 and r['error_pct'] == 20.0, r"
+        },
+        {
+          "name": "Outlier raises average",
+          "marks": 2,
+          "code": "s = [(0, 100, True)] * 9 + [(0, 5000, True)]\nr = aggregate(s)\nassert r['average'] == 590 and r['p90'] == 100, r"
+        }
+      ]
+    },
+    {
+      "id": "code-jlis-jtl",
+      "language": "python",
+      "title": "Parse a CSV JTL file",
+      "difficulty": "beginner",
+      "prompt": "Write `failed_labels(jtl_text)` that reads JTL CSV text (with a header row containing at least `label` and `success`) and returns a dict `{label: failures}` for labels with **at least one** failure (`success` is the text `false`). Use the `csv` module so quoted fields with commas work.\n\nExample: two failed `Login` rows give `{'Login': 2}`.",
+      "starter": "def failed_labels(jtl_text):\n    # Your code here\n    return {}\n",
+      "solution": "import csv, io\n\ndef failed_labels(jtl_text):\n    out = {}\n    for row in csv.DictReader(io.StringIO(jtl_text)):\n        if row['success'].strip().lower() == 'false':\n            out[row['label']] = out.get(row['label'], 0) + 1\n    return out\n",
+      "explanation": "`csv.DictReader` maps columns by header name, so it works whatever column order the JTL was saved with, and it handles quoted labels.",
+      "hints": [
+        "Wrap the text with `io.StringIO` and use `csv.DictReader`.",
+        "Compare `row['success']` with `'false'`.",
+        "Count with `dict.get(label, 0) + 1`."
+      ],
+      "tests": [
+        {
+          "name": "Counts failures",
+          "marks": 3,
+          "code": "t = 'timeStamp,elapsed,label,responseCode,success\\n1,10,Login,200,true\\n2,10,Login,500,false\\n3,10,Search,200,true\\n4,12,Login,500,false\\n'\nassert failed_labels(t) == {'Login': 2}"
+        },
+        {
+          "name": "Quoted label",
+          "marks": 2,
+          "code": "t = 'label,success\\n\"Cart, add\",false\\n'\nassert failed_labels(t) == {'Cart, add': 1}"
+        },
+        {
+          "name": "Column order independent",
+          "marks": 2,
+          "code": "t = 'success,label\\nfalse,A\\nfalse,B\\ntrue,A\\n'\nassert failed_labels(t) == {'A': 1, 'B': 1}"
+        }
+      ]
+    }
+  ]
+}

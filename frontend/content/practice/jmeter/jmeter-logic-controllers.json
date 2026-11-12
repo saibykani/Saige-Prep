@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-logic-controllers",
+  "questions": [
+    {
+      "id": "pt-jlog-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "Which controller repeats its children a fixed number of times inside each iteration?",
+      "options": [
+        "Loop Controller",
+        "Once Only Controller",
+        "Transaction Controller",
+        "Random Controller"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Loop Controller repeats its children N times. Once Only runs them once per thread, Transaction groups timings, and Random picks one child."
+    },
+    {
+      "id": "pt-jlog-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "Which controller runs its children only while a condition stays true?",
+      "options": [
+        "While Controller",
+        "If Controller",
+        "Interleave Controller",
+        "Simple Controller"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The While Controller loops until its condition is false. If runs children once when true, Interleave alternates children per iteration, and Simple only groups."
+    },
+    {
+      "id": "pt-jlog-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "A Simple Controller has no effect on execution; it only groups elements and creates a scope.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It runs children in order exactly once, so it is used for organisation and scoping."
+    },
+    {
+      "id": "pt-jlog-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "An Interleave Controller holds requests A, B and C. A thread runs 4 iterations. Which request does it send in each iteration?",
+      "options": [
+        "A, B, C, A",
+        "A, B, C each time",
+        "One random child each time",
+        "A, A, A, A"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Interleave Controller runs one child per pass, in order, cycling around. Running all is a Simple Controller; random choice is a Random Controller."
+    },
+    {
+      "id": "pt-jlog-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "You need a ForEach Controller to loop over ids extracted with a JSON Extractor using Match No. -1 and variable name `ids`. What should the Input Variable Prefix be?",
+      "options": [
+        "ids",
+        "ids_",
+        "${ids}",
+        "ids_matchNr"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Match No. -1 creates ids_1, ids_2, ... and ids_matchNr. The ForEach Controller takes the prefix ids and adds the separator _ itself (tick 'Add \"_\" before number?')."
+    },
+    {
+      "id": "pt-jlog-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "Which statements about the Transaction Controller are correct? Select all that apply.",
+      "options": [
+        "It records the total time of its child samplers as one transaction",
+        "With 'Generate parent sample' its children appear as sub-results of one sample",
+        "By default its time excludes timers and pre/post-processor time",
+        "It changes the order in which children run"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "It wraps child timings into a transaction, optionally as a parent sample. By default timers and processing time are excluded unless 'Include duration of timer and pre-post processors' is ticked. It does not reorder children."
+    },
+    {
+      "id": "pt-jlog-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "An If Controller has condition `${__jexl3(\"${status}\" == \"ok\")}` with 'Interpret Condition as Variable Expression?' ticked. Its children never run. A Debug Sampler shows `status=OK`. Why?",
+      "options": [
+        "The string comparison is case-sensitive, so 'OK' == 'ok' is false",
+        "__jexl3 cannot compare strings",
+        "With __jexl3 the 'Interpret Condition as Variable Expression?' box must be unticked",
+        "The If Controller needs a Loop Controller as parent"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The condition is written correctly for that mode (the function returns true or false); it simply evaluates to false because 'OK' differs from 'ok'. JEXL compares strings, ticking the box is the recommended setting for __jexl3, and no parent controller is needed."
+    },
+    {
+      "id": "pt-jlog-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-logic-controllers",
+      "prompt": "You need 70% browse, 25% add-to-cart and 5% checkout journeys per iteration. Which controller setup gives that mix most directly?",
+      "options": [
+        "Throughput Controllers in Percent Executions mode (70, 25, 5) or a Weighted Switch Controller with weights 70/25/5",
+        "Three Loop Controllers with counts 70, 25 and 5",
+        "A Random Controller with the three journeys",
+        "Three Thread Groups with 70, 25 and 5 loops"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Percent-based Throughput Controllers or the Weighted Switch Controller choose journeys by weight. Loop counts repeat each journey in every iteration, a Random Controller gives equal 1/3 shares, and loop counts per group do not produce a per-user percentage."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jlog-interleave",
+      "language": "python",
+      "title": "Interleave and Random controllers",
+      "difficulty": "beginner",
+      "prompt": "Write `interleave(children, iterations)` returning the list of child names an Interleave Controller runs, one per iteration, cycling in order.\n\nExample: `interleave(['A','B','C'], 4)` returns `['A','B','C','A']`.",
+      "starter": "def interleave(children, iterations):\n    # Your code here\n    return []\n",
+      "solution": "def interleave(children, iterations):\n    return [children[i % len(children)] for i in range(iterations)]\n",
+      "explanation": "The modulo operator cycles through the children, exactly as the Interleave Controller advances one child per pass.",
+      "hints": [
+        "Use `i % len(children)`.",
+        "Build the result with a list comprehension over `range(iterations)`.",
+        "`[children[i % len(children)] for i in range(iterations)]`"
+      ],
+      "tests": [
+        {
+          "name": "Cycles",
+          "marks": 3,
+          "code": "assert interleave(['A','B','C'], 4) == ['A','B','C','A']"
+        },
+        {
+          "name": "Single child",
+          "marks": 2,
+          "code": "assert interleave(['X'], 3) == ['X','X','X']"
+        },
+        {
+          "name": "Fewer iterations than children",
+          "marks": 2,
+          "code": "assert interleave(['A','B','C'], 2) == ['A','B']"
+        }
+      ]
+    },
+    {
+      "id": "code-jlog-weighted",
+      "language": "python",
+      "title": "Weighted journey picker",
+      "difficulty": "intermediate",
+      "prompt": "A Weighted Switch Controller picks a child by weight. Write `pick(weights, r)` where `weights` is a list of `(name, weight)` and `r` is a number in `[0, 1)` (a random draw supplied by the caller, so the function is deterministic). Walk the cumulative share: return the first name whose cumulative weight / total is **greater than** `r`.\n\nExample with `[('browse',70),('cart',25),('checkout',5)]`: `r=0.0` gives `'browse'`, `r=0.70` gives `'cart'`, `r=0.96` gives `'checkout'`. Weights of 0 must never be picked.",
+      "starter": "def pick(weights, r):\n    # Your code here\n    return None\n",
+      "solution": "def pick(weights, r):\n    total = sum(w for _, w in weights)\n    acc = 0\n    for name, w in weights:\n        acc += w\n        if w > 0 and acc / total > r:\n            return name\n    return weights[-1][0]\n",
+      "explanation": "Cumulative weights split [0, 1) into bands proportional to each journey, so a uniform random r lands in 'browse' 70% of the time. Feeding r in makes the logic testable without randomness.",
+      "hints": [
+        "Compute the total weight first.",
+        "Add each weight to a running total and compare `running / total` with `r`.",
+        "Skip weights of 0 so a zero-width band is never chosen."
+      ],
+      "tests": [
+        {
+          "name": "Bands",
+          "marks": 4,
+          "code": "w = [('browse',70),('cart',25),('checkout',5)]\nassert [pick(w, 0.0), pick(w, 0.69), pick(w, 0.70), pick(w, 0.94), pick(w, 0.96)] == ['browse','browse','cart','cart','checkout']"
+        },
+        {
+          "name": "Zero weight never picked",
+          "marks": 2,
+          "code": "assert pick([('a',0),('b',1)], 0.0) == 'b'"
+        },
+        {
+          "name": "Distribution",
+          "marks": 2,
+          "code": "w = [('browse',70),('cart',25),('checkout',5)]\nres = [pick(w, i / 1000) for i in range(1000)]\nassert res.count('browse') == 700 and res.count('checkout') == 50"
+        }
+      ]
+    }
+  ]
+}

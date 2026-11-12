@@ -1,0 +1,212 @@
+{
+  "lesson": "jmeter-non-gui-and-distributed",
+  "questions": [
+    {
+      "id": "pt-jngd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "What does -l results.jtl do?",
+      "options": [
+        "Writes sample results to results.jtl",
+        "Loads a properties file",
+        "Sets the log level",
+        "Lists remote servers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-l is the results log file. -q/-p load properties files, -L sets log levels, and -R lists remote servers."
+    },
+    {
+      "id": "pt-jngd-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "Which option starts the test on the remote servers listed in the remote_hosts property?",
+      "options": [
+        "-r",
+        "-R",
+        "-X",
+        "-G"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-r uses remote_hosts; -R takes an explicit list. -X exits remote servers at the end, and -G sets properties on servers."
+    },
+    {
+      "id": "pt-jngd-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "In distributed mode, each remote server runs the whole test plan with the full number of threads.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "3 servers with a 100-thread plan generate 300 threads in total."
+    },
+    {
+      "id": "pt-jngd-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "What is the difference between -J and -G?",
+      "options": [
+        "-J sets a property on the local JMeter; -G sends a property to the remote servers",
+        "They are aliases",
+        "-G sets Java system properties",
+        "-J only works in GUI mode"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-G propagates global properties to servers. -D sets Java system properties."
+    },
+    {
+      "id": "pt-jngd-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "How many threads run in total?",
+      "code": "Thread Group threads: ${__P(threads,100)}\njmeter -n -t plan.jmx -R gen1,gen2 -Gthreads=150 -l r.jtl",
+      "codeLanguage": "bash",
+      "options": [
+        "300",
+        "100",
+        "150",
+        "450"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-G sets threads=150 on each of the two servers, and each runs the full plan: 2 x 150 = 300."
+    },
+    {
+      "id": "pt-jngd-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "Which must be in place for a distributed run? Select all that apply.",
+      "options": [
+        "Same JMeter and Java versions on controller and servers",
+        "Data files (CSV) present on each server",
+        "Network access for RMI ports (server.rmi.localport and the controller's client port)",
+        "The GUI open on every server"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Matching versions, local data and open ports are required. Servers run jmeter-server headless."
+    },
+    {
+      "id": "pt-jngd-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "A distributed run fails with 'jmeter.rmi.ssl ... keystore rmi_keystore.jks not found'. What is the proper fix?",
+      "options": [
+        "Create the RMI keystore with bin/create-rmi-keystore and copy it to all machines (or, only on a trusted isolated network, set server.rmi.ssl.disable=true)",
+        "Use -J instead of -G",
+        "Increase the heap",
+        "Run without -R"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Distributed RMI uses SSL by default and needs a shared keystore. Disabling SSL is an option only on trusted networks."
+    },
+    {
+      "id": "pt-jngd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-non-gui-and-distributed",
+      "prompt": "With 4 generators, aggregate throughput is lower than with 2. Controller CPU is at 100% and the network to the controller is saturated. What do you change?",
+      "options": [
+        "Reduce what servers send back (e.g. CSV JTL with minimal fields, mode=StrippedBatch, no response data) or have each generator write its own JTL and merge later",
+        "Add more generators",
+        "Use GUI mode on the controller",
+        "Enable View Results Tree"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The controller collects all results; sending less or writing locally removes the bottleneck. More generators or heavier listeners worsen it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jngd-dist",
+      "language": "python",
+      "title": "Distributed thread totals",
+      "difficulty": "beginner",
+      "prompt": "Write `total_threads(plan_default, servers, g_props)` where the plan uses `${__P(threads,<plan_default>)}`, `servers` is the number of remote servers, and `g_props` is a dict of `-G` properties. Return the total threads across servers.\n\nExample: `total_threads(100, 2, {'threads': '150'})` returns `300`; with `{}` it returns `200`.",
+      "starter": "def total_threads(plan_default, servers, g_props):\n    # Your code here\n    return 0\n",
+      "solution": "def total_threads(plan_default, servers, g_props):\n    per_server = int(g_props.get('threads', plan_default))\n    return per_server * servers\n",
+      "explanation": "Every server runs the full plan, so the per-server value is multiplied by the number of servers. Forgetting this is the most common distributed-testing sizing mistake.",
+      "hints": [
+        "Look up `threads` in the -G properties with a default.",
+        "Convert to int.",
+        "Multiply by the number of servers."
+      ],
+      "tests": [
+        {
+          "name": "Override",
+          "marks": 3,
+          "code": "assert total_threads(100, 2, {'threads': '150'}) == 300"
+        },
+        {
+          "name": "Default",
+          "marks": 2,
+          "code": "assert total_threads(100, 2, {}) == 200"
+        },
+        {
+          "name": "Per-server target",
+          "marks": 2,
+          "code": "assert total_threads(50, 4, {'threads': '25'}) == 100"
+        }
+      ]
+    },
+    {
+      "id": "code-jngd-merge",
+      "language": "python",
+      "title": "Merge JTL files from generators",
+      "difficulty": "intermediate",
+      "prompt": "Each generator wrote its own CSV JTL. Write `merge_jtls(texts)` that merges them into one CSV text with a single header (taken from the first file), rows sorted by `timeStamp` (as int), and a trailing newline. All files have the same header. Use the `csv` module.\n\nExample: two files with rows at 2000 and 1000 return the header followed by the 1000 row then the 2000 row.",
+      "starter": "def merge_jtls(texts):\n    # Your code here\n    return ''\n",
+      "solution": "import csv, io\n\ndef merge_jtls(texts):\n    header, rows = None, []\n    for t in texts:\n        reader = csv.reader(io.StringIO(t))\n        h = next(reader)\n        header = header or h\n        rows.extend(reader)\n    idx = header.index('timeStamp')\n    rows.sort(key=lambda r: int(r[idx]))\n    out = io.StringIO()\n    w = csv.writer(out, lineterminator='\\n')\n    w.writerow(header)\n    w.writerows(rows)\n    return out.getvalue()\n",
+      "explanation": "Writing JTLs locally on each generator avoids streaming every sample to the controller; merging and sorting by timestamp afterwards gives one file the report generator can read.",
+      "hints": [
+        "Read each file with `csv.reader` and skip its header after the first.",
+        "Find the `timeStamp` column index from the header.",
+        "Write with `csv.writer(out, lineterminator='\\n')`."
+      ],
+      "tests": [
+        {
+          "name": "Two files",
+          "marks": 4,
+          "code": "a = 'timeStamp,elapsed,label\\n2000,5,A\\n'\nb = 'timeStamp,elapsed,label\\n1000,7,B\\n3000,1,\"C,1\"\\n'\nassert merge_jtls([a, b]) == 'timeStamp,elapsed,label\\n1000,7,B\\n2000,5,A\\n3000,1,\"C,1\"\\n'"
+        },
+        {
+          "name": "Numeric sort",
+          "marks": 2,
+          "code": "a = 'label,timeStamp\\nx,900\\n'\nb = 'label,timeStamp\\ny,10000\\n'\nassert merge_jtls([b, a]) == 'label,timeStamp\\nx,900\\ny,10000\\n'"
+        }
+      ]
+    }
+  ]
+}

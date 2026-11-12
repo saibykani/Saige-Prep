@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-fundamentals",
+  "questions": [
+    {
+      "id": "pt-jfun-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-fundamentals",
+      "prompt": "What is the top-level element of every JMeter test?",
+      "options": [
+        "Test Plan",
+        "Thread Group",
+        "HTTP Request",
+        "Summary Report"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Everything sits under the Test Plan. Thread Groups are children of it, samplers live in Thread Groups, and listeners are reporting elements."
+    },
+    {
+      "id": "pt-jfun-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-fundamentals",
+      "prompt": "Which element actually sends a request to the system under test?",
+      "options": [
+        "A sampler, such as HTTP Request",
+        "A listener",
+        "A config element",
+        "A timer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Samplers generate requests and sample results. Listeners display results, config elements provide settings, and timers add delays."
+    },
+    {
+      "id": "pt-jfun-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-fundamentals",
+      "prompt": "A listener only collects results from the samplers in its scope.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Listeners follow the scoping rules: a listener under a Thread Group sees that group's samples; one at Test Plan level sees all."
+    },
+    {
+      "id": "pt-jfun-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-fundamentals",
+      "prompt": "A sampler has a Response Assertion and a JSON Extractor as children. In which order do they run after the sample?",
+      "options": [
+        "JSON Extractor (post-processor) first, then the Response Assertion",
+        "Response Assertion first, then the JSON Extractor",
+        "They run in parallel",
+        "The order depends on which was added last"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Post-processors run before assertions in JMeter's execution order (config, pre-processors, timers, sampler, post-processors, assertions, listeners). That lets an assertion check a variable an extractor just set."
+    },
+    {
+      "id": "pt-jfun-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-fundamentals",
+      "prompt": "A Thread Group has 10 threads, loop count 5 and three samplers. Each request takes about 200 ms and there are no timers. Roughly how many samples does the test produce?",
+      "options": [
+        "150",
+        "50",
+        "15",
+        "30"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each of the 10 threads runs the three samplers 5 times: 10 x 5 x 3 = 150. Response time affects duration, not the sample count."
+    },
+    {
+      "id": "pt-jfun-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-fundamentals",
+      "prompt": "Which belong to the 'Pre-Processor' or 'Post-Processor' families? Select all that apply.",
+      "options": [
+        "Regular Expression Extractor",
+        "JSON Extractor",
+        "User Parameters",
+        "Constant Timer"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Extractors are post-processors and User Parameters is a pre-processor. Constant Timer is a timer, its own family that runs before the sampler."
+    },
+    {
+      "id": "pt-jfun-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-fundamentals",
+      "prompt": "Every request in this plan waits about 3 seconds even though only one 1-second Constant Timer is under the 'Search' sampler. Why?",
+      "code": "Test Plan\n  Thread Group\n    Constant Timer (2000 ms)\n    HTTP Request: Home\n    HTTP Request: Search\n      Constant Timer (1000 ms)\n    HTTP Request: Product",
+      "codeLanguage": "text",
+      "options": [
+        "The Thread Group-level timer applies to all three samplers and Search also gets its own: every sampler waits at least 2 s, Search waits 3 s",
+        "Timers run after the sampler, so delays accumulate across the loop",
+        "A Constant Timer of 2000 ms means 2 seconds per thread, divided by three samplers",
+        "The Test Plan has 'Run Thread Groups consecutively' ticked"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Timers in scope of a sampler are all applied and their delays are summed before that sampler. The group-level 2 s timer affects every sampler; Search also gets its own 1 s. Timers run before samplers, not after."
+    },
+    {
+      "id": "pt-jfun-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-fundamentals",
+      "prompt": "Your plan has a login sampler with an extractor that saves `token`, and an assertion under login checks `${token}` is not empty. The assertion always fails even though the extractor works in later requests. What is the most likely mistake?",
+      "options": [
+        "The assertion is a Response Assertion testing the response body for the literal text instead of testing the variable (it should use 'JMeter Variable' as field to test or a JSR223/size check on the variable)",
+        "Assertions always run before post-processors",
+        "Variables cannot be read in the same sampler",
+        "Extractors only run in GUI mode"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Post-processors run before assertions, so the variable is set in time; the usual error is asserting the wrong field. A Response Assertion can target a JMeter Variable as the field to test. Extractors run in every mode."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jfun-order",
+      "language": "python",
+      "title": "Sort elements into execution order",
+      "difficulty": "beginner",
+      "prompt": "JMeter runs elements in scope of a sampler in this order of **types**:\n`config`, `preprocessor`, `timer`, `sampler`, `postprocessor`, `assertion`, `listener`.\n\nWrite `execution_order(elements)` where `elements` is a list of `(name, type)` tuples. Return the **names** sorted into execution order. Elements of the same type keep their original relative order.\n\nExample: `[('Assert 200','assertion'), ('Login','sampler'), ('Defaults','config')]` returns `['Defaults', 'Login', 'Assert 200']`.",
+      "starter": "def execution_order(elements):\n    # Your code here\n    return []\n",
+      "solution": "ORDER = ['config', 'preprocessor', 'timer', 'sampler', 'postprocessor', 'assertion', 'listener']\n\ndef execution_order(elements):\n    return [name for name, kind in sorted(elements, key=lambda e: ORDER.index(e[1]))]\n",
+      "explanation": "Python's `sorted` is stable, so ranking by the type's position keeps same-type elements in tree order, which is exactly how JMeter treats several pre-processors or assertions.",
+      "hints": [
+        "Write the order list once and use its index as the sort key.",
+        "`sorted` is stable, so ties keep their original order.",
+        "`sorted(elements, key=lambda e: ORDER.index(e[1]))` then take the names."
+      ],
+      "tests": [
+        {
+          "name": "Basic sort",
+          "marks": 3,
+          "code": "assert execution_order([('Assert 200','assertion'), ('Login','sampler'), ('Defaults','config')]) == ['Defaults','Login','Assert 200']"
+        },
+        {
+          "name": "Full set",
+          "marks": 3,
+          "code": "els = [('Results','listener'),('Think','timer'),('Extract','postprocessor'),('Get','sampler'),('Params','preprocessor'),('Cookies','config'),('Check','assertion')]\nassert execution_order(els) == ['Cookies','Params','Think','Get','Extract','Check','Results']"
+        },
+        {
+          "name": "Stable within type",
+          "marks": 2,
+          "code": "assert execution_order([('A2','assertion'),('T1','timer'),('A1','assertion'),('T2','timer')]) == ['T1','T2','A2','A1']"
+        }
+      ]
+    },
+    {
+      "id": "code-jfun-samples",
+      "language": "python",
+      "title": "Predict the sample count",
+      "difficulty": "intermediate",
+      "prompt": "Write `expected_samples(thread_groups)`. Each thread group is a dict `{'threads': int, 'loops': int, 'samplers': int}`. A loop count of `-1` means 'infinite' and cannot be predicted: in that case return `None` for the whole plan. Otherwise return the total samples of all groups.\n\nExample: `[{'threads': 10, 'loops': 5, 'samplers': 3}]` returns `150`.",
+      "starter": "def expected_samples(thread_groups):\n    # Your code here\n    return 0\n",
+      "solution": "def expected_samples(thread_groups):\n    total = 0\n    for g in thread_groups:\n        if g['loops'] == -1:\n            return None\n        total += g['threads'] * g['loops'] * g['samplers']\n    return total\n",
+      "explanation": "Each thread runs every sampler once per loop, so threads x loops x samplers per group. Infinite loops are bounded only by duration, so the count is not knowable in advance. Checking the sample count after a run is a quick sanity test of a plan.",
+      "hints": [
+        "Loop over the groups and multiply the three numbers.",
+        "Return `None` as soon as you meet a loop count of -1.",
+        "Sum the products of the finite groups."
+      ],
+      "tests": [
+        {
+          "name": "Single group",
+          "marks": 3,
+          "code": "assert expected_samples([{'threads': 10, 'loops': 5, 'samplers': 3}]) == 150"
+        },
+        {
+          "name": "Several groups",
+          "marks": 3,
+          "code": "assert expected_samples([{'threads': 2, 'loops': 2, 'samplers': 2}, {'threads': 5, 'loops': 1, 'samplers': 4}]) == 28"
+        },
+        {
+          "name": "Infinite loop",
+          "marks": 2,
+          "code": "assert expected_samples([{'threads': 2, 'loops': 2, 'samplers': 2}, {'threads': 1, 'loops': -1, 'samplers': 1}]) is None"
+        }
+      ]
+    }
+  ]
+}

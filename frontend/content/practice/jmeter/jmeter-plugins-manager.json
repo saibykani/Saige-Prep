@@ -1,0 +1,210 @@
+{
+  "lesson": "jmeter-plugins-manager",
+  "questions": [
+    {
+      "id": "pt-jplg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "Who maintains jmeter-plugins.org and the Plugins Manager?",
+      "options": [
+        "A separate community project, not the Apache JMeter project",
+        "The Apache Software Foundation as part of core JMeter",
+        "Oracle",
+        "BlazeMeter only, and plugins are paid"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The plugins are third-party community components. They are free but not part of Apache JMeter itself."
+    },
+    {
+      "id": "pt-jplg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "Where do you find installed plugins' jars?",
+      "options": [
+        "lib/ext (and their dependencies in lib)",
+        "bin/templates",
+        "docs/",
+        "The user's Downloads folder"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Plugins Manager installs component jars into lib/ext and libraries into lib."
+    },
+    {
+      "id": "pt-jplg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "You must restart JMeter after installing plugins with the Plugins Manager.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The manager applies changes and restarts JMeter so the new classes load."
+    },
+    {
+      "id": "pt-jplg-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "What advantage does the Concurrency Thread Group have over the standard Thread Group?",
+      "options": [
+        "It targets a concurrency level with ramp-up steps and hold time, and can work with the Throughput Shaping Timer's feedback function",
+        "It is faster because it uses no threads",
+        "It is the only group that supports HTTP",
+        "It records scripts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It is designed for target concurrency with steps and holds, and integrates with __tstFeedback. It still uses threads."
+    },
+    {
+      "id": "pt-jplg-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "How do you make CI agents install the same plugins as your laptop?",
+      "options": [
+        "Use the Plugins Manager command line (PluginsManagerCMD install ... or install-for-jmx) in the build, pinned to versions",
+        "Copy your entire laptop JMeter folder by USB",
+        "Ask each tester to click Install",
+        "Plugins work without installation on CI"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Scripted installs with pinned versions are reproducible. Manual steps drift."
+    },
+    {
+      "id": "pt-jplg-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "Which practices apply to plugins? Select all that apply.",
+      "options": [
+        "Only add plugins you need",
+        "Record plugin names and versions with the test",
+        "Check a plugin is maintained and compatible with your JMeter version",
+        "Install every available plugin just in case"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Each plugin is a dependency and a compatibility risk. Installing everything slows start-up and complicates upgrades."
+    },
+    {
+      "id": "pt-jplg-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "A .jmx opens with `CannotResolveClassException: kg.apc.jmeter.threads.UltimateThreadGroup` on a teammate's machine. What is the fix?",
+      "options": [
+        "Install the Custom Thread Groups plugin (jpgc-casutg) on that machine, ideally via the Plugins Manager's 'install-for-jmx'",
+        "Upgrade Java",
+        "Delete the thread group in a text editor",
+        "Increase the heap"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "kg.apc classes come from jmeter-plugins; Ultimate Thread Group is in Custom Thread Groups. Java or heap changes do not add missing classes."
+    },
+    {
+      "id": "pt-jplg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-plugins-manager",
+      "prompt": "You need 'step 100 users every 2 minutes up to 500, hold 10 minutes'. Which choice is cleanest?",
+      "options": [
+        "Concurrency Thread Group with Target Concurrency 500, Ramp Up Time 10 min, Ramp-Up Steps Count 5, Hold 10 min",
+        "Five standard Thread Groups started by hand",
+        "One standard Thread Group with 500 threads and 600 s ramp-up",
+        "A Synchronizing Timer of 100"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Concurrency Thread Group models stepped load directly. A linear ramp-up is not stepped, manual starts are error-prone, and a synchronizing timer creates bursts."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jplg-steps",
+      "language": "python",
+      "title": "Stepped concurrency schedule",
+      "difficulty": "intermediate",
+      "prompt": "Model the Concurrency Thread Group. Write `target_at(target, ramp_s, steps, hold_s, t)` returning the target concurrency at second `t`:\n\n- During ramp-up (`t < ramp_s`) concurrency rises in `steps` equal steps: step `k = t // (ramp_s / steps)` (0-based) gives `round(target * (k + 1) / steps)`.\n- From `ramp_s` until `ramp_s + hold_s` (exclusive) it is `target`.\n- After that it is `0`.\n\nExample: `target_at(500, 600, 5, 600, 0)` is `100`; at `t=130` it is `200`.",
+      "starter": "def target_at(target, ramp_s, steps, hold_s, t):\n    # Your code here\n    return -1\n",
+      "solution": "def target_at(target, ramp_s, steps, hold_s, t):\n    if t < ramp_s:\n        k = int(t // (ramp_s / steps))\n        return round(target * (k + 1) / steps)\n    if t < ramp_s + hold_s:\n        return target\n    return 0\n",
+      "explanation": "Working out the schedule before the run lets you check the generator can hold the peak and lets you line up result graphs with each step.",
+      "hints": [
+        "Each step lasts `ramp_s / steps` seconds.",
+        "Use integer division to get the current step.",
+        "Handle the hold and the end separately."
+      ],
+      "tests": [
+        {
+          "name": "Ramp steps",
+          "marks": 3,
+          "code": "assert [target_at(500, 600, 5, 600, t) for t in (0, 119, 120, 130, 599)] == [100, 100, 200, 200, 500]"
+        },
+        {
+          "name": "Hold and end",
+          "marks": 2,
+          "code": "assert target_at(500, 600, 5, 600, 600) == 500 and target_at(500, 600, 5, 600, 1199) == 500 and target_at(500, 600, 5, 600, 1200) == 0"
+        },
+        {
+          "name": "Uneven division",
+          "marks": 2,
+          "code": "assert target_at(10, 30, 3, 10, 25) == 10 and target_at(10, 30, 3, 10, 12) == 7"
+        }
+      ]
+    },
+    {
+      "id": "code-jplg-missing",
+      "language": "python",
+      "title": "Detect missing plugin classes",
+      "difficulty": "beginner",
+      "prompt": "Write `plugin_classes(jmx_text)` returning a sorted list of distinct class names in the .jmx XML that come from jmeter-plugins (they start with `kg.apc.`). Classes appear in attributes like `guiclass=\"kg.apc.jmeter.threads.UltimateThreadGroupGui\"` or `testclass=\"kg.apc.jmeter.threads.UltimateThreadGroup\"`.",
+      "starter": "def plugin_classes(jmx_text):\n    # Your code here\n    return []\n",
+      "solution": "import re\n\ndef plugin_classes(jmx_text):\n    return sorted(set(re.findall(r'\"(kg\\.apc\\.[\\w.$]+)\"', jmx_text)))\n",
+      "explanation": "A quick scan of the .jmx for plugin classes tells you which plugins a plan needs before it fails on another machine; the Plugins Manager's install-for-jmx does the same thing.",
+      "hints": [
+        "Use `re.findall` on quoted values starting with `kg.apc.`.",
+        "Deduplicate with `set`.",
+        "Return the result sorted."
+      ],
+      "tests": [
+        {
+          "name": "Finds classes",
+          "marks": 3,
+          "code": "x = '<kg.apc.jmeter.threads.UltimateThreadGroup guiclass=\"kg.apc.jmeter.threads.UltimateThreadGroupGui\" testclass=\"kg.apc.jmeter.threads.UltimateThreadGroup\"/><HTTPSamplerProxy guiclass=\"HttpTestSampleGui\"/><x testclass=\"kg.apc.jmeter.threads.UltimateThreadGroup\"/>'\nassert plugin_classes(x) == ['kg.apc.jmeter.threads.UltimateThreadGroup', 'kg.apc.jmeter.threads.UltimateThreadGroupGui']"
+        },
+        {
+          "name": "No plugins",
+          "marks": 2,
+          "code": "assert plugin_classes('<TestPlan guiclass=\"TestPlanGui\"/>') == []\nassert plugin_classes('<a testclass=\"kg.apc.X\"/>') == ['kg.apc.X']"
+        }
+      ]
+    }
+  ]
+}

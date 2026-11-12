@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-http-request-sampler",
+  "questions": [
+    {
+      "id": "pt-jhttp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "Which field holds `/api/orders` in an HTTP Request sampler?",
+      "options": [
+        "Path",
+        "Server Name or IP",
+        "Protocol",
+        "Content encoding"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The path goes in Path. Server Name holds only the host (for example localhost), Protocol holds http/https, and content encoding is the character set."
+    },
+    {
+      "id": "pt-jhttp-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "Which HTTP method should you choose to read a list of products without changing anything?",
+      "options": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PATCH"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "GET retrieves data. POST creates, DELETE removes and PATCH partially updates."
+    },
+    {
+      "id": "pt-jhttp-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "If Port Number is left empty, JMeter uses the default port for the protocol (80 for http, 443 for https).",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "An empty port means the scheme default, unless HTTP Request Defaults supplies one."
+    },
+    {
+      "id": "pt-jhttp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "A GET has the parameter `q` with value `red shoes` in the Parameters table and 'URL Encode?' ticked. What query string is sent?",
+      "options": [
+        "?q=red+shoes",
+        "?q=red shoes",
+        "?q=%22red shoes%22",
+        "No query string; parameters are only sent for POST"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With URL encoding the space becomes + (form encoding), giving q=red+shoes. A raw space is invalid in a URL, no quotes are added, and GET parameters go in the query string."
+    },
+    {
+      "id": "pt-jhttp-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "Which Implementation does the HTTP Request sampler use by default in current JMeter versions?",
+      "options": [
+        "HttpClient4",
+        "Java",
+        "OkHttp",
+        "Netty"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The default is HttpClient4 (Apache HttpComponents). The 'Java' implementation exists but has fewer features; OkHttp and Netty are not built-in options."
+    },
+    {
+      "id": "pt-jhttp-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "Which settings matter when you want the sampler to behave like a browser loading a page? Select all that apply.",
+      "options": [
+        "Retrieve All Embedded Resources",
+        "Parallel downloads with a pool size",
+        "Use KeepAlive",
+        "Browser-compatible headers alone guarantee JavaScript runs"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Embedded resources, parallel downloads and keep-alive bring traffic closer to a browser's. JMeter still does not execute JavaScript, whatever headers you send."
+    },
+    {
+      "id": "pt-jhttp-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "A POST with a JSON body in 'Body Data' returns 415 from your API, and View Results Tree shows `Content-Type: text/plain`. Which fix is right?",
+      "options": [
+        "Add an HTTP Header Manager under the sampler (or above it) with Content-Type: application/json",
+        "Move the JSON into the Parameters table",
+        "Change the method to PUT",
+        "Tick 'Use multipart/form-data'"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter does not infer JSON; the server rejects the media type. Setting Content-Type via a Header Manager fixes it. Parameters would be form-encoded, PUT does not change the header, and multipart is for file uploads."
+    },
+    {
+      "id": "pt-jhttp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-http-request-sampler",
+      "prompt": "Login returns 302 to /dashboard. With 'Follow Redirects' ticked, what do you see in View Results Tree and why does it matter for reporting?",
+      "options": [
+        "One sample for Login with the redirect as a sub-result, so the timing includes both requests",
+        "Two independent samplers are added to the plan",
+        "The 302 is marked as a failure",
+        "JMeter ignores redirects for POST"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Follow Redirects records the hops as sub-results of the parent sample, so its elapsed time covers the whole chain. It does not create new samplers, 3xx is not a failure, and redirects after POST are followed."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jhttp-url",
+      "language": "python",
+      "title": "Build the request URL",
+      "difficulty": "beginner",
+      "prompt": "Write `build_url(protocol, server, port, path, params)` that assembles the URL the HTTP Request sampler would send.\n\n- Omit the port when it is `None` or the default (80 for http, 443 for https).\n- `params` is a list of `(name, value)` pairs URL-encoded as form data (use `urllib.parse.urlencode`, so spaces become `+`). Omit `?` when there are no params.\n\nExample: `build_url('http', 'localhost', 8000, '/search', [('q', 'red shoes')])` returns `'http://localhost:8000/search?q=red+shoes'`.",
+      "starter": "def build_url(protocol, server, port, path, params):\n    # Your code here\n    return ''\n",
+      "solution": "from urllib.parse import urlencode\n\ndef build_url(protocol, server, port, path, params):\n    default = {'http': 80, 'https': 443}.get(protocol)\n    host = server if port is None or port == default else f'{server}:{port}'\n    url = f'{protocol}://{host}{path}'\n    if params:\n        url += '?' + urlencode(params)\n    return url\n",
+      "explanation": "This mirrors how the sampler combines its fields: scheme, host, optional non-default port, path and an encoded query string. Doing it by hand makes the Server Name rule obvious: it holds only a host.",
+      "hints": [
+        "Decide the host part first: add `:port` only when it is not the default.",
+        "`urlencode` turns a list of pairs into `a=1&b=2` with `+` for spaces.",
+        "Only append `?` + the encoded params when `params` is non-empty."
+      ],
+      "tests": [
+        {
+          "name": "Custom port and params",
+          "marks": 3,
+          "code": "assert build_url('http', 'localhost', 8000, '/search', [('q', 'red shoes')]) == 'http://localhost:8000/search?q=red+shoes'"
+        },
+        {
+          "name": "Default port omitted",
+          "marks": 2,
+          "code": "assert build_url('https', 'api.local', 443, '/orders', []) == 'https://api.local/orders'"
+        },
+        {
+          "name": "No port and several params",
+          "marks": 3,
+          "code": "assert build_url('http', 'shop', None, '/p', [('a', '1'), ('b', 'x&y')]) == 'http://shop/p?a=1&b=x%26y'"
+        }
+      ]
+    },
+    {
+      "id": "code-jhttp-success",
+      "language": "python",
+      "title": "Default success rule for a sample",
+      "difficulty": "intermediate",
+      "prompt": "By default JMeter marks an HTTP sample successful when the status code is 2xx or 3xx. A Response Assertion can 'Ignore Status' and apply its own rule. Write `is_success(status, ignore_status=False, expected=None)`:\n\n- If `ignore_status` is True, the result is `status in expected` (`expected` is a list of ints).\n- Otherwise, success means `200 <= status < 400`.\n- A status of `None` (no response, e.g. connection refused) is always a failure.\n\nExample: `is_success(404)` is `False`; `is_success(404, True, [404])` is `True`.",
+      "starter": "def is_success(status, ignore_status=False, expected=None):\n    # Your code here\n    return None\n",
+      "solution": "def is_success(status, ignore_status=False, expected=None):\n    if status is None:\n        return False\n    if ignore_status:\n        return status in (expected or [])\n    return 200 <= status < 400\n",
+      "explanation": "Negative tests (for example expecting 404 for a missing order) need Ignore Status plus an explicit expected code, otherwise JMeter counts the correct 404 as an error.",
+      "hints": [
+        "Handle `None` first.",
+        "With `ignore_status`, only membership in `expected` matters.",
+        "The default rule is `200 <= status < 400`."
+      ],
+      "tests": [
+        {
+          "name": "Default rule",
+          "marks": 3,
+          "code": "assert is_success(200) is True and is_success(302) is True and is_success(404) is False and is_success(500) is False"
+        },
+        {
+          "name": "Ignore status for negative test",
+          "marks": 3,
+          "code": "assert is_success(404, True, [404]) is True and is_success(200, True, [404]) is False"
+        },
+        {
+          "name": "No response",
+          "marks": 2,
+          "code": "assert is_success(None) is False and is_success(None, True, [200]) is False"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-html-dashboard-report",
+  "questions": [
+    {
+      "id": "pt-jhtml-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "Which command runs a test and generates the dashboard in one go?",
+      "options": [
+        "jmeter -n -t plan.jmx -l results.jtl -e -o report",
+        "jmeter -g plan.jmx -o report",
+        "jmeter -report plan.jmx",
+        "jmeter -n -t plan.jmx --html"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-e generates the report at the end and -o names the empty output folder. -g builds a report from an existing JTL (not a .jmx), and the other flags do not exist."
+    },
+    {
+      "id": "pt-jhtml-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "Which file opens the dashboard in a browser?",
+      "options": [
+        "index.html in the output folder",
+        "results.jtl",
+        "jmeter.log",
+        "statistics.csv in bin"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The generator writes index.html plus content/ and statistics.json into the output folder."
+    },
+    {
+      "id": "pt-jhtml-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "The dashboard can be generated later from a saved JTL file with jmeter -g results.jtl -o report.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-g builds the report from an existing results file, so you can regenerate after changing report settings."
+    },
+    {
+      "id": "pt-jhtml-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "What is the APDEX score with T = 500 ms and F = 1,500 ms?",
+      "code": "100 samples:\n  60 <= 500 ms\n  40 between 501 and 1500 ms\n   0 > 1500 ms",
+      "codeLanguage": "text",
+      "options": [
+        "0.80",
+        "0.60",
+        "0.70",
+        "0.90"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "APDEX = (satisfied + tolerating / 2) / total = (60 + 40/2) / 100 = 0.80. Frustrated samples count zero."
+    },
+    {
+      "id": "pt-jhtml-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "Which properties set the APDEX thresholds for all transactions?",
+      "options": [
+        "jmeter.reportgenerator.apdex_satisfied_threshold and jmeter.reportgenerator.apdex_tolerated_threshold",
+        "apdex.t and apdex.f in the .jmx",
+        "-Japdex=500",
+        "summariser.interval"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The report generator reads these two properties (in user.properties or via -J). summariser.interval controls console summaries."
+    },
+    {
+      "id": "pt-jhtml-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "Which dashboard graphs help locate WHEN a slowdown started? Select all that apply.",
+      "options": [
+        "Response Times Over Time",
+        "Active Threads Over Time",
+        "Transactions Per Second",
+        "Statistics table only"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Time-series charts show when things changed and what load was active. The Statistics table aggregates the whole run."
+    },
+    {
+      "id": "pt-jhtml-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "The dashboard shows many 'Connection reset' errors only in the first 10 seconds and the last 5 seconds of the run. What is the most likely explanation and action?",
+      "options": [
+        "Ramp-up/shutdown artefacts (e.g. threads stopped mid-request or app warming up); exclude warm-up/cool-down from analysis (jmeter.reportgenerator.start_date/end_date or a filter) and check the shutdown method",
+        "The report generator corrupts early samples",
+        "APDEX thresholds are too low",
+        "The output folder was not empty"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Errors clustered at the edges point to how the test started and stopped. The generator can restrict the time window. APDEX settings and output folders do not create errors."
+    },
+    {
+      "id": "pt-jhtml-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-html-dashboard-report",
+      "prompt": "You want the dashboard to show only business transactions (Transaction Controller samples) and hide individual HTTP requests. What do you configure?",
+      "options": [
+        "jmeter.reportgenerator.exporter.html.series_filter (and/or sample_filter) with a regex matching the transaction labels",
+        "Delete the HTTP samplers",
+        "Use -g with a smaller JTL",
+        "Set Generate parent sample on every sampler"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Report generator filters select which labels appear. Deleting samplers changes the test, and the other options do not filter labels."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jhtml-apdex",
+      "language": "python",
+      "title": "Compute APDEX per label",
+      "difficulty": "beginner",
+      "prompt": "Write `apdex(times, t, f)` returning the APDEX score rounded to 3 decimals: satisfied `<= t`, tolerating `> t and <= f`, frustrated `> f`. Score = (satisfied + tolerating / 2) / total. Failed samples are passed as `None` and count as frustrated. Return `None` for an empty list.\n\nExample: 60 times of 300 and 40 of 900 with t=500, f=1500 give `0.8`.",
+      "starter": "def apdex(times, t, f):\n    # Your code here\n    return 0\n",
+      "solution": "def apdex(times, t, f):\n    if not times:\n        return None\n    sat = sum(1 for x in times if x is not None and x <= t)\n    tol = sum(1 for x in times if x is not None and t < x <= f)\n    return round((sat + tol / 2) / len(times), 3)\n",
+      "explanation": "APDEX turns a distribution into one 0-1 score; frustrated and failed samples add nothing, which is why a few errors pull it down.",
+      "hints": [
+        "Count satisfied and tolerating separately.",
+        "Treat `None` as frustrated by skipping it in both counts.",
+        "Divide by the total number of samples."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert apdex([300] * 60 + [900] * 40, 500, 1500) == 0.8"
+        },
+        {
+          "name": "Failures count as frustrated",
+          "marks": 3,
+          "code": "assert apdex([100, None, 2000, 600], 500, 1500) == 0.375"
+        },
+        {
+          "name": "Empty",
+          "marks": 1,
+          "code": "assert apdex([], 500, 1500) is None"
+        }
+      ]
+    },
+    {
+      "id": "code-jhtml-overtime",
+      "language": "python",
+      "title": "Response times over time",
+      "difficulty": "intermediate",
+      "prompt": "Write `over_time(samples, granularity_ms)` where samples are `(timestamp_ms, elapsed_ms)`. Bucket by `timestamp // granularity_ms * granularity_ms` and return a list of `(bucket_start, average_elapsed)` sorted by bucket, with the average rounded to 1 decimal.\n\nExample: `[(0,100),(500,300),(1200,1000)]` with 1000 ms gives `[(0, 200.0), (1000, 1000.0)]`.",
+      "starter": "def over_time(samples, granularity_ms):\n    # Your code here\n    return []\n",
+      "solution": "def over_time(samples, granularity_ms):\n    buckets = {}\n    for ts, el in samples:\n        b = ts // granularity_ms * granularity_ms\n        buckets.setdefault(b, []).append(el)\n    return [(b, round(sum(v) / len(v), 1)) for b, v in sorted(buckets.items())]\n",
+      "explanation": "This is how the dashboard's Over Time graphs are built (granularity is set by jmeter.reportgenerator.overall_granularity). Bucketing exposes spikes that the overall average hides.",
+      "hints": [
+        "Compute each sample's bucket with integer division.",
+        "Group elapsed times per bucket in a dict.",
+        "Sort the buckets and average each one."
+      ],
+      "tests": [
+        {
+          "name": "Two buckets",
+          "marks": 3,
+          "code": "assert over_time([(0,100),(500,300),(1200,1000)], 1000) == [(0, 200.0), (1000, 1000.0)]"
+        },
+        {
+          "name": "Unsorted input",
+          "marks": 2,
+          "code": "assert over_time([(2500, 10), (100, 20), (2600, 15)], 1000) == [(0, 20.0), (2000, 12.5)]"
+        },
+        {
+          "name": "Spike visible",
+          "marks": 2,
+          "code": "s = [(i * 1000, 100) for i in range(10)] + [(5000, 5000)]\nr = dict(over_time(s, 1000))\nassert r[5000] == 2550.0 and r[4000] == 100.0"
+        }
+      ]
+    }
+  ]
+}

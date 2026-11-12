@@ -1,0 +1,205 @@
+{
+  "lesson": "jmeter-backend-listener-grafana",
+  "questions": [
+    {
+      "id": "pt-jbl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "What does the Backend Listener do?",
+      "options": [
+        "Sends metrics asynchronously during the run to a backend such as InfluxDB or Graphite",
+        "Stores full responses in a database",
+        "Replaces the JTL file format",
+        "Starts remote JMeter servers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It streams aggregated metrics while the test runs. It does not store responses, replace JTLs or manage servers."
+    },
+    {
+      "id": "pt-jbl-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "Which tool is commonly used to visualise the metrics in dashboards?",
+      "options": [
+        "Grafana",
+        "View Results Tree",
+        "Excel",
+        "jconsole"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Grafana reads InfluxDB and shows live dashboards. The others are not live time-series dashboards for this purpose."
+    },
+    {
+      "id": "pt-jbl-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "The Backend Listener lets you watch a non-GUI run live without opening the JMeter GUI.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is its main purpose: live monitoring for long or CI runs."
+    },
+    {
+      "id": "pt-jbl-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "Which Backend Listener parameter controls whether per-transaction metrics are sent?",
+      "options": [
+        "summaryOnly (set to false for per-transaction series)",
+        "percentiles",
+        "testTitle",
+        "measurement"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With summaryOnly true only the overall 'all' series is sent. percentiles chooses which percentiles, testTitle annotates, and measurement names the series."
+    },
+    {
+      "id": "pt-jbl-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "You only want metrics for transactions named like `TX_...`. Which parameter helps?",
+      "options": [
+        "samplersRegex set to ^TX_.*",
+        "eventTags",
+        "application",
+        "influxdbUrl"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "samplersRegex filters which sample labels are sent. The others set tags or connection details."
+    },
+    {
+      "id": "pt-jbl-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "Which statements are correct? Select all that apply.",
+      "options": [
+        "Keeping a JTL is still useful for detailed post-run analysis and the HTML report",
+        "Backend Listener metrics are aggregated per interval, not per sample",
+        "Grafana alerts can be set on these metrics",
+        "The Backend Listener makes JMeter use no extra resources"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Metrics are aggregated (lighter but less detailed), so JTLs remain useful. Sending metrics costs some resources, so the last statement is false."
+    },
+    {
+      "id": "pt-jbl-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "You configured InfluxDB 2.x with influxdbUrl `http://localhost:8086/api/v2/write?org=perf&bucket=jmeter` and get 401 Unauthorized. What is missing?",
+      "options": [
+        "The influxdbToken parameter with a valid API token for that org/bucket",
+        "summaryOnly=false",
+        "A trailing slash on the URL",
+        "The Graphite implementation class"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "InfluxDB 2.x requires token authentication. summaryOnly, slashes and Graphite do not affect authentication."
+    },
+    {
+      "id": "pt-jbl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-backend-listener-grafana",
+      "prompt": "Grafana shows throughput dropping to zero every 5 minutes for 10 seconds, but the JTL shows a steady stream of samples. What is the most likely explanation?",
+      "options": [
+        "Metric delivery to InfluxDB is failing or delayed periodically (e.g. backend or network hiccups), not the test itself; check jmeter.log and InfluxDB logs",
+        "JMeter pauses all threads every 5 minutes",
+        "The application is down every 5 minutes",
+        "summaryOnly is true"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The JTL is the source of truth for samples; if it is steady, the gap is in the monitoring pipeline. summaryOnly would not cause periodic gaps."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jbl-line",
+      "language": "python",
+      "title": "Build InfluxDB line protocol",
+      "difficulty": "intermediate",
+      "prompt": "Write `to_line(measurement, tags, fields, ts_ns)` producing an InfluxDB line protocol string: `measurement,tag1=v1,tag2=v2 field1=1,field2=2.5 ts`.\n\n- Tags sorted by key; escape spaces, commas and `=` in tag values with a backslash.\n- Fields sorted by key; integers get an `i` suffix (`count=5i`), floats are written as-is, strings in double quotes.\n- Omit the comma after the measurement when there are no tags.\n\nExample: `to_line('jmeter', {'transaction':'Login'}, {'count':5,'avg':120.5}, 1700000000000000000)` returns `'jmeter,transaction=Login avg=120.5,count=5i 1700000000000000000'`.",
+      "starter": "def to_line(measurement, tags, fields, ts_ns):\n    # Your code here\n    return ''\n",
+      "solution": "def _esc(v):\n    return str(v).replace(',', '\\\\,').replace(' ', '\\\\ ').replace('=', '\\\\=')\n\ndef _field(v):\n    if isinstance(v, bool):\n        return 'true' if v else 'false'\n    if isinstance(v, int):\n        return f'{v}i'\n    if isinstance(v, float):\n        return repr(v)\n    return '\"' + str(v).replace('\"', '\\\\\"') + '\"'\n\ndef to_line(measurement, tags, fields, ts_ns):\n    head = measurement + ''.join(f',{k}={_esc(tags[k])}' for k in sorted(tags))\n    body = ','.join(f'{k}={_field(fields[k])}' for k in sorted(fields))\n    return f'{head} {body} {ts_ns}'\n",
+      "explanation": "This is the format the InfluxDB Backend Listener writes. Typing fields correctly (integer `i` suffix) matters: InfluxDB rejects writes whose field type changes.",
+      "hints": [
+        "Build the tag part and the field part separately.",
+        "Escape tag values with `replace`.",
+        "Use `isinstance(v, int)` for the `i` suffix (check bool first)."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert to_line('jmeter', {'transaction':'Login'}, {'count':5,'avg':120.5}, 1700000000000000000) == 'jmeter,transaction=Login avg=120.5,count=5i 1700000000000000000'"
+        },
+        {
+          "name": "Escaping and no tags",
+          "marks": 3,
+          "code": "assert to_line('m', {'t':'Add to cart'}, {'x':1.0}, 1) == 'm,t=Add\\\\ to\\\\ cart x=1.0 1'\nassert to_line('m', {}, {'s':'ok'}, 2) == 'm s=\"ok\" 2'"
+        }
+      ]
+    },
+    {
+      "id": "code-jbl-window",
+      "language": "python",
+      "title": "Aggregate samples per interval",
+      "difficulty": "beginner",
+      "prompt": "The listener sends one aggregate per interval. Write `per_interval(samples, interval_s)` where samples are `(epoch_s, elapsed_ms, ok)`. Return a sorted list of `(interval_start, count, errors, max_ms)`, with `interval_start = epoch_s // interval_s * interval_s`.\n\nExample: `[(0,100,True),(3,200,False),(5,50,True)]` with interval 5 gives `[(0,2,1,200),(5,1,0,50)]`.",
+      "starter": "def per_interval(samples, interval_s):\n    # Your code here\n    return []\n",
+      "solution": "def per_interval(samples, interval_s):\n    b = {}\n    for t, ms, ok in samples:\n        k = t // interval_s * interval_s\n        c, e, m = b.get(k, (0, 0, 0))\n        b[k] = (c + 1, e + (0 if ok else 1), max(m, ms))\n    return [(k,) + v for k, v in sorted(b.items())]\n",
+      "explanation": "Aggregating per interval keeps the data volume small, which is why Backend Listener metrics are lighter than a full JTL but cannot answer per-sample questions.",
+      "hints": [
+        "Bucket each sample by integer division.",
+        "Keep (count, errors, max) per bucket.",
+        "Return the buckets sorted by start time."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert per_interval([(0,100,True),(3,200,False),(5,50,True)], 5) == [(0,2,1,200),(5,1,0,50)]"
+        },
+        {
+          "name": "Gaps are absent",
+          "marks": 2,
+          "code": "assert per_interval([(1,10,True),(21,30,True)], 10) == [(0,1,0,10),(20,1,0,30)]"
+        }
+      ]
+    }
+  ]
+}

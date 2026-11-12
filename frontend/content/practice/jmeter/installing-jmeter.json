@@ -1,0 +1,235 @@
+{
+  "lesson": "installing-jmeter",
+  "questions": [
+    {
+      "id": "pt-inst-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "installing-jmeter",
+      "prompt": "Which file do you download to install JMeter on Windows?",
+      "options": [
+        "apache-jmeter-5.6.x.zip from the Binaries section",
+        "apache-jmeter-5.6.x_src.zip from the Source section",
+        "jmeter-installer.msi from a third-party mirror",
+        "The JMeter Docker image only"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The binary zip contains the ready-to-run bin folder with jmeter.bat. The _src archive is source code that must be built first; an .msi is not published by Apache, and Docker is optional, not required."
+    },
+    {
+      "id": "pt-inst-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "installing-jmeter",
+      "prompt": "On macOS or Linux, which command starts the JMeter GUI from inside the bin folder?",
+      "options": [
+        "./jmeter",
+        "jmeter.bat",
+        "java jmeter.jmx",
+        "start-jmeter.sh --gui"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The bin/jmeter shell script launches JMeter on Unix-like systems. jmeter.bat is the Windows launcher, a .jmx file is a test plan, not a program, and start-jmeter.sh does not exist."
+    },
+    {
+      "id": "pt-inst-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "installing-jmeter",
+      "prompt": "JMeter is a Java application, so a Java runtime must be installed before JMeter can start.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter runs on the JVM. Without Java (8 or later for 5.6.x; a current LTS such as 17 or 21 in practice) the launcher cannot start it."
+    },
+    {
+      "id": "pt-inst-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "installing-jmeter",
+      "prompt": "A learner runs this in a terminal. What does the output tell them?",
+      "code": "$ java -version\nopenjdk version \"17.0.9\" 2023-10-17\nOpenJDK Runtime Environment (build 17.0.9+9)\nOpenJDK 64-Bit Server VM (build 17.0.9+9, mixed mode)",
+      "codeLanguage": "bash",
+      "options": [
+        "Java 17 is installed and on the PATH, so JMeter 5.6.x can run",
+        "Java 1.7 is installed and is too old",
+        "Only the JDK compiler is installed, not the runtime",
+        "JMeter 17 is installed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "`java -version` prints the runtime version: 17.0.9 means Java 17, which satisfies the Java 8+ requirement. It is not 1.7 (old versions printed \"1.x\" style numbers), the command checks the runtime, and it says nothing about JMeter's version."
+    },
+    {
+      "id": "pt-inst-05",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "installing-jmeter",
+      "prompt": "`java -version` works in a new terminal, but double-clicking jmeter.bat says Java cannot be found. JAVA_HOME was just set to `C:\\Program Files\\Java\\jdk-17\\bin`. What is the fix?",
+      "options": [
+        "Set JAVA_HOME to the JDK root folder (C:\\Program Files\\Java\\jdk-17), not its bin folder",
+        "Reinstall JMeter from the source zip",
+        "Rename jmeter.bat to jmeter.cmd",
+        "Install Java 8 alongside Java 17"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JAVA_HOME must point to the JDK root; the launchers append \\bin themselves, so pointing at bin yields ...\\bin\\bin\\java.exe, which does not exist. Reinstalling, renaming or adding another Java does not fix the wrong variable."
+    },
+    {
+      "id": "pt-inst-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "installing-jmeter",
+      "prompt": "Which are good habits when installing JMeter on a team? Select all that apply.",
+      "options": [
+        "Download only from jmeter.apache.org and optionally verify the SHA-512 checksum",
+        "Extract to a short path without spaces",
+        "Put your own settings in bin/user.properties rather than editing jmeter.properties",
+        "Everyone uses whichever JMeter version happens to be on their laptop"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Official downloads plus checksums avoid tampered files, short paths avoid quoting problems, and user.properties survives upgrades. Mixed versions cause 'works on my machine' differences in shared .jmx files, so the team should standardise."
+    },
+    {
+      "id": "pt-inst-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "installing-jmeter",
+      "prompt": "After upgrading JMeter from 5.6.2 to 5.6.3 by extracting a fresh folder, a tester's custom settings are gone. Where should those settings have lived?",
+      "options": [
+        "bin/user.properties (copied to the new install) or passed with -J on the command line",
+        "Inside the .jmx file's comments",
+        "In jmeter.log",
+        "In the Windows registry"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "user.properties is the documented place for overrides and is easy to carry across versions; -J sets properties per run. Comments in a .jmx are not read as settings, jmeter.log is output, and JMeter does not use the registry."
+    },
+    {
+      "id": "pt-inst-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "installing-jmeter",
+      "prompt": "A CI agent has two JDKs: Java 8 at /usr/lib/jvm/java-8 on the PATH and Java 21 at /opt/jdk-21. A plugin you need requires Java 11+. What is the most reliable way to make JMeter use Java 21 on that agent?",
+      "options": [
+        "Set JAVA_HOME=/opt/jdk-21 and put $JAVA_HOME/bin first on the PATH in the job before calling jmeter, then log java -version",
+        "Uninstall JMeter and reinstall it so it detects the newer JDK",
+        "Add -Jjava.version=21 to the jmeter command",
+        "Rename the .jmx file to force recompilation"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The launcher uses the java found via JAVA_HOME/PATH, so setting both explicitly in the job and printing java -version proves which runtime is used. JMeter does not 'detect' JDKs on reinstall, -J sets a JMeter property (not the JVM), and renaming the plan is irrelevant."
+    },
+    {
+      "id": "pt-inst-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "installing-jmeter",
+      "prompt": "A teammate reports `Error: Could not find or load main class org.apache.jmeter.NewDriver` when launching. Their folder listing shows `src/`, `build.gradle.kts` and no `lib/` folder. What happened and what is the fix?",
+      "options": [
+        "They extracted the source distribution; download and extract the binary zip/tgz instead",
+        "Their Java is too new; downgrade to Java 8",
+        "The HEAP variable is too small; set HEAP=-Xmx4g",
+        "The PATH is missing jmeter.properties"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Without lib/ (which holds ApacheJMeter_core and dependencies) the launcher cannot find NewDriver; a src/ folder and Gradle build file show this is the source download. Java version and heap give different errors, and jmeter.properties is not on the PATH."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-inst-java-major",
+      "language": "python",
+      "title": "Parse the Java major version",
+      "difficulty": "beginner",
+      "prompt": "Write `java_major(version_output)` that takes the **first line** printed by `java -version` and returns the major version as an `int`.\n\n- Modern format: `openjdk version \"17.0.9\" 2023-10-17` returns `17`.\n- Legacy format: `java version \"1.8.0_391\"` returns `8` (for versions starting with `1.`, the major is the second number).\n- If no quoted version is found, return `None`.",
+      "starter": "def java_major(version_output):\n    # Your code here\n    return 0\n",
+      "solution": "import re\n\ndef java_major(version_output):\n    m = re.search(r'\"([^\"]+)\"', version_output)\n    if not m:\n        return None\n    parts = re.split(r'[._+-]', m.group(1))\n    if parts[0] == '1' and len(parts) > 1:\n        return int(parts[1])\n    return int(parts[0])\n",
+      "explanation": "The version sits between double quotes. Splitting on separators gives its parts; Java 8 and older used the `1.x` scheme, so the second part is the real major version. Install scripts use exactly this check before launching JMeter.",
+      "hints": [
+        "Use a regular expression to capture the text between the quotes.",
+        "Split on `.` and `_`; check whether the first part is `1`.",
+        "`re.split(r'[._+-]', v)` then `int(parts[1])` if `parts[0] == '1'` else `int(parts[0])`."
+      ],
+      "tests": [
+        {
+          "name": "Modern versions",
+          "marks": 3,
+          "code": "assert java_major('openjdk version \"17.0.9\" 2023-10-17') == 17\nassert java_major('openjdk version \"21\" 2023-09-19') == 21"
+        },
+        {
+          "name": "Legacy 1.x versions",
+          "marks": 3,
+          "code": "assert java_major('java version \"1.8.0_391\"') == 8"
+        },
+        {
+          "name": "No version found",
+          "marks": 2,
+          "code": "assert java_major('command not found: java') is None"
+        }
+      ]
+    },
+    {
+      "id": "code-inst-can-run",
+      "language": "python",
+      "title": "Pre-flight check for a JMeter install",
+      "difficulty": "intermediate",
+      "prompt": "Write `preflight(java_major, jmeter_version, folder)` that returns a **list of problem strings** (empty if all is fine). Rules:\n\n- JMeter `5.x` needs Java >= 8; JMeter `6.x` or newer needs Java >= 17. Problem text: `\"java too old\"`.\n- If `folder` contains `\"_src\"`, add `\"source download\"`.\n- If `folder` contains a space, add `\"space in path\"`.\n\nReturn problems in that order. Example: `preflight(8, \"5.6.3\", \"C:/tools/apache-jmeter-5.6.3\")` returns `[]`.",
+      "starter": "def preflight(java_major, jmeter_version, folder):\n    problems = None\n    return problems\n",
+      "solution": "def preflight(java_major, jmeter_version, folder):\n    problems = []\n    major = int(jmeter_version.split('.')[0])\n    needed = 8 if major <= 5 else 17\n    if java_major is None or java_major < needed:\n        problems.append('java too old')\n    if '_src' in folder:\n        problems.append('source download')\n    if ' ' in folder:\n        problems.append('space in path')\n    return problems\n",
+      "explanation": "Each rule is an independent check that appends a message, which is how a good setup script reports every problem at once instead of stopping at the first.",
+      "hints": [
+        "Get the JMeter major version with `split('.')[0]`.",
+        "Pick the minimum Java version from the JMeter major, then compare.",
+        "Append to a list in the required order and return it."
+      ],
+      "tests": [
+        {
+          "name": "All good",
+          "marks": 2,
+          "code": "assert preflight(8, '5.6.3', 'C:/tools/apache-jmeter-5.6.3') == []"
+        },
+        {
+          "name": "Java too old for 6.x",
+          "marks": 3,
+          "code": "assert preflight(11, '6.0.0', '/opt/apache-jmeter-6.0.0') == ['java too old']"
+        },
+        {
+          "name": "Several problems",
+          "marks": 3,
+          "code": "assert preflight(7, '5.6.3', 'C:/My Tools/apache-jmeter-5.6.3_src') == ['java too old', 'source download', 'space in path']"
+        }
+      ]
+    }
+  ]
+}

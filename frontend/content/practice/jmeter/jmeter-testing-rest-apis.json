@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-testing-rest-apis",
+  "questions": [
+    {
+      "id": "pt-jrest-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Which header normally carries a bearer token to a REST API?",
+      "options": [
+        "Authorization: Bearer <token>",
+        "Cookie: token=<token> always",
+        "Accept: Bearer <token>",
+        "X-Bearer"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "OAuth 2.0 bearer tokens go in the Authorization header with the Bearer scheme. Cookies are used by some apps but not the standard bearer mechanism."
+    },
+    {
+      "id": "pt-jrest-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Which status code usually means a resource was created by a POST?",
+      "options": [
+        "201 Created",
+        "204 No Content",
+        "302 Found",
+        "409 Conflict"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "201 signals creation. 204 means success without a body, 302 is a redirect, 409 a conflict."
+    },
+    {
+      "id": "pt-jrest-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "A JSON Extractor can store several fields at once by listing names, paths and default values separated by semicolons.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Names, JSON path expressions, match numbers and default values each accept a semicolon-separated list in the same order."
+    },
+    {
+      "id": "pt-jrest-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Tokens expire after 15 minutes but your soak test lasts 2 hours, and each thread logs in once. What will happen and how do you fix it?",
+      "options": [
+        "Requests start failing with 401 after 15 minutes; refresh the token (e.g. a Runtime/If Controller that re-logs in when it nears expiry)",
+        "Nothing; JMeter refreshes tokens automatically",
+        "Only the first request fails",
+        "The Cookie Manager renews tokens"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter does not know about token lifetimes. You must model refresh in the script, otherwise the soak test measures 401s."
+    },
+    {
+      "id": "pt-jrest-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Where should a Header Manager with `Authorization: Bearer ${token}` live so all API calls after login get it, but login itself does not?",
+      "options": [
+        "Inside a controller that wraps only the post-login API samplers",
+        "Under the Login sampler",
+        "At Test Plan level",
+        "In a tearDown Thread Group"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Scoping it to a controller around the API calls is precise. Under Login it applies only to Login, and Test Plan level also applies to Login (sending an unresolved token)."
+    },
+    {
+      "id": "pt-jrest-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Which checks show an order API really worked? Select all that apply.",
+      "options": [
+        "Status 201",
+        "Response has an id that matches a pattern",
+        "A follow-up GET /orders/{id} returns the same items",
+        "The response took less than 10 seconds"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Status, body and a read-back confirm the effect. Speed is a performance criterion, not proof the order exists."
+    },
+    {
+      "id": "pt-jrest-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "A PUT /orders/${orderId} returns 404 for every thread, while the POST that creates the order returns 201 with `{\"order\":{\"id\":\"A17\"}}`. The JSON Extractor path is `$.id`. What is wrong?",
+      "options": [
+        "The id is nested; the path should be $.order.id, and with no match the variable held the default value",
+        "PUT is not supported by the HTTP Request sampler",
+        "The extractor must be a Regular Expression Extractor",
+        "404 means the server is overloaded"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "$.id looks for a top-level id. The nested path fixes it. PUT is supported, JSON Extractor is the right tool, and 404 means not found, not overload."
+    },
+    {
+      "id": "pt-jrest-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-testing-rest-apis",
+      "prompt": "Load test of POST /payments shows duplicate charges when the client retries after timeouts. Which test design reveals whether the API is safe?",
+      "options": [
+        "Send an Idempotency-Key generated once per payment (e.g. ${__UUID()} stored in a variable) and deliberately repeat the request with the same key, asserting the same payment id comes back",
+        "Retry with a new key each time",
+        "Turn off retries and ignore timeouts",
+        "Use GET instead of POST"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Idempotency means the same key returns the same result without a second charge. A new key per retry is a new payment, and ignoring timeouts or changing the method avoids the question."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jrest-validate",
+      "language": "python",
+      "title": "Validate a JSON API response",
+      "difficulty": "intermediate",
+      "prompt": "Write `validate_order(status, body_text)` returning a list of failure messages (empty if valid). Rules, in this order:\n\n1. status must be 201, else `'status'`.\n2. body must parse as JSON, else return `['json']` immediately (plus `'status'` first if that also failed).\n3. `id` must be a string matching `^ORD-\\d+$`, else `'id'`.\n4. `items` must be a non-empty list, else `'items'`.\n5. `total` must equal the sum of `price * qty` over items (compare with a tolerance of 0.001), else `'total'`. Skip this rule if items failed.\n\nExample: a correct body returns `[]`.",
+      "starter": "def validate_order(status, body_text):\n    # Your code here\n    return None\n",
+      "solution": "import json, re\n\ndef validate_order(status, body_text):\n    errors = []\n    if status != 201:\n        errors.append('status')\n    try:\n        body = json.loads(body_text)\n    except ValueError:\n        return errors + ['json']\n    if not isinstance(body.get('id'), str) or not re.fullmatch(r'ORD-\\d+', body['id']):\n        errors.append('id')\n    items = body.get('items')\n    if not isinstance(items, list) or not items:\n        errors.append('items')\n    else:\n        expected = sum(i['price'] * i['qty'] for i in items)\n        if abs(body.get('total', -1) - expected) > 0.001:\n            errors.append('total')\n    return errors\n",
+      "explanation": "This is what a JSR223 Assertion does in Groovy: parse once, check status, shape and business rules, and report every failure with a short reason so the JTL tells you why.",
+      "hints": [
+        "Use `json.loads` inside try/except.",
+        "`re.fullmatch(r'ORD-\\d+', id)` checks the id format.",
+        "Compute the expected total with a generator expression and compare with `abs(a - b) > 0.001`."
+      ],
+      "tests": [
+        {
+          "name": "Valid order",
+          "marks": 2,
+          "code": "b = '{\"id\":\"ORD-17\",\"items\":[{\"price\":2.5,\"qty\":2},{\"price\":1.1,\"qty\":1}],\"total\":6.1}'\nassert validate_order(201, b) == []"
+        },
+        {
+          "name": "Bad status and json",
+          "marks": 2,
+          "code": "assert validate_order(500, '<html>error</html>') == ['status', 'json']"
+        },
+        {
+          "name": "Business rules",
+          "marks": 3,
+          "code": "b = '{\"id\":\"17\",\"items\":[{\"price\":2,\"qty\":2}],\"total\":5}'\nassert validate_order(201, b) == ['id', 'total']"
+        },
+        {
+          "name": "Empty items",
+          "marks": 1,
+          "code": "assert validate_order(201, '{\"id\":\"ORD-1\",\"items\":[],\"total\":0}') == ['items']"
+        }
+      ]
+    },
+    {
+      "id": "code-jrest-chain",
+      "language": "python",
+      "title": "Chain requests with extracted values",
+      "difficulty": "advanced",
+      "prompt": "Write `run_chain(steps, responses)` that simulates a JMeter thread. `steps` is a list of dicts `{'path': str, 'extract': {var: json_key}}`. `responses` maps a **resolved** path to a dict response. For each step: replace `${var}` in the path using variables so far (unknown stays literal), look up the response (missing -> `{}`), then for each extract entry set the variable to `str(response[key])` or `'NOT_FOUND'`. Return the list of resolved paths requested.\n\nExample: login extracts `token`, then `/orders?t=${token}` resolves to `/orders?t=abc`.",
+      "starter": "def run_chain(steps, responses):\n    # Your code here\n    return []\n",
+      "solution": "import re\n\ndef run_chain(steps, responses):\n    variables, sent = {}, []\n    for step in steps:\n        path = re.sub(r'\\$\\{(\\w+)\\}', lambda m: variables.get(m.group(1), m.group(0)), step['path'])\n        sent.append(path)\n        resp = responses.get(path, {})\n        for var, key in step.get('extract', {}).items():\n            variables[var] = str(resp[key]) if key in resp else 'NOT_FOUND'\n    return sent\n",
+      "explanation": "Resolving variables before each request and extracting after it is the sampler-then-post-processor cycle. When an earlier extraction fails, NOT_FOUND propagates into later paths, which is how you spot a broken chain in View Results Tree.",
+      "hints": [
+        "Keep a `variables` dict for the thread.",
+        "Resolve the path with `re.sub` before looking up the response.",
+        "After the response, set each extracted variable or 'NOT_FOUND'."
+      ],
+      "tests": [
+        {
+          "name": "Happy chain",
+          "marks": 4,
+          "code": "steps = [{'path': '/login', 'extract': {'token': 'access_token'}}, {'path': '/orders?t=${token}', 'extract': {'oid': 'id'}}, {'path': '/orders/${oid}'}]\nresp = {'/login': {'access_token': 'abc'}, '/orders?t=abc': {'id': 42}}\nassert run_chain(steps, resp) == ['/login', '/orders?t=abc', '/orders/42']"
+        },
+        {
+          "name": "Broken chain",
+          "marks": 3,
+          "code": "steps = [{'path': '/login', 'extract': {'token': 'access_token'}}, {'path': '/me?t=${token}'}, {'path': '/x/${nope}'}]\nassert run_chain(steps, {'/login': {}}) == ['/login', '/me?t=NOT_FOUND', '/x/${nope}']"
+        }
+      ]
+    }
+  ]
+}

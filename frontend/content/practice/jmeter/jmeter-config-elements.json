@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-config-elements",
+  "questions": [
+    {
+      "id": "pt-jcfg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-config-elements",
+      "prompt": "Which config element stores cookies per thread so each virtual user keeps its own session?",
+      "options": [
+        "HTTP Cookie Manager",
+        "HTTP Header Manager",
+        "HTTP Cache Manager",
+        "User Defined Variables"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Cookie Manager keeps a cookie store per thread. Headers, caching and variables are handled by the other elements."
+    },
+    {
+      "id": "pt-jcfg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-config-elements",
+      "prompt": "What is the main benefit of HTTP Request Defaults?",
+      "options": [
+        "Setting protocol, server and port once instead of in every sampler",
+        "Making every request faster",
+        "Adding assertions automatically",
+        "Recording requests from a browser"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Defaults remove repetition so switching environments means one change. They do not affect speed, add assertions or record traffic."
+    },
+    {
+      "id": "pt-jcfg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-config-elements",
+      "prompt": "A Header Manager placed at Thread Group level adds its headers to every HTTP sampler in that group.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Config elements apply to all samplers in their scope; a group-level Header Manager covers every sampler in the group."
+    },
+    {
+      "id": "pt-jcfg-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-config-elements",
+      "prompt": "A group-level Header Manager sets `Accept: application/json`, and a sampler's own Header Manager sets `Accept: text/html`. What does that sampler send?",
+      "options": [
+        "Accept: text/html (the more specific header manager wins for the same header name)",
+        "Both values, comma separated",
+        "Accept: application/json",
+        "No Accept header because they conflict"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "When several Header Managers are in scope they are merged, and for a duplicate name the one closer to the sampler takes precedence. They are not concatenated or dropped."
+    },
+    {
+      "id": "pt-jcfg-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-config-elements",
+      "prompt": "What does the HTTP Cache Manager simulate?",
+      "options": [
+        "A browser cache, so repeat requests for cacheable resources can be skipped or sent conditionally",
+        "A server-side cache in front of the database",
+        "Caching of compiled Groovy scripts",
+        "A CDN in front of the site"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It reproduces browser caching behaviour per thread, using headers such as Cache-Control, Expires and ETag. It does not create server caches, CDNs or script caches."
+    },
+    {
+      "id": "pt-jcfg-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-config-elements",
+      "prompt": "Which values are good candidates for User Defined Variables at Test Plan level? Select all that apply.",
+      "options": [
+        "The base host name for an environment",
+        "A shared think-time value",
+        "An access token extracted at run time for each user",
+        "An API version path segment such as v2"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Static settings suit User Defined Variables, which are processed once at the start. Per-user run-time values such as tokens belong in extractor variables."
+    },
+    {
+      "id": "pt-jcfg-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-config-elements",
+      "prompt": "Users log in successfully but are logged out on the next iteration. 'Same user on each iteration' is unticked on the Thread Group and the Cookie Manager is at group level. Login sits inside a Once Only Controller. Why?",
+      "options": [
+        "Unticking 'Same user on each iteration' clears cookies at each new iteration, while Login runs only on the first iteration",
+        "The Cookie Manager only works in GUI mode",
+        "Cookies are shared between threads, so the last login wins",
+        "HTTP Request Defaults override cookies"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Clearing cookies each iteration is the documented effect of that setting, so a login that runs only once loses its session. Cookie Managers work in all modes, are per thread, and Defaults do not touch cookies."
+    },
+    {
+      "id": "pt-jcfg-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-config-elements",
+      "prompt": "You test a site that sets a session cookie for `shop.local`, but your samplers use the IP `127.0.0.1`. Requests after login are unauthenticated. What is the cause?",
+      "options": [
+        "Cookies are matched by domain; a cookie for shop.local is not sent to 127.0.0.1, so use the same host name everywhere",
+        "Cookie Manager needs Clear cookies each iteration ticked",
+        "The Cache Manager strips cookies",
+        "JMeter cannot store cookies for local hosts"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Cookie Manager follows browser domain-matching rules. Mixing host names breaks the session. The other options do not explain domain mismatch; JMeter stores local cookies fine."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jcfg-merge",
+      "language": "python",
+      "title": "Merge defaults with a sampler",
+      "difficulty": "beginner",
+      "prompt": "HTTP Request Defaults fill only the fields a sampler leaves empty. Write `effective(defaults, sampler)` where both are dicts with keys among `protocol`, `server`, `port`, `path`. A sampler value wins unless it is missing, `None` or `''`.\n\nExample: `effective({'protocol':'http','server':'localhost','port':8000}, {'server':'127.0.0.1','path':'/a'})` returns `{'protocol':'http','server':'127.0.0.1','port':8000,'path':'/a'}`.",
+      "starter": "def effective(defaults, sampler):\n    # Your code here\n    return {}\n",
+      "solution": "def effective(defaults, sampler):\n    out = dict(defaults)\n    for k, v in sampler.items():\n        if v not in (None, ''):\n            out[k] = v\n    return out\n",
+      "explanation": "Start from the defaults and overlay only the non-empty sampler fields, the same rule JMeter applies, which is why a sampler's own Server Name beats the default.",
+      "hints": [
+        "Copy the defaults first.",
+        "Skip sampler values that are `None` or empty strings.",
+        "Loop over `sampler.items()` and overwrite."
+      ],
+      "tests": [
+        {
+          "name": "Sampler overrides",
+          "marks": 3,
+          "code": "assert effective({'protocol':'http','server':'localhost','port':8000}, {'server':'127.0.0.1','path':'/a'}) == {'protocol':'http','server':'127.0.0.1','port':8000,'path':'/a'}"
+        },
+        {
+          "name": "Empty values ignored",
+          "marks": 3,
+          "code": "assert effective({'server':'localhost','port':8000}, {'server':'', 'port':None, 'path':'/b'}) == {'server':'localhost','port':8000,'path':'/b'}"
+        },
+        {
+          "name": "Defaults not mutated",
+          "marks": 2,
+          "code": "d = {'server':'x'}\nr = effective(d, {'server':'y'})\nassert d == {'server':'x'} and r == {'server':'y'}, r"
+        }
+      ]
+    },
+    {
+      "id": "code-jcfg-headers",
+      "language": "python",
+      "title": "Merge Header Managers by scope",
+      "difficulty": "intermediate",
+      "prompt": "Write `merge_headers(managers)` where `managers` is a list of header lists ordered **from outermost scope to the sampler**. Each header list is `[(name, value), ...]`. Return a dict of the headers sent: names are case-insensitive, an inner manager replaces an outer header with the same name, and the returned keys use the spelling from the manager that won.\n\nExample: `[[('Accept','application/json'), ('X-App','shop')], [('accept','text/html')]]` returns `{'accept':'text/html', 'X-App':'shop'}`.",
+      "starter": "def merge_headers(managers):\n    # Your code here\n    return None\n",
+      "solution": "def merge_headers(managers):\n    merged = {}\n    for manager in managers:\n        for name, value in manager:\n            merged[name.lower()] = (name, value)\n    return {name: value for name, value in merged.values()}\n",
+      "explanation": "Keying by the lower-cased name makes later (closer) managers replace earlier ones regardless of case, which matches HTTP's case-insensitive header names.",
+      "hints": [
+        "Process outer managers first so inner ones overwrite.",
+        "Use `name.lower()` as the dictionary key.",
+        "Store `(original_name, value)` so you can rebuild the output keys."
+      ],
+      "tests": [
+        {
+          "name": "Inner replaces outer",
+          "marks": 4,
+          "code": "assert merge_headers([[('Accept','application/json'), ('X-App','shop')], [('accept','text/html')]]) == {'accept':'text/html', 'X-App':'shop'}"
+        },
+        {
+          "name": "Single manager",
+          "marks": 2,
+          "code": "assert merge_headers([[('Content-Type','application/json')]]) == {'Content-Type':'application/json'}"
+        },
+        {
+          "name": "Three levels",
+          "marks": 2,
+          "code": "r = merge_headers([[('A','1')], [('B','2')], [('a','3')]])\nassert r == {'a':'3','B':'2'}, r"
+        }
+      ]
+    }
+  ]
+}

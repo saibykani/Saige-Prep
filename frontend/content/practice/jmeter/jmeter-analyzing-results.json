@@ -1,0 +1,215 @@
+{
+  "lesson": "jmeter-analyzing-results",
+  "questions": [
+    {
+      "id": "pt-jan-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "Which metric tells you how many requests per second the system handled?",
+      "options": [
+        "Throughput",
+        "Median",
+        "Error %",
+        "Latency"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Throughput is completed samples per unit time. The others describe timings or failure rates."
+    },
+    {
+      "id": "pt-jan-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "What does a rising p95 with flat throughput as users increase usually indicate?",
+      "options": [
+        "The system is saturated and requests are queuing",
+        "The system is getting faster",
+        "JMeter is sending fewer requests on purpose",
+        "The test has too few assertions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Once a resource is saturated, extra users only add waiting time, so latency rises while throughput stays flat."
+    },
+    {
+      "id": "pt-jan-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "You should always correlate JMeter results with server-side metrics (CPU, memory, DB, GC) to find a bottleneck.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter shows symptoms; server metrics show which resource is the cause."
+    },
+    {
+      "id": "pt-jan-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "Errors are 0% but p95 is 12 s for 'Search', with app CPU at 30% and the database at 95% CPU. Where do you look first?",
+      "options": [
+        "Database queries behind Search (slow query log, missing indexes, execution plans)",
+        "The JMeter heap size",
+        "The network between users and the CDN",
+        "Add more app servers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The saturated resource is the database, and Search is the slow transaction. More app servers would not help a DB bottleneck."
+    },
+    {
+      "id": "pt-jan-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "Throughput falls and errors appear exactly when a garbage-collection pause graph shows multi-second full GCs on the app server. What is the likely cause?",
+      "options": [
+        "Memory pressure in the application JVM (heap too small or a leak)",
+        "JMeter's CSV file is too large",
+        "The Constant Timer is too short",
+        "Too many assertions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Long full GCs stall the app and correlate with the slowdown. The other options do not cause server GC pauses."
+    },
+    {
+      "id": "pt-jan-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "Which signs suggest the load generator, not the system, limited the test? Select all that apply.",
+      "options": [
+        "Generator CPU near 100% while server CPU is low",
+        "Many 'Non HTTP response code' errors such as BindException on the generator",
+        "Throughput rises when you add a second generator with the same total threads",
+        "p95 is high for one endpoint only"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Generator saturation and port exhaustion are client-side limits, and adding a generator that improves results confirms it. A single slow endpoint points to the system."
+    },
+    {
+      "id": "pt-jan-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "A soak test shows response times creeping up by 5% every hour while throughput is constant, and app memory after each GC keeps rising. What do you report?",
+      "options": [
+        "A probable memory leak: post-GC heap grows steadily under constant load, which will eventually cause failures",
+        "Normal warm-up behaviour",
+        "A JMeter timer bug",
+        "Network jitter"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Rising post-GC memory under steady load is the classic leak signature. Warm-up ends early, and timers or jitter do not grow memory."
+    },
+    {
+      "id": "pt-jan-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-analyzing-results",
+      "prompt": "Release B's p95 is 10% higher than release A's. B's run used a database with half as many rows and ran for 15 minutes instead of 60. What is your conclusion?",
+      "options": [
+        "The comparison is not valid; rerun B with the same data volume, duration and environment before drawing conclusions",
+        "B is 10% slower",
+        "B is faster because it had less data",
+        "Average the two runs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Baselines are only comparable under the same conditions. Different data size and duration change caching and steady state."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jan-saturation",
+      "language": "python",
+      "title": "Find the saturation point",
+      "difficulty": "intermediate",
+      "prompt": "Write `saturation_point(steps)` where `steps` is a list of `(threads, throughput, p95_ms)` in increasing thread order. Return the thread count of the **last step before saturation**: the first step whose throughput grows by less than 10% over the previous step **and** whose p95 grows by more than 50% marks saturation; return the previous step's threads. If no step saturates, return the last step's threads.\n\nExample: `[(20,40,300),(40,78,350),(80,80,1400)]` returns `40`.",
+      "starter": "def saturation_point(steps):\n    # Your code here\n    return 0\n",
+      "solution": "def saturation_point(steps):\n    for prev, cur in zip(steps, steps[1:]):\n        tp_gain = (cur[1] - prev[1]) / prev[1]\n        p95_gain = (cur[2] - prev[2]) / prev[2]\n        if tp_gain < 0.10 and p95_gain > 0.50:\n            return prev[0]\n    return steps[-1][0]\n",
+      "explanation": "Saturation is where extra users no longer add throughput but do add latency. Comparing consecutive steps with relative thresholds turns that definition into a check you can run on every step test.",
+      "hints": [
+        "Compare consecutive steps with `zip(steps, steps[1:])`.",
+        "Compute relative growth: `(cur - prev) / prev`.",
+        "Return the previous step's threads at the first saturated step."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert saturation_point([(20,40,300),(40,78,350),(80,80,1400)]) == 40"
+        },
+        {
+          "name": "No saturation",
+          "marks": 2,
+          "code": "assert saturation_point([(10,10,100),(20,20,110),(40,39,130)]) == 40"
+        },
+        {
+          "name": "Throughput flat but latency stable",
+          "marks": 2,
+          "code": "assert saturation_point([(10,50,100),(20,52,120),(40,53,400)]) == 20"
+        }
+      ]
+    },
+    {
+      "id": "code-jan-compare",
+      "language": "python",
+      "title": "Compare a run with a baseline",
+      "difficulty": "advanced",
+      "prompt": "Write `regressions(baseline, current, tolerance_pct)` where both are dicts `label -> p95_ms`. Return a sorted list of labels whose current p95 is more than `tolerance_pct` percent above baseline. Labels missing from `current` are reported as `'<label> (missing)'`; labels only in `current` are ignored.\n\nExample: baseline `{'Login': 400}`, current `{'Login': 460}`, tolerance 10 returns `['Login']`.",
+      "starter": "def regressions(baseline, current, tolerance_pct):\n    # Your code here\n    return []\n",
+      "solution": "def regressions(baseline, current, tolerance_pct):\n    out = []\n    for label, base in baseline.items():\n        if label not in current:\n            out.append(f'{label} (missing)')\n        elif current[label] > base * (1 + tolerance_pct / 100):\n            out.append(label)\n    return sorted(out)\n",
+      "explanation": "A tolerance avoids flagging normal run-to-run noise, and reporting missing labels catches scripts that silently stopped exercising a transaction.",
+      "hints": [
+        "Loop over the baseline labels.",
+        "Compare against `base * (1 + tolerance_pct / 100)`.",
+        "Add a '(missing)' entry when a label disappears."
+      ],
+      "tests": [
+        {
+          "name": "Regression",
+          "marks": 3,
+          "code": "assert regressions({'Login': 400}, {'Login': 460}, 10) == ['Login']"
+        },
+        {
+          "name": "Within tolerance",
+          "marks": 2,
+          "code": "assert regressions({'Login': 400, 'Search': 200}, {'Login': 440, 'Search': 150, 'New': 9}, 10) == []\nassert regressions({'A': 100}, {'A': 101}, 0) == ['A']"
+        },
+        {
+          "name": "Missing label",
+          "marks": 2,
+          "code": "assert regressions({'Pay': 500, 'Cart': 100}, {'Cart': 300}, 20) == ['Cart', 'Pay (missing)']"
+        }
+      ]
+    }
+  ]
+}

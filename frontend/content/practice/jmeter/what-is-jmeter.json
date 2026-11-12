@@ -1,0 +1,150 @@
+{
+  "lesson": "what-is-jmeter",
+  "questions": [
+    {
+      "id": "pt-wij-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-jmeter",
+      "prompt": "What does JMeter do when it 'tests' a web application?",
+      "options": [
+        "Sends protocol-level requests (such as HTTP) and measures the responses",
+        "Opens a real browser and clicks through the page",
+        "Reads the application source code for bugs",
+        "Monitors the server's CPU through an agent it installs"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter is a protocol-level load generator. It does not drive a browser, does not do static analysis, and does not install server agents (server monitoring is a separate tool)."
+    },
+    {
+      "id": "pt-wij-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-jmeter",
+      "prompt": "Apache JMeter is free, open-source software from the Apache Software Foundation.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter is released under the Apache License 2.0 and maintained by the ASF."
+    },
+    {
+      "id": "pt-wij-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-jmeter",
+      "prompt": "Which job is JMeter NOT designed for?",
+      "options": [
+        "Measuring how long the browser takes to render and run JavaScript on a page",
+        "Load testing a REST API",
+        "Testing a database with JDBC requests",
+        "Running a functional API regression check"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Rendering and client-side JavaScript happen in a browser, which JMeter is not. REST, JDBC and functional API checks are all things JMeter supports."
+    },
+    {
+      "id": "pt-wij-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-jmeter",
+      "prompt": "A single-page app loads its data with `fetch('/api/products')` from JavaScript. You record the page with JMeter. What must you make sure your test includes?",
+      "options": [
+        "An explicit HTTP request for /api/products, because JMeter will not run the JavaScript that triggers it",
+        "Nothing; JMeter executes the page's JavaScript automatically",
+        "A browser plugin installed inside JMeter",
+        "Only the HTML page request, since APIs are not loaded by users"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter only sends the requests in the plan. Calls made by JavaScript must exist as samplers, either captured by recording or added by hand. JMeter has no JS engine for pages, and leaving the API out under-represents the real load."
+    },
+    {
+      "id": "pt-wij-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-jmeter",
+      "prompt": "In JMeter, what is the relationship between threads and virtual users?",
+      "options": [
+        "Each thread in a Thread Group simulates one virtual user running the plan",
+        "One thread simulates all users at once",
+        "Threads are CPU cores on the server under test",
+        "Threads are the number of requests per second"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A thread executes the samplers in sequence like one user. Throughput (requests per second) depends on threads, response times and timers, so threads are not requests per second and have nothing to do with server cores."
+    },
+    {
+      "id": "pt-wij-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-jmeter",
+      "prompt": "Which are reasons GUI mode is used only to build and debug a plan, not for the real load run? Select all that apply.",
+      "options": [
+        "The GUI and its listeners consume load-generator CPU and memory",
+        "Results can be distorted because the generator becomes the bottleneck",
+        "Non-GUI mode cannot run HTTP samplers",
+        "Non-GUI mode is the documented way to run load tests"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "The JMeter manual recommends non-GUI (CLI) mode for load tests because the GUI's overhead can skew results. Non-GUI runs every sampler type, so option C is false."
+    },
+    {
+      "id": "pt-wij-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "what-is-jmeter",
+      "prompt": "A manager asks you to 'use JMeter to prove the new checkout page feels fast for users on mobile'. What is the most accurate response?",
+      "options": [
+        "JMeter can show server response times under load; perceived page speed on devices needs browser-level tools (for example Lighthouse or real-user monitoring) as a complement",
+        "JMeter measures mobile rendering directly if you set a mobile User-Agent",
+        "JMeter cannot test checkout at all",
+        "Run JMeter in GUI mode on a phone"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A mobile User-Agent only changes a header; JMeter still does not render. Server-side timings under load are JMeter's strength; front-end perceived speed requires browser tooling. JMeter can certainly test checkout's API/HTTP traffic."
+    },
+    {
+      "id": "pt-wij-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "what-is-jmeter",
+      "prompt": "You want to practise load testing this weekend. Which plan is both safe and legal?",
+      "options": [
+        "Run JMeter against an app you start locally (or a test environment you are authorised to load) with modest threads",
+        "Point 500 threads at a popular public shopping site because it can handle it",
+        "Load test your employer's production system without telling anyone, outside office hours",
+        "Use a free public API at maximum threads to see when it breaks"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Load tests on systems you do not own or lack permission for can look like a denial-of-service attack and break terms of service or law. Even on your employer's systems you need authorisation and coordination. Local apps are the safe practice target."
+    }
+  ],
+  "coding": []
+}

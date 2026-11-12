@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-variables-and-properties",
+  "questions": [
+    {
+      "id": "pt-jvar-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "Which function reads the property `env` with a default of `qa`?",
+      "options": [
+        "${__P(env,qa)}",
+        "${env}",
+        "${__V(env,qa)}",
+        "%env%"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "__P reads a property with an optional default. ${env} reads a variable, __V evaluates a variable name expression, and %env% is Windows shell syntax."
+    },
+    {
+      "id": "pt-jvar-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "Which command-line option sets a JMeter property for a local run?",
+      "options": [
+        "-Jname=value",
+        "-Dname=value only",
+        "-Vname=value",
+        "-Pname=value"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "-J sets a JMeter property. -D sets a Java system property, -p (lowercase) names a properties file, and -V does not exist."
+    },
+    {
+      "id": "pt-jvar-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "JMeter variables are local to each thread.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Each thread has its own copy of variables. Properties are global to the JMeter instance."
+    },
+    {
+      "id": "pt-jvar-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "The test is started with `jmeter -n -t plan.jmx -Jhost=staging.local`. What host is used?",
+      "code": "User Defined Variables:\n  base_host = ${__P(host,localhost)}\nHTTP Request Defaults:\n  Server Name = ${base_host}",
+      "codeLanguage": "text",
+      "options": [
+        "staging.local",
+        "localhost",
+        "${__P(host,localhost)} literally",
+        "An error, because the property is undefined"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The property is defined on the command line, so __P returns it instead of the default."
+    },
+    {
+      "id": "pt-jvar-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "A setUp Thread Group fetches an admin token that every user thread needs. How should it be shared?",
+      "options": [
+        "Save it as a property, e.g. props.put('adminToken', token), and read it with ${__P(adminToken)} in the main groups",
+        "Save it as a variable; variables are shared between Thread Groups",
+        "Put it in User Defined Variables at run time",
+        "Write it to jmeter.log and read it back"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Properties cross threads and groups; variables do not. User Defined Variables are evaluated at start-up, so cannot capture a later value, and reading logs is fragile."
+    },
+    {
+      "id": "pt-jvar-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "Which statements about User Defined Variables are correct? Select all that apply.",
+      "options": [
+        "They are processed at the start of the test regardless of where they are placed",
+        "They are suited to static configuration values",
+        "They should not contain functions that must produce a new value per request",
+        "They can only be placed under a sampler"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "The manual notes UDVs are processed once at start-up, so use them for configuration; per-request functions belong in sampler fields or pre-processors. They can be placed in many locations, typically the Test Plan."
+    },
+    {
+      "id": "pt-jvar-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "A request goes to `/users/${userId}` literally. A JSON Extractor names the variable `userID` and has no default value. What happened?",
+      "options": [
+        "The variable names differ in case (userId vs userID); JMeter names are case-sensitive and an undefined variable is left as the literal text",
+        "JMeter only substitutes variables in the Server Name",
+        "The extractor needs a Constant Timer",
+        "The path must be URL-encoded first"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Undefined variable references are left as-is, and names are case-sensitive. Variables work in any field, timers are unrelated, and encoding does not define the variable."
+    },
+    {
+      "id": "pt-jvar-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-variables-and-properties",
+      "prompt": "You must run the same plan against dev (50 users) and staging (500 users) in CI without editing the .jmx. Which design works best?",
+      "options": [
+        "Use ${__P(threads,5)} and ${__P(host,localhost)} in the plan, and pass -Jthreads/-Jhost (or a -q env properties file) per environment",
+        "Keep two copies of the .jmx",
+        "Use a CSV file with one row per environment",
+        "Edit jmeter.properties on each agent"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Properties with defaults keep one plan and let the pipeline choose values; a small default keeps local runs safe. Copies drift, CSV rows are per-thread data, and editing jmeter.properties is fragile and global."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jvar-resolve",
+      "language": "python",
+      "title": "Resolve ${var} and ${__P()} references",
+      "difficulty": "intermediate",
+      "prompt": "Write `resolve(text, variables, properties)` that replaces:\n\n- `${name}` with `variables[name]` if defined, otherwise leaves the reference unchanged (as JMeter does).\n- `${__P(name)}` or `${__P(name,default)}` with `properties[name]` if defined, else the default, else `'1'` (JMeter's __P default when none is given).\n\nNames are case-sensitive. Example: `resolve('http://${__P(host,localhost)}/u/${id}', {'id': '7'}, {})` returns `'http://localhost/u/7'`.",
+      "starter": "def resolve(text, variables, properties):\n    # Your code here\n    return ''\n",
+      "solution": "import re\n\ndef resolve(text, variables, properties):\n    def prop(m):\n        name, default = m.group(1), m.group(3)\n        if name in properties:\n            return properties[name]\n        return default if default is not None else '1'\n    text = re.sub(r'\\$\\{__P\\(([^,)]+)(,([^)]*))?\\)\\}', prop, text)\n    return re.sub(r'\\$\\{(\\w+)\\}', lambda m: variables.get(m.group(1), m.group(0)), text)\n",
+      "explanation": "Two regex passes mirror JMeter's behaviour: property functions fall back to their default, and unknown variables stay literal, which is exactly the clue you look for when a request URL contains `${...}`.",
+      "hints": [
+        "Handle `__P` first with one regex, then plain variables with another.",
+        "`re.sub` accepts a function, so you can decide the replacement per match.",
+        "For unknown variables return `m.group(0)` to keep the original text."
+      ],
+      "tests": [
+        {
+          "name": "Variables and property defaults",
+          "marks": 3,
+          "code": "assert resolve('http://${__P(host,localhost)}/u/${id}', {'id': '7'}, {}) == 'http://localhost/u/7'"
+        },
+        {
+          "name": "Property overrides default",
+          "marks": 2,
+          "code": "assert resolve('${__P(threads,5)}', {}, {'threads': '50'}) == '50'"
+        },
+        {
+          "name": "Unknown variable stays literal",
+          "marks": 2,
+          "code": "assert resolve('/users/${userId}', {'userID': '9'}, {}) == '/users/${userId}'"
+        },
+        {
+          "name": "__P without default",
+          "marks": 1,
+          "code": "assert resolve('${__P(x)}', {}, {}) == '1'"
+        }
+      ]
+    },
+    {
+      "id": "code-jvar-isolation",
+      "language": "python",
+      "title": "Thread-local variables versus global properties",
+      "difficulty": "beginner",
+      "prompt": "Simulate JMeter's storage. Write a class `Jmeter` with:\n\n- `props`: one dict shared by all threads.\n- `vars_for(thread_id)`: returns that thread's own dict (created on first use, then the same dict every time).\n\nExample: setting `vars_for(1)['token'] = 'a'` must not make `'token'` appear in `vars_for(2)`, but `props['token'] = 'a'` is seen by everyone.",
+      "starter": "class Jmeter:\n    pass\n",
+      "solution": "class Jmeter:\n    def __init__(self):\n        self.props = {}\n        self._vars = {}\n\n    def vars_for(self, thread_id):\n        return self._vars.setdefault(thread_id, {})\n",
+      "explanation": "Keeping one dict per thread id models JMeterVariables (thread-local), while a single shared dict models JMeter properties. It explains why an extracted token cannot be read by another thread through a variable.",
+      "hints": [
+        "Create `props` and a dict of per-thread dicts in `__init__`.",
+        "`dict.setdefault(key, {})` returns the existing dict or creates one.",
+        "Return the same dict object each time so changes persist."
+      ],
+      "tests": [
+        {
+          "name": "Variables are per thread",
+          "marks": 3,
+          "code": "j = Jmeter()\nj.vars_for(1)['token'] = 'a'\nassert 'token' not in j.vars_for(2) and j.vars_for(1)['token'] == 'a'"
+        },
+        {
+          "name": "Properties are shared",
+          "marks": 2,
+          "code": "j = Jmeter()\nj.props['env'] = 'qa'\nassert j.props == {'env': 'qa'}\nassert j.vars_for(1) is j.vars_for(1)"
+        }
+      ]
+    }
+  ]
+}

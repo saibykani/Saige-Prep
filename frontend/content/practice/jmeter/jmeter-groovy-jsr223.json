@@ -1,0 +1,219 @@
+{
+  "lesson": "jmeter-groovy-jsr223",
+  "questions": [
+    {
+      "id": "pt-jgr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "Which binding in a JSR223 element reads and writes the current thread's JMeter variables?",
+      "options": [
+        "vars",
+        "props",
+        "log",
+        "ctx.props"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "vars is the JMeterVariables object for the thread. props holds global properties, and log writes to jmeter.log."
+    },
+    {
+      "id": "pt-jgr-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "Which language should you select in JSR223 elements for best performance?",
+      "options": [
+        "groovy",
+        "beanshell",
+        "javascript",
+        "jexl"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Groovy with compiled-script caching is the documented recommendation. BeanShell and JavaScript are slower for load tests."
+    },
+    {
+      "id": "pt-jgr-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "vars.get() always returns a String (or null), so numbers must be converted before arithmetic.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter variables are stored as strings. Use Integer.parseInt or .toInteger() in Groovy, or vars.putObject for objects."
+    },
+    {
+      "id": "pt-jgr-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "What does this JSR223 PostProcessor store in `count` when the response is `{\"items\":[1,2,3]}`?",
+      "code": "import groovy.json.JsonSlurper\ndef json = new JsonSlurper().parseText(prev.getResponseDataAsString())\nvars.put('count', json.items.size().toString())",
+      "codeLanguage": "groovy",
+      "options": [
+        "\"3\"",
+        "3 as an Integer",
+        "\"[1,2,3]\"",
+        "It throws because vars.put needs a number"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JsonSlurper parses the body, items.size() is 3, and vars.put stores a String, so the value is \"3\". vars.put only accepts strings, which is why toString() is required."
+    },
+    {
+      "id": "pt-jgr-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "In a JSR223 Assertion, how do you mark the sample as failed with a message?",
+      "options": [
+        "AssertionResult.setFailure(true) and AssertionResult.setFailureMessage('...')",
+        "return false",
+        "log.error('fail')",
+        "vars.put('failed','true')"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The AssertionResult binding controls the assertion outcome. Returning false, logging or setting a variable do not fail the sample."
+    },
+    {
+      "id": "pt-jgr-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "Which practices keep JSR223 scripts fast under load? Select all that apply.",
+      "options": [
+        "Tick 'Cache compiled script if available'",
+        "Pass values via vars.get('x') or Parameters instead of ${x} inside the script",
+        "Put long scripts in external .groovy files kept in the repo",
+        "Use BeanShell for short scripts"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Caching only works if the script text never changes, which ${} substitution breaks. External files help maintenance. BeanShell is slower and not recommended."
+    },
+    {
+      "id": "pt-jgr-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "In this cached JSR223 PreProcessor, `base` comes from a CSV file and changes every iteration, yet every request sends the amount computed from the first row. Why?",
+      "code": "def amount = ${base} + new Random().nextInt(1)\nvars.put('amount', amount.toString())",
+      "codeLanguage": "groovy",
+      "options": [
+        "${base} is substituted into the script text once and the cached compiled script reuses it; use vars.get('base') instead",
+        "Groovy multiplication returns a constant",
+        "vars.put does not work in PreProcessors",
+        "Groovy integers overflow"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With caching, the script is compiled with the first value of ${base} embedded. Reading via vars.get gets the current value. multiplication is not the issue, vars.put works, and no overflow occurs."
+    },
+    {
+      "id": "pt-jgr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-groovy-jsr223",
+      "prompt": "A login token extracted in a setUp Thread Group must be read by all 200 main threads. Which Groovy line in setUp shares it correctly?",
+      "options": [
+        "props.put('adminToken', vars.get('token'))",
+        "vars.put('adminToken', vars.get('token'))",
+        "ctx.getThread().put('adminToken', ...)",
+        "log.info(vars.get('token'))"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Properties are global, so the main threads can read them with props.get or ${__P(adminToken)}. vars are thread-local, the third option is not an API, and logging does not share the value."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jgr-post",
+      "language": "python",
+      "title": "A JSR223-style post-processor",
+      "difficulty": "intermediate",
+      "prompt": "Model a JSR223 PostProcessor in Python. Write `post_process(response_text, vars)` where `vars` is a dict of strings (like JMeter variables). Parse the JSON response and:\n\n- set `vars['count']` to the number of `items` as a **string**;\n- set `vars['firstId']` to the first item's `id` as a string, or `'NONE'` if there are no items;\n- if the response is not valid JSON, set `vars['count'] = '0'` and `vars['parseError'] = 'true'`.\n\nReturn nothing (mutate `vars`).",
+      "starter": "def post_process(response_text, vars):\n    pass\n",
+      "solution": "import json\n\ndef post_process(response_text, vars):\n    try:\n        data = json.loads(response_text)\n    except ValueError:\n        vars['count'] = '0'\n        vars['parseError'] = 'true'\n        return\n    items = data.get('items', [])\n    vars['count'] = str(len(items))\n    vars['firstId'] = str(items[0]['id']) if items else 'NONE'\n",
+      "explanation": "Mirrors Groovy's JsonSlurper plus vars.put: JMeter variables are strings, so convert numbers, and handle unparsable responses instead of letting the script throw on every error page.",
+      "hints": [
+        "Wrap `json.loads` in try/except ValueError.",
+        "Store values as strings with `str(...)`.",
+        "Check for an empty list before reading the first item."
+      ],
+      "tests": [
+        {
+          "name": "Items present",
+          "marks": 3,
+          "code": "v = {}\npost_process('{\"items\":[{\"id\":5},{\"id\":6}]}', v)\nassert v == {'count': '2', 'firstId': '5'}, v"
+        },
+        {
+          "name": "No items",
+          "marks": 2,
+          "code": "v = {}\npost_process('{\"items\":[]}', v)\nassert v == {'count': '0', 'firstId': 'NONE'}, v"
+        },
+        {
+          "name": "Error page",
+          "marks": 2,
+          "code": "v = {}\npost_process('<html>502</html>', v)\nassert v == {'count': '0', 'parseError': 'true'}, v"
+        }
+      ]
+    },
+    {
+      "id": "code-jgr-cachebug",
+      "language": "python",
+      "title": "Why ${} breaks script caching",
+      "difficulty": "advanced",
+      "prompt": "JMeter caches a compiled JSR223 script keyed by its **text** after `${}` substitution. Write `compile_count(script, values)` that simulates running the script once per value in `values` (each a dict of variables). Substitute `${name}` in the script text from that dict, and count how many **distinct** compiled scripts would be cached. Also write `uses_interpolation(script)` returning True if the script contains `${`.\n\nExample: `compile_count('x = ${a}', [{'a':'1'},{'a':'2'}])` is `2`, while `compile_count(\"x = vars.get('a')\", ...)` is `1`.",
+      "starter": "def compile_count(script, values):\n    return 0\n\ndef uses_interpolation(script):\n    return None\n",
+      "solution": "import re\n\ndef compile_count(script, values):\n    texts = set()\n    for v in values:\n        texts.add(re.sub(r'\\$\\{(\\w+)\\}', lambda m: v.get(m.group(1), m.group(0)), script))\n    return len(texts)\n\ndef uses_interpolation(script):\n    return '${' in script\n",
+      "explanation": "Each different substituted text is a new script to compile (or, with the cache key fixed, the first value gets reused). Reading values through `vars.get` keeps the text constant, so one compiled script serves every iteration. A lint check for `${` catches the mistake early.",
+      "hints": [
+        "Substitute each value set into the text and add it to a set.",
+        "The number of distinct texts is the number of compilations.",
+        "`'${' in script` is enough for the lint check."
+      ],
+      "tests": [
+        {
+          "name": "Interpolation recompiles",
+          "marks": 3,
+          "code": "assert compile_count('x = ${a}', [{'a':'1'},{'a':'2'},{'a':'1'}]) == 2"
+        },
+        {
+          "name": "vars.get compiles once",
+          "marks": 2,
+          "code": "assert compile_count(\"x = vars.get('a')\", [{'a':'1'},{'a':'2'}]) == 1"
+        },
+        {
+          "name": "Lint",
+          "marks": 2,
+          "code": "assert uses_interpolation('log.info(\"${id}\")') is True and uses_interpolation(\"vars.get('id')\") is False"
+        }
+      ]
+    }
+  ]
+}

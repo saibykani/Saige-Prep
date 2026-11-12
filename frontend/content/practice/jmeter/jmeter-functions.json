@@ -1,0 +1,217 @@
+{
+  "lesson": "jmeter-functions",
+  "questions": [
+    {
+      "id": "pt-jfn-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-functions",
+      "prompt": "What does `${__Random(1,10)}` return?",
+      "options": [
+        "A random integer from 1 to 10 inclusive",
+        "A random decimal between 1 and 10",
+        "A random integer from 1 to 9",
+        "Ten random numbers"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "__Random returns an integer in the inclusive range [min, max]."
+    },
+    {
+      "id": "pt-jfn-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-functions",
+      "prompt": "Which function returns a random type 4 UUID?",
+      "options": [
+        "${__UUID()}",
+        "${__Random(UUID)}",
+        "${__counter(UUID)}",
+        "${__time(UUID)}"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "__UUID generates a random UUID, ideal for unique keys such as idempotency keys."
+    },
+    {
+      "id": "pt-jfn-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-functions",
+      "prompt": "Function calls are written as ${__functionName(arg1,arg2)} and can be used in most sampler fields.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That is the function syntax, and functions are evaluated where they appear in fields."
+    },
+    {
+      "id": "pt-jfn-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-functions",
+      "prompt": "Two threads each run 3 iterations and call this once per iteration, starting together. Which sequence does thread 1 see?",
+      "code": "${__counter(TRUE,)}",
+      "codeLanguage": "text",
+      "options": [
+        "1, 2, 3",
+        "1, 3, 5",
+        "2, 4, 6",
+        "0, 1, 2"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "__counter(TRUE) keeps a separate counter per user (thread), so each thread sees 1, 2, 3. With FALSE the counter would be shared across threads and values would interleave. Counters start at 1, not 0."
+    },
+    {
+      "id": "pt-jfn-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-functions",
+      "prompt": "Which call formats the current time as e.g. 2026-11-12?",
+      "options": [
+        "${__time(yyyy-MM-dd,)}",
+        "${__time(YYYY-mm-DD,)}",
+        "${__time()}",
+        "${__Random(yyyy-MM-dd)}"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "__time uses Java SimpleDateFormat patterns: yyyy year, MM month, dd day. mm is minutes and DD day of year, so option B is wrong; with no format __time returns epoch milliseconds."
+    },
+    {
+      "id": "pt-jfn-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-functions",
+      "prompt": "Which functions read or write JMeter properties? Select all that apply.",
+      "options": [
+        "__P",
+        "__property",
+        "__setProperty",
+        "__counter"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "__P and __property read properties (__property can also save to a variable), and __setProperty writes one. __counter only counts."
+    },
+    {
+      "id": "pt-jfn-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-functions",
+      "prompt": "A field contains `${__Random(1,${maxId})}` and requests show `__Random` errors. The variable maxId is extracted by a JSON Extractor on the same sampler. Why?",
+      "options": [
+        "Functions in a sampler's fields are evaluated before the sampler runs, so maxId does not exist yet; extract it in an earlier sampler",
+        "Functions cannot take variables as arguments",
+        "__Random requires three arguments",
+        "JSON Extractors only store strings"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Field values are resolved when the sampler is prepared, before its post-processors run. Functions accept variables as arguments, the third argument of __Random is optional, and a string number is fine."
+    },
+    {
+      "id": "pt-jfn-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-functions",
+      "prompt": "Orders created under load collide with 'duplicate reference' errors. The reference is `ORD-${__time()}`. What is the best fix?",
+      "options": [
+        "Use a value unique per request across threads, such as ${__UUID()} or ORD-${__threadNum}-${__counter(FALSE,)}",
+        "Add a Constant Timer of 1 ms",
+        "Use ${__time(yyyy-MM-dd,)}",
+        "Run fewer threads"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Several threads can call __time in the same millisecond, giving duplicates. UUIDs or a global counter with the thread number are unique. Timers and fewer threads only reduce collisions, and a date makes it worse."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jfn-counter",
+      "language": "python",
+      "title": "__counter(TRUE) vs __counter(FALSE)",
+      "difficulty": "intermediate",
+      "prompt": "Write a class `Counters` with a method `counter(per_user, thread_id)` that mimics `__counter`:\n\n- `per_user=True`: each thread has its own counter starting at 1.\n- `per_user=False`: one global counter shared by all threads, starting at 1.\n\nReturn the new value as an `int`. Example: thread 1 then thread 2 with `per_user=False` give `1`, `2`; with `per_user=True` both give `1`.",
+      "starter": "class Counters:\n    def counter(self, per_user, thread_id):\n        return 0\n",
+      "solution": "class Counters:\n    def __init__(self):\n        self.global_count = 0\n        self.per_thread = {}\n\n    def counter(self, per_user, thread_id):\n        if per_user:\n            self.per_thread[thread_id] = self.per_thread.get(thread_id, 0) + 1\n            return self.per_thread[thread_id]\n        self.global_count += 1\n        return self.global_count\n",
+      "explanation": "A per-thread dictionary models TRUE (each user counts its own iterations) and a single integer models FALSE (a test-wide sequence, useful for unique IDs).",
+      "hints": [
+        "Keep a dict of per-thread counts and one global int.",
+        "Increment before returning so the first value is 1.",
+        "Use `dict.get(thread_id, 0) + 1`."
+      ],
+      "tests": [
+        {
+          "name": "Global counter",
+          "marks": 3,
+          "code": "c = Counters()\nassert [c.counter(False, 1), c.counter(False, 2), c.counter(False, 1)] == [1, 2, 3]"
+        },
+        {
+          "name": "Per-user counter",
+          "marks": 3,
+          "code": "c = Counters()\nassert [c.counter(True, 1), c.counter(True, 2), c.counter(True, 1)] == [1, 1, 2]"
+        },
+        {
+          "name": "Independent modes",
+          "marks": 2,
+          "code": "c = Counters()\nc.counter(True, 1)\nassert c.counter(False, 1) == 1"
+        }
+      ]
+    },
+    {
+      "id": "code-jfn-javafmt",
+      "language": "python",
+      "title": "Translate a SimpleDateFormat pattern",
+      "difficulty": "advanced",
+      "prompt": "`__time` uses Java `SimpleDateFormat` letters. Write `java_to_strftime(pattern)` converting these tokens to Python `strftime` codes: `yyyy`->`%Y`, `MM`->`%m`, `dd`->`%d`, `HH`->`%H`, `mm`->`%M`, `ss`->`%S`, `SSS`->`%f` (Python microseconds is fine here). Other characters are copied unchanged. Text inside single quotes is literal (quotes removed), e.g. `yyyy-MM-dd'T'HH:mm` -> `%Y-%m-%dT%H:%M`.",
+      "starter": "def java_to_strftime(pattern):\n    # Your code here\n    return pattern\n",
+      "solution": "TOKENS = [('yyyy', '%Y'), ('SSS', '%f'), ('MM', '%m'), ('dd', '%d'), ('HH', '%H'), ('mm', '%M'), ('ss', '%S')]\n\ndef java_to_strftime(pattern):\n    out, i = [], 0\n    while i < len(pattern):\n        if pattern[i] == \"'\":\n            j = pattern.index(\"'\", i + 1)\n            out.append(pattern[i + 1:j])\n            i = j + 1\n            continue\n        for tok, code in TOKENS:\n            if pattern.startswith(tok, i):\n                out.append(code)\n                i += len(tok)\n                break\n        else:\n            out.append(pattern[i])\n            i += 1\n    return ''.join(out)\n",
+      "explanation": "Scanning left to right and matching the longest known token first avoids confusing `MM` (month) with `mm` (minutes), the classic __time bug. Quoted text is literal in SimpleDateFormat.",
+      "hints": [
+        "Walk the string with an index instead of using `str.replace`, which can clash.",
+        "Check case carefully: `MM` is month, `mm` is minutes.",
+        "When you see `'`, copy everything up to the next `'` literally."
+      ],
+      "tests": [
+        {
+          "name": "Date only",
+          "marks": 2,
+          "code": "assert java_to_strftime('yyyy-MM-dd') == '%Y-%m-%d'"
+        },
+        {
+          "name": "Month versus minutes",
+          "marks": 3,
+          "code": "assert java_to_strftime('dd/MM/yyyy HH:mm:ss') == '%d/%m/%Y %H:%M:%S'"
+        },
+        {
+          "name": "Quoted literal",
+          "marks": 3,
+          "code": "assert java_to_strftime(\"yyyy-MM-dd'T'HH:mm:ss.SSS\") == '%Y-%m-%dT%H:%M:%S.%f'"
+        }
+      ]
+    }
+  ]
+}

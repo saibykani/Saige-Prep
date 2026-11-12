@@ -1,0 +1,212 @@
+{
+  "lesson": "jmeter-ci-cd",
+  "questions": [
+    {
+      "id": "pt-jci-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-ci-cd",
+      "prompt": "Which mode must JMeter use in a CI pipeline?",
+      "options": [
+        "Non-GUI (-n)",
+        "GUI",
+        "Remote GUI",
+        "Recorder mode"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "CI agents have no display and need the lightweight CLI mode."
+    },
+    {
+      "id": "pt-jci-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-ci-cd",
+      "prompt": "Which file produced by the HTML report is easiest for a script to read pass/fail numbers from?",
+      "options": [
+        "statistics.json in the report folder",
+        "index.html",
+        "jmeter.log",
+        "The .jmx"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "statistics.json has per-label metrics such as errorPct and pct1ResTime in machine-readable form."
+    },
+    {
+      "id": "pt-jci-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-ci-cd",
+      "prompt": "JMeter's exit code is non-zero by default when some samples fail.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "JMeter exits 0 when the run completes, even with failed samples, so the pipeline needs its own gate (script, plugin or tool)."
+    },
+    {
+      "id": "pt-jci-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-ci-cd",
+      "prompt": "Which load test belongs on every merge request?",
+      "options": [
+        "A short smoke-load test (few users, a few minutes) with a strict error gate",
+        "A 4-hour soak test",
+        "A full peak test with 10,000 users",
+        "No performance test at all"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Short runs give quick feedback; long or heavy tests run nightly or before releases."
+    },
+    {
+      "id": "pt-jci-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-ci-cd",
+      "prompt": "Why should CI performance runs use a dedicated, stable environment?",
+      "options": [
+        "Shared, noisy environments make results vary run to run, causing false failures and missed regressions",
+        "Because JMeter only runs on dedicated servers",
+        "To avoid generating an HTML report",
+        "Because CI cannot reach shared environments"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Variance hides real changes. JMeter itself runs anywhere."
+    },
+    {
+      "id": "pt-jci-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-ci-cd",
+      "prompt": "Which are good pipeline steps? Select all that apply.",
+      "options": [
+        "Pin the JMeter version (e.g. a container image) and install required plugins in the build",
+        "Archive the JTL and HTML report as build artefacts",
+        "Fail the job when thresholds are breached",
+        "Store credentials in the .jmx committed to Git"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Reproducible tooling, artefacts and gates make CI tests useful. Credentials belong in the CI secret store passed via -J properties."
+    },
+    {
+      "id": "pt-jci-07",
+      "type": "code-output",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-ci-cd",
+      "prompt": "A gate script reads this from statistics.json. Thresholds: errorPct <= 1 and pct3ResTime (p99 by default) <= 1500. Which outcome is right?",
+      "code": "\"Total\": {\"sampleCount\": 5000, \"errorPct\": 1.2, \"pct1ResTime\": 600, \"pct2ResTime\": 900, \"pct3ResTime\": 1400}",
+      "codeLanguage": "json",
+      "options": [
+        "Fail, because errorPct 1.2 exceeds 1 even though the p99 passes",
+        "Pass, both are within limits",
+        "Fail, because pct3ResTime is the p90",
+        "Pass, because errorPct is rounded down"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "1.2 > 1 fails the error gate. With default report settings pct1/pct2/pct3 are p90/p95/p99, so 1400 is the p99 and passes. No rounding applies."
+    },
+    {
+      "id": "pt-jci-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-ci-cd",
+      "prompt": "The CI job passes, but the published report shows 100% errors. The gate script reads `statistics.json['total']`. What is wrong?",
+      "options": [
+        "The key is 'Total' (capital T); the script probably defaults to 0 when the key is missing, so it never fails. Fail the gate when expected data is missing",
+        "statistics.json is not produced in CI",
+        "JMeter's exit code should have failed it",
+        "The report is wrong in CI"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A missing key that silently becomes 0 makes a gate useless. Gates must fail closed. JMeter's exit code does not reflect sample errors."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jci-gate",
+      "language": "python",
+      "title": "A fail-closed CI gate",
+      "difficulty": "intermediate",
+      "prompt": "Write `gate(stats, max_error_pct, max_p95_ms)` where `stats` is the parsed `statistics.json` dict. Use the `'Total'` entry's `errorPct` and `pct2ResTime` (p95 with default settings). Return `(passed, reasons)`:\n\n- reason `'error rate'` if errorPct > max, `'p95'` if pct2ResTime > max;\n- if `'Total'` is missing, or `sampleCount` is 0/missing, return `(False, ['no data'])` (fail closed).\n\nExample: `{'Total': {'sampleCount': 10, 'errorPct': 0, 'pct2ResTime': 300}}` with (1, 500) returns `(True, [])`.",
+      "starter": "def gate(stats, max_error_pct, max_p95_ms):\n    # Your code here\n    return None\n",
+      "solution": "def gate(stats, max_error_pct, max_p95_ms):\n    total = stats.get('Total')\n    if not total or not total.get('sampleCount'):\n        return (False, ['no data'])\n    reasons = []\n    if total.get('errorPct', 100) > max_error_pct:\n        reasons.append('error rate')\n    if total.get('pct2ResTime', float('inf')) > max_p95_ms:\n        reasons.append('p95')\n    return (not reasons, reasons)\n",
+      "explanation": "Fail-closed defaults (100% errors, infinite p95, 'no data') mean a broken run or renamed key can never pass by accident.",
+      "hints": [
+        "Read `stats.get('Total')` and check `sampleCount`.",
+        "Use pessimistic defaults for missing metrics.",
+        "Return `(not reasons, reasons)`."
+      ],
+      "tests": [
+        {
+          "name": "Pass",
+          "marks": 2,
+          "code": "assert gate({'Total': {'sampleCount': 10, 'errorPct': 0, 'pct2ResTime': 300}}, 1, 500) == (True, [])"
+        },
+        {
+          "name": "Both breached",
+          "marks": 3,
+          "code": "assert gate({'Total': {'sampleCount': 10, 'errorPct': 2.5, 'pct2ResTime': 640}}, 1, 500) == (False, ['error rate', 'p95'])"
+        },
+        {
+          "name": "Fail closed",
+          "marks": 3,
+          "code": "assert gate({'total': {'sampleCount': 10}}, 1, 500) == (False, ['no data'])\nassert gate({'Total': {'sampleCount': 0}}, 1, 500) == (False, ['no data'])"
+        }
+      ]
+    },
+    {
+      "id": "code-jci-cmd",
+      "language": "python",
+      "title": "Build the CI command",
+      "difficulty": "beginner",
+      "prompt": "Write `jmeter_cmd(plan, results, report, props)` returning the argument list for a non-GUI run that writes results, generates the report, and passes each property in `props` (a dict) as `-Jname=value`, sorted by name.\n\nExample: `jmeter_cmd('plan.jmx', 'r.jtl', 'out', {'threads': 5})` returns `['jmeter', '-n', '-t', 'plan.jmx', '-l', 'r.jtl', '-e', '-o', 'out', '-Jthreads=5']`.",
+      "starter": "def jmeter_cmd(plan, results, report, props):\n    # Your code here\n    return []\n",
+      "solution": "def jmeter_cmd(plan, results, report, props):\n    cmd = ['jmeter', '-n', '-t', plan, '-l', results, '-e', '-o', report]\n    cmd += [f'-J{k}={props[k]}' for k in sorted(props)]\n    return cmd\n",
+      "explanation": "Building the command as a list (not a string) avoids shell-quoting bugs, and sorting the properties makes the command reproducible in logs.",
+      "hints": [
+        "Start with the fixed flags `-n -t -l -e -o`.",
+        "Append `-Jname=value` for each property.",
+        "Sort property names for a stable order."
+      ],
+      "tests": [
+        {
+          "name": "Example",
+          "marks": 3,
+          "code": "assert jmeter_cmd('plan.jmx', 'r.jtl', 'out', {'threads': 5}) == ['jmeter', '-n', '-t', 'plan.jmx', '-l', 'r.jtl', '-e', '-o', 'out', '-Jthreads=5']"
+        },
+        {
+          "name": "Sorted properties",
+          "marks": 2,
+          "code": "assert jmeter_cmd('p', 'r', 'o', {'host': 'qa', 'duration': 60})[-2:] == ['-Jduration=60', '-Jhost=qa']"
+        }
+      ]
+    }
+  ]
+}

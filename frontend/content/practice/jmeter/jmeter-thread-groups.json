@@ -1,0 +1,220 @@
+{
+  "lesson": "jmeter-thread-groups",
+  "questions": [
+    {
+      "id": "pt-jtg-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-thread-groups",
+      "prompt": "What does 'Number of Threads (users)' set in a Thread Group?",
+      "options": [
+        "How many virtual users run the group's samplers in parallel",
+        "How many requests per second are sent",
+        "How many CPU threads JMeter may use",
+        "How many times each sampler repeats"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "It is the number of concurrent virtual users. Requests per second depend on response and think times, CPU threads are not configurable here, and repetition is the loop count."
+    },
+    {
+      "id": "pt-jtg-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-thread-groups",
+      "prompt": "With 60 threads and a ramp-up period of 120 seconds, when does the last thread start (approximately)?",
+      "options": [
+        "After about 118 seconds (one new thread every 2 seconds)",
+        "Immediately",
+        "After 60 seconds",
+        "After 7,200 seconds"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Ramp-up spreads starts evenly: 120 / 60 = one thread every 2 s, so the 60th starts near the end of the 120 s ramp-up."
+    },
+    {
+      "id": "pt-jtg-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-thread-groups",
+      "prompt": "Ticking 'Infinite' for loop count without a duration makes the Thread Group run until you stop it.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Infinite loops never end on their own; use Specify thread lifetime (duration) or stop manually."
+    },
+    {
+      "id": "pt-jtg-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-thread-groups",
+      "prompt": "A test uses 100 threads, ramp-up 10 s, loop count 1. Each journey takes 30 s. What is the problem with this workload?",
+      "options": [
+        "Threads finish after one journey, so the test never holds a steady state of 100 users for long",
+        "Ramp-up must be at least equal to the thread count in seconds",
+        "Loop count 1 is invalid",
+        "100 threads cannot start in 10 seconds"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "With one loop each user leaves after about 30 s, so load peaks briefly and falls. For a steady state use more loops or a duration. There is no rule linking ramp-up to thread count, and starting 10 threads/s is fine."
+    },
+    {
+      "id": "pt-jtg-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-thread-groups",
+      "prompt": "What does 'Same user on each iteration' (ticked by default) control?",
+      "options": [
+        "Whether cookies and cache are kept between iterations of a thread, as if the same user continued",
+        "Whether every thread logs in as the same account",
+        "Whether iterations run in the same order",
+        "Whether the thread uses the same CSV row each time"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "When unticked, JMeter clears cookie and cache managers at each iteration to simulate a new user. It does not pick accounts or CSV rows."
+    },
+    {
+      "id": "pt-jtg-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-thread-groups",
+      "prompt": "Which statements about setUp and tearDown Thread Groups are correct? Select all that apply.",
+      "options": [
+        "setUp runs before the regular Thread Groups",
+        "tearDown runs after the regular Thread Groups finish",
+        "They are a good place to create and delete test data",
+        "Variables set in setUp are automatically visible in the other Thread Groups"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "setUp and tearDown frame the test and suit data preparation and cleanup. Variables are per thread, so to pass a value across groups you must use a property (for example props.put or __setProperty)."
+    },
+    {
+      "id": "pt-jtg-07",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-thread-groups",
+      "prompt": "You need to keep 50 users active for 20 minutes after a 5-minute ramp-up. Which configuration fits?",
+      "options": [
+        "Threads 50, ramp-up 300 s, loop Infinite, 'Specify thread lifetime' with duration 1500 s",
+        "Threads 50, ramp-up 300 s, loop 20",
+        "Threads 1000, ramp-up 1200 s, loop 1",
+        "Threads 50, ramp-up 0, duration 1200 s"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The duration includes the ramp-up, so 300 + 1200 = 1500 s. A loop count of 20 gives an unknown duration, 1,000 threads is a different workload, and zero ramp-up spikes all users at once while 1200 s misses the 5-minute ramp."
+    },
+    {
+      "id": "pt-jtg-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-thread-groups",
+      "prompt": "A Thread Group is set to 20 threads, ramp-up 60 s, duration 30 s. Testers notice only about 10 users ever ran. Why?",
+      "options": [
+        "The duration ended the test after 30 s, halfway through the ramp-up, so the remaining threads never started",
+        "JMeter caps ramp-up at 30 s",
+        "Threads start in pairs",
+        "The loop count defaults to 0"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Duration is wall-clock from the start; at 1 thread every 3 s only about 10 threads start before 30 s. There is no ramp-up cap, threads start one at a time, and the default loop count is 1 (or Infinite with duration), not 0."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jtg-starts",
+      "language": "python",
+      "title": "Thread start schedule",
+      "difficulty": "beginner",
+      "prompt": "Write `start_times(threads, ramp_up)` returning a list of start times in seconds (floats) for each thread: thread `i` (0-based) starts at `i * ramp_up / threads`.\n\nExample: `start_times(4, 8)` returns `[0.0, 2.0, 4.0, 6.0]`. With `ramp_up` 0 all threads start at `0.0`.",
+      "starter": "def start_times(threads, ramp_up):\n    # Your code here\n    return []\n",
+      "solution": "def start_times(threads, ramp_up):\n    return [i * ramp_up / threads for i in range(threads)]\n",
+      "explanation": "JMeter spaces thread starts evenly across ramp-up, which is why the last thread starts just before the ramp-up ends rather than exactly at it.",
+      "hints": [
+        "Use a list comprehension over `range(threads)`.",
+        "The gap between starts is `ramp_up / threads`.",
+        "`[i * ramp_up / threads for i in range(threads)]`"
+      ],
+      "tests": [
+        {
+          "name": "Even spacing",
+          "marks": 3,
+          "code": "assert start_times(4, 8) == [0.0, 2.0, 4.0, 6.0]"
+        },
+        {
+          "name": "Zero ramp-up",
+          "marks": 2,
+          "code": "assert start_times(3, 0) == [0.0, 0.0, 0.0]"
+        },
+        {
+          "name": "Fractional gap",
+          "marks": 3,
+          "code": "r = start_times(3, 1)\nassert len(r) == 3 and abs(r[2] - 2/3) < 1e-9, r"
+        }
+      ]
+    },
+    {
+      "id": "code-jtg-active",
+      "language": "python",
+      "title": "Active users at time t",
+      "difficulty": "intermediate",
+      "prompt": "A Thread Group has `threads`, `ramp_up` seconds and a duration of `duration` seconds (threads stop at `duration`). Thread `i` starts at `i * ramp_up / threads`. Write `active_at(threads, ramp_up, duration, t)` returning how many threads are running at time `t` (a thread counts if `start <= t < duration`).\n\nExample: `active_at(20, 60, 30, 29)` returns `10` (threads start every 3 s at 0, 3, ..., 27).",
+      "starter": "def active_at(threads, ramp_up, duration, t):\n    # Your code here\n    return -1\n",
+      "solution": "def active_at(threads, ramp_up, duration, t):\n    if t >= duration:\n        return 0\n    return sum(1 for i in range(threads) if i * ramp_up / threads <= t)\n",
+      "explanation": "Counting started threads at time t and zeroing after the duration models how a too-short duration cuts the ramp-up off, the bug in the debugging question above.",
+      "hints": [
+        "Return 0 once `t` reaches the duration.",
+        "Count threads whose start time is `<= t`.",
+        "`sum(1 for i in range(threads) if i * ramp_up / threads <= t)`"
+      ],
+      "tests": [
+        {
+          "name": "Mid ramp-up",
+          "marks": 3,
+          "code": "assert active_at(20, 60, 30, 29) == 10"
+        },
+        {
+          "name": "After ramp-up",
+          "marks": 2,
+          "code": "assert active_at(10, 10, 100, 50) == 10"
+        },
+        {
+          "name": "After duration",
+          "marks": 2,
+          "code": "assert active_at(10, 10, 100, 100) == 0"
+        },
+        {
+          "name": "At time zero",
+          "marks": 1,
+          "code": "assert active_at(10, 10, 100, 0) == 1"
+        }
+      ]
+    }
+  ]
+}

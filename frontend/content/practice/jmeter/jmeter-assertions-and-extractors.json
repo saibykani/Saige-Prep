@@ -1,0 +1,254 @@
+{
+  "lesson": "jmeter-assertions-and-extractors",
+  "questions": [
+    {
+      "id": "pt-jae-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "Which assertion fails a sample when it takes longer than a set number of milliseconds?",
+      "options": [
+        "Duration Assertion",
+        "Size Assertion",
+        "Response Assertion",
+        "JSON Assertion"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The Duration Assertion checks elapsed time. Size checks bytes, Response checks text/codes and JSON Assertion checks JSON paths/values."
+    },
+    {
+      "id": "pt-jae-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "In a JSON Extractor, what is `$.user.id`?",
+      "options": [
+        "A JSONPath expression selecting the id field inside user",
+        "A regular expression",
+        "An XPath query",
+        "A JMeter function"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JSON Extractor uses JSONPath; $ is the root. Regex, XPath and functions use different syntax."
+    },
+    {
+      "id": "pt-jae-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "A Regular Expression Extractor's 'Default Value' is assigned when the expression does not match.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Setting a clear default like NOT_FOUND makes failed extractions obvious in later requests."
+    },
+    {
+      "id": "pt-jae-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "A Regular Expression Extractor runs on this body with Name `item`, expression `id=(\\d+)`, template `$1$`, Match No. -1. Which variables exist afterwards?",
+      "code": "<a href='/p?id=11'> <a href='/p?id=22'> <a href='/p?id=33'>",
+      "codeLanguage": "html",
+      "options": [
+        "item_1=11, item_2=22, item_3=33, item_matchNr=3",
+        "item=11 only",
+        "item=33 only",
+        "item_0=11, item_1=22, item_2=33"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Match No. -1 returns all matches as name_1..name_N plus name_matchNr. Numbering starts at 1."
+    },
+    {
+      "id": "pt-jae-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "A Response Assertion uses pattern matching rule 'Contains' with pattern `Order (\\d+) created`. What kind of pattern is that?",
+      "options": [
+        "A regular expression (Contains and Matches use regex; Substring and Equals are literal)",
+        "A literal string always",
+        "A JSONPath",
+        "A Groovy expression"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "In Response Assertion, Contains and Matches treat patterns as regular expressions; Substring and Equals are plain text. So special characters like ( need escaping when you mean them literally."
+    },
+    {
+      "id": "pt-jae-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "Which are good assertion practices under load? Select all that apply.",
+      "options": [
+        "Check a business-level marker in the body, not just the status code",
+        "Prefer cheap assertions (Response, JSON, Duration) over heavy ones like XML Schema on every sample",
+        "Assert on every byte of large responses with Compare Assertion",
+        "Use 'Not' to check an error text is absent"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Meaningful, cheap checks keep both correctness and generator capacity. Compare Assertion stores and compares full responses and is not suited to load."
+    },
+    {
+      "id": "pt-jae-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "A JSON Extractor with path `$.items[*].id` and Match No. 1 sets `itemId` correctly in GUI tests but sometimes `NOT_FOUND` under load. The JTL shows those samples returned 200 with body `{\"items\":[]}`. What is the right action?",
+      "options": [
+        "Add an assertion that items is not empty so the sample fails visibly, then investigate why the API returns empty results under load",
+        "Change Match No. to 0",
+        "Switch to a Regular Expression Extractor",
+        "Increase the heap"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The extractor is correct; the data is empty. Asserting it turns silent bad data into an error you can count and investigate. Random match, regex or heap changes do not create items."
+    },
+    {
+      "id": "pt-jae-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-assertions-and-extractors",
+      "prompt": "You must check that the `total` field equals the sum of line prices in each order response. Which element fits best?",
+      "options": [
+        "A JSR223 Assertion in Groovy that parses the JSON and compares the values, setting AssertionResult failure with a message",
+        "A Response Assertion with Equals",
+        "A Duration Assertion",
+        "A Size Assertion"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Cross-field logic needs code. A JSR223 Assertion can compute and fail with a clear message. The other assertions check fixed text, time or size only."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jae-regex",
+      "language": "python",
+      "title": "Emulate the Regular Expression Extractor",
+      "difficulty": "intermediate",
+      "prompt": "Write `regex_extract(body, name, regex, template, match_no, default)` returning a dict of JMeter variables:\n\n- `template` uses `$1$`, `$2$` for groups (e.g. `'$2$-$1$'`).\n- `match_no` 1..n picks that match; if it does not exist set `{name: default}`.\n- `match_no` -1: return `{name+'_1': ..., ..., name+'_matchNr': str(count)}` (no plain `name`). With no matches, return `{name: default, name+'_matchNr': '0'}`.\n\nExample: `regex_extract('id=4&type=book', 'v', r'id=(\\d+)&type=(\\w+)', '$2$', 1, 'NF')` returns `{'v': 'book'}`.",
+      "starter": "def regex_extract(body, name, regex, template, match_no, default):\n    # Your code here\n    return {}\n",
+      "solution": "import re\n\ndef regex_extract(body, name, regex, template, match_no, default):\n    matches = list(re.finditer(regex, body))\n    def fill(m):\n        return re.sub(r'\\$(\\d+)\\$', lambda g: m.group(int(g.group(1))) or '', template)\n    if match_no == -1:\n        if not matches:\n            return {name: default, name + '_matchNr': '0'}\n        out = {f'{name}_{i}': fill(m) for i, m in enumerate(matches, 1)}\n        out[name + '_matchNr'] = str(len(matches))\n        return out\n    if 1 <= match_no <= len(matches):\n        return {name: fill(matches[match_no - 1])}\n    return {name: default}\n",
+      "explanation": "`re.finditer` finds every match; the template is filled by replacing each `$n$` with group n. Match No. -1 produces the numbered variables a ForEach Controller loops over.",
+      "hints": [
+        "Collect all matches with `re.finditer`.",
+        "Fill the template with `re.sub(r'\\$(\\d+)\\$', ...)`.",
+        "Number -1 results from 1 with `enumerate(matches, 1)` and add `_matchNr`."
+      ],
+      "tests": [
+        {
+          "name": "Template group 2",
+          "marks": 3,
+          "code": "assert regex_extract('id=4&type=book', 'v', r'id=(\\d+)&type=(\\w+)', '$2$', 1, 'NF') == {'v': 'book'}"
+        },
+        {
+          "name": "All matches",
+          "marks": 3,
+          "code": "r = regex_extract('id=11 id=22 id=33', 'item', r'id=(\\d+)', '$1$', -1, 'NF')\nassert r == {'item_1':'11','item_2':'22','item_3':'33','item_matchNr':'3'}, r"
+        },
+        {
+          "name": "Default when missing",
+          "marks": 2,
+          "code": "assert regex_extract('nothing', 'v', r'id=(\\d+)', '$1$', 1, 'NF') == {'v': 'NF'}\nassert regex_extract('id=1', 'v', r'id=(\\d+)', '$1$', 2, 'NF') == {'v': 'NF'}"
+        }
+      ]
+    },
+    {
+      "id": "code-jae-assert",
+      "language": "python",
+      "title": "A Response Assertion evaluator",
+      "difficulty": "beginner",
+      "prompt": "Write `response_assertion(text, rule, patterns, negate=False)` returning `True` if the assertion passes. Rules (all patterns must satisfy the rule):\n\n- `'substring'`: literal `p in text`\n- `'equals'`: `text == p`\n- `'contains'`: regex `re.search(p, text)`\n- `'matches'`: regex `re.fullmatch(p, text)`\n\nWith `negate=True`, each check is inverted (the pattern must NOT satisfy the rule).\n\nExample: `response_assertion('Order 42 created', 'contains', [r'Order \\d+ created'])` is `True`.",
+      "starter": "def response_assertion(text, rule, patterns, negate=False):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef response_assertion(text, rule, patterns, negate=False):\n    def check(p):\n        if rule == 'substring':\n            return p in text\n        if rule == 'equals':\n            return text == p\n        if rule == 'contains':\n            return re.search(p, text) is not None\n        if rule == 'matches':\n            return re.fullmatch(p, text) is not None\n        raise ValueError(rule)\n    return all(check(p) != negate for p in patterns)\n",
+      "explanation": "The four rules differ in two ways: literal versus regex, and partial versus whole-text. `check(p) != negate` flips the result when Not is ticked.",
+      "hints": [
+        "Write a helper that evaluates one pattern for the rule.",
+        "Contains uses `re.search`, Matches uses `re.fullmatch`.",
+        "Use `all(...)` and invert with `!= negate`."
+      ],
+      "tests": [
+        {
+          "name": "Regex contains",
+          "marks": 2,
+          "code": "assert response_assertion('Order 42 created', 'contains', [r'Order \\d+ created']) is True\nassert response_assertion('Order x created', 'contains', [r'Order \\d+ created']) is False"
+        },
+        {
+          "name": "Substring is literal",
+          "marks": 2,
+          "code": "assert response_assertion('a(b)', 'substring', ['(b)']) is True\nassert response_assertion('ab', 'substring', ['a.']) is False"
+        },
+        {
+          "name": "Matches whole text",
+          "marks": 2,
+          "code": "assert response_assertion('OK', 'matches', ['O.']) is True and response_assertion('OK!', 'matches', ['O.']) is False"
+        },
+        {
+          "name": "Not",
+          "marks": 2,
+          "code": "assert response_assertion('{\"error\":null}', 'substring', ['timeout'], negate=True) is True\nassert response_assertion('error: timeout', 'substring', ['timeout'], negate=True) is False"
+        }
+      ]
+    },
+    {
+      "id": "code-jae-jsonpath",
+      "language": "python",
+      "title": "A tiny JSONPath for extractors",
+      "difficulty": "advanced",
+      "prompt": "Write `json_path(obj, path)` supporting paths like `$.a.b`, `$.items[0].id` and `$.items[*].id`. Return a **list** of matched values (empty list if nothing matches; never raise for missing keys or out-of-range indexes).\n\nExample: `json_path({'items':[{'id':1},{'id':2}]}, '$.items[*].id')` returns `[1, 2]`.",
+      "starter": "def json_path(obj, path):\n    # Your code here\n    return None\n",
+      "solution": "import re\n\ndef json_path(obj, path):\n    tokens = re.findall(r'\\.(\\w+)|\\[(\\*|\\d+)\\]', path[1:])\n    current = [obj]\n    for key, idx in tokens:\n        nxt = []\n        for c in current:\n            if key:\n                if isinstance(c, dict) and key in c:\n                    nxt.append(c[key])\n            elif idx == '*':\n                if isinstance(c, list):\n                    nxt.extend(c)\n            else:\n                i = int(idx)\n                if isinstance(c, list) and 0 <= i < len(c):\n                    nxt.append(c[i])\n        current = nxt\n    return current\n",
+      "explanation": "Tokenise the path, then carry a list of current nodes forward: keys select from dicts, indexes from lists, and `*` fans out. Missing pieces just drop out, which is why an extractor falls back to its default value instead of crashing.",
+      "hints": [
+        "Tokenise with a regex that matches `.name` or `[n]`/`[*]`.",
+        "Keep a list of current nodes; each token maps it to the next list.",
+        "Check types and bounds so missing parts give an empty list."
+      ],
+      "tests": [
+        {
+          "name": "Nested key",
+          "marks": 2,
+          "code": "assert json_path({'access_token': 'eyJ', 'user': {'id': 7}}, '$.user.id') == [7]"
+        },
+        {
+          "name": "Wildcard",
+          "marks": 3,
+          "code": "assert json_path({'items':[{'id':1},{'id':2}]}, '$.items[*].id') == [1, 2]"
+        },
+        {
+          "name": "Missing parts",
+          "marks": 3,
+          "code": "assert json_path({'items': []}, '$.items[0].id') == []\nassert json_path({'a': 1}, '$.b.c') == []"
+        }
+      ]
+    }
+  ]
+}

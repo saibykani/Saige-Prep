@@ -1,0 +1,212 @@
+{
+  "lesson": "jmeter-scope-and-execution-order",
+  "questions": [
+    {
+      "id": "pt-jsco-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "A JSON Extractor is a child of the 'Login' sampler. Which samples does it process?",
+      "options": [
+        "Only Login's results",
+        "Every sampler in the Thread Group",
+        "Only the sampler after Login",
+        "Every sampler in the Test Plan"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A post-processor attached to a sampler applies only to that sampler. Placed at Thread Group level it would run after every sampler."
+    },
+    {
+      "id": "pt-jsco-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "Where must a Constant Timer go if it should delay only the 'Checkout' request?",
+      "options": [
+        "As a child of the Checkout sampler",
+        "Directly under the Thread Group",
+        "Under the Test Plan",
+        "Anywhere; timers are always global"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A timer as a sampler's child affects only that sampler. Higher placements put more samplers in its scope."
+    },
+    {
+      "id": "pt-jsco-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "Elements inside a Simple Controller apply to the samplers inside that controller only.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Controllers create a scope: config elements, timers, assertions and processors inside apply to samplers in that branch."
+    },
+    {
+      "id": "pt-jsco-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "A JSON Extractor that extracts `id` sits directly under the Thread Group, which has 4 samplers. Only the 2nd response contains `id`. With Default Value `NOT_FOUND`, what is `${id}` after the 4th sampler?",
+      "options": [
+        "NOT_FOUND, because the extractor ran after every sampler and the later responses had no id",
+        "The id from sampler 2",
+        "Empty string",
+        "The extractor only runs once, so the id is kept"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Group-level post-processors run after each sampler in scope; responses 3 and 4 overwrite the variable with the default. Attach the extractor to the sampler that returns the id."
+    },
+    {
+      "id": "pt-jsco-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "Two Response Assertions are in scope of one sampler: one under the Thread Group and one under the sampler. Which run?",
+      "options": [
+        "Both",
+        "Only the one under the sampler",
+        "Only the group-level one",
+        "Neither until a listener requests it"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "All assertions in scope are applied. A sample fails if any assertion fails. Scope is additive, not override-based."
+    },
+    {
+      "id": "pt-jsco-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "Which statements about pre-processors are correct? Select all that apply.",
+      "options": [
+        "They run before each sampler in their scope",
+        "Several pre-processors in scope run in tree order (outer before inner)",
+        "They run before timers in the execution order",
+        "They run only once per thread"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Pre-processors fire before every sampler in scope, in the order they appear from outer to inner scope, and before timers. Once-per-thread behaviour is what a Once Only Controller or setUp gives, not pre-processors."
+    },
+    {
+      "id": "pt-jsco-07",
+      "type": "code-output",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "How long is the total timer delay before 'Pay' runs in each iteration?",
+      "code": "Thread Group\n  Constant Timer 500 ms\n  Simple Controller: Browse\n    Constant Timer 200 ms\n    HTTP Request: List\n  Simple Controller: Buy\n    Constant Timer 1000 ms\n    HTTP Request: Pay\n      Constant Timer 300 ms",
+      "codeLanguage": "text",
+      "options": [
+        "1,800 ms",
+        "1,500 ms",
+        "300 ms",
+        "800 ms"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Timers in scope sum up: the group-level 500 ms timer and the controller-level 1,000 ms timer apply to Pay, plus Pay's own 300 ms = 1,800 ms. The Browse timer is outside Pay's scope."
+    },
+    {
+      "id": "pt-jsco-08",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-scope-and-execution-order",
+      "prompt": "A Header Manager containing `Authorization: Bearer ${token}` sits under the 'Login' sampler. Every later API call returns 401. What is the fix?",
+      "options": [
+        "Move the Header Manager to the Thread Group (or a controller wrapping the API calls) so it applies to the later samplers",
+        "Add a Constant Timer before the API calls",
+        "Tick 'Follow Redirects' on Login",
+        "Rename the variable to TOKEN"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Config elements under a sampler apply only to that sampler, so the API calls never get the header. Timers, redirects and renaming do not change scope."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jsco-scope",
+      "language": "python",
+      "title": "Which elements apply to a sampler?",
+      "difficulty": "intermediate",
+      "prompt": "Model a plan as nested dicts: `{'name': str, 'kind': str, 'children': [...]}`. Kinds are `group`, `controller`, `sampler`, or an element kind such as `timer`, `assertion`, `config`. An element applies to a sampler if it is a **child of the sampler** or a **child of any ancestor** (group/controller) of the sampler.\n\nWrite `applies_to(tree, sampler_name)` returning the names of applying non-structural elements (kinds other than group/controller/sampler), ordered outermost first, then tree order.\n\nExample: for a group with timer `T1`, a controller holding timer `T2` and sampler `Pay` (which has timer `T3`), `applies_to(tree, 'Pay')` is `['T1', 'T2', 'T3']`.",
+      "starter": "def applies_to(tree, sampler_name):\n    # Your code here\n    return []\n",
+      "solution": "STRUCT = {'group', 'controller', 'sampler'}\n\ndef applies_to(tree, sampler_name):\n    def walk(node, inherited):\n        own = [c['name'] for c in node.get('children', []) if c['kind'] not in STRUCT]\n        if node['kind'] == 'sampler':\n            return inherited + own if node['name'] == sampler_name else None\n        here = inherited + own\n        for c in node.get('children', []):\n            if c['kind'] in STRUCT:\n                r = walk(c, here)\n                if r is not None:\n                    return r\n        return None\n    return walk(tree, []) or []\n",
+      "explanation": "Walking down the tree while carrying the elements collected from each ancestor reproduces JMeter's scoping rule: an element affects everything below its parent.",
+      "hints": [
+        "Write a recursive function that carries a list of inherited element names.",
+        "At each node, add its non-structural children to the inherited list before descending.",
+        "When you reach the target sampler, return inherited plus its own children."
+      ],
+      "tests": [
+        {
+          "name": "Nested timers",
+          "marks": 4,
+          "code": "tree = {'name':'TG','kind':'group','children':[\n {'name':'T1','kind':'timer'},\n {'name':'Browse','kind':'controller','children':[{'name':'TB','kind':'timer'},{'name':'List','kind':'sampler','children':[]}]},\n {'name':'Buy','kind':'controller','children':[{'name':'T2','kind':'timer'},{'name':'Pay','kind':'sampler','children':[{'name':'T3','kind':'timer'}]}]}]}\nassert applies_to(tree, 'Pay') == ['T1','T2','T3'], applies_to(tree, 'Pay')\nassert applies_to(tree, 'List') == ['T1','TB']"
+        },
+        {
+          "name": "Siblings excluded",
+          "marks": 3,
+          "code": "tree = {'name':'TG','kind':'group','children':[\n {'name':'A','kind':'sampler','children':[{'name':'Hdr','kind':'config'}]},\n {'name':'B','kind':'sampler','children':[]},\n {'name':'Check','kind':'assertion'}]}\nassert applies_to(tree, 'B') == ['Check'], applies_to(tree, 'B')\nassert applies_to(tree, 'A') == ['Check','Hdr']"
+        }
+      ]
+    },
+    {
+      "id": "code-jsco-delay",
+      "language": "python",
+      "title": "Total timer delay per iteration",
+      "difficulty": "beginner",
+      "prompt": "Every timer in scope of a sampler runs before it, and their delays add up. Write `iteration_delay(samplers)` where `samplers` is a list of lists: each inner list holds the delays (ms) of the timers in scope of one sampler. Return the total delay one iteration spends in timers.\n\nExample: `[[500], [500, 1000, 300]]` returns `2300`.",
+      "starter": "def iteration_delay(samplers):\n    # Your code here\n    return 0\n",
+      "solution": "def iteration_delay(samplers):\n    return sum(sum(timers) for timers in samplers)\n",
+      "explanation": "A group-level timer is in scope of every sampler, so it is paid once per sampler, not once per iteration. Summing per sampler makes that visible: one 500 ms group timer over 10 samplers costs 5 s per iteration.",
+      "hints": [
+        "Sum the timers for each sampler.",
+        "Then sum those per-sampler totals.",
+        "`sum(sum(t) for t in samplers)`"
+      ],
+      "tests": [
+        {
+          "name": "Mixed scopes",
+          "marks": 3,
+          "code": "assert iteration_delay([[500], [500, 1000, 300]]) == 2300"
+        },
+        {
+          "name": "Group timer paid per sampler",
+          "marks": 3,
+          "code": "assert iteration_delay([[500]] * 10) == 5000"
+        },
+        {
+          "name": "Sampler without timers",
+          "marks": 1,
+          "code": "assert iteration_delay([[], [200]]) == 200"
+        }
+      ]
+    }
+  ]
+}

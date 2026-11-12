@@ -1,0 +1,231 @@
+{
+  "lesson": "jmeter-jdbc-and-other-protocols",
+  "questions": [
+    {
+      "id": "pt-jdbc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "Where does the JDBC driver jar (e.g. the PostgreSQL driver) go?",
+      "options": [
+        "JMeter's lib folder (then restart JMeter)",
+        "lib/ext only for plugins, never lib",
+        "Next to the .jmx file",
+        "Inside the CSV folder"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JDBC drivers go in lib (or are added via the Test Plan classpath). lib/ext is for JMeter plugins/components."
+    },
+    {
+      "id": "pt-jdbc-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "Which Query Type should you use for a SELECT with ? placeholders?",
+      "options": [
+        "Prepared Select Statement",
+        "Update Statement",
+        "Callable Statement",
+        "Commit"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Prepared Select with parameter values and types runs parameterised reads. Update is for writes, Callable for stored procedures."
+    },
+    {
+      "id": "pt-jdbc-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "The JDBC Request's 'Variable Name of Pool' must match the Variable Name in the JDBC Connection Configuration.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "That name links the sampler to its connection pool."
+    },
+    {
+      "id": "pt-jdbc-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "Which built-in samplers exist for non-HTTP protocols? Pick the one that is NOT built in.",
+      "options": [
+        "gRPC Sampler",
+        "JMS Publisher",
+        "TCP Sampler",
+        "LDAP Request"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMS, TCP and LDAP samplers ship with JMeter. gRPC needs a plugin."
+    },
+    {
+      "id": "pt-jdbc-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "Why are prepared statements preferred in JDBC load tests?",
+      "options": [
+        "The database can reuse the plan, which matches how applications query, and parameters avoid SQL injection and string-building errors",
+        "They make the DB return cached rows only",
+        "They are required by JMeter",
+        "They disable transactions"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Applications normally use prepared statements; testing the same pattern gives realistic plan caching. JMeter also supports plain statements."
+    },
+    {
+      "id": "pt-jdbc-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "When does testing the database directly with JDBC make sense? Select all that apply.",
+      "options": [
+        "Isolating whether slow queries or the app layer cause latency",
+        "Validating a new index under concurrent load",
+        "Replacing end-to-end tests entirely",
+        "Benchmarking a DB configuration change"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Direct DB tests isolate the database. They complement but do not replace end-to-end tests through the application."
+    },
+    {
+      "id": "pt-jdbc-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "A JDBC test with 100 threads and pool Max Number of Connections 10 shows response times rising steeply while DB CPU is 20%. What is happening?",
+      "options": [
+        "Threads wait for one of 10 pooled connections; the pool, not the database, limits throughput. Size the pool to match the app's real pool",
+        "The DB is overloaded",
+        "The driver is missing",
+        "Prepared statements are slow"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Low DB CPU with high waiting time indicates client-side pool contention. Missing drivers fail outright."
+    },
+    {
+      "id": "pt-jdbc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-jdbc-and-other-protocols",
+      "prompt": "A JDBC Update test inserts 1 million rows during the run. What should the plan include?",
+      "options": [
+        "Test data cleanup (tearDown Thread Group or a script) and a note on how data growth affects later runs",
+        "Nothing; databases clean themselves",
+        "Run it on production for realism",
+        "Only SELECT statements are allowed"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Leftover data skews later tests and fills disks. Production testing of writes is unsafe, and updates are allowed."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-jdbc-slowq",
+      "language": "sql",
+      "title": "Find slow queries",
+      "difficulty": "intermediate",
+      "prompt": "A table `query_log(query_name TEXT, elapsed_ms INTEGER, success INTEGER)` holds JDBC samples. Write a query returning `query_name`, `samples`, `avg_ms` (average rounded to the nearest integer with `ROUND(AVG(...))` cast to INTEGER) and `failures` for queries whose average is over 200 ms, **ordered by `avg_ms` descending**.",
+      "starter": "-- Write your query here\nSELECT * FROM query_log;\n",
+      "solution": "SELECT query_name,\n       COUNT(*) AS samples,\n       CAST(ROUND(AVG(elapsed_ms)) AS INTEGER) AS avg_ms,\n       SUM(CASE WHEN success = 0 THEN 1 ELSE 0 END) AS failures\nFROM query_log\nGROUP BY query_name\nHAVING AVG(elapsed_ms) > 200\nORDER BY avg_ms DESC;\n",
+      "explanation": "GROUP BY gives one row per query, HAVING filters on the aggregate (WHERE cannot), and a CASE inside SUM counts failures. This is the kind of query you run on JDBC or APM data to rank bottlenecks.",
+      "hints": [
+        "Group by `query_name`.",
+        "Filter aggregates with `HAVING`, not `WHERE`.",
+        "Count failures with `SUM(CASE WHEN success = 0 THEN 1 ELSE 0 END)`."
+      ],
+      "setup": "CREATE TABLE query_log (query_name TEXT, elapsed_ms INTEGER, success INTEGER);\nINSERT INTO query_log VALUES ('find_orders', 300, 1), ('find_orders', 500, 0), ('find_orders', 400, 1),\n('get_user', 20, 1), ('get_user', 30, 1),\n('search', 250, 1), ('search', 210, 1), ('search', 190, 0),\n('report', 1000, 0);",
+      "expected": {
+        "columns": [
+          "query_name",
+          "samples",
+          "avg_ms",
+          "failures"
+        ],
+        "rows": [
+          [
+            "report",
+            1,
+            1000,
+            1
+          ],
+          [
+            "find_orders",
+            3,
+            400,
+            1
+          ],
+          [
+            "search",
+            3,
+            217,
+            1
+          ]
+        ]
+      },
+      "ordered": true,
+      "marks": 6
+    },
+    {
+      "id": "code-jdbc-orphans",
+      "language": "sql",
+      "title": "Validate test data integrity",
+      "difficulty": "intermediate",
+      "prompt": "After a JDBC load test that created orders, check integrity. Tables: `orders(id INTEGER, customer_id INTEGER, total REAL)` and `customers(id INTEGER, name TEXT)`. Write a query returning the `id` of every order whose `customer_id` has no matching customer **or** whose `total` is negative or NULL. Return one column `id`, any order.",
+      "starter": "-- Write your query here\nSELECT name FROM customers;\n",
+      "solution": "SELECT o.id\nFROM orders o\nLEFT JOIN customers c ON c.id = o.customer_id\nWHERE c.id IS NULL OR o.total IS NULL OR o.total < 0;\n",
+      "explanation": "A LEFT JOIN keeps every order and leaves customer columns NULL when there is no match, so `c.id IS NULL` finds orphans. Checking NULL explicitly matters because `NULL < 0` is not true.",
+      "hints": [
+        "Use a LEFT JOIN from orders to customers.",
+        "Orphans have `c.id IS NULL` after the join.",
+        "Add `OR o.total IS NULL OR o.total < 0`."
+      ],
+      "setup": "CREATE TABLE customers (id INTEGER, name TEXT);\nCREATE TABLE orders (id INTEGER, customer_id INTEGER, total REAL);\nINSERT INTO customers VALUES (1, 'Ana'), (2, 'Bo');\nINSERT INTO orders VALUES (10, 1, 20.0), (11, 2, -5.0), (12, 3, 9.5), (13, 1, NULL), (14, 2, 0.0);",
+      "expected": {
+        "columns": [
+          "id"
+        ],
+        "rows": [
+          [
+            11
+          ],
+          [
+            12
+          ],
+          [
+            13
+          ]
+        ]
+      },
+      "ordered": false,
+      "marks": 5
+    }
+  ]
+}

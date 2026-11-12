@@ -1,0 +1,150 @@
+{
+  "lesson": "jmeter-gui-tour",
+  "questions": [
+    {
+      "id": "pt-jgui-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-gui-tour",
+      "prompt": "What format is a saved .jmx test plan?",
+      "options": [
+        "XML text",
+        "A compiled Java class",
+        "A binary ZIP archive",
+        "JSON"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A .jmx is XML, so it can be diffed and kept in Git. It is not compiled, zipped or JSON."
+    },
+    {
+      "id": "pt-jgui-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-gui-tour",
+      "prompt": "Which keyboard shortcut toggles an element between enabled and disabled in the GUI?",
+      "options": [
+        "Ctrl+T",
+        "Ctrl+D",
+        "Ctrl+S",
+        "Ctrl+R"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Ctrl+T toggles enable/disable. Ctrl+S saves, Ctrl+R starts the test, and Ctrl+D is not the toggle shortcut."
+    },
+    {
+      "id": "pt-jgui-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "jmeter-gui-tour",
+      "prompt": "Stop ends threads immediately, while Shutdown lets threads finish their current work before stopping.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Stop interrupts threads straight away; Shutdown is the graceful option and lets in-flight samples complete."
+    },
+    {
+      "id": "pt-jgui-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-gui-tour",
+      "prompt": "Where in the GUI do you see warnings and errors from JMeter itself, such as a script error?",
+      "options": [
+        "The log viewer, opened from the warning triangle counter or Options > Log Viewer",
+        "View Results Tree",
+        "The Test Plan comments field",
+        "The Summary Report's Error % column"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "JMeter's own log (also written to jmeter.log) appears in the log viewer. View Results Tree shows samples, and Error % counts failed samples, not script exceptions."
+    },
+    {
+      "id": "pt-jgui-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-gui-tour",
+      "prompt": "You want to try the same request with and without a header without deleting anything. What is the cleanest approach?",
+      "options": [
+        "Disable the Header Manager, run, then enable it again",
+        "Delete the Header Manager and re-create it later",
+        "Move the Header Manager to the Test Plan",
+        "Save the plan under a new name for each run"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Disabled elements are skipped at run time but stay in the plan. Deleting and re-creating risks mistakes, moving it changes its scope, and copying files creates duplicates to maintain."
+    },
+    {
+      "id": "pt-jgui-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "jmeter-gui-tour",
+      "prompt": "Which actions are available from the right-click menu on a sampler? Select all that apply.",
+      "options": [
+        "Add > Assertions",
+        "Add > Post Processors",
+        "Insert Parent > Logic Controller",
+        "Add > Threads (Users) > Thread Group"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "A sampler can take assertions, post-processors, timers and so on as children, and you can wrap it with Insert Parent. Thread Groups can only be added under the Test Plan."
+    },
+    {
+      "id": "pt-jgui-07",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-gui-tour",
+      "prompt": "A learner clicks Start, the green indicator shows '0/10' threads, and no samples ever appear. The plan has a Thread Group with 10 threads but its only HTTP Request is greyed out. What is wrong?",
+      "options": [
+        "The sampler is disabled, so threads start and end immediately with nothing to run",
+        "Start must be pressed twice in GUI mode",
+        "Listeners must be enabled before threads can run",
+        "The HTTP Request needs a Constant Timer to start"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Greyed elements are disabled and skipped. With no enabled samplers each thread finishes instantly. There is no double-start rule, listeners do not gate execution, and timers are optional."
+    },
+    {
+      "id": "pt-jgui-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "jmeter-gui-tour",
+      "prompt": "Two testers edited the same .jmx in Git and got a merge conflict. What is the most sensible way to reduce this in future?",
+      "options": [
+        "Split the work into separate Test Fragments/files included with Include or Module Controllers, and review .jmx diffs as XML",
+        "Store the .jmx as a binary file so Git does not merge it",
+        "Only ever edit the plan in a text editor",
+        "Rename the file every day"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Because .jmx is XML, smaller modular files and reviewing diffs keep merges manageable. Treating it as binary loses diffs, hand-editing XML is error-prone, and renaming daily destroys history."
+    }
+  ],
+  "coding": []
+}
