@@ -23,6 +23,13 @@ references:
     url: https://developer.chrome.com/docs/extensions/develop/concepts/match-patterns
   - title: BlazeMeter Help - Calibrate a JMeter test
     url: https://help.blazemeter.com/docs/guide/performance-jmeter-calibration.html
+videos:
+  - id: GSIiaH334Lo
+    title: "BlazeMeter Script Recorder|| BlazeMeter Chrome Extension in JMeter -Part 4"
+    channel: "Naveen AutomationLabs"
+  - id: WShjke2UptM
+    title: "S1E4 Learn JMeter Series - Recording using Blazemeter Extension"
+    channel: "QAInsights"
 interview:
   - q: How does the BlazeMeter Chrome extension differ from JMeter's HTTP(S) Test Script Recorder?
     a: The extension records inside Chrome without configuring a proxy or installing a certificate, and it can save the journey as a JMX, a Selenium script or a combined Taurus YAML, or upload it straight to BlazeMeter. JMeter's recorder is a proxy that works with any client and gives finer control inside JMeter. Both produce raw recordings that still need correlation, parameterisation and cleanup.

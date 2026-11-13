@@ -22,9 +22,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: RC2QZersIUE
-    title: "JMeter Load Testing: Best Practices to Avoid False Results and Get Real Insights"
-    channel: "Software and Testing Training"
+  - id: EanoSNdSp6s
+    title: "How to Do Load Testing with JMeter | Step-by-Step Guide + Best Practices"
+    channel: "BM Infotrade"
 interview:
   - q: How do you make sure JMeter itself is not the bottleneck?
     a: I run in non-GUI mode, remove or disable View Results Tree and other heavy listeners, write results to a CSV-format JTL with only the fields I need, use Groovy with caching instead of BeanShell, and size the heap appropriately. During the run I watch the load generator's CPU, memory, garbage collection and network. If it is saturated, I reduce threads per machine or add generators. A sign of trouble is throughput that stops rising while the server is idle.

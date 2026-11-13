@@ -26,6 +26,13 @@ references:
     url: https://arxiv.org/abs/2108.07258
   - title: Anthropic docs — Reduce hallucinations
     url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations
+videos:
+  - id: G2fqAlgmoPo
+    title: "Introduction to Generative AI"
+    channel: "Google Cloud Tech"
+  - id: _6R7Ym6Vy_I
+    title: "What is generative AI and how does it work? – The Turing Lectures with Mirella Lapata"
+    channel: "The Royal Institution"
 interview:
   - q: What is the difference between a generative and a discriminative model?
     a: "A discriminative model learns to map an input to a label, modelling P(label | input), for example spam or not spam. A generative model learns the distribution of the data itself, P(data) or P(next token | previous tokens), so it can produce new samples such as text or images. LLMs are generative: they are trained to predict the next token and generate by sampling from that prediction repeatedly."

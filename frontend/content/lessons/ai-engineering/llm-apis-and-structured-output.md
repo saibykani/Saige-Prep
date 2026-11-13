@@ -32,9 +32,6 @@ videos:
   - id: H7LZb20-fUY
     title: "Claude API Crash Course #1 - Introduction & Setup"
     channel: "Net Ninja"
-  - id: JII7cloPjXc
-    title: "Get LLM to respond in JSON - OpenAI API Structured Outputs Explained"
-    channel: "Breakpoint"
 interview:
   - q: How do you get reliable JSON out of an LLM?
     a: Define the schema once, for example as a pydantic model, and pass its JSON schema to the provider's structured output or tool-use feature so the model fills typed fields rather than free text. Then always validate the result with pydantic on my side, because the application must not trust unvalidated model output. On a validation failure I retry with the error message once or twice, and otherwise fail safely and log the case for the eval set.

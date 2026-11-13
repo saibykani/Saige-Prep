@@ -24,6 +24,13 @@ references:
     url: https://arxiv.org/abs/2308.08155
   - title: Cemri et al. — Why Do Multi-Agent LLM Systems Fail? (arXiv 2503.13578)
     url: https://arxiv.org/abs/2503.13578
+videos:
+  - id: sWH0T4Zez6I
+    title: "Multi Agent Systems Explained: How AI Agents & LLMs Work Together"
+    channel: "IBM Technology"
+  - id: ow1we5PzK-o
+    title: "The Multi-Agent Architecture That Actually Ships — Luke Alvoeiro, Factory"
+    channel: "AI Engineer"
 interview:
   - q: When is a multi-agent system worth it?
     a: When the work splits into largely independent subtasks that benefit from parallel exploration, when each subtask needs a lot of context that would overflow or distract a single agent, or when parts need different tools or permissions. Anthropic reported that its multi-agent research system did well on broad, parallelisable research but used many more tokens than single-agent chat, so it pays off only when the task value justifies the cost. Tightly coupled tasks such as most coding edits usually suit a single agent better.

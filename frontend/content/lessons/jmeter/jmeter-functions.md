@@ -21,9 +21,6 @@ references:
   - title: Apache JMeter Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
 videos:
-  - id: gHYI_5lx1Sw
-    title: "JMeter Tutorial 21  | How to use JMeter Functions"
-    channel: "SQA World"
   - id: 3O40Wg_tqEE
     title: "JMeter Beginner Tutorial 16 - Functions and Variables"
     channel: "Automation Step by Step"

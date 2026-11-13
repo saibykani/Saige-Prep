@@ -24,6 +24,13 @@ references:
     url: https://arxiv.org/abs/2210.03629
   - title: OWASP GenAI Security Project — LLM06:2025 Excessive Agency
     url: https://genai.owasp.org/llmrisk/llm062025-excessive-agency/
+videos:
+  - id: EDb37y_MhRw
+    title: "Generative vs Agentic AI: Shaping the Future of AI Collaboration"
+    channel: "IBM Technology"
+  - id: 15_pppse4fY
+    title: "What is Agentic AI and How Does it Work?"
+    channel: "codebasics"
 interview:
   - q: What makes a system "agentic" rather than just an LLM application?
     a: The degree to which the model, rather than your code, decides what happens next. A single call that classifies a ticket is not agentic. A fixed pipeline of calls is a workflow with a little agency. A system where the model chooses which tools to call, observes results and decides when it is finished, in a loop, is an agent. Agency is a spectrum, not a yes/no property.

@@ -27,6 +27,16 @@ references:
     url: https://help.blazemeter.com/docs/guide/performance-failure-criteria.html
   - title: BlazeMeter Help - Baseline comparison
     url: https://help.blazemeter.com/docs/guide/performance-baseline-comparison.html
+videos:
+  - id: T3Ysb9O3EWI
+    title: "Advanced JMeter Training & Report Analysis"
+    channel: "Perforce BlazeMeter"
+  - id: hHWsQ5ljjO0
+    title: "Understanding Load Test KPIs and Report Results"
+    channel: "Perforce BlazeMeter"
+  - id: jfRTRQ77UT4
+    title: "BlazeMeter Reporting 101 - Part one: The Summary View"
+    channel: "Perforce BlazeMeter"
 interview:
   - q: Walk me through how you analyse a BlazeMeter run.
     a: First I check the run is valid - Engine Health below about 75% CPU and 85% memory, Max Users and duration as planned, no setup errors in Logs. Then Summary for the headline numbers, Timeline to correlate users, hits/s, response time and errors over time and find the knee, Request Stats to see which labels drive the 90th/99th percentiles, and Errors grouped by response code and label for causes. Finally I compare against the baseline and state a conclusion with evidence and limits.

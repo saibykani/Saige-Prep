@@ -21,12 +21,12 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: _BfWJDuKs5Y
-    title: "S3E9 Learn JMeter Series - Loop and Transaction Controller"
-    channel: "QAInsights"
-  - id: diFME4zNbig
-    title: "If Condition in JMeter | How To Use If Controller in JMeter |  JMeter | Performance Testing"
-    channel: "ProSoft Testing"
+  - id: fIkpBJ9Ook0
+    title: "JMeter Tutorial 14:Logic Controllers- Throughput Controller | How to Build a Distributed Load Test"
+    channel: "SDET- QA"
+  - id: jKiZ1efpE5w
+    title: "JMeter Intermediate Tutorial 7 - How to use Module Controller and Include Controller"
+    channel: "Automation Step by Step"
 interview:
   - q: What is a Transaction Controller and what does Generate parent sample do?
     a: It groups several samplers into one named business transaction, such as Login, and records an extra sample with the total time of its children. With Generate parent sample ticked, the children become sub-samples of one parent sample, so reports show only the transaction. Unticked, reports show both the transaction and each child. Include duration of timer and pre-post processors controls whether timers count toward the time.

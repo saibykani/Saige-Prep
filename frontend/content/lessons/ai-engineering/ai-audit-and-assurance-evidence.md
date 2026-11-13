@@ -28,6 +28,13 @@ references:
     url: https://arxiv.org/abs/1810.03993
   - title: NIST — AI Risk Management Framework
     url: https://www.nist.gov/itl/ai-risk-management-framework
+videos:
+  - id: LgFBi5XD-Ow
+    title: "AI Governance Simplified: From Zero to Pro"
+    channel: "Prabh Nair"
+  - id: rbFt34UmngY
+    title: "The NIST Artificial Intelligence Risk Management Framework (NIST AI RMF)"
+    channel: "Safeshield Training"
 interview:
   - q: An auditor asks you to prove the deployed model passed its fairness tests. What do you show?
     a: A traceable chain. The fairness requirement with its threshold, the test or eval that measures it, the result artefact for that run, and evidence that the run used exactly the model, data and configuration version that is deployed, for example matching version ids or hashes in the deployment record. I would also show who reviewed the result, any exceptions and how monitoring checks the same property in production. A screenshot of a dashboard with no version link is not evidence.

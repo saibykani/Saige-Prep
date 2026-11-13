@@ -26,6 +26,13 @@ references:
     url: https://www.anthropic.com/engineering/building-effective-agents
   - title: OWASP Top 10 for LLM Applications
     url: https://genai.owasp.org/llm-top-10/
+videos:
+  - id: d5EltXhbcfA
+    title: "Building and evaluating AI Agents — Sayash Kapoor, AI Snake Oil"
+    channel: "AI Engineer"
+  - id: _Er8Hao_gmQ
+    title: "AI Evals Explained | How to evaluate AI Agents?"
+    channel: "Aishwarya Srinivasan"
 interview:
   - q: Why can't you evaluate an agent the way you evaluate a chatbot answer?
     a: An agent takes many steps, calls tools that change the world and can reach the same goal by different paths. Grading the final message misses that it may have claimed success without acting, acted twice, used a forbidden tool or spent ten times the budget. So you grade the end state of the environment, check the trajectory for required and forbidden behaviour, track cost, steps and latency, and repeat trials because the path varies between runs. It must all happen in a sandbox, because real side effects cannot be part of a test.

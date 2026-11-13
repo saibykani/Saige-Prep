@@ -25,6 +25,13 @@ references:
     url: https://help.blazemeter.com/docs/guide/private-locations-vs-cloud.html
   - title: Taurus - Cloud provisioning
     url: https://gettaurus.org/docs/Cloud/
+videos:
+  - id: ErQqFSVZWyA
+    title: "JMeter Load Testing in the Cloud with BlazeMeter"
+    channel: "Perforce BlazeMeter"
+  - id: IMFYdwWeRqo
+    title: "JMeter Load Testing at Scale with BlazeMeter"
+    channel: "Perforce BlazeMeter"
 interview:
   - q: How do you decide how many users one engine should run?
     a: By calibration, not guessing. Run the real script on one engine with a slow ramp to a high user count and watch the Engine Health report. Note the user count where CPU first crosses about 75% or memory about 85%, take roughly 10% off, then confirm with a run at that level. Heavy scripts with big payloads, regex extractors or Groovy need fewer users per engine.

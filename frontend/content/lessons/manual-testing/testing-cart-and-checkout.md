@@ -24,9 +24,6 @@ references:
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
 videos:
-  - id: _lzfhU94vJ8
-    title: "Ecommerce Test Cases#5 - Checkout Screen  - 300+ Test Cases in 20 mins"
-    channel: "QA Testing Guruji"
   - id: vMZADt9OLBg
     title: "shopping cart test cases or test scenarios (e-commerce application - online store) | testingshala"
     channel: "Testing Shala"

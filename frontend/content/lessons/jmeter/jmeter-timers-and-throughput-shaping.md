@@ -22,12 +22,12 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: 8Wb8KtylY5M
-    title: "S3E3 Learn JMeter Series - Constant Throughput Timer"
-    channel: "QAInsights"
-  - id: mqTEIfABVrI
-    title: "16   TIMERS How to add Think Time   JMeter   Step by Step for Beginners en US"
-    channel: "Srikanth Nagula"
+  - id: S_WaSTKt1Yc
+    title: "What is Constant Throughput Timer in JMeter | Littles Law #jmeter #constantthroughputtimer #timer"
+    channel: "Vasanth Tech Talk"
+  - id: EUgLRmlkTGQ
+    title: "JMeter Beginner Tutorial 18 - TIMERS (How to add Think Time)"
+    channel: "Automation Step by Step"
 interview:
   - q: How does the Constant Throughput Timer work and what are its limits?
     a: It is a built-in JMeter timer that pauses threads so that the samplers in its scope run at a target rate expressed in samples per minute. You choose whether the target applies per thread or is shared across all active threads or the thread group. It can only slow threads down; if there are too few threads or responses are too slow, it cannot reach the target, so I size threads with Little's Law and check the achieved rate.

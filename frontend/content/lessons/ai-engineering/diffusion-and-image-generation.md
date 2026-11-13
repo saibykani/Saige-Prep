@@ -26,6 +26,16 @@ references:
     url: https://arxiv.org/abs/1706.08500
   - title: C2PA — Content Credentials technical specifications
     url: https://c2pa.org/specifications/
+videos:
+  - id: iv-5mZ_9CPY
+    title: "But how do AI images and videos actually work? | Guest video by Welch Labs"
+    channel: "3Blue1Brown"
+  - id: fbLgFrlTnGU
+    title: "What are Diffusion Models?"
+    channel: "Ari Seff"
+  - id: yTAMrHVG1ew
+    title: "Diffusion models explained in 4-difficulty levels"
+    channel: "AssemblyAI"
 interview:
   - q: Explain how a diffusion model generates an image.
     a: "During training, images are progressively corrupted with Gaussian noise over many steps, and a neural network learns to predict the noise that was added at any step. To generate, you start from pure noise and repeatedly apply the network to remove a little predicted noise, step by step, until an image emerges. Text-to-image models condition the network on a text embedding so the denoising heads towards an image matching the prompt."

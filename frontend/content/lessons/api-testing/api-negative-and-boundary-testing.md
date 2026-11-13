@@ -24,6 +24,13 @@ references:
     url: https://rest-assured.io/
   - title: OWASP API Security Top 10
     url: https://owasp.org/API-Security/editions/2023/en/0x11-t10/
+videos:
+  - id: Fa3up9_w10o
+    title: "More than 200 OK: How to Do Negative Testing on APIs | Kristin Jackvony | TestFlix 2022"
+    channel: "The Test Tribe"
+  - id: SUz1_vhqLkY
+    title: "Writing Negative API Tests | JavaScript API Automation"
+    channel: "SDET Unicorns by Dilpreet Johal"
 interview:
   - q: What negative tests would you write for a POST /users endpoint?
     a: Layer by layer. Transport and headers - missing or wrong Content-Type, missing or invalid auth. Body structure - empty body, malformed JSON, an array instead of an object, unknown extra fields. Fields - each required field missing, null, wrong type, empty string, too short, too long, invalid format. Business rules - duplicate email, age below the minimum. For each I assert the status code, a structured error body that names the field, that nothing was created, and that no internal details like stack traces leak.

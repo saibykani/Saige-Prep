@@ -30,9 +30,6 @@ videos:
   - id: 0oeD2Wf25wY
     title: "Mastering AI Risk: NIST’s Risk Management Framework Explained"
     channel: "IBM Technology"
-  - id: h45xol68U1M
-    title: "Overview of the European Union Artificial Intelligence Act (EU AI Act)"
-    channel: "Safeshield Training"
 interview:
   - q: Explain the risk-based approach of the EU AI Act.
     a: The Act sorts AI uses by risk. A small set of practices is prohibited, such as certain manipulative techniques and social scoring by public or private actors as defined in the Act. High-risk systems, for example AI used as safety components of regulated products or in listed areas such as employment, education, credit and essential services, carry obligations including risk management, data governance, technical documentation, logging, transparency to deployers, human oversight, and accuracy, robustness and cybersecurity. Some systems carry transparency duties, for example telling people they are interacting with an AI or marking AI-generated content. Everything else has few specific obligations. There are separate rules for general-purpose AI models. Exact scope depends on the legal text, so real classification decisions go to legal and compliance specialists.

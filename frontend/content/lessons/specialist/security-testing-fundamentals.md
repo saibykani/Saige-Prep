@@ -29,9 +29,6 @@ videos:
   - id: dLmFDlyR8Zo
     title: "You will never forget SAST, DAST and SCA after this."
     channel: "Abhishek.Veeramalla"
-  - id: qCZ5bw-f-Zo
-    title: "What is Security Testing?"
-    channel: "freeCodeCamp Concepts"
 interview:
   - q: What is the CIA triad and how does it guide security testing?
     a: Confidentiality, integrity and availability. Confidentiality means only authorized people can read data, so I test that one user cannot see another user's records. Integrity means data cannot be changed without authorization, so I try to modify prices or other users' data through tampered requests. Availability means the system stays usable, so I check rate limiting and that malformed input cannot crash the service. Each feature gets test ideas from all three.

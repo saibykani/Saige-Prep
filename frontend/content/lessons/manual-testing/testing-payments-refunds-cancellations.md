@@ -24,9 +24,6 @@ references:
   - title: MDN HTTP documentation (methods and idempotency)
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
 videos:
-  - id: kstMMwi8n8g
-    title: "Payment System QA: Best Strategies for Security, Performance, and Functional Testing"
-    channel: "TestFort - Testing & Quality Assurance"
   - id: hWQCiO04CXk
     title: "Payment Gateway, Payment Processor and Payment Security Explained"
     channel: "ByteMonk"

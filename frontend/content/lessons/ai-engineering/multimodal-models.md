@@ -27,6 +27,13 @@ references:
     url: https://platform.claude.com/docs/en/build-with-claude/pdf-support
   - title: Radford et al. — Robust Speech Recognition via Large-Scale Weak Supervision, Whisper (arXiv 2212.04356)
     url: https://arxiv.org/abs/2212.04356
+videos:
+  - id: r98jGdLtO6Q
+    title: "What is Multimodal AI? | The AI Research Lab - Explained"
+    channel: "Salesforce"
+  - id: WkoytlA3MoQ
+    title: "How do Multimodal AI models work? Simple explanation"
+    channel: "AssemblyAI"
 interview:
   - q: How does a vision-language model turn an image into something a transformer can process?
     a: "The image is split into fixed-size patches, for example 16 by 16 pixels. Each patch is flattened and linearly projected into a vector, position information is added, and a vision encoder (often a Vision Transformer) processes them. A projection layer then maps the resulting visual embeddings into the language model's embedding space so they sit in the sequence alongside text tokens and the model can attend over both."

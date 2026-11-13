@@ -25,9 +25,6 @@ videos:
   - id: oJV5whmzfZI
     title: "Cypress Tutorial Full Course | Cypress Automation | Learn Cypress in 5 Hrs"
     channel: "Testers Talk"
-  - id: yhYirC9XqUk
-    title: "Cypress Tutorial for Beginners | Complete Cypress Course"
-    channel: "SQA World"
 interview:
   - q: Why can't you write const text = cy.get('h1').text() in Cypress?
     a: "Cypress commands do not execute immediately and do not return values. They are enqueued and run later in order, returning chainables. To use a value you chain .then(), .invoke('text') with .should(), or use aliases. Assertions chained with .should() also benefit from retry-ability."

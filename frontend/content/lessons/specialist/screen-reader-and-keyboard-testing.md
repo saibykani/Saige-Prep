@@ -31,9 +31,6 @@ videos:
   - id: Vx1vSd5uYS8
     title: "Accessibility Testing with the NVDA Screenreader"
     channel: "Deque Systems"
-  - id: uO8NJqAtMLM
-    title: "How to keyboard accessibility test"
-    channel: "Pope Tech"
 interview:
   - q: How do you test a page for keyboard accessibility?
     a: I put the mouse away and complete every task with Tab, Shift+Tab, Enter, Space, arrow keys and Escape. I check that every interactive element is reachable and operable, that focus order follows the visual and logical order, that focus is always clearly visible and not hidden behind sticky headers, that there are no keyboard traps, that dialogs move focus in, keep it inside while open and return it on close, and that a skip link or landmarks let users bypass repeated navigation. These map to WCAG criteria such as 2.1.1, 2.1.2, 2.4.1, 2.4.3, 2.4.7 and 2.4.11.

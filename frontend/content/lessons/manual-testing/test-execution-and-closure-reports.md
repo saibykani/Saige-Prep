@@ -21,6 +21,10 @@ references:
     url: https://www.iso.org/standard/79429.html
   - title: ISTQB Glossary
     url: https://glossary.istqb.org/
+videos:
+  - id: WBEXO-kAHLc
+    title: "How to Prepare Test Execution Report"
+    channel: "Rai Gurukul"
 interview:
   - q: What is the difference between a test progress report and a test completion report?
     a: A progress report is produced regularly during testing — daily or weekly — to show status against the plan, blockers, new risks and what happens next, so stakeholders can act while there is still time. A completion report is produced once at the end of a test level, release or project. It summarises what was tested, results against exit criteria, outstanding defects and residual risk, deviations from the plan, and lessons learned, and it supports the release decision.

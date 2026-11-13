@@ -22,12 +22,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: LmCyIxBmdss
-    title: "How to Read Data from CSV File in JMeter | CSV Data Set Config | Parameterization Made Easy"
-    channel: "Codekru"
-  - id: 7UbQ9ID0ujA
-    title: "JMeter- CSV Data Set Config | Using CSV DATA SET CONFIG"
-    channel: "Automation Hub 360"
+  - id: mrmnos1eMKk
+    title: "JMeter tutorial 07 - How to read data from CSV File | Parameterization in JMeter"
+    channel: "QA Automation Lab"
 interview:
   - q: How does CSV Data Set Config distribute rows between threads?
     a: "With Sharing mode 'All threads' there is one file pointer for the whole test. Each time any thread starts an iteration it takes the next line, so rows are handed out in order across all threads and no two concurrent reads get the same row. 'Current thread group' gives each thread group its own pointer, and 'Current thread' gives every thread its own pointer, so all threads read the same rows starting from line one."

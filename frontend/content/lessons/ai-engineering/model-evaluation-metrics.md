@@ -27,9 +27,6 @@ videos:
   - id: 4jRBRDbJemM
     title: "ROC and AUC, Clearly Explained!"
     channel: "StatQuest with Josh Starmer"
-  - id: -EfR8mlyXo0
-    title: "Precision vs Recall - Explained"
-    channel: "DataMListic"
 interview:
   - q: When would you prefer recall over precision?
     a: When missing a positive is much more costly than a false alarm. For example, in screening for a serious disease or detecting fraud for later human review, a false negative may cause serious harm while a false positive only costs a follow-up check. I would set the threshold to reach a required recall and then maximise precision at that level, and confirm the trade-off with the business owner.

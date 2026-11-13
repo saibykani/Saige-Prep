@@ -24,9 +24,6 @@ references:
   - title: Jenkins documentation
     url: https://www.jenkins.io/doc/
 videos:
-  - id: JtoN-_UFzfc
-    title: "What is Shift Left Testing | Shift Left Testing Approach in Agile"
-    channel: "Software Testing Mentor"
   - id: RYQbmjLgubM
     title: "What is Continuous Testing?"
     channel: "IBM Technology"

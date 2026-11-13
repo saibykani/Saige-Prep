@@ -27,9 +27,6 @@ videos:
   - id: nVImVgKpoOY
     title: "LLM & AI Agent Benchmarks vs Reality: Why AI Applications Break"
     channel: "IBM Technology"
-  - id: MmSvjJhZl3A
-    title: "Beyond assertEquals: Probabilistic Security and Bias Testing for Java LLM Applications  by Iryna Doh"
-    channel: "Devoxx"
 interview:
   - q: How is testing an LLM feature different from testing normal code?
     a: Normal code is deterministic, so the same input gives the same output and I can assert on exact values. An LLM can phrase the same correct answer many ways and can occasionally be wrong, so I assert on properties, for example valid JSON, required facts present, no forbidden content, and score quality over a dataset of many cases rather than one example. I still test the deterministic parts, input handling, tool calls, parsing and permissions, with normal tests, and I add safety, prompt injection, latency and cost checks plus production monitoring.

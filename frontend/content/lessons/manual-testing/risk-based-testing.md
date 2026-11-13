@@ -22,15 +22,15 @@ references:
   - title: OWASP Top Ten (security risk categories)
     url: https://owasp.org/www-project-top-ten/
 videos:
-  - id: yqNJVw4vOl4
-    title: "What is Risk Based Testing?"
-    channel: "Paul Gerrard - Testing Anything"
-  - id: g1v0iLnzkUc
-    title: "What is Risk Based Testing | Software Testing Interview Questions"
-    channel: "Testing Interview Q&A by Software Testing Mentor"
-  - id: s3OM1sI3ybs
-    title: "Master Risk-Based Testing: From Risk Matrix to Real-World Examples"
-    channel: "Test Troop Academy"
+  - id: 4b6F1ZP42_M
+    title: "ISTQB Test Manager | 2.3.1 Risk-Based Testing (Part-2) | Risk Assessment | ISTQB Tutorials"
+    channel: "TM SQUARE"
+  - id: qrc9uC2zRg4
+    title: "ISTQB Test Manager | 2.3.1 Risk-Based Testing (Part-1) | Risk Identification | ISTQB Tutorials"
+    channel: "TM SQUARE"
+  - id: 59vRMYf9yK4
+    title: "What is Risk Based Testing? (Software Testing Interview Question #283)"
+    channel: "QAFox"
 interview:
   - q: What is risk-based testing?
     a: It is an approach where test activities are selected, prioritised and managed based on risk analysis and risk control. We identify product risks, assess each by likelihood and impact to get a risk level, and then let that level decide how much testing each area gets, which techniques and test levels we use, and in what order we execute. Throughout the project we monitor the risks and report the residual risk, so stakeholders can make informed release decisions.

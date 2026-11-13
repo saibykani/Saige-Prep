@@ -22,9 +22,6 @@ references:
   - title: MDN Web Docs - HTTP
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
 videos:
-  - id: OJkJ4q8w3II
-    title: "JMeter API Testing Tutorial: REST API & Header Manager Setup"
-    channel: "QA and Dev Tips"
   - id: 8r5LYzUIepo
     title: "JMeter API Testing | JMeter API Performance Testing Tutorial | JMeter Tutorial | Simplilearn"
     channel: "Simplilearn"

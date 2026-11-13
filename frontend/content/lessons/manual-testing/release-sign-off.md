@@ -22,9 +22,6 @@ references:
   - title: The Scrum Guide
     url: https://www.scrumguides.org/
 videos:
-  - id: vfM6iN4Gbm8
-    title: "Manual Testing - 42 : STLC ( Test Closure and QA signoff)"
-    channel: "QTOMATION"
   - id: edFHgGj1M-c
     title: "Software Testing Tutorial #46 - Test Summary Report in Software Testing"
     channel: "Software Testing Mentor"

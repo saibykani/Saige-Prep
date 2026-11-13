@@ -25,6 +25,10 @@ references:
     url: https://gettaurus.org/docs/Cloud/
   - title: Taurus - Pass/Fail criteria
     url: https://gettaurus.org/docs/PassFail/
+videos:
+  - id: pYtZQ4Dyzvg
+    title: "Load Testing with JMeter - BlazeMeter JMeter Meetup"
+    channel: "techspringboard"
 interview:
   - q: Describe an end-to-end load test you ran.
     a: I agreed scope and permission with the app owner, modelled the workload from expected traffic, recorded the journey with the BlazeMeter Chrome extension filtered to our domain, correlated the CSRF token and order ID, parameterised users from CSV, verified at one and five users, wrapped it in Taurus with criteria, calibrated users per engine, ran the cloud test, analysed Engine Health, Timeline, Request Stats and Errors, set a baseline and added a CI gate. I reported results against the criteria with the bottleneck and next steps.

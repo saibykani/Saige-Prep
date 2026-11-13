@@ -26,9 +26,9 @@ references:
   - title: web.dev — Baseline
     url: https://web.dev/baseline
 videos:
-  - id: WwOL6XhLDhQ
-    title: "Playwright Cross Browser Testing: The Only Guide You Need"
-    channel: "PrinceAutomationDestination"
+  - id: qqB7pvpVsz0
+    title: "Cross Browser Testing - WebdriverIO | #13"
+    channel: "SDET Unicorns by Dilpreet Johal"
 interview:
   - q: How do you decide which browsers to test?
     a: I start with data, the product's own analytics showing which browsers, versions, operating systems and screen sizes real users have, plus any contractual support policy. I cover the engines, Chromium, Gecko and WebKit, because engine differences cause most bugs. The most-used combinations get full regression, less common ones get smoke tests, and anything below an agreed threshold is documented as unsupported. Mobile Safari matters a lot because every iOS browser has historically used WebKit.

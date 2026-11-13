@@ -22,9 +22,6 @@ references:
   - title: Google SRE books
     url: https://sre.google/books/
 videos:
-  - id: m1ZUlBW62u8
-    title: "Work Load Model in performance testing || Pacing || Throughput || TPS"
-    channel: "Engineering Classes"
   - id: vi2IXl4e16I
     title: "Performance Testing Tip 7 - How to design Workload Model?"
     channel: "PerfMatrix"

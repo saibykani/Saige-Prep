@@ -28,9 +28,6 @@ videos:
   - id: IBvYFRSw4do
     title: "It’s Time We Go Beyond The Test Pyramid (& Do This Instead)"
     channel: "Modern Software Engineering"
-  - id: JQVA3xIrwEo
-    title: "ISTQB Agile Tester #42 - What is Test Pyramid | The Testing Pyramid"
-    channel: "Software Testing Mentor"
 interview:
   - q: Explain the test pyramid and its main message.
     a: The pyramid, popularised by Mike Cohn, shows many fast, isolated tests at the bottom such as unit tests, fewer integration or service tests in the middle, and very few end-to-end UI tests at the top. The message is not exact ratios but two rules - write tests at different granularities, and the higher and broader a test is, the fewer of them you should have, because they are slower, more brittle and harder to diagnose. Each risk should be tested at the lowest level that can genuinely catch it.

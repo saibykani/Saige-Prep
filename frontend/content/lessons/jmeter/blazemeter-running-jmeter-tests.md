@@ -25,6 +25,13 @@ references:
     url: https://help.blazemeter.com/docs/guide/performance-jmeter-calibration.html
   - title: BlazeMeter Help - Debug test
     url: https://help.blazemeter.com/docs/guide/performance-debug-test.html
+videos:
+  - id: sxA5E2tojPI
+    title: "BlazeMeter Beginner Tutorial 1 - Introduction"
+    channel: "Tech Grantha"
+  - id: CEMfZJLQqc0
+    title: "BlazeMeter Free Training Session3-Oct14-Test Execution using BlazeMeter, Test Report"
+    channel: "PerformanceAutomationSecurityTesting,MGMITTraining"
 interview:
   - q: How does BlazeMeter treat the thread count in your JMX?
     a: With overrides on, the Total Users value wins. If every thread group has the default 1 thread, BlazeMeter splits the total evenly across thread groups, rounding as needed. If they have different counts, it keeps the ratio, so 5, 3 and 2 threads with 1,000 total users become 500, 300 and 200. On a paid plan with a JMeter script you can disable overrides and use the script's own values.

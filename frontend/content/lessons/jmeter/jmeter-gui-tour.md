@@ -20,6 +20,10 @@ references:
     url: https://jmeter.apache.org/usermanual/build-web-test-plan.html
   - title: Apache JMeter - Elements of a Test Plan
     url: https://jmeter.apache.org/usermanual/test_plan.html
+videos:
+  - id: y1cELMWqTiY
+    title: "3 | JMeter | GUI Overview |"
+    channel: "Automation Step by Step"
 interview:
   - q: What is a .jmx file?
     a: It is the saved JMeter test plan, an XML file describing the tree of elements and their settings. Because it is plain text, it can be version-controlled in Git, reviewed in pull requests and run later in non-GUI mode with jmeter -n -t plan.jmx.

@@ -24,9 +24,6 @@ references:
   - title: OWASP Top Ten
     url: https://owasp.org/www-project-top-ten/
 videos:
-  - id: 428cv7SNygo
-    title: "Release Management Explained: How Teams Plan, Test & Deploy Software Safely and Efficiently"
-    channel: "Harness"
   - id: dvFQrsY_tKg
     title: "What is Release Management?"
     channel: "Online PM Courses - Mike Clayton"

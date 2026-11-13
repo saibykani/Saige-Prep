@@ -25,6 +25,13 @@ references:
     url: https://www.perforce.com/products/blazemeter
   - title: Taurus documentation
     url: https://gettaurus.org/kb/Index/
+videos:
+  - id: yT0ULpRgZMI
+    title: "How to Make Performance Testing Simple with JMeter and BlazeMeter"
+    channel: "Perforce BlazeMeter"
+  - id: c-bKJ_tgvPg
+    title: "BlazeMeter Continuous Testing Platform Overview"
+    channel: "Perforce BlazeMeter"
 interview:
   - q: What is BlazeMeter and why would a team use it instead of plain JMeter?
     a: BlazeMeter is a commercial continuous testing platform from Perforce that runs open-source tools such as JMeter and Taurus scripts on cloud or private load generators. Teams use it when they need more load than one machine can produce, load from several geographic regions, shared real-time reports and run history, or less effort maintaining their own distributed JMeter servers. The script stays a normal .jmx, so the skill transfers.

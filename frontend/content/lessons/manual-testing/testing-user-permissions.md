@@ -28,9 +28,6 @@ videos:
   - id: K2PiHznrPBs
     title: "2021 OWASP Top Ten: Broken Access Control"
     channel: "F5 DevCentral Community"
-  - id: s-AOufqFlGQ
-    title: "Security Testing: Broken Access Control | Part 8"
-    channel: "Ubaid Ahmed"
 interview:
   - q: How do you approach testing a feature with several user roles?
     a: I build a permission matrix of roles against actions from the requirements, and get it confirmed by the product owner because gaps are common. Then I test every cell — allowed actions succeed, denied actions are blocked. For denied actions I check the UI hides or disables them, and separately that the server rejects them when called directly by URL or API, because UI hiding is not security.

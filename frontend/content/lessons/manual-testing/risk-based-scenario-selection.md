@@ -22,9 +22,9 @@ references:
   - title: ISO 31000 Risk management
     url: https://www.iso.org/iso-31000-risk-management.html
 videos:
-  - id: ibhdoMtFcQQ
-    title: "ISTQB Foundation: Apply test case prioritization"
-    channel: "Maged Koshty - ExpertWave"
+  - id: UAOWJlNCHIM
+    title: "ISTQB Foundation Level #43 - Risks in Software Testing"
+    channel: "Software Testing Mentor"
 interview:
   - q: How do you decide which scenarios to test first when time is short?
     a: I score each scenario by likelihood of failure and impact if it fails, combine them into a risk level, and rank the list. High-risk scenarios get tested first and most thoroughly, with several techniques and negative cases; low-risk ones get a smoke check or are consciously deferred. I share the ranked list and what will not be tested with stakeholders so the residual risk is an informed decision, not a surprise.

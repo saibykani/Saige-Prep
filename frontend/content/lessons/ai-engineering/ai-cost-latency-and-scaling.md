@@ -29,9 +29,6 @@ videos:
   - id: u57EnkQaUTY
     title: "What is Prompt Caching? Optimize LLM Latency with AI Transformers"
     channel: "IBM Technology"
-  - id: DW-mo65DJ-Q
-    title: "LLM Inference Performance: Latency and Throughput Metrics"
-    channel: "Ready Tensor"
 interview:
   - q: How would you reduce the latency a user perceives for a chat feature?
     a: First I would measure, splitting latency into network, queueing, time to first token and generation time, and look at p50 and p95 rather than averages. Streaming tokens usually improves perceived latency most because the user sees text as soon as the first token arrives. Then I would shorten prompts and cap output length, cache repeated work such as identical requests or a long shared system prompt where the provider supports prompt caching, run independent steps such as retrieval and classification concurrently, and route simple requests to a smaller faster model. Each change is checked against a quality evaluation set.

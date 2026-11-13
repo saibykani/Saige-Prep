@@ -26,6 +26,13 @@ references:
     url: https://arxiv.org/abs/2304.09542
   - title: Järvelin and Kekäläinen — Cumulated gain-based evaluation of IR techniques (ACM TOIS, 2002)
     url: https://doi.org/10.1145/582415.582418
+videos:
+  - id: K1F8BIgcoNk
+    title: "Rerank for better RAG (Explained)"
+    channel: "vectorize"
+  - id: aVgZE746OXw
+    title: "How Retrieval and Reranking works in RAG | Bi Encoder vs Cross Encoder"
+    channel: "Techventures"
 interview:
   - q: What is the difference between a bi-encoder and a cross-encoder?
     a: A bi-encoder embeds query and document separately into vectors and compares them with a similarity function, so document vectors can be precomputed and searched with an index over millions of items. A cross-encoder reads the query and one document together in a single forward pass and outputs a relevance score, so it can model word-level interactions and is usually more accurate, but it must run once per pair at query time and cannot be precomputed. Hence bi-encoders retrieve and cross-encoders rerank a short list.

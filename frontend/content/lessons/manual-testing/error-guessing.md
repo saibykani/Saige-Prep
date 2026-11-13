@@ -22,12 +22,12 @@ references:
   - title: OWASP Input Validation Cheat Sheet
     url: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
 videos:
-  - id: SaNgopj1ySs
-    title: "ST 16 | Error Guessing | Software Testing Course | Uplatz"
-    channel: "Uplatz"
-  - id: yPCxovlQT84
-    title: "Manual Testing - 36 : Error Guessing (Test Design Technique)"
-    channel: "QTOMATION"
+  - id: is7NI1zxD-A
+    title: "ISTQB Foundation Level | 4.4.1 Error Guessing | Experience Based Testing | ISTQB Tutorials"
+    channel: "TM SQUARE"
+  - id: ddrzyZR7eA8
+    title: "Manual Testing Session # 15 -  Error Guessing Test Design Technique"
+    channel: "CodeStudio"
 interview:
   - q: What is error guessing?
     a: It is an experience-based technique where the tester anticipates errors, defects and failures based on knowledge of how the application behaved in the past, the kinds of mistakes developers commonly make, and failures seen in similar applications. Tests are designed specifically to expose those anticipated problems.

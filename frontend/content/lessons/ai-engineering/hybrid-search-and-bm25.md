@@ -24,6 +24,13 @@ references:
     url: https://www.elastic.co/docs/reference/elasticsearch/rest-apis/reciprocal-rank-fusion
   - title: Anthropic — Introducing Contextual Retrieval (embeddings plus BM25)
     url: https://www.anthropic.com/research/contextual-retrieval
+videos:
+  - id: kT7nXO32L-Q
+    title: "PostgreSQL Hybrid Search Course – Keyword (BM25) + Vector Retrieval"
+    channel: "freeCodeCamp.org"
+  - id: lYxGYXjfrNI
+    title: "Advanced RAG 03 - Hybrid Search BM25 & Ensembles"
+    channel: "Sam Witteveen"
 interview:
   - q: Explain BM25 in plain terms.
     a: BM25 scores a document for a query by adding up, for each query term, how rare the term is across the collection (IDF) multiplied by a saturating function of how often it appears in the document. k1 controls how quickly repeated occurrences stop adding score, and b controls how strongly long documents are penalised relative to the average length. It needs no training and is strong on exact terms.

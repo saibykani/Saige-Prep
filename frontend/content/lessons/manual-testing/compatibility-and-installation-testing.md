@@ -24,12 +24,9 @@ references:
   - title: Android Developers, testing guide
     url: https://developer.android.com/training/testing
 videos:
-  - id: NcBMnnDcjCo
-    title: "Compatibility Testing Tutorial | Testing concepts in software testing | Testing concepts interview"
-    channel: "ARCTutorials"
-  - id: NfVdXKMe7p8
-    title: "What is Compatibility Testing?  (Software Testing Interview Question #36)"
-    channel: "QAFox"
+  - id: uM7LfeZjUng
+    title: "Manual testing 17 - What is Compatibility testing? What are Common Compatibility Testing Defects?"
+    channel: "Ankpro Training"
 interview:
   - q: What is compatibility testing?
     a: Compatibility testing checks the degree to which a product can exchange information with other products or systems and perform its required functions while sharing the same environment and resources. ISO/IEC 25010 splits it into co-existence, working alongside other software without harmful interference, and interoperability, exchanging and using information with other systems. In practice teams also use the term for checking behaviour across browsers, operating systems, devices and versions, which strictly relates more to portability and adaptability.

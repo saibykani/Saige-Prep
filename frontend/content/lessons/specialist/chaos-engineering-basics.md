@@ -26,9 +26,12 @@ references:
   - title: AWS Fault Injection Service documentation
     url: https://docs.aws.amazon.com/fis/
 videos:
-  - id: 6ilMZqKdMMU
-    title: "Principles of Chaos Engineering - Netflix - SRECon2017"
-    channel: "Justin Miller"
+  - id: hubE-wqGSzU
+    title: "What is Chaos Monkey?"
+    channel: "Reliability Engineering"
+  - id: Xbn65E-BQhA
+    title: "AWS re:Invent 2022 - The evolution of chaos engineering at Netflix (NFX303)"
+    channel: "AWS Events"
   - id: mfEMXKSFtaQ
     title: "Understanding Chaos Engineering"
     channel: "Microsoft Developer"

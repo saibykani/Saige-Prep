@@ -22,12 +22,12 @@ references:
   - title: Atlassian Jira guides (tracking sessions and defects)
     url: https://www.atlassian.com/software/jira/guides
 videos:
-  - id: AX_NzMuj1Jc
-    title: "Charter Driven Session Based Exploratory Testing"
-    channel: "Robert Sabourin on Testing"
-  - id: i_dFLjal41w
-    title: "Exploratory Testing - Charters"
-    channel: "TestinGil  - Gil Zilberfeld"
+  - id: Hgwiwb7NGP4
+    title: "Exploratory Testing (Session-based testing) with PractiTest Test Management Tool"
+    channel: "PractiTest | Intelligent Test Management"
+  - id: BymDD4A2Vnc
+    title: "exploratory testing charter explained with examples | manual testing in software | testingshala"
+    channel: "Testing Shala"
 interview:
   - q: What is a test charter?
     a: A charter is a short mission statement for an exploratory session that states what to explore, with what resources or techniques, and what kind of information to look for. A common format is "Explore target with resources to discover information". It is specific enough to focus the session and to be reviewed afterwards, but open enough to leave room for learning and judgement, unlike a scripted test case.

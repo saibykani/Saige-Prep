@@ -24,6 +24,10 @@ references:
     url: https://scsc.uk/gsn
   - title: Mitchell et al. — Model Cards for Model Reporting (arXiv 1810.03993)
     url: https://arxiv.org/abs/1810.03993
+videos:
+  - id: NrkJLbn3dDE
+    title: "The Five Must-Haves of an AI Governance Framework"
+    channel: "SANS Institute"
 interview:
   - q: What is AI assurance and how is it different from AI testing?
     a: AI assurance is the set of activities that build and communicate justified confidence that an AI system is trustworthy and fit for its purpose, for a specific audience such as a regulator, customer or board. Testing is one source of evidence for that. Assurance also covers whether the right things were tested, impact and risk assessments, governance, documentation, monitoring and how all of it is argued and communicated. A system can pass many tests and still not be assured if nobody can show the tests address the actual risks.

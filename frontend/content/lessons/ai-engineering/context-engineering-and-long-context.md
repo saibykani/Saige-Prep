@@ -27,6 +27,16 @@ references:
     url: https://platform.claude.com/docs/en/build-with-claude/context-windows
   - title: Anthropic docs — Token counting
     url: https://platform.claude.com/docs/en/build-with-claude/token-counting
+videos:
+  - id: BwXremQ-i6I
+    title: "Context Engineering for AI Agents: 4 Failure Modes to Avoid"
+    channel: "IBM Technology"
+  - id: 4GiqzUHD5AA
+    title: "Context Engineering for Agents"
+    channel: "LangChain"
+  - id: jLuwLJBQkIs
+    title: "Context Engineering Clearly Explained"
+    channel: "Tina Huang"
 interview:
   - q: What is context engineering and how is it different from prompt engineering?
     a: "Prompt engineering is about wording instructions well. Context engineering is the wider job of deciding everything the model sees on each call: system prompt, tool definitions, retrieved documents, conversation history, memory, examples and the user's message, plus their order and token budget. In agents the context changes every turn, so context engineering also covers what to drop, summarise or fetch just in time."

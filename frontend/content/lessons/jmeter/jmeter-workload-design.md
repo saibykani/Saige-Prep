@@ -22,12 +22,12 @@ references:
   - title: Apache JMeter Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
 videos:
-  - id: ISmDfuYu2T4
-    title: "Workload Modeling in performance Testing"
-    channel: "Vishwas Labs"
-  - id: 6hyJESri_nI
-    title: "How to Use Littles Law for Workload modelling | Calculate Response time & Pacing"
-    channel: "Vasanth Tech Talk"
+  - id: ChzsqP2XHWY
+    title: "JMeter Intermediate Tutorial 8 - How to build a Distributed Load Test (Throughput Controller)"
+    channel: "Automation Step by Step"
+  - id: nu8MjWS1ZaA
+    title: "Workload modelling in JMeter | Throughput controller @PerformanceTestingLearn2Enjoy"
+    channel: "Performance Testing"
 interview:
   - q: How do you calculate how many threads you need for a target throughput?
     a: "With Little's Law, N = X × (R + Z): concurrency equals throughput times the time each iteration takes, which is response time plus think time. For 10 iterations per second with 0.5 s response time and 4.5 s think time, N = 10 × 5 = 50 threads. I add headroom, say 20 to 30 percent, because response time grows under load, and then cap the rate with a throughput timer."

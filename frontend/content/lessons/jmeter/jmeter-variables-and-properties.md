@@ -22,9 +22,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: ZFNrFCQB4-w
-    title: "JMeter Tutorial 9 | User Defined Variables In JMETER for Dynamic Testing"
-    channel: "SQA World"
+  - id: rPEXm9nfesg
+    title: "How to Set Variables and Get the values in Jmeter #performancetest #loadtesting #performancetesting"
+    channel: "JMeter Consultant"
 interview:
   - q: What is the difference between a JMeter variable and a JMeter property?
     a: "A variable is local to one thread: each virtual user has its own copy, so an extracted token for user 1 never leaks to user 2. A property is global to the JMeter process and shared by all threads and thread groups. Properties are set at startup from jmeter.properties, user.properties or -J on the command line, and read with __P or __property. I use properties for run settings like host, users and duration, and variables for per-user data."

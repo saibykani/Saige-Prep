@@ -20,15 +20,12 @@ references:
   - title: Atlassian Jira guides (issue workflows)
     url: https://www.atlassian.com/software/jira/guides
 videos:
-  - id: WNme8kLqZxw
-    title: "Re-testing vs Regression testing | Difference between retesting and regression testing"
-    channel: "Automation Testing Insider"
+  - id: z_L7XjVCFp4
+    title: "Difference between Retesting and Regression Testing"
+    channel: "SoftwaretestingbyMKT"
   - id: oyoEqZSjhWc
     title: "Software Testing Tutorial #25 - Retesting Vs Regression Testing"
     channel: "Software Testing Mentor"
-  - id: CAUlLb1YJ1Q
-    title: "ISTQB confirmation and regression testing"
-    channel: "Test Made Easy"
 interview:
   - q: What is the difference between retesting and regression testing?
     a: Retesting, which ISTQB calls confirmation testing, checks that a specific defect has been fixed, by repeating the tests that failed because of it under the same conditions. Regression testing checks that the change, including that fix, has not broken anything else. Retesting is narrow and planned per defect; regression testing is broader and selected by impact and risk. Normally I confirm the fix first, then run regression.

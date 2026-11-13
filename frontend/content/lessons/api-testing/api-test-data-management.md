@@ -24,6 +24,10 @@ references:
     url: https://testng.org/
   - title: Postman Learning Center — Overview
     url: https://learning.postman.com/docs/getting-started/overview/
+videos:
+  - id: nTSJxQL297E
+    title: "Session 7: API Testing | Postman | Parameterisation | Data Driven Testing"
+    channel: "SDET- QA"
 interview:
   - q: How do you make API tests independent of each other?
     a: "Each test creates the data it needs — through the API, a seeding endpoint or a fixture — with unique identifiers, asserts against that data, and cleans up afterwards. No test relies on another test's output or on records that happen to exist in the environment. That lets the suite run in any order and in parallel, and a failure points at one test rather than a chain."

@@ -27,6 +27,16 @@ references:
     url: https://gettaurus.org/docs/BlazemeterReporter/
   - title: Taurus source on GitHub
     url: https://github.com/Blazemeter/taurus
+videos:
+  - id: DN0VNnG-lzs
+    title: "Automating Performance Tests with Taurus"
+    channel: "Perforce BlazeMeter"
+  - id: OJwrlCabND0
+    title: "How to Automate Performance Testing with JMeter and Taurus"
+    channel: "Perforce BlazeMeter"
+  - id: wVSbalE_Nh8
+    title: "Execute JMeter script Using Taurus"
+    channel: "Perforce BlazeMeter"
 interview:
   - q: What is Taurus and why use it with JMeter?
     a: Taurus (the bzt command) is an open-source automation wrapper maintained by BlazeMeter. It runs JMeter and other tools from a YAML file, can generate a JMX from simple YAML requests or run an existing .jmx, overrides load settings without editing the plan, adds pass/fail criteria with a meaningful exit code, and can report to or run on BlazeMeter. It makes load tests readable, reviewable code.

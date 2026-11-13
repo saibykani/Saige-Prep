@@ -22,12 +22,12 @@ references:
   - title: Can I use (browser support tables)
     url: https://caniuse.com/
 videos:
-  - id: mOB2bDKfxJc
-    title: "How to Do Cross Browser Compatibility Testing: Step-by-Step Guide"
-    channel: "Software Testing Tips & Trends — aqua cloud"
-  - id: igUJsWDKowM
-    title: "Network Throttling using Chrome Devtools"
-    channel: "Nidhin Kumar"
+  - id: v6Dpr8aa8XQ
+    title: "What Is Network Throttling | Throttling In Google Chrome | Improve Load Performance | DevTools"
+    channel: "Technical Bench"
+  - id: fiPzpMUhaKE
+    title: "Cross Browser Testing - Ultimate Guide (Start to Finish) [With Checklist]"
+    channel: "The Testing Academy"
 interview:
   - q: How do you decide which browsers to test?
     a: I start from the product's analytics and target market, plus any contractual requirements. I make sure each main engine is covered - Chromium (Chrome, Edge), Gecko (Firefox) and WebKit (Safari, and all browsers on iOS) - on the main platforms and screen sizes. High-risk flows get the full matrix; the rest get the primary browser plus spot checks. I review the matrix periodically as usage changes.

@@ -27,9 +27,6 @@ references:
   - title: MDN HTTP documentation (cookies and Set-Cookie)
     url: https://developer.mozilla.org/en-US/docs/Web/HTTP
 videos:
-  - id: Kf-lHf3RTVE
-    title: "Test cases For Login Page | Test Scenarios For Login Page | Test Cases for Login functionality"
-    channel: "Sample Test Cases"
   - id: mox6DL4zK7I
     title: "Authentication Vulnerabilities | Complete Guide"
     channel: "Rana Khalil"

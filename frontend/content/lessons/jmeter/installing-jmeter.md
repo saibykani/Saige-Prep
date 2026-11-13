@@ -27,9 +27,6 @@ videos:
   - id: ydZs-4_gj5M
     title: "How to install Apache JMeter on Windows 11 (Updated 2025)"
     channel: "Amit Thinks"
-  - id: MZq87d655Sw
-    title: "How to Install JMeter 5.6.3 on Windows 11 | Apache JMeter Latest Version | Step-by-Step Guide 🚀"
-    channel: "Sai Vinod Irala"
 interview:
   - q: What do you need installed to run JMeter, and how do you check it?
     a: JMeter is a Java application, so you need a Java runtime; JMeter 5.6 requires Java 8 or later, and in practice I use a current LTS JDK such as 17 or 21. I check with java -version in a terminal. Then I download the binary zip or tgz from the official Apache site, extract it, and run bin/jmeter.bat on Windows or bin/jmeter on macOS and Linux.

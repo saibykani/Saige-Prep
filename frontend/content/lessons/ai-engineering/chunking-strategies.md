@@ -24,6 +24,13 @@ references:
     url: https://arxiv.org/abs/2312.06648
   - title: Liu et al. — Lost in the Middle, How Language Models Use Long Contexts (arXiv 2307.03172)
     url: https://arxiv.org/abs/2307.03172
+videos:
+  - id: 8OJC21T2SL4
+    title: "The 5 Levels Of Text Splitting For Retrieval"
+    channel: "Greg Kamradt"
+  - id: pIGRwMjhMaQ
+    title: "Chunking Strategies in RAG: Optimising Data for Advanced AI Responses"
+    channel: "Mervin Praison"
 interview:
   - q: Why do RAG systems chunk documents instead of embedding whole documents?
     a: An embedding is one vector per input, so a long document that covers many topics becomes a blurred average that matches nothing well. Embedding models also have input limits, and the LLM context has a token budget. Chunks let retrieval find the specific passage that answers a question and let you cite it precisely.

@@ -24,9 +24,6 @@ references:
   - title: NIST AI Risk Management Framework
     url: https://www.nist.gov/itl/ai-risk-management-framework
 videos:
-  - id: 2IoiOnvuSQk
-    title: "LLM Evaluation for QA Engineers | Complete Deep Dive (Part 1)"
-    channel: "The Testing Academy"
   - id: a3SMraZWNNs
     title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
     channel: "Dave Ebbelaar"

@@ -22,9 +22,6 @@ references:
   - title: Apache JMeter - Best Practices
     url: https://jmeter.apache.org/usermanual/best-practices.html
 videos:
-  - id: ltniaQdCYmQ
-    title: "JMeter integration with Jenkins | Run JMeter script using Jenkins | Performance Testing | JMeter"
-    channel: "ProSoft Testing"
   - id: -K8jdlIT1Ok
     title: "S5E8 Learn JMeter Series - JMeter Integration with Jenkins"
     channel: "QAInsights"

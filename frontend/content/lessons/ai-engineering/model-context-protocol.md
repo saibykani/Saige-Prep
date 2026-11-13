@@ -26,6 +26,13 @@ references:
     url: https://github.com/modelcontextprotocol/python-sdk
   - title: MCP documentation — Security best practices
     url: https://modelcontextprotocol.io/specification/draft/basic/security_best_practices
+videos:
+  - id: HyzlYwjoXOQ
+    title: "Claude's Model Context Protocol is here... Let's test it"
+    channel: "Fireship"
+  - id: 7j1t3UZA1TY
+    title: "MCP vs API: Simplifying AI Agent Integration with External Data"
+    channel: "IBM Technology"
 interview:
   - q: What problem does MCP solve?
     a: Without a standard, every AI application needs custom code for every tool or data source, an N times M integration problem. MCP is an open protocol, introduced by Anthropic in November 2024, that defines how an AI application discovers and calls tools and reads context from external servers. A server written once can be used by any MCP-capable host, much as a USB-C device works with any compliant port.

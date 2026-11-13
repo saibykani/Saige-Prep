@@ -24,6 +24,13 @@ references:
     url: https://www.promptfoo.dev/docs/intro/
   - title: Hypothesis — Property-based testing for Python
     url: https://hypothesis.readthedocs.io/en/latest/
+videos:
+  - id: NebOSOTp-zA
+    title: "Mastering LLM Chatbots And RAG Evaluation Crash Course"
+    channel: "Krish Naik"
+  - id: MltkRz94SWA
+    title: "The Most Important Skill for AI Engineers: Evals Explained"
+    channel: "Aish Reganti"
 interview:
   - q: How is testing an LLM feature different from testing a normal API?
     a: A normal API is deterministic, so one example with an exact expected value is a meaningful test. An LLM feature can return different valid wordings for the same input, can be right on average but wrong on a specific case, and can regress silently when the model, prompt or retrieved data change. So I still unit-test the deterministic code around the model exactly, but I evaluate the model's behaviour statistically over a curated dataset, use oracles such as schema checks, properties and graded rubrics, track pass rates against thresholds, and add safety, fairness and production monitoring layers.

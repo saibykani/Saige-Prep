@@ -26,12 +26,12 @@ references:
   - title: OWASP Juice Shop (intentionally vulnerable practice app)
     url: https://owasp.org/www-project-juice-shop/
 videos:
-  - id: qzvfKXynk-I
-    title: "OWASP Top 10 2025 explained:  What it is, what changed, and how to use it"
-    channel: "Codific"
-  - id: mTk3K4077GI
-    title: "What's New in 2025 OWASP Top 10?"
-    channel: "AppSecEngineer"
+  - id: Jzr0Jdnq_EI
+    title: "OWASP Top 10 2025: Your complete guide to securing your applications"
+    channel: "Aikido Security"
+  - id: hs6O9mSaoRc
+    title: "OWASP Top 10: Essential Web Application Security Risks to Know (2025)"
+    channel: "StackHawk"
 interview:
   - q: What is the OWASP Top 10 and how do you use it as a tester?
     a: It is an awareness document from OWASP listing the ten most critical web application security risk categories, built from contributed data and a community survey. The current edition is 2025. I use it as a checklist to make sure my test plan covers the major risk areas, for example access-control tests, injection tests and misconfiguration checks, and to classify findings so developers understand them. It is not a complete standard; for detailed requirements I would use OWASP ASVS and the Web Security Testing Guide.

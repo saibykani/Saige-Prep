@@ -21,9 +21,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: t7RbE7v5lTw
-    title: "JMeter Thread Group Explained in Detail - Part 2"
-    channel: "Testing Diaries"
+  - id: r4iJ8NYQSaY
+    title: "How to use JMeter - Concurrency Thread Group for Load testing #loadtest #jmeter #performancetesting"
+    channel: "Vasanth Tech Talk"
 interview:
   - q: A Thread Group has 50 threads, 25 seconds ramp-up and loop count 4, with 3 samplers. How many samples will be produced?
     a: Each thread runs the samplers 4 times, so 50 × 4 × 3 = 600 samples, assuming no errors stop threads. The ramp-up only spreads out the start times, two threads per second here; it does not change the total.

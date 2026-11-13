@@ -25,9 +25,6 @@ references:
   - title: W3C WebDriver specification
     url: https://www.w3.org/TR/webdriver/
 videos:
-  - id: SqBLb6tpOug
-    title: "1 | Appium 2 architecture | Android platform | In Detail | W3C WebDriver Protocol |"
-    channel: "Automation In Detail"
   - id: bu_7YCDa4YA
     title: "📱 Appium 2.0 Full Course for Beginners | Real Device + Emulator + BrowserStack"
     channel: "Vinoth Rathinam"

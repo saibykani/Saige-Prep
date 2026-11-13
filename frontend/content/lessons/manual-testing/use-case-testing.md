@@ -27,9 +27,6 @@ videos:
   - id: ijtvAvapsP0
     title: "Use Case Testing: Software Testing Tutorial 18"
     channel: "Guru99"
-  - id: 1gdvt11__8E
-    title: "What is use case testing?"
-    channel: "Learn Software Testing"
 interview:
   - q: What is use-case testing?
     a: It is a black-box technique that derives tests from use cases, which describe interactions between an actor and the system to achieve a goal. You design tests for the main success scenario, each alternate flow and each exception flow, and check the postconditions. It is good at finding defects in end-to-end flows and in the handling of real-world deviations that unit-level techniques do not see.

@@ -29,6 +29,16 @@ references:
     url: https://arxiv.org/abs/2212.10509
   - title: Ma et al. — Query Rewriting for Retrieval-Augmented Large Language Models (arXiv 2305.14283)
     url: https://arxiv.org/abs/2305.14283
+videos:
+  - id: sGvXO7CVwc0
+    title: "Advanced RAG techniques for developers"
+    channel: "Google Cloud Tech"
+  - id: tmiBae2goJM
+    title: "The Best RAG Technique Yet? Anthropic’s Contextual Retrieval Explained!"
+    channel: "Prompt Engineering"
+  - id: ea2W8IogX80
+    title: "RAG Fundamentals and Advanced Techniques – Full Course"
+    channel: "freeCodeCamp.org"
 interview:
   - q: What is HyDE and when does it help?
     a: Hypothetical Document Embeddings, from Gao, Ma, Lin and Callan (2022), asks an LLM to write a plausible answer passage for the query and embeds that passage instead of the query, because an answer-shaped text often sits closer to real answer passages than a short question does. It helps short or oddly phrased queries and zero-shot domains, but costs an LLM call per query, adds latency and can steer retrieval toward the model's hallucinated facts, so the retrieved real documents must still ground the answer.

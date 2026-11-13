@@ -24,9 +24,6 @@ videos:
   - id: imtQ2kadwDQ
     title: "JMeter Tutorial 7: Listeners in JMeter"
     channel: "SDET- QA"
-  - id: 9lW5t6WfZDw
-    title: "JMeter Tutorial 5 | Listeners In JMeter | Pradeep Nailwal"
-    channel: "Lets Make Automation Easy - Pradeep Nailwal"
 interview:
   - q: What does the 90% Line in the Aggregate Report mean?
     a: It is the 90th percentile response time. 90% of samples for that label took this long or less, and 10% took longer. Percentiles are better than averages for user experience because a few very slow requests can hide behind a healthy-looking average.

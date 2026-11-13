@@ -24,6 +24,13 @@ references:
     url: https://www.nist.gov/itl/ai-risk-management-framework
   - title: OWASP Top 10 for LLM Applications
     url: https://genai.owasp.org/llm-top-10/
+videos:
+  - id: 4QXtObc61Lw
+    title: "Security & AI Governance: Reducing Risks in AI Systems"
+    channel: "IBM Technology"
+  - id: Q020C-Jw0o8
+    title: "The Importance of AI Governance"
+    channel: "IBM Technology"
 interview:
   - q: What is model risk?
     a: Model risk is the potential for adverse consequences, financial loss, poor decisions or harm to customers, from decisions based on model outputs that are wrong or misused. It comes from two sources. The model can have fundamental errors in design, data or implementation, or a sound model can be used outside the purpose and conditions it was built for. Model risk management identifies models, tiers them, validates them independently, monitors them and governs their use.

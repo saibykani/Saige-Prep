@@ -26,6 +26,13 @@ references:
     url: https://github.com/pgvector/pgvector
   - title: Qdrant documentation — Filtering
     url: https://qdrant.tech/documentation/concepts/filtering/
+videos:
+  - id: 72XgD322wZ8
+    title: "Vector Database Explained | What is Vector Database?"
+    channel: "codebasics"
+  - id: VVNYQKDLY5s
+    title: "How does a Vector Database work?"
+    channel: "KodeKloud"
 interview:
   - q: Why not just keep embeddings in a numpy array?
     a: For a few hundred thousand vectors that is often fine, and exact search gives perfect recall. A vector database adds what an array lacks at scale and in production, namely persistence, approximate indexes that avoid scanning every vector, metadata filtering, inserts, updates and deletes without rebuilding, access control, replication and sharding. You should be able to say when the array is enough rather than reaching for a database by default.

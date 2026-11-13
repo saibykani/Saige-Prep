@@ -22,12 +22,12 @@ references:
   - title: ISTQB Certified Tester Foundation Level (CTFL) v4.0
     url: https://www.istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/
 videos:
-  - id: kfSeI6Qvt_Q
-    title: "Definition of ready vs Definition of done  | CT Academy"
-    channel: "CT Academy"
-  - id: GnIkr6cWBr8
-    title: "How to write Agile User Stories and Acceptance Criteria  | CT Academy"
-    channel: "CT Academy"
+  - id: Hq9O7mnUNM4
+    title: "Definition of Done vs Acceptance Criteria: What's the Difference?"
+    channel: "Mountain Goat Software: Agile & Scrum Mastery"
+  - id: ZxXL_sP-sqQ
+    title: "The Difference Between Acceptance Criteria and the Definition of Done"
+    channel: "Scrum.org"
 interview:
   - q: What is the difference between acceptance criteria and the Definition of Done?
     a: Acceptance criteria are specific to one backlog item and describe the behaviour that item must show to be accepted, for example how a discount code is validated. The Definition of Done applies to every item and describes the quality bar for the Increment, for example code reviewed, automated tests passing, no open critical defects, accessibility checked. A story is done only when it meets both - its own acceptance criteria and the team's Definition of Done.

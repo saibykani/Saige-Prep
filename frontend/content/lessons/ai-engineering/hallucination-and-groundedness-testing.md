@@ -27,6 +27,13 @@ references:
     url: https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations
   - title: Ragas documentation
     url: https://docs.ragas.io/en/stable/
+videos:
+  - id: cfqtFvWOfg0
+    title: "Why Large Language Models Hallucinate"
+    channel: "IBM Technology"
+  - id: 5fp6e5nhJRk
+    title: "RAGAS: How to Evaluate a RAG Application Like a Pro for Beginners"
+    channel: "Mervin Praison"
 interview:
   - q: What is the difference between groundedness and correctness?
     a: Groundedness (often called faithfulness) asks whether every claim in the answer is supported by the context the system was given. Correctness asks whether the answer is true and matches a reference. They diverge in both directions. An answer can be grounded but wrong when the source document is outdated, and correct but ungrounded when the model answers from its training data instead of the sources. In a RAG product you usually need both, and you measure them separately because the fixes differ, data quality for the first case and grounding for the second.

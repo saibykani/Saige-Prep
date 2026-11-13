@@ -25,9 +25,6 @@ videos:
   - id: LKnnucRzYtk
     title: "JMeter Tutorial #20 | HTML Report Explained"
     channel: "Testing Funda by Zeeshan Asghar"
-  - id: kP56Dat5m9k
-    title: "How  to generate Jmeter HTML dashboard report and analysis|| HACK#6"
-    channel: "SDETByteHackers"
 interview:
   - q: How do you generate a JMeter HTML report?
     a: "During a non-GUI run with jmeter -n -t plan.jmx -l results.jtl -e -o report/, or afterwards from an existing results file with jmeter -g results.jtl -o report/. The output folder must be empty or not exist. The results file must be CSV with the default fields, including timestamps and labels, so the report generator can parse it."

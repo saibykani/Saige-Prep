@@ -22,12 +22,9 @@ references:
   - title: W3C WCAG overview (accessible content in messages)
     url: https://www.w3.org/WAI/standards-guidelines/wcag/
 videos:
-  - id: uUQ_23m3kaE
-    title: "Push Notification Testing: Best Practices and Tools"
-    channel: "QA Unlocked"
-  - id: Tf2L00Za_RM
-    title: "test scenarios on email notification   test cases on web or mobile application - testingshala"
-    channel: "Testing Shala"
+  - id: 4BFRAQuuEfc
+    title: "How Push Notifications Work on iOS and Android"
+    channel: "Jimmy Cook"
 interview:
   - q: How do you test that an order-confirmation email is correct?
     a: I check the trigger (sent once, only when the order is actually confirmed), the recipient, the subject and body content against the order — items, amounts, address, links — personalisation and template variables, rendering on a couple of mail clients and mobile, links that work and point to the right environment, unsubscribe or preference footer if it is marketing, and timing. I also test failures, like an invalid address, and that retrying the payment does not send two emails.

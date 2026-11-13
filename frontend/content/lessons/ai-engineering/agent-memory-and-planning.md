@@ -28,6 +28,13 @@ references:
     url: https://arxiv.org/abs/2310.08560
   - title: Anthropic — Building effective agents
     url: https://www.anthropic.com/engineering/building-effective-agents
+videos:
+  - id: BacJ6sEhqMo
+    title: "The Four Types of Memory Every AI Agent Needs"
+    channel: "IBM Technology"
+  - id: W2HVdB4Jbjs
+    title: "Architecting Agent Memory: Principles, Patterns, and Best Practices — Richmond Alake, MongoDB"
+    channel: "AI Engineer"
 interview:
   - q: What is the difference between short-term and long-term memory in an agent?
     a: Short-term memory is whatever is in the context window for the current call, the message history, tool results and system prompt. It is lost when the session ends and limited by context length and cost. Long-term memory lives outside the model, for example a vector store of past notes, a key-value store of user facts, or episodic logs of past runs, and is written and retrieved by your code or by memory tools, then placed into the context when relevant.

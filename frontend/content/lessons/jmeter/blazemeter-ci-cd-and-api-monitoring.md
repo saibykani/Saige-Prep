@@ -25,6 +25,13 @@ references:
     url: https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions
   - title: BlazeMeter Help - BlazeMeter for Runscope users (API Monitoring)
     url: https://help.blazemeter.com/docs/guide/getting-started-blazemeter-for-runscope-users.html
+videos:
+  - id: QuY0Qcdd90A
+    title: "Scaling Test Automation with Jenkins + JMeter + Taurus"
+    channel: "Perforce BlazeMeter"
+  - id: 4cJIrTHZPu0
+    title: "Execute a Taurus Test Using Jenkins Performance Plugin"
+    channel: "Perforce BlazeMeter"
 interview:
   - q: How do you make a CI job fail when a load test misses its thresholds?
     a: Define pass/fail criteria in the Taurus YAML (or BlazeMeter failure criteria on the test) and let the job use the result. bzt exits with code 3 when criteria stop the test or a cloud test fails, and any non-zero exit fails the CI step. With the Jenkins plugin, the BlazeMeter test result maps to the build result. I also upload artifacts and post the report link regardless of outcome.

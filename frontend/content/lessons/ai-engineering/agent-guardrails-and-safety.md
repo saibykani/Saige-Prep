@@ -26,6 +26,13 @@ references:
     url: https://www.anthropic.com/engineering/building-effective-agents
   - title: NIST AI 600-1 — Generative AI Profile of the AI RMF
     url: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+videos:
+  - id: UMYtqHptYvA
+    title: "Guide to Architect Secure AI Agents: Best Practices for Safety"
+    channel: "IBM Technology"
+  - id: ruiLq0OzjkI
+    title: "Guardrails with LangChain: A Complete Crash Course for Building Safe AI Agents"
+    channel: "Krish Naik"
 interview:
   - q: What is Excessive Agency in the OWASP Top 10 for LLM Applications 2025?
     a: LLM06:2025 Excessive Agency is when an LLM-based system can perform damaging actions in response to unexpected, ambiguous or manipulated model output. OWASP names three root causes, excessive functionality (tools that do more than needed), excessive permissions (tools running with broader rights than needed) and excessive autonomy (high-impact actions without human verification). Mitigations include minimising tools and their functions, least-privilege credentials scoped to the user, human approval for high-impact actions, and enforcing authorisation in downstream systems rather than relying on the model.

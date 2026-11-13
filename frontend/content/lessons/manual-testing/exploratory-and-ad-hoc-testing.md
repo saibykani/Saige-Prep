@@ -23,9 +23,6 @@ videos:
   - id: dlbkG5keG1g
     title: "What is Exploratory Testing? With Practical Example"
     channel: "The Testing Academy"
-  - id: F7cANreeW5s
-    title: "What is Adhoc Testing? | Difference between Adhoc testing and Exploratory Testing"
-    channel: "Automation Testing Insider"
 interview:
   - q: What is exploratory testing?
     a: In exploratory testing, tests are designed, executed and evaluated at the same time while the tester learns about the test object. Learning from each result shapes the next test. It is an experience-based technique, and it is most valuable when specifications are few or inadequate, when there is time pressure, or as a complement to formal techniques. It is not random clicking; good exploratory testing has a mission, a time box and notes.

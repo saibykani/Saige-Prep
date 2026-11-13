@@ -24,9 +24,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: 0sZlaQr3e2w
-    title: "Linux Performance: Is it CPU, Memory, or I/O?  | Into the Terminal 166"
-    channel: "Red Hat Enterprise Linux"
+  - id: GZN6b69rfwg
+    title: "Understanding Performance Bottleneck"
+    channel: "Testing Diaries"
 interview:
   - q: What is a bottleneck?
     a: The resource that limits the throughput of the whole system - the narrowest point. When load increases, it saturates first, requests start queuing in front of it, and response time rises while throughput flattens. It can be hardware like CPU or disk, or a software limit like a thread pool, connection pool or lock.

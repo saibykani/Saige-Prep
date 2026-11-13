@@ -26,9 +26,6 @@ references:
   - title: Unicode Consortium
     url: https://home.unicode.org/
 videos:
-  - id: _Fos2Sl9Qjo
-    title: "The Importance of Internationalization and Localization for Software Developers"
-    channel: "Lokalise"
   - id: J7ODeZK8TDI
     title: "Translation and Localization"
     channel: "NNgroup"

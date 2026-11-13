@@ -21,13 +21,6 @@ references:
     url: https://www.atlassian.com/software/jira/guides
   - title: Bugzilla documentation
     url: https://bugzilla.readthedocs.io/en/latest/
-videos:
-  - id: qySLdbuvXXM
-    title: "Defect Triage Explained: A Detailed Guide to Managing Software Bugs Effectively"
-    channel: "QAExplainer"
-  - id: bQp2-ePAAzY
-    title: "Best Practices for Triaging Software Bugs: Developing a Bug Triage Process with Your Team"
-    channel: "Bugsnag"
 interview:
   - q: What is defect triage and who attends?
     a: Triage is a regular review of new and unresolved defects to decide what happens to each one — confirm it is valid, agree severity and priority, assign an owner and target release, or close it as duplicate, rejected or deferred. Typical attendees are the test lead, a development lead and the product owner, plus specialists when needed. Each decision and its reason is recorded on the defect.

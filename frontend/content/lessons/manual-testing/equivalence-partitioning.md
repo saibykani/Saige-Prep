@@ -21,9 +21,6 @@ references:
   - title: ISO/IEC/IEEE 29119-4 Software testing — Test techniques
     url: https://www.iso.org/standard/79430.html
 videos:
-  - id: TLPw0oEr04s
-    title: "Simplilearn: Equivalence Partitioning | Software Testing Certification Training Courses"
-    channel: "Simplilearn"
   - id: 4ckZYRvDzLU
     title: "Equivalence Partitioning Test Design Technique Explanation"
     channel: "Software Testing 101"

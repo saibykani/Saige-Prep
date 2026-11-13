@@ -27,9 +27,6 @@ videos:
   - id: UjpZHRVJWgQ
     title: "Software Test Life Cycle-STLC"
     channel: "SoftwaretestingbyMKT"
-  - id: eZbnX0gF8l8
-    title: "SDLC vs STLC Explained for Beginners | Software Testing Life Cycle with Real Examples"
-    channel: "The Testing Academy"
 interview:
   - q: What is the difference between the SDLC and the STLC?
     a: The SDLC is the overall lifecycle for building software, from requirements through design, implementation, testing, release and maintenance. The STLC, which ISTQB calls the test process, is the set of test activities within it, namely test planning, monitoring and control, analysis, design, implementation, execution and completion. The STLC runs inside and alongside the SDLC, not after it.

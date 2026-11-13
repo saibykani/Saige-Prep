@@ -27,9 +27,6 @@ references:
   - title: AsyncAPI
     url: https://www.asyncapi.com/docs
 videos:
-  - id: 8XbuJ_DczL8
-    title: "Effective testing in microservice systems - Christian Horsdal - NDC Oslo 2022"
-    channel: "NDC Conferences"
   - id: IetyhDr48RI
     title: "[Introduction to contract testing - Part 2] Contract testing and how Pact works"
     channel: "PactFlow"

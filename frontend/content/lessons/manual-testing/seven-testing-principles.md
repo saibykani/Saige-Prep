@@ -23,9 +23,6 @@ videos:
   - id: Tmh5cRGR0bg
     title: "Software Testing Tutorial #5 - Seven Principles of Software Testing"
     channel: "Software Testing Mentor"
-  - id: idg7MOKWNCU
-    title: "What are the 7 Testing principles?"
-    channel: "Software Testing 101"
 interview:
   - q: Name the seven testing principles.
     a: Testing shows the presence, not the absence of defects. Exhaustive testing is impossible. Early testing saves time and money. Defects cluster together. Tests wear out. Testing is context dependent. And the absence-of-defects fallacy, which says that a defect-free system can still fail if it does not meet users' needs.

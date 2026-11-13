@@ -21,12 +21,9 @@ references:
   - title: Apache JMeter User Manual
     url: https://jmeter.apache.org/usermanual/index.html
 videos:
-  - id: eXH5N7jAxfE
-    title: "JMeter Tutorial | Jmeter Execution order and Scoping Rule"
-    channel: "QA-Automated"
-  - id: TVtp9Ym6QUw
-    title: "JMeter Basic Tutorial - 4 | JMeter Element & its execution order | Test Plan | Thread Group"
-    channel: "Performance Testing"
+  - id: enLqKxR2huo
+    title: "JMeter 4.0: Execution Order of JMeter Steps (Part 1)"
+    channel: "Testing World"
 interview:
   - q: Explain JMeter's scoping rules.
     a: The test tree is hierarchical. Hierarchical elements such as config elements, pre-processors, post-processors, timers, assertions and listeners apply to all samplers at their level and below in the same branch. If placed as a child of a sampler, they apply only to that sampler. Logic controllers and samplers are ordered elements, executed in the order they appear.
