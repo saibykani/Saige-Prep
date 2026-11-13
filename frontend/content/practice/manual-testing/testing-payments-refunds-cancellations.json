@@ -1,0 +1,200 @@
+{
+  "lesson": "testing-payments-refunds-cancellations",
+  "questions": [
+    {
+      "id": "pt-m2pay-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "Which card details may you use on a payment test?",
+      "options": [
+        "Your own real card",
+        "The payment provider's published sandbox test card numbers",
+        "A friend's card",
+        "Any 16 digits"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Only sandbox test cards in a sandbox. Real card data must never be used in test environments."
+    },
+    {
+      "id": "pt-m2pay-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "A payment timeout means the payment failed.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A timeout means the outcome is unknown. The charge may have succeeded, so reconciliation is needed."
+    },
+    {
+      "id": "pt-m2pay-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "Payment is authorised at order time and captured at shipment. A customer cancels before shipment. What is the expected payment operation?",
+      "options": [
+        "Capture then refund",
+        "Void or release the authorisation",
+        "Nothing",
+        "Charge a fee"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "No money was captured yet, so the authorisation is voided. A refund is for captured money."
+    },
+    {
+      "id": "pt-m2pay-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "A customer clicks Pay, sees a spinner for 40 seconds, then a timeout error, and clicks Pay again. The sandbox shows two successful charges. What is the most likely missing control?",
+      "options": [
+        "Spell checking",
+        "Idempotency: a repeated request should produce one charge",
+        "Better fonts",
+        "Currency formatting"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Idempotency keys make retries safe."
+    },
+    {
+      "id": "pt-m2pay-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "An order captured 100.00 and has already been refunded 70.00. Which further refund requests should succeed? Select all that apply.",
+      "options": [
+        "10.00",
+        "30.00",
+        "30.01",
+        "0.00"
+      ],
+      "answer": [
+        0,
+        1
+      ],
+      "explanation": "Remaining is 30.00. 10.00 and 30.00 are within it; 30.01 exceeds the cumulative limit and 0.00 is not a valid refund."
+    },
+    {
+      "id": "pt-m2pay-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "A refund webhook from the provider is delivered twice. What should the system do?",
+      "options": [
+        "Refund twice",
+        "Process it once and ignore the duplicate using an event ID",
+        "Crash",
+        "Email the customer twice"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Duplicate notifications are normal. Handlers must be idempotent."
+    },
+    {
+      "id": "pt-m2pay-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "A partially refunded order shows status 'Refunded' in the admin screen but the provider shows 30.00 outstanding. What type of defect is this?",
+      "options": [
+        "Currency",
+        "Inconsistent order and payment state",
+        "Styling",
+        "Search"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Order status must follow the payment state. Compare both sides."
+    },
+    {
+      "id": "pt-m2pay-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "Cancellation is free until 24 hours before check-in, then 50 percent fee. Which boundary tests are best?",
+      "options": [
+        "Cancel 25 hours and 23 hours before",
+        "Cancel 24h 01m, exactly 24h 00m, and 23h 59m before check-in, with time zone considered",
+        "Cancel after check-in only",
+        "Any time"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Test either side of the window and the exact boundary, including the time zone used for the deadline."
+    },
+    {
+      "id": "pt-m2pay-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-payments-refunds-cancellations",
+      "prompt": "The provider is down; orders sit in 'Pending' for hours and some are actually captured. What should the team verify?",
+      "options": [
+        "Nothing",
+        "A reconciliation job compares provider records with orders and resolves unknown outcomes, with no double capture and customer messages",
+        "Delete pending orders",
+        "Retry forever"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unknown outcomes must be resolved from the provider's truth and reconciled."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2pay-refund",
+      "title": "Refund limit checks",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `max_refund(captured_cents, refunded_cents)` returning the maximum amount that can still be refunded (in cents), never below 0.\n\nThen write `can_refund(captured_cents, refunded_cents, request_cents)` returning `True` only if `request_cents` is a positive integer and does not exceed the remaining refundable amount.\n\nExamples: captured 10000, refunded 7000 → `max_refund` is 3000. `can_refund(10000, 7000, 3000)` is `True`, `can_refund(10000, 7000, 3001)` is `False`, `can_refund(10000, 7000, 0)` is `False`.",
+      "starter": "def max_refund(captured_cents, refunded_cents):\n    # TODO\n    return None\n\ndef can_refund(captured_cents, refunded_cents, request_cents):\n    # TODO\n    return None\n",
+      "solution": "def max_refund(captured_cents, refunded_cents):\n    return max(0, captured_cents - refunded_cents)\n\ndef can_refund(captured_cents, refunded_cents, request_cents):\n    return request_cents > 0 and request_cents <= max_refund(captured_cents, refunded_cents)\n",
+      "explanation": "Refund limits are cumulative, so the cap is captured minus already refunded. The boundary tests are the exact remaining amount, one cent above it and zero.",
+      "hints": [
+        "Remaining = captured - refunded, never negative.",
+        "A request must be positive.",
+        "Compare the request with the remaining amount using `<=`."
+      ],
+      "tests": [
+        {
+          "name": "max refund",
+          "code": "assert max_refund(10000, 7000) == 3000\nassert max_refund(10000, 10000) == 0\nassert max_refund(10000, 12000) == 0",
+          "marks": 3
+        },
+        {
+          "name": "boundary requests",
+          "code": "assert can_refund(10000, 7000, 3000) is True\nassert can_refund(10000, 7000, 3001) is False",
+          "marks": 4
+        },
+        {
+          "name": "invalid requests",
+          "code": "assert can_refund(10000, 7000, 0) is False\nassert can_refund(10000, 7000, -5) is False\nassert can_refund(10000, 10000, 1) is False",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

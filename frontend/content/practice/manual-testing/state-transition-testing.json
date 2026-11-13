@@ -1,0 +1,267 @@
+{
+  "lesson": "state-transition-testing",
+  "questions": [
+    {
+      "id": "pt-m2stt-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "state-transition-testing",
+      "prompt": "In a state model, what causes a transition from one state to another?",
+      "options": [
+        "An action",
+        "An event (optionally subject to a guard condition)",
+        "A state",
+        "A test case"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Events trigger transitions; guards can restrict them; actions are what the system does during the transition."
+    },
+    {
+      "id": "pt-m2stt-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "state-transition-testing",
+      "prompt": "Empty cells in a state table represent invalid transitions.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The diagram shows only valid transitions. A full state table lists every state/event pair, so the empty cells make invalid transitions visible."
+    },
+    {
+      "id": "pt-m2stt-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "state-transition-testing",
+      "prompt": "An ATM card is 'Inserted'. The user enters a wrong PIN for the third time and the card is retained. In the model, 'third wrong PIN' is:",
+      "options": [
+        "A state",
+        "An event with a guard (attempts = 3)",
+        "An action only",
+        "A coverage criterion"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Entering a wrong PIN is the event; 'it is the third attempt' is the guard. Retaining the card is the action and 'Card retained' is the resulting state."
+    },
+    {
+      "id": "pt-m2stt-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "state-transition-testing",
+      "prompt": "How many valid transitions (0-switch items) does this model have?",
+      "code": "Draft     --submit-->  Submitted\nSubmitted --approve--> Approved\nSubmitted --reject-->  Rejected\nRejected  --edit-->    Draft\nApproved  --publish--> Published\nDraft     --delete-->  Deleted",
+      "codeLanguage": "text",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "8"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Count the arrows: Draft→Submitted, Submitted→Approved, Submitted→Rejected, Rejected→Draft, Approved→Published, Draft→Deleted. Six valid transitions."
+    },
+    {
+      "id": "pt-m2stt-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "state-transition-testing",
+      "prompt": "Using the model above, what is the minimum number of test sequences, each starting from Draft, to cover all six valid transitions?",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "6"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Deleted and Published are both end states, so one sequence cannot reach both: at least 2 are needed. Two are enough: submit→reject→edit→delete covers four transitions, and submit→approve→publish covers the remaining two. Six would mean one test per transition, which is valid but wasteful."
+    },
+    {
+      "id": "pt-m2stt-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "state-transition-testing",
+      "prompt": "A tester checks three invalid transitions in one test: 'publish from Draft', then 'approve from Draft', then 'delete from Approved'. The first is wrongly accepted. Why is this test design weak?",
+      "options": [
+        "Invalid transitions should never be tested",
+        "After the first unexpected acceptance the system is in an unknown state, so later checks are masked or meaningless; test each invalid transition separately from a known state",
+        "It should have tested five invalid transitions at once",
+        "The tester should only check the final screen"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Combining invalid transitions causes defect masking. Each invalid transition gets its own test starting from a known state."
+    },
+    {
+      "id": "pt-m2stt-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "state-transition-testing",
+      "prompt": "What should the expected result of a state-transition test case specify? Select all that apply.",
+      "options": [
+        "The end state (for example, the stored order status)",
+        "Any action that should occur (for example, an email sent or a refund)",
+        "Only the confirmation message on screen",
+        "For invalid events, that the state stays unchanged and the request is rejected"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "A screen message alone is not enough; the state change, actions and rejection of invalid events must be checked."
+    },
+    {
+      "id": "pt-m2stt-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "state-transition-testing",
+      "prompt": "A subscription can be Trial, Active, PastDue or Cancelled. 'Payment fails' moves Active→PastDue; 'payment succeeds' moves PastDue→Active; after 3 failed retries, PastDue→Cancelled. Which single test best targets the guard?",
+      "options": [
+        "Active, payment fails once, check PastDue",
+        "PastDue, fail retry 2 times and check still PastDue, then fail a 3rd time and check Cancelled",
+        "Cancel from Trial",
+        "Check that Active shows a green badge"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing either side of the guard (2 failures stays PastDue, 3 cancels) checks the boundary of the guard condition, combining BVA with state transition testing."
+    },
+    {
+      "id": "pt-m2stt-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "state-transition-testing",
+      "prompt": "All states coverage was reached with 3 tests, yet a defect slipped: Paid→Cancelled did not issue a refund. Why did all states coverage miss it?",
+      "options": [
+        "All states coverage includes every transition, so the tests were wrong",
+        "Visiting every state does not require taking every transition; Cancelled was reached via Created→Cancelled, never via Paid→Cancelled",
+        "Refunds cannot be tested with state models",
+        "The defect is in a guard, which no coverage criterion covers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "All states coverage is weaker than valid transitions (0-switch) coverage. The Paid→Cancelled transition, with its refund action, was never exercised."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2stt-check-sequence",
+      "title": "Run an event sequence through a state table",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `check_sequence(table, start, events)` for state-transition testing.\n\n`table` maps `(state, event)` tuples to the next state. Starting from `start`, apply each event in `events`:\n- if the transition exists, move to the next state;\n- if it does not exist, stop and return `(\"INVALID\", state, event)` with the state you were in and the bad event.\n\nIf all events are valid, return `(\"OK\", final_state)`.\n\n```python\ntable = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\",\n         (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\ncheck_sequence(table, \"Created\", [\"pay\", \"ship\"])   # (\"OK\", \"Shipped\")\ncheck_sequence(table, \"Created\", [\"ship\"])          # (\"INVALID\", \"Created\", \"ship\")\n```",
+      "starter": "def check_sequence(table, start, events):\n    # TODO\n    pass\n",
+      "solution": "def check_sequence(table, start, events):\n    state = start\n    for event in events:\n        if (state, event) not in table:\n            return (\"INVALID\", state, event)\n        state = table[(state, event)]\n    return (\"OK\", state)\n",
+      "explanation": "The loop keeps the current state and looks up each (state, event) pair. A missing key is an invalid transition, so the function stops immediately and reports where it happened, just as a tester stops a test at the first unexpected behaviour.",
+      "hints": [
+        "Keep a variable `state` that starts at `start`.",
+        "Use `(state, event) in table` to check whether the transition exists.",
+        "Return as soon as a pair is missing: `return (\"INVALID\", state, event)`; otherwise update `state = table[(state, event)]`."
+      ],
+      "tests": [
+        {
+          "name": "valid path ends in Shipped",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert check_sequence(table, \"Created\", [\"pay\", \"ship\"]) == (\"OK\", \"Shipped\"), \"expected ('OK', 'Shipped')\"",
+          "marks": 3
+        },
+        {
+          "name": "invalid first event is reported",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert check_sequence(table, \"Created\", [\"ship\"]) == (\"INVALID\", \"Created\", \"ship\")",
+          "marks": 3
+        },
+        {
+          "name": "invalid event after valid ones",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert check_sequence(table, \"Created\", [\"pay\", \"ship\", \"cancel\"]) == (\"INVALID\", \"Shipped\", \"cancel\")",
+          "marks": 2
+        },
+        {
+          "name": "empty sequence stays at start",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert check_sequence(table, \"Paid\", []) == (\"OK\", \"Paid\")",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "id": "code-m2stt-zero-switch",
+      "title": "Measure 0-switch coverage",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `zero_switch_coverage(table, sequences, start)` that returns the percentage (rounded to 1 decimal place) of **valid transitions** in `table` exercised by the given test sequences.\n\nEach sequence is a list of events run from `start`. A transition counts as covered when it is taken. If a sequence hits an invalid event, count the transitions taken before it and stop that sequence.\n\nExample: with the 5-transition order table, sequences `[[\"pay\", \"ship\", \"deliver\"]]` cover 3 of 5 = `60.0`.",
+      "starter": "def zero_switch_coverage(table, sequences, start):\n    # TODO\n    return None\n",
+      "solution": "def zero_switch_coverage(table, sequences, start):\n    covered = set()\n    for events in sequences:\n        state = start\n        for event in events:\n            key = (state, event)\n            if key not in table:\n                break\n            covered.add(key)\n            state = table[key]\n    return round(100 * len(covered) / len(table), 1)\n",
+      "explanation": "A set records each distinct (state, event) pair taken, so repeating a transition in several tests does not inflate coverage. Dividing by the number of valid transitions gives 0-switch coverage.",
+      "hints": [
+        "Collect taken transitions in a `set` so duplicates count once.",
+        "Replay each sequence from `start`, and `break` at the first missing transition.",
+        "Return `round(100 * len(covered) / len(table), 1)`."
+      ],
+      "tests": [
+        {
+          "name": "happy path covers 60 percent",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert zero_switch_coverage(table, [[\"pay\", \"ship\", \"deliver\"]], \"Created\") == 60.0",
+          "marks": 3
+        },
+        {
+          "name": "two sequences reach 100 percent",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert zero_switch_coverage(table, [[\"pay\", \"ship\", \"deliver\"], [\"cancel\"], [\"pay\", \"cancel\"]], \"Created\") == 100.0",
+          "marks": 3
+        },
+        {
+          "name": "duplicates and invalid events",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\nassert zero_switch_coverage(table, [[\"pay\"], [\"pay\", \"deliver\", \"ship\"]], \"Created\") == 20.0",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-m2stt-invalid",
+      "title": "List invalid transitions for all-transitions coverage",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `invalid_transitions(states, events, table)` that returns every `(state, event)` pair **not** in `table`, sorted. These are the empty cells of the state table that *all transitions* coverage asks you to attempt.\n\nFinal states with no outgoing transitions should still be included (each of their events is an invalid transition).\n\n```python\ninvalid_transitions([\"A\", \"B\"], [\"go\", \"stop\"], {(\"A\", \"go\"): \"B\"})\n# [(\"A\", \"stop\"), (\"B\", \"go\"), (\"B\", \"stop\")]\n```",
+      "starter": "def invalid_transitions(states, events, table):\n    # TODO\n    return []\n",
+      "solution": "def invalid_transitions(states, events, table):\n    return sorted((s, e) for s in states for e in events if (s, e) not in table)\n",
+      "explanation": "All transitions coverage needs every empty cell of the state table. Generating the full grid of states × events and removing the valid pairs gives exactly those cells; sorting makes the output stable.",
+      "hints": [
+        "Build every combination of state and event.",
+        "Keep only pairs that are not keys of `table`.",
+        "A comprehension inside `sorted(...)` does it in one line."
+      ],
+      "tests": [
+        {
+          "name": "tiny model",
+          "code": "assert invalid_transitions([\"A\", \"B\"], [\"go\", \"stop\"], {(\"A\", \"go\"): \"B\"}) == [(\"A\", \"stop\"), (\"B\", \"go\"), (\"B\", \"stop\")]",
+          "marks": 3
+        },
+        {
+          "name": "order model count",
+          "code": "table = {(\"Created\", \"pay\"): \"Paid\", (\"Paid\", \"ship\"): \"Shipped\", (\"Shipped\", \"deliver\"): \"Delivered\", (\"Created\", \"cancel\"): \"Cancelled\", (\"Paid\", \"cancel\"): \"Cancelled\"}\ns = [\"Created\", \"Paid\", \"Shipped\", \"Delivered\", \"Cancelled\"]\ne = [\"pay\", \"ship\", \"deliver\", \"cancel\"]\nr = invalid_transitions(s, e, table)\nassert len(r) == 15, len(r)\nassert (\"Delivered\", \"cancel\") in r and (\"Created\", \"pay\") not in r",
+          "marks": 4
+        }
+      ]
+    }
+  ]
+}

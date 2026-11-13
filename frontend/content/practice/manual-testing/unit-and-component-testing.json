@@ -1,0 +1,203 @@
+{
+  "lesson": "unit-and-component-testing",
+  "questions": [
+    {
+      "id": "pt-m2unit-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "unit-and-component-testing",
+      "prompt": "Component testing and unit testing are:",
+      "options": [
+        "Different ISTQB levels",
+        "The same ISTQB test level, focused on separately testable parts",
+        "Types of acceptance test",
+        "Non-functional"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "ISTQB uses component testing and treats unit testing as the same level."
+    },
+    {
+      "id": "pt-m2unit-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "unit-and-component-testing",
+      "prompt": "If unit tests achieve 100% statement coverage, the component is free of defects.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage shows what was executed, not that behaviour was checked correctly."
+    },
+    {
+      "id": "pt-m2unit-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "unit-and-component-testing",
+      "prompt": "A component calls an external tax service that is not yet built. What do you use in its place?",
+      "options": [
+        "A driver",
+        "A stub",
+        "A browser",
+        "A load balancer"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stubs replace called components; drivers replace callers."
+    },
+    {
+      "id": "pt-m2unit-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "unit-and-component-testing",
+      "prompt": "What does a mock add compared with a stub?",
+      "options": [
+        "Nothing",
+        "It also verifies interactions such as which calls were made",
+        "It is faster",
+        "It runs in production"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Mocks check how the component interacted with the dependency."
+    },
+    {
+      "id": "pt-m2unit-05",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "unit-and-component-testing",
+      "prompt": "The rule is: orders of 1000 or more get 10% off. Which single value exposes this defect?",
+      "code": "def discount(total):\n    if total > 1000:\n        return total * 0.10\n    return 0",
+      "codeLanguage": "python",
+      "options": [
+        "500",
+        "999",
+        "1000",
+        "2000"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "The code uses > instead of >=, so 1000 is the only boundary value that fails; 2000 passes either way."
+    },
+    {
+      "id": "pt-m2unit-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "unit-and-component-testing",
+      "prompt": "Which defects can component testing NOT reliably find? Select all that apply.",
+      "options": [
+        "Wrong interface contracts between services",
+        "Environment configuration errors",
+        "Workflow problems across the whole system",
+        "An off-by-one error in a loop"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Component tests are isolated, so integration, configuration and workflow defects need higher levels."
+    },
+    {
+      "id": "pt-m2unit-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "unit-and-component-testing",
+      "prompt": "A unit test passes by mocking the database to return a row. In production the query fails due to a typo in a column name. Why?",
+      "options": [
+        "Mock is wrong tool",
+        "The mock replaced the real query, so the typo was never exercised; an integration test with a real database is needed",
+        "Tests should not use mocks ever",
+        "Coverage too low"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Isolation trades realism for speed. Integration testing covers the real dependency."
+    },
+    {
+      "id": "pt-m2unit-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "unit-and-component-testing",
+      "prompt": "Testers say they do not need to care about unit tests. What is the best response?",
+      "options": [
+        "Agree",
+        "Testers can review unit tests, suggest cases from techniques like BVA and understand what is covered so higher levels avoid duplication and gaps",
+        "Take them over",
+        "Write them all"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testers add value by sharing techniques and understanding coverage."
+    },
+    {
+      "id": "pt-m2unit-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "unit-and-component-testing",
+      "prompt": "A function parse_age(text) has tests for '25' and '30' only. Which two added cases give most value?",
+      "options": [
+        "'26' and '27'",
+        "An empty string and a non-numeric value like 'abc' (plus boundaries such as '0' and '-1')",
+        "Same again",
+        "A very long list"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Add partitions not yet covered: empty, invalid, and boundaries."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2unit-stub",
+      "title": "Write a stub-based unit test",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `final_price(total, tax_rate_lookup)` where `tax_rate_lookup(region)` is a **dependency** returning a tax rate such as `0.2`. The function takes `total` and returns `round(total * (1 + rate), 2)`, using region `\"UK\"`.\n\nYour function must call `tax_rate_lookup(\"UK\")`. If the lookup raises `ValueError`, return `None`.\n\nThe tests use stubs: a fake lookup returning a fixed rate, and one that raises.",
+      "starter": "def final_price(total, tax_rate_lookup):\n    # TODO\n    return 0\n",
+      "solution": "def final_price(total, tax_rate_lookup):\n    try:\n        rate = tax_rate_lookup(\"UK\")\n    except ValueError:\n        return None\n    return round(total * (1 + rate), 2)\n",
+      "explanation": "Passing the dependency in lets a test replace it with a stub (a fixed answer) or a failing double, which is exactly how component tests isolate the unit. The error path is as important as the happy path.",
+      "hints": [
+        "Take the dependency as a parameter instead of importing it.",
+        "Wrap the call in try/except ValueError.",
+        "round(total * (1 + rate), 2)"
+      ],
+      "tests": [
+        {
+          "name": "uses stubbed rate",
+          "code": "assert final_price(100, lambda region: 0.2) == 120.0",
+          "marks": 3
+        },
+        {
+          "name": "asks for the UK rate",
+          "code": "calls = []\ndef spy(region):\n    calls.append(region)\n    return 0.1\nfinal_price(50, spy)\nassert calls == [\"UK\"], calls",
+          "marks": 3
+        },
+        {
+          "name": "lookup failure returns None",
+          "code": "def bad(region):\n    raise ValueError(\"unknown\")\nassert final_price(100, bad) is None",
+          "marks": 4
+        }
+      ]
+    }
+  ]
+}

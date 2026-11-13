@@ -1,0 +1,168 @@
+{
+  "lesson": "why-testing-is-required",
+  "questions": [
+    {
+      "id": "pt-m2why-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "why-testing-is-required",
+      "prompt": "What is the main reason defects are almost always present in software?",
+      "options": [
+        "Testers are careless",
+        "People make mistakes and software is complex, with time pressure and changing requirements",
+        "Computers are unreliable",
+        "Tools are bad"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Human error, complexity and change make defects inevitable."
+    },
+    {
+      "id": "pt-m2why-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "why-testing-is-required",
+      "prompt": "A defect in a requirement usually becomes more expensive to fix the later it is found.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "More work is built on it by then."
+    },
+    {
+      "id": "pt-m2why-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "why-testing-is-required",
+      "prompt": "Which is a way testing contributes to success?",
+      "options": [
+        "Guaranteeing no defects",
+        "Providing information about quality and risk for decisions",
+        "Replacing developers",
+        "Removing requirements"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing informs decisions."
+    },
+    {
+      "id": "pt-m2why-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "why-testing-is-required",
+      "prompt": "Which are ways testing contributes to the success of a product? Select all that apply.",
+      "options": [
+        "Finding defects before release",
+        "Meeting legal or contractual requirements",
+        "Building stakeholder confidence",
+        "Making the product defect-free"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Testing reduces risk but cannot prove absence of defects."
+    },
+    {
+      "id": "pt-m2why-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "why-testing-is-required",
+      "prompt": "A team must ship a tax-calculation feature by a legal deadline. A manager proposes skipping testing to save two weeks. What is the strongest argument against it?",
+      "options": [
+        "Testers want work",
+        "The risk of incorrect tax calculations, penalties and rework outweighs the saved time; offer risk-based reduction instead of skipping",
+        "It is policy",
+        "Tools are paid for"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Argue risk and impact, and offer options."
+    },
+    {
+      "id": "pt-m2why-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "why-testing-is-required",
+      "prompt": "A build passes every test written from the specification, yet pilot users say the new checkout flow does not let them do what they need. Why should testers check user needs and not only the specification?",
+      "options": [
+        "Because passing specification-based tests proves nothing, so they should be dropped",
+        "Because the specification itself can be wrong or incomplete; validation checks the product meets real needs, while verification only checks it matches the spec",
+        "Because user feedback replaces the need for any specification",
+        "Because testers are responsible for rewriting the requirements"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "This is verification vs validation. Spec-based tests verify the product was built as specified; they cannot catch a spec that is wrong or missing a need, which is exactly what happened here. Validation (does it meet users' real needs?) catches that. The spec-based tests still have value, user feedback complements a spec rather than replacing it, and fixing requirements is a shared job, not the tester's alone."
+    },
+    {
+      "id": "pt-m2why-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "why-testing-is-required",
+      "prompt": "A project says 'we will test after development finishes'. Which problem is likely?",
+      "options": [
+        "Nothing",
+        "Late defect discovery causes expensive rework and delays; test activities should start early",
+        "More coverage",
+        "Fewer defects"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Early testing is cheaper."
+    },
+    {
+      "id": "pt-m2why-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "why-testing-is-required",
+      "prompt": "A medical device team asks whether testing is optional because the code was reviewed. Best answer?",
+      "options": [
+        "Optional",
+        "Testing is part of meeting regulations and managing risk; review does not replace dynamic testing and evidence is required",
+        "Only for hardware",
+        "Only after release"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Regulation requires evidence."
+    },
+    {
+      "id": "pt-m2why-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "why-testing-is-required",
+      "prompt": "A defect found in production costs the company 50 times as much as the same defect found in review. Which claim is the careful one?",
+      "options": [
+        "Exactly 50 times, always",
+        "Later defects generally cost more, but the multiple varies by context, so avoid quoting one fixed figure as universal",
+        "Costs are equal",
+        "Costs fall"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The trend is well supported; exact multipliers depend on context."
+    }
+  ],
+  "coding": []
+}

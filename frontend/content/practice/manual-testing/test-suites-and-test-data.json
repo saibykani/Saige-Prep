@@ -1,0 +1,168 @@
+{
+  "lesson": "test-suites-and-test-data",
+  "questions": [
+    {
+      "id": "pt-m2tsd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-suites-and-test-data",
+      "prompt": "What should decide how test cases are grouped into suites?",
+      "options": [
+        "The alphabetical order of titles",
+        "Purpose and run cadence, such as smoke, feature and regression",
+        "Who wrote them",
+        "The file size"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Suites exist so the right tests run at the right time. Folder structure alone does not capture that."
+    },
+    {
+      "id": "pt-m2tsd-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-suites-and-test-data",
+      "prompt": "A test case can belong to more than one suite if suites are assembled with tags.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Tags such as component, priority and requirement let suites be assembled without duplicating cases."
+    },
+    {
+      "id": "pt-m2tsd-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-suites-and-test-data",
+      "prompt": "Which data is a valid boundary variant for a field that accepts 1 to 20 characters?",
+      "options": [
+        "A 20-character value",
+        "A 10-character value",
+        "An empty value",
+        "A random word"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "20 characters is the upper boundary. 10 is typical; empty is an invalid partition."
+    },
+    {
+      "id": "pt-m2tsd-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-suites-and-test-data",
+      "prompt": "Which belong in documented test data for a feature? Select all that apply.",
+      "options": [
+        "The data values and where they come from",
+        "How to reset or recreate the data",
+        "Which tests rely on which records",
+        "The tester's personal passwords"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Documented data and reset steps make runs reproducible. Personal passwords should never be in documentation."
+    },
+    {
+      "id": "pt-m2tsd-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-suites-and-test-data",
+      "prompt": "A developer offers a full production database copy for realistic reporting tests. What is the best response?",
+      "options": [
+        "Accept",
+        "Ask for masked or synthetic data that keeps the relevant volume and relationships, with approval",
+        "Accept only if the testers sign something",
+        "Accept but on a laptop"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unmasked personal production data breaks privacy rules. Masked or synthetic data keeps realism without exposure."
+    },
+    {
+      "id": "pt-m2tsd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-suites-and-test-data",
+      "prompt": "Which suite is intended to run after every build to check critical functions only?",
+      "options": [
+        "Full regression suite",
+        "Smoke suite",
+        "Exploratory suite",
+        "Performance suite"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Smoke suites are short and fast; regression is broader and slower."
+    },
+    {
+      "id": "pt-m2tsd-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-suites-and-test-data",
+      "prompt": "Regression tests pass on a fresh environment but fail on the second run. What is the most likely data issue?",
+      "options": [
+        "The browser is outdated",
+        "Tests change shared data (e.g. create fixed IDs or consume records) without resetting it",
+        "Tests are too short",
+        "The suite is called regression"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Non-repeatable tests leave state behind. Documenting and automating data set-up and clean-up makes runs repeatable."
+    },
+    {
+      "id": "pt-m2tsd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-suites-and-test-data",
+      "prompt": "Your regression suite has 900 cases, takes 3 days manually, and 40% have never failed or been linked to risk. What is the best way to improve it?",
+      "options": [
+        "Delete all that never failed",
+        "Tag cases by risk and requirement, review them, and split into a smaller high-risk suite run every release and a wider suite run less often",
+        "Run them faster",
+        "Add 900 more cases"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Risk-based tagging and splitting keeps important coverage while managing effort. A test that never failed may still protect critical behaviour."
+    },
+    {
+      "id": "pt-m2tsd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-suites-and-test-data",
+      "prompt": "You test a 'Full name' field. Which set is the best minimum coverage?",
+      "options": [
+        "'John Smith' only",
+        "A typical name, a single character, the maximum length, an apostrophe name, an accented name, leading and trailing spaces, an empty value",
+        "Only 1,000 random names",
+        "Only emoji"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The set combines typical, boundary, special and invalid values. One value or random volume misses systematic coverage."
+    }
+  ],
+  "coding": []
+}

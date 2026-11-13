@@ -1,0 +1,166 @@
+{
+  "lesson": "testing-login-and-authentication",
+  "questions": [
+    {
+      "id": "pt-m2log-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-login-and-authentication",
+      "prompt": "Which is the main problem with 'Incorrect password' for a wrong password and 'No account found' for an unknown email?",
+      "options": [
+        "Too long",
+        "It reveals which accounts exist (user enumeration)",
+        "Missing punctuation",
+        "Not translated"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Different messages let an attacker discover valid accounts. Use one generic message."
+    },
+    {
+      "id": "pt-m2log-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-login-and-authentication",
+      "prompt": "Only test security checks on systems you own or are explicitly authorised to test.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Unauthorised testing can be illegal. Keep to authorised environments."
+    },
+    {
+      "id": "pt-m2log-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-login-and-authentication",
+      "prompt": "A logged-in user clicks Log out. What should be true on the server?",
+      "options": [
+        "Nothing",
+        "The session is invalidated so the old cookie no longer works",
+        "The cookie is renamed",
+        "A new account is created"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Logout must invalidate the session server-side, not just clear the screen."
+    },
+    {
+      "id": "pt-m2log-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-login-and-authentication",
+      "prompt": "The rule is 'lock after 5 consecutive failed attempts; a correct login resets the counter'. Which test checks the reset behaviour just below the limit?",
+      "options": [
+        "5 failures, then check the account is locked",
+        "4 failures, a correct login, then 4 more failures, and the account must still not be locked",
+        "1 failure only",
+        "10 failures in a row"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Four failures, a success and four more only lock the account if the counter is not reset. The 5-failure test checks the limit but not the reset."
+    },
+    {
+      "id": "pt-m2log-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-login-and-authentication",
+      "prompt": "After Log out, which checks confirm correct behaviour? Select all that apply.",
+      "options": [
+        "Back button does not show private data",
+        "Replaying the old session token is rejected",
+        "A protected URL redirects to login",
+        "The login page appears"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Showing the login page alone is not proof. Verify protected content and the token server-side."
+    },
+    {
+      "id": "pt-m2log-06",
+      "type": "truefalse",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-login-and-authentication",
+      "prompt": "If the session cookie value is the same before and after a successful login, the application may be vulnerable to session fixation.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "The session ID should change at login so an ID planted before login is useless."
+    },
+    {
+      "id": "pt-m2log-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-login-and-authentication",
+      "prompt": "A login redirect uses ?next=https://evil.test and sends the user there after login. What is the defect?",
+      "options": [
+        "Normal",
+        "Open redirect: only relative or allow-listed destinations should be accepted",
+        "Session fixation",
+        "Caching"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unvalidated redirects enable phishing. Restrict to allowed destinations."
+    },
+    {
+      "id": "pt-m2log-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-login-and-authentication",
+      "prompt": "Failed login for an unknown email responds in 20 ms but for a known email with a wrong password in 300 ms. What does it indicate?",
+      "options": [
+        "Nothing",
+        "A timing side channel allowing user enumeration; responses should be equivalent in content and timing",
+        "A faster server",
+        "Cache"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Timing differences can leak whether an account exists even with identical messages."
+    },
+    {
+      "id": "pt-m2log-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-login-and-authentication",
+      "prompt": "Policy: MFA required, remember-me 30 days, idle timeout 15 min. A tester finds that a remembered device skips MFA forever. Which first step is best?",
+      "options": [
+        "Log as a defect immediately",
+        "Clarify the policy: confirm what remember-me is supposed to bypass and for how long, then log against the confirmed requirement",
+        "Ignore",
+        "Remove MFA"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "What is correct depends on the policy. Confirm it before logging, so the defect is credible."
+    }
+  ],
+  "coding": []
+}

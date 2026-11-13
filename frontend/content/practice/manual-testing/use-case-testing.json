@@ -1,0 +1,202 @@
+{
+  "lesson": "use-case-testing",
+  "questions": [
+    {
+      "id": "pt-m2uc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "use-case-testing",
+      "prompt": "Which element is the person or system that interacts with the system to reach a goal?",
+      "options": [
+        "Precondition",
+        "Actor",
+        "Postcondition",
+        "Exception"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The actor has the goal. Preconditions and postconditions are states."
+    },
+    {
+      "id": "pt-m2uc-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "use-case-testing",
+      "prompt": "Testing only the main success scenario gives 100% use-case coverage.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage counts all behaviours: alternate and exception flows too."
+    },
+    {
+      "id": "pt-m2uc-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "use-case-testing",
+      "prompt": "In an ATM withdrawal use case, choosing a preset quick-cash button instead of typing an amount is best described as:",
+      "options": [
+        "The main flow only",
+        "An alternate flow",
+        "An exception flow",
+        "A postcondition"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "It still reaches the goal, by a different route. Exceptions are failures."
+    },
+    {
+      "id": "pt-m2uc-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "use-case-testing",
+      "prompt": "The ATM debits the account but the cash dispenser jams. Which expected result matters most?",
+      "options": [
+        "A friendly screen",
+        "The debit is reversed or flagged for reconciliation, and the user is informed",
+        "The receipt colour",
+        "Faster retry"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Postconditions such as balances matter more than messages."
+    },
+    {
+      "id": "pt-m2uc-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "use-case-testing",
+      "prompt": "Which belong in a well-written use case? Select all that apply.",
+      "options": [
+        "Actor and goal",
+        "Preconditions",
+        "Main success scenario and alternate flows",
+        "Postconditions"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "All are standard elements."
+    },
+    {
+      "id": "pt-m2uc-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "use-case-testing",
+      "prompt": "A use case has 1 main flow, 3 alternate flows and 4 exception flows. Tests cover the main flow, 2 alternates and 1 exception. What is the use-case coverage?",
+      "options": [
+        "25%",
+        "50%",
+        "62.5%",
+        "100%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "4 of 8 flows are tested, giving 50%. 25% counts only 2 flows; 62.5% would be 5 of 8."
+    },
+    {
+      "id": "pt-m2uc-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "use-case-testing",
+      "prompt": "A tester writes one test per use case that follows the happy path and checks only the screen message. What is the weakness?",
+      "options": [
+        "Too many tests",
+        "Exception flows and postconditions such as balances and records are not tested",
+        "Too detailed",
+        "Not manual"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Serious defects hide in exception flows and persisted state."
+    },
+    {
+      "id": "pt-m2uc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "use-case-testing",
+      "prompt": "Step 3 of a use case asks the user for an amount between 10 and 500. Which technique adds the most value to the data in that step?",
+      "options": [
+        "Use-case testing again",
+        "Boundary value analysis and equivalence partitioning on the amount",
+        "Random",
+        "None"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Use-case testing covers the flow; EP and BVA cover data within steps."
+    },
+    {
+      "id": "pt-m2uc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "use-case-testing",
+      "prompt": "Payment succeeds but the order-confirmation save fails. What should the use case describe and the test verify?",
+      "options": [
+        "Nothing, rare",
+        "An exception flow with a defined outcome (refund, retry or recorded pending state), and postconditions that leave data consistent",
+        "Show success",
+        "Delete the payment"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Partial failures are where serious defects hide."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2uc-coverage",
+      "title": "Use-case coverage",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "A use case is a list of flows. Write `use_case_coverage(flows, tested)`.\n\n- `flows`: list of flow names (main, alternate and exception flows).\n- `tested`: list of flow names covered by test cases (may repeat or contain names not in `flows`).\n\nReturn a dict: `\"coverage_pct\"` (flows tested / total flows * 100, rounded to 1 decimal, 0.0 if no flows) and `\"untested\"` (sorted flows not tested).",
+      "starter": "def use_case_coverage(flows, tested):\n    # TODO\n    return {}\n",
+      "solution": "def use_case_coverage(flows, tested):\n    fl = set(flows)\n    done = fl & set(tested)\n    pct = round(len(done) / len(fl) * 100, 1) if fl else 0.0\n    return {\"coverage_pct\": pct, \"untested\": sorted(fl - done)}\n",
+      "explanation": "Set intersection counts each tested flow once and ignores names that are not in the use case. The set difference lists the flows still untested, which is the useful output for test design.",
+      "hints": [
+        "Convert both lists to sets.",
+        "`fl & set(tested)` gives tested flows that exist.",
+        "`fl - done` gives the untested flows."
+      ],
+      "tests": [
+        {
+          "name": "half covered",
+          "code": "r = use_case_coverage([\"main\",\"alt1\",\"exc1\",\"exc2\"], [\"main\",\"exc1\"])\nassert r == {\"coverage_pct\": 50.0, \"untested\": [\"alt1\",\"exc2\"]}, r",
+          "marks": 4
+        },
+        {
+          "name": "duplicates and unknown names ignored",
+          "code": "r = use_case_coverage([\"main\",\"alt1\"], [\"main\",\"main\",\"other\"])\nassert r == {\"coverage_pct\": 50.0, \"untested\": [\"alt1\"]}, r",
+          "marks": 3
+        },
+        {
+          "name": "no flows",
+          "code": "assert use_case_coverage([], [\"x\"]) == {\"coverage_pct\": 0.0, \"untested\": []}",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

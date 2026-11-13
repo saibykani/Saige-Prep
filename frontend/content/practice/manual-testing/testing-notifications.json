@@ -1,0 +1,206 @@
+{
+  "lesson": "testing-notifications",
+  "questions": [
+    {
+      "id": "pt-m2not-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-notifications",
+      "prompt": "Which of these is NOT one of the basic parts of a notification to test?",
+      "options": [
+        "Trigger",
+        "Recipient",
+        "Channel",
+        "The server's CPU brand"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Every notification has a trigger, recipient, channel, content and timing."
+    },
+    {
+      "id": "pt-m2not-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-notifications",
+      "prompt": "A user who has opted out of marketing emails should still receive a password-reset email.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Transactional messages are needed for the service and are not marketing."
+    },
+    {
+      "id": "pt-m2not-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-notifications",
+      "prompt": "What is the safest way to receive emails in a test environment?",
+      "options": [
+        "Send to real customers",
+        "Route all mail to a test mail catcher or safe sink",
+        "Use your personal inbox",
+        "Disable email"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A sink prevents real people receiving test messages while still letting you inspect them."
+    },
+    {
+      "id": "pt-m2not-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-notifications",
+      "prompt": "A customer retries a failed payment and the second attempt succeeds. They receive two 'Order confirmed' emails. What kind of defect is this?",
+      "options": [
+        "Content",
+        "Duplicate notification, likely a trigger firing on each attempt or a retried job without a dedupe key",
+        "Layout",
+        "Localisation"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Asynchronous retries commonly produce duplicates unless messages are made idempotent."
+    },
+    {
+      "id": "pt-m2not-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-notifications",
+      "prompt": "Which data should you use to test a notification template? Select all that apply.",
+      "options": [
+        "Very long names",
+        "Empty optional fields",
+        "Names with special characters and HTML characters",
+        "Only one perfect sample"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Templates break with empty, long or special data. A single perfect sample hides such defects."
+    },
+    {
+      "id": "pt-m2not-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-notifications",
+      "prompt": "A user sets quiet hours 22:00 to 07:00. An order shipped notification (transactional) is triggered at 23:30. What is the best expected behaviour as specified by common practice?",
+      "options": [
+        "Always suppress",
+        "Follow the documented rule: transactional messages usually are sent, but the rule should be confirmed in the spec",
+        "Delay to morning silently",
+        "Send twice"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Quiet-hour rules differ by message type. Confirm the specification and test both categories."
+    },
+    {
+      "id": "pt-m2not-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-notifications",
+      "prompt": "Emails arrive 40 minutes late during the sale. Queue length is growing. What does this test point to?",
+      "options": [
+        "Wrong template",
+        "Delivery delay under load in the asynchronous queue",
+        "Opt-out",
+        "Spam filters only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Timing is part of the requirement. Test with volume and verify delays and ordering."
+    },
+    {
+      "id": "pt-m2not-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-notifications",
+      "prompt": "The email provider returns a temporary failure for 1 percent of sends. What behaviour should you verify?",
+      "options": [
+        "Nothing",
+        "Retries with backoff, no duplicates on eventual success, a final failure state recorded and visible, and no blocking of the user flow",
+        "Immediate account deletion",
+        "Stopping the queue"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Failure handling includes retry, dedupe, recording and isolation from the user path."
+    },
+    {
+      "id": "pt-m2not-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-notifications",
+      "prompt": "Messages 'Your order 2 is shipped' and 'Your order 1 is placed' arrive in reverse order. Which is the best test idea?",
+      "options": [
+        "Ignore",
+        "Check ordering guarantees and that content depends on state, not only on the arrival order, with events triggered in quick succession",
+        "Change fonts",
+        "Add emojis"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Async delivery does not guarantee order, so test and design for it."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2not-decision",
+      "title": "Notification decision table",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `should_send(kind, prefs, hour)` implementing a notification decision table.\n\n- `kind` is `\"transactional\"` (password reset, order confirmation) or `\"marketing\"`.\n- `prefs` is a dict like `{\"marketing_opt_in\": True, \"quiet_start\": 22, \"quiet_end\": 7}`.\n- `hour` is 0-23 local time.\n\nRules:\n1. Transactional messages are always sent (opt-outs and quiet hours do not block them).\n2. Marketing is sent only if `marketing_opt_in` is true **and** the hour is not inside quiet hours.\n3. Quiet hours run from `quiet_start` (inclusive) to `quiet_end` (exclusive) and may wrap past midnight (22 to 7 means 22, 23, 0 ... 6).\n\nReturn `True` or `False`.",
+      "starter": "def should_send(kind, prefs, hour):\n    # TODO\n    return None\n",
+      "solution": "def should_send(kind, prefs, hour):\n    if kind == \"transactional\":\n        return True\n    if not prefs.get(\"marketing_opt_in\", False):\n        return False\n    s, e = prefs[\"quiet_start\"], prefs[\"quiet_end\"]\n    quiet = (s <= hour < e) if s < e else (hour >= s or hour < e)\n    return not quiet\n",
+      "explanation": "The decision table has two branches. The tricky part is the wrap-around quiet window: when start is after end, an hour is quiet if it is at or after the start or before the end. Boundary hours (22 and 7) are the edge cases to test.",
+      "hints": [
+        "Handle transactional first, since it ignores preferences.",
+        "For marketing, check opt-in, then quiet hours.",
+        "If `start >= end` the window wraps midnight, so use `hour >= start or hour < end`."
+      ],
+      "tests": [
+        {
+          "name": "transactional always sent",
+          "code": "assert should_send(\"transactional\", {\"marketing_opt_in\": False, \"quiet_start\": 22, \"quiet_end\": 7}, 23) is True",
+          "marks": 2
+        },
+        {
+          "name": "marketing respects opt-out",
+          "code": "assert should_send(\"marketing\", {\"marketing_opt_in\": False, \"quiet_start\": 22, \"quiet_end\": 7}, 12) is False",
+          "marks": 3
+        },
+        {
+          "name": "quiet hours wrap boundaries",
+          "code": "p = {\"marketing_opt_in\": True, \"quiet_start\": 22, \"quiet_end\": 7}\nassert should_send(\"marketing\", p, 22) is False\nassert should_send(\"marketing\", p, 3) is False\nassert should_send(\"marketing\", p, 7) is True\nassert should_send(\"marketing\", p, 21) is True",
+          "marks": 3
+        },
+        {
+          "name": "non-wrapping window",
+          "code": "p = {\"marketing_opt_in\": True, \"quiet_start\": 13, \"quiet_end\": 15}\nassert should_send(\"marketing\", p, 13) is False\nassert should_send(\"marketing\", p, 15) is True",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

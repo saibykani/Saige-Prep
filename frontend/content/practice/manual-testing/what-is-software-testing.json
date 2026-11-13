@@ -1,0 +1,169 @@
+{
+  "lesson": "what-is-software-testing",
+  "questions": [
+    {
+      "id": "pt-m2wist-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-software-testing",
+      "prompt": "Which statement best matches the ISTQB view of testing?",
+      "options": [
+        "Only running the software to find bugs",
+        "A set of activities, static and dynamic, to find defects and evaluate quality",
+        "Only automation",
+        "Only checking requirements"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing includes planning, analysis, design, implementation, execution and completion."
+    },
+    {
+      "id": "pt-m2wist-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-software-testing",
+      "prompt": "Reviewing a requirements document for ambiguities counts as testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Static testing is part of testing."
+    },
+    {
+      "id": "pt-m2wist-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "what-is-software-testing",
+      "prompt": "Which activity is debugging?",
+      "options": [
+        "Running a failed test again",
+        "Finding and fixing the cause of a failure",
+        "Writing a test plan",
+        "Reviewing a story"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing finds failures; debugging finds and fixes causes."
+    },
+    {
+      "id": "pt-m2wist-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-software-testing",
+      "prompt": "A tester reports checkout fails with exactly 100 items. A developer reproduces it, finds a loop limit set to 99 and corrects it. The tester re-runs the failed test. Which was debugging?",
+      "options": [
+        "The tester's report",
+        "The developer's finding and correcting the loop limit",
+        "The re-run",
+        "All of them"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Debugging is the developer's analysis and fix. The re-run is confirmation testing."
+    },
+    {
+      "id": "pt-m2wist-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-software-testing",
+      "prompt": "Which are test activities in the ISTQB test process? Select all that apply.",
+      "options": [
+        "Test planning",
+        "Test analysis and design",
+        "Test execution",
+        "Test completion"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Along with monitoring and control throughout, these form the process."
+    },
+    {
+      "id": "pt-m2wist-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-software-testing",
+      "prompt": "Why does testing provide value even when it finds nothing wrong?",
+      "options": [
+        "It never does",
+        "It gives stakeholders information, confidence and evidence for decisions",
+        "It makes code shorter",
+        "It removes risk"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Information for decisions is a key objective."
+    },
+    {
+      "id": "pt-m2wist-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "what-is-software-testing",
+      "prompt": "A manager says 'testing is just clicking around at the end'. Which correction is best?",
+      "options": [
+        "Agree",
+        "Testing starts early (reviews, planning, design) and includes analysis, design, execution and reporting, not just running at the end",
+        "Testing is only automation",
+        "Testing is debugging"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing is a process throughout the lifecycle."
+    },
+    {
+      "id": "pt-m2wist-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "what-is-software-testing",
+      "prompt": "A developer says 'my unit tests passed so nobody needs to test'. Best answer?",
+      "options": [
+        "Agree",
+        "Unit tests are one level; other levels and perspectives find defects units cannot, and test independence reduces bias",
+        "Disagree: unit tests are useless",
+        "Testing is not for developers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Different levels and viewpoints find different defects."
+    },
+    {
+      "id": "pt-m2wist-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "what-is-software-testing",
+      "prompt": "A failure is observed in production. Which sequence describes the relationship correctly?",
+      "options": [
+        "Failure, then defect, then error, found by debugging",
+        "A person makes an error, creating a defect in the work product; executing it can cause a failure that testing observes; debugging finds the defect",
+        "A defect always causes a failure",
+        "A failure causes an error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Errors cause defects; defects may cause failures if executed."
+    }
+  ],
+  "coding": []
+}

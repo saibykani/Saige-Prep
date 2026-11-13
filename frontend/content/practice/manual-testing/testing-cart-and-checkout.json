@@ -1,0 +1,207 @@
+{
+  "lesson": "testing-cart-and-checkout",
+  "questions": [
+    {
+      "id": "pt-m2cart-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "Where must the final price of an order be calculated?",
+      "options": [
+        "In the browser",
+        "On the server",
+        "In the user's cookie",
+        "In the product image"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Anything in the browser can be changed. The server must calculate prices and totals itself."
+    },
+    {
+      "id": "pt-m2cart-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "Matching the total on the confirmation page proves the stored order, payment and invoice are also correct.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A screen can be right while the stored order, charge or invoice is wrong. Verify every place the amount lives."
+    },
+    {
+      "id": "pt-m2cart-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "The maximum quantity per line is 10. Which quantity is a boundary test?",
+      "options": [
+        "5",
+        "10",
+        "7",
+        "3"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "10 is the upper limit. Also test 11 and 9 around it."
+    },
+    {
+      "id": "pt-m2cart-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "Free delivery applies when the subtotal after discounts is 50.00 or more. Subtotal is 55.00 and a 10.00 coupon is applied. What delivery charge is expected?",
+      "options": [
+        "Free",
+        "Standard charge applies",
+        "Half the charge",
+        "Depends on payment method"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "After the coupon the subtotal is 45.00, which is below 50.00, so delivery is charged. The rule is on the subtotal after discounts."
+    },
+    {
+      "id": "pt-m2cart-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "Max quantity per line is 10 and stock is 3. Which are useful tests? Select all that apply.",
+      "options": [
+        "Add 3 (equal to stock)",
+        "Add 4 (above stock)",
+        "Add 0",
+        "Add 10 (equal to the per-line maximum but above stock)"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "The effective limit is the lower of stock and the per-line maximum, so check each side and edge, plus 0 as an invalid quantity."
+    },
+    {
+      "id": "pt-m2cart-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "In an authorised test, you change the unit price in the add-to-cart request from 120.00 to 1.00 and the order is placed for 1.00. What is this?",
+      "options": [
+        "A normal discount",
+        "A serious defect: the server trusts client-supplied prices",
+        "A display bug",
+        "Expected"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Server-side price calculation is missing. The order and payment amount follow attacker-controlled data."
+    },
+    {
+      "id": "pt-m2cart-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "A user keeps a cart open for two days. Price rose from 20.00 to 25.00 meanwhile, but checkout still charges 20.00. What is the likely defect?",
+      "options": [
+        "Rounding",
+        "Stale price in the cart: prices are not re-validated at checkout",
+        "Coupon reuse",
+        "Tax rule"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cart prices should be re-checked at checkout. Charging a stale price loses money or breaks promised price rules."
+    },
+    {
+      "id": "pt-m2cart-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "Two buyers add the last item at the same time and both complete checkout. Both orders confirm. What is the defect and test?",
+      "options": [
+        "Normal behaviour",
+        "Overselling from missing stock reservation or locking; test with two sessions buying the last unit at once",
+        "A currency issue",
+        "A browser bug"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stock decrements must be atomic. Concurrency testing of the last item reveals race conditions."
+    },
+    {
+      "id": "pt-m2cart-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-cart-and-checkout",
+      "prompt": "A 10 percent coupon on a basket of 3 items at 3.33 each gives different totals on the cart page (9.00) and the invoice (8.99). Which root cause is most likely?",
+      "options": [
+        "A typo",
+        "Rounding applied per line in one place and on the total in another",
+        "Browser cache",
+        "Wrong currency symbol"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Inconsistent rounding order is a classic money defect. Verify one defined rounding rule across all outputs."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2cart-total",
+      "title": "Calculate an order total in cents",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `order_total(items, coupon_pct, free_delivery_from, delivery_fee)` in integer **cents** to avoid rounding errors.\n\n- `items`: list of `(unit_price_cents, quantity)`.\n- `coupon_pct`: percentage off the subtotal (integer 0-100), rounded **down** to whole cents.\n- Delivery is free when the subtotal **after the discount** is `>= free_delivery_from`; otherwise add `delivery_fee`.\n- Return `total_cents`.\n\nExample: `order_total([(2500, 2), (500, 1)], 10, 5000, 399)` → subtotal 5500, discount 550, after discount 4950 (< 5000), so total 4950 + 399 = `5349`.",
+      "starter": "def order_total(items, coupon_pct, free_delivery_from, delivery_fee):\n    # TODO\n    return None\n",
+      "solution": "def order_total(items, coupon_pct, free_delivery_from, delivery_fee):\n    subtotal = sum(price * qty for price, qty in items)\n    discount = subtotal * coupon_pct // 100\n    after = subtotal - discount\n    fee = 0 if after >= free_delivery_from else delivery_fee\n    return after + fee\n",
+      "explanation": "Working in integer cents avoids floating-point error, and the free-delivery rule is applied to the subtotal after the discount, exactly like the specification. The boundary value of the free-delivery threshold is the key edge case.",
+      "hints": [
+        "Compute subtotal = sum(price * qty).",
+        "Use integer arithmetic: `subtotal * pct // 100`.",
+        "Compare the discounted subtotal with the threshold using `>=`."
+      ],
+      "tests": [
+        {
+          "name": "coupon pushes below free delivery",
+          "code": "assert order_total([(2500, 2), (500, 1)], 10, 5000, 399) == 5349",
+          "marks": 3
+        },
+        {
+          "name": "exactly at threshold is free",
+          "code": "assert order_total([(5000, 1)], 0, 5000, 399) == 5000",
+          "marks": 3
+        },
+        {
+          "name": "one cent below threshold pays",
+          "code": "assert order_total([(4999, 1)], 0, 5000, 399) == 5398",
+          "marks": 2
+        },
+        {
+          "name": "discount rounds down",
+          "code": "assert order_total([(333, 3)], 10, 5000, 100) == 999 - 99 + 100",
+          "marks": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "lesson": "test-execution-and-closure-reports",
+  "questions": [
+    {
+      "id": "pt-m2rep-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "Which report is typically frequent and action-oriented during a test cycle?",
+      "options": [
+        "Test completion (closure) report",
+        "Test progress report",
+        "Audit report",
+        "Release notes"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Progress reports are produced regularly so the team can act. A completion report is produced once at the end."
+    },
+    {
+      "id": "pt-m2rep-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "Blocked tests should be reported separately from passed tests.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Blocked tests have not shown the software works. Counting them as passed would overstate quality."
+    },
+    {
+      "id": "pt-m2rep-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "40 tests exist: 20 passed, 5 failed, 5 blocked, 10 not run. What is the execution percentage (executed = passed + failed)?",
+      "options": [
+        "50%",
+        "62.5%",
+        "75%",
+        "87.5%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Executed = 20 + 5 = 25, and 25 / 40 = 62.5%. 50% counts only the passes; 75% wrongly adds the blocked tests."
+    },
+    {
+      "id": "pt-m2rep-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "Using the same numbers (20 pass, 5 fail), what is the pass percentage of executed tests?",
+      "options": [
+        "50%",
+        "80%",
+        "62.5%",
+        "20%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "20 / 25 = 80%. 50% divides passes by all 40 tests, which is a different measure."
+    },
+    {
+      "id": "pt-m2rep-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "Which belong in a test completion report? Select all that apply.",
+      "options": [
+        "Summary of testing against the plan and exit criteria",
+        "Open defects and residual risks",
+        "Lessons learned",
+        "A guarantee that no defects remain"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Completion reports summarise results, deviations, remaining risk and lessons. Testing can never guarantee zero defects."
+    },
+    {
+      "id": "pt-m2rep-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "What should the first lines of a good execution report give the reader?",
+      "options": [
+        "A list of every test case ID",
+        "A short summary of status, risk and decisions needed",
+        "The names of the testers",
+        "The full defect log"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Readers decide from the summary. Details can follow, but leading with them buries the message."
+    },
+    {
+      "id": "pt-m2rep-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "A report says '95% pass rate, ready to release'. Detail shows 60 of 200 tests were never run and the failures are all in payments. What is wrong with the report?",
+      "options": [
+        "Nothing; 95% is high",
+        "The rate hides the unexecuted tests and the concentration of risk in a critical area",
+        "The pass rate should be 100%",
+        "Reports should not show failures"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A pass rate of executed tests ignores what was not run and where failures sit. Reports must tie results to risk and coverage."
+    },
+    {
+      "id": "pt-m2rep-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "At closure the team has 3 open defects, 2 medium and 1 critical in refunds, and exit criteria say 'no open critical defects'. The product owner wants to release anyway. What should the completion report do?",
+      "options": [
+        "Omit the critical defect",
+        "State the exit criterion is not met, describe the risk and the decision requested, and record the owner's decision if they accept the risk",
+        "Change the exit criterion silently",
+        "Mark the defect as medium"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Reports inform decisions; they do not make or hide them. Changing criteria or severity afterwards falsifies the picture."
+    },
+    {
+      "id": "pt-m2rep-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-execution-and-closure-reports",
+      "prompt": "A project closes. Which closure activity best helps the next project?",
+      "options": [
+        "Deleting the test environment and test data immediately",
+        "Archiving testware (cases, data, scripts) and recording lessons learned with owners for improvements",
+        "Sending a thank-you email",
+        "Closing all open defects without review"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Archived testware allows reuse and regression, and lessons learned create improvements. Deleting everything wastes the investment."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2rep-summary",
+      "title": "Compute an execution summary",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `execution_summary(results)` where `results` is a list of statuses, each one of `\"pass\"`, `\"fail\"`, `\"blocked\"`, `\"not run\"`.\n\nReturn a dict with:\n- `\"total\"`: number of tests,\n- `\"executed\"`: tests that are `pass` or `fail`,\n- `\"execution_pct\"`: executed / total * 100, rounded to 1 decimal,\n- `\"pass_pct\"`: passes / executed * 100 rounded to 1 decimal (0.0 if nothing executed).\n\nBlocked and not-run tests are **not** executed and are never counted as passes.\n\nExample: `[\"pass\",\"pass\",\"fail\",\"blocked\"]` gives total 4, executed 3, execution_pct 75.0, pass_pct 66.7.",
+      "starter": "def execution_summary(results):\n    # TODO\n    return {}\n",
+      "solution": "def execution_summary(results):\n    total = len(results)\n    passed = results.count(\"pass\")\n    executed = passed + results.count(\"fail\")\n    return {\n        \"total\": total,\n        \"executed\": executed,\n        \"execution_pct\": round(executed / total * 100, 1) if total else 0.0,\n        \"pass_pct\": round(passed / executed * 100, 1) if executed else 0.0,\n    }\n",
+      "explanation": "Only pass and fail count as executed; blocked and not-run tests stay out of both measures. Guarding the divisions avoids ZeroDivisionError for an empty or fully unexecuted cycle.",
+      "hints": [
+        "Count passes and fails with `list.count`.",
+        "executed = passes + fails.",
+        "Guard against dividing by zero when `total` or `executed` is 0."
+      ],
+      "tests": [
+        {
+          "name": "mixed results",
+          "code": "r = execution_summary([\"pass\",\"pass\",\"fail\",\"blocked\"])\nassert r == {\"total\": 4, \"executed\": 3, \"execution_pct\": 75.0, \"pass_pct\": 66.7}, r",
+          "marks": 4
+        },
+        {
+          "name": "blocked not counted as pass",
+          "code": "r = execution_summary([\"blocked\",\"blocked\",\"pass\"])\nassert r[\"executed\"] == 1 and r[\"pass_pct\"] == 100.0 and r[\"execution_pct\"] == 33.3, r",
+          "marks": 3
+        },
+        {
+          "name": "nothing executed",
+          "code": "r = execution_summary([\"not run\",\"blocked\"])\nassert r[\"pass_pct\"] == 0.0 and r[\"execution_pct\"] == 0.0 and r[\"total\"] == 2, r",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

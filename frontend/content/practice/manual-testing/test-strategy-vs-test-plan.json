@@ -1,0 +1,168 @@
+{
+  "lesson": "test-strategy-vs-test-plan",
+  "questions": [
+    {
+      "id": "pt-m2stp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "Which statement is correct?",
+      "options": [
+        "The plan is general and long-lived; the strategy is project-specific",
+        "The strategy is the general approach; the plan applies it to a specific project, release or level",
+        "They are the same document",
+        "The strategy lists daily tasks"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The strategy is general and lasts across projects. The plan is specific and has a shorter lifespan."
+    },
+    {
+      "id": "pt-m2stp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "A test plan should be updated when scope, risk or dates change.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Plans are living documents; an outdated plan misleads the team."
+    },
+    {
+      "id": "pt-m2stp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "Which ISO/IEC/IEEE standard provides a reference structure for test documentation, including the test plan?",
+      "options": [
+        "ISO 9001",
+        "ISO/IEC/IEEE 29119-3",
+        "ISO 27001",
+        "IEEE 754"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "29119-3 covers test documentation. ISO 9001 is quality management, 27001 is information security and IEEE 754 is floating point."
+    },
+    {
+      "id": "pt-m2stp-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "Which items typically belong in a test plan? Select all that apply.",
+      "options": [
+        "Scope and out-of-scope items",
+        "Schedule and resources",
+        "Entry and exit criteria",
+        "The source code of the product"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Plans record agreements on scope, resources, schedule and criteria. Source code is not part of a plan."
+    },
+    {
+      "id": "pt-m2stp-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "A project test plan repeats 15 pages of the organisation's test strategy. Why is that a problem?",
+      "options": [
+        "No problem",
+        "Duplication causes the copies to diverge and makes the plan hard to read; reference the strategy instead",
+        "Plans must be under 5 pages",
+        "Strategies cannot be referenced"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Referencing keeps one source of truth and lets the plan focus on project-specific decisions."
+    },
+    {
+      "id": "pt-m2stp-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "How can an agile team avoid test planning becoming bureaucracy?",
+      "options": [
+        "Skip planning",
+        "Keep a short, living plan or test approach covering scope, risk, environments and criteria, tailored to the team",
+        "Write a 100-page plan each sprint",
+        "Let each tester decide privately"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Agile teams still plan; they keep it light and updated. No planning loses shared agreement."
+    },
+    {
+      "id": "pt-m2stp-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "The test plan says 'testing will be completed when time runs out'. What is wrong?",
+      "options": [
+        "Nothing",
+        "There are no objective exit criteria, so nobody can say what 'done' means or what risk remains",
+        "It has no schedule",
+        "It should list every test case"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Exit criteria make completion measurable. Time alone says nothing about coverage or quality."
+    },
+    {
+      "id": "pt-m2stp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "Halfway through a release, the business adds a new payment provider. The plan was approved a month ago. What should the test lead do?",
+      "options": [
+        "Ignore it, the plan is approved",
+        "Assess the new risk, update the plan (scope, effort, schedule, environments), and agree the changes with stakeholders",
+        "Cancel the release",
+        "Test it after release"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Change in scope and risk must be reflected in the plan and agreed. Ignoring or silently absorbing it hides the risk."
+    },
+    {
+      "id": "pt-m2stp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-strategy-vs-test-plan",
+      "prompt": "A company has no test strategy; each project does something different and outcomes vary a lot. What is the best first step?",
+      "options": [
+        "Write a 50-page strategy in secret",
+        "Draft a short strategy of shared principles (levels, risk approach, tools, environments, reporting) with the teams and let plans reference it",
+        "Standardise every tool at once",
+        "Do nothing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A strategy needs agreement from those who use it. Short, shared and referenced is more successful than a large imposed document."
+    }
+  ],
+  "coding": []
+}

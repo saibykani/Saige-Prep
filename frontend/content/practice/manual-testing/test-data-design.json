@@ -1,0 +1,235 @@
+{
+  "lesson": "test-data-design",
+  "questions": [
+    {
+      "id": "pt-m2tdd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-data-design",
+      "prompt": "Which are the four classes of test data used in this lesson?",
+      "options": [
+        "Old, new, large, small",
+        "Valid, invalid, boundary and special",
+        "Production, staging, local and cloud",
+        "Positive, negative, manual and automated"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Designing data in valid, invalid, boundary and special classes makes sure you exercise normal use, rejection, edges and awkward real-world values."
+    },
+    {
+      "id": "pt-m2tdd-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-data-design",
+      "prompt": "A 'Nights' field accepts 1 to 30. Which value is an invalid-partition value?",
+      "options": [
+        "1",
+        "15",
+        "30",
+        "31"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "31 is just outside the upper boundary. 1 and 30 are valid boundaries; 15 is a typical valid value."
+    },
+    {
+      "id": "pt-m2tdd-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-data-design",
+      "prompt": "Recording the purpose of each test data row (for example 'upper boundary') makes the data easier to review and maintain.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "A purpose column explains why a value exists, so reviewers can spot gaps and maintainers do not delete important edge cases."
+    },
+    {
+      "id": "pt-m2tdd-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-data-design",
+      "prompt": "Which values are 'special' test data for a surname field? Select all that apply.",
+      "options": [
+        "O'Connor",
+        "Zoë",
+        "Smith-Jones",
+        "Smith"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Apostrophes, accented characters and hyphens are legitimate names that commonly break validation, encoding or SQL. 'Smith' is plain valid data."
+    },
+    {
+      "id": "pt-m2tdd-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-data-design",
+      "prompt": "Tests pass alone but fail when run together because two tests both register 'test@example.com'. What is the best fix?",
+      "options": [
+        "Run tests in a fixed order",
+        "Make each test create unique data (e.g. a generated suffix) and clean up after itself",
+        "Remove the uniqueness rule in the test environment",
+        "Retry failing tests three times"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Independent tests own their data. Ordering and retries hide the problem, and turning off the uniqueness rule means you no longer test real behaviour."
+    },
+    {
+      "id": "pt-m2tdd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-data-design",
+      "prompt": "When is masked production data the right choice over synthetic data?",
+      "options": [
+        "Always, because it is more realistic",
+        "When realistic distributions or complex relationships are hard to synthesise, and only with approval and proper anonymisation",
+        "Never, it is illegal",
+        "When the tester is in a hurry"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Synthetic data is preferred. Masked production data can be justified for realism, but only under approval and with irreversible anonymisation."
+    },
+    {
+      "id": "pt-m2tdd-07",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-data-design",
+      "prompt": "How many test cases does pytest collect from this parametrised test?",
+      "code": "import pytest\n\n@pytest.mark.parametrize(\"nights,ok\", [\n    (0, False),\n    (1, True),\n    (30, True),\n    (31, False),\n])\ndef test_nights(nights, ok):\n    assert is_valid_nights(nights) == ok",
+      "codeLanguage": "python",
+      "options": [
+        "1",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "parametrize creates one test case per tuple in the list; there are four tuples, so four test cases are collected."
+    },
+    {
+      "id": "pt-m2tdd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-data-design",
+      "prompt": "A team copies the full production customer database into a shared test environment that contractors can access. What is the strongest recommendation?",
+      "options": [
+        "It is fine because contractors signed an NDA",
+        "Stop: replace it with synthetic data, or masked data with irreversible anonymisation and approval, because unmasked personal data in test breaks privacy obligations and widens exposure",
+        "Encrypt the test laptops and continue",
+        "Only delete email addresses"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Data protection rules apply to test environments too. Deleting one field is not anonymisation, and NDAs or laptop encryption do not remove the risk of exposing real personal data."
+    },
+    {
+      "id": "pt-m2tdd-09",
+      "type": "debugging",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-data-design",
+      "prompt": "A booking test uses check-in date '2026-11-20' hard-coded. It passed for months, then started failing on 21 November 2026 with 'date must be in the future'. What is the best fix?",
+      "options": [
+        "Change it to '2027-11-20'",
+        "Compute dates relative to today (e.g. today + 7 days) so the data stays valid whenever the test runs",
+        "Delete the test",
+        "Disable the future-date rule in test"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Time-dependent data must be relative. Moving the hard-coded date only postpones the same failure; disabling the rule removes real behaviour."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2tdd-bva",
+      "title": "Generate 3-value boundary values",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `boundary_values(lo, hi)` for an integer field that accepts `lo` to `hi` inclusive.\n\nReturn a dict with two sorted lists, using **3-value BVA** (each boundary plus the values just inside and just outside):\n- `\"valid\"`: values from `{lo, lo+1, hi-1, hi}` (no duplicates)\n- `\"invalid\"`: `[lo-1, hi+1]`\n\nExample: `boundary_values(1, 30)` returns `{\"valid\": [1, 2, 29, 30], \"invalid\": [0, 31]}`.\n\nEdge case: when `lo == hi`, valid is just `[lo]`.",
+      "starter": "def boundary_values(lo, hi):\n    # TODO\n    return {}\n",
+      "solution": "def boundary_values(lo, hi):\n    valid = sorted({v for v in (lo, lo + 1, hi - 1, hi) if lo <= v <= hi})\n    return {\"valid\": valid, \"invalid\": [lo - 1, hi + 1]}\n",
+      "explanation": "A set removes duplicates when the range is tiny (for example 1..2 gives the same values for lo+1 and hi). Filtering keeps only values inside the range, and the two invalid values sit one step outside each boundary.",
+      "hints": [
+        "The invalid values are always one below `lo` and one above `hi`.",
+        "Put the four candidate valid values in a set to remove duplicates.",
+        "Filter with `lo <= v <= hi` and `sorted(...)` the result."
+      ],
+      "tests": [
+        {
+          "name": "nights 1 to 30",
+          "code": "assert boundary_values(1, 30) == {\"valid\": [1, 2, 29, 30], \"invalid\": [0, 31]}",
+          "marks": 4
+        },
+        {
+          "name": "tiny range 1 to 2",
+          "code": "assert boundary_values(1, 2) == {\"valid\": [1, 2], \"invalid\": [0, 3]}",
+          "marks": 3
+        },
+        {
+          "name": "single value range",
+          "code": "assert boundary_values(5, 5) == {\"valid\": [5], \"invalid\": [4, 6]}",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-m2tdd-classify",
+      "title": "Classify name test data",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `classify_name(value)` for a name field that accepts **1 to 50 characters** after trimming spaces.\n\nReturn one of:\n- `\"invalid\"` if the trimmed value is empty or longer than 50 characters;\n- `\"boundary\"` if the trimmed length is exactly 1 or 50;\n- `\"special\"` if it is otherwise valid but contains any character that is not an ASCII letter (for example an apostrophe, hyphen, space, accent or emoji);\n- `\"valid\"` otherwise.\n\nExamples: `classify_name(\"Asha\")` → `\"valid\"`, `classify_name(\"O'Brien\")` → `\"special\"`, `classify_name(\"   \")` → `\"invalid\"`, `classify_name(\"A\")` → `\"boundary\"`.",
+      "starter": "def classify_name(value):\n    # TODO\n    return None\n",
+      "solution": "import string\n\ndef classify_name(value):\n    v = value.strip()\n    if len(v) == 0 or len(v) > 50:\n        return \"invalid\"\n    if len(v) in (1, 50):\n        return \"boundary\"\n    if any(ch not in string.ascii_letters for ch in v):\n        return \"special\"\n    return \"valid\"\n",
+      "explanation": "The checks run in priority order: invalid first, then boundary lengths, then special characters. Trimming first matches the rule and catches the 'only spaces' case, which is a classic invalid value.",
+      "hints": [
+        "Trim with `.strip()` before measuring the length.",
+        "Check invalid, then boundary, then special, in that order.",
+        "`string.ascii_letters` lets you test whether each character is a plain letter."
+      ],
+      "tests": [
+        {
+          "name": "plain and special names",
+          "code": "assert classify_name(\"Asha\") == \"valid\"\nassert classify_name(\"O'Brien\") == \"special\"\nassert classify_name(\"Zoë\") == \"special\"",
+          "marks": 3
+        },
+        {
+          "name": "invalid lengths",
+          "code": "assert classify_name(\"   \") == \"invalid\"\nassert classify_name(\"a\" * 51) == \"invalid\"",
+          "marks": 3
+        },
+        {
+          "name": "boundaries",
+          "code": "assert classify_name(\"A\") == \"boundary\"\nassert classify_name(\"b\" * 50) == \"boundary\"\nassert classify_name(\"  \" + \"c\" * 50 + \" \") == \"boundary\"",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

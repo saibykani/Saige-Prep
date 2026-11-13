@@ -1,0 +1,202 @@
+{
+  "lesson": "testing-user-permissions",
+  "questions": [
+    {
+      "id": "pt-m2perm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-user-permissions",
+      "prompt": "Where should you start designing permission tests?",
+      "options": [
+        "From the code",
+        "From a confirmed permission matrix of roles and actions",
+        "From the UI colours",
+        "From random guesses"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Every cell of the matrix is a test."
+    },
+    {
+      "id": "pt-m2perm-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-user-permissions",
+      "prompt": "If the Delete button is hidden for Viewers, the Viewer role cannot delete records.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Hiding a control is not access control. Check the server through the URL or API."
+    },
+    {
+      "id": "pt-m2perm-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-user-permissions",
+      "prompt": "A customer changes /orders/1001 to /orders/1002 and sees another customer's order. What is this?",
+      "options": [
+        "Vertical privilege escalation",
+        "Horizontal access control failure (insecure direct object reference)",
+        "Session timeout",
+        "Caching"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Same privilege level, different user's data. That is horizontal."
+    },
+    {
+      "id": "pt-m2perm-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-user-permissions",
+      "prompt": "Which tests belong in a permission test set? Select all that apply.",
+      "options": [
+        "Allowed action by the right role",
+        "Denied action by a lower role",
+        "Another user's record accessed by a same-role user",
+        "Permissions after role change and logout"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Positive, negative, horizontal and post-change tests all belong."
+    },
+    {
+      "id": "pt-m2perm-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-user-permissions",
+      "prompt": "A logged-in user without permission calls an admin endpoint. Which response is most appropriate?",
+      "options": [
+        "200 with empty data",
+        "403 Forbidden",
+        "500",
+        "302 to home with success"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Authenticated but not authorised gives 403; unauthenticated usually 401."
+    },
+    {
+      "id": "pt-m2perm-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-user-permissions",
+      "prompt": "An editor is demoted to viewer but keeps editing for an hour. What is likely wrong?",
+      "options": [
+        "Nothing",
+        "Permissions are cached in the session/token and not re-checked after the role change",
+        "The UI",
+        "Colours"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Permissions must be re-evaluated after role changes."
+    },
+    {
+      "id": "pt-m2perm-07",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-user-permissions",
+      "prompt": "Why do negative permission tests matter more than positive ones for security?",
+      "options": [
+        "They are easier",
+        "Defects usually are users being able to do something they should not, which positive tests never reveal",
+        "They are faster",
+        "They are required by ISTQB"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Positive tests confirm allowed actions work but do not find over-permission."
+    },
+    {
+      "id": "pt-m2perm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-user-permissions",
+      "prompt": "A viewer sends PUT /api/records/7 with a valid token and the record changes, although the UI has no edit button. What do you report?",
+      "options": [
+        "Nothing",
+        "Broken access control at the API: authorisation is enforced only in the UI",
+        "Cosmetic",
+        "Cache"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The server is the real boundary, so this is high severity."
+    },
+    {
+      "id": "pt-m2perm-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-user-permissions",
+      "prompt": "Your matrix has 6 roles and 25 actions. What is the sensible way to test?",
+      "options": [
+        "All 150 manually always",
+        "Confirm the matrix, generate every cell as a test (automated at API level where possible), and prioritise sensitive actions manually",
+        "Test admin only",
+        "Skip"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Every cell is a test, but automation and risk prioritisation keep it feasible."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2perm-matrix",
+      "title": "Turn a permission matrix into tests",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `permission_tests(matrix)` that turns a permission matrix into test cases.\n\n`matrix` maps `(role, action)` to `True` (allowed) or `False` (denied). Return a sorted list of `(role, action, expected)` tuples where `expected` is `\"allow\"` or `\"deny\"`. **Every cell is a test.**\n\nThen write `negative_tests(matrix)` returning only the denied tests (the `\"deny\"` ones), keeping the sort order.",
+      "starter": "def permission_tests(matrix):\n    # TODO\n    return None\n\ndef negative_tests(matrix):\n    # TODO\n    return None\n",
+      "solution": "def permission_tests(matrix):\n    return sorted((r, a, \"allow\" if ok else \"deny\") for (r, a), ok in matrix.items())\n\ndef negative_tests(matrix):\n    return [t for t in permission_tests(matrix) if t[2] == \"deny\"]\n",
+      "explanation": "Every (role, action) cell becomes a test with an expected allow or deny. Sorting makes the list stable, and the negative tests are the denied subset, which deserve the most attention for security.",
+      "hints": [
+        "Iterate over `matrix.items()` and build a tuple per cell.",
+        "Use `\"allow\" if ok else \"deny\"`.",
+        "negative_tests can reuse permission_tests and filter on the third item."
+      ],
+      "tests": [
+        {
+          "name": "every cell is a test",
+          "code": "perm = {(\"admin\",\"delete\"): True, (\"editor\",\"delete\"): False, (\"viewer\",\"delete\"): False, (\"admin\",\"edit\"): True, (\"editor\",\"edit\"): True, (\"viewer\",\"edit\"): False}\nt = permission_tests(perm)\nassert len(t) == 6\nassert t[0] == (\"admin\", \"delete\", \"allow\")",
+          "marks": 3
+        },
+        {
+          "name": "expected values",
+          "code": "perm = {(\"admin\",\"delete\"): True, (\"editor\",\"delete\"): False, (\"viewer\",\"delete\"): False, (\"admin\",\"edit\"): True, (\"editor\",\"edit\"): True, (\"viewer\",\"edit\"): False}\nt = permission_tests(perm)\nassert (\"viewer\", \"edit\", \"deny\") in t and (\"editor\", \"edit\", \"allow\") in t",
+          "marks": 3
+        },
+        {
+          "name": "negative tests only",
+          "code": "perm = {(\"admin\",\"delete\"): True, (\"editor\",\"delete\"): False, (\"viewer\",\"delete\"): False, (\"admin\",\"edit\"): True, (\"editor\",\"edit\"): True, (\"viewer\",\"edit\"): False}\nn = negative_tests(perm)\nassert n == [(\"editor\", \"delete\", \"deny\"), (\"viewer\", \"delete\", \"deny\"), (\"viewer\", \"edit\", \"deny\")], n",
+          "marks": 4
+        }
+      ]
+    }
+  ]
+}

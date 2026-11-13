@@ -1,0 +1,201 @@
+{
+  "lesson": "test-scenarios-and-test-cases",
+  "questions": [
+    {
+      "id": "pt-m2tsc-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "Which is the correct order from most general to most specific?",
+      "options": [
+        "Test case, scenario, condition",
+        "Test condition, test scenario, test case",
+        "Scenario, case, condition",
+        "Case, condition, scenario"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A condition says what could be tested, a scenario is a flow to verify and a case is an exact executable check."
+    },
+    {
+      "id": "pt-m2tsc-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "A good expected result is observable and precise, such as 'error message \"Email is required\" appears under the field'.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testers must be able to decide pass or fail from what they see. 'Works correctly' is not an expected result."
+    },
+    {
+      "id": "pt-m2tsc-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "Which is a test scenario rather than a test case?",
+      "options": [
+        "Enter 'a@b.test' in Email, leave Password blank, click Login, expect 'Password is required'",
+        "A returning user logs in with a valid account",
+        "Set the browser zoom to 200% and press F5",
+        "SELECT * FROM users"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A scenario describes a flow at a high level. The first option has exact data, steps and an expected result, so it is a test case."
+    },
+    {
+      "id": "pt-m2tsc-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "A test case says: 'Try to log in and check it works'. What is the main problem?",
+      "options": [
+        "It is too long",
+        "No data, steps or precise expected result, so two testers would do different things",
+        "It is positive",
+        "It lacks a screenshot"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Vague test cases are not repeatable. Every case needs data, steps and a specific observable result."
+    },
+    {
+      "id": "pt-m2tsc-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "Which belong to one scenario 'User transfers money' as separate test cases? Select all that apply.",
+      "options": [
+        "Transfer with a valid amount",
+        "Transfer more than the balance",
+        "Transfer with amount 0",
+        "Change the colour of the Transfer button"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "A scenario yields positive, negative and boundary cases. A colour change is a different concern."
+    },
+    {
+      "id": "pt-m2tsc-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "A test case has 5 objectives: login, add item, apply coupon, pay, and check email. It fails at step 3. What is the design problem?",
+      "options": [
+        "Too few steps",
+        "Too many objectives per case: the failure does not show which behaviour is broken, and later objectives are never checked",
+        "Wrong ID format",
+        "It should be automated"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "One objective per case keeps diagnosis simple and prevents one failure from hiding others."
+    },
+    {
+      "id": "pt-m2tsc-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "A stable, rarely changing, high-risk payment function is going to be tested by many different people. Which level of detail fits best?",
+      "options": [
+        "Exploratory charter only",
+        "Detailed test cases with exact data and expected results",
+        "No documentation",
+        "A one-line scenario"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Higher risk, more testers and stable functionality justify detail. Exploratory charters suit fast-changing or low-risk areas."
+    },
+    {
+      "id": "pt-m2tsc-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "Acceptance criterion: 'Users aged 18 to 65 can buy; others see an error'. Which set of test cases is best derived from it?",
+      "options": [
+        "Age 30 only",
+        "Ages 17, 18, 65, 66 plus one typical value like 40",
+        "Ages 1 to 100, all of them",
+        "Ages 18 and 65 only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Boundary values on both sides of both limits plus a typical value cover the rule efficiently. One value misses the edges; all 100 is wasteful."
+    },
+    {
+      "id": "pt-m2tsc-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-scenarios-and-test-cases",
+      "prompt": "A test case ID is TC-12 but nothing links it to a requirement or story. A reviewer asks you to fix it. Which fix is best?",
+      "options": [
+        "Delete the case",
+        "Add a traceable objective and link it to the requirement or story it verifies, or question why it exists",
+        "Rename it",
+        "Mark it as manual"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Every case should be traceable to what it verifies. If no requirement exists, either the requirement is missing or the case is unnecessary."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2tsc-missing",
+      "title": "Check a test case for missing fields",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `missing_fields(case)` that checks a manual test case dict for the essential fields.\n\nA well-formed case needs non-empty values for: `id`, `objective`, `preconditions`, `steps` (a non-empty list), `test_data`, `expected`.\n\nReturn a sorted list of the field names that are missing or empty (empty string, `None`, empty list or whitespace-only string).\n\nExample: `{\"id\": \"TC-1\", \"steps\": [], \"expected\": \"  \"}` → `[\"expected\", \"objective\", \"preconditions\", \"steps\", \"test_data\"]`.",
+      "starter": "def missing_fields(case):\n    # TODO\n    return None\n",
+      "solution": "REQUIRED = [\"id\", \"objective\", \"preconditions\", \"steps\", \"test_data\", \"expected\"]\n\ndef missing_fields(case):\n    missing = []\n    for f in REQUIRED:\n        v = case.get(f)\n        if v is None or (isinstance(v, str) and not v.strip()) or (isinstance(v, list) and len(v) == 0):\n            missing.append(f)\n    return sorted(missing)\n",
+      "explanation": "Each field is checked against several kinds of empty. Returning a sorted list gives reviewers a clear, repeatable checklist of what to fix.",
+      "hints": [
+        "Define the list of required field names.",
+        "Use `case.get(name)` so absent keys give None.",
+        "Strings need `.strip()` before testing for emptiness."
+      ],
+      "tests": [
+        {
+          "name": "completely filled case",
+          "code": "c = {\"id\": \"TC-1\", \"objective\": \"Login with valid user\", \"preconditions\": \"User exists\", \"steps\": [\"Open login\", \"Submit\"], \"test_data\": \"a@b.test / Pw1!\", \"expected\": \"Dashboard shown\"}\nassert missing_fields(c) == []",
+          "marks": 3
+        },
+        {
+          "name": "missing and empty fields",
+          "code": "c = {\"id\": \"TC-1\", \"steps\": [], \"expected\": \"  \"}\nassert missing_fields(c) == [\"expected\", \"objective\", \"preconditions\", \"steps\", \"test_data\"], missing_fields(c)",
+          "marks": 4
+        },
+        {
+          "name": "one field missing",
+          "code": "c = {\"id\": \"TC-2\", \"objective\": \"x\", \"preconditions\": \"y\", \"steps\": [\"a\"], \"expected\": \"z\"}\nassert missing_fields(c) == [\"test_data\"]",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "lesson": "writing-a-great-defect-report",
+  "questions": [
+    {
+      "id": "pt-m2dr-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "Which is the best defect title?",
+      "options": [
+        "Login broken",
+        "Error",
+        "Login with a valid email returns HTTP 500 on the staging Chrome build 2.4.1",
+        "It does not work"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A good title says what is wrong, where and under what condition."
+    },
+    {
+      "id": "pt-m2dr-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "If a defect reproduces only sometimes, you should not log it until you can reproduce it every time.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Log it with frequency, conditions and evidence such as logs; intermittent defects are real."
+    },
+    {
+      "id": "pt-m2dr-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "Where should the expected result come from?",
+      "options": [
+        "The tester's feelings",
+        "A requirement, specification or other agreed oracle",
+        "The developer",
+        "Social media"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Expected results need a reference."
+    },
+    {
+      "id": "pt-m2dr-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "Which belong in a defect report? Select all that apply.",
+      "options": [
+        "Numbered steps with exact test data",
+        "Expected and actual results",
+        "Environment and build version",
+        "Evidence such as screenshots, logs or request IDs"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "These let anyone reproduce and fix it without asking."
+    },
+    {
+      "id": "pt-m2dr-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "Your actual result says: 'The discount is calculated twice in the backend.' What is wrong with it?",
+      "options": [
+        "Nothing",
+        "It states a guess about the cause, not an observed fact; report what you saw (the total shown) and evidence",
+        "Too short",
+        "Wrong grammar"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Actual results are observations; causes are for the developer."
+    },
+    {
+      "id": "pt-m2dr-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "Why include exact test data in steps?",
+      "options": [
+        "To fill space",
+        "So others can reproduce it precisely, as data often triggers the defect",
+        "For metrics",
+        "To avoid severity"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Data-dependent defects need exact values."
+    },
+    {
+      "id": "pt-m2dr-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "A report says: 'Sometimes the app is slow, please check.' It is bounced back. What are the main gaps?",
+      "options": [
+        "None",
+        "No steps, environment, measured values, expected result or evidence",
+        "Wrong tool",
+        "Wrong priority"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Vague reports cannot be reproduced."
+    },
+    {
+      "id": "pt-m2dr-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "You found a defect that also appears in two other places. How should you report it?",
+      "options": [
+        "One vague report",
+        "One report per distinct failure, linked to each other, or one report listing the common root cause with evidence for each place, per team convention",
+        "Do not report",
+        "Report only the first"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Keep reports focused but linked."
+    },
+    {
+      "id": "pt-m2dr-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "writing-a-great-defect-report",
+      "prompt": "A developer rejects your defect as 'works as designed'. You think the design is wrong. Best next step?",
+      "options": [
+        "Argue",
+        "Check the requirement, and if the design conflicts with user needs raise it as a requirement or usability issue with evidence for triage",
+        "Close it",
+        "Escalate to the manager immediately"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Base the discussion on requirements and evidence."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2dr-check",
+      "title": "Lint a defect report",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `check_defect_report(report)` for a defect report dict. Return a sorted list of problems (strings):\n\n- `\"missing:<field>\"` for each required field that is absent or blank: `title`, `steps`, `expected`, `actual`, `environment`;\n- `\"vague_title\"` if the title has fewer than 4 words;\n- `\"no_numbered_steps\"` if `steps` is present but does not contain `\"1.\"`.\n\nExample: `{\"title\": \"Broken\", \"steps\": \"click it\", \"expected\": \"ok\", \"actual\": \"bad\", \"environment\": \"\"}` → `[\"missing:environment\", \"no_numbered_steps\", \"vague_title\"]`.",
+      "starter": "def check_defect_report(report):\n    # TODO\n    return None\n",
+      "solution": "def check_defect_report(report):\n    problems = []\n    for f in [\"title\", \"steps\", \"expected\", \"actual\", \"environment\"]:\n        v = report.get(f)\n        if v is None or not str(v).strip():\n            problems.append(\"missing:\" + f)\n    title = str(report.get(\"title\") or \"\")\n    if title.strip() and len(title.split()) < 4:\n        problems.append(\"vague_title\")\n    steps = str(report.get(\"steps\") or \"\")\n    if steps.strip() and \"1.\" not in steps:\n        problems.append(\"no_numbered_steps\")\n    return sorted(problems)\n",
+      "explanation": "A tester's checklist becomes code: required fields, a minimum-quality title and numbered steps. Sorting keeps the result predictable, and blank values count as missing, like a reviewer would treat them.",
+      "hints": [
+        "Loop over the required fields and check for None or blank values.",
+        "`len(title.split()) < 4` finds a vague title.",
+        "Check `\"1.\" in steps`, and return `sorted(problems)`."
+      ],
+      "tests": [
+        {
+          "name": "complete report has no problems",
+          "code": "r = {\"title\": \"Login returns 500 for valid user\", \"steps\": \"1. Open login 2. Submit\", \"expected\": \"Dashboard\", \"actual\": \"HTTP 500\", \"environment\": \"Staging, Chrome 130\"}\nassert check_defect_report(r) == []",
+          "marks": 3
+        },
+        {
+          "name": "multiple problems",
+          "code": "r = {\"title\": \"Broken\", \"steps\": \"click it\", \"expected\": \"ok\", \"actual\": \"bad\", \"environment\": \"\"}\nassert check_defect_report(r) == [\"missing:environment\", \"no_numbered_steps\", \"vague_title\"], check_defect_report(r)",
+          "marks": 4
+        },
+        {
+          "name": "missing fields",
+          "code": "r = {\"title\": \"Cart total wrong with two coupons\"}\nassert check_defect_report(r) == [\"missing:actual\", \"missing:environment\", \"missing:expected\", \"missing:steps\"], check_defect_report(r)",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "lesson": "smoke-and-sanity-testing",
+  "questions": [
+    {
+      "id": "pt-m2smk-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A smoke test answers which question?",
+      "options": [
+        "Is every feature correct?",
+        "Is this build stable enough to be worth testing further?",
+        "Has performance improved?",
+        "Which defects were fixed?"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A smoke test is a short gate on the main functions. It does not try to prove full correctness or measure performance."
+    },
+    {
+      "id": "pt-m2smk-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A good smoke suite is short, stable and covers the most critical paths.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Smoke tests must run quickly and give a trustworthy go/no-go signal, so they focus on a few critical, stable checks."
+    },
+    {
+      "id": "pt-m2smk-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "Which check is least suitable for a smoke suite of an online bank?",
+      "options": [
+        "Customer can log in",
+        "Account balance page loads",
+        "A transfer between own accounts completes",
+        "Every validation message on the address change form has the correct wording"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Detailed wording checks belong in feature or regression testing. Login, balances and a core transfer are critical paths that decide whether deeper testing is possible."
+    },
+    {
+      "id": "pt-m2smk-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A hotfix changes only the password-reset email template. In common industry usage, what is a sanity check here?",
+      "options": [
+        "Run the full regression suite",
+        "A narrow check that the reset email is sent with the corrected template and its link works",
+        "Run only performance tests",
+        "No testing is needed for a template"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Many teams use 'sanity' for a narrow check focused on the changed area. Full regression is broader than needed for this purpose; skipping testing is risky because templates break links and variables."
+    },
+    {
+      "id": "pt-m2smk-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "How does the ISTQB glossary treat the term 'sanity test'?",
+      "options": [
+        "As a type of performance test",
+        "As a synonym of smoke test",
+        "As a synonym of acceptance test",
+        "It does not mention it"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The ISTQB glossary lists sanity test as a synonym for smoke test. Industry usage often differs, which is why teams should agree their own terms."
+    },
+    {
+      "id": "pt-m2smk-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A smoke suite has grown to 180 checks, takes 2 hours and often fails on minor UI changes. What went wrong?",
+      "options": [
+        "Nothing; more checks give more confidence",
+        "It has become a regression suite: it lost the short, stable, critical-path focus a smoke gate needs",
+        "The tests should be run manually instead",
+        "The build server is too slow"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A smoke suite that is long and brittle can no longer act as a fast gate. Trim it to the critical paths and move the rest to regression."
+    },
+    {
+      "id": "pt-m2smk-07",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A smoke test fails because nobody can log in. What should a build rejection include? Select all that apply.",
+      "options": [
+        "The build/version identifier",
+        "The failed check with steps and evidence (screenshot, logs, request ID)",
+        "A notification to the build owner or team channel",
+        "Starting the 200 scheduled regression tests anyway to save time"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Rejection should be traceable and actionable: which build, what failed, proof and who is told. Running regression on a build that cannot log in wastes effort and produces noise."
+    },
+    {
+      "id": "pt-m2smk-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "A smoke run fails on 'search returns results' only. Login, cart and checkout pass. Release testing for a payments change is the main goal of this cycle. What is the most sensible decision?",
+      "options": [
+        "Reject the build automatically, whatever failed",
+        "Accept it silently because payments work",
+        "Raise the search failure with evidence and let the agreed rule decide; if the team's rule allows, continue payments testing while search is fixed, recording the risk",
+        "Mark search as passed since it is not in scope"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Build-rejection rules should be agreed in advance. A visible, recorded decision is better than either blind rejection or silently ignoring the failure. Marking a failure as passed is falsifying results."
+    },
+    {
+      "id": "pt-m2smk-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "smoke-and-sanity-testing",
+      "prompt": "Your team argues for a week about whether a 15-check suite is 'smoke' or 'sanity'. What is the most productive action?",
+      "options": [
+        "Adopt the ISTQB definition and refuse other usages",
+        "Agree and write down what each term means for this team (purpose, scope, when it runs, who decides) and move on",
+        "Rename both to 'regression'",
+        "Stop running the suite until the debate ends"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The lesson's advice is to clarify team terminology rather than argue. The value is in a shared definition of purpose and scope, not in winning the naming debate."
+    }
+  ],
+  "coding": []
+}

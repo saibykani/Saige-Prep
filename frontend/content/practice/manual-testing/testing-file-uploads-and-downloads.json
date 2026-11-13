@@ -1,0 +1,201 @@
+{
+  "lesson": "testing-file-uploads-and-downloads",
+  "questions": [
+    {
+      "id": "pt-m2upl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "Which is NOT one of the input dimensions of a file upload?",
+      "options": [
+        "Size",
+        "Type",
+        "Colour of the upload button",
+        "Name"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Size, type, name, count and content are the dimensions of a file input."
+    },
+    {
+      "id": "pt-m2upl-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "A 0-byte file is a useful negative or boundary test for an upload.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Empty files expose assumptions: parsers, previews and virus scanners may fail."
+    },
+    {
+      "id": "pt-m2upl-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "The upload limit is 5 MB (5,242,880 bytes). Which set best covers the boundaries?",
+      "options": [
+        "1 MB only",
+        "5,242,879, 5,242,880 and 5,242,881 bytes",
+        "10 MB only",
+        "Any three files"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Just inside, on and just outside the limit are classic BVA values."
+    },
+    {
+      "id": "pt-m2upl-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "You rename a text file to photo.png and upload it. The app accepts it and later shows a broken image. What does this reveal?",
+      "options": [
+        "Nothing",
+        "The server validates type by extension only, not by content",
+        "A CSS problem",
+        "A slow network"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Type must be verified from content, not just the filename or declared MIME type."
+    },
+    {
+      "id": "pt-m2upl-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "Which are valid negative tests for an upload? Select all that apply.",
+      "options": [
+        "Empty file",
+        "Corrupted file with a valid extension",
+        "File name with special characters and very long name",
+        "A valid file within limits"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Empty, corrupt and odd-named files are negative or edge cases. A valid file is a positive test."
+    },
+    {
+      "id": "pt-m2upl-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "A private invoice download link works when pasted by a different logged-in user. What is the defect?",
+      "options": [
+        "Caching",
+        "Broken access control on the download",
+        "File naming",
+        "Performance"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Downloads need authorisation checks per user; hiding the link is not enough."
+    },
+    {
+      "id": "pt-m2upl-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "User cancels an upload at 60 percent and retries. The list now shows the file twice, one unreadable. Which area is the defect?",
+      "options": [
+        "Naming",
+        "Interrupted/cancelled upload cleanup and duplicate handling",
+        "Download",
+        "Type check"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Interrupted uploads must clean up partial files and avoid duplicate records."
+    },
+    {
+      "id": "pt-m2upl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "A CSV export of 'Customers' opens in Excel with 'Zoë' shown as 'ZoÃ«'. What is the likely cause and test?",
+      "options": [
+        "Wrong file size",
+        "Character encoding mismatch (UTF-8 without a BOM read as another encoding); test with non-ASCII data and open in the target tools",
+        "Wrong delimiter",
+        "Browser bug"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Encoding is a classic download defect. Verify content in the tools users actually use."
+    },
+    {
+      "id": "pt-m2upl-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-file-uploads-and-downloads",
+      "prompt": "A user uploads a file whose name is '../../etc/passwd.png' in an authorised test and the server saves it outside the upload folder. What is this?",
+      "options": [
+        "Normal",
+        "Path traversal: file names must be sanitised and stored under generated names",
+        "Size issue",
+        "Type issue"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "User-supplied file names must never be used as paths. Store with a safe generated name."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2upl-boundaries",
+      "title": "Generate upload size boundaries",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `upload_boundaries(limit_bytes)` returning the sorted list of file sizes (in bytes) you would test for an upload limit of `limit_bytes` (files up to and including the limit are accepted).\n\nInclude: `0` (empty file), `1`, `limit - 1`, `limit`, `limit + 1`. Remove duplicates (for example when `limit` is 1).\n\nExample: `upload_boundaries(5242880)` → `[0, 1, 5242879, 5242880, 5242881]`.",
+      "starter": "def upload_boundaries(limit_bytes):\n    # TODO\n    return []\n",
+      "solution": "def upload_boundaries(limit_bytes):\n    return sorted({0, 1, limit_bytes - 1, limit_bytes, limit_bytes + 1})\n",
+      "explanation": "A set removes duplicates for tiny limits, and sorting gives a predictable test order. The values are 0, 1, limit-1, limit and limit+1: the empty file, the smallest file and both sides of the boundary.",
+      "hints": [
+        "List the five sizes explicitly.",
+        "Put them in a set to remove duplicates.",
+        "Return `sorted(...)`."
+      ],
+      "tests": [
+        {
+          "name": "5 MB limit",
+          "code": "assert upload_boundaries(5242880) == [0, 1, 5242879, 5242880, 5242881]",
+          "marks": 4
+        },
+        {
+          "name": "tiny limit has no duplicates",
+          "code": "assert upload_boundaries(1) == [0, 1, 2]",
+          "marks": 3
+        },
+        {
+          "name": "1 KB limit",
+          "code": "assert upload_boundaries(1024) == [0, 1, 1023, 1024, 1025]",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

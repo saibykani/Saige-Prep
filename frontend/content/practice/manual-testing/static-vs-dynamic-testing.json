@@ -1,0 +1,170 @@
+{
+  "lesson": "static-vs-dynamic-testing",
+  "questions": [
+    {
+      "id": "pt-m2sd-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "Which of these is dynamic testing?",
+      "options": [
+        "Reviewing a user story with the product owner",
+        "Running a linter on source code",
+        "Executing a test case against the deployed login page",
+        "Inspecting a database design document"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Dynamic testing executes the software. Reviews, linters and design inspections examine work products without executing them, so they are static."
+    },
+    {
+      "id": "pt-m2sd-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "Test cases themselves can be reviewed statically.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Almost any readable work product can be statically tested, including test cases, test plans and requirements."
+    },
+    {
+      "id": "pt-m2sd-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "Which ISTQB review type is the least formal?",
+      "options": [
+        "Inspection",
+        "Technical review",
+        "Walkthrough",
+        "Informal review"
+      ],
+      "answer": [
+        3
+      ],
+      "explanation": "Informal reviews have no defined process or documented output. Walkthroughs, technical reviews and inspections are progressively more formal, with inspection the most formal."
+    },
+    {
+      "id": "pt-m2sd-04",
+      "type": "code-output",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "A static analysis tool reviews this code without running it. Which finding is it able to report?",
+      "code": "def price(total, is_member):\n    if is_member:\n        discount = 0.1\n    return total * (1 - discount)",
+      "codeLanguage": "python",
+      "options": [
+        "The function returns the wrong total for a real customer",
+        "`discount` may be referenced before assignment when `is_member` is False",
+        "The page loads slowly",
+        "A user cannot find the checkout button"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Data-flow analysis can see that `discount` is only assigned inside the if branch. The other findings need execution or real users."
+    },
+    {
+      "id": "pt-m2sd-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "Which defects are typically easier to find with static testing than with dynamic testing? Select all that apply.",
+      "options": [
+        "Ambiguous or contradictory requirements",
+        "Unreachable code and unused variables",
+        "Memory leaks visible only under 8 hours of load",
+        "Deviations from coding standards"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Ambiguities, unreachable code and standard violations are visible in the work product itself. Load-related memory leaks only appear when the system runs, so dynamic testing is needed."
+    },
+    {
+      "id": "pt-m2sd-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "What is the output difference between static and dynamic testing?",
+      "options": [
+        "Static testing finds failures; dynamic finds defects",
+        "Static testing finds defects directly; dynamic testing observes failures, which then have to be traced back to defects",
+        "Both find only failures",
+        "Static testing finds nothing until code is executed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Because static testing reads the work product, it points to the defect itself. Dynamic testing sees behaviour (failures) and debugging locates the defect."
+    },
+    {
+      "id": "pt-m2sd-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "A team runs inspections but finds nothing useful: reviewers open the document for the first time in the meeting. Which part of the review process is missing?",
+      "options": [
+        "Planning",
+        "Individual review (preparation) before the review meeting",
+        "Fixing and reporting",
+        "Choosing a tool"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Individual review is where most issues are found. Without it, meeting time is spent reading rather than discussing anomalies."
+    },
+    {
+      "id": "pt-m2sd-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "A user story says: 'As a user I want to reset my password so I can log in again.' In a 10-minute review, which question finds the most serious gap before coding?",
+      "options": [
+        "Which font should the reset page use?",
+        "How long is the reset link valid, can it be reused, and what happens to existing sessions after reset?",
+        "Should the button be blue?",
+        "Can we add a dark mode?"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Token lifetime, single use and session invalidation are security-critical behaviours missing from the story. Static review finds them before any code is built; cosmetic questions are lower value."
+    },
+    {
+      "id": "pt-m2sd-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "static-vs-dynamic-testing",
+      "prompt": "A manager proposes: 'We now have a static analysis tool on every commit, so we can drop most system tests.' What is the best answer?",
+      "options": [
+        "Agree: static analysis finds all defects",
+        "Disagree: static analysis finds code-level issues but cannot reveal wrong behaviour against requirements, integration, performance or usability failures; both approaches complement each other",
+        "Agree only for back-end code",
+        "Disagree because static tools are always wrong"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Static and dynamic testing find different kinds of problems. Static tools are valuable but cannot tell you the system meets its requirements when it actually runs."
+    }
+  ],
+  "coding": []
+}

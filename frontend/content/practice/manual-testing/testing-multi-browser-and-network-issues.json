@@ -1,0 +1,168 @@
+{
+  "lesson": "testing-multi-browser-and-network-issues",
+  "questions": [
+    {
+      "id": "pt-m2net-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "Which set covers the three major browser engines?",
+      "options": [
+        "Chrome, Edge, Opera",
+        "Chrome (Blink), Firefox (Gecko), Safari (WebKit)",
+        "Chrome, Firefox, Brave",
+        "Edge, Chrome, Vivaldi"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Chrome, Edge and Opera all use Blink, so they share an engine. Gecko and WebKit are the other two."
+    },
+    {
+      "id": "pt-m2net-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "Chrome's device emulation is the same as testing on a real iPhone in Safari.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Emulation changes viewport and user agent but not the real engine, hardware or OS behaviour."
+    },
+    {
+      "id": "pt-m2net-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "Which DevTools feature lets you reproduce a slow connection?",
+      "options": [
+        "Elements panel",
+        "Network throttling",
+        "Lighthouse colour check",
+        "Console clear"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Network throttling and offline mode make slow-network tests repeatable."
+    },
+    {
+      "id": "pt-m2net-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "Which behaviours should you check when a request fails because the network is offline? Select all that apply.",
+      "options": [
+        "A clear error message",
+        "User input is not lost",
+        "Retry is safe and does not duplicate actions",
+        "The app crashes silently"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Failures need visible, recoverable handling. A silent crash is the defect."
+    },
+    {
+      "id": "pt-m2net-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "On a throttled connection, a user taps Place Order, sees nothing for 6 seconds, taps again, and two orders are created. Which fix addresses this best?",
+      "options": [
+        "Tell users not to click twice",
+        "Disable the button with a loading state and make the server idempotent (e.g. with a key)",
+        "Make the button smaller",
+        "Increase the timeout only"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Combine front-end feedback with a server guard against duplicates. User instruction is not a control."
+    },
+    {
+      "id": "pt-m2net-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "How should you choose which browsers and devices to test?",
+      "options": [
+        "Whatever the tester prefers",
+        "By engine, platform and real usage data and risk",
+        "Only the newest",
+        "Only the oldest"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A matrix based on usage and risk provides coverage without testing every combination."
+    },
+    {
+      "id": "pt-m2net-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "A date input works in Chrome but shows a plain text box in an older Safari. What type of defect is this?",
+      "options": [
+        "Server",
+        "Cross-browser difference in native input support",
+        "Database",
+        "Security"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Date inputs, file pickers and autofill differ between engines. Provide fallbacks."
+    },
+    {
+      "id": "pt-m2net-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "A form submit times out after 30 s but the server finished the order. The user sees an error and retries. What should the system have done?",
+      "options": [
+        "Nothing",
+        "Treat the timeout as unknown, use an idempotency key so the retry returns the original result, and offer order status",
+        "Show success always",
+        "Delete the order"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Timeouts mean the outcome is unknown. Idempotent retries avoid duplicates."
+    },
+    {
+      "id": "pt-m2net-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-multi-browser-and-network-issues",
+      "prompt": "You have a budget for 4 browser/device configurations. Analytics: 55% Chrome Android, 25% Safari iOS, 12% Chrome desktop, 6% Firefox desktop, 2% other. What is a sensible matrix?",
+      "options": [
+        "4 desktop browsers",
+        "Chrome Android, Safari iOS, Chrome desktop and Firefox desktop, with the engines covered",
+        "Only Chrome",
+        "Random"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Use real usage and engine coverage: the top configurations plus the Gecko one."
+    }
+  ],
+  "coding": []
+}

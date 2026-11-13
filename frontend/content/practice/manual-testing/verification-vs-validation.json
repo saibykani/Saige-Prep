@@ -1,0 +1,168 @@
+{
+  "lesson": "verification-vs-validation",
+  "questions": [
+    {
+      "id": "pt-m2vv-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "verification-vs-validation",
+      "prompt": "Which question does verification ask?",
+      "options": [
+        "Are we building the right product?",
+        "Are we building the product right, i.e. against the specification?",
+        "Is it fast?",
+        "Is it cheap?"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Verification compares to specified requirements; validation to stakeholder needs."
+    },
+    {
+      "id": "pt-m2vv-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "verification-vs-validation",
+      "prompt": "If a system passes every test derived from its requirements, it is guaranteed to meet users' needs.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The requirements themselves may be wrong or incomplete."
+    },
+    {
+      "id": "pt-m2vv-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "verification-vs-validation",
+      "prompt": "Which activity is primarily validation?",
+      "options": [
+        "Reviewing code against a coding standard",
+        "Users trying a prototype to confirm it fits their work",
+        "Checking a design against the specification",
+        "Running static analysis"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Validation checks fitness for real use."
+    },
+    {
+      "id": "pt-m2vv-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "verification-vs-validation",
+      "prompt": "A warehouse scanning app meets every written requirement, but staff wear thick gloves and cannot press its small buttons. What happened?",
+      "options": [
+        "Verification failed",
+        "Verification passed but validation failed: the requirements missed a real need",
+        "Both passed",
+        "Nothing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The product matched the spec but not the real environment."
+    },
+    {
+      "id": "pt-m2vv-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "verification-vs-validation",
+      "prompt": "Which statements are correct? Select all that apply.",
+      "options": [
+        "Both can be static or dynamic",
+        "Acceptance testing is the most validation-focused level",
+        "Verification compares to specified requirements",
+        "Validation can only happen after release"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Validation can happen early with prototypes."
+    },
+    {
+      "id": "pt-m2vv-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "verification-vs-validation",
+      "prompt": "A code review checking that a function matches its design document is mostly:",
+      "options": [
+        "Validation, dynamic",
+        "Verification, static",
+        "Validation, static",
+        "Verification, dynamic"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "It compares to a specification and does not execute code."
+    },
+    {
+      "id": "pt-m2vv-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "verification-vs-validation",
+      "prompt": "A team finds after release that users do not need the feature at all although all tests passed. Which activity was missing earlier?",
+      "options": [
+        "Unit tests",
+        "Early validation with users, such as prototype feedback",
+        "Static analysis",
+        "Load tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Early validation reduces the chance of building the wrong thing."
+    },
+    {
+      "id": "pt-m2vv-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "verification-vs-validation",
+      "prompt": "Requirement: 'Report generation shall complete in 30 seconds.' Users actually need results in under 5 seconds to use them live. Tests show 20 seconds. Which is true?",
+      "options": [
+        "Verification and validation pass",
+        "Verification passes; validation reveals the requirement is inadequate",
+        "Verification fails",
+        "Neither applies"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The system meets the spec but not the need."
+    },
+    {
+      "id": "pt-m2vv-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "verification-vs-validation",
+      "prompt": "In the V-model, which pairing is the best match of development and test activity?",
+      "options": [
+        "Requirements with component testing",
+        "Business requirements with acceptance testing, detailed design with component testing",
+        "Code with acceptance testing",
+        "Architecture with unit tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Each development level pairs with a corresponding test level."
+    }
+  ],
+  "coding": []
+}

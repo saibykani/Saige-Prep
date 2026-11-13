@@ -1,0 +1,202 @@
+{
+  "lesson": "testing-search-and-filtering",
+  "questions": [
+    {
+      "id": "pt-m2srch-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-search-and-filtering",
+      "prompt": "Why seed a known data set before testing search?",
+      "options": [
+        "To make the page faster",
+        "So the expected results, including counts, are provable",
+        "To avoid login",
+        "To reduce the number of tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Without known data you cannot decide whether results are right."
+    },
+    {
+      "id": "pt-m2srch-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-search-and-filtering",
+      "prompt": "A search for a single percent sign returning every product may indicate the input is used as a wildcard instead of literal text.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Special characters should be treated as data (or escaped), not as query operators."
+    },
+    {
+      "id": "pt-m2srch-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-search-and-filtering",
+      "prompt": "A search returns no results. What should the user see?",
+      "options": [
+        "A blank page",
+        "A clear 'no results' message with suggestions",
+        "An error code",
+        "The previous results"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Empty states must be handled and communicated."
+    },
+    {
+      "id": "pt-m2srch-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-search-and-filtering",
+      "prompt": "Filters combine with OR within a group and AND across groups. A user selects Brand A, Brand B and Colour Red. Which items should be returned?",
+      "options": [
+        "Brand A or B items of any colour",
+        "Red items of brand A or B",
+        "Only Brand A and Brand B red items at once",
+        "All red items"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Within Brand it is OR, across groups it is AND: (A or B) and Red."
+    },
+    {
+      "id": "pt-m2srch-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-search-and-filtering",
+      "prompt": "A price filter accepts min and max between 0.00 and 10,000.00. Which are boundary or invalid tests? Select all that apply.",
+      "options": [
+        "min 0.00",
+        "max 10,000.00",
+        "max 10,000.01",
+        "min greater than max"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Both limits, just outside the limit and a contradictory range are all useful."
+    },
+    {
+      "id": "pt-m2srch-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-search-and-filtering",
+      "prompt": "Results are sorted by price and many items share a price. Going from page 1 to page 2 sometimes shows an item again. What is the likely cause?",
+      "options": [
+        "Network",
+        "Unstable sort: ties are not broken by a unique secondary key",
+        "Cache colour",
+        "Font"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Add a unique tiebreaker such as the ID to make pagination stable."
+    },
+    {
+      "id": "pt-m2srch-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-search-and-filtering",
+      "prompt": "Which technique reduces the number of filter combinations to test while still covering each pair of values?",
+      "options": [
+        "Pairwise testing",
+        "Random testing",
+        "Exhaustive testing",
+        "Smoke testing"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Pairwise covers every pair of values from different filters in far fewer tests."
+    },
+    {
+      "id": "pt-m2srch-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-search-and-filtering",
+      "prompt": "A search for 'invoice' by a normal user returns another customer's invoice title. What type of defect and why serious?",
+      "options": [
+        "Cosmetic",
+        "Data leak through authorisation not applied in the search index/query; serious because it exposes private data",
+        "Sorting",
+        "Performance"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Search results must respect the same access control as other pages."
+    },
+    {
+      "id": "pt-m2srch-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-search-and-filtering",
+      "prompt": "Searching for ' OR 1=1 -- (in an authorised environment) returns all rows or an error page with a stack trace. What does this suggest?",
+      "options": [
+        "Normal",
+        "Possible SQL injection or poor error handling; input must be parameterised and errors generic",
+        "Wildcard support",
+        "Pagination bug"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Special characters must be treated as data. Report it using safe evidence only."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2srch-filter",
+      "title": "Combine filters with OR and AND",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `apply_filters(items, brands, colours)` implementing: **OR within a group, AND across groups**.\n\n`items` is a list of dicts with `\"name\"`, `\"brand\"`, `\"colour\"`. `brands` and `colours` are lists; an **empty list means that group is not filtering**. Return the matching item names in the original order.\n\nExample: brands `[\"A\", \"B\"]` and colours `[\"Red\"]` returns items whose brand is A or B **and** whose colour is Red.",
+      "starter": "def apply_filters(items, brands, colours):\n    # TODO\n    return None\n",
+      "solution": "def apply_filters(items, brands, colours):\n    out = []\n    for it in items:\n        if brands and it[\"brand\"] not in brands:\n            continue\n        if colours and it[\"colour\"] not in colours:\n            continue\n        out.append(it[\"name\"])\n    return out\n",
+      "explanation": "Each group is a membership test, which is OR within the group, and failing any group excludes the item, which is AND across groups. An empty group is skipped so it does not filter anything out.",
+      "hints": [
+        "Loop over items and decide to keep or skip each one.",
+        "`it[\"brand\"] in brands` is the OR within a group.",
+        "Only apply a group check when its list is non-empty."
+      ],
+      "tests": [
+        {
+          "name": "OR within group AND across groups",
+          "code": "items = [{\"name\": \"p1\", \"brand\": \"A\", \"colour\": \"Red\"}, {\"name\": \"p2\", \"brand\": \"B\", \"colour\": \"Blue\"}, {\"name\": \"p3\", \"brand\": \"B\", \"colour\": \"Red\"}, {\"name\": \"p4\", \"brand\": \"C\", \"colour\": \"Red\"}]\nassert apply_filters(items, [\"A\", \"B\"], [\"Red\"]) == [\"p1\", \"p3\"]",
+          "marks": 4
+        },
+        {
+          "name": "empty group does not filter",
+          "code": "items = [{\"name\": \"p1\", \"brand\": \"A\", \"colour\": \"Red\"}, {\"name\": \"p2\", \"brand\": \"B\", \"colour\": \"Blue\"}, {\"name\": \"p3\", \"brand\": \"B\", \"colour\": \"Red\"}, {\"name\": \"p4\", \"brand\": \"C\", \"colour\": \"Red\"}]\nassert apply_filters(items, [], [\"Red\"]) == [\"p1\", \"p3\", \"p4\"]\nassert apply_filters(items, [], []) == [\"p1\", \"p2\", \"p3\", \"p4\"]",
+          "marks": 3
+        },
+        {
+          "name": "no match returns empty",
+          "code": "items = [{\"name\": \"p1\", \"brand\": \"A\", \"colour\": \"Red\"}, {\"name\": \"p2\", \"brand\": \"B\", \"colour\": \"Blue\"}, {\"name\": \"p3\", \"brand\": \"B\", \"colour\": \"Red\"}, {\"name\": \"p4\", \"brand\": \"C\", \"colour\": \"Red\"}]\nassert apply_filters(items, [\"A\"], [\"Blue\"]) == []",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

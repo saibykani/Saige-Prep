@@ -1,0 +1,235 @@
+{
+  "lesson": "test-estimation",
+  "questions": [
+    {
+      "id": "pt-m2est-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-estimation",
+      "prompt": "What is the first step in estimating testing effort for a feature?",
+      "options": [
+        "Pick a number that sounds reasonable",
+        "Break the work into tasks (a work breakdown structure)",
+        "Ask the developer how long coding takes and halve it",
+        "Wait until testing starts"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Most bad estimates come from forgotten tasks. A breakdown makes the work visible before you size it."
+    },
+    {
+      "id": "pt-m2est-02",
+      "type": "code-output",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-estimation",
+      "prompt": "Using three-point estimation, what is E?",
+      "code": "a (optimistic)  = 3 days\nm (most likely) = 6 days\nb (pessimistic) = 12 days",
+      "codeLanguage": "text",
+      "options": [
+        "5",
+        "6",
+        "6.5",
+        "7"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "E = (a + 4m + b) / 6 = (3 + 24 + 12) / 6 = 39 / 6 = 6.5."
+    },
+    {
+      "id": "pt-m2est-03",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "test-estimation",
+      "prompt": "Planning Poker is an expert-based estimation technique.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Planning Poker, like Wideband Delphi, relies on the team's expert judgement and discussion rather than on historical metrics."
+    },
+    {
+      "id": "pt-m2est-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-estimation",
+      "prompt": "For a = 4, m = 6, b = 16, what is the standard deviation SD = (b − a) / 6?",
+      "options": [
+        "1",
+        "2",
+        "2.67",
+        "12"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "(16 − 4) / 6 = 12 / 6 = 2. 12 is the range before dividing; 2.67 divides 16 by 6."
+    },
+    {
+      "id": "pt-m2est-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-estimation",
+      "prompt": "Which belong in the assumptions attached to a test estimate? Select all that apply.",
+      "options": [
+        "The test environment is available from day 1",
+        "Requirements are stable after sign-off",
+        "Test data can be created by the team",
+        "The estimate is guaranteed and will not change"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Assumptions name conditions that, if broken, change the estimate. A 'guarantee' is not an assumption and contradicts the idea of estimates as ranges."
+    },
+    {
+      "id": "pt-m2est-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-estimation",
+      "prompt": "Your team's history shows test effort is about 40% of development effort. A new project uses a technology the team has never used. How should you use the ratio?",
+      "options": [
+        "Use 40% exactly; history never lies",
+        "Use it as a starting point, but adjust and flag the risk because the context differs, and cross-check with an expert-based estimate",
+        "Ignore history completely",
+        "Use an industry ratio from the internet instead"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Metrics-based estimates are only as good as the similarity of the context. Combining with expert judgement and stating the risk is sound; borrowed ratios from other contexts are unreliable."
+    },
+    {
+      "id": "pt-m2est-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "test-estimation",
+      "prompt": "An estimate of 15 days became 27. The retro shows: regression on 3 browsers, environment setup and defect retesting were never in the plan. What was the root cause?",
+      "options": [
+        "Testers were slow",
+        "An incomplete work breakdown: whole task categories were missing",
+        "Three-point estimation is inaccurate",
+        "The project needed more automation"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The work itself was underestimated because tasks were left out. A fuller WBS (setup, retesting, regression, reporting) prevents this."
+    },
+    {
+      "id": "pt-m2est-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-estimation",
+      "prompt": "Your estimate is 20 days (range 17 to 24). The manager says you have 12. What is the best response?",
+      "options": [
+        "Say yes and work overtime",
+        "Show what can be tested in 12 days by risk, what would be left untested, and options (reduce scope, add people, move date), and let stakeholders decide with the risk visible",
+        "Refuse to start",
+        "Quietly reduce test coverage without telling anyone"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "A professional response makes the trade-off visible. Silently cutting coverage hides risk; blind agreement or refusal does not help the decision."
+    },
+    {
+      "id": "pt-m2est-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "test-estimation",
+      "prompt": "Two tasks: A (a=2, m=3, b=4) and B (a=4, m=6, b=14). Which statement is correct?",
+      "options": [
+        "Total E is 9 days and the risk is equal between tasks",
+        "Total E is 10 days; task B carries almost all the uncertainty (SD 1.67 vs 0.33), so its assumptions deserve attention first",
+        "Total E is 8 days because you add the most likely values",
+        "Total E is 18 days because you add the pessimistic values"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "E(A) = 3, E(B) = (4 + 24 + 14) / 6 = 7, so total 10. SD(A) = 2/6 ≈ 0.33 and SD(B) = 10/6 ≈ 1.67. Adding only m-values ignores skew; adding b-values is the worst case, not the expected effort."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2est-three-point",
+      "title": "Three-point estimate",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `three_point(a, m, b)` that returns a tuple `(E, SD)` using the three-point (PERT) formulas:\n\n- `E = (a + 4m + b) / 6`\n- `SD = (b - a) / 6`\n\nRound both to 2 decimal places. `a` is optimistic, `m` most likely, `b` pessimistic (all in days).\n\nExample: `three_point(4, 6, 14)` returns `(7.0, 1.67)`.",
+      "starter": "def three_point(a, m, b):\n    # TODO\n    return None\n",
+      "solution": "def three_point(a, m, b):\n    e = (a + 4 * m + b) / 6\n    sd = (b - a) / 6\n    return (round(e, 2), round(sd, 2))\n",
+      "explanation": "The most likely value is weighted four times, so the expected value leans towards m but is pulled by a long pessimistic tail. SD uses only the spread between a and b.",
+      "hints": [
+        "Translate each formula directly into Python.",
+        "Remember the brackets: `(a + 4 * m + b) / 6`.",
+        "Wrap both values in `round(..., 2)` and return them as a tuple."
+      ],
+      "tests": [
+        {
+          "name": "lesson-style example",
+          "code": "assert three_point(4, 6, 14) == (7.0, 1.67), three_point(4, 6, 14)",
+          "marks": 4
+        },
+        {
+          "name": "symmetric estimate",
+          "code": "assert three_point(2, 3, 4) == (3.0, 0.33)",
+          "marks": 3
+        },
+        {
+          "name": "no uncertainty",
+          "code": "assert three_point(5, 5, 5) == (5.0, 0.0)",
+          "marks": 3
+        }
+      ]
+    },
+    {
+      "id": "code-m2est-range",
+      "title": "Total estimate as a range",
+      "difficulty": "advanced",
+      "language": "python",
+      "prompt": "Write `estimate_range(tasks)` for a work breakdown. Each task is a tuple `(a, m, b)`.\n\nReturn a tuple `(total_E, low, high)` where\n- `total_E` is the sum of each task's `E = (a + 4m + b) / 6`,\n- the total standard deviation is `sqrt(sum of each task's SD squared)` with `SD = (b - a) / 6`,\n- `low = total_E - 2 * total_SD` and `high = total_E + 2 * total_SD`.\n\nRound all three to 1 decimal place.\n\nExample: `estimate_range([(2, 3, 4), (4, 6, 14)])` → `(10.0, 6.6, 13.4)`.",
+      "starter": "def estimate_range(tasks):\n    # TODO\n    return None\n",
+      "solution": "import math\n\ndef estimate_range(tasks):\n    total_e = sum((a + 4 * m + b) / 6 for a, m, b in tasks)\n    sd = math.sqrt(sum(((b - a) / 6) ** 2 for a, m, b in tasks))\n    return (round(total_e, 1), round(total_e - 2 * sd, 1), round(total_e + 2 * sd, 1))\n",
+      "explanation": "Expected values add directly. Standard deviations of independent tasks do not add; their variances do, so you square, sum and take the square root. E ± 2 SD gives a range that is far more honest than a single number.",
+      "hints": [
+        "Sum the E values first.",
+        "Square each task's SD, add them, then use `math.sqrt`.",
+        "low and high are `total_E ∓ 2 * total_SD`; round at the end."
+      ],
+      "tests": [
+        {
+          "name": "two tasks",
+          "code": "assert estimate_range([(2, 3, 4), (4, 6, 14)]) == (10.0, 6.6, 13.4), estimate_range([(2, 3, 4), (4, 6, 14)])",
+          "marks": 4
+        },
+        {
+          "name": "single certain task",
+          "code": "assert estimate_range([(5, 5, 5)]) == (5.0, 5.0, 5.0)",
+          "marks": 3
+        },
+        {
+          "name": "three tasks",
+          "code": "assert estimate_range([(1, 2, 3), (1, 2, 3), (6, 9, 18)]) == (14.0, 9.9, 18.1), estimate_range([(1, 2, 3), (1, 2, 3), (6, 9, 18)])",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

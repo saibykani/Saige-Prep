@@ -1,0 +1,168 @@
+{
+  "lesson": "testing-objectives-and-limitations",
+  "questions": [
+    {
+      "id": "pt-m2obj-01",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "Finding defects is the only objective of testing.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Objectives also include evaluating quality, building confidence, providing information for decisions, preventing defects and verifying compliance."
+    },
+    {
+      "id": "pt-m2obj-02",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "Which statement best respects the limitations of testing?",
+      "options": [
+        "No defects were found, so the product is perfect",
+        "Testing found X defects in the tested areas; areas Y and Z were not tested and carry residual risk",
+        "Testing is complete",
+        "All risk is removed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Honest reports say what was tested, what was not and what risk remains."
+    },
+    {
+      "id": "pt-m2obj-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "What is the main reason exhaustive testing is impossible for most systems?",
+      "options": [
+        "Testers are slow",
+        "The number of input and path combinations is practically unlimited",
+        "Tools are expensive",
+        "Developers refuse"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Testing samples the input space. This is why risk and priorities guide selection."
+    },
+    {
+      "id": "pt-m2obj-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "During user acceptance testing of a payroll system, business users find many basic calculation defects. What does this most likely indicate?",
+      "options": [
+        "UAT is working well and nothing else is needed",
+        "Earlier test levels did not find basic defects, so the earlier levels were ineffective or skipped",
+        "Payroll is too complex",
+        "Users are poor testers"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Acceptance testing should focus on needs and confidence. Many basic defects suggest weak earlier testing."
+    },
+    {
+      "id": "pt-m2obj-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "Which are limitations of testing? Select all that apply.",
+      "options": [
+        "It samples inputs rather than covering everything",
+        "Environments differ from production",
+        "A test oracle may be incomplete or wrong",
+        "Testing can prove no defects exist"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Sampling, environment differences and oracle problems limit testing. Testing shows presence of defects, not absence."
+    },
+    {
+      "id": "pt-m2obj-06",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "An exit criterion says 'achieve 90 percent requirements coverage'. What does this objective make measurable?",
+      "options": [
+        "Product quality",
+        "Test progress against a clear objective",
+        "Defect count",
+        "Developer speed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Clear objectives become measurable through coverage targets and exit criteria."
+    },
+    {
+      "id": "pt-m2obj-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "A team reports 'Testing finished, zero defects, quality is excellent'. Which statement is the problem?",
+      "options": [
+        "Zero defects was impossible",
+        "It claims quality from absence of found defects without stating scope, coverage or untested areas",
+        "It was too short",
+        "It used 'testing'"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Absence of failures in tests proves little unless the tests were adequate and the scope is stated."
+    },
+    {
+      "id": "pt-m2obj-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "A test environment has 100 times fewer records than production, and a reporting query is fast in test but times out in production. What limitation caused this and how can you reduce it?",
+      "options": [
+        "Bad luck",
+        "Environment and data volume differ from production; test with production-like volume or monitor early in production, and report this as a known risk",
+        "Developers' fault only",
+        "Nothing can be done"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Differences between environments are a documented limitation. Reduce with realistic data volumes and record the residual risk."
+    },
+    {
+      "id": "pt-m2obj-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-objectives-and-limitations",
+      "prompt": "Safety-critical software and a marketing website both have 3 weeks of testing. How should the objectives differ?",
+      "options": [
+        "No difference",
+        "Safety-critical focuses on risk reduction, compliance evidence and rigorous coverage; the website may emphasise usability, compatibility and speed of feedback",
+        "The website needs more",
+        "Both only functional"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Context, risk and regulation decide which objectives matter most."
+    }
+  ],
+  "coding": []
+}

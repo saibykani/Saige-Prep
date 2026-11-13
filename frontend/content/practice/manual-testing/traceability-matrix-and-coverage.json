@@ -1,0 +1,202 @@
+{
+  "lesson": "traceability-matrix-and-coverage",
+  "questions": [
+    {
+      "id": "pt-m2rtm-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "Which question does backward traceability answer?",
+      "options": [
+        "Which tests exist for requirement R5?",
+        "Which requirement does test T9 verify?",
+        "How many defects are open?",
+        "Who wrote the code?"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Backward goes from tests to requirements, finding orphan tests. Forward goes from requirements to tests."
+    },
+    {
+      "id": "pt-m2rtm-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "100 percent requirements coverage guarantees that all defects have been found.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage measures breadth, not depth. A linked test may be weak or may not have been run."
+    },
+    {
+      "id": "pt-m2rtm-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "Forward traceability is mostly used to find:",
+      "options": [
+        "Orphan tests",
+        "Requirements that have no test",
+        "Duplicate defects",
+        "Slow tests"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Forward traces requirements to tests so gaps appear."
+    },
+    {
+      "id": "pt-m2rtm-04",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "10 requirements; 7 have at least one test, and 3 have none. What is requirements coverage?",
+      "options": [
+        "30%",
+        "70%",
+        "7%",
+        "100%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "7 / 10 = 70%. 30% is the uncovered fraction."
+    },
+    {
+      "id": "pt-m2rtm-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "RTM shows test TC-44 is not linked to any requirement. What is the most appropriate action?",
+      "options": [
+        "Delete it immediately",
+        "Investigate: link it to a requirement it verifies, find a missing requirement, or retire it if it has no purpose",
+        "Ignore",
+        "Mark passed"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "An orphan test may reveal an undocumented requirement or an unneeded test."
+    },
+    {
+      "id": "pt-m2rtm-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "A good RTM can link which items? Select all that apply.",
+      "options": [
+        "Requirements",
+        "Test cases",
+        "Test results",
+        "Defects"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "A full RTM lets you move between requirements, cases, results and defects."
+    },
+    {
+      "id": "pt-m2rtm-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "The RTM is kept in a spreadsheet, updated monthly. In review, 20 requirements have changed and links are wrong. What is the root problem?",
+      "options": [
+        "Spreadsheets are illegal",
+        "Traceability is manual and not kept current; use a tool or update links whenever requirements change",
+        "Too many tests",
+        "Wrong font"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Stale traceability is misleading. Keep it in a tool where possible."
+    },
+    {
+      "id": "pt-m2rtm-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "Every requirement has a linked test, all passed, but 5 requirements have only one happy-path test. Release manager says coverage is 100%. Best response?",
+      "options": [
+        "Agree",
+        "Report requirements coverage as 100%, but state that depth is low for these 5, ideally combine with risk and technique-based coverage",
+        "Remove them",
+        "Say coverage is 0%"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage metrics need context. Combine breadth with depth, risk and results."
+    },
+    {
+      "id": "pt-m2rtm-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "traceability-matrix-and-coverage",
+      "prompt": "A requirement changes. Which action keeps traceability useful?",
+      "options": [
+        "Nothing",
+        "Use the RTM to find all linked tests, review and update them, and re-run impacted ones",
+        "Delete all tests",
+        "Rewrite everything"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Traceability supports impact analysis for changes."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2rtm-coverage",
+      "title": "Compute requirements coverage from an RTM",
+      "difficulty": "intermediate",
+      "language": "python",
+      "prompt": "Write `rtm_coverage(requirements, links)`.\n\n- `requirements`: list of requirement IDs.\n- `links`: list of `(requirement_id, test_id)` pairs.\n\nReturn a dict:\n- `\"coverage_pct\"`: requirements with at least one linked test / total requirements * 100, rounded to 1 decimal (0.0 if no requirements),\n- `\"untested\"`: sorted list of requirement IDs with no test,\n- `\"orphans\"`: sorted list of test IDs linked to a requirement ID that is not in `requirements`.\n\nExample: requirements `[\"R1\",\"R2\",\"R3\"]`, links `[(\"R1\",\"T1\"),(\"R1\",\"T2\"),(\"R3\",\"T3\")]` gives 66.7 and untested `[\"R2\"]`.",
+      "starter": "def rtm_coverage(requirements, links):\n    # TODO\n    return {}\n",
+      "solution": "def rtm_coverage(requirements, links):\n    reqs = set(requirements)\n    covered = {r for r, t in links if r in reqs}\n    pct = round(len(covered) / len(reqs) * 100, 1) if reqs else 0.0\n    return {\n        \"coverage_pct\": pct,\n        \"untested\": sorted(reqs - covered),\n        \"orphans\": sorted({t for r, t in links if r not in reqs}),\n    }\n",
+      "explanation": "Forward traceability finds requirements without tests (`untested`), while backward traceability finds tests whose requirement does not exist (`orphans`). Using sets avoids double counting when a requirement has several tests.",
+      "hints": [
+        "Turn requirements into a set.",
+        "A requirement is covered if it appears in a link and is in the set.",
+        "Orphans are test IDs linked to requirement IDs that are not in the set."
+      ],
+      "tests": [
+        {
+          "name": "coverage and untested",
+          "code": "r = rtm_coverage([\"R1\",\"R2\",\"R3\"], [(\"R1\",\"T1\"),(\"R1\",\"T2\"),(\"R3\",\"T3\")])\nassert r[\"coverage_pct\"] == 66.7 and r[\"untested\"] == [\"R2\"], r",
+          "marks": 4
+        },
+        {
+          "name": "orphan tests",
+          "code": "r = rtm_coverage([\"R1\"], [(\"R1\",\"T1\"),(\"R9\",\"T7\")])\nassert r[\"orphans\"] == [\"T7\"] and r[\"coverage_pct\"] == 100.0, r",
+          "marks": 3
+        },
+        {
+          "name": "empty requirements",
+          "code": "r = rtm_coverage([], [(\"R1\",\"T1\")])\nassert r[\"coverage_pct\"] == 0.0 and r[\"untested\"] == [] and r[\"orphans\"] == [\"T1\"], r",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

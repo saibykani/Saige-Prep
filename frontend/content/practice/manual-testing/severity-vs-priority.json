@@ -1,0 +1,168 @@
+{
+  "lesson": "severity-vs-priority",
+  "questions": [
+    {
+      "id": "pt-m2sp-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "severity-vs-priority",
+      "prompt": "Which question does severity answer?",
+      "options": [
+        "How soon should this be fixed?",
+        "How much impact does the defect have on the system or its users?",
+        "Who should fix the defect?",
+        "How many times was the defect reproduced?"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Severity measures impact. 'How soon' is priority, which depends on business context. Assignee and reproduction count are separate fields."
+    },
+    {
+      "id": "pt-m2sp-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "severity-vs-priority",
+      "prompt": "In most teams the tester proposes severity, while the product owner or a triage meeting decides priority.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Testers observe the technical impact, so they usually propose severity. Priority is a business scheduling decision, so the product owner or triage group owns it."
+    },
+    {
+      "id": "pt-m2sp-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "severity-vs-priority",
+      "prompt": "A checkout page crashes for every user when they click Pay. Which rating is most appropriate?",
+      "options": [
+        "Low severity, low priority",
+        "High severity, low priority",
+        "High severity, high priority",
+        "Low severity, high priority"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Nobody can buy anything: the impact is critical and the business needs it fixed immediately. The other quadrants understate either impact or urgency."
+    },
+    {
+      "id": "pt-m2sp-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "severity-vs-priority",
+      "prompt": "A spelling mistake appears in the legal terms shown on the payment page. Legal says the wrong word changes the meaning of a refund clause, and the release goes out tomorrow. What is the best rating?",
+      "options": [
+        "Low severity, low priority: it is only a typo",
+        "Low severity, high priority: functional impact is small but it must be fixed before release",
+        "High severity, low priority: the text is legally important but can wait",
+        "It should not be logged; text is the content team's job"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The software still works, so functional severity is low, but the business and legal consequence makes it urgent. Calling it 'only a typo' ignores context; not logging it loses the record."
+    },
+    {
+      "id": "pt-m2sp-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "severity-vs-priority",
+      "prompt": "Which changes could legitimately lower a defect's priority while its severity stays the same? Select all that apply.",
+      "options": [
+        "A reliable workaround is published to affected users",
+        "The feature it affects is switched off by a feature flag for this release",
+        "The developer finds the fix difficult",
+        "The affected customer segment turns out to be one internal test account"
+      ],
+      "answer": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "Workarounds, disabling the feature and a tiny affected audience all reduce urgency. The difficulty of the fix affects effort and scheduling discussions, but by itself it does not make the defect less urgent for users."
+    },
+    {
+      "id": "pt-m2sp-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "severity-vs-priority",
+      "prompt": "Why do teams keep severity and priority as two separate fields instead of one 'importance' field?",
+      "options": [
+        "Because Jira requires two fields",
+        "Because all four combinations occur in practice, and one field would hide either impact or urgency",
+        "Because severity is only used for reports to management",
+        "Because priority is set automatically from severity"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "High-severity/low-priority and low-severity/high-priority defects are real. A single field forces you to lose one of the two pieces of information. Priority is not derived mechanically from severity."
+    },
+    {
+      "id": "pt-m2sp-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "severity-vs-priority",
+      "prompt": "A team's backlog shows 140 open defects, all marked 'Critical'. Triage has stopped being useful. What is the most likely root cause?",
+      "options": [
+        "Developers are too slow",
+        "There are no written definitions with examples for each severity level, so testers rate everything as high",
+        "The defect tool is misconfigured",
+        "Testers should stop rating severity at all"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Severity inflation happens when levels lack agreed definitions. The fix is a written scale with examples and calibration, not removing the field or blaming developers."
+    },
+    {
+      "id": "pt-m2sp-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "severity-vs-priority",
+      "prompt": "A banking app's monthly statement PDF shows the wrong closing balance for accounts with more than 999 transactions in a month. About 30 business customers are affected; statements are generated on the 1st, which is 3 weeks away; a manual corrected statement can be produced by operations. How should you rate and act?",
+      "options": [
+        "Low severity, low priority; close as an edge case",
+        "High severity (incorrect financial data); priority high enough to fix before the next run on the 1st, with operations' manual workaround as a fallback",
+        "Low severity, high priority because only 30 customers are affected",
+        "High severity, highest priority: stop all other work and hotfix tonight"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Wrong financial figures are high impact regardless of how many accounts are affected. The 3-week window and a workaround mean it needs scheduling before the next run, not an emergency hotfix tonight, and certainly not closing."
+    },
+    {
+      "id": "pt-m2sp-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "severity-vs-priority",
+      "prompt": "Two weeks ago a defect was rated High severity, Low priority because the affected admin report was unused. Marketing now plans to send that report to all partners next Monday. What should happen to the defect?",
+      "options": [
+        "Nothing; ratings are fixed once triaged",
+        "Re-raise it at triage so priority is re-evaluated in the new context; severity stays the same",
+        "Raise its severity to Critical so it gets attention",
+        "Close it and open a new defect"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Priority depends on context and should be re-evaluated when context changes. Severity describes impact, which has not changed, so inflating it would distort the data. Duplicating the defect loses history."
+    }
+  ],
+  "coding": []
+}

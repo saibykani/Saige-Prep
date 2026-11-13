@@ -1,0 +1,202 @@
+{
+  "lesson": "testing-data-validation",
+  "questions": [
+    {
+      "id": "pt-m2val-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-data-validation",
+      "prompt": "Which is a type rule?",
+      "options": [
+        "Field cannot be blank",
+        "Age must be a whole number",
+        "Email must be unique",
+        "End date after start date"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Type rules say what kind of value is accepted. Blank is required, unique is uniqueness, dates are cross-field."
+    },
+    {
+      "id": "pt-m2val-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-data-validation",
+      "prompt": "If the browser blocks an invalid email, there is no need to test the same email through the API.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Client-side checks can be bypassed. The server must validate on its own."
+    },
+    {
+      "id": "pt-m2val-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-data-validation",
+      "prompt": "Which error message is best for an invalid postcode?",
+      "options": [
+        "Error",
+        "Invalid input",
+        "Enter a postcode like SW1A 1AA",
+        "Something went wrong"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "A good message says what is wrong and how to fix it, near the field."
+    },
+    {
+      "id": "pt-m2val-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-data-validation",
+      "prompt": "A Name field allows 2 to 50 characters. Which are useful tests? Select all that apply.",
+      "options": [
+        "1 character",
+        "2 characters",
+        "50 characters",
+        "51 characters"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "Both sides of both boundaries are valuable: 1 (invalid), 2 (valid), 50 (valid) and 51 (invalid)."
+    },
+    {
+      "id": "pt-m2val-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-data-validation",
+      "prompt": "A booking form accepts a check-out date earlier than check-in. Which rule is missing?",
+      "options": [
+        "Required",
+        "Format",
+        "Cross-field rule",
+        "Length"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Relationships between fields are cross-field rules, often tested with decision tables."
+    },
+    {
+      "id": "pt-m2val-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-data-validation",
+      "prompt": "When testing one rule at a time, why should you keep all other fields valid?",
+      "options": [
+        "To save time",
+        "So a failure can be attributed to one rule instead of several",
+        "Because forms require it",
+        "It is not necessary"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Changing one thing at a time prevents defect masking and unclear results."
+    },
+    {
+      "id": "pt-m2val-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-data-validation",
+      "prompt": "Name 'Zoë' is rejected with 'Only letters allowed' although the rule says letters. What is likely wrong?",
+      "options": [
+        "The browser",
+        "The regex only allows A-Z, so valid non-ASCII letters are rejected",
+        "Length",
+        "The server is down"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Validation that is too strict rejects real users. Test internationalised names."
+    },
+    {
+      "id": "pt-m2val-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-data-validation",
+      "prompt": "An API accepts {\"age\": \"abc\"} and stores 0 without an error. Which is the best description?",
+      "options": [
+        "Acceptable",
+        "Missing server-side type validation and silent data corruption: it should reject with a clear error",
+        "UI bug",
+        "Boundary issue"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Silent coercion corrupts data. The API should reject with a validation error."
+    },
+    {
+      "id": "pt-m2val-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-data-validation",
+      "prompt": "A validation error message echoes the entire submitted value into the page unescaped. What is the risk and test?",
+      "options": [
+        "None",
+        "Cross-site scripting; test with a harmless script marker in an authorised environment and verify it is encoded",
+        "Slow pages",
+        "Layout issue"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Unencoded echoes can execute injected content. Error messages must be safe."
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-m2val-name",
+      "title": "Validate a name field",
+      "difficulty": "beginner",
+      "language": "python",
+      "prompt": "Write `validate_name(value)` for a Name field: required, 2 to 50 characters after trimming, letters, spaces, hyphens and apostrophes only.\n\nReturn `None` if valid, otherwise a short error code string:\n- `\"required\"` if empty after trimming,\n- `\"too_short\"` if 1 character,\n- `\"too_long\"` if more than 50,\n- `\"bad_chars\"` if it contains any other character.\n\nCheck in the order above. Examples: `validate_name(\"Al\")` → `None`, `validate_name(\"A\")` → `\"too_short\"`, `validate_name(\"R2D2\")` → `\"bad_chars\"`.",
+      "starter": "def validate_name(value):\n    # TODO: return None if valid, else an error code string\n    return 'todo'\n",
+      "solution": "def validate_name(value):\n    v = value.strip()\n    if len(v) == 0:\n        return \"required\"\n    if len(v) == 1:\n        return \"too_short\"\n    if len(v) > 50:\n        return \"too_long\"\n    for ch in v:\n        if not (ch.isalpha() or ch in \" -'\"):\n            return \"bad_chars\"\n    return None\n",
+      "explanation": "Trimming first makes whitespace-only values count as required errors. The checks run in a defined order, and using isalpha() accepts valid non-ASCII letters such as accented names.",
+      "hints": [
+        "Trim the value first.",
+        "Check empty, then length rules, then characters.",
+        "`ch.isalpha()` or `ch in \" -'\"` per character."
+      ],
+      "tests": [
+        {
+          "name": "valid values",
+          "code": "assert validate_name(\"Al\") is None\nassert validate_name(\"Zoë\") is None\nassert validate_name(\"Mary-Jane O'Neil\") is None",
+          "marks": 3
+        },
+        {
+          "name": "required and length rules",
+          "code": "assert validate_name(\"   \") == \"required\"\nassert validate_name(\"A\") == \"too_short\"\nassert validate_name(\"a\" * 51) == \"too_long\"\nassert validate_name(\"a\" * 50) is None",
+          "marks": 4
+        },
+        {
+          "name": "bad characters",
+          "code": "assert validate_name(\"R2D2\") == \"bad_chars\"\nassert validate_name(\"Bob<script>\") == \"bad_chars\"",
+          "marks": 3
+        }
+      ]
+    }
+  ]
+}

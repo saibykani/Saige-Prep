@@ -1,0 +1,168 @@
+{
+  "lesson": "testing-sessions-and-concurrency",
+  "questions": [
+    {
+      "id": "pt-m2ses-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "What is an idle timeout?",
+      "options": [
+        "The maximum total session length",
+        "Ending a session after a period without activity",
+        "A network timeout",
+        "A login delay"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Idle timeouts reset with activity; absolute timeouts do not."
+    },
+    {
+      "id": "pt-m2ses-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "If the logout button only clears the screen and shows the login page, the session has definitely been invalidated.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The server must invalidate the session; otherwise a copied token still works."
+    },
+    {
+      "id": "pt-m2ses-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "User A and User B edit the same record, and A's changes are overwritten by B's save. What is this?",
+      "options": [
+        "Idle timeout",
+        "Lost update",
+        "Cache hit",
+        "SQL error"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Last write overwrites an earlier one without conflict detection."
+    },
+    {
+      "id": "pt-m2ses-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "An app has a 15-minute idle timeout and an 8-hour absolute timeout. A user clicks every 5 minutes for 9 hours. What should happen?",
+      "options": [
+        "The session never ends",
+        "The session ends at 8 hours despite activity and the user must log in again",
+        "It ends at 15 minutes",
+        "It ends at 9 hours"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The absolute timeout is independent of activity."
+    },
+    {
+      "id": "pt-m2ses-05",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "A server using optimistic locking receives an update with an outdated ETag in If-Match. Which response is typical?",
+      "options": [
+        "200 OK",
+        "412 Precondition Failed (or 409 Conflict)",
+        "404",
+        "301"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The version does not match, so the update is rejected and the client must reload."
+    },
+    {
+      "id": "pt-m2ses-06",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "Which are useful session tests? Select all that apply.",
+      "options": [
+        "Logout in one tab, then act in another",
+        "Log in on two devices, then change the password",
+        "Press Back after logout",
+        "Edit the page's CSS only"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Multi-tab, multi-device and Back-button tests check server-side invalidation."
+    },
+    {
+      "id": "pt-m2ses-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "After logout, pressing Back shows the previous private page from the browser cache. What is the likely fix?",
+      "options": [
+        "Nothing",
+        "Send no-store cache headers on private pages and require re-authentication for actions",
+        "Change fonts",
+        "Increase timeout"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Cache control stops sensitive pages being shown after logout."
+    },
+    {
+      "id": "pt-m2ses-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "Double-clicking Submit creates two identical orders. Which test and fix address this?",
+      "options": [
+        "No fix",
+        "Test rapid repeated submits and fix with a disabled button plus a server-side idempotency or unique-constraint guard",
+        "Slow the server",
+        "Use CSS"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Concurrency control must be on the server."
+    },
+    {
+      "id": "pt-m2ses-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "testing-sessions-and-concurrency",
+      "prompt": "Two admins edit a ticket at once. The design choice is 'last write wins'. Which statement is most accurate?",
+      "options": [
+        "It is always a defect",
+        "It can be acceptable if documented by design, but silent overwriting of different fields is risky and should be tested and agreed",
+        "It is impossible",
+        "It is encryption"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Concurrent edits need a defined behaviour: conflict message, merge or last-write-wins by design."
+    }
+  ],
+  "coding": []
+}

@@ -1,0 +1,169 @@
+{
+  "lesson": "system-and-end-to-end-testing",
+  "questions": [
+    {
+      "id": "pt-m2sys-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "What is the test object of system testing?",
+      "options": [
+        "A single function",
+        "The interfaces between two components only",
+        "The whole integrated system",
+        "The business process in the customer's organisation only"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "System testing looks at the complete, integrated system's behaviour and capabilities. Functions are component level, interfaces are integration level."
+    },
+    {
+      "id": "pt-m2sys-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "System testing covers both functional and non-functional characteristics, such as performance and usability.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "ISTQB describes system testing as covering end-to-end tasks and non-functional characteristics of the whole system."
+    },
+    {
+      "id": "pt-m2sys-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "Which best describes end-to-end testing?",
+      "options": [
+        "A separate ISTQB test level after acceptance testing",
+        "A test that follows a complete user or business journey through every layer and system it touches",
+        "Testing one API endpoint",
+        "Testing the database schema"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "End-to-end is a scope or style of test, not one of the ISTQB test levels. It follows full journeys across UI, services, data and external systems."
+    },
+    {
+      "id": "pt-m2sys-04",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "For an end-to-end 'place order' test, where should outcomes be verified? Select all that apply.",
+      "options": [
+        "The order confirmation screen",
+        "The order record in the database or admin view",
+        "The payment provider sandbox transaction",
+        "The confirmation email in a test mail catcher"
+      ],
+      "answer": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "An end-to-end test verifies every system the journey touches. A correct screen with a missing payment record or email is still a failure."
+    },
+    {
+      "id": "pt-m2sys-05",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "Your staging environment differs from production in several ways. Which difference is the highest risk for an order flow?",
+      "options": [
+        "Staging has a different background colour on the login page",
+        "Staging uses a fake payment stub that always approves, while production uses the real provider with 3-D Secure",
+        "Staging has fewer product images",
+        "Staging's servers are in a different time zone and nothing is time-based"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Payment integration behaves very differently under real provider rules, so a stub that always approves hides whole classes of failures. The other differences have little impact on this flow."
+    },
+    {
+      "id": "pt-m2sys-06",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "Why should end-to-end tests be few?",
+      "options": [
+        "They cannot find defects",
+        "They are slow, depend on many systems and break more easily, so they should focus on critical journeys while detail is tested at lower levels",
+        "ISTQB forbids more than 10",
+        "They are always manual"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "E2E tests are expensive and brittle. The test pyramid recommends many fast low-level tests and a small set of E2E tests on business-critical journeys."
+    },
+    {
+      "id": "pt-m2sys-07",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "An automated E2E test logs in, adds an item, pays and asserts only that the URL contains '/thank-you'. A defect created orders with total 0.00 and it still passed. What was missing?",
+      "options": [
+        "A longer wait",
+        "Assertions on business outcomes: the order total, payment amount and stored order",
+        "Running it in a different browser",
+        "A screenshot on success"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Asserting only navigation lets wrong data pass. Checkpoints should verify the totals and records the journey is meant to produce."
+    },
+    {
+      "id": "pt-m2sys-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "A team has 400 system tests, all automated through the UI, and runs take 6 hours. Which split best improves speed without losing coverage?",
+      "options": [
+        "Keep all 400 at UI level",
+        "Move field validation and business-rule checks to API/component level, keep about a dozen UI journeys end to end, and keep non-functional system tests on a production-like environment",
+        "Delete half the tests at random",
+        "Move all tests to unit level"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Coverage stays but moves to the cheapest layer that can detect each defect. E2E keeps critical journeys. Random deletion loses coverage; unit tests alone cannot test an integrated system."
+    },
+    {
+      "id": "pt-m2sys-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "system-and-end-to-end-testing",
+      "prompt": "Orders pass every staging test but in production customers never get confirmation emails. Staging uses a fake email service. What is the best long-term improvement?",
+      "options": [
+        "Stop sending emails in production",
+        "Use a production-like email path in staging (the real provider's sandbox or the real integration routed to a safe test inbox), document remaining environment differences as risks, and add a production monitoring check for email delivery",
+        "Ask customers to report missing emails",
+        "Test emails manually in production with real customer addresses"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The environment gap caused the escape. Closing it safely, recording other gaps as risks and monitoring after release addresses the root cause. Testing with real customer addresses is unsafe."
+    }
+  ],
+  "coding": []
+}

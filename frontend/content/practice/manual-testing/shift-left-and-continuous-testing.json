@@ -1,0 +1,168 @@
+{
+  "lesson": "shift-left-and-continuous-testing",
+  "questions": [
+    {
+      "id": "pt-m2sl-01",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "In 'shift-left', what is being moved left on the project timeline?",
+      "options": [
+        "Only the execution of automated UI tests",
+        "Testing activities and test thinking, so they start earlier (requirements, design, examples, reviews)",
+        "The release date",
+        "Production monitoring"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shift-left means involving testing earlier in the lifecycle. It is not only about running UI tests sooner, and monitoring is a shift-right practice."
+    },
+    {
+      "id": "pt-m2sl-02",
+      "type": "truefalse",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "Asking 'what should happen if the user enters a past date?' during backlog refinement is a shift-left activity.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "answer": [
+        0
+      ],
+      "explanation": "Questioning a requirement before it is built is static testing at the earliest point, which is exactly what shift-left means."
+    },
+    {
+      "id": "pt-m2sl-03",
+      "type": "single",
+      "difficulty": "beginner",
+      "marks": 1,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "Which practice is a shift-right practice?",
+      "options": [
+        "Reviewing acceptance criteria",
+        "Writing unit tests before code",
+        "Canary releases with production monitoring",
+        "Static analysis on every commit"
+      ],
+      "answer": [
+        2
+      ],
+      "explanation": "Canaries and monitoring learn from the live system, after release. The other three happen before or during development, so they are shift-left."
+    },
+    {
+      "id": "pt-m2sl-04",
+      "type": "scenario",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "Developers wait 70 minutes for pipeline feedback on every commit. Which stage ordering gives the fastest useful feedback?",
+      "options": [
+        "UI end-to-end tests, then API tests, then unit tests, then linting",
+        "Linting and unit tests on commit; API/integration on merge; a small set of end-to-end and performance checks before release",
+        "Run everything in parallel on every commit and ignore duration",
+        "Remove automated tests and rely on manual regression"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Continuous testing layers checks so the fastest, cheapest ones run first and broad, slow ones run less often. Putting slow UI tests first delays all feedback; removing tests removes the safety net."
+    },
+    {
+      "id": "pt-m2sl-05",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "A manual tester joins a story before any code exists. Which are useful shift-left contributions? Select all that apply.",
+      "options": [
+        "Writing concrete examples for each acceptance criterion",
+        "Asking how errors and empty states should behave",
+        "Identifying test data and environment needs early",
+        "Waiting for the build so tests reflect the real UI"
+      ],
+      "answer": [
+        0,
+        1,
+        2
+      ],
+      "explanation": "Examples, questions about edge cases and early data/environment planning all prevent defects or delays. Waiting for the build is the opposite of shift-left."
+    },
+    {
+      "id": "pt-m2sl-06",
+      "type": "debugging",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "The pipeline fails about once a day for no clear reason and developers now re-run it until it is green. What is the main damage?",
+      "options": [
+        "None; re-running is a normal workflow",
+        "Trust in the pipeline erodes, so real failures get re-run and ignored too",
+        "It only wastes compute cost",
+        "It makes test coverage go down"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Flaky tests teach people to ignore red builds, which defeats continuous testing. Cost matters but is secondary; coverage numbers are unchanged."
+    },
+    {
+      "id": "pt-m2sl-07",
+      "type": "single",
+      "difficulty": "intermediate",
+      "marks": 2,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "Why is a defect found in a requirements review usually cheaper to fix than the same defect found in system testing?",
+      "options": [
+        "Because reviewers are paid less than testers",
+        "Because nothing has yet been designed, coded, tested or documented on top of the wrong requirement",
+        "Because system testing tools are expensive",
+        "It is not cheaper; cost is the same at every stage"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "The later a defect is found, the more work has been built on it and must be redone. That rework, not salaries or tool cost, is why early detection is cheaper."
+    },
+    {
+      "id": "pt-m2sl-08",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "A team says: 'We shifted left with 2,000 unit tests, so we can turn off production error alerts.' What is the best response?",
+      "options": [
+        "Agree; unit tests cover everything alerts would catch",
+        "Disagree: shift-left reduces defects but cannot catch production-only issues such as real traffic, configuration and third-party failures, so shift-right monitoring is still needed",
+        "Agree, but only after reaching 100% code coverage",
+        "Disagree, because unit tests are not real testing"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Shift-left and shift-right complement each other. Real users, data and infrastructure reveal failures no pre-release test can. Code coverage does not change that, and unit tests are certainly real testing."
+    },
+    {
+      "id": "pt-m2sl-09",
+      "type": "scenario",
+      "difficulty": "advanced",
+      "marks": 3,
+      "topic": "shift-left-and-continuous-testing",
+      "prompt": "A pipeline runs 600 UI end-to-end tests on every commit. Analysis shows 450 of them only check input validation rules on single forms. What is the best redesign?",
+      "options": [
+        "Keep all 600 but run them at night only",
+        "Move the validation checks down to unit/API level, keep a small UI end-to-end set for critical journeys, and run the broad suite less often",
+        "Delete the 450 tests",
+        "Add more machines so all 600 run faster on every commit"
+      ],
+      "answer": [
+        1
+      ],
+      "explanation": "Validation rules are cheapest and most reliable to check below the UI. Keeping the coverage at the right layer preserves safety while cutting feedback time. Deleting loses coverage; nightly only or more hardware leaves the slow, brittle layer doing work it is bad at."
+    }
+  ],
+  "coding": []
+}
