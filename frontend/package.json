@@ -17,7 +17,8 @@
     "help:screenshots": "node scripts/help-screenshots.mjs",
     "check": "npm run typecheck && npm run lint && npm run test",
     "validate:content": "vitest run src/content",
-    "check:videos": "node scripts/check-videos.mjs"
+    "check:videos": "node scripts/check-videos.mjs",
+    "freeze:urls": "node scripts/freeze-legacy-urls.mjs"
   },
   "dependencies": {
     "@codemirror/lang-java": "6.0.2",

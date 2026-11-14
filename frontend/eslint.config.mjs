@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored runtime copied in by scripts/copy-runtimes.mjs (gitignored).
+    "public/pyodide/**",
   ]),
 ]);
 
