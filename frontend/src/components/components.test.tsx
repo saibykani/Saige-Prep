@@ -8,12 +8,26 @@ import { CodeBlock } from "./ui/code-block";
 import { ConfirmDialog } from "./ui/confirm-dialog";
 
 describe("SidebarNav", () => {
-  it("marks the active section and hides admin links from learners", () => {
+  it("shows the four areas and marks the section holding the current page", () => {
     navigationState.pathname = "/careers/testing/manual-testing";
     renderWithProviders(<SidebarNav isAdmin={false} />);
-    expect(screen.getByRole("link", { name: "Manual Testing" })).toHaveAttribute("aria-current", "page");
+    for (const name of ["Careers (IT)", "Government Exams", "Aptitude", "India Careers (Non-IT)"]) {
+      expect(screen.getAllByRole("link").some((l) => l.textContent?.startsWith(name))).toBe(true);
+    }
+    // Courses are not sidebar items; the domain is, and it is the current section (not the current page).
+    expect(screen.queryByRole("link", { name: "Manual Testing" })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Testing & QA" })).toHaveAttribute("aria-current", "true");
+    expect(screen.getByRole("link", { name: "Careers (IT)" })).toHaveAttribute("aria-current", "true");
     expect(screen.getByRole("link", { name: "Learning Center" })).not.toHaveAttribute("aria-current");
     expect(screen.queryByRole("link", { name: "Admin" })).not.toBeInTheDocument();
+  });
+
+  it("uses aria-current=page on the exact page and labels planned areas", () => {
+    navigationState.pathname = "/exams";
+    renderWithProviders(<SidebarNav isAdmin={false} />);
+    const exams = screen.getByRole("link", { name: /Government Exams/ });
+    expect(exams).toHaveAttribute("aria-current", "page");
+    expect(exams).toHaveTextContent("Planned");
   });
 
   it("shows admin link for the owner", () => {
@@ -23,13 +37,25 @@ describe("SidebarNav", () => {
 
   it("collapses and expands a group", async () => {
     renderWithProviders(<SidebarNav isAdmin={false} />);
-    const toggle = screen.getByRole("button", { name: "Learn" });
+    const toggle = screen.getByRole("button", { name: "Practice & Assess" });
     expect(toggle).toHaveAttribute("aria-expanded", "true");
     await userEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "false");
-    expect(screen.queryByRole("link", { name: "API Testing" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Mock Tests" })).not.toBeInTheDocument();
     await userEvent.click(toggle);
-    expect(screen.getByRole("link", { name: "API Testing" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Mock Tests" })).toBeInTheDocument();
+  });
+
+  it("expands and collapses an area's domains with a keyboard-operable toggle", async () => {
+    navigationState.pathname = "/dashboard";
+    renderWithProviders(<SidebarNav isAdmin={false} />);
+    const toggle = screen.getByRole("button", { name: "Show Careers (IT) sections" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("link", { name: "Testing & QA" })).not.toBeInTheDocument();
+    toggle.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(screen.getByRole("button", { name: "Hide Careers (IT) sections" })).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("link", { name: "Testing & QA" })).toBeInTheDocument();
   });
 });
 

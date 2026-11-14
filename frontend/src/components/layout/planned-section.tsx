@@ -14,7 +14,7 @@ export function PlannedSection({ href }: { href: string }) {
   const item = findNavItem(href);
   if (!item) notFound();
   const Icon = item.icon;
-  const when = item.schedule ? item.schedule : `Phase ${item.phase}`;
+  const when = item.schedule ?? `Phase ${item.phase ?? 0}`;
 
   return (
     <div className="animate-fade-in">
@@ -40,7 +40,7 @@ export function PlannedSection({ href }: { href: string }) {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2.5">
-              {item.planned.map((entry) => (
+              {(item.planned ?? []).map((entry) => (
                 <li key={entry} className="flex gap-2 text-sm text-muted">
                   <CircleDashed className="mt-0.5 h-4 w-4 shrink-0 text-subtle" aria-hidden />
                   {entry}

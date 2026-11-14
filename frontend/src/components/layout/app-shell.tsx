@@ -1,12 +1,13 @@
 "use client";
 
-import { LogOut, Menu, Search, X } from "lucide-react";
+import { LogOut, Menu, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore, ViewTransition, type ReactNode } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore, ViewTransition, type ReactNode } from "react";
 import { BrandMark } from "@/components/layout/brand-mark";
 import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { CommandPalette } from "@/components/navigation/command-palette";
+import { MobileDrawer } from "@/components/navigation/mobile-drawer";
 import { SidebarNav } from "@/components/navigation/sidebar-nav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -42,6 +43,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 
   useSpotlight();
+
+  const closeDrawer = useCallback(() => setMobileOpen(false), []);
 
   const unauthorized = error instanceof ApiError && error.status === 401;
 
@@ -102,30 +105,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      {mobileOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation">
-          <button
-            type="button"
-            aria-label="Close navigation"
-            className="absolute inset-0 bg-overlay"
-            onClick={() => setMobileOpen(false)}
-          />
-          <div className="animate-slide-up relative flex h-full w-72 max-w-[85vw] flex-col border-r border-border bg-background">
-            <div className="flex h-14 items-center justify-between border-b border-border px-3">
-              <Brand />
-              <Button variant="ghost" size="icon" aria-label="Close navigation" onClick={() => setMobileOpen(false)}>
-                <X className="h-4 w-4" aria-hidden />
-              </Button>
-            </div>
-            <div className="flex-1 overflow-y-auto px-3 py-4">
-              <SidebarNav isAdmin={isAdmin} onNavigate={() => setMobileOpen(false)} />
-            </div>
-            <div className="border-t border-border px-3 py-3">
-              <ThemeToggle showLabels className="w-full justify-between" />
-            </div>
-          </div>
-        </div>
-      )}
+      <MobileDrawer
+        open={mobileOpen}
+        onClose={closeDrawer}
+        brand={<Brand />}
+        footer={<ThemeToggle showLabels className="w-full justify-between" />}
+      >
+        <SidebarNav isAdmin={isAdmin} onNavigate={closeDrawer} />
+      </MobileDrawer>
 
       <div className="relative z-10 flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-3 glass border-b border-border/70 px-4 sm:px-6">
@@ -134,6 +121,8 @@ export function AppShell({ children }: { children: ReactNode }) {
             size="icon"
             className="lg:hidden"
             aria-label="Open navigation"
+            aria-haspopup="dialog"
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen(true)}
           >
             <Menu className="h-4 w-4" aria-hidden />

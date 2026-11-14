@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { NAV_GROUPS } from "@/lib/navigation";
+import { NAV_ITEMS } from "@/lib/navigation";
 import { FAQ, WALKTHROUGHS } from "./guide-data";
 
 const publicDir = path.join(process.cwd(), "public");
@@ -45,7 +45,7 @@ describe("help guide data", () => {
 
   it("links only to app routes that exist", () => {
     const appDir = path.join(process.cwd(), "src", "app", "(app)");
-    const tracks = new Set(NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href)).filter((h) => h.startsWith("/careers/")));
+    const tracks = new Set(NAV_ITEMS.map((i) => i.href).filter((h) => h.startsWith("/careers/")));
     const hrefs = [
       ...WALKTHROUGHS.flatMap((w) => [w.start.href, ...w.steps.flatMap((s) => [s.link?.href, s.image?.url])]),
       ...FAQ.map((f) => f.link?.href),
