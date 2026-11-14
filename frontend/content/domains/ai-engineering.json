@@ -1,0 +1,292 @@
+{
+  "slug": "ai-engineering",
+  "title": "AI engineering",
+  "kind": "it",
+  "country": "IN",
+  "locale": "en",
+  "summary": "Building and evaluating applications on language models: prompting, RAG, agents and the quality practices around them.",
+  "roleGroups": [
+    {
+      "id": "ai-engineering",
+      "label": "AI engineering"
+    }
+  ],
+  "courses": [
+    {
+      "slug": "ai-engineering",
+      "title": "AI Engineering & AI Testing",
+      "description": "From Python and ML basics to LLMs, RAG, agents, evaluation, AI testing, MLOps and research skills.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "ai-foundations",
+          "title": "AI foundations",
+          "description": "Python, maths and how machine learning works.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "ai-landscape-and-roles",
+              "title": "The AI landscape and roles"
+            },
+            {
+              "slug": "python-for-ai",
+              "title": "Python for AI"
+            },
+            {
+              "slug": "math-for-machine-learning",
+              "title": "Maths for machine learning"
+            },
+            {
+              "slug": "machine-learning-fundamentals",
+              "title": "Machine learning fundamentals"
+            },
+            {
+              "slug": "model-evaluation-metrics",
+              "title": "Model evaluation metrics"
+            }
+          ]
+        },
+        {
+          "slug": "deep-learning",
+          "title": "Deep learning and transformers",
+          "description": "Neural networks, PyTorch and the transformer architecture.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "neural-networks-and-deep-learning",
+              "title": "Neural networks and deep learning"
+            },
+            {
+              "slug": "pytorch-essentials",
+              "title": "PyTorch essentials"
+            },
+            {
+              "slug": "transformers-and-attention",
+              "title": "Transformers and attention"
+            }
+          ]
+        },
+        {
+          "slug": "llm-apps",
+          "title": "Building LLM applications",
+          "description": "Prompting, APIs, embeddings, RAG and agents.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "llm-fundamentals-and-tokens",
+              "title": "LLM fundamentals and tokens"
+            },
+            {
+              "slug": "prompt-engineering",
+              "title": "Prompt engineering"
+            },
+            {
+              "slug": "llm-apis-and-structured-output",
+              "title": "LLM APIs and structured output"
+            },
+            {
+              "slug": "embeddings-and-vector-search",
+              "title": "Embeddings and vector search"
+            },
+            {
+              "slug": "building-rag-pipelines",
+              "title": "Building RAG pipelines"
+            },
+            {
+              "slug": "tool-use-and-ai-agents",
+              "title": "Tool use and AI agents"
+            }
+          ]
+        },
+        {
+          "slug": "generative-ai",
+          "title": "Generative AI",
+          "description": "How generative models create text, images and more, and how to work with them well.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "generative-ai-fundamentals",
+              "title": "Generative AI fundamentals"
+            },
+            {
+              "slug": "diffusion-and-image-generation",
+              "title": "Diffusion and image generation"
+            },
+            {
+              "slug": "multimodal-models",
+              "title": "Multimodal models"
+            },
+            {
+              "slug": "context-engineering-and-long-context",
+              "title": "Context engineering and long context"
+            }
+          ]
+        },
+        {
+          "slug": "vector-retrieval",
+          "title": "Vector databases, retrieval and reranking",
+          "description": "Vector indexes, hybrid search, reranking and advanced RAG patterns.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "vector-databases-deep-dive",
+              "title": "Vector databases deep dive"
+            },
+            {
+              "slug": "chunking-strategies",
+              "title": "Chunking strategies"
+            },
+            {
+              "slug": "hybrid-search-and-bm25",
+              "title": "Hybrid search and BM25"
+            },
+            {
+              "slug": "reranking-and-cross-encoders",
+              "title": "Reranking and cross-encoders"
+            },
+            {
+              "slug": "advanced-rag-patterns",
+              "title": "Advanced RAG patterns"
+            }
+          ]
+        },
+        {
+          "slug": "agentic-ai",
+          "title": "Agentic AI",
+          "description": "Agent architectures, memory, planning, multi-agent systems, MCP and guardrails.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "agentic-ai-fundamentals",
+              "title": "Agentic AI fundamentals"
+            },
+            {
+              "slug": "agent-memory-and-planning",
+              "title": "Agent memory and planning"
+            },
+            {
+              "slug": "multi-agent-systems",
+              "title": "Multi-agent systems"
+            },
+            {
+              "slug": "model-context-protocol",
+              "title": "Model Context Protocol (MCP)"
+            },
+            {
+              "slug": "agent-guardrails-and-safety",
+              "title": "Agent guardrails and safety"
+            }
+          ]
+        },
+        {
+          "slug": "ai-testing",
+          "title": "Testing and evaluating AI",
+          "description": "Evals, LLM-as-judge, red teaming, safety and AI in test automation.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "testing-ai-systems-strategy",
+              "title": "A strategy for testing AI systems"
+            },
+            {
+              "slug": "llm-evaluation-and-evals",
+              "title": "LLM evaluation and evals"
+            },
+            {
+              "slug": "llm-as-judge-and-human-review",
+              "title": "LLM-as-judge and human review"
+            },
+            {
+              "slug": "hallucination-and-groundedness-testing",
+              "title": "Hallucination and groundedness testing"
+            },
+            {
+              "slug": "evaluating-ai-agents",
+              "title": "Evaluating AI agents"
+            },
+            {
+              "slug": "red-teaming-and-prompt-injection",
+              "title": "Red teaming and prompt injection"
+            },
+            {
+              "slug": "bias-fairness-and-responsible-ai",
+              "title": "Bias, fairness and responsible AI"
+            },
+            {
+              "slug": "ai-assisted-test-automation",
+              "title": "AI-assisted test automation"
+            }
+          ]
+        },
+        {
+          "slug": "ai-assurance",
+          "title": "AI assurance",
+          "description": "Assurance cases, audits, model risk management and continuous assurance.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "ai-assurance-fundamentals",
+              "title": "AI assurance fundamentals"
+            },
+            {
+              "slug": "ai-model-risk-management",
+              "title": "AI model risk management"
+            },
+            {
+              "slug": "ai-audit-and-assurance-evidence",
+              "title": "AI audit and assurance evidence"
+            }
+          ]
+        },
+        {
+          "slug": "production-ai",
+          "title": "Production AI and MLOps",
+          "description": "Fine-tuning, deployment, monitoring, cost and governance.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "fine-tuning-and-adaptation",
+              "title": "Fine-tuning and adaptation"
+            },
+            {
+              "slug": "mlops-and-model-deployment",
+              "title": "MLOps and model deployment"
+            },
+            {
+              "slug": "monitoring-ai-in-production",
+              "title": "Monitoring AI in production"
+            },
+            {
+              "slug": "ai-cost-latency-and-scaling",
+              "title": "AI cost, latency and scaling"
+            },
+            {
+              "slug": "ai-governance-and-regulation",
+              "title": "AI governance and regulation"
+            }
+          ]
+        },
+        {
+          "slug": "ai-research",
+          "title": "AI research and science",
+          "description": "Reading papers, running experiments and advanced topics.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "reading-ai-research-papers",
+              "title": "Reading AI research papers"
+            },
+            {
+              "slug": "experiment-design-for-ai-research",
+              "title": "Experiment design for AI research"
+            },
+            {
+              "slug": "advanced-topics-in-modern-ai",
+              "title": "Advanced topics in modern AI"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

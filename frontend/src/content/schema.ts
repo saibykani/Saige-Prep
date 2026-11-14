@@ -4,6 +4,7 @@
  * of rendering broken pages.
  */
 import { z } from "zod";
+import testingDomain from "../../content/domains/testing.json";
 
 export const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "kebab-case slug");
 export const level = z.enum(["beginner", "intermediate", "advanced"]);
@@ -161,16 +162,11 @@ export const REQUIRED_LESSON_HEADINGS = [
 
 /* ------------------------------------ Roles ------------------------------------ */
 
-export const ROLE_CATEGORIES = [
-  { id: "core-qa", label: "Core QA" },
-  { id: "automation", label: "Automation & development-in-test" },
-  { id: "api-backend", label: "API & backend testing" },
-  { id: "performance", label: "Performance & reliability" },
-  { id: "mobile-web", label: "Mobile, web & device testing" },
-  { id: "security-specialist", label: "Security & specialist testing" },
-  { id: "data-ai", label: "Data, AI & modern engineering" },
-  { id: "leadership", label: "Leadership & management" },
-] as const;
+/**
+ * Role categories are the role groups of the testing domain (content/domains/testing.json).
+ * Roles carry domain "testing" and group = category; see domainOfRole in curriculum.ts.
+ */
+export const ROLE_CATEGORIES: readonly { id: string; label: string }[] = testingDomain.roleGroups;
 export const roleCategory = z.enum(ROLE_CATEGORIES.map((c) => c.id) as [string, ...string[]]);
 
 const roadmapStage = z.object({

@@ -1,0 +1,1153 @@
+{
+  "slug": "testing",
+  "title": "Testing & QA",
+  "kind": "it",
+  "country": "IN",
+  "locale": "en",
+  "summary": "Software testing and quality engineering, from manual testing fundamentals to automation, performance, security and SDET leadership.",
+  "roleGroups": [
+    {
+      "id": "core-qa",
+      "label": "Core QA"
+    },
+    {
+      "id": "automation",
+      "label": "Automation & development-in-test"
+    },
+    {
+      "id": "api-backend",
+      "label": "API & backend testing"
+    },
+    {
+      "id": "performance",
+      "label": "Performance & reliability"
+    },
+    {
+      "id": "mobile-web",
+      "label": "Mobile, web & device testing"
+    },
+    {
+      "id": "security-specialist",
+      "label": "Security & specialist testing"
+    },
+    {
+      "id": "data-ai",
+      "label": "Data, AI & modern engineering"
+    },
+    {
+      "id": "leadership",
+      "label": "Leadership & management"
+    }
+  ],
+  "courses": [
+    {
+      "slug": "manual-testing",
+      "title": "Manual Testing",
+      "description": "The foundation for every testing role: how testing works, how to design tests, document them, manage defects and work in Agile teams.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "fundamentals",
+          "title": "Module 1 · Software testing fundamentals",
+          "description": "What testing is, why it matters, and the vocabulary every tester uses.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "what-is-software-testing",
+              "title": "What is software testing?"
+            },
+            {
+              "slug": "why-testing-is-required",
+              "title": "Why testing is required"
+            },
+            {
+              "slug": "qa-qc-and-testing",
+              "title": "QA, QC and testing"
+            },
+            {
+              "slug": "verification-vs-validation",
+              "title": "Verification versus validation"
+            },
+            {
+              "slug": "error-defect-bug-failure",
+              "title": "Error, defect, bug, failure and root cause"
+            },
+            {
+              "slug": "sdlc-and-stlc",
+              "title": "SDLC and STLC"
+            },
+            {
+              "slug": "seven-testing-principles",
+              "title": "The seven testing principles"
+            },
+            {
+              "slug": "testing-objectives-and-limitations",
+              "title": "Testing objectives and limitations"
+            },
+            {
+              "slug": "static-vs-dynamic-testing",
+              "title": "Static and dynamic testing"
+            },
+            {
+              "slug": "black-white-gray-box-testing",
+              "title": "Black-box, white-box and gray-box testing"
+            }
+          ]
+        },
+        {
+          "slug": "types-and-levels",
+          "title": "Module 2 · Testing types and levels",
+          "description": "Where each kind of testing fits, from unit tests to acceptance and beyond.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "unit-and-component-testing",
+              "title": "Unit and component testing"
+            },
+            {
+              "slug": "integration-testing",
+              "title": "Integration testing"
+            },
+            {
+              "slug": "system-and-end-to-end-testing",
+              "title": "System and end-to-end testing"
+            },
+            {
+              "slug": "acceptance-alpha-beta-testing",
+              "title": "Acceptance, alpha and beta testing"
+            },
+            {
+              "slug": "functional-vs-non-functional-testing",
+              "title": "Functional versus non-functional testing"
+            },
+            {
+              "slug": "regression-testing",
+              "title": "Regression testing"
+            },
+            {
+              "slug": "retesting-and-confirmation-testing",
+              "title": "Retesting and confirmation testing"
+            },
+            {
+              "slug": "smoke-and-sanity-testing",
+              "title": "Smoke and sanity testing"
+            },
+            {
+              "slug": "exploratory-and-ad-hoc-testing",
+              "title": "Exploratory and ad hoc testing"
+            },
+            {
+              "slug": "compatibility-and-installation-testing",
+              "title": "Compatibility and installation testing"
+            },
+            {
+              "slug": "recovery-reliability-availability-testing",
+              "title": "Recovery, reliability and availability testing"
+            },
+            {
+              "slug": "risk-based-testing",
+              "title": "Risk-based testing"
+            }
+          ]
+        },
+        {
+          "slug": "test-design-techniques",
+          "title": "Module 3 · Test design techniques",
+          "description": "Systematic ways to choose a small set of tests that finds the most defects.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "equivalence-partitioning",
+              "title": "Equivalence partitioning"
+            },
+            {
+              "slug": "boundary-value-analysis",
+              "title": "Boundary value analysis"
+            },
+            {
+              "slug": "decision-table-testing",
+              "title": "Decision table testing"
+            },
+            {
+              "slug": "state-transition-testing",
+              "title": "State transition testing"
+            },
+            {
+              "slug": "use-case-testing",
+              "title": "Use-case testing"
+            },
+            {
+              "slug": "pairwise-and-combinatorial-testing",
+              "title": "Pairwise and combinatorial testing"
+            },
+            {
+              "slug": "error-guessing",
+              "title": "Error guessing"
+            },
+            {
+              "slug": "exploratory-testing-charters",
+              "title": "Exploratory testing charters"
+            },
+            {
+              "slug": "positive-and-negative-testing",
+              "title": "Positive and negative testing"
+            },
+            {
+              "slug": "risk-based-scenario-selection",
+              "title": "Risk-based scenario selection"
+            },
+            {
+              "slug": "test-data-design",
+              "title": "Test data design"
+            }
+          ]
+        },
+        {
+          "slug": "test-documentation",
+          "title": "Module 4 · Test documentation",
+          "description": "Strategies, plans, cases, traceability and reports that teams actually use.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "test-strategy-vs-test-plan",
+              "title": "Test strategy versus test plan"
+            },
+            {
+              "slug": "test-scenarios-and-test-cases",
+              "title": "Test scenarios and test cases"
+            },
+            {
+              "slug": "test-suites-and-test-data",
+              "title": "Test suites and test data"
+            },
+            {
+              "slug": "traceability-matrix-and-coverage",
+              "title": "Traceability matrix and requirements coverage"
+            },
+            {
+              "slug": "test-estimation",
+              "title": "Test estimation"
+            },
+            {
+              "slug": "entry-and-exit-criteria",
+              "title": "Entry and exit criteria"
+            },
+            {
+              "slug": "test-execution-and-closure-reports",
+              "title": "Test execution and closure reports"
+            },
+            {
+              "slug": "release-sign-off",
+              "title": "Release sign-off"
+            }
+          ]
+        },
+        {
+          "slug": "defect-management",
+          "title": "Module 5 · Defect management",
+          "description": "Writing defects developers can act on, and managing them to closure.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "defect-lifecycle",
+              "title": "Defect lifecycle"
+            },
+            {
+              "slug": "severity-vs-priority",
+              "title": "Severity versus priority"
+            },
+            {
+              "slug": "writing-a-great-defect-report",
+              "title": "Writing a great defect report"
+            },
+            {
+              "slug": "defect-triage",
+              "title": "Defect triage, duplicates, rejected and deferred defects"
+            },
+            {
+              "slug": "root-cause-analysis",
+              "title": "Root cause analysis"
+            },
+            {
+              "slug": "defect-metrics",
+              "title": "Defect metrics: leakage, density, aging and escapes"
+            }
+          ]
+        },
+        {
+          "slug": "agile-and-test-management",
+          "title": "Module 6 · Agile and test management",
+          "description": "Testing inside Scrum teams, shift-left, and the tools that support it.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "agile-principles-for-testers",
+              "title": "Agile principles for testers"
+            },
+            {
+              "slug": "scrum-roles-and-ceremonies",
+              "title": "Scrum roles and ceremonies"
+            },
+            {
+              "slug": "acceptance-criteria-dor-dod",
+              "title": "Acceptance criteria, Definition of Ready and Done"
+            },
+            {
+              "slug": "shift-left-and-continuous-testing",
+              "title": "Shift-left and continuous testing"
+            },
+            {
+              "slug": "jira-workflows-and-test-management-tools",
+              "title": "JIRA workflows and test management tools"
+            },
+            {
+              "slug": "release-readiness",
+              "title": "Release readiness"
+            }
+          ]
+        },
+        {
+          "slug": "real-world-scenarios",
+          "title": "Module 7 · Real-world manual testing",
+          "description": "Guided scenarios for the features you will test in real products.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "testing-login-and-authentication",
+              "title": "Testing login and authentication"
+            },
+            {
+              "slug": "testing-registration-and-password-reset",
+              "title": "Testing registration and password reset"
+            },
+            {
+              "slug": "testing-search-and-filtering",
+              "title": "Testing search and filtering"
+            },
+            {
+              "slug": "testing-cart-and-checkout",
+              "title": "Testing shopping cart and checkout"
+            },
+            {
+              "slug": "testing-payments-refunds-cancellations",
+              "title": "Testing payments, refunds and cancellations"
+            },
+            {
+              "slug": "testing-user-permissions",
+              "title": "Testing user permissions"
+            },
+            {
+              "slug": "testing-file-uploads-and-downloads",
+              "title": "Testing file uploads and downloads"
+            },
+            {
+              "slug": "testing-notifications",
+              "title": "Testing notifications"
+            },
+            {
+              "slug": "testing-sessions-and-concurrency",
+              "title": "Testing session expiry and concurrent updates"
+            },
+            {
+              "slug": "testing-data-validation",
+              "title": "Testing data validation"
+            },
+            {
+              "slug": "testing-multi-browser-and-network-issues",
+              "title": "Testing multi-browser behaviour and network interruptions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "automation",
+      "title": "Automation Testing",
+      "description": "Java, Selenium WebDriver and TestNG as the core path, then framework design, reliability and optional modern tools.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "java-for-testers",
+          "title": "Java for testers",
+          "description": "The Java you need to write and maintain test automation.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "java-basics-for-testers",
+              "title": "Java basics for testers"
+            },
+            {
+              "slug": "java-oop-for-test-automation",
+              "title": "OOP for test automation"
+            },
+            {
+              "slug": "java-collections-and-exceptions",
+              "title": "Collections and exceptions"
+            }
+          ]
+        },
+        {
+          "slug": "selenium-webdriver",
+          "title": "Selenium WebDriver",
+          "description": "Driving browsers reliably with Selenium.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "selenium-architecture",
+              "title": "Selenium architecture and WebDriver"
+            },
+            {
+              "slug": "locator-strategies",
+              "title": "Locator strategies"
+            },
+            {
+              "slug": "waits-and-synchronization",
+              "title": "Waits and synchronization"
+            },
+            {
+              "slug": "handling-frames-windows-alerts",
+              "title": "Frames, windows and alerts"
+            }
+          ]
+        },
+        {
+          "slug": "frameworks",
+          "title": "Test frameworks and build tools",
+          "description": "TestNG, JUnit, Maven and Git as the backbone of a suite.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "testng-essentials",
+              "title": "TestNG essentials"
+            },
+            {
+              "slug": "junit-5-essentials",
+              "title": "JUnit 5 essentials"
+            },
+            {
+              "slug": "maven-for-test-projects",
+              "title": "Maven for test projects"
+            },
+            {
+              "slug": "git-for-testers",
+              "title": "Git for testers"
+            }
+          ]
+        },
+        {
+          "slug": "framework-design",
+          "title": "Framework architecture",
+          "description": "Designing automation that stays maintainable as it grows.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "page-object-model",
+              "title": "Page Object Model"
+            },
+            {
+              "slug": "data-driven-testing",
+              "title": "Data-driven testing"
+            },
+            {
+              "slug": "cucumber-bdd",
+              "title": "Cucumber and BDD"
+            },
+            {
+              "slug": "parallel-execution",
+              "title": "Parallel execution"
+            },
+            {
+              "slug": "reporting-and-logging",
+              "title": "Reporting and logging"
+            },
+            {
+              "slug": "automation-design-patterns",
+              "title": "Automation design patterns"
+            }
+          ]
+        },
+        {
+          "slug": "reliability",
+          "title": "Reliability and debugging",
+          "description": "Keeping suites trustworthy.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "flaky-test-reduction",
+              "title": "Flaky test reduction"
+            },
+            {
+              "slug": "debugging-failing-tests",
+              "title": "Debugging failing tests"
+            },
+            {
+              "slug": "test-doubles-and-mocking",
+              "title": "Test doubles and mocking"
+            }
+          ]
+        },
+        {
+          "slug": "modern-tools",
+          "title": "Modern web tools (optional)",
+          "description": "Alternative stacks you may meet in job descriptions.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "playwright-with-typescript",
+              "title": "Playwright with TypeScript"
+            },
+            {
+              "slug": "cypress-fundamentals",
+              "title": "Cypress fundamentals"
+            },
+            {
+              "slug": "webdriverio-fundamentals",
+              "title": "WebdriverIO fundamentals"
+            },
+            {
+              "slug": "robot-framework-fundamentals",
+              "title": "Robot Framework fundamentals"
+            },
+            {
+              "slug": "accessibility-automation",
+              "title": "Accessibility automation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "api-testing",
+      "title": "API Testing",
+      "description": "HTTP and REST fundamentals, Postman and Newman, RestAssured automation and advanced API quality.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "http-and-rest",
+          "title": "HTTP and REST fundamentals",
+          "description": "How APIs talk, and what to check.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "http-fundamentals",
+              "title": "HTTP requests, responses and methods"
+            },
+            {
+              "slug": "http-status-codes",
+              "title": "HTTP status codes"
+            },
+            {
+              "slug": "rest-principles",
+              "title": "REST principles"
+            },
+            {
+              "slug": "json-and-xml-for-testers",
+              "title": "JSON and XML for testers"
+            },
+            {
+              "slug": "authentication-and-authorization",
+              "title": "Authentication and authorization"
+            }
+          ]
+        },
+        {
+          "slug": "postman",
+          "title": "Postman and Newman",
+          "description": "Manual and command-line API testing.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "postman-collections-and-environments",
+              "title": "Postman collections and environments"
+            },
+            {
+              "slug": "postman-tests-and-request-chaining",
+              "title": "Postman tests and request chaining"
+            },
+            {
+              "slug": "newman-command-line-runs",
+              "title": "Newman command-line runs"
+            }
+          ]
+        },
+        {
+          "slug": "restassured",
+          "title": "RestAssured automation",
+          "description": "Automated API tests in Java.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "restassured-fundamentals",
+              "title": "RestAssured fundamentals"
+            },
+            {
+              "slug": "json-schema-validation",
+              "title": "JSON schema validation"
+            },
+            {
+              "slug": "api-test-data-management",
+              "title": "API test data management"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-api",
+          "title": "Advanced API quality",
+          "description": "The behaviours that separate good API testers.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "api-negative-and-boundary-testing",
+              "title": "Negative and boundary testing"
+            },
+            {
+              "slug": "pagination-sorting-filtering",
+              "title": "Pagination, sorting and filtering"
+            },
+            {
+              "slug": "idempotency-retries-rate-limiting",
+              "title": "Idempotency, retries and rate limiting"
+            },
+            {
+              "slug": "contract-testing",
+              "title": "Contract testing"
+            },
+            {
+              "slug": "api-security-testing",
+              "title": "API security testing"
+            },
+            {
+              "slug": "api-database-validation",
+              "title": "Database validation for API tests"
+            },
+            {
+              "slug": "api-testing-in-ci",
+              "title": "API testing in CI/CD"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "performance",
+      "title": "Performance Testing",
+      "description": "Performance concepts, metrics, workload models, JMeter and results analysis.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "concepts",
+          "title": "Performance concepts",
+          "description": "The vocabulary and maths of performance.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "performance-testing-types",
+              "title": "Load, stress, spike, endurance, scalability and volume testing"
+            },
+            {
+              "slug": "throughput-latency-and-percentiles",
+              "title": "Throughput, latency and percentiles"
+            },
+            {
+              "slug": "littles-law",
+              "title": "Little's Law and concurrency"
+            },
+            {
+              "slug": "workload-modeling",
+              "title": "Workload modelling, think time and pacing"
+            }
+          ]
+        },
+        {
+          "slug": "analysis",
+          "title": "Monitoring and analysis",
+          "description": "From numbers to root causes.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "resource-utilization-and-bottlenecks",
+              "title": "CPU, memory, disk, network and bottlenecks"
+            },
+            {
+              "slug": "thread-and-connection-pools",
+              "title": "Thread pools and connection pools"
+            },
+            {
+              "slug": "database-and-caching-bottlenecks",
+              "title": "Database bottlenecks and caching"
+            },
+            {
+              "slug": "monitoring-with-influxdb-grafana",
+              "title": "Monitoring with InfluxDB and Grafana"
+            },
+            {
+              "slug": "analyzing-performance-results",
+              "title": "Analysing results and root cause"
+            },
+            {
+              "slug": "capacity-planning-and-baselines",
+              "title": "Capacity planning, baselines and thresholds"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "jmeter",
+      "title": "Apache JMeter",
+      "description": "JMeter from absolute zero to advanced: install it, build your first test, make it realistic, correlate, validate, run at scale, monitor and report — explained for complete beginners.",
+      "level": "beginner",
+      "parent": "performance",
+      "modules": [
+        {
+          "slug": "jmeter-getting-started",
+          "title": "Module 1 · Getting started",
+          "description": "What JMeter is, installing it, and your first working test plan.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "what-is-jmeter",
+              "title": "What is Apache JMeter (and what it is not)"
+            },
+            {
+              "slug": "installing-jmeter",
+              "title": "Installing JMeter and Java step by step"
+            },
+            {
+              "slug": "jmeter-gui-tour",
+              "title": "A guided tour of the JMeter GUI"
+            },
+            {
+              "slug": "jmeter-fundamentals",
+              "title": "JMeter fundamentals: your first test plan"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-building-blocks",
+          "title": "Module 2 · Building blocks",
+          "description": "The elements every test plan is made of, and how JMeter executes them.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-thread-groups",
+              "title": "Thread Groups: users, ramp-up and loops"
+            },
+            {
+              "slug": "jmeter-http-request-sampler",
+              "title": "The HTTP Request sampler in depth"
+            },
+            {
+              "slug": "jmeter-config-elements",
+              "title": "Config elements: defaults, headers, cookies and cache"
+            },
+            {
+              "slug": "jmeter-listeners-and-results",
+              "title": "Listeners and reading results"
+            },
+            {
+              "slug": "jmeter-scope-and-execution-order",
+              "title": "Element scope and execution order"
+            },
+            {
+              "slug": "jmeter-logic-controllers",
+              "title": "Logic controllers: transactions, loops and conditions"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-realistic-tests",
+          "title": "Module 3 · Making tests realistic",
+          "description": "Recording, variables, test data and functions.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-recording-scripts",
+              "title": "Recording scripts with the HTTP(S) Test Script Recorder"
+            },
+            {
+              "slug": "jmeter-variables-and-properties",
+              "title": "Variables, properties and user-defined variables"
+            },
+            {
+              "slug": "jmeter-csv-data-set-config",
+              "title": "Test data with CSV Data Set Config"
+            },
+            {
+              "slug": "jmeter-functions",
+              "title": "JMeter functions (__Random, __time, __P and more)"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-correlation-validation",
+          "title": "Module 4 · Correlation and validation",
+          "description": "Handling dynamic values and checking responses are really correct.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-correlation-and-parameterization",
+              "title": "Correlation and parameterization"
+            },
+            {
+              "slug": "jmeter-assertions-and-extractors",
+              "title": "Assertions and extractors"
+            },
+            {
+              "slug": "jmeter-testing-rest-apis",
+              "title": "Testing REST APIs with JSON, tokens and chaining"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-workload-control",
+          "title": "Module 5 · Controlling the workload",
+          "description": "Think time, pacing and hitting a target throughput.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-timers-and-throughput-shaping",
+              "title": "Timers and throughput shaping"
+            },
+            {
+              "slug": "jmeter-workload-design",
+              "title": "Designing a workload model in JMeter"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-scripting",
+          "title": "Module 6 · Scripting",
+          "description": "Extending JMeter with Groovy.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-groovy-jsr223",
+              "title": "Groovy and JSR223"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-execution-reporting",
+          "title": "Module 7 · Running and reporting",
+          "description": "Running tests properly and turning results into decisions.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-non-gui-and-distributed",
+              "title": "Non-GUI and distributed execution"
+            },
+            {
+              "slug": "jmeter-html-dashboard-report",
+              "title": "The HTML dashboard report explained"
+            },
+            {
+              "slug": "jmeter-analyzing-results",
+              "title": "Analysing JMeter results and finding bottlenecks"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-advanced",
+          "title": "Module 8 · Advanced JMeter",
+          "description": "Plugins, live monitoring, CI/CD, other protocols, best practices and a capstone.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "jmeter-plugins-manager",
+              "title": "JMeter Plugins Manager and popular plugins"
+            },
+            {
+              "slug": "jmeter-backend-listener-grafana",
+              "title": "Live monitoring: Backend Listener, InfluxDB and Grafana"
+            },
+            {
+              "slug": "jmeter-ci-cd",
+              "title": "Running JMeter in CI/CD"
+            },
+            {
+              "slug": "jmeter-jdbc-and-other-protocols",
+              "title": "JDBC, JMS and other protocols"
+            },
+            {
+              "slug": "jmeter-best-practices-and-troubleshooting",
+              "title": "Best practices, memory tuning and troubleshooting"
+            },
+            {
+              "slug": "jmeter-capstone-payment-load-test",
+              "title": "Capstone: a complete payment load test"
+            }
+          ]
+        },
+        {
+          "slug": "jmeter-blazemeter",
+          "title": "Module 9 · BlazeMeter and Taurus, end to end",
+          "description": "Record with the BlazeMeter Chrome extension, run JMeter tests in the cloud at scale, automate with Taurus and CI, and analyse BlazeMeter reports.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "blazemeter-overview",
+              "title": "What BlazeMeter is and when to use it"
+            },
+            {
+              "slug": "blazemeter-chrome-recorder",
+              "title": "Recording scripts with the BlazeMeter Chrome extension"
+            },
+            {
+              "slug": "blazemeter-running-jmeter-tests",
+              "title": "Running a JMeter test on BlazeMeter"
+            },
+            {
+              "slug": "blazemeter-distributed-load-and-locations",
+              "title": "Scaling: engines, locations and distributed load"
+            },
+            {
+              "slug": "blazemeter-reports-and-analysis",
+              "title": "BlazeMeter reports, comparisons and analysis"
+            },
+            {
+              "slug": "taurus-bzt-automation",
+              "title": "Taurus (bzt): test-as-code for JMeter"
+            },
+            {
+              "slug": "blazemeter-ci-cd-and-api-monitoring",
+              "title": "BlazeMeter in CI/CD, thresholds and API monitoring"
+            },
+            {
+              "slug": "blazemeter-capstone-end-to-end",
+              "title": "Capstone: an end-to-end load test with BlazeMeter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mobile",
+      "title": "Mobile Testing",
+      "description": "Mobile-specific risks, device strategy and Appium automation.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "mobile-fundamentals",
+          "title": "Mobile testing fundamentals",
+          "description": "What makes mobile different.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "mobile-testing-fundamentals",
+              "title": "Mobile testing fundamentals"
+            },
+            {
+              "slug": "android-vs-ios-testing",
+              "title": "Android versus iOS testing"
+            },
+            {
+              "slug": "device-and-os-coverage-strategy",
+              "title": "Device and OS coverage strategy"
+            }
+          ]
+        },
+        {
+          "slug": "appium",
+          "title": "Appium",
+          "description": "Automating native and hybrid apps.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "appium-architecture-and-setup",
+              "title": "Appium architecture and setup"
+            },
+            {
+              "slug": "appium-locators-and-gestures",
+              "title": "Appium locators and gestures"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "specialist",
+      "title": "Specialist Testing",
+      "description": "SQL, accessibility, security, compatibility, localization, data and AI testing.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "sql-and-data",
+          "title": "SQL and data testing",
+          "description": "Validating data where it lives.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "sql-for-testers",
+              "title": "SQL for testers"
+            },
+            {
+              "slug": "sql-joins-and-aggregates",
+              "title": "SQL joins and aggregates"
+            },
+            {
+              "slug": "database-testing",
+              "title": "Database testing"
+            },
+            {
+              "slug": "etl-and-data-warehouse-testing",
+              "title": "ETL and data warehouse testing"
+            }
+          ]
+        },
+        {
+          "slug": "accessibility",
+          "title": "Accessibility testing",
+          "description": "Making products usable by everyone.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "accessibility-testing-fundamentals",
+              "title": "Accessibility testing and WCAG"
+            },
+            {
+              "slug": "screen-reader-and-keyboard-testing",
+              "title": "Screen reader and keyboard testing"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "Security testing",
+          "description": "Finding weaknesses safely and legally.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "security-testing-fundamentals",
+              "title": "Security testing fundamentals"
+            },
+            {
+              "slug": "owasp-top-10-for-testers",
+              "title": "OWASP Top 10 for testers"
+            }
+          ]
+        },
+        {
+          "slug": "compatibility-and-localization",
+          "title": "Compatibility and localization",
+          "description": "Many browsers, devices, languages and regions.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "cross-browser-testing",
+              "title": "Cross-browser testing"
+            },
+            {
+              "slug": "localization-and-internationalization",
+              "title": "Localization and internationalization"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-and-distributed",
+          "title": "Cloud and distributed systems",
+          "description": "Testing systems that span many services.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "microservices-testing",
+              "title": "Microservices and event-driven testing"
+            },
+            {
+              "slug": "chaos-engineering-basics",
+              "title": "Chaos engineering basics"
+            }
+          ]
+        },
+        {
+          "slug": "ai-testing",
+          "title": "AI application testing",
+          "description": "Evaluating LLM, RAG and agent systems.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "testing-ai-applications",
+              "title": "Testing AI applications"
+            },
+            {
+              "slug": "llm-evaluation",
+              "title": "LLM evaluation"
+            },
+            {
+              "slug": "rag-evaluation",
+              "title": "RAG evaluation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sdet",
+      "title": "SDET Engineering",
+      "description": "CI/CD, test architecture, metrics, requirements analysis and test leadership.",
+      "level": "beginner",
+      "modules": [
+        {
+          "slug": "devops",
+          "title": "CI/CD and DevOps for testers",
+          "description": "Running tests where software is built and shipped.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "ci-cd-for-test-engineers",
+              "title": "CI/CD for test engineers"
+            },
+            {
+              "slug": "github-actions-for-tests",
+              "title": "GitHub Actions for tests"
+            },
+            {
+              "slug": "jenkins-pipelines-for-tests",
+              "title": "Jenkins pipelines for tests"
+            },
+            {
+              "slug": "docker-for-testers",
+              "title": "Docker for testers"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "Test architecture and system design",
+          "description": "Designing test systems, not just tests.",
+          "path": "core",
+          "topics": [
+            {
+              "slug": "test-pyramid-and-strategy",
+              "title": "The test pyramid and test strategy"
+            },
+            {
+              "slug": "test-architecture-and-system-design",
+              "title": "Test architecture and system design"
+            },
+            {
+              "slug": "requirements-analysis-for-testers",
+              "title": "Requirements analysis for testers"
+            }
+          ]
+        },
+        {
+          "slug": "leadership",
+          "title": "Metrics and leadership",
+          "description": "Measuring quality and leading test efforts.",
+          "path": "optional",
+          "topics": [
+            {
+              "slug": "qa-metrics-and-reporting",
+              "title": "QA metrics and reporting"
+            },
+            {
+              "slug": "test-management-and-leadership",
+              "title": "Test management and leadership"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

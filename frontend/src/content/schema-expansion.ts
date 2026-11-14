@@ -87,6 +87,7 @@ export const officialLink = z.strictObject({
 const courseModule = z.object({
   slug,
   title: z.string().min(3),
+  description: z.string().min(10).optional(),
   path: z.enum(["core", "optional"]),
   topics: z.array(z.object({ slug, title: z.string().min(3) })),
 });
@@ -110,6 +111,8 @@ export const domainFile = z
           title: z.string().min(3),
           description: z.string().min(10),
           level,
+          /** Sub-course shown as a tab inside its parent course (e.g. JMeter inside Performance). */
+          parent: slug.optional(),
           modules: z.array(courseModule),
         }),
       )
