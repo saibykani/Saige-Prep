@@ -1,0 +1,34 @@
+{
+  "bank": "fixture-bank",
+  "title": "FIXTURE question bank",
+  "scope": { "subject": "quantitative", "exam": "fixture-exam" },
+  "passages": [{ "id": "fixture-passage", "text": "Fixture passage text that is long enough to pass the length check." }],
+  "questions": [
+    {
+      "id": "fx-1", "type": "single", "topic": "percentages", "difficulty": "beginner", "section": "quant",
+      "prompt": "What is 20 percent of 150 in this fixture?", "options": ["20", "25", "30", "35"], "answer": [2],
+      "explanation": "Twenty percent of 150 is 150 times 0.2, which is 30.", "modelledOnYear": 2025
+    },
+    {
+      "id": "fx-2", "type": "single", "topic": "percentages", "difficulty": "beginner", "passageId": "fixture-passage",
+      "prompt": "Fixture question that refers to the shared passage text.", "options": ["A", "B"], "answer": [0],
+      "explanation": "Fixture explanation long enough to pass validation.",
+      "image": { "path": "/fixtures/chart.png", "alt": "Fixture bar chart" }
+    },
+    {
+      "id": "fx-3", "type": "single", "topic": "ratio", "difficulty": "intermediate",
+      "prompt": "Fixture question three about ratios and proportions.", "options": ["A", "B"], "answer": [1],
+      "explanation": "Fixture explanation long enough to pass validation.", "locale": "hi"
+    },
+    {
+      "id": "fx-4", "type": "single", "topic": "ratio", "difficulty": "advanced",
+      "prompt": "Fixture question four about ratios and proportions.", "options": ["A", "B"], "answer": [1],
+      "explanation": "Fixture explanation long enough to pass validation.", "source": "adapted"
+    },
+    {
+      "id": "fx-5", "type": "single", "topic": "ratio", "difficulty": "advanced",
+      "prompt": "Fixture question five about ratios and proportions.", "options": ["A", "B"], "answer": [0],
+      "explanation": "Fixture explanation long enough to pass validation."
+    }
+  ]
+}

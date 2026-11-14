@@ -1,0 +1,11 @@
+{
+  "slug": "fixture-percentages",
+  "subject": "quantitative",
+  "title": "FIXTURE aptitude topic",
+  "summary": "Test fixture for the aptitude topic frontmatter. Never rendered or published.",
+  "level": "beginner",
+  "duration": 20,
+  "tags": ["fixture"],
+  "objectives": ["Fixture objective one", "Fixture objective two"],
+  "takeaways": ["Fixture takeaway one", "Fixture takeaway two"]
+}

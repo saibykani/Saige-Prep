@@ -1,0 +1,17 @@
+{
+  "slug": "fixture-advocate",
+  "domain": "fixture-law",
+  "group": "fixture-group",
+  "title": "FIXTURE career overview",
+  "overview": "Test fixture for the career overview schema. Never rendered or published to learners.",
+  "responsibilities": ["Fixture responsibility one", "Fixture responsibility two"],
+  "eligibility": "Fixture text; a real page quotes the official notification.",
+  "qualifyingExams": [
+    {
+      "title": "Fixture qualifying exam",
+      "links": [{ "label": "Fixture homepage", "url": "https://consortiumofnlus.ac.in/", "kind": "homepage" }],
+      "lastVerified": "2026-11-01"
+    }
+  ],
+  "studyRoute": [{ "step": "Fixture step", "detail": "Fixture detail for the study route." }]
+}

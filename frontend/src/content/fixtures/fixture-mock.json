@@ -1,0 +1,13 @@
+{
+  "slug": "fixture-mock",
+  "exam": "fixture-exam",
+  "title": "Fixture mock modelled on the 2025 pattern",
+  "sections": [
+    { "examSection": "quant", "pick": { "topics": ["percentages", "ratio"], "count": 50, "difficultyMix": { "beginner": 0.5, "intermediate": 0.3, "advanced": 0.2 } } },
+    { "examSection": "english", "pick": { "topics": ["grammar"], "count": 25 } }
+  ],
+  "durationMin": 45,
+  "marking": { "perCorrect": 2, "perWrong": 0.5 },
+  "seed": 7,
+  "modelledOnYear": 2025
+}

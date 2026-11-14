@@ -1,0 +1,10 @@
+{
+  "slug": "fixture-law",
+  "title": "FIXTURE domain (not shown to users)",
+  "kind": "non-it",
+  "country": "IN",
+  "locale": "en",
+  "summary": "Test fixture for the domain schema. Never rendered or published.",
+  "roleGroups": [{ "id": "fixture-group", "label": "Fixture group" }],
+  "courses": []
+}

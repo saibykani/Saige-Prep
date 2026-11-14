@@ -1,0 +1,74 @@
+{
+  "slug": "fixture-exam",
+  "family": "fixture-family",
+  "title": "FIXTURE exam (not shown to users)",
+  "shortTitle": "Fixture",
+  "conductingBody": "Fixture Commission",
+  "country": "IN",
+  "locale": "en",
+  "languages": ["en", "hi"],
+  "level": "central",
+  "summary": "Test fixture for the exam schema. It is not a real exam and is never rendered.",
+  "eligibility": {
+    "age": { "text": "Fixture age text" },
+    "education": { "text": "Fixture education text" }
+  },
+  "stages": [
+    { "id": "tier-1", "name": "Tier I", "mode": "cbt", "qualifying": true },
+    { "id": "interview", "name": "Interview", "mode": "interview", "qualifying": false }
+  ],
+  "papers": [
+    {
+      "stage": "tier-1",
+      "id": "tier-1-paper",
+      "name": "Tier I paper",
+      "totalMarks": 150,
+      "sectionalTiming": true,
+      "sections": [
+        { "id": "quant", "name": "Quantitative", "questions": 50, "marks": 100, "durationMin": 30, "negativeMarking": { "perWrong": 0.5 } },
+        { "id": "english", "name": "English", "questions": 25, "marks": 50, "durationMin": 15, "negativeMarking": null, "language": ["en"] }
+      ]
+    }
+  ],
+  "syllabus": [
+    {
+      "id": "quant-root",
+      "title": "Quantitative aptitude",
+      "children": [
+        { "id": "percentages", "title": "Percentages", "topicRefs": [{ "type": "aptitude", "slug": "percentages" }] },
+        { "id": "ratio", "title": "Ratio and proportion", "officialText": "Fixture quoted text" }
+      ]
+    }
+  ],
+  "studyPath": [{ "phase": 1, "title": "Foundations", "weeks": 4, "nodes": ["percentages", "ratio"], "focus": "Fixture focus" }],
+  "source": {
+    "notificationYear": 2026,
+    "officialLinks": [
+      { "label": "Fixture notification", "url": "https://ssc.gov.in/", "kind": "notification" },
+      { "label": "Fixture syllabus", "url": "https://upsc.gov.in/examinations/syllabus", "kind": "syllabus" }
+    ],
+    "lastVerified": "2026-11-01",
+    "verifiedBy": "agent"
+  },
+  "previousPapers": [
+    {
+      "year": 2025,
+      "stage": "tier-1",
+      "shift": "Shift 1",
+      "kind": "question-paper",
+      "label": "Fixture 2025 Tier I paper",
+      "url": "https://ssc.gov.in/",
+      "lastVerified": "2026-11-01"
+    }
+  ],
+  "practicePapers": [
+    {
+      "kind": "modelled-on",
+      "slug": "fixture-2025-style",
+      "modelledOnYear": 2025,
+      "paper": "tier-1-paper",
+      "title": "Tier I practice paper modelled on the 2025 pattern",
+      "disclaimer": "Original questions modelled on the 2025 section pattern. This is not the real paper."
+    }
+  ]
+}
