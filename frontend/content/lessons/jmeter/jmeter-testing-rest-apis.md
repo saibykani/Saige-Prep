@@ -125,12 +125,12 @@ sequenceDiagram
   A-->>J: 201 {"id":"o-123","status":"CREATED"}
 ```
 
-For deeper coverage of extractors and assertions see [Assertions and extractors](/learn/jmeter/jmeter-assertions-and-extractors) and [Correlation](/learn/jmeter/jmeter-correlation-and-parameterization).
+For deeper coverage of extractors and assertions see [Assertions and extractors](/careers/testing/jmeter/jmeter-assertions-and-extractors) and [Correlation](/careers/testing/jmeter/jmeter-correlation-and-parameterization).
 
 ## Step-by-step walkthrough
 
 1. **Test Plan → Add → Config Element → HTTP Request Defaults:** Protocol `http`, Server `localhost`, Port `3000`.
-2. **Thread Group → Add → Config Element → CSV Data Set Config** with `username,password` (see [CSV Data Set Config](/learn/jmeter/jmeter-csv-data-set-config)).
+2. **Thread Group → Add → Config Element → CSV Data Set Config** with `username,password` (see [CSV Data Set Config](/careers/testing/jmeter/jmeter-csv-data-set-config)).
 3. **Login request.** HTTP Request named `01 Login`, Method `POST`, Path `/api/login`, **Body Data** tab:
 
 ```json

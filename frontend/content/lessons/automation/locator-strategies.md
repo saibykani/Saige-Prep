@@ -202,7 +202,7 @@ The last result shows why `.btn` is a poor locator: fourteen matches, and `findE
 - **Using `By.className` with spaces** (`"btn primary"`), which is invalid; use CSS `.btn.primary`.
 - **Matching translated text** in multi-language apps, which breaks per locale.
 - **Locators scattered across tests** instead of centralised in page objects.
-- **Blaming the locator for timing problems.** A correct locator still fails if the element has not rendered yet; that is a [wait](/learn/automation/waits-and-synchronization) problem.
+- **Blaming the locator for timing problems.** A correct locator still fails if the element has not rendered yet; that is a [wait](/careers/testing/automation/waits-and-synchronization) problem.
 
 ## Troubleshooting
 

@@ -121,7 +121,7 @@ In a **closed workload** a fixed population of N users loops: send a request, wa
 | Same 400 users, R degrades to 3 s | X = 400 / 10 | 40 per second |
 | 100 threads, R = 0.5 s, no think time | X = 100 / 0.5 | 200 per second |
 
-The third row is important: in a closed model, when the system slows down, users send work more slowly, so the load **eases off by itself**. Real public traffic (an open model) does not do that. See [workload modelling](/learn/performance/workload-modeling).
+The third row is important: in a closed model, when the system slows down, users send work more slowly, so the load **eases off by itself**. Real public traffic (an open model) does not do that. See [workload modelling](/careers/testing/performance/workload-modeling).
 
 ```mermaid
 flowchart LR

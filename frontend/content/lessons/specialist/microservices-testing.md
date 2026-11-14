@@ -180,4 +180,4 @@ A food delivery team split checkout into order, payment and notification service
 
 ## Key takeaways summary
 
-Test each service deeply, protect the boundaries with contracts, assert asynchronously and expect failure. Continue with [chaos engineering basics](/learn/specialist/chaos-engineering-basics).
+Test each service deeply, protect the boundaries with contracts, assert asynchronously and expect failure. Continue with [chaos engineering basics](/careers/testing/specialist/chaos-engineering-basics).

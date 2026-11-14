@@ -103,12 +103,12 @@ ISTQB describes a defect report as having three purposes: give the people respon
 | Expected result | What should happen, linked to the requirement or acceptance criterion | Shows why this is a defect |
 | Actual result | What did happen, stated as fact | The observable failure |
 | Evidence | Screenshot, screen recording, console log, HAR file, server request ID | Turns a claim into proof |
-| Severity | Impact on the system (see [severity versus priority](/learn/manual-testing/severity-vs-priority)) | Drives triage |
+| Severity | Impact on the system (see [severity versus priority](/careers/testing/manual-testing/severity-vs-priority)) | Drives triage |
 | Priority | Suggested urgency (often set by the product owner) | Drives scheduling |
 | Reproducibility | Always, or e.g. 3 of 10 attempts | Sets expectations for the developer |
 | Links | Story, test case, related or duplicate defects | Traceability |
 
-The report then moves through the [defect lifecycle](/learn/manual-testing/defect-lifecycle): New, Assigned/Open, Fixed, Retest, Closed or Reopened, with side states such as Rejected, Duplicate and Deferred.
+The report then moves through the [defect lifecycle](/careers/testing/manual-testing/defect-lifecycle): New, Assigned/Open, Fixed, Retest, Closed or Reopened, with side states such as Rejected, Duplicate and Deferred.
 
 ### The title formula
 

@@ -155,7 +155,7 @@ jmeter -n -t vars-demo.jmx -Jusers=3 -Jloops=2 -Jport=3000 -l vars.jtl
 
 ## Code examples
 
-Reading and writing from Groovy (see [Groovy and JSR223](/learn/jmeter/jmeter-groovy-jsr223)):
+Reading and writing from Groovy (see [Groovy and JSR223](/careers/testing/jmeter/jmeter-groovy-jsr223)):
 
 ```groovy
 // per-thread variable
@@ -196,7 +196,7 @@ A team keeps one test plan for its internal order service. Developers run it in 
 
 ## Troubleshooting
 
-- **Literal `${name}` in the request:** check spelling, check the element that creates it runs earlier and is in scope (see [Scope and execution order](/learn/jmeter/jmeter-scope-and-execution-order)).
+- **Literal `${name}` in the request:** check spelling, check the element that creates it runs earlier and is in scope (see [Scope and execution order](/careers/testing/jmeter/jmeter-scope-and-execution-order)).
 - **-J value ignored:** you probably used `${name}` instead of `${__P(name)}`; -J sets properties, not variables.
 - **Distributed run uses wrong value:** `-J` only sets the controller; use `-G` for remote engines.
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HubHero } from "@/components/layout/hub-hero";
 import { TRACKS } from "@/content/curriculum";
 import { getLessons, getTrackSummaries } from "@/content/loader";
+import { courseHref } from "@/content/routes";
 import { TrackCatalogue, type TrackCardData } from "@/features/learning/track-catalogue";
 import { levelRange } from "@/lib/visual-themes";
 
@@ -37,7 +38,7 @@ export default function LearningCenterPage() {
           { value: Math.round(totals.minutes / 60), label: "hours of study" },
         ]}
         actions={[
-          { href: "/learn/manual-testing", label: "Start with Manual Testing", primary: true },
+          { href: courseHref("testing", "manual-testing"), label: "Start with Manual Testing", primary: true },
           { href: "/roadmaps", label: "Find your role path" },
         ]}
       />

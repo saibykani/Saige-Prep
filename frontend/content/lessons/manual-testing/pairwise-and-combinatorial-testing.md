@@ -90,7 +90,7 @@ Imagine an ice-cream shop with 3 flavours, 3 cone types, 3 toppings and 3 sizes.
 
 ## Technical explanation
 
-**Combinatorial testing** designs tests to cover combinations of parameter values. The parameters are often partitions from [equivalence partitioning](/learn/manual-testing/equivalence-partitioning).
+**Combinatorial testing** designs tests to cover combinations of parameter values. The parameters are often partitions from [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning).
 
 - **Exhaustive (all combinations)**: the product of the value counts. Ten parameters with three values each give 3^10 = 59,049.
 - **Each-choice (1-wise)**: every value appears at least once.
@@ -229,4 +229,4 @@ If you mistype a row, for example changing PW-5's device to Mobile, the script p
 
 ## Key takeaways summary
 
-Pairwise testing tames combinatorial explosion by covering every value pair at least once. Partition the values first, calculate the bounds, generate with constraints, verify every pair and add targeted higher-strength tests where risk demands. Related: [decision table testing](/learn/manual-testing/decision-table-testing) and [cross-browser testing](/learn/specialist/cross-browser-testing).
+Pairwise testing tames combinatorial explosion by covering every value pair at least once. Partition the values first, calculate the bounds, generate with constraints, verify every pair and add targeted higher-strength tests where risk demands. Related: [decision table testing](/careers/testing/manual-testing/decision-table-testing) and [cross-browser testing](/careers/testing/specialist/cross-browser-testing).

@@ -14,11 +14,12 @@ export function PlannedSection({ href }: { href: string }) {
   const item = findNavItem(href);
   if (!item) notFound();
   const Icon = item.icon;
+  const when = item.schedule ? item.schedule : `Phase ${item.phase}`;
 
   return (
     <div className="animate-fade-in">
       <PageHeader
-        eyebrow={<Badge tone="warning">Planned · Phase {item.phase}</Badge>}
+        eyebrow={<Badge tone="warning">Planned · {when}</Badge>}
         title={item.label}
         description={item.description}
       />
@@ -28,7 +29,7 @@ export function PlannedSection({ href }: { href: string }) {
           title={`${item.label} is not built yet`}
           description={
             <>
-              This section is scheduled for Phase {item.phase}. Nothing here is simulated: content and data will
+              This section is scheduled for {when}. Nothing here is simulated: content and data will
               appear once that phase is implemented and tested.
             </>
           }

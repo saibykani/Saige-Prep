@@ -241,4 +241,4 @@ If the constructor bug from the quiz were present (`driver = driver;`), calling 
 
 ## Key takeaways summary
 
-OOP is what keeps a test framework maintainable. Encapsulate locators behind meaningful page methods, share genuine common behaviour through a base class, compose reusable widgets, and code against interfaces like `WebDriver`. These ideas lead directly into the [Page Object Model](/learn/automation/page-object-model).
+OOP is what keeps a test framework maintainable. Encapsulate locators behind meaningful page methods, share genuine common behaviour through a base class, compose reusable widgets, and code against interfaces like `WebDriver`. These ideas lead directly into the [Page Object Model](/careers/testing/automation/page-object-model).

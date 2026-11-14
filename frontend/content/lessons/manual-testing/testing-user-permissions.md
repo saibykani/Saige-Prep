@@ -106,7 +106,7 @@ Two layers must both be tested:
 
 ### The permission matrix
 
-A matrix is a [decision table](/learn/manual-testing/decision-table-testing) of roles against actions. Example for an expense app:
+A matrix is a [decision table](/careers/testing/manual-testing/decision-table-testing) of roles against actions. Example for an expense app:
 
 | Action | Employee | Manager | Finance | Admin |
 |---|---|---|---|---|

@@ -89,7 +89,7 @@ A **header** is a small name/value note sent with a request, like `Accept-Langua
 
 ## Technical explanation
 
-All four are added via **right-click (Test Plan, Thread Group, controller or sampler) → Add → Config Element → ...**. A config element affects samplers **in its scope**: those in the same branch of the tree at or below its level. See [scope and execution order](/learn/jmeter/jmeter-scope-and-execution-order).
+All four are added via **right-click (Test Plan, Thread Group, controller or sampler) → Add → Config Element → ...**. A config element affects samplers **in its scope**: those in the same branch of the tree at or below its level. See [scope and execution order](/careers/testing/jmeter/jmeter-scope-and-execution-order).
 
 | Element | Key fields | Behaviour |
 |---|---|---|
@@ -154,13 +154,13 @@ Exact codes depend on the headers your server sends; Python's simple server send
 
 A team load-testing its own web shop in staging keeps one HTTP Request Defaults element pointing at the staging host, one Header Manager with `Accept` and `Accept-Language`, a Cookie Manager for sessions and a Cache Manager so returning shoppers behave like real browsers. When they move the same plan to a second environment, only the Defaults' Server Name changes, usually supplied by a property.
 
-There are other config elements you will meet later in this track. **CSV Data Set Config** feeds rows of test data, such as usernames, into variables ([CSV Data Set Config](/learn/jmeter/jmeter-csv-data-set-config)). **User Defined Variables** holds named values like a base path. **Counter** generates increasing numbers. They all follow the same scoping idea you learned here.
+There are other config elements you will meet later in this track. **CSV Data Set Config** feeds rows of test data, such as usernames, into variables ([CSV Data Set Config](/careers/testing/jmeter/jmeter-csv-data-set-config)). **User Defined Variables** holds named values like a base path. **Counter** generates increasing numbers. They all follow the same scoping idea you learned here.
 
 ## Common mistakes
 
 - **Copying host and port into every sampler** instead of using Defaults.
 - **Forgetting the Cookie Manager** on any login-based flow.
-- **Putting secrets like real tokens in plain headers** in a shared `.jmx`; use variables instead ([variables and properties](/learn/jmeter/jmeter-variables-and-properties)).
+- **Putting secrets like real tokens in plain headers** in a shared `.jmx`; use variables instead ([variables and properties](/careers/testing/jmeter/jmeter-variables-and-properties)).
 - **Assuming the Cache Manager speeds up the server**; it only changes what the client requests.
 - **Testing systems you do not own.** Stay on localhost or authorised environments.
 

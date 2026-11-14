@@ -166,10 +166,10 @@ Notice what it does **not** repeat: the defect workflow, tool choices and enviro
 
 1. **Read the strategy first** so you know what is already decided.
 2. **Define scope and out of scope.** Out of scope is as important as in scope: it prevents surprises at sign-off.
-3. **Identify product and project risks** with stakeholders and rate them. See [risk-based testing](/learn/manual-testing/risk-based-testing).
+3. **Identify product and project risks** with stakeholders and rate them. See [risk-based testing](/careers/testing/manual-testing/risk-based-testing).
 4. **Choose the approach** per risk: levels, types and techniques.
-5. **Estimate effort** ([test estimation](/learn/manual-testing/test-estimation)) and build the schedule.
-6. **Agree [entry and exit criteria](/learn/manual-testing/entry-and-exit-criteria)** and suspension rules.
+5. **Estimate effort** ([test estimation](/careers/testing/manual-testing/test-estimation)) and build the schedule.
+6. **Agree [entry and exit criteria](/careers/testing/manual-testing/entry-and-exit-criteria)** and suspension rules.
 7. **Review the plan with stakeholders**, then keep it current. Record each significant change and its date.
 
 ## Common mistakes

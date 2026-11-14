@@ -178,7 +178,7 @@ appliesTenPercentFromOneThousand(double, double)
 - **Treating coverage as a quality score.** A test with no assertions still increases coverage.
 - **Testing through real dependencies.** Calling a real database or network makes tests slow and flaky, and failures stop pointing at the component.
 - **Over-mocking.** Mocking every internal call ties tests to implementation details, so harmless refactoring breaks them.
-- **Assuming unit tests make higher levels unnecessary.** Components that each work can still fail together; see [integration testing](/learn/manual-testing/integration-testing).
+- **Assuming unit tests make higher levels unnecessary.** Components that each work can still fail together; see [integration testing](/careers/testing/manual-testing/integration-testing).
 
 ## Troubleshooting
 

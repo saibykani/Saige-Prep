@@ -219,4 +219,4 @@ Compare that with a `Thread.sleep` approach, which typically fails later with a 
 
 ## Key takeaways summary
 
-Robust automation waits for meaningful conditions. Default to `WebDriverWait` with `Duration` and `ExpectedConditions`, keep implicit waits off, avoid `Thread.sleep`, and hide waits inside page-object methods. Good synchronization is the single biggest lever in [reducing flaky tests](/learn/automation/flaky-test-reduction).
+Robust automation waits for meaningful conditions. Default to `WebDriverWait` with `Duration` and `ExpectedConditions`, keep implicit waits off, avoid `Thread.sleep`, and hide waits inside page-object methods. Good synchronization is the single biggest lever in [reducing flaky tests](/careers/testing/automation/flaky-test-reduction).

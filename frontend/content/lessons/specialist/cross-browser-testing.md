@@ -188,4 +188,4 @@ A travel booking team built a date field using the native date input. In Chrome 
 
 ## Key takeaways summary
 
-Cover each rendering engine, pick combinations from real data, automate across engines and keep real devices for what emulation cannot show. See also [testing multi-browser and network issues](/learn/real-world-scenarios/testing-multi-browser-and-network-issues).
+Cover each rendering engine, pick combinations from real data, automate across engines and keep real devices for what emulation cannot show. See also [testing multi-browser and network issues](/careers/testing/manual-testing/testing-multi-browser-and-network-issues).

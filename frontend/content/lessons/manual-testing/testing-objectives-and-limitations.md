@@ -119,7 +119,7 @@ flowchart LR
 
 ### Making objectives measurable
 
-Objectives are only useful if you can tell when they are met. They feed into the **test plan** and become measurable through **coverage targets** and **exit criteria**, for example "all high-risk test conditions executed" or "no open critical defects". See [entry and exit criteria](/learn/manual-testing/entry-and-exit-criteria).
+Objectives are only useful if you can tell when they are met. They feed into the **test plan** and become measurable through **coverage targets** and **exit criteria**, for example "all high-risk test conditions executed" or "no open critical defects". See [entry and exit criteria](/careers/testing/manual-testing/entry-and-exit-criteria).
 
 ### Limitations of testing
 

@@ -105,7 +105,7 @@ Organise cases once and **tag** them (component, priority, risk, requirement ID,
 
 - **Valid** data for main flows
 - **Invalid** data for each validation rule
-- **Boundary** values (see [boundary value analysis](/learn/manual-testing/boundary-value-analysis))
+- **Boundary** values (see [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis))
 - **State-based** data: records in each lifecycle state (active, suspended, closed)
 - **Special** data: empty, whitespace, very long, Unicode, emoji, special characters
 - **Volume** data for pagination, search and performance checks

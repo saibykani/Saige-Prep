@@ -94,7 +94,7 @@ ISTQB CTFL v4.0 (section 5.2) defines a **risk** as a potential event, hazard, t
 
 Together they determine the **risk level**. Risk management consists of **risk analysis** (identification and assessment) and **risk control** (mitigation and monitoring). Assessment can be **quantitative** (for example, risk level = likelihood × impact) or **qualitative** (a risk matrix).
 
-**Product risk analysis** shapes testing: scope and thoroughness, test levels and types, techniques and coverage, effort, the **prioritisation of tests** so critical defects are found as early as possible, and whether non-testing activities are also needed. This lesson applies that at the level of **scenarios**: deciding which ones to test, in what order and how deeply. For the broader approach, see [risk-based testing](/learn/manual-testing/risk-based-testing).
+**Product risk analysis** shapes testing: scope and thoroughness, test levels and types, techniques and coverage, effort, the **prioritisation of tests** so critical defects are found as early as possible, and whether non-testing activities are also needed. This lesson applies that at the level of **scenarios**: deciding which ones to test, in what order and how deeply. For the broader approach, see [risk-based testing](/careers/testing/manual-testing/risk-based-testing).
 
 | Factor | Raises **likelihood** | Raises **impact** |
 |---|---|---|

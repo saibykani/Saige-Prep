@@ -111,7 +111,7 @@ Each arrow is a place where data can be lost or transformed incorrectly, so a go
 
 ### Position in the test pyramid
 
-E2E tests give the highest confidence that a journey works, but they are the slowest, most expensive and most brittle tests. Most teams keep them few and push detailed checks down to the API and component levels, as described in [test pyramid and strategy](/learn/sdet/test-pyramid-and-strategy).
+E2E tests give the highest confidence that a journey works, but they are the slowest, most expensive and most brittle tests. Most teams keep them few and push detailed checks down to the API and component levels, as described in [test pyramid and strategy](/careers/testing/sdet/test-pyramid-and-strategy).
 
 ## Real-world example
 

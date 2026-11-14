@@ -116,7 +116,7 @@ stateDiagram-v2
   Closed --> [*]
 ```
 
-Exact state names vary between tools and teams; see [defect lifecycle](/learn/manual-testing/defect-lifecycle) for the full picture.
+Exact state names vary between tools and teams; see [defect lifecycle](/careers/testing/manual-testing/defect-lifecycle) for the full picture.
 
 ### Why variations matter
 
@@ -162,7 +162,7 @@ Because the defect's root cause was a currency lookup, the tester also tried a G
 
 - **You cannot reproduce the original failure on the old build either.** The report may be missing a condition; ask the reporter or check logs before retesting the fix.
 - **The fix passes in test but the reporter still sees it.** Compare environments, caches, feature flags and data; the fix may not be released to their environment yet.
-- **A defect has been reopened many times.** Suggest a [root cause analysis](/learn/manual-testing/root-cause-analysis) instead of another symptom fix.
+- **A defect has been reopened many times.** Suggest a [root cause analysis](/careers/testing/manual-testing/root-cause-analysis) instead of another symptom fix.
 
 ## Key takeaways summary
 

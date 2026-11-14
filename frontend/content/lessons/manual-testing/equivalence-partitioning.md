@@ -100,7 +100,7 @@ ISTQB CTFL v4.0 defines EP as dividing data into **partitions** (equivalence cla
 
 When several inputs are involved, the minimum practical target is **each-choice coverage**: every partition of every input is used at least once. Valid partitions from different inputs can share a test. **Invalid partitions are tested one at a time** with all other inputs valid, because a system typically stops at the first validation error. That hides any defect in the second, an effect called **fault masking**.
 
-EP works hand in hand with [boundary value analysis](/learn/manual-testing/boundary-value-analysis). EP chooses one value per group, and BVA then adds the edges of each ordered group.
+EP works hand in hand with [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis). EP chooses one value per group, and BVA then adds the edges of each ordered group.
 
 ### Worked example: cinema ticket booking
 
@@ -211,4 +211,4 @@ Against a correct implementation pytest reports `8 passed`. If the seat validati
 
 ## Key takeaways summary
 
-Equivalence partitioning turns an infinite input space into a short list of classes, each tested once. Partition by behaviour, include invalid classes, never overlap, combine valid classes and isolate invalid ones. Then add [boundary value analysis](/learn/manual-testing/boundary-value-analysis) for the edges.
+Equivalence partitioning turns an infinite input space into a short list of classes, each tested once. Partition by behaviour, include invalid classes, never overlap, combine valid classes and isolate invalid ones. Then add [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) for the edges.

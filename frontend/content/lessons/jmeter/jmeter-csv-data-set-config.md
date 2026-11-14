@@ -177,7 +177,7 @@ A team load-testing an internal banking demo noticed response times were suspici
 - **Literal `${username}`:** file not found or variable names misspelled; check `jmeter.log`.
 - **Strange characters:** set File encoding to match the file (UTF-8 is safest; avoid a BOM).
 - **Same user in two threads:** Sharing mode is Current thread, or the file has duplicates.
-- **Distributed runs reuse data:** each remote engine reads its own copy of the file; split the data per engine (see [Non-GUI and distributed](/learn/jmeter/jmeter-non-gui-and-distributed)).
+- **Distributed runs reuse data:** each remote engine reads its own copy of the file; split the data per engine (see [Non-GUI and distributed](/careers/testing/jmeter/jmeter-non-gui-and-distributed)).
 
 ## Preparing the data file
 
@@ -185,4 +185,4 @@ Seed the accounts in your local app first (for example with a script or an admin
 
 ## Key takeaways summary
 
-CSV Data Set Config turns a text file into per-iteration variables. Choose Sharing mode deliberately, size the file as threads × iterations for unique data, and use Recycle False with Stop thread True so the test never runs on repeated or `<EOF>` data. Combine it with [functions](/learn/jmeter/jmeter-functions) for values that can be generated instead of stored.
+CSV Data Set Config turns a text file into per-iteration variables. Choose Sharing mode deliberately, size the file as threads × iterations for unique data, and use Recycle False with Stop thread True so the test never runs on repeated or `<EOF>` data. Combine it with [functions](/careers/testing/jmeter/jmeter-functions) for values that can be generated instead of stored.

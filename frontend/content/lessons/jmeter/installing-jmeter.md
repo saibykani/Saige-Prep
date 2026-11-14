@@ -167,7 +167,7 @@ For load testing, use CLI Mode (was NON GUI):
 ================================================================================
 ```
 
-That message is not an error; it is JMeter's own advice, covered in [non-GUI and distributed execution](/learn/jmeter/jmeter-non-gui-and-distributed).
+That message is not an error; it is JMeter's own advice, covered in [non-GUI and distributed execution](/careers/testing/jmeter/jmeter-non-gui-and-distributed).
 
 ## Troubleshooting
 
@@ -196,4 +196,4 @@ A QA team onboarding several new testers writes a one-page setup checklist: inst
 
 ## Key takeaways summary
 
-Install a current LTS JDK, confirm with `java -version`, download the JMeter **binary** archive from the official site, extract it to a simple path, and run `bin/jmeter.bat` or `bin/jmeter`. Keep the console open, read its messages, and use a local server you own for practice. Next, take the [GUI tour](/learn/jmeter/jmeter-gui-tour).
+Install a current LTS JDK, confirm with `java -version`, download the JMeter **binary** archive from the official site, extract it to a simple path, and run `bin/jmeter.bat` or `bin/jmeter`. Keep the console open, read its messages, and use a local server you own for practice. Next, take the [GUI tour](/careers/testing/jmeter/jmeter-gui-tour).

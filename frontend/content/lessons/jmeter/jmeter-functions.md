@@ -106,11 +106,11 @@ Functions are how you avoid sending exactly the same data with every request, wh
 | `__UUID()` | `${__UUID()}` | `6f1c...-...` (36 chars) | Unique ids, idempotency keys |
 | `__counter(perThread,var)` | `${__counter(FALSE,)}` | `1`, `2`, `3`… | Sequences; FALSE = global |
 | `__threadNum` | `${__threadNum}` | `3` | Number of the current thread in its group |
-| `__P(name,default)` | `${__P(users,1)}` | `1` | Read a property (see [variables and properties](/learn/jmeter/jmeter-variables-and-properties)) |
+| `__P(name,default)` | `${__P(users,1)}` | `1` | Read a property (see [variables and properties](/careers/testing/jmeter/jmeter-variables-and-properties)) |
 | `__jexl3(expr,var)` | `${__jexl3(${qty} > 5,)}` | `true` | Small expressions, conditions |
 | `__groovy(script,var)` | `${__groovy(vars.get('qty').toInteger() * 2,)}` | `14` | One-line Groovy |
 
-**`__jexl3` vs `__groovy`:** JEXL is a lightweight expression language and is the recommended choice for If Controller conditions. `__groovy` gives full Groovy with access to `vars`, `props`, `ctx` and `log`. For multi-line logic use a JSR223 element instead (see [Groovy and JSR223](/learn/jmeter/jmeter-groovy-jsr223)).
+**`__jexl3` vs `__groovy`:** JEXL is a lightweight expression language and is the recommended choice for If Controller conditions. `__groovy` gives full Groovy with access to `vars`, `props`, `ctx` and `log`. For multi-line logic use a JSR223 element instead (see [Groovy and JSR223](/careers/testing/jmeter/jmeter-groovy-jsr223)).
 
 ```mermaid
 flowchart LR

@@ -206,4 +206,4 @@ Session: 3f1c2a9e8b7d4c6e9a1b2c3d4e5f6a7b
 
 ## Key takeaways summary
 
-Selenium is a client that speaks the W3C WebDriver protocol to vendor-supplied browser drivers. Understanding that chain — bindings, protocol, driver, browser, optionally Grid — explains most setup errors and makes remote and parallel execution straightforward. Next, learn how to point at the right element with [locator strategies](/learn/automation/locator-strategies).
+Selenium is a client that speaks the W3C WebDriver protocol to vendor-supplied browser drivers. Understanding that chain — bindings, protocol, driver, browser, optionally Grid — explains most setup errors and makes remote and parallel execution straightforward. Next, learn how to point at the right element with [locator strategies](/careers/testing/automation/locator-strategies).

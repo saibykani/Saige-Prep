@@ -106,7 +106,7 @@ An LLM itself remembers nothing between calls. Every bit of "memory" an agent ha
 
 Each API call is stateless. The agent loop sends the system prompt, the message history and the tool results every time. That history is short-term memory. Its limits:
 
-- **Size**: context windows are large but finite, and very long contexts can degrade attention to details in the middle (see [Context engineering and long context](/learn/ai-engineering/context-engineering-and-long-context)).
+- **Size**: context windows are large but finite, and very long contexts can degrade attention to details in the middle (see [Context engineering and long context](/careers/ai-engineering/ai-engineering/context-engineering-and-long-context)).
 - **Cost and latency**: you pay for every input token on every step.
 
 ### Compaction and summarisation

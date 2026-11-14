@@ -129,7 +129,7 @@ flowchart LR
   BR -. "validates" .- AT
 ```
 
-See [SDLC and STLC](/learn/manual-testing/sdlc-and-stlc) for how this model compares with iterative and agile approaches.
+See [SDLC and STLC](/careers/testing/manual-testing/sdlc-and-stlc) for how this model compares with iterative and agile approaches.
 
 ## Real-world example
 

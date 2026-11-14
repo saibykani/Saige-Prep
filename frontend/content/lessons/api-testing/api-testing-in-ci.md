@@ -96,14 +96,14 @@ A **pipeline** is a series of stages triggered by events (push, pull request, me
 
 | Stage | Trigger | What runs | Blocks? |
 |---|---|---|---|
-| Pull request | Every PR | Unit, [contract](/learn/api-testing/contract-testing), API smoke against an ephemeral or service-level environment | Merge |
+| Pull request | Every PR | Unit, [contract](/careers/testing/api-testing/contract-testing), API smoke against an ephemeral or service-level environment | Merge |
 | After merge | Merge to main, deploy to test env | Full API regression | Promotion to staging |
 | Nightly | Schedule | Long-running suites, data-heavy cases | Raises a ticket |
 | Post-deploy | Each deployment | Small read-only smoke suite | Rollback decision |
 
 Requirements for running tests in CI:
 
-- **Headless command-line execution:** Newman for Postman collections (see [Newman command-line runs](/learn/api-testing/newman-command-line-runs)), `mvn test` for RestAssured with TestNG or JUnit.
+- **Headless command-line execution:** Newman for Postman collections (see [Newman command-line runs](/careers/testing/api-testing/newman-command-line-runs)), `mvn test` for RestAssured with TestNG or JUnit.
 - **Exit codes:** a failing test must make the command exit non-zero so the job fails.
 - **Configuration from the environment:** base URLs and credentials come from environment variables or CI secrets, not from files in Git.
 - **Reports:** JUnit XML (understood by most CI systems), plus HTML artifacts for humans.

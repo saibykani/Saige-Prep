@@ -144,7 +144,7 @@ Four tests now give 100% coverage of the collapsed table:
 | DT-03 | No | ₹1,00,000 | ₹20,000 | Transfer processed |
 | DT-04 | No | ₹5,000 | ₹8,000 | Rejected, "Insufficient funds" |
 
-For the "-" entries you choose any value. Varying them across runs (for example DT-01 with a sufficient balance next time) adds cheap extra confidence. Add [boundary value analysis](/learn/manual-testing/boundary-value-analysis) on C3 with ₹50,000.00 and ₹50,000.01.
+For the "-" entries you choose any value. Varying them across runs (for example DT-01 with a sufficient balance next time) adds cheap extra confidence. Add [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) on C3 with ₹50,000.00 and ₹50,000.01.
 
 ## Real-world example
 

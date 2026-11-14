@@ -109,7 +109,7 @@ ISTQB also notes that **running out of time or budget** can be valid exit criter
 
 **Suspension criteria** say when testing should pause (for example, a blocking defect stops more than a set share of tests). **Resumption criteria** say what must happen to restart (for example, a fixed build passes smoke).
 
-In Scrum, the **Definition of Ready** works as entry criteria for a backlog item and the **Definition of Done** as exit criteria for an increment. See [acceptance criteria, DoR and DoD](/learn/manual-testing/acceptance-criteria-dor-dod).
+In Scrum, the **Definition of Ready** works as entry criteria for a backlog item and the **Definition of Done** as exit criteria for an increment. See [acceptance criteria, DoR and DoD](/careers/testing/manual-testing/acceptance-criteria-dor-dod).
 
 ## Real-world example
 

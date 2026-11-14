@@ -100,7 +100,7 @@ All performance tests apply a **workload** (a mix of transactions at a rate or c
 
 A few precise points:
 
-- **Load testing** verifies requirements such as "p95 under 800 ms at 200 transactions per second with under 0.1% errors". It is pass/fail against objectives. See [capacity planning and baselines](/learn/performance/capacity-planning-and-baselines).
+- **Load testing** verifies requirements such as "p95 under 800 ms at 200 transactions per second with under 0.1% errors". It is pass/fail against objectives. See [capacity planning and baselines](/careers/testing/performance/capacity-planning-and-baselines).
 - **Stress testing** is exploratory about limits. Good failure behaviour means fast, clear errors (for example HTTP 503 with retry hints), no data corruption, and automatic recovery when load falls.
 - **Spike testing** focuses on elasticity and queues: autoscaling lag, cold caches, connection storms and how long recovery takes.
 - **Endurance testing** looks for slow trends: memory and handle leaks, growing queues, log or disk growth, and response times that creep up.
@@ -138,7 +138,7 @@ None of these would have been found by a single "average load" test.
 
 1. **Name the risk** in business terms ("sale-time burst", "overnight batch overlaps daytime traffic").
 2. **Pick the test type** from the table above. Most releases need a load test; add others based on risk.
-3. **Define the workload** (transaction mix and rate) using [workload modelling](/learn/performance/workload-modeling).
+3. **Define the workload** (transaction mix and rate) using [workload modelling](/careers/testing/performance/workload-modeling).
 4. **Define the profile:** ramp-up, steady state, duration, ramp-down. Soak tests run for hours; spikes may last minutes.
 5. **Define pass criteria** before running: percentile response times, throughput, error rate, resource limits.
 6. **Get written authorization** and agree a time window with system owners.

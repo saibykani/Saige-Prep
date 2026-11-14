@@ -86,7 +86,7 @@ A collection is a container of requests, optionally organised in **folders**. At
 - **Collection variables**,
 - documentation for each request.
 
-Collections can be exported as JSON (Collection Format v2.1) and run by the Collection Runner or by [Newman](/learn/api-testing/newman-command-line-runs).
+Collections can be exported as JSON (Collection Format v2.1) and run by the Collection Runner or by [Newman](/careers/testing/api-testing/newman-command-line-runs).
 
 ### Environments
 

@@ -19,7 +19,7 @@ test.describe("application shell", () => {
   test("navigation reaches every section", async ({ page }) => {
     const sections = [
       ["Role Roadmaps", "/roadmaps"],
-      ["API Testing", "/learn/api-testing"],
+      ["API Testing", "/careers/testing/api-testing"],
       ["Mock Tests", "/mock-tests"],
       ["QA Toolkit", "/toolkit"],
       ["Settings", "/settings"],
@@ -45,7 +45,7 @@ test.describe("application shell", () => {
     await expect(first).toContainText("JMeter Fundamentals");
     await page.keyboard.press("Enter");
     // Generous timeout: the dev server compiles the lesson route on first visit.
-    await expect(page).toHaveURL(/\/learn\/jmeter\/jmeter-fundamentals$/, { timeout: 30_000 });
+    await expect(page).toHaveURL(/\/careers\/testing\/jmeter\/jmeter-fundamentals$/, { timeout: 30_000 });
     await expect(page.getByRole("heading", { level: 1 })).toContainText("JMeter Fundamentals");
   });
 

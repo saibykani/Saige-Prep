@@ -155,7 +155,7 @@ Response message: OK
 | `UnknownHostException` | Typo in Server Name or `http://` included | Host only, e.g. `localhost` |
 | `Connection refused` | Nothing listening on that port | Start your server; check the port |
 | Threads hang | No timeouts set and server stalls | Set connect and response timeouts |
-| JSON API returns 415 or 400 | Missing Content-Type header | Add HTTP Header Manager with `Content-Type: application/json` ([config elements](/learn/jmeter/jmeter-config-elements)) |
+| JSON API returns 415 or 400 | Missing Content-Type header | Add HTTP Header Manager with `Content-Type: application/json` ([config elements](/careers/testing/jmeter/jmeter-config-elements)) |
 | Garbled non-English characters | Encoding not set | Content encoding `UTF-8` |
 | Redirect hops missing from results | Redirect Automatically ticked | Use Follow Redirects instead |
 
@@ -170,9 +170,9 @@ One more field worth knowing is **Path with a query string**. You can type `/sea
 - **Putting the full URL in Server Name.**
 - **Using Parameters for JSON** instead of Body Data.
 - **No timeouts**, so a slow server freezes threads and hides the real problem.
-- **Assuming 200 means correct.** Add assertions; see [assertions and extractors](/learn/jmeter/jmeter-assertions-and-extractors).
+- **Assuming 200 means correct.** Add assertions; see [assertions and extractors](/careers/testing/jmeter/jmeter-assertions-and-extractors).
 - **Hitting real websites to practise.** Use your own local server only; load-testing systems you do not own is not allowed.
 
 ## Key takeaways summary
 
-Split the URL into protocol, server, port and path; choose Parameters for name/value data and Body Data for raw payloads; keep Follow Redirects and KeepAlive on for realism; set timeouts; and always verify in View Results Tree. For API-specific techniques see [testing REST APIs](/learn/jmeter/jmeter-testing-rest-apis).
+Split the URL into protocol, server, port and path; choose Parameters for name/value data and Body Data for raw payloads; keep Follow Redirects and KeepAlive on for realism; set timeouts; and always verify in View Results Tree. For API-specific techniques see [testing REST APIs](/careers/testing/jmeter/jmeter-testing-rest-apis).

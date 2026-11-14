@@ -102,12 +102,12 @@ Three ideas in that definition matter:
 
 ### Static and dynamic testing
 
-- **Static testing** examines work products without executing them, through reviews and static analysis. See [static and dynamic testing](/learn/manual-testing/static-vs-dynamic-testing).
+- **Static testing** examines work products without executing them, through reviews and static analysis. See [static and dynamic testing](/careers/testing/manual-testing/static-vs-dynamic-testing).
 - **Dynamic testing** executes the software and compares actual results with expected results.
 
 ### Verification and validation
 
-Testing involves **verification** (checking that the system meets specified requirements) and **validation** (checking that it meets users' and other stakeholders' needs in its operational environment). The difference is covered in [verification versus validation](/learn/manual-testing/verification-vs-validation).
+Testing involves **verification** (checking that the system meets specified requirements) and **validation** (checking that it meets users' and other stakeholders' needs in its operational environment). The difference is covered in [verification versus validation](/careers/testing/manual-testing/verification-vs-validation).
 
 ### The test process
 

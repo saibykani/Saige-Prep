@@ -118,7 +118,7 @@ flowchart LR
 | Prioritised (risk-based) | Tests ordered by risk so the most important run first | Time-boxed releases |
 | Hybrid | A fast critical set on every build, wider sets nightly or per release | Most CI/CD pipelines |
 
-**Impact analysis** identifies what a change can affect: code that calls the changed component, shared data, shared configuration, and interfaces with other systems. A [traceability matrix](/learn/manual-testing/traceability-matrix-and-coverage) makes this faster because it links requirements, code areas and tests.
+**Impact analysis** identifies what a change can affect: code that calls the changed component, shared data, shared configuration, and interfaces with other systems. A [traceability matrix](/careers/testing/manual-testing/traceability-matrix-and-coverage) makes this faster because it links requirements, code areas and tests.
 
 ### Regression and automation
 
@@ -178,7 +178,7 @@ On a commit build, only tests in the `critical` group run, so the report shows a
 ## Troubleshooting
 
 - **The full suite takes too long.** Split it into tiers, parallelise, and move checks down to API or component level where possible.
-- **Failures are often "test problems".** Track flaky tests separately and fix or quarantine them; see [flaky test reduction](/learn/automation/flaky-test-reduction).
+- **Failures are often "test problems".** Track flaky tests separately and fix or quarantine them; see [flaky test reduction](/careers/testing/automation/flaky-test-reduction).
 - **You cannot tell what a change touches.** Ask developers for an impact note on each pull request and keep traceability up to date.
 
 ## Key takeaways summary

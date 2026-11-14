@@ -103,7 +103,7 @@ Acceptance criteria are the conditions a specific backlog item must satisfy to b
 
 ### Given/When/Then
 
-The Given/When/Then format, used by Gherkin in BDD tools such as [Cucumber](/learn/automation/cucumber-bdd), splits each example into three parts:
+The Given/When/Then format, used by Gherkin in BDD tools such as [Cucumber](/careers/testing/automation/cucumber-bdd), splits each example into three parts:
 
 - **Given** the precondition or context
 - **When** the action or event
@@ -131,7 +131,7 @@ Feature: Free delivery threshold
     Then standard delivery costs 4.99
 ```
 
-Notice how the tester used [boundary value analysis](/learn/manual-testing/boundary-value-analysis) (49.99 and 50.00) and an interaction (a discount changing eligibility) to sharpen a vague rule.
+Notice how the tester used [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) (49.99 and 50.00) and an interaction (a discount changing eligibility) to sharpen a vague rule.
 
 ### Definition of Done
 

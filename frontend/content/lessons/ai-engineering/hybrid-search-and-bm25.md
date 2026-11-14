@@ -189,7 +189,7 @@ An internal test-tooling assistant answered questions over CI logs and runbooks.
 4. **Run both retrievers** with a generous N (for example 50).
 5. **Fuse with RRF** as a baseline; try a normalised weighted sum if you have time to tune α.
 6. **Compare hit rate@k or recall@k** for BM25 only, vector only and hybrid, split by query type.
-7. **Add a reranker** on the fused list if top-k precision still matters (see [Reranking and cross-encoders](/learn/ai-engineering/reranking-and-cross-encoders)).
+7. **Add a reranker** on the fused list if top-k precision still matters (see [Reranking and cross-encoders](/careers/ai-engineering/ai-engineering/reranking-and-cross-encoders)).
 
 ## Code examples
 

@@ -133,7 +133,7 @@ A hospital appointment API returned 201 for bookings and passed every test. A te
 4. **Query by that ID** with a parameterized query.
 5. **Assert** stored fields, server-generated fields, related rows and counts.
 6. **Handle async writes** with a bounded poll (for example up to 10 seconds, checking every 500 ms).
-7. **Clean up** test data or use unique data per test; see [API test data management](/learn/api-testing/api-test-data-management).
+7. **Clean up** test data or use unique data per test; see [API test data management](/careers/testing/api-testing/api-test-data-management).
 
 ### Example SQL checks
 

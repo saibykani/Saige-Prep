@@ -117,10 +117,10 @@ They will then **sample**: "show me the evidence for this requirement, for the v
 | Model card | Intended use, performance by slice, limitations | Mitchell et al. (2019) format, generated from eval results |
 | System card | Behaviour and safeguards of the whole system, not only the model | Product and safety teams |
 | Datasheet | Data origin, collection, composition, known gaps | Gebru et al. (2018/2021) format, data team |
-| Eval report | Metrics against thresholds, by slice, with versions | Eval pipeline (see [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals)) |
-| Red-team report | Attacks tried, success rates, fixes | Security testing (see [Red teaming and prompt injection](/learn/ai-engineering/red-teaming-and-prompt-injection)) |
+| Eval report | Metrics against thresholds, by slice, with versions | Eval pipeline (see [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals)) |
+| Red-team report | Attacks tried, success rates, fixes | Security testing (see [Red teaming and prompt injection](/careers/ai-engineering/ai-engineering/red-teaming-and-prompt-injection)) |
 | Impact assessment | Who could be harmed and how, mitigations | Risk and product owners |
-| Monitoring logs | Production behaviour against thresholds | Monitoring (see [Monitoring AI in production](/learn/ai-engineering/monitoring-ai-in-production)) |
+| Monitoring logs | Production behaviour against thresholds | Monitoring (see [Monitoring AI in production](/careers/ai-engineering/ai-engineering/monitoring-ai-in-production)) |
 | Incident records | What went wrong, root cause, actions | Incident process |
 | Change log | What changed, why, who approved, which evals ran | Version control, release records |
 | Approval records | Who accepted residual risk and on what conditions | Governance |
@@ -148,7 +148,7 @@ flowchart LR
   X --> A[Review and approval]
 ```
 
-Broken links are findings: requirements with no test, tests with no recorded result, results for a different version, or deployments with no evaluation. [AI governance and regulation](/learn/ai-engineering/ai-governance-and-regulation) shows how to turn a requirement into a test; this lesson is about keeping the chain intact and provable.
+Broken links are findings: requirements with no test, tests with no recorded result, results for a different version, or deployments with no evaluation. [AI governance and regulation](/careers/ai-engineering/ai-engineering/ai-governance-and-regulation) shows how to turn a requirement into a test; this lesson is about keeping the chain intact and provable.
 
 ### ISO/IEC 42001 audits and ISO/IEC 42006
 

@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert } from "@/components/ui/feedback";
 import { allTopics } from "@/content/curriculum";
 import { getLessons, getRoles } from "@/content/loader";
+import { ROLE_DOMAIN, roleHref } from "@/content/routes";
 import { ALL_ROLE_SLUGS, ROLE_CATALOG } from "@/content/role-catalog";
 import { ROLE_CATEGORIES } from "@/content/schema";
 import { BookmarkButton } from "@/features/learning/lesson-client";
@@ -17,10 +18,10 @@ import { SetTargetRole } from "@/features/roadmaps/role-catalogue";
 // Rendered client-side behind AppShell (session/guest check), so instant-navigation validation does not apply.
 export const instant = false;
 
-type Props = { params: Promise<{ role: string }> };
+type Props = { params: Promise<{ domain: string; role: string }> };
 
 export function generateStaticParams() {
-  return ALL_ROLE_SLUGS.map((role) => ({ role }));
+  return ALL_ROLE_SLUGS.map((role) => ({ domain: ROLE_DOMAIN, role }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -37,8 +38,8 @@ function titleOf(slug: string) {
 }
 
 export default async function RolePage({ params }: Props) {
-  const { role: slug } = await params;
-  if (!ALL_ROLE_SLUGS.includes(slug)) notFound();
+  const { domain, role: slug } = await params;
+  if (domain !== ROLE_DOMAIN || !ALL_ROLE_SLUGS.includes(slug)) notFound();
   const role = getRoles().find((r) => r.slug === slug);
   const lessons = getLessons();
   const topics = allTopics();
@@ -76,7 +77,7 @@ export default async function RolePage({ params }: Props) {
           actions={
             <>
               <SetTargetRole slug={role.slug} title={role.title} />
-              <BookmarkButton id={`role:${role.slug}`} kind="role" title={role.title} href={`/roadmaps/${role.slug}`} />
+              <BookmarkButton id={`role:${role.slug}`} kind="role" title={role.title} href={roleHref(role.slug)} />
             </>
           }
         />
@@ -302,7 +303,7 @@ export default async function RolePage({ params }: Props) {
           </h2>
           <div className="flex flex-wrap gap-2">
             {role.nextRoles.map((next) => (
-              <Link key={next} href={`/roadmaps/${next}`} className="rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent hover:text-accent">
+              <Link key={next} href={roleHref(next)} className="rounded-lg border border-border px-3 py-1.5 text-sm hover:border-accent hover:text-accent">
                 {titleOf(next)} →
               </Link>
             ))}

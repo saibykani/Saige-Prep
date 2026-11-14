@@ -141,7 +141,7 @@ A council services portal passed its automated scan with no violations. During m
 4. **Visual checks:** contrast, use of colour, zoom to 200%, reflow at 320 CSS pixels wide, text spacing.
 5. **Forms and errors:** labels, instructions, error identification and suggestions.
 6. **Media:** captions, transcripts, audio description where needed, no auto-playing audio without control.
-7. **Screen reader pass** on critical journeys (see [screen reader and keyboard testing](/learn/specialist/screen-reader-and-keyboard-testing)).
+7. **Screen reader pass** on critical journeys (see [screen reader and keyboard testing](/careers/testing/specialist/screen-reader-and-keyboard-testing)).
 8. **Report** each defect with the success criterion, user impact, element and steps.
 
 ### Worked example: defect report fields

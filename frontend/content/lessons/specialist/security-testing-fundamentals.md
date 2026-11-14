@@ -169,4 +169,4 @@ A team building a clinic booking portal ran functional tests on every screen but
 
 ## Key takeaways summary
 
-Security testing asks how someone could read, change or break what they should not. Get permission, think in CIA terms, combine automated tools with manual checks, and report privately. Next, learn the most common web risks in [OWASP Top 10 for testers](/learn/specialist/owasp-top-10-for-testers).
+Security testing asks how someone could read, change or break what they should not. Get permission, think in CIA terms, combine automated tools with manual checks, and report privately. Next, learn the most common web risks in [OWASP Top 10 for testers](/careers/testing/specialist/owasp-top-10-for-testers).

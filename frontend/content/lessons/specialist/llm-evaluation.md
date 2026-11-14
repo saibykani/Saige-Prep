@@ -179,4 +179,4 @@ A legal-tech team switched to a newer model because it led a public benchmark. T
 
 ## Key takeaways summary
 
-Define measurable criteria, build a representative dataset, grade with code first and calibrated judges second, and compare versions on aggregate scores. For retrieval-based systems, continue with [RAG evaluation](/learn/specialist/rag-evaluation).
+Define measurable criteria, build a representative dataset, grade with code first and calibrated judges second, and compare versions on aggregate scores. For retrieval-based systems, continue with [RAG evaluation](/careers/testing/specialist/rag-evaluation).

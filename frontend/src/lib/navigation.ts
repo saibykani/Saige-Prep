@@ -35,6 +35,8 @@ export interface NavItem {
   phase: number;
   /** What the section will contain; shown on its page until the phase lands. */
   planned: string[];
+  /** Overrides "Phase N" in the planned banner (expansion-plan steps are not implementation phases). */
+  schedule?: string;
   adminOnly?: boolean;
   keywords?: string[];
 }
@@ -87,7 +89,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["career", "role", "path", "sdet", "qa lead"],
       },
       {
-        href: "/learn/manual-testing",
+        href: "/careers/testing/manual-testing",
         label: "Manual Testing",
         icon: ClipboardCheck,
         description: "Fundamentals, test design, documentation, defects and Agile.",
@@ -101,7 +103,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["bva", "equivalence", "test case", "defect", "stlc"],
       },
       {
-        href: "/learn/automation",
+        href: "/careers/testing/automation",
         label: "Automation Testing",
         icon: Bot,
         description: "Java, Selenium, TestNG, Playwright, Cypress and framework design.",
@@ -110,7 +112,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["selenium", "playwright", "cypress", "testng", "java"],
       },
       {
-        href: "/learn/api-testing",
+        href: "/careers/testing/api-testing",
         label: "API Testing",
         icon: Webhook,
         description: "HTTP, REST, Postman, Newman, RestAssured and contract testing.",
@@ -119,7 +121,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["rest", "postman", "restassured", "http", "json"],
       },
       {
-        href: "/learn/performance",
+        href: "/careers/testing/performance",
         label: "Performance Testing",
         icon: Gauge,
         description: "Workload models, percentiles, JMeter and results analysis.",
@@ -128,7 +130,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["jmeter", "load", "p95", "throughput", "latency"],
       },
       {
-        href: "/learn/jmeter",
+        href: "/careers/testing/jmeter",
         label: "Apache JMeter",
         icon: Zap,
         description: "JMeter from zero to advanced, explained for complete beginners.",
@@ -137,7 +139,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["jmeter", "load test", "thread group", "correlation", "listener"],
       },
       {
-        href: "/learn/mobile",
+        href: "/careers/testing/mobile",
         label: "Mobile Testing",
         icon: Smartphone,
         description: "Android, iOS, device coverage and Appium.",
@@ -146,7 +148,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["appium", "android", "ios"],
       },
       {
-        href: "/learn/ai-engineering",
+        href: "/careers/ai-engineering/ai-engineering",
         label: "AI Engineering",
         icon: Brain,
         description: "AI from scratch to advanced: ML, LLMs, RAG, agents, evals and AI testing.",
@@ -155,7 +157,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["ai", "llm", "rag", "agents", "machine learning", "evals", "ai testing"],
       },
       {
-        href: "/learn/specialist",
+        href: "/careers/testing/specialist",
         label: "Specialist Testing",
         icon: ShieldCheck,
         description: "Security, accessibility, data, cloud, localization and AI testing.",
@@ -164,7 +166,7 @@ export const NAV_GROUPS: NavGroup[] = [
         keywords: ["security", "accessibility", "a11y", "etl", "llm", "rag"],
       },
       {
-        href: "/learn/sdet",
+        href: "/careers/testing/sdet",
         label: "SDET Engineering",
         icon: CodeXml,
         description: "Framework architecture, CI/CD, test infrastructure and system design.",
@@ -301,8 +303,58 @@ export const NAV_GROUPS: NavGroup[] = [
 
 export const NAV_ITEMS: NavItem[] = NAV_GROUPS.flatMap((group) => group.items);
 
+/**
+ * Area landing pages that are routed but have no content yet (docs/expansion-plan.md, section 2).
+ * They render through PlannedSection and are not in the sidebar until the navigation rewrite
+ * (expansion step 5). Nothing here is shown as built.
+ */
+export const PLANNED_AREAS: NavItem[] = [
+  {
+    href: "/exams",
+    label: "Government Exams",
+    icon: GraduationCap,
+    description: "Exam families, syllabus, pattern, study path and mock tests for Indian government recruitment exams.",
+    phase: 0,
+    schedule: "expansion steps 10 and 14-15",
+    planned: [
+      "Exam pages with pattern, eligibility and syllabus quoted from the official notification",
+      "Official links with a last-verified date on every page",
+      "Study paths and sectional mock tests from original practice questions",
+      "A previous papers index linking to the conducting body's own site",
+    ],
+    keywords: ["upsc", "ssc", "ibps", "railway", "government", "exam"],
+  },
+  {
+    href: "/aptitude",
+    label: "Aptitude",
+    icon: Brain,
+    description: "Quantitative, reasoning, verbal and data interpretation practice with shortcut methods.",
+    phase: 0,
+    schedule: "expansion steps 12-13",
+    planned: [
+      "Subject and topic pages: concept, method, worked examples and common traps",
+      "Timed and untimed topic drills with method explanations",
+      "Questions with numeric answers recomputed by script",
+    ],
+    keywords: ["quant", "reasoning", "verbal", "data interpretation", "aptitude"],
+  },
+  {
+    href: "/careers/non-it",
+    label: "Non-IT Careers",
+    icon: Map,
+    description: "Overview pages for careers outside IT: finance, law, medicine, engineering, management and more.",
+    phase: 0,
+    schedule: "expansion step 23a",
+    planned: [
+      "Role overviews with eligibility and the qualifying exams, each with official links",
+      "A study route per career, labelled as an overview rather than a full course",
+    ],
+    keywords: ["law", "ca", "medicine", "commerce", "management", "non-it"],
+  },
+];
+
 export function findNavItem(href: string): NavItem | undefined {
-  return NAV_ITEMS.find((item) => item.href === href);
+  return NAV_ITEMS.find((item) => item.href === href) ?? PLANNED_AREAS.find((item) => item.href === href);
 }
 
 /** The nav item whose href is the longest prefix of the pathname. */

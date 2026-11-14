@@ -106,7 +106,7 @@ Agent evaluation is exactly that: a safe practice environment (a **sandbox**), t
 | Variance | Wording varies | Whole path varies; small errors compound over steps |
 | Cost | One call | Many calls; can loop |
 
-Because of this, an agent eval has several graders, not one. The loop itself is covered in [Tool use and AI agents](/learn/ai-engineering/tool-use-and-ai-agents) and [Agentic AI fundamentals](/learn/ai-engineering/agentic-ai-fundamentals).
+Because of this, an agent eval has several graders, not one. The loop itself is covered in [Tool use and AI agents](/careers/ai-engineering/ai-engineering/tool-use-and-ai-agents) and [Agentic AI fundamentals](/careers/ai-engineering/ai-engineering/agentic-ai-fundamentals).
 
 ```mermaid
 flowchart LR
@@ -141,7 +141,7 @@ Outcome alone misses dangerous or wasteful paths. Trajectory checks inspect the 
 - **Argument correctness**: the right order id, amount within limits.
 - **Budget**: steps, tokens and wall-clock time under thresholds.
 
-Avoid asserting one exact sequence of calls unless the business demands it; agents legitimately take different valid paths, and over-specified trajectories make brittle tests. Assert invariants instead. For fuzzier judgements ("did the agent ask a sensible clarifying question?") use a rubric-based judge on the transcript, calibrated as in [LLM-as-judge and human review](/learn/ai-engineering/llm-as-judge-and-human-review).
+Avoid asserting one exact sequence of calls unless the business demands it; agents legitimately take different valid paths, and over-specified trajectories make brittle tests. Assert invariants instead. For fuzzier judgements ("did the agent ask a sensible clarifying question?") use a rubric-based judge on the transcript, calibrated as in [LLM-as-judge and human review](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review).
 
 ### 3. Cost, steps and latency
 
@@ -161,7 +161,7 @@ Run each task n times. With c successes, **pass@k** (at least one of k succeeds)
 
 ### 6. Safety evals
 
-Include tasks where the right outcome is to refuse, escalate or ask a human: injected instructions inside tool results, requests beyond policy, ambiguous high-impact actions. The grader checks that forbidden side effects did not happen. See [Red teaming and prompt injection](/learn/ai-engineering/red-teaming-and-prompt-injection) and [Agent guardrails and safety](/learn/ai-engineering/agent-guardrails-and-safety).
+Include tasks where the right outcome is to refuse, escalate or ask a human: injected instructions inside tool results, requests beyond policy, ambiguous high-impact actions. The grader checks that forbidden side effects did not happen. See [Red teaming and prompt injection](/careers/ai-engineering/ai-engineering/red-teaming-and-prompt-injection) and [Agent guardrails and safety](/careers/ai-engineering/ai-engineering/agent-guardrails-and-safety).
 
 ### 7. Regression evals in CI
 

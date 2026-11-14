@@ -97,7 +97,7 @@ It works best when testers are experienced, have domain knowledge and have stron
 
 Exploratory testing is often run with **session-based test management**:
 
-- **Charter**: the mission for the session, for example "Explore checkout with expired and declined cards to discover how payment errors are communicated." See [exploratory testing charters](/learn/manual-testing/exploratory-testing-charters).
+- **Charter**: the mission for the session, for example "Explore checkout with expired and declined cards to discover how payment errors are communicated." See [exploratory testing charters](/careers/testing/manual-testing/exploratory-testing-charters).
 - **Time-box**: an uninterrupted session, often 60 to 120 minutes.
 - **Session sheet**: notes on what was tested, data used, defects, questions and issues.
 - **Debrief**: a short conversation with a lead or the team about findings, coverage and what to explore next.
@@ -139,7 +139,7 @@ Following a hunch after noticing the return date picker reset when the origin ch
 4. **Time-box the session** and protect it from interruptions.
 5. **Explore deliberately**: vary inputs, sequences, states, users and environments; apply boundaries, error guessing and checklists as ideas arise.
 6. **Take notes as you go**: what you tried, what you saw, questions, and potential defects with reproduction steps.
-7. **Log defects** with enough detail to reproduce; see [writing a great defect report](/learn/manual-testing/writing-a-great-defect-report).
+7. **Log defects** with enough detail to reproduce; see [writing a great defect report](/careers/testing/manual-testing/writing-a-great-defect-report).
 8. **Debrief**: summarise coverage, findings, open questions and new charters.
 
 ### Worked example: a session sheet

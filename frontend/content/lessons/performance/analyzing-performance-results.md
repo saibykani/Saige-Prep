@@ -102,18 +102,18 @@ Analysing a performance test is the same. JMeter gives you numbers and graphs. Y
 
 ### Step 2: Read the key metrics together
 
-See [throughput, latency and percentiles](/learn/performance/throughput-latency-and-percentiles). For each transaction, during **steady state**:
+See [throughput, latency and percentiles](/careers/testing/performance/throughput-latency-and-percentiles). For each transaction, during **steady state**:
 
 - **Percentiles** (p50, p90, p95, p99) and max — not just averages.
 - **Throughput** — achieved versus target.
 - **Error rate** — and its types.
 - **Over time**, not only as totals. Trends (gradual rise = leak or growing queue), periodic spikes (scheduled jobs, GC) and sudden steps (saturation, failover) each suggest different causes.
 
-Use [Little's Law](/learn/performance/littles-law) as a consistency check: with a closed workload, users ≈ throughput × (response time + think time). A mismatch hints at hidden delays or a test problem.
+Use [Little's Law](/careers/testing/performance/littles-law) as a consistency check: with a closed workload, users ≈ throughput × (response time + think time). A mismatch hints at hidden delays or a test problem.
 
 ### Step 3: Find the knee and correlate
 
-In a stepped test, the **knee** is the load at which throughput stops increasing and latency rises steeply. At the knee, look across tiers for the first resource that saturates using the USE method — see [resource utilization and bottlenecks](/learn/performance/resource-utilization-and-bottlenecks).
+In a stepped test, the **knee** is the load at which throughput stops increasing and latency rises steeply. At the knee, look across tiers for the first resource that saturates using the USE method — see [resource utilization and bottlenecks](/careers/testing/performance/resource-utilization-and-bottlenecks).
 
 ### Step 4: Hypothesis, then proof
 
@@ -170,7 +170,7 @@ A ticketing team's test showed p95 for "Reserve seat" at 4.2 s against a 1 s tar
 - **Stopping at the symptom** ("the database is slow") without a confirmed cause.
 - **Calling a correlation a cause** without further evidence.
 - **Changing several things before rerunning**, so you can't tell what helped.
-- **Reports that are a dump of graphs** with no verdict or recommendations. See [HTML dashboard report](/learn/jmeter/jmeter-html-dashboard-report) and [analysing JMeter results](/learn/jmeter/jmeter-analyzing-results) for the JMeter side.
+- **Reports that are a dump of graphs** with no verdict or recommendations. See [HTML dashboard report](/careers/testing/jmeter/jmeter-html-dashboard-report) and [analysing JMeter results](/careers/testing/jmeter/jmeter-analyzing-results) for the JMeter side.
 
 ## Key takeaways summary
 

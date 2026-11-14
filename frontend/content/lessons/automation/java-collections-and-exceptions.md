@@ -222,4 +222,4 @@ Caused by: java.nio.file.NoSuchFileException: missing.properties
 
 ## Key takeaways summary
 
-Pick the collection that matches the question you are asking: order, uniqueness or lookup. Use `findElements` and collections to check groups of elements, and treat exceptions as information, not noise. Unexpected exceptions should fail the test loudly; that is what makes the [debugging of failing tests](/learn/automation/debugging-failing-tests) fast.
+Pick the collection that matches the question you are asking: order, uniqueness or lookup. Use `findElements` and collections to check groups of elements, and treat exceptions as information, not noise. Unexpected exceptions should fail the test loudly; that is what makes the [debugging of failing tests](/careers/testing/automation/debugging-failing-tests) fast.

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { generatePlan, type PlannerLesson, type PlannerRole } from "./plan";
 
-const lesson = (slug: string, minutes: number): PlannerLesson => ({ slug, title: slug, href: `/learn/t/${slug}`, minutes });
+const lesson = (slug: string, minutes: number): PlannerLesson => ({ slug, title: slug, href: `/careers/testing/t/${slug}`, minutes });
 const lessons = new Map([lesson("a", 60), lesson("b", 60), lesson("c", 90), lesson("d", 30)].map((l) => [l.slug, l]));
 const role: PlannerRole = {
   slug: "r",
@@ -23,7 +23,7 @@ describe("generatePlan", () => {
     ]);
     expect(plan.unwritten).toBe(1);
     expect(plan.overflow).toBe(0);
-    expect(plan.tasks.every((t) => t.href.startsWith("/learn/"))).toBe(true);
+    expect(plan.tasks.every((t) => t.href.startsWith("/careers/"))).toBe(true);
   });
 
   it("reports lessons that do not fit and skips completed ones", () => {

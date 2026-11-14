@@ -89,7 +89,7 @@ quiz:
 
 ## Beginner-friendly explanation
 
-In [Embeddings and vector search](/learn/ai-engineering/embeddings-and-vector-search) you put every embedding in an array and compared the query with all of them. That is like finding a book by walking past every shelf in a library. It always works, and in a small library it is quick enough.
+In [Embeddings and vector search](/careers/ai-engineering/ai-engineering/embeddings-and-vector-search) you put every embedding in an array and compared the query with all of them. That is like finding a book by walking past every shelf in a library. It always works, and in a small library it is quick enough.
 
 Now imagine a library with a hundred million books, new books arriving every minute, books being withdrawn, and readers who only want books in French published after 2020. Walking every shelf is too slow. A good library has a **catalogue** (an index that takes you to the right aisle), **sections** (filters), and a building that does not lose books when the lights go out (persistence).
 
@@ -315,4 +315,4 @@ Using the IVF code above, extend the sweep to `nprobe` values 1, 2, 4, 8, 16, 32
 
 ## Key takeaways summary
 
-A vector database is similarity search plus everything production needs: persistence, ANN indexes, filters, updates and scaling. HNSW, IVF and PQ each trade recall for speed or memory, with `ef_search` and `nprobe` as the everyday dials. Measure ANN recall@k against exact search on your own queries, test selective filters explicitly, and remember that a perfect index only reproduces what your embeddings consider similar; relevance needs its own evaluation, covered in [Reranking and cross-encoders](/learn/ai-engineering/reranking-and-cross-encoders).
+A vector database is similarity search plus everything production needs: persistence, ANN indexes, filters, updates and scaling. HNSW, IVF and PQ each trade recall for speed or memory, with `ef_search` and `nprobe` as the everyday dials. Measure ANN recall@k against exact search on your own queries, test selective filters explicitly, and remember that a perfect index only reproduces what your embeddings consider similar; relevance needs its own evaluation, covered in [Reranking and cross-encoders](/careers/ai-engineering/ai-engineering/reranking-and-cross-encoders).

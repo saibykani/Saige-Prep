@@ -147,7 +147,7 @@ A sixth defect, DEF-615 "video occasionally stops at 2:14", was marked **Need mo
 4. **Record the decision and reason** on the defect itself, not only in meeting notes.
 5. **Notify reporters** of rejections and duplicates so they learn and can respond.
 6. **Review deferred defects** on their review date, re-assessing priority with current context.
-7. **Feed trends** into [root cause analysis](/learn/manual-testing/root-cause-analysis) and test planning.
+7. **Feed trends** into [root cause analysis](/careers/testing/manual-testing/root-cause-analysis) and test planning.
 
 ## Common mistakes
 

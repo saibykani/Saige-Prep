@@ -140,7 +140,7 @@ Reopen rate %            = 7 ÷ 140 × 100 = 5.0%
 | Reports | 12 | 38 | 3.2 |
 | User admin | 10 | 26 | 2.6 |
 
-Stock adjustments has more than double the density of other modules, and 5 of the 8 escaped defects also came from it. That is a reason to investigate (see [root cause analysis](/learn/manual-testing/root-cause-analysis)), not a verdict on the developers.
+Stock adjustments has more than double the density of other modules, and 5 of the 8 escaped defects also came from it. That is a reason to investigate (see [root cause analysis](/careers/testing/manual-testing/root-cause-analysis)), not a verdict on the developers.
 
 **Defect age** for open defects on 30 June:
 

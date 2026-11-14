@@ -202,7 +202,7 @@ throughput=30.0 req/s
 
 - **Your p95 differs from the tool's p95.** Check the interpolation method and whether the tool includes failed samples.
 - **p99 jumps between runs.** You probably have too few samples; run longer or report p95.
-- **Throughput is lower than planned.** Use [Little's Law](/learn/performance/littles-law) to check whether you have enough virtual users for the response time you are seeing.
+- **Throughput is lower than planned.** Use [Little's Law](/careers/testing/performance/littles-law) to check whether you have enough virtual users for the response time you are seeing.
 
 ## Key takeaways summary
 

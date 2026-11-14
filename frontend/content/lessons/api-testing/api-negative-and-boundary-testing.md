@@ -110,7 +110,7 @@ Think about a request in layers, and break one layer at a time:
 | Business rule | Duplicate email, insufficient balance, invalid state change | 409, 422 |
 | Size and rate | Payload too large, too many requests | 413, 429 |
 
-(See [HTTP status codes](/learn/api-testing/http-status-codes) for definitions.) Exact codes come from your API's contract; consistency matters more than any single choice.
+(See [HTTP status codes](/careers/testing/api-testing/http-status-codes) for definitions.) Exact codes come from your API's contract; consistency matters more than any single choice.
 
 A good error response is structured — many APIs follow RFC 9457 "Problem Details" (`type`, `title`, `status`, `detail`) and add a list of field errors. Check that errors:
 
@@ -120,7 +120,7 @@ A good error response is structured — many APIs follow RFC 9457 "Problem Detai
 
 ### Boundaries in APIs
 
-[Boundary value analysis](/learn/manual-testing/boundary-value-analysis) applies to every limit in the contract — and APIs have more limits than UIs:
+[Boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) applies to every limit in the contract — and APIs have more limits than UIs:
 
 | Limit | Boundary tests |
 |---|---|

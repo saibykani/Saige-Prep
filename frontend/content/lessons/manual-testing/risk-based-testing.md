@@ -173,4 +173,4 @@ The highest-risk items started first and received the most rigorous techniques. 
 
 ## Key takeaways summary
 
-Risk-based testing turns limited time into the most valuable information. Identify and assess product risks with stakeholders, let risk levels drive scope, depth, techniques and order, keep the analysis alive as the project changes, and report residual risk so the release decision is made with open eyes. See [risk-based scenario selection](/learn/manual-testing/risk-based-scenario-selection) for applying it to individual test scenarios.
+Risk-based testing turns limited time into the most valuable information. Identify and assess product risks with stakeholders, let risk levels drive scope, depth, techniques and order, keep the analysis alive as the project changes, and report residual risk so the release decision is made with open eyes. See [risk-based scenario selection](/careers/testing/manual-testing/risk-based-scenario-selection) for applying it to individual test scenarios.

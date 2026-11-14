@@ -111,7 +111,7 @@ ${__jexl3("${status}" == "ok")}
 ${__groovy(vars.get("count").toInteger() < 3)}
 ```
 
-The legacy JavaScript mode (unticked) works but is slower, and the manual recommends `__jexl3` or `__groovy`. Learn more in [JMeter functions](/learn/jmeter/jmeter-functions).
+The legacy JavaScript mode (unticked) works but is slower, and the manual recommends `__jexl3` or `__groovy`. Learn more in [JMeter functions](/careers/testing/jmeter/jmeter-functions).
 
 ```mermaid
 flowchart TD
@@ -169,7 +169,7 @@ Two more controllers appear in the Add menu that are worth recognising. The **In
 - **Nested Transaction Controllers with parent samples**, producing confusing double counting.
 - **Slow JavaScript conditions** at high load.
 - **Infinite While loops.**
-- **Using Throughput Controller as a precise workload model**; for exact mixes consider separate Thread Groups, see [workload design](/learn/jmeter/jmeter-workload-design).
+- **Using Throughput Controller as a precise workload model**; for exact mixes consider separate Thread Groups, see [workload design](/careers/testing/jmeter/jmeter-workload-design).
 - **Pointing practice runs at systems you do not own.**
 
 ## Key takeaways summary

@@ -131,7 +131,7 @@ Running hundreds of steps on a 1024×1024×3 pixel array is expensive. **Latent 
 
 ### Text conditioning and classifier-free guidance
 
-A text encoder (CLIP's text encoder or a language model such as T5) turns the prompt into embeddings. The denoiser attends to them through **cross-attention** (see [Transformers and attention](/learn/ai-engineering/transformers-and-attention)).
+A text encoder (CLIP's text encoder or a language model such as T5) turns the prompt into embeddings. The denoiser attends to them through **cross-attention** (see [Transformers and attention](/careers/ai-engineering/ai-engineering/transformers-and-attention)).
 
 **Classifier-free guidance** (Ho and Salimans, 2022) trains the same network both with and without the prompt by randomly dropping it. At sampling time:
 
@@ -152,13 +152,13 @@ Note how they combine: latent diffusion uses a VAE-style autoencoder plus, in th
 ### Evaluation and its limits
 
 - **FID (Fréchet Inception Distance;** Heusel et al., 2017**):** compares the mean and covariance of Inception-network features for a set of generated images versus real images. Lower is better. Limits: population-level only, needs thousands of samples to be stable, sensitive to the reference set and implementation, blind to prompts.
-- **CLIP score:** cosine similarity between CLIP embeddings of the image and its prompt (see [Multimodal models](/learn/ai-engineering/multimodal-models)). Measures alignment roughly; weak on counting, text rendering, spatial relations and negation, and inherits CLIP's biases.
+- **CLIP score:** cosine similarity between CLIP embeddings of the image and its prompt (see [Multimodal models](/careers/ai-engineering/ai-engineering/multimodal-models)). Measures alignment roughly; weak on counting, text rendering, spatial relations and negation, and inherits CLIP's biases.
 - **Human evaluation:** pairwise preference or rubric scores on a fixed prompt suite. Slower and costlier, but the only way to judge quality and intent reliably. Use several raters and measure agreement.
 
 ### Safety and provenance
 
 - **Input and output filtering:** classifiers on prompts and generated images for disallowed content.
-- **Bias:** neutral prompts ("a photo of a doctor") can produce skewed demographics; audit systematically (see [Bias, fairness and responsible AI](/learn/ai-engineering/bias-fairness-and-responsible-ai)).
+- **Bias:** neutral prompts ("a photo of a doctor") can produce skewed demographics; audit systematically (see [Bias, fairness and responsible AI](/careers/ai-engineering/ai-engineering/bias-fairness-and-responsible-ai)).
 - **Invisible watermarking:** a signal embedded in pixels (for example Google DeepMind's SynthID) that a detector can find. Robust to some edits, not all.
 - **C2PA Content Credentials:** an open standard from the Coalition for Content Provenance and Authenticity in which a cryptographically signed manifest records how an asset was created and edited. It travels as metadata, so it can be stripped; verification shows whether a valid manifest is present and intact. Watermarks and C2PA complement each other.
 - **Regulation is moving:** for example the EU AI Act includes transparency obligations for AI-generated content. Check current requirements for your market.

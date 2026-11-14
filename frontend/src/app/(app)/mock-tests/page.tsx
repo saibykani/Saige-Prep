@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { HubHero } from "@/components/layout/hub-hero";
+import { domainOfCourse } from "@/content/curriculum";
 import { getQuestionBanks } from "@/content/loader";
+import { mockTestHref, ROLE_DOMAIN } from "@/content/routes";
 import { MockHub } from "@/features/assessments/mock-hub";
 import { levelRange } from "@/lib/visual-themes";
 
@@ -13,6 +15,7 @@ export default function Page() {
   const all = getQuestionBanks();
   const banks = all.map((b) => ({
     bank: b.bank,
+    href: mockTestHref(domainOfCourse(b.track) ?? ROLE_DOMAIN, b.bank),
     title: b.title,
     count: b.questions.length,
     topics: new Set(b.questions.map((q) => q.topic)).size,

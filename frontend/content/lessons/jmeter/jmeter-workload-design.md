@@ -84,7 +84,7 @@ quiz:
 
 Before cooking for a party you decide how many guests, what they will eat, and when they arrive. A **workload model** is the same plan for a load test: how many requests per second, which user journeys in what proportions, how users pause, and how load builds over time.
 
-JMeter does not understand "busy Monday morning". It understands **threads** (virtual users), **ramp-up** (how quickly threads start), **timers** (pauses) and **controllers** (which steps run). This lesson shows how to translate a business target into those settings. The theory is in [Workload modeling](/learn/performance/workload-modeling) and [Little's Law](/learn/performance/littles-law).
+JMeter does not understand "busy Monday morning". It understands **threads** (virtual users), **ramp-up** (how quickly threads start), **timers** (pauses) and **controllers** (which steps run). This lesson shows how to translate a business target into those settings. The theory is in [Workload modeling](/careers/testing/performance/workload-modeling) and [Little's Law](/careers/testing/performance/littles-law).
 
 > **Authorisation rule:** run workloads only against systems you own, such as an app on `localhost`, or have written permission to test.
 
@@ -120,7 +120,7 @@ flowchart LR
 | Rate schedule | Throughput Shaping Timer (plugin) | Rows of start rps, end rps, duration; install via Plugins Manager |
 | Mix | Throughput Controller | Percent Executions or Total Executions |
 
-The Constant Throughput Timer and Throughput Shaping Timer only **delay** threads. If N is too small, the target cannot be met. See [Timers and throughput shaping](/learn/jmeter/jmeter-timers-and-throughput-shaping) for each timer in depth.
+The Constant Throughput Timer and Throughput Shaping Timer only **delay** threads. If N is too small, the target cannot be met. See [Timers and throughput shaping](/careers/testing/jmeter/jmeter-timers-and-throughput-shaping) for each timer in depth.
 
 ## Step-by-step walkthrough
 
@@ -140,7 +140,7 @@ Scenario: your local shop app (`localhost:3000`). Model: 10 iterations per secon
 | 0 | 10 | 300 |
 | 10 | 10 | 900 |
 
-9. Run non-GUI, then verify achieved throughput and mix in the [HTML dashboard](/learn/jmeter/jmeter-html-dashboard-report).
+9. Run non-GUI, then verify achieved throughput and mix in the [HTML dashboard](/careers/testing/jmeter/jmeter-html-dashboard-report).
 
 ## Expected output
 

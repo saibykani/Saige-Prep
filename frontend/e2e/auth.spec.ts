@@ -10,8 +10,8 @@ test.describe("open access (no login)", () => {
   });
 
   test("private sections open without any sign-in", async ({ page }) => {
-    await page.goto("/learn/manual-testing");
-    await expect(page).toHaveURL(/\/learn\/manual-testing$/);
+    await page.goto("/careers/testing/manual-testing");
+    await expect(page).toHaveURL(/\/careers\/testing\/manual-testing$/);
     await expect(page.getByRole("heading", { level: 1, name: "Manual Testing" })).toBeVisible();
   });
 

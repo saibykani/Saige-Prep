@@ -172,7 +172,7 @@ Plain issue tracking does not model test cases or executions well. Test manageme
 | Execution | One run of a case, with status Passed, Failed, Blocked or Not Run, plus evidence |
 | Defect link | Each failed execution linked to a bug |
 
-These links give you a live [traceability matrix](/learn/manual-testing/traceability-matrix-and-coverage): requirement, tests, executions, defects.
+These links give you a live [traceability matrix](/careers/testing/manual-testing/traceability-matrix-and-coverage): requirement, tests, executions, defects.
 
 ## Real-world example
 

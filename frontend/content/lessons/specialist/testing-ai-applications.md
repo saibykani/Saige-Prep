@@ -114,7 +114,7 @@ Only the model call is non-deterministic. Input validation, prompt building, too
 ### Techniques
 
 - **Property-based assertions:** valid JSON, required fields, length limits, contains the order number, no email addresses of other people.
-- **Evaluation datasets:** a set of inputs with expected properties or reference answers, scored automatically, by a model-based grader, or by humans. See [LLM evaluation](/learn/specialist/llm-evaluation).
+- **Evaluation datasets:** a set of inputs with expected properties or reference answers, scored automatically, by a model-based grader, or by humans. See [LLM evaluation](/careers/testing/specialist/llm-evaluation).
 - **Mocked model responses** for deterministic tests of the surrounding code.
 - **Red teaming:** authorized adversarial testing for safety and injection, guided by the OWASP Top 10 for LLM Applications.
 - **Monitoring:** sample production conversations, user feedback and cost, because behaviour can change with model updates.
@@ -166,4 +166,4 @@ A retail team launched a chatbot that answered return-policy questions. Manual t
 
 ## Key takeaways summary
 
-Test the code around the model normally, evaluate the model's behaviour over datasets with clear properties, attack it safely for injection and leakage, and keep monitoring after release. Continue with [LLM evaluation](/learn/specialist/llm-evaluation) and [RAG evaluation](/learn/specialist/rag-evaluation).
+Test the code around the model normally, evaluate the model's behaviour over datasets with clear properties, attack it safely for injection and leakage, and keep monitoring after release. Continue with [LLM evaluation](/careers/testing/specialist/llm-evaluation) and [RAG evaluation](/careers/testing/specialist/rag-evaluation).

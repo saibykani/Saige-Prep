@@ -103,7 +103,7 @@ Brendan Gregg's **USE method** checks every resource for:
 | Network | Bandwidth used vs link capacity | Retransmits, socket backlogs | Dropped packets, connection resets |
 | Software (pools, locks) | Active threads/connections vs max | Waiters for a pool or lock | Pool timeouts, rejected tasks |
 
-Why this matters: as load approaches a resource's capacity, **queueing** makes response time rise sharply rather than linearly. Throughput then plateaus — see [throughput, latency and percentiles](/learn/performance/throughput-latency-and-percentiles) and [Little's Law](/learn/performance/littles-law).
+Why this matters: as load approaches a resource's capacity, **queueing** makes response time rise sharply rather than linearly. Throughput then plateaus — see [throughput, latency and percentiles](/careers/testing/performance/throughput-latency-and-percentiles) and [Little's Law](/careers/testing/performance/littles-law).
 
 ```mermaid
 flowchart TD
@@ -125,9 +125,9 @@ flowchart TD
 - **Memory / GC:** heap after GC creeps up (leak) or GC pauses spike; latency has periodic jumps.
 - **Disk-bound:** high I/O wait, disk latency rises; common for databases and logging.
 - **Network-bound:** link near capacity, often from large payloads or uncompressed responses.
-- **Pool or lock-bound:** low hardware use but many threads waiting — see [thread and connection pools](/learn/performance/thread-and-connection-pools).
+- **Pool or lock-bound:** low hardware use but many threads waiting — see [thread and connection pools](/careers/testing/performance/thread-and-connection-pools).
 
-**Don't forget the load generator.** If the JMeter machine is saturated, the test measures JMeter, not your app. Use non-GUI mode and light listeners ([non-GUI and distributed testing](/learn/jmeter/jmeter-non-gui-and-distributed)).
+**Don't forget the load generator.** If the JMeter machine is saturated, the test measures JMeter, not your app. Use non-GUI mode and light listeners ([non-GUI and distributed testing](/careers/testing/jmeter/jmeter-non-gui-and-distributed)).
 
 ## Real-world example
 
@@ -136,7 +136,7 @@ A team load-tested an order API. At 300 requests per second the 95th percentile 
 ## Step-by-step walkthrough
 
 1. **List every component** in the request path: load balancer, app servers, cache, database, queues, external calls, and the load generator.
-2. **Set up monitoring** for each before the test (OS metrics, JVM metrics, database metrics). See [monitoring with InfluxDB and Grafana](/learn/performance/monitoring-with-influxdb-grafana).
+2. **Set up monitoring** for each before the test (OS metrics, JVM metrics, database metrics). See [monitoring with InfluxDB and Grafana](/careers/testing/performance/monitoring-with-influxdb-grafana).
 3. **Run a step-load test**, increasing load in stages and holding each stage long enough to stabilise.
 4. **Find the knee:** the stage where throughput stops rising and latency jumps.
 5. **At the knee, apply USE** to each resource; look for the first one saturating.

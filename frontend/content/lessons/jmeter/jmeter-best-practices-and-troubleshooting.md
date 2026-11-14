@@ -94,7 +94,7 @@ A load test is a measuring instrument. If the ruler is bent, every measurement i
 **Building scripts**
 
 - Use the GUI only to build and debug. Use **Debug Sampler** and View Results Tree while building, then disable them.
-- Use **JSR223 elements with Groovy** and *Cache compiled script* ticked; avoid BeanShell, which is interpreted and slow. Do not inline `${var}` inside script text; use `vars.get("var")` so caching works (see [Groovy and JSR223](/learn/jmeter/jmeter-groovy-jsr223)).
+- Use **JSR223 elements with Groovy** and *Cache compiled script* ticked; avoid BeanShell, which is interpreted and slow. Do not inline `${var}` inside script text; use `vars.get("var")` so caching works (see [Groovy and JSR223](/careers/testing/jmeter/jmeter-groovy-jsr223)).
 - Use realistic, varied data from CSV files, enough so users do not all hit the same cached record.
 - Use properties (`${__P(users,10)}`) for anything that changes between runs.
 
@@ -105,7 +105,7 @@ A load test is a measuring instrument. If the ruler is bent, every measurement i
 - Tune the heap with the **HEAP** environment variable. Default heap in 5.6.x is 1 GB.
 - Include a **warm-up** period and analyse the steady state.
 - **Monitor the load generator**: CPU, memory, GC, network and open sockets.
-- **Distributed mode** multiplies threads but has limits: all servers must have the same JMeter, Java, plugins and data files; RMI needs open ports and SSL keystore setup by default; the controller can be overloaded collecting results. See [remote testing](/learn/jmeter/jmeter-non-gui-and-distributed).
+- **Distributed mode** multiplies threads but has limits: all servers must have the same JMeter, Java, plugins and data files; RMI needs open ports and SSL keystore setup by default; the controller can be overloaded collecting results. See [remote testing](/careers/testing/jmeter/jmeter-non-gui-and-distributed).
 
 ## Step-by-step walkthrough
 

@@ -90,7 +90,7 @@ Before a bride and groom's wedding day, a lot of people have done their part: th
 
 ## Technical explanation
 
-**Release sign-off** (also called go/no-go approval or release approval) is a formal, recorded decision that a specific build may be deployed to production. It typically follows the [test completion report](/learn/manual-testing/test-execution-and-closure-reports) and the evaluation of [exit criteria](/learn/manual-testing/entry-and-exit-criteria).
+**Release sign-off** (also called go/no-go approval or release approval) is a formal, recorded decision that a specific build may be deployed to production. It typically follows the [test completion report](/careers/testing/manual-testing/test-execution-and-closure-reports) and the evaluation of [exit criteria](/careers/testing/manual-testing/entry-and-exit-criteria).
 
 | Role | Typical contribution |
 |---|---|

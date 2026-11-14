@@ -280,7 +280,7 @@ def test_step_limit_stops_run():
         g.call("unknown", {})
 ```
 
-To connect it to a real agent, call `guard.call(block.name, block.input)` inside the loop from [Tool use and AI agents](/learn/ai-engineering/tool-use-and-ai-agents) and return the result as the `tool_result`, with `is_error` set when `ok` is false. Catch `Stop` to end the run and report why.
+To connect it to a real agent, call `guard.call(block.name, block.input)` inside the loop from [Tool use and AI agents](/careers/ai-engineering/ai-engineering/tool-use-and-ai-agents) and return the result as the `tool_result`, with `is_error` set when `ok` is false. Catch `Stop` to end the run and report why.
 
 ## Expected output
 

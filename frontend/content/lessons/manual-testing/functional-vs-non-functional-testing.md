@@ -96,7 +96,7 @@ ISTQB CTFL v4.0 describes four test types: functional, non-functional, black-box
 
 ### Functional testing
 
-Functional testing evaluates the functions a component or system should perform. Its main objective is checking **functional completeness** (all required functions exist), **functional correctness** (they give correct results) and **functional appropriateness** (they help users achieve their tasks). The test basis is typically requirements, user stories, use cases and business rules. Techniques like [equivalence partitioning](/learn/manual-testing/equivalence-partitioning) and decision tables are used heavily here.
+Functional testing evaluates the functions a component or system should perform. Its main objective is checking **functional completeness** (all required functions exist), **functional correctness** (they give correct results) and **functional appropriateness** (they help users achieve their tasks). The test basis is typically requirements, user stories, use cases and business rules. Techniques like [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning) and decision tables are used heavily here.
 
 ### Non-functional testing
 

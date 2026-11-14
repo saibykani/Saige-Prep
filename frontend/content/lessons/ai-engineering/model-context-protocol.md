@@ -139,7 +139,7 @@ Clients can also offer capabilities to servers, such as **sampling** (the server
 
 ### MCP versus plain tool use
 
-MCP does not replace the tool-use protocol you learned in [Tool use and AI agents](/learn/ai-engineering/tool-use-and-ai-agents). The host still turns MCP tools into tool definitions for the model, and still executes calls on the model's behalf. MCP standardises the **connection between the application and the tool provider**.
+MCP does not replace the tool-use protocol you learned in [Tool use and AI agents](/careers/ai-engineering/ai-engineering/tool-use-and-ai-agents). The host still turns MCP tools into tool definitions for the model, and still executes calls on the model's behalf. MCP standardises the **connection between the application and the tool provider**.
 
 ### Security
 
@@ -151,7 +151,7 @@ MCP does not replace the tool-use protocol you learned in [Tool use and AI agent
 - **Input validation and command injection**: never build shell commands from tool arguments.
 - **Local HTTP servers**: bind to localhost and validate the `Origin` header to prevent DNS rebinding.
 
-See [Agent guardrails and safety](/learn/ai-engineering/agent-guardrails-and-safety) for the controls in depth.
+See [Agent guardrails and safety](/careers/ai-engineering/ai-engineering/agent-guardrails-and-safety) for the controls in depth.
 
 ## Real-world example
 

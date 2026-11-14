@@ -140,7 +140,7 @@ Selenium's support package includes `PageFactory` and `@FindBy`, which create la
 
 - **Fluent page objects**: methods return `this` or the next page so steps chain.
 - **Page component objects**: smaller classes for repeated widgets.
-- **Screenplay pattern**: models actors, tasks and questions instead of pages, for very large suites (see [automation design patterns](/learn/automation/automation-design-patterns)).
+- **Screenplay pattern**: models actors, tasks and questions instead of pages, for very large suites (see [automation design patterns](/careers/testing/automation/automation-design-patterns)).
 
 ## Real-world example
 
@@ -207,7 +207,7 @@ public class LoginTests extends BaseTest {
 }
 ```
 
-`BasePage` (with `type`, `click` and `wait`) is shown in [OOP for test automation](/learn/automation/java-oop-for-test-automation).
+`BasePage` (with `type`, `click` and `wait`) is shown in [OOP for test automation](/careers/testing/automation/java-oop-for-test-automation).
 
 ## Expected output
 
@@ -225,7 +225,7 @@ Total tests run: 2, Passes: 2, Failures: 0, Skips: 0
 - **Assertions inside page objects**, making methods unusable for negative tests.
 - **Public `WebElement` fields or getters** that let tests bypass the page API.
 - **"God" page objects** with hundreds of methods; split into components.
-- **Static drivers** in base pages, breaking [parallel execution](/learn/automation/parallel-execution).
+- **Static drivers** in base pages, breaking [parallel execution](/careers/testing/automation/parallel-execution).
 - **Methods named after UI mechanics** (`clickButton3`) rather than intent (`submitOrder`).
 - **Deep inheritance** (`CheckoutPage extends CartPage extends HeaderPage`) instead of composition.
 

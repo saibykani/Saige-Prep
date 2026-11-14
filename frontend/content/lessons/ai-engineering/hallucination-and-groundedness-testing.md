@@ -133,7 +133,7 @@ flowchart LR
   D -- silent --> E[Extrinsic hallucination]
 ```
 
-The two failure quadrants point to different owners. "Grounded but wrong" is a corpus or retrieval problem (see [Building RAG pipelines](/learn/ai-engineering/building-rag-pipelines)). "Correct but ungrounded" is a generation problem that will eventually produce a confident wrong answer.
+The two failure quadrants point to different owners. "Grounded but wrong" is a corpus or retrieval problem (see [Building RAG pipelines](/careers/ai-engineering/ai-engineering/building-rag-pipelines)). "Correct but ungrounded" is a generation problem that will eventually produce a confident wrong answer.
 
 ### Claim extraction and verification
 
@@ -173,7 +173,7 @@ When you have no sources at all (an open chat assistant), SelfCheckGPT (Manakul 
 
 ### LLM-as-judge for faithfulness
 
-At scale, verification is usually done by an LLM judge given a claim and the evidence. Good practice, building on [LLM-as-judge and human review](/learn/ai-engineering/llm-as-judge-and-human-review):
+At scale, verification is usually done by an LLM judge given a claim and the evidence. Good practice, building on [LLM-as-judge and human review](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review):
 
 - Judge one claim at a time with a narrow question and fixed labels (supported, contradicted, not_enough_info), not a 1–10 score.
 - Ask for the supporting quote; a judge that cannot quote evidence should not say "supported".
@@ -199,7 +199,7 @@ They added a groundedness layer. Each answer was split into claims; claims were 
 5. **Decompose and verify claims.** Use a judge per claim, against the cited (or all retrieved) context.
 6. **Calibrate the judge** on a human-labelled sample before trusting its numbers.
 7. **Score and slice.** Groundedness, citation precision, correctness, correct abstention, over-abstention, each by tag.
-8. **Repeat runs.** Run each case several times and report rates and spread, as in [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals).
+8. **Repeat runs.** Run each case several times and report rates and spread, as in [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals).
 9. **Gate and monitor.** Set thresholds, run in CI on prompt, model or index changes, and sample production answers for the same checks.
 
 ## Code examples

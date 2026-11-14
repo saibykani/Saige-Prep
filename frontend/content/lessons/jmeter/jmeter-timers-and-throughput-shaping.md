@@ -123,7 +123,7 @@ flowchart LR
 
 ### Sizing threads
 
-By [Little's Law](/learn/performance/littles-law), concurrency needed ≈ rate × time each thread is busy per request. For 250 RPS with responses up to 0.8 s at the tail, plan for at least 250 × 0.8 = 200 threads, plus spare. If threads run out, the achieved rate falls below the schedule and the test silently becomes closed-model.
+By [Little's Law](/careers/testing/performance/littles-law), concurrency needed ≈ rate × time each thread is busy per request. For 250 RPS with responses up to 0.8 s at the tail, plan for at least 250 × 0.8 = 200 threads, plus spare. If threads run out, the achieved rate falls below the schedule and the test silently becomes closed-model.
 
 ## Real-world example
 

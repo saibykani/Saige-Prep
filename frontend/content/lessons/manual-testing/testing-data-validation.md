@@ -97,7 +97,7 @@ A field usually has several kinds of rules:
 
 Validation happens in layers. **Client-side** (HTML attributes such as `required`, `maxlength`, `pattern`, and JavaScript) gives quick feedback. **Server-side** validation is the real gate; the OWASP Input Validation Cheat Sheet recommends allow-list validation on the server for all input. The **database** may add constraints (NOT NULL, unique keys, column length) as a last line of defence — if a database error reaches the user, server validation is missing.
 
-For each rule, use [equivalence partitioning](/learn/manual-testing/equivalence-partitioning) for classes and [boundary value analysis](/learn/manual-testing/boundary-value-analysis) for ordered limits. For cross-field rules, use a [decision table](/learn/manual-testing/decision-table-testing).
+For each rule, use [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning) for classes and [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) for ordered limits. For cross-field rules, use a [decision table](/careers/testing/manual-testing/decision-table-testing).
 
 ```mermaid
 flowchart LR

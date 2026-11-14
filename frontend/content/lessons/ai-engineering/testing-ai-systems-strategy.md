@@ -94,7 +94,7 @@ A useful mental model is to split the system in two:
 - **Deterministic parts**: code that calls the model, parses responses, applies business rules and stores data. Test these exactly, like any other code.
 - **Probabilistic parts**: the model itself and anything that depends on its free-text output. Test these statistically, with datasets and thresholds.
 
-If you have already studied [testing AI applications](/learn/specialist/testing-ai-applications) in the specialist track, this lesson turns those ideas into a full engineering strategy.
+If you have already studied [testing AI applications](/careers/testing/specialist/testing-ai-applications) in the specialist track, this lesson turns those ideas into a full engineering strategy.
 
 ## Technical explanation
 
@@ -118,7 +118,7 @@ An **oracle** is how a test decides pass or fail. For AI you usually stack sever
 2. **Property oracles**: invariants every acceptable output satisfies, such as length limits, no personal data, citations only point to retrieved documents, the answer is in the user's language.
 3. **Metamorphic oracles**: relationships between outputs. Paraphrasing a question should not change the classification; adding irrelevant text should not change a sentiment score; swapping a name associated with one gender for another should not change a screening score.
 4. **Reference-based oracles**: compare to a golden answer using exact match, token overlap, embedding similarity or a model-based grader.
-5. **Human review**: domain experts label a sample; their labels are the ground truth used to calibrate automated graders (see [LLM-as-judge and human review](/learn/ai-engineering/llm-as-judge-and-human-review)).
+5. **Human review**: domain experts label a sample; their labels are the ground truth used to calibrate automated graders (see [LLM-as-judge and human review](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review)).
 
 ### A layered strategy
 
@@ -273,4 +273,4 @@ Running `pytest tests/` passes quickly and offline because the model is faked. R
 
 ## Key takeaways summary
 
-Testing AI systems means separating deterministic code (tested exactly) from probabilistic behaviour (measured over datasets against thresholds), using layered oracles from schemas to human review, and treating every model, prompt and data change as a release. Security (OWASP LLM Top 10), fairness and production monitoring complete the strategy, and the NIST AI RMF gives a shared vocabulary for governing it. The next lessons build each layer: [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals), [red teaming and prompt injection](/learn/ai-engineering/red-teaming-and-prompt-injection) and [bias, fairness and responsible AI](/learn/ai-engineering/bias-fairness-and-responsible-ai).
+Testing AI systems means separating deterministic code (tested exactly) from probabilistic behaviour (measured over datasets against thresholds), using layered oracles from schemas to human review, and treating every model, prompt and data change as a release. Security (OWASP LLM Top 10), fairness and production monitoring complete the strategy, and the NIST AI RMF gives a shared vocabulary for governing it. The next lessons build each layer: [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals), [red teaming and prompt injection](/careers/ai-engineering/ai-engineering/red-teaming-and-prompt-injection) and [bias, fairness and responsible AI](/careers/ai-engineering/ai-engineering/bias-fairness-and-responsible-ai).

@@ -160,4 +160,4 @@ A team running an online learning platform added a "import profile picture from 
 
 ## Key takeaways summary
 
-The OWASP Top 10:2025 gives you ten risk areas to cover in every security test plan. Learn the categories, turn each into concrete test ideas, practise on a local lab such as Juice Shop, and report with the category name. Review the basics in [security testing fundamentals](/learn/specialist/security-testing-fundamentals).
+The OWASP Top 10:2025 gives you ten risk areas to cover in every security test plan. Learn the categories, turn each into concrete test ideas, practise on a local lab such as Juice Shop, and report with the category name. Review the basics in [security testing fundamentals](/careers/testing/specialist/security-testing-fundamentals).

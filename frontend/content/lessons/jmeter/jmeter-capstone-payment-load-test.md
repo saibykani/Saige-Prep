@@ -84,7 +84,7 @@ This capstone is your driving test. You have learned the controls one at a time;
 
 **Workload model.** Agree goals first. Example goals for the lab: 20 payments per second in steady state, payment p95 under 800 ms, errors under 1%.
 
-Little's Law: **concurrent users = throughput x time per iteration**. If one journey takes about 1.5 s of responses plus 4.5 s of think time, that is 6 s, so 20/s x 6 s = **120 users**. Use a Constant Throughput Timer or the Throughput Shaping Timer to hold the rate (see [workload design](/learn/jmeter/jmeter-workload-design)).
+Little's Law: **concurrent users = throughput x time per iteration**. If one journey takes about 1.5 s of responses plus 4.5 s of think time, that is 6 s, so 20/s x 6 s = **120 users**. Use a Constant Throughput Timer or the Throughput Shaping Timer to hold the rate (see [workload design](/careers/testing/jmeter/jmeter-workload-design)).
 
 **Journey and assertions**
 
@@ -115,7 +115,7 @@ Each step sits in a **Transaction Controller** (`TX_Login`, `TX_Browse`, `TX_Cre
 7. **TX_CreatePayment:** POST `/payments` with a child Header Manager containing `Authorization: Bearer ${token}` and `Idempotency-Key: ${__UUID()}`. Assert code 201, JSON Assertion `$.status` equals `PENDING` or `COMPLETED` per your API, and a Duration Assertion of 2000 ms.
 8. **Think time:** Uniform Random Timer between transactions; a Constant Throughput Timer set to `${__P(tpm,1200)}` per minute, shared across all active threads.
 9. **Debug** with 1 user in the GUI, then disable View Results Tree.
-10. **Run** non-GUI with a Backend Listener if you have [Grafana](/learn/jmeter/jmeter-backend-listener-grafana), monitoring the app, the database and the generator.
+10. **Run** non-GUI with a Backend Listener if you have [Grafana](/careers/testing/jmeter/jmeter-backend-listener-grafana), monitoring the app, the database and the generator.
 11. **Report:** open `report/index.html` and fill the analysis template.
 
 ## Code examples

@@ -5,27 +5,28 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { findTrack, TRACKS } from "@/content/curriculum";
+import { mockTestHref } from "@/content/routes";
 import { getLessons, getQuestionBanks } from "@/content/loader";
 import { CompletionBar, ContinueLearning, TopicList, type TopicRow } from "@/features/learning/track-client";
 
 // Rendered client-side behind AppShell (session/guest check), so instant-navigation validation does not apply.
 export const instant = false;
 
-type Props = { params: Promise<{ track: string }> };
+type Props = { params: Promise<{ domain: string; course: string }> };
 
 export function generateStaticParams() {
-  return TRACKS.map((track) => ({ track: track.slug }));
+  return TRACKS.map((track) => ({ domain: track.domain, course: track.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { track } = await params;
-  return { title: findTrack(track)?.title ?? "Track" };
+  const { course } = await params;
+  return { title: findTrack(course)?.title ?? "Track" };
 }
 
 export default async function TrackPage({ params }: Props) {
-  const { track: trackSlug } = await params;
-  const track = findTrack(trackSlug);
-  if (!track) notFound();
+  const { domain, course } = await params;
+  const track = findTrack(course);
+  if (!track || track.domain !== domain) notFound();
   const lessons = getLessons();
 
   const rows = (topics: { slug: string; title: string }[]): TopicRow[] =>
@@ -71,7 +72,7 @@ export default async function TrackPage({ params }: Props) {
           <>
             {getQuestionBanks().some((b) => b.bank === track.slug) && (
               <Link
-                href={`/mock-tests/${track.slug}`}
+                href={mockTestHref(track.domain, track.slug)}
                 className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-surface-raised px-4 text-sm font-medium transition-colors hover:border-accent"
               >
                 ⏱ Take the mock test

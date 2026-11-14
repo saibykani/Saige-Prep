@@ -136,7 +136,7 @@ The re-designed test used a CSV of 50,000 product IDs weighted like real traffic
 1. **Use production-like data volumes** in the test database (anonymised or generated). Indexes only matter at scale.
 2. **Monitor the database:** CPU, I/O, connections, lock waits, slow-query log, top queries by total time.
 3. **Monitor the pool** in the application: active, idle, waiting, acquire time.
-4. **Design test data for caching:** many keys, realistic distribution (some popular, many rare) via [CSV Data Set Config](/learn/jmeter/jmeter-csv-data-set-config).
+4. **Design test data for caching:** many keys, realistic distribution (some popular, many rare) via [CSV Data Set Config](/careers/testing/jmeter/jmeter-csv-data-set-config).
 5. **Run scenarios:** warm-cache steady state, cold-cache start, and a cache flush during load.
 6. **Measure hit ratio** from the cache's own statistics (Redis `INFO stats` reports `keyspace_hits` and `keyspace_misses`).
 7. **Test freshness:** update data, then read it repeatedly; confirm it changes within the agreed TTL or immediately if invalidation is promised.

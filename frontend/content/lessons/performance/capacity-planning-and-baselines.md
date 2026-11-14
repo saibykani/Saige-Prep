@@ -98,7 +98,7 @@ A good threshold names: **transaction, metric and percentile, limit, load level,
 
 > At 200 checkouts/s for 30 minutes of steady state, Place order p95 ≤ 800 ms, p99 ≤ 1,500 ms, error rate < 0.5%.
 
-In JMeter, thresholds can be checked with assertions (for example a Duration Assertion for individual samples) and, more usefully for percentiles, by a post-run check on the results in CI (see [JMeter in CI/CD](/learn/jmeter/jmeter-ci-cd)).
+In JMeter, thresholds can be checked with assertions (for example a Duration Assertion for individual samples) and, more usefully for percentiles, by a post-run check on the results in CI (see [JMeter in CI/CD](/careers/testing/jmeter/jmeter-ci-cd)).
 
 ### Baselines
 
@@ -106,7 +106,7 @@ A baseline is a **controlled reference run**: fixed build, environment, workload
 
 ### Capacity and headroom
 
-From a stepped load test ([performance testing types](/learn/performance/performance-testing-types)):
+From a stepped load test ([performance testing types](/careers/testing/performance/performance-testing-types)):
 
 - **Capacity** = highest load that still meets the SLO (not the crash point).
 - **Utilization of capacity** = current peak ÷ capacity.
@@ -125,10 +125,10 @@ So at 10% monthly growth, peak crosses the 70% safety line in about six months. 
 
 Two cautions:
 
-1. **Scaling is rarely linear.** Doubling servers doesn't double capacity if the database is the bottleneck. Find the bottleneck first ([resource utilization and bottlenecks](/learn/performance/resource-utilization-and-bottlenecks)).
+1. **Scaling is rarely linear.** Doubling servers doesn't double capacity if the database is the bottleneck. Find the bottleneck first ([resource utilization and bottlenecks](/careers/testing/performance/resource-utilization-and-bottlenecks)).
 2. **Test environments are often smaller than production.** Extrapolating is risky; state the difference and confidence level.
 
-Use [Little's Law](/learn/performance/littles-law) and [workload modelling](/learn/performance/workload-modeling) to convert business forecasts (orders per day, peak hour share) into request rates and concurrent users.
+Use [Little's Law](/careers/testing/performance/littles-law) and [workload modelling](/careers/testing/performance/workload-modeling) to convert business forecasts (orders per day, peak hour share) into request rates and concurrent users.
 
 ```mermaid
 flowchart LR

@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/feedback";
 import { Input } from "@/components/ui/input";
+import { roleHref } from "@/content/routes";
 import { actions, useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -83,7 +84,7 @@ export function RoleCatalogue({ roles, categories }: { roles: RoleCard[]; catego
                   .map((role) => (
                     <Link
                       key={role.slug}
-                      href={`/roadmaps/${role.slug}`}
+                      href={roleHref(role.slug)}
                       className={cn(
                         "group flex flex-col gap-2 rounded-xl border bg-surface p-4 transition-colors hover:border-border-strong hover:bg-surface-raised",
                         targetRole === role.slug ? "border-accent" : "border-border",

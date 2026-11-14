@@ -163,7 +163,7 @@ flowchart TD
 | UC-09 | 6c | Amount above daily limit | Limit message; no debit |
 | UC-10 | 7b | Simulated dispenser fault | Debit reversed; balance unchanged; incident logged |
 
-Ten tests cover 10 of 10 behaviours (100% use-case coverage). Within steps, apply [boundary value analysis](/learn/manual-testing/boundary-value-analysis) to the amount and daily limit.
+Ten tests cover 10 of 10 behaviours (100% use-case coverage). Within steps, apply [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) to the amount and daily limit.
 
 ## Real-world example
 
@@ -220,7 +220,7 @@ With step definitions bound to a test ATM simulator, Cucumber reports `2 scenari
 
 - **No use cases exist.** Write a lightweight one from the user story and acceptance criteria, then review it with the team.
 - **An exception is hard to trigger.** Ask for a simulator, stub or fault-injection hook, and record the method in the test case.
-- **Too many combinations within one flow.** Keep the use-case test focused on the flow and move data combinations to [decision table](/learn/manual-testing/decision-table-testing) or pairwise tests.
+- **Too many combinations within one flow.** Keep the use-case test focused on the flow and move data combinations to [decision table](/careers/testing/manual-testing/decision-table-testing) or pairwise tests.
 
 ## Key takeaways summary
 

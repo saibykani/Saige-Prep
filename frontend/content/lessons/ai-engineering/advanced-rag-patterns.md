@@ -107,7 +107,7 @@ A basic RAG system is like a librarian who takes your question literally, fetche
 
 ## Technical explanation
 
-First, map patterns to the stage they fix. If you have not yet classified your failures (see [Building RAG pipelines](/learn/ai-engineering/building-rag-pipelines)), do that before adding anything.
+First, map patterns to the stage they fix. If you have not yet classified your failures (see [Building RAG pipelines](/careers/ai-engineering/ai-engineering/building-rag-pipelines)), do that before adding anything.
 
 | Failure observed | Stage | Candidate patterns |
 |---|---|---|
@@ -139,7 +139,7 @@ Conversational questions ("and what about for annual plans?") depend on history;
 
 ### Multi-query retrieval
 
-Ask an LLM for three to five differently worded versions of the question, retrieve for each, and merge with reciprocal rank fusion (see [Hybrid search and BM25](/learn/ai-engineering/hybrid-search-and-bm25)). It raises recall when vocabulary varies. Cost: one generation call plus N retrievals.
+Ask an LLM for three to five differently worded versions of the question, retrieve for each, and merge with reciprocal rank fusion (see [Hybrid search and BM25](/careers/ai-engineering/ai-engineering/hybrid-search-and-bm25)). It raises recall when vocabulary varies. Cost: one generation call plus N retrievals.
 
 ### HyDE
 
@@ -151,7 +151,7 @@ Index small units (sentences or short chunks) for precise matching, store a poin
 
 ### Multi-hop and agentic RAG
 
-Some questions need one retrieval's result to form the next query. IRCoT (Trivedi et al., arXiv 2212.10509, 2022) interleaves retrieval with chain-of-thought steps. **Agentic RAG** generalises this by giving an LLM a search tool (or several: vector search, SQL, web) and letting it decide when and what to search in a loop, as in [Tool use and AI agents](/learn/ai-engineering/tool-use-and-ai-agents). It is powerful for investigative questions, but adds latency, cost and nondeterminism; set a step budget, log every search and evaluate the trajectories as well as answers.
+Some questions need one retrieval's result to form the next query. IRCoT (Trivedi et al., arXiv 2212.10509, 2022) interleaves retrieval with chain-of-thought steps. **Agentic RAG** generalises this by giving an LLM a search tool (or several: vector search, SQL, web) and letting it decide when and what to search in a loop, as in [Tool use and AI agents](/careers/ai-engineering/ai-engineering/tool-use-and-ai-agents). It is powerful for investigative questions, but adds latency, cost and nondeterminism; set a step budget, log every search and evaluate the trajectories as well as answers.
 
 ### GraphRAG
 
@@ -166,7 +166,7 @@ A practical, provider-agnostic version: grade the retrieved chunks with an LLM o
 
 ### Citations and grounding
 
-Require structured output with claims and the chunk ids that support them, validate that cited ids were retrieved, and check support with an LLM-as-judge or entailment model ([LLM-as-judge and human review](/learn/ai-engineering/llm-as-judge-and-human-review)). Anthropic's Citations feature can return cited spans from supplied documents. Treat retrieved text as untrusted data: prompt-injection in documents is a real risk ([Red teaming and prompt injection](/learn/ai-engineering/red-teaming-and-prompt-injection)).
+Require structured output with claims and the chunk ids that support them, validate that cited ids were retrieved, and check support with an LLM-as-judge or entailment model ([LLM-as-judge and human review](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review)). Anthropic's Citations feature can return cited spans from supplied documents. Treat retrieved text as untrusted data: prompt-injection in documents is a real risk ([Red teaming and prompt injection](/careers/ai-engineering/ai-engineering/red-teaming-and-prompt-injection)).
 
 ### When NOT to use them
 

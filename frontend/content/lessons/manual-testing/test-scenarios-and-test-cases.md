@@ -156,7 +156,7 @@ A banking web app has this story:
 | TC-RST-04 | SC-RST-04 | As TC-RST-01 | 1–3 as TC-RST-01. 4. Enter wrong code 3 times. 5. Enter correct code. | Wrong code `000000` | After 3rd attempt: "Too many attempts. Try again in 30 minutes." Step 5 is also rejected. Audit log records the lockout. |
 | TC-RST-05 | SC-RST-05 | Valid code entered | 1. Enter 11-character password. 2. Submit. | `Riverbank#2` (11 chars) | Error "Password must be at least 12 characters". Password unchanged. |
 
-Notice that TC-RST-03 tests just past the 10-minute expiry. A full set would also test just before it (for example T + 9 min 55 s), applying [boundary value analysis](/learn/manual-testing/boundary-value-analysis) to time.
+Notice that TC-RST-03 tests just past the 10-minute expiry. A full set would also test just before it (for example T + 9 min 55 s), applying [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) to time.
 
 ## Step-by-step walkthrough
 
@@ -165,7 +165,7 @@ Notice that TC-RST-03 tests just past the 10-minute expiry. A full set would als
 3. **Apply techniques** (EP, BVA, decision tables, state transitions) to each scenario's inputs.
 4. **Write each case** with ID, link to requirement, preconditions, steps, data and expected result.
 5. **Peer review** the cases: can someone else run them without asking you questions?
-6. **Organise cases into suites** (see [test suites and test data](/learn/manual-testing/test-suites-and-test-data)) and record traceability.
+6. **Organise cases into suites** (see [test suites and test data](/careers/testing/manual-testing/test-suites-and-test-data)) and record traceability.
 
 ## Common mistakes
 

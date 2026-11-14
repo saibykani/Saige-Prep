@@ -155,7 +155,7 @@ Long conversations and agent runs outgrow any window. Options:
 - **Sliding window:** keep the last N turns. Simple, forgets early facts.
 - **Rolling summary:** when history passes a threshold, summarise older turns into a compact note and keep recent turns verbatim.
 - **Tool-result clearing:** replace large tool outputs that have already been used with a short stub.
-- **External memory:** store facts in a file or database and retrieve them when relevant (see [Agent memory and planning](/learn/ai-engineering/agent-memory-and-planning)).
+- **External memory:** store facts in a file or database and retrieve them when relevant (see [Agent memory and planning](/careers/ai-engineering/ai-engineering/agent-memory-and-planning)).
 
 Anthropic's article on context engineering for agents describes compaction, structured note-taking and sub-agents with clean contexts as complementary strategies, and the Claude API offers context-management features for this; check the docs for the current options. Summaries lose detail, so test what survives: facts, decisions, open tasks and user constraints.
 
@@ -170,7 +170,7 @@ Anthropic's article on context engineering for agents describes compaction, stru
 | Cost and latency per call | High (mitigated by caching) | Lower |
 | Citations | Possible with document IDs | Natural, per chunk |
 
-Often the answer is both: retrieve generously, rerank, then let a long window hold the top results (see [Building RAG pipelines](/learn/ai-engineering/building-rag-pipelines)).
+Often the answer is both: retrieve generously, rerank, then let a long window hold the top results (see [Building RAG pipelines](/careers/ai-engineering/ai-engineering/building-rag-pipelines)).
 
 ## Real-world example
 

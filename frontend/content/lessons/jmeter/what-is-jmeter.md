@@ -134,11 +134,11 @@ A team building an online booking app expects about 300 people to search for app
 
 You will not build anything yet; this is a map of the journey ahead.
 
-1. **Install Java and JMeter** on your own machine (next lesson: [Installing JMeter](/learn/jmeter/installing-jmeter)).
+1. **Install Java and JMeter** on your own machine (next lesson: [Installing JMeter](/careers/testing/jmeter/installing-jmeter)).
 2. **Start a practice server you own.** Throughout this track we use Python's built-in server: open a terminal in an empty folder and run `python -m http.server 8000`. It serves files at `http://localhost:8000`.
-3. **Explore the GUI** ([GUI tour](/learn/jmeter/jmeter-gui-tour)).
-4. **Build a first plan**: a Thread Group, an HTTP Request to `localhost:8000` and a listener ([JMeter fundamentals](/learn/jmeter/jmeter-fundamentals)).
-5. **Learn the building blocks** one by one, starting with [Thread Groups](/learn/jmeter/jmeter-thread-groups).
+3. **Explore the GUI** ([GUI tour](/careers/testing/jmeter/jmeter-gui-tour)).
+4. **Build a first plan**: a Thread Group, an HTTP Request to `localhost:8000` and a listener ([JMeter fundamentals](/careers/testing/jmeter/jmeter-fundamentals)).
+5. **Learn the building blocks** one by one, starting with [Thread Groups](/careers/testing/jmeter/jmeter-thread-groups).
 
 ## Expected output
 

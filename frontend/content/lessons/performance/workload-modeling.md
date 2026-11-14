@@ -118,7 +118,7 @@ An hourly average hides peaks within the hour, so also check the busiest minute 
 - **Closed model:** a fixed population of users loop; each waits for a response before continuing. Arrival rate = N / (R + Z), so it falls when response time rises. It fits systems with a bounded user base, such as an internal tool used by a fixed number of agents.
 - **Open model:** arrivals are driven externally at rate λ, independent of response time. It fits public websites and APIs. When the system slows, requests still arrive and queues grow, which is the behaviour you need to see.
 
-JMeter's standard Thread Group is naturally closed. To approximate an open model you can drive arrivals by rate: the built-in Precise Throughput Timer or Constant Throughput Timer (as long as enough threads are available), or the **Arrivals Thread Group** from the third-party JMeter Plugins project. See [timers and throughput shaping](/learn/performance/jmeter-timers-and-throughput-shaping).
+JMeter's standard Thread Group is naturally closed. To approximate an open model you can drive arrivals by rate: the built-in Precise Throughput Timer or Constant Throughput Timer (as long as enough threads are available), or the **Arrivals Thread Group** from the third-party JMeter Plugins project. See [timers and throughput shaping](/careers/testing/performance/jmeter-timers-and-throughput-shaping).
 
 ### Think time versus pacing
 
@@ -151,7 +151,7 @@ A retail team load-tested checkout at 100 requests per second with no think time
 3. **Calculate mix and per-second rates**, then check the busiest minute.
 4. **Define journeys and think times** from observed session behaviour.
 5. **Pick open or closed** based on who generates the traffic.
-6. **Size users** with [Little's Law](/learn/performance/littles-law) and set pacing where you need fixed rates.
+6. **Size users** with [Little's Law](/careers/testing/performance/littles-law) and set pacing where you need fixed rates.
 7. **Define data and profile**, then review the model with product and operations before scripting.
 
 ## Code examples

@@ -116,7 +116,7 @@ Non-English text, code, long numbers and minified JSON often use more tokens tha
 
 ### Next-token prediction
 
-Inside, a transformer turns the token sequence into vectors, applies layers of attention (each token can weigh every earlier token) and produces a score for every token in its vocabulary. A softmax turns scores into probabilities. The generator then **samples** one token, appends it and repeats. This is called **autoregressive** generation. See [transformers and attention](/learn/ai-engineering/transformers-and-attention) for the internals.
+Inside, a transformer turns the token sequence into vectors, applies layers of attention (each token can weigh every earlier token) and produces a score for every token in its vocabulary. A softmax turns scores into probabilities. The generator then **samples** one token, appends it and repeats. This is called **autoregressive** generation. See [transformers and attention](/careers/ai-engineering/ai-engineering/transformers-and-attention) for the internals.
 
 ### Sampling controls
 

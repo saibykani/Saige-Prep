@@ -133,7 +133,7 @@ flowchart LR
   R --> C["Charts: over time, throughput, percentiles"]
 ```
 
-**Percentile** reminder: the 95th percentile is the value that 95 % of samples were at or below. See [Throughput, latency and percentiles](/learn/performance/throughput-latency-and-percentiles).
+**Percentile** reminder: the 95th percentile is the value that 95 % of samples were at or below. See [Throughput, latency and percentiles](/careers/testing/performance/throughput-latency-and-percentiles).
 
 ## Step-by-step walkthrough
 
@@ -187,4 +187,4 @@ The `report/` folder is self-contained: zip it, or publish it as a build artifac
 
 ## Key takeaways summary
 
-The dashboard turns a .jtl into a shareable report. Generate it with `-e -o` or `-g`, set APDEX thresholds to your real targets, read Statistics and Errors for the "what", and the time-series and percentile charts for the "when" and "why". The next lesson, [Analysing results](/learn/jmeter/jmeter-analyzing-results), turns these readings into findings.
+The dashboard turns a .jtl into a shareable report. Generate it with `-e -o` or `-g`, set APDEX thresholds to your real targets, read Statistics and Errors for the "what", and the time-series and percentile charts for the "when" and "why". The next lesson, [Analysing results](/careers/testing/jmeter/jmeter-analyzing-results), turns these readings into findings.

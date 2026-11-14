@@ -61,7 +61,7 @@ describe("LoginForm", () => {
   });
 
   it("redirects to a safe ?next destination after login", async () => {
-    navigationState.search = new URLSearchParams("next=/learn/manual-testing");
+    navigationState.search = new URLSearchParams("next=/careers/testing/manual-testing");
     const user = { id: "1", email: "owner@example.com", display_name: "Owner", role: "admin", created_at: "" };
     vi.spyOn(globalThis, "fetch").mockResolvedValue(jsonResponse({ user, expires_at: "" }));
     renderWithProviders(<LoginForm />);
@@ -70,6 +70,6 @@ describe("LoginForm", () => {
     await userEvent.type(screen.getByLabelText("Password"), "Correct-Horse-42");
     await userEvent.click(screen.getByRole("button", { name: "Sign in" }));
 
-    await waitFor(() => expect(router.replace).toHaveBeenCalledWith("/learn/manual-testing"));
+    await waitFor(() => expect(router.replace).toHaveBeenCalledWith("/careers/testing/manual-testing"));
   });
 });

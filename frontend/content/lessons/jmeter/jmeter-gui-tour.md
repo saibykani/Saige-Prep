@@ -159,11 +159,11 @@ Before moving on, try the **Templates** button on the toolbar (the icon next to 
 ## Common mistakes
 
 - **Leaving default names** like "HTTP Request" everywhere, making results unreadable.
-- **Running heavy load from the GUI.** The GUI is for building and debugging; see [non-GUI execution](/learn/jmeter/jmeter-non-gui-and-distributed).
+- **Running heavy load from the GUI.** The GUI is for building and debugging; see [non-GUI execution](/careers/testing/jmeter/jmeter-non-gui-and-distributed).
 - **Forgetting Clear All** and mixing results from several runs.
 - **Ignoring the warning counter** in the top right.
 - **Pointing practice tests at public websites.** Only use servers you own.
 
 ## Key takeaways summary
 
-The tree on the left defines your test; the panel on the right configures the selected element. Add elements with right-click → Add on the right parent, name them clearly, save often, disable rather than delete while experimenting, and check the log viewer whenever something looks wrong. Next, put it all together in [JMeter fundamentals](/learn/jmeter/jmeter-fundamentals).
+The tree on the left defines your test; the panel on the right configures the selected element. Add elements with right-click → Add on the right parent, name them clearly, save often, disable rather than delete while experimenting, and check the log viewer whenever something looks wrong. Next, put it all together in [JMeter fundamentals](/careers/testing/jmeter/jmeter-fundamentals).

@@ -113,7 +113,7 @@ Generative models can also be used for discriminative jobs (ask an LLM to classi
 
 ### How an LLM generates text, token by token
 
-Text is split into **tokens** (pieces of words; see [LLM fundamentals and tokens](/learn/ai-engineering/llm-fundamentals-and-tokens)). A decoder-only **transformer** (Vaswani et al., 2017; see [Transformers and attention](/learn/ai-engineering/transformers-and-attention)) reads all tokens so far and outputs a score (**logit**) for every token in its vocabulary. A softmax turns the scores into probabilities. The system picks one token, appends it and repeats. This is called **autoregressive** generation.
+Text is split into **tokens** (pieces of words; see [LLM fundamentals and tokens](/careers/ai-engineering/ai-engineering/llm-fundamentals-and-tokens)). A decoder-only **transformer** (Vaswani et al., 2017; see [Transformers and attention](/careers/ai-engineering/ai-engineering/transformers-and-attention)) reads all tokens so far and outputs a score (**logit**) for every token in its vocabulary. A softmax turns the scores into probabilities. The system picks one token, appends it and repeats. This is called **autoregressive** generation.
 
 ```mermaid
 flowchart LR
@@ -149,7 +149,7 @@ flowchart LR
 
 ### Foundation models
 
-Bommasani et al. (2021) coined **foundation model** for a model trained on broad data at scale that can be adapted to many downstream tasks. One pretrained model becomes the base for chat, coding, summarising, classification and more, via prompting, retrieval ([Building RAG pipelines](/learn/ai-engineering/building-rag-pipelines)) or fine-tuning ([Fine-tuning and adaptation](/learn/ai-engineering/fine-tuning-and-adaptation)). The upside is reuse; the downside is that a flaw or bias in the foundation is inherited by everything built on it.
+Bommasani et al. (2021) coined **foundation model** for a model trained on broad data at scale that can be adapted to many downstream tasks. One pretrained model becomes the base for chat, coding, summarising, classification and more, via prompting, retrieval ([Building RAG pipelines](/careers/ai-engineering/ai-engineering/building-rag-pipelines)) or fine-tuning ([Fine-tuning and adaptation](/careers/ai-engineering/ai-engineering/fine-tuning-and-adaptation)). The upside is reuse; the downside is that a flaw or bias in the foundation is inherited by everything built on it.
 
 ### Capabilities and failure modes
 
@@ -163,7 +163,7 @@ Bommasani et al. (2021) coined **foundation model** for a model trained on broad
 | Following format instructions | **Prompt injection:** obeying instructions hidden in input data |
 | | **Bias and unsafe content** learned from data |
 
-Hallucination is not a bug you can patch once. The training objective rewards plausible text, and the model has no built-in signal separating "I know this" from "this sounds right". You reduce it with grounding, citations, tools, permission to say "I don't know" and evaluation (see [Hallucination and groundedness testing](/learn/ai-engineering/hallucination-and-groundedness-testing)).
+Hallucination is not a bug you can patch once. The training objective rewards plausible text, and the model has no built-in signal separating "I know this" from "this sounds right". You reduce it with grounding, citations, tools, permission to say "I don't know" and evaluation (see [Hallucination and groundedness testing](/careers/ai-engineering/ai-engineering/hallucination-and-groundedness-testing)).
 
 ### Open-weight versus closed models
 
@@ -181,7 +181,7 @@ Hallucination is not a bug you can patch once. The training objective rewards pl
 
 Good fits: drafting and summarising with a human in the loop, search and Q&A over your documents with citations, extracting fields from unstructured text, test-idea generation, code assistance. Risky fits: anything needing guaranteed exact answers (prices, legal terms, dosages) without grounding and checks. Poor fits: deterministic calculations a normal function does perfectly.
 
-For testers, generative AI is both a **tool** (generate test data, draft cases, triage logs; see [AI-assisted test automation](/learn/ai-engineering/ai-assisted-test-automation)) and a **system under test** that needs evals, groundedness checks, red teaming and monitoring.
+For testers, generative AI is both a **tool** (generate test data, draft cases, triage logs; see [AI-assisted test automation](/careers/ai-engineering/ai-engineering/ai-assisted-test-automation)) and a **system under test** that needs evals, groundedness checks, red teaming and monitoring.
 
 ## Real-world example
 
@@ -191,7 +191,7 @@ An insurance company added "explain my policy" to its customer portal. A pilot u
 
 1. **State the task**: generate or classify? Who reads the output and what happens if it is wrong?
 2. **Pick a model class**: closed API for fastest start; open-weight if data or control requires it.
-3. **Write a prompt** with role, task, constraints and output format (see [Prompt engineering](/learn/ai-engineering/prompt-engineering)).
+3. **Write a prompt** with role, task, constraints and output format (see [Prompt engineering](/careers/ai-engineering/ai-engineering/prompt-engineering)).
 4. **Ground it** in your data when facts matter, and allow abstention.
 5. **Run it several times** on the same input to see variability.
 6. **Build a small eval set**, including edge cases and unanswerable questions.

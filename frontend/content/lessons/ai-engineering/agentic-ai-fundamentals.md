@@ -101,7 +101,7 @@ An **agentic** system, then, is one where the model has some control over the fl
 
 ### The building block: an augmented LLM
 
-Anthropic's engineering post *Building effective agents* (December 2024) describes the basic unit as an **augmented LLM**: a model that can use **tools**, **retrieval** and **memory**. You met tools in [Tool use and AI agents](/learn/ai-engineering/tool-use-and-ai-agents): the model emits a `tool_use` request, your code runs it and returns a `tool_result`. Everything in this module builds on that.
+Anthropic's engineering post *Building effective agents* (December 2024) describes the basic unit as an **augmented LLM**: a model that can use **tools**, **retrieval** and **memory**. You met tools in [Tool use and AI agents](/careers/ai-engineering/ai-engineering/tool-use-and-ai-agents): the model emits a `tool_use` request, your code runs it and returns a `tool_result`. Everything in this module builds on that.
 
 ### Workflows versus agents
 
@@ -158,14 +158,14 @@ Agency is a dial, not a switch. A practical scale (an informal teaching scale, n
 | 3 | Model plans and calls tools | Human approves risky actions | Triage agent that proposes bugs |
 | 4 | Model plans and acts | Human reviews afterwards | Agent that fixes flaky tests and opens a PR |
 
-Move up only when the lower level demonstrably fails your quality bar. Higher autonomy expands what can go wrong, which OWASP calls **Excessive Agency** (LLM06:2025); see [Agent guardrails and safety](/learn/ai-engineering/agent-guardrails-and-safety).
+Move up only when the lower level demonstrably fails your quality bar. Higher autonomy expands what can go wrong, which OWASP calls **Excessive Agency** (LLM06:2025); see [Agent guardrails and safety](/careers/ai-engineering/ai-engineering/agent-guardrails-and-safety).
 
 ### Trade-offs
 
 - **Cost**: each iteration resends the conversation so far. A ten-step run is not ten times one call; it is usually more, because the context grows each step.
 - **Latency**: steps are sequential unless you parallelise. Users wait for every round-trip.
 - **Reliability**: errors compound. If step 2 misreads a log, steps 3 to 10 build on the mistake. And because model output varies run to run, the same task can take different paths.
-- **Testability**: you must evaluate the trajectory (which tools, in what order, with what arguments) as well as the final answer, over several runs. See [Evaluating AI agents](/learn/ai-engineering/evaluating-ai-agents).
+- **Testability**: you must evaluate the trajectory (which tools, in what order, with what arguments) as well as the final answer, over several runs. See [Evaluating AI agents](/careers/ai-engineering/ai-engineering/evaluating-ai-agents).
 
 ### When an agent is the wrong tool
 
@@ -294,7 +294,7 @@ With a limit of 2 the agent stops safely and reports that it did not finish, rat
 
 - **Runs take very different numbers of steps**: log trajectories, look for repeated tool calls, tighten tool descriptions, add a lower step cap.
 - **Quality dropped after a prompt edit**: you need a fixed evaluation set; rerun it before and after each change.
-- **Bills are higher than expected**: measure tokens per step; consider replacing agentic steps with workflow steps, or summarising history (see [Agent memory and planning](/learn/ai-engineering/agent-memory-and-planning)).
+- **Bills are higher than expected**: measure tokens per step; consider replacing agentic steps with workflow steps, or summarising history (see [Agent memory and planning](/careers/ai-engineering/ai-engineering/agent-memory-and-planning)).
 - **The agent stops too early**: make the definition of done explicit in the system prompt and the tool results clearer.
 
 ## Hands-on exercise

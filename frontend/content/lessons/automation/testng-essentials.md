@@ -148,7 +148,7 @@ The suite file selects classes, packages, groups and parameters, and configures 
 
 ### Listeners
 
-Implement `ITestListener` (for example `onTestFailure`) to take screenshots or log results; register with `@Listeners` or a `<listeners>` block. See [reporting and logging](/learn/automation/reporting-and-logging).
+Implement `ITestListener` (for example `onTestFailure`) to take screenshots or log results; register with `@Listeners` or a `<listeners>` block. See [reporting and logging](/careers/testing/automation/reporting-and-logging).
 
 ## Real-world example
 

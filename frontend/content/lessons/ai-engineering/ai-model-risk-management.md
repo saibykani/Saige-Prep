@@ -141,7 +141,7 @@ Validation is an independent check that the model works as intended and its limi
 |---|---|---|
 | Conceptual soundness | Is the design, data and method appropriate for the purpose? | Feature choice, training data representativeness, prompt and retrieval design, fitness of a foundation model for the task |
 | Outcomes analysis | Do outputs match reality? | Back-testing, holdout evaluation, eval suites, human review of sampled outputs, bias metrics |
-| Ongoing monitoring | Does it keep performing as conditions change? | Drift, input distribution shift, complaint rates, groundedness sampling (see [Monitoring AI in production](/learn/ai-engineering/monitoring-ai-in-production)) |
+| Ongoing monitoring | Does it keep performing as conditions change? | Drift, input distribution shift, complaint rates, groundedness sampling (see [Monitoring AI in production](/careers/ai-engineering/ai-engineering/monitoring-ai-in-production)) |
 
 The cross-cutting principle is **effective challenge**: critical analysis by people with expertise, independence and the organisational standing to force changes. A validation that cannot block a launch is not effective challenge.
 
@@ -158,8 +158,8 @@ Vendor models, including hosted LLMs, limit what you can inspect. Practical cont
 ### AI-specific risks to add to validation scope
 
 - **Drift**: data drift, concept drift and, for hosted models, provider-side changes.
-- **Hallucination** and unfaithful output (see [Hallucination and groundedness testing](/learn/ai-engineering/hallucination-and-groundedness-testing)).
-- **Prompt injection** and insecure output handling (see [Red teaming and prompt injection](/learn/ai-engineering/red-teaming-and-prompt-injection)).
+- **Hallucination** and unfaithful output (see [Hallucination and groundedness testing](/careers/ai-engineering/ai-engineering/hallucination-and-groundedness-testing)).
+- **Prompt injection** and insecure output handling (see [Red teaming and prompt injection](/careers/ai-engineering/ai-engineering/red-teaming-and-prompt-injection)).
 - **Data leakage**: personal or confidential data in prompts, logs or outputs.
 - **Bias and unfair outcomes** across groups.
 - **Non-determinism**: results vary between runs, so validation needs repeated trials and statistical thresholds.

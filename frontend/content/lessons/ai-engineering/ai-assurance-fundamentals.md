@@ -157,9 +157,9 @@ Each change to the model, prompt, data or use re-opens the claims that depend on
 The DSIT guidance describes a toolkit, used in combination:
 
 - **Risk assessment** and **impact assessment**: identify who could be harmed and how, before building.
-- **Bias audit**: test outcomes and error rates across groups (see [Bias, fairness and responsible AI](/learn/ai-engineering/bias-fairness-and-responsible-ai)).
+- **Bias audit**: test outcomes and error rates across groups (see [Bias, fairness and responsible AI](/careers/ai-engineering/ai-engineering/bias-fairness-and-responsible-ai)).
 - **Compliance audit**: check against internal policy or regulation.
-- **Conformity assessment**: show that a system meets specified requirements, for example those of a standard or, for high-risk systems, the EU AI Act (see [AI governance and regulation](/learn/ai-engineering/ai-governance-and-regulation)).
+- **Conformity assessment**: show that a system meets specified requirements, for example those of a standard or, for high-risk systems, the EU AI Act (see [AI governance and regulation](/careers/ai-engineering/ai-engineering/ai-governance-and-regulation)).
 - **Performance testing**: accuracy, robustness and reliability against agreed thresholds.
 - **Formal verification**: mathematical proof of specific properties. For neural networks this is limited to narrow properties such as local robustness bounds, and it struggles with very large models. It cannot prove open-ended correctness, because no complete specification of a "correct answer" exists.
 - **Certification**: an independent body attests conformity, for example ISO/IEC 42001 certification of an organisation's AI management system.

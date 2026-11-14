@@ -167,7 +167,7 @@ A team building an internal claims tool had thin requirements and a fixed demo d
 
 ## Step-by-step walkthrough
 
-1. **List risks** for the release or feature. See [risk-based scenario selection](/learn/manual-testing/risk-based-scenario-selection).
+1. **List risks** for the release or feature. See [risk-based scenario selection](/careers/testing/manual-testing/risk-based-scenario-selection).
 2. **Write charters** in the Explore/with/to discover format, each sized for one session.
 3. **Prioritise charters** by risk and assign them.
 4. **Prepare**: environment, build, accounts, test data, tools such as a screen recorder or proxy.
@@ -193,4 +193,4 @@ A team building an internal claims tool had thin requirements and a fixed demo d
 
 ## Key takeaways summary
 
-Charters give exploratory testing a mission. Write them as "Explore target with resources to discover information", size them for one session, run uninterrupted time-boxes, record a session sheet and debrief every time. That is how learning-driven testing stays focused and visible. Pair it with [error guessing](/learn/manual-testing/error-guessing) checklists for extra ideas.
+Charters give exploratory testing a mission. Write them as "Explore target with resources to discover information", size them for one session, run uninterrupted time-boxes, record a session sheet and debrief every time. That is how learning-driven testing stays focused and visible. Pair it with [error guessing](/careers/testing/manual-testing/error-guessing) checklists for extra ideas.

@@ -141,7 +141,7 @@ The numbers here describe a hypothetical team; the pattern, not the count, is th
 2. **Map the architecture**: services, UI, data stores, third parties.
 3. **For each risk, choose the lowest effective level** and note why.
 4. **Choose the few end-to-end journeys** that represent the highest business value.
-5. **Decide where each level runs** in the pipeline (see [CI/CD for test engineers](/learn/sdet/ci-cd-for-test-engineers)).
+5. **Decide where each level runs** in the pipeline (see [CI/CD for test engineers](/careers/testing/sdet/ci-cd-for-test-engineers)).
 6. **Define ownership**: developers usually own unit tests; testers and developers share the rest.
 7. **Review the mix regularly** using escaped defects, flaky rate and pipeline duration.
 

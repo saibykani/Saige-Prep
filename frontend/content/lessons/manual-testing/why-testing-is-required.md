@@ -95,7 +95,7 @@ The ISTQB syllabus explains that people make **errors** (mistakes), which produc
 - unfamiliar technologies or domains,
 - misunderstandings between people and teams.
 
-The details of this chain are covered in [error, defect, bug, failure and root cause](/learn/manual-testing/error-defect-bug-failure).
+The details of this chain are covered in [error, defect, bug, failure and root cause](/careers/testing/manual-testing/error-defect-bug-failure).
 
 ### How testing contributes to success
 
@@ -113,7 +113,7 @@ Testing is also closely tied to **risk**: the likelihood of a problem and the im
 
 ### Why early testing saves money
 
-One of the [seven testing principles](/learn/manual-testing/seven-testing-principles) is that **early testing saves time and money**. A defect in a requirement flows into everything built on it:
+One of the [seven testing principles](/careers/testing/manual-testing/seven-testing-principles) is that **early testing saves time and money**. A defect in a requirement flows into everything built on it:
 
 ```mermaid
 flowchart LR

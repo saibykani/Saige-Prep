@@ -14,8 +14,8 @@ function trackErrors(page: Page) {
 /** Runs a short, untimed 10-question mock test on the given bank and submits it. */
 async function takeShortMockTest(page: Page, bankTitle: string) {
   await page.goto("/mock-tests");
-  await page.getByRole("main").locator('a[href^="/mock-tests/"]', { hasText: bankTitle }).first().click();
-  await expect(page).toHaveURL(/\/mock-tests\/[a-z-]+$/, { timeout: 60_000 });
+  await page.getByRole("main").locator('a[href*="/mock-tests/"]', { hasText: bankTitle }).first().click();
+  await expect(page).toHaveURL(/\/careers\/[a-z-]+\/mock-tests\/[a-z-]+$/, { timeout: 60_000 });
   await expect(page.getByRole("heading", { level: 1, name: `${bankTitle} mock test` })).toBeVisible();
   await page.getByRole("radiogroup", { name: "Questions" }).getByRole("radio", { name: "10", exact: true }).click();
   await page.getByRole("radiogroup", { name: "Time limit" }).getByRole("radio", { name: "No timer" }).click();
@@ -88,7 +88,7 @@ test.describe("learner pages", () => {
       "SDET Engineering",
       "Specialist Testing",
     ];
-    const cards = main.locator('a[href^="/mock-tests/"]');
+    const cards = main.locator('a[href*="/mock-tests/"]');
     await expect(cards).toHaveCount(9);
     for (const t of titles) await expect(main.getByText(t, { exact: true })).toBeVisible();
     await expect(main.getByText("No attempts yet. Results are saved in this browser only.")).toBeVisible();
@@ -99,15 +99,15 @@ test.describe("learner pages", () => {
     const attempts = page.getByRole("main").locator("section", { has: page.getByRole("heading", { name: "Your attempts" }) });
     await expect(attempts.getByRole("listitem")).toHaveCount(1);
     await expect(attempts.getByRole("listitem")).toContainText(/API Testing\s*\d+\/10/);
-    await expect(page.getByRole("main").locator('a[href="/mock-tests/api-testing"]')).toContainText(/1 attempt · best \d+%/);
+    await expect(page.getByRole("main").locator('a[href="/careers/testing/mock-tests/api-testing"]')).toContainText(/1 attempt · best \d+%/);
   });
 
   test("interview: 15-minute session through to completion", async ({ page }) => {
     await signIn(page, "/interviews");
     const main = page.getByRole("main");
-    await expect(main.locator('a[href^="/interviews/"]')).toHaveCount(9);
+    await expect(main.locator('a[href*="/interviews/"]')).toHaveCount(9);
     await main.getByRole("link", { name: /Manual QA/ }).click();
-    await expect(page).toHaveURL(/\/interviews\/manual-qa$/, { timeout: 60_000 });
+    await expect(page).toHaveURL(/\/careers\/testing\/interviews\/manual-qa$/, { timeout: 60_000 });
     await expect(page.getByRole("heading", { level: 1, name: "Manual QA interview" })).toBeVisible();
     await page.getByRole("button", { name: "15-minute interview" }).click();
 

@@ -134,12 +134,12 @@ Principles 2, 4 and 6 tell you that you must choose what to test. Principles 3 a
 ### Applying the principles
 
 - **Principle 1** shapes reporting: say "no defects were found in the tested scope", never "the software has no bugs".
-- **Principle 2** is the reason for test techniques such as [boundary value analysis](/learn/manual-testing/boundary-value-analysis): they select a small, effective subset of an impossibly large input space.
+- **Principle 2** is the reason for test techniques such as [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis): they select a small, effective subset of an impossibly large input space.
 - **Principle 3** is the basis of shift-left practices such as reviewing user stories.
-- **Principle 4** supports [risk-based testing](/learn/manual-testing/risk-based-testing): spend more effort where defects have been, and where complexity and change are highest.
+- **Principle 4** supports [risk-based testing](/careers/testing/manual-testing/risk-based-testing): spend more effort where defects have been, and where complexity and change are highest.
 - **Principle 5** is the reason to review regression suites and complement them with exploratory testing.
 - **Principle 6** means a safety-critical system and a short-lived marketing site get very different approaches.
-- **Principle 7** links to [verification versus validation](/learn/manual-testing/verification-vs-validation).
+- **Principle 7** links to [verification versus validation](/careers/testing/manual-testing/verification-vs-validation).
 
 ## Real-world example
 

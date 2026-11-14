@@ -45,15 +45,17 @@ describe("help guide data", () => {
 
   it("links only to app routes that exist", () => {
     const appDir = path.join(process.cwd(), "src", "app", "(app)");
-    const tracks = new Set(NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href)).filter((h) => h.startsWith("/learn/")));
+    const tracks = new Set(NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href)).filter((h) => h.startsWith("/careers/")));
     const hrefs = [
       ...WALKTHROUGHS.flatMap((w) => [w.start.href, ...w.steps.flatMap((s) => [s.link?.href, s.image?.url])]),
       ...FAQ.map((f) => f.link?.href),
     ].filter((h): h is string => Boolean(h));
     for (const href of hrefs) {
-      const [section, track] = href.split("/").slice(1);
+      const [section, domain, course] = href.split("/").slice(1);
       expect(existsSync(path.join(appDir, section, "page.tsx")), href).toBe(true);
-      if (section === "learn" && track) expect(tracks.has(`/learn/${track}`), href).toBe(true);
+      if (section === "careers" && course && !["roles", "mock-tests", "interviews"].includes(course)) {
+        expect(tracks.has(`/careers/${domain}/${course}`), href).toBe(true);
+      }
     }
   });
 });

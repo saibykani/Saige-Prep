@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { legacyRedirects } from "./src/content/legacy-redirects";
 
 // FastAPI backend. Browser requests stay same-origin and are rewritten server-side,
 // so the session cookie is first-party and CORS is not needed in the browser path.
@@ -52,6 +53,13 @@ const nextConfig: NextConfig = {
     return [
       { source: "/", destination: "/dashboard", permanent: false },
       { source: "/login", destination: "/dashboard", permanent: false },
+      // Expansion plan step 4: every legacy /learn, /roadmaps, /mock-tests and /interviews detail URL
+      // moves permanently under /careers/<domain>/. Generated from content/ (see legacy-redirects.ts).
+      ...legacyRedirects(),
+      // Breadcrumb parents of the scoped pages: the all-content index pages are the filtered views.
+      { source: "/careers/:domain/roles", destination: "/roadmaps", permanent: false },
+      { source: "/careers/:domain/mock-tests", destination: "/mock-tests", permanent: false },
+      { source: "/careers/:domain/interviews", destination: "/interviews", permanent: false },
     ];
   },
   async rewrites() {

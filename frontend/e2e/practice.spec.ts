@@ -3,7 +3,7 @@ import { signIn } from "./fixtures";
 
 test.describe("lesson practice", () => {
   test("marked practice test scores, saves the best result and shows explanations", async ({ page }) => {
-    await signIn(page, "/learn/ai-engineering/python-for-ai");
+    await signIn(page, "/careers/ai-engineering/ai-engineering/python-for-ai");
     const section = page.locator("section", { has: page.getByRole("heading", { name: "Practice test", exact: true }) });
     await expect(section).toContainText("15 marks");
     // Answer only the first (beginner, 1 mark) question correctly: "tuple".
@@ -17,7 +17,7 @@ test.describe("lesson practice", () => {
 
   test("Python exercise runs in the browser and awards marks per passing check", async ({ page }) => {
     test.setTimeout(180_000);
-    await signIn(page, "/learn/ai-engineering/python-for-ai");
+    await signIn(page, "/careers/ai-engineering/ai-engineering/python-for-ai");
     const card = page.locator("article article", { has: page.getByRole("heading", { name: "Average score, ignoring missing values" }) });
     await card.scrollIntoViewIfNeeded();
 

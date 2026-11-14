@@ -92,7 +92,7 @@ AI coding assistants can write test code quickly. Describe a feature and you get
 
 So the rule is simple: **AI drafts, humans decide.** You give the AI good inputs (the requirement and the real page structure), you review what it writes with a checklist, you run it many times to be sure it is stable, and you break the feature on purpose to make sure the test notices. The person who merges the test owns it, exactly as if they had typed it.
 
-This lesson is about using AI to test software. The other lessons in this group are about testing AI itself, starting from [a strategy for testing AI systems](/learn/ai-engineering/testing-ai-systems-strategy).
+This lesson is about using AI to test software. The other lessons in this group are about testing AI itself, starting from [a strategy for testing AI systems](/careers/ai-engineering/ai-engineering/testing-ai-systems-strategy).
 
 ## Technical explanation
 
@@ -310,4 +310,4 @@ The linter prints nothing and exits 0 for the reviewed file; on a raw generated 
 
 ## Key takeaways summary
 
-AI assistance makes test automation faster to draft, not automatically better. Ground generation in requirements and real ARIA snapshots, review intent as a structured plan before code, apply a checklist for oracles, locators, waits and data, and prove each test with repeated runs and a deliberate break. Keep secrets and personal data out of prompts, and keep a named human accountable for every merged test. When the system under test is itself an AI feature, combine these practices with [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals).
+AI assistance makes test automation faster to draft, not automatically better. Ground generation in requirements and real ARIA snapshots, review intent as a structured plan before code, apply a checklist for oracles, locators, waits and data, and prove each test with repeated runs and a deliberate break. Keep secrets and personal data out of prompts, and keep a named human accountable for every merged test. When the system under test is itself an AI feature, combine these practices with [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals).

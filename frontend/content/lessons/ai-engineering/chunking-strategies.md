@@ -146,7 +146,7 @@ Anthropic's 2024 write-up, *Introducing Contextual Retrieval*, uses an LLM to wr
 | Lose surrounding context, pronouns lose referents | Diluted embeddings, multiple topics |
 | More vectors to store | More tokens per retrieved chunk |
 
-You can get both with **small-to-big retrieval**: search small chunks, then send their parent section to the LLM. That pattern is covered in [Advanced RAG patterns](/learn/ai-engineering/advanced-rag-patterns).
+You can get both with **small-to-big retrieval**: search small chunks, then send their parent section to the LLM. That pattern is covered in [Advanced RAG patterns](/careers/ai-engineering/ai-engineering/advanced-rag-patterns).
 
 ### Evaluating chunking
 

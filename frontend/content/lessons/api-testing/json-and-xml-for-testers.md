@@ -133,7 +133,7 @@ A single type-aware assertion, or a JSON Schema with `"type": "number"` for pric
 3. **Record the type of every field** and compare with the contract.
 4. **Identify volatile fields** (ids, timestamps) that tests should check by pattern or type, not exact value.
 5. **Write targeted path assertions** for business-critical fields.
-6. **Add a schema check** for overall structure (see [JSON schema validation](/learn/api-testing/json-schema-validation)).
+6. **Add a schema check** for overall structure (see [JSON schema validation](/careers/testing/api-testing/json-schema-validation)).
 7. **Test edge content**: Unicode, empty strings, empty arrays, null versus missing, very large numbers.
 
 ## Code examples

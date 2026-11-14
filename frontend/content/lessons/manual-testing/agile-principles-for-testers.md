@@ -120,7 +120,7 @@ The manifesto is backed by twelve principles. Several have direct consequences f
 
 ### Whole-team quality
 
-In a phase-based model, testing is a stage and the test team is a gate. In an agile team, **quality is everyone's responsibility**. Developers write unit tests, the Product Owner clarifies what "right" means, and testers bring a risk-focused, questioning mindset to every stage. Scrum, the most common agile framework, does not even have a "tester" accountability; people who test are among the **Developers** (see [Scrum roles and ceremonies](/learn/manual-testing/scrum-roles-and-ceremonies)).
+In a phase-based model, testing is a stage and the test team is a gate. In an agile team, **quality is everyone's responsibility**. Developers write unit tests, the Product Owner clarifies what "right" means, and testers bring a risk-focused, questioning mindset to every stage. Scrum, the most common agile framework, does not even have a "tester" accountability; people who test are among the **Developers** (see [Scrum roles and ceremonies](/careers/testing/manual-testing/scrum-roles-and-ceremonies)).
 
 ```mermaid
 flowchart LR

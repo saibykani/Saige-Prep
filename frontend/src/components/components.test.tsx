@@ -9,7 +9,7 @@ import { ConfirmDialog } from "./ui/confirm-dialog";
 
 describe("SidebarNav", () => {
   it("marks the active section and hides admin links from learners", () => {
-    navigationState.pathname = "/learn/manual-testing";
+    navigationState.pathname = "/careers/testing/manual-testing";
     renderWithProviders(<SidebarNav isAdmin={false} />);
     expect(screen.getByRole("link", { name: "Manual Testing" })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("link", { name: "Learning Center" })).not.toHaveAttribute("aria-current");
@@ -46,7 +46,7 @@ describe("CommandPalette", () => {
     expect(screen.getByRole("option")).toHaveTextContent("API Testing");
 
     await userEvent.keyboard("{Enter}");
-    expect(router.push).toHaveBeenCalledWith("/learn/api-testing");
+    expect(router.push).toHaveBeenCalledWith("/careers/testing/api-testing");
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
 
@@ -54,7 +54,7 @@ describe("CommandPalette", () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(
         JSON.stringify([
-          { id: "lesson:bva", kind: "lesson", title: "Boundary Value Analysis", text: "edges", href: "/learn/manual-testing/boundary-value-analysis", tags: [] },
+          { id: "lesson:bva", kind: "lesson", title: "Boundary Value Analysis", text: "edges", href: "/careers/testing/manual-testing/boundary-value-analysis", tags: [] },
         ]),
         { headers: { "Content-Type": "application/json" } },
       ),

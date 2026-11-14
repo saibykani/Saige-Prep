@@ -88,7 +88,7 @@ A device coverage strategy does the same for phones. There are thousands of devi
 
 ## Technical explanation
 
-A **device and OS coverage strategy** defines which device, OS and configuration combinations will be tested, at what depth, and on which kind of environment. It is a form of [risk-based testing](/learn/manual-testing/risk-based-testing) applied to the environment.
+A **device and OS coverage strategy** defines which device, OS and configuration combinations will be tested, at what depth, and on which kind of environment. It is a form of [risk-based testing](/careers/testing/manual-testing/risk-based-testing) applied to the environment.
 
 ### Inputs
 

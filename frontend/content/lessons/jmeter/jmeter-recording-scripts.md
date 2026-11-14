@@ -169,9 +169,9 @@ A QA team needs a load test for the checkout of an internal web shop running in 
 | Hundreds of `.png`, `.css`, `.js` samplers | Exclude patterns, or enable "Retrieve All Embedded Resources" in HTTP Request Defaults if you want them fetched realistically |
 | Names like `/api/v1/x?id=93` | Rename to `03 View product - GET /api/v1/x` |
 | Calls to external analytics or fonts domains | Delete them; you are not authorised to load them |
-| Hard-coded session ids, CSRF tokens | Correlate, see [Correlation and parameterization](/learn/jmeter/jmeter-correlation-and-parameterization) |
-| Hard-coded usernames | Parameterise with [CSV Data Set Config](/learn/jmeter/jmeter-csv-data-set-config) |
-| No pauses | Add timers, see [Timers](/learn/jmeter/jmeter-timers-and-throughput-shaping) |
+| Hard-coded session ids, CSRF tokens | Correlate, see [Correlation and parameterization](/careers/testing/jmeter/jmeter-correlation-and-parameterization) |
+| Hard-coded usernames | Parameterise with [CSV Data Set Config](/careers/testing/jmeter/jmeter-csv-data-set-config) |
+| No pauses | Add timers, see [Timers](/careers/testing/jmeter/jmeter-timers-and-throughput-shaping) |
 
 ## Common mistakes
 

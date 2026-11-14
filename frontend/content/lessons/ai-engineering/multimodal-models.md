@@ -141,15 +141,15 @@ CLIP (Radford et al., 2021) trains an image encoder and a text encoder together 
 What a shared image-text space gives you:
 
 - **Zero-shot classification:** compare an image with "a photo of a cat", "a photo of a dog", and pick the highest similarity, with no task-specific training.
-- **Cross-modal search:** find images from text and vice versa (see [Embeddings and vector search](/learn/ai-engineering/embeddings-and-vector-search)).
-- **Alignment scoring:** CLIP score for text-to-image models (see [Diffusion and image generation](/learn/ai-engineering/diffusion-and-image-generation)).
+- **Cross-modal search:** find images from text and vice versa (see [Embeddings and vector search](/careers/ai-engineering/ai-engineering/embeddings-and-vector-search)).
+- **Alignment scoring:** CLIP score for text-to-image models (see [Diffusion and image generation](/careers/ai-engineering/ai-engineering/diffusion-and-image-generation)).
 - **Building blocks:** CLIP-family encoders sit inside many generative and vision-language systems.
 
 CLIP is not a chat model: it scores similarity, it does not write answers.
 
 ### Document understanding
 
-PDFs mix text, layout, tables, charts and scans. Classic pipelines run OCR then parse layout. Modern VLMs can read page images directly. Claude's PDF support extracts each page's text **and** gives the model an image of each page, so it can use charts and layout as well. Costs scale with pages, so long documents consume many tokens; combine with page selection, retrieval or caching (see [Context engineering and long context](/learn/ai-engineering/context-engineering-and-long-context)).
+PDFs mix text, layout, tables, charts and scans. Classic pipelines run OCR then parse layout. Modern VLMs can read page images directly. Claude's PDF support extracts each page's text **and** gives the model an image of each page, so it can use charts and layout as well. Costs scale with pages, so long documents consume many tokens; combine with page selection, retrieval or caching (see [Context engineering and long context](/careers/ai-engineering/ai-engineering/context-engineering-and-long-context)).
 
 ### Audio
 

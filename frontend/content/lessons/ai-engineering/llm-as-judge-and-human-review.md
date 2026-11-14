@@ -267,4 +267,4 @@ Accuracy looks respectable, but the judge passed two of the four answers humans 
 
 ## Key takeaways summary
 
-LLM-as-judge scales grading of open-ended outputs, but only a judge calibrated against adjudicated human labels produces trustworthy numbers. Use anchored, single-criterion rubrics with structured output, measure agreement with kappa and the confusion matrix, watch false passes, mitigate known biases, and keep humans reviewing samples over time. This plugs into the harness from [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals).
+LLM-as-judge scales grading of open-ended outputs, but only a judge calibrated against adjudicated human labels produces trustworthy numbers. Use anchored, single-criterion rubrics with structured output, measure agreement with kappa and the confusion matrix, watch false passes, mitigate known biases, and keep humans reviewing samples over time. This plugs into the harness from [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals).

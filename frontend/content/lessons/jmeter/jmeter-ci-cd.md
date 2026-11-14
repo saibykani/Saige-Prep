@@ -200,7 +200,7 @@ A team adds a five-minute, ten-user smoke performance test on pull requests that
 |---|---|
 | `-o` fails: folder not empty | Delete `report` first or use a fresh path |
 | CSV not found | Paths are relative to where JMeter resolves them; use paths relative to the `.jmx` or `${__P(dataDir)}` |
-| Plugin class missing | Install plugins in the job (see [Plugins Manager](/learn/jmeter/jmeter-plugins-manager)) |
+| Plugin class missing | Install plugins in the job (see [Plugins Manager](/careers/testing/jmeter/jmeter-plugins-manager)) |
 | Connection refused | App not ready; wait for its health check before running |
 
 ## Choosing what runs where

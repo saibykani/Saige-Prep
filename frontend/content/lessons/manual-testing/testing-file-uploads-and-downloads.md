@@ -83,7 +83,7 @@ A file upload is that counter. The "parcel" is the file, and it has a weight (si
 
 In a browser, an upload uses `input type="file"` and is usually sent as a `multipart/form-data` HTTP request. The `accept` attribute only filters the file picker; it does not stop other files being sent. Real validation must happen on the server.
 
-Treat one upload as several independent inputs and apply [equivalence partitioning](/learn/manual-testing/equivalence-partitioning) and [boundary value analysis](/learn/manual-testing/boundary-value-analysis) to each:
+Treat one upload as several independent inputs and apply [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning) and [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) to each:
 
 | Dimension | Valid partitions | Invalid / edge partitions |
 |---|---|---|

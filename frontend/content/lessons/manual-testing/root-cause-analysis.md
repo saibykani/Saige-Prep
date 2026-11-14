@@ -133,7 +133,7 @@ Practices described in the Google SRE books emphasise blameless postmortems: loo
 | 4. Why was the change not noticed? | The API contract did not specify time zone, and no consumer test covered it (contract file) |
 | 5. Why was there no requirement or test for time zone? | Refinement has no checklist step for date/time rules and the story's acceptance criteria were silent on it |
 
-**Escape chain:** test data used payments at midday local time, so the UTC offset never crossed a day boundary. No boundary test existed for "paid on the due date, late evening". (Compare [boundary value analysis](/learn/manual-testing/boundary-value-analysis) applied to time.)
+**Escape chain:** test data used payments at midday local time, so the UTC offset never crossed a day boundary. No boundary test existed for "paid on the due date, late evening". (Compare [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) applied to time.)
 
 ### Fishbone
 
@@ -168,7 +168,7 @@ Notice what is **not** an action: "developers must be more careful". It is not s
 4. **Run 5 Whys** for both "introduced" and "escaped", checking each answer against evidence.
 5. **Build a fishbone** to look for contributing causes beyond the single chain.
 6. **Agree actions** that are specific, owned and dated.
-7. **Track actions** to completion and check later whether similar defects decreased (see [defect metrics](/learn/manual-testing/defect-metrics)).
+7. **Track actions** to completion and check later whether similar defects decreased (see [defect metrics](/careers/testing/manual-testing/defect-metrics)).
 
 ## Common mistakes
 

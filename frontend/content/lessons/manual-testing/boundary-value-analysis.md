@@ -95,7 +95,7 @@ You could try 150 cm, but almost any gate would get that right. The interesting 
 
 ## Technical explanation
 
-BVA builds on [equivalence partitioning](/learn/manual-testing/equivalence-partitioning). First you split an input's domain into partitions that the system should treat the same way. For an **ordered** domain (numbers, dates, lengths, counts), each partition has a minimum and a maximum value: its **boundaries**.
+BVA builds on [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning). First you split an input's domain into partitions that the system should treat the same way. For an **ordered** domain (numbers, dates, lengths, counts), each partition has a minimum and a maximum value: its **boundaries**.
 
 A boundary value is the minimum or maximum of a partition. Its **neighbours** are the closest values on either side, determined by the input's precision:
 

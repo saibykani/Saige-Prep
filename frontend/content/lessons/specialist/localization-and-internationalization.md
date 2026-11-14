@@ -171,4 +171,4 @@ A fitness app launched in Germany and France. In English the button "Start" fitt
 
 ## Key takeaways summary
 
-Internationalization makes software locale-ready; localization makes it feel native. Test formats, plurals, encodings, text expansion and RTL, and use pseudo-localization early. Related: [cross-browser testing](/learn/specialist/cross-browser-testing).
+Internationalization makes software locale-ready; localization makes it feel native. Test formats, plurals, encodings, text expansion and RTL, and use pseudo-localization early. Related: [cross-browser testing](/careers/testing/specialist/cross-browser-testing).

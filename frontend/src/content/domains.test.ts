@@ -26,7 +26,7 @@ describe("domain data files", () => {
       "mobile", "ai-engineering", "specialist", "sdet",
     ]);
     expect(allTopics()).toHaveLength(230);
-    for (const t of TRACKS) expect(t.href).toBe(`/learn/${t.slug}`);
+    for (const t of TRACKS) expect(t.href).toBe(`/careers/${t.domain}/${t.slug}`);
     expect(TRACKS.find((t) => t.slug === "jmeter")?.parent).toBe("performance");
   });
 

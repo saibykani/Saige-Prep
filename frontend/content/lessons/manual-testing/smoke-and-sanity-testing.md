@@ -93,7 +93,7 @@ The ISTQB glossary defines a smoke test as a test suite that covers the main fun
 
 - **Broad and shallow**: touches the most important functions without going deep.
 - **Fast**: minutes, so it can run on every build.
-- **Gatekeeping**: failure means the build is rejected; this is often written into [entry criteria](/learn/manual-testing/entry-and-exit-criteria) for a test phase.
+- **Gatekeeping**: failure means the build is rejected; this is often written into [entry criteria](/careers/testing/manual-testing/entry-and-exit-criteria) for a test phase.
 - **Stable**: a flaky smoke test is worse than none, because people learn to ignore it.
 
 ### Sanity testing
@@ -108,7 +108,7 @@ The ISTQB glossary treats **sanity test** as a synonym of smoke test. In common 
 | Typical form | Scripted, often automated | Often unscripted, quick manual checks |
 | Question | Is this build testable at all? | Does this changed area behave rationally? |
 
-Neither replaces [regression testing](/learn/manual-testing/regression-testing) or [confirmation testing](/learn/manual-testing/retesting-and-confirmation-testing). A sanity check after a fix is lighter than a full confirmation test with variations.
+Neither replaces [regression testing](/careers/testing/manual-testing/regression-testing) or [confirmation testing](/careers/testing/manual-testing/retesting-and-confirmation-testing). A sanity check after a fix is lighter than a full confirmation test with variations.
 
 ```mermaid
 flowchart TB

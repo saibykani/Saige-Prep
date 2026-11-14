@@ -37,13 +37,13 @@ describe("navigation registry", () => {
   });
 
   it("picks the most specific active item", () => {
-    expect(activeNavItem("/learn/manual-testing/some-lesson")?.href).toBe("/learn/manual-testing");
+    expect(activeNavItem("/careers/testing/manual-testing/some-lesson")?.href).toBe("/careers/testing/manual-testing");
     expect(activeNavItem("/learn")?.href).toBe("/learn");
     expect(activeNavItem("/learning")).toBeUndefined();
   });
 
   it("searches labels, descriptions and keywords, hiding admin items from learners", () => {
-    expect(searchNav("jmeter", false).map((i) => i.href)).toEqual(["/learn/performance", "/learn/jmeter"]);
+    expect(searchNav("jmeter", false).map((i) => i.href)).toEqual(["/careers/testing/performance", "/careers/testing/jmeter"]);
     expect(searchNav("admin", false)).toHaveLength(0);
     expect(searchNav("admin", true).map((i) => i.href)).toContain("/admin");
   });
@@ -51,15 +51,17 @@ describe("navigation registry", () => {
 
 describe("buildCrumbs", () => {
   it("keeps acronyms in capitals", () => {
-    expect(buildCrumbs("/learn/ai-engineering/building-rag-pipelines").at(-1)?.label).toBe("Building RAG Pipelines");
-    expect(buildCrumbs("/learn/specialist/sql-for-testers").at(-1)?.label).toBe("SQL For Testers");
+    expect(buildCrumbs("/careers/ai-engineering/ai-engineering/building-rag-pipelines").at(-1)?.label).toBe("Building RAG Pipelines");
+    expect(buildCrumbs("/careers/testing/specialist/sql-for-testers").at(-1)?.label).toBe("SQL For Testers");
   });
 
   it("uses nav labels and title-cases unknown segments", () => {
-    expect(buildCrumbs("/learn/manual-testing/boundary-value-analysis")).toEqual([
-      { href: "/learn", label: "Learning Center" },
-      { href: "/learn/manual-testing", label: "Manual Testing" },
-      { href: "/learn/manual-testing/boundary-value-analysis", label: "Boundary Value Analysis" },
+    expect(buildCrumbs("/careers/testing/manual-testing/boundary-value-analysis")).toEqual([
+      { href: "/careers", label: "Careers" },
+      { href: "/careers/testing", label: "Testing" },
+      { href: "/careers/testing/manual-testing", label: "Manual Testing" },
+      { href: "/careers/testing/manual-testing/boundary-value-analysis", label: "Boundary Value Analysis" },
     ]);
+    expect(buildCrumbs("/careers/non-it").at(-1)?.label).toBe("Non-IT Careers");
   });
 });

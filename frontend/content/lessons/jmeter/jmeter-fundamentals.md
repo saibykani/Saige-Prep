@@ -141,9 +141,9 @@ A team new to JMeter recorded a shopping journey and ran it with 200 threads in 
 3. **Add HTTP Request Defaults** with protocol, host and port of the test environment.
 4. **Add an HTTP Cookie Manager and Header Manager** at Thread Group level.
 5. **Add HTTP Request samplers** for each step, grouped in Transaction Controllers.
-6. **Add assertions** so failures are counted (see [assertions and extractors](/learn/performance/jmeter-assertions-and-extractors)).
+6. **Add assertions** so failures are counted (see [assertions and extractors](/careers/testing/performance/jmeter-assertions-and-extractors)).
 7. **Debug with 1 thread** and View Results Tree, then disable that listener.
-8. **Run in non-GUI mode** (see [non-GUI and distributed execution](/learn/performance/jmeter-non-gui-and-distributed)).
+8. **Run in non-GUI mode** (see [non-GUI and distributed execution](/careers/testing/performance/jmeter-non-gui-and-distributed)).
 
 ## Code examples
 
@@ -180,7 +180,7 @@ summary +   2500 in 00:00:30 =   83.3/s Avg:   120 Min:    45 Max:   640 Err:   
 - **No Cookie Manager**, so every request looks like a new, logged-out user.
 - **Timers in the wrong scope**, delaying every sampler instead of one.
 - **No assertions**, so errors hidden behind HTTP 200 pages pass silently.
-- **Recording and replaying without correlation**, so session tokens are stale. See [correlation and parameterization](/learn/performance/jmeter-correlation-and-parameterization).
+- **Recording and replaying without correlation**, so session tokens are stale. See [correlation and parameterization](/careers/testing/performance/jmeter-correlation-and-parameterization).
 - **Hard-coding hostnames** in every sampler instead of using HTTP Request Defaults or properties.
 
 ## Troubleshooting

@@ -87,7 +87,7 @@ Paying for something online is like a shop putting a hold on your money, taking 
 
 ## Technical explanation
 
-Payment flows depend on an external **payment provider**. The application sends requests (authorise, capture, refund, void) and receives results both synchronously and through asynchronous **webhooks**. Because networks fail, any request might succeed at the provider while the response is lost. Robust systems use **idempotency keys**, a unique key per intended operation, so a repeated request returns the original result instead of repeating the operation (see [idempotency, retries and rate limiting](/learn/api-testing/idempotency-retries-rate-limiting)).
+Payment flows depend on an external **payment provider**. The application sends requests (authorise, capture, refund, void) and receives results both synchronously and through asynchronous **webhooks**. Because networks fail, any request might succeed at the provider while the response is lost. Robust systems use **idempotency keys**, a unique key per intended operation, so a repeated request returns the original result instead of repeating the operation (see [idempotency, retries and rate limiting](/careers/testing/api-testing/idempotency-retries-rate-limiting)).
 
 Terminology and features vary by provider; always confirm against the provider's documentation. Use only sandbox environments and published test cards; never real card data.
 

@@ -96,9 +96,9 @@ A **bottleneck** is the narrowest part of a bottle: the one resource (CPU, datab
 |---|---|---|---|---|
 | 100, 110, 120, 120, 130, 130, 140, 150, 160, 3,000 | 416 | 130 | 160 | 3,000 |
 
-Here the average (416 ms) describes nobody: nine users got about 130 ms and one waited 3 s. Report median, 90th, 95th and 99th, plus max for outliers. More in [Throughput, latency and percentiles](/learn/performance/throughput-latency-and-percentiles).
+Here the average (416 ms) describes nobody: nine users got about 130 ms and one waited 3 s. Report median, 90th, 95th and 99th, plus max for outliers. More in [Throughput, latency and percentiles](/careers/testing/performance/throughput-latency-and-percentiles).
 
-**2. Correlate three charts.** In the [HTML dashboard](/learn/jmeter/jmeter-html-dashboard-report) put Active Threads Over Time, Transactions per Second and Response Times Over Time side by side (or use Time vs Threads).
+**2. Correlate three charts.** In the [HTML dashboard](/careers/testing/jmeter/jmeter-html-dashboard-report) put Active Threads Over Time, Transactions per Second and Response Times Over Time side by side (or use Time vs Threads).
 
 ```mermaid
 flowchart TD
@@ -110,7 +110,7 @@ flowchart TD
   E --> G["Confirm with server metrics: CPU, memory, pools, DB waits"]
 ```
 
-Little's Law explains it: when throughput X can no longer grow, extra concurrency N can only increase response time R ([Little's Law](/learn/performance/littles-law)).
+Little's Law explains it: when throughput X can no longer grow, extra concurrency N can only increase response time R ([Little's Law](/careers/testing/performance/littles-law)).
 
 **3. Saturation signs**
 
@@ -128,7 +128,7 @@ Little's Law explains it: when throughput X can no longer grow, extra concurrenc
 | 4xx (401, 409) rising with load | Data or correlation (expired tokens, duplicate data) | Token lifetime, data uniqueness |
 | 5xx rising with load | System defect or saturation | Server logs and resource metrics |
 
-**5. Baseline comparison.** A **baseline** is a trusted earlier run used as a reference. Compare only like with like: same plan, data volume, environment, duration and load profile. Express change as a percentage and flag regressions beyond an agreed tolerance. See [Capacity planning and baselines](/learn/performance/capacity-planning-and-baselines).
+**5. Baseline comparison.** A **baseline** is a trusted earlier run used as a reference. Compare only like with like: same plan, data volume, environment, duration and load profile. Express change as a percentage and flag regressions beyond an agreed tolerance. See [Capacity planning and baselines](/careers/testing/performance/capacity-planning-and-baselines).
 
 ## Step-by-step walkthrough
 
@@ -137,7 +137,7 @@ Little's Law explains it: when throughput X can no longer grow, extra concurrenc
 3. **Read Statistics** per transaction: error %, 95th/99th percentile, throughput. Compare against targets (for example "95th ≤ 800 ms, errors < 1 %").
 4. **Correlate over time** using the three charts; note the time or thread count where things change.
 5. **Classify errors** with the table above.
-6. **Line up server metrics** for the same time window (from your monitoring, see [Resource utilisation and bottlenecks](/learn/performance/resource-utilization-and-bottlenecks)).
+6. **Line up server metrics** for the same time window (from your monitoring, see [Resource utilisation and bottlenecks](/careers/testing/performance/resource-utilization-and-bottlenecks)).
 7. **Compare with the baseline.**
 8. **Write the findings summary.**
 
@@ -179,7 +179,7 @@ A team's nightly test showed average response time unchanged but the 99th percen
 
 - **Results vary a lot between identical runs:** run longer, check for background jobs and shared environments, repeat runs and compare ranges.
 - **Response times high from the very first minute:** check warm-up (cold caches, JIT) and the generator itself.
-- **Errors only on the generator side:** reduce listeners, run non-GUI, increase heap or add generators (see [Non-GUI and distributed](/learn/jmeter/jmeter-non-gui-and-distributed)).
+- **Errors only on the generator side:** reduce listeners, run non-GUI, increase heap or add generators (see [Non-GUI and distributed](/careers/testing/jmeter/jmeter-non-gui-and-distributed)).
 
 ## Key takeaways summary
 

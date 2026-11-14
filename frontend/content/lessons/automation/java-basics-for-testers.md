@@ -209,4 +209,4 @@ Calling `parsePrice("")` instead stops with `java.lang.IllegalArgumentException:
 
 ## Key takeaways summary
 
-You need a focused slice of Java for automation: types, strings, control flow and methods. Get string comparison and immutability right, convert page text to proper types before asserting, and wrap repeated logic in small, well-named methods. Next, learn how classes and objects organise that code in [OOP for test automation](/learn/automation/java-oop-for-test-automation).
+You need a focused slice of Java for automation: types, strings, control flow and methods. Get string comparison and immutability right, convert page text to proper types before asserting, and wrap repeated logic in small, well-named methods. Next, learn how classes and objects organise that code in [OOP for test automation](/careers/testing/automation/java-oop-for-test-automation).

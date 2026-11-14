@@ -95,7 +95,7 @@ Most people only check that the right code works. Testers also check that **ever
 - **Positive testing** (sometimes called happy-path or valid testing) exercises the system with **valid inputs and expected conditions** to confirm it produces the specified results.
 - **Negative testing** (invalid or error-path testing) exercises it with **invalid inputs, unexpected actions or abnormal conditions** to confirm it handles them gracefully.
 
-"Positive" and "negative" describe test intent rather than a separate ISTQB technique. They map directly onto [equivalence partitioning](/learn/manual-testing/equivalence-partitioning): valid partitions give positive tests and invalid partitions give negative tests. [Boundary value analysis](/learn/manual-testing/boundary-value-analysis) contributes both, because the boundary values inside a valid partition are positive tests and their neighbours outside it are negative tests.
+"Positive" and "negative" describe test intent rather than a separate ISTQB technique. They map directly onto [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning): valid partitions give positive tests and invalid partitions give negative tests. [Boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) contributes both, because the boundary values inside a valid partition are positive tests and their neighbours outside it are negative tests.
 
 **Graceful handling** for a negative test usually means:
 
@@ -190,7 +190,7 @@ Against a correct API both tests pass. If the server lacked length validation, t
 
 - **The requirement does not say what error to show.** Ask, and record the assumption. Error behaviour is part of the specification.
 - **You cannot produce an abnormal condition**, such as a dependency outage. Request a stub or fault-injection setting in the test environment.
-- **The negative list is huge.** Use EP to group invalid values and [error guessing](/learn/manual-testing/error-guessing) to pick the ones most likely to break.
+- **The negative list is huge.** Use EP to group invalid values and [error guessing](/careers/testing/manual-testing/error-guessing) to pick the ones most likely to break.
 
 ## Key takeaways summary
 

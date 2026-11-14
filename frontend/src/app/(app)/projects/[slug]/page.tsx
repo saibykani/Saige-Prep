@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProjects } from "@/content/loader";
+import { roleHref } from "@/content/routes";
 import { ProjectDoneToggle } from "@/features/projects/project-done";
 
 // Rendered client-side behind AppShell (session/guest check), so instant-navigation validation does not apply.
@@ -82,7 +83,7 @@ export default async function ProjectPage({ params }: Props) {
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
             {project.roles.map((r) => (
-              <Link key={r} href={`/roadmaps/${r}`} className="lift">
+              <Link key={r} href={roleHref(r)} className="lift">
                 <Badge>{titleCase(r)}</Badge>
               </Link>
             ))}

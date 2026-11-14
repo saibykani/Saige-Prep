@@ -96,7 +96,7 @@ ISTQB CTFL v4.0 lists compatibility as one of the quality characteristics for no
 | Co-existence | Functions efficiently while sharing a common environment and resources with other products, without harmful impact on them | A desktop client still works when a VPN client and antivirus are running |
 | Interoperability | Two or more systems exchange information and use the information exchanged | Exported invoices import correctly into the customer's accounting system |
 
-In everyday practice, "compatibility testing" also means checking behaviour across **browsers, operating systems, devices, screen sizes and versions**. In ISO/IEC 25010 terms that variety is closer to **portability** (adaptability), but the industry label is so common that you should recognise both meanings. Detailed browser practice is covered in [cross-browser testing](/learn/specialist/cross-browser-testing).
+In everyday practice, "compatibility testing" also means checking behaviour across **browsers, operating systems, devices, screen sizes and versions**. In ISO/IEC 25010 terms that variety is closer to **portability** (adaptability), but the industry label is so common that you should recognise both meanings. Detailed browser practice is covered in [cross-browser testing](/careers/testing/specialist/cross-browser-testing).
 
 ### Installation
 
@@ -129,7 +129,7 @@ Testing every combination is rarely possible. A practical approach:
 
 1. Use usage analytics and contracts to list real target environments.
 2. Group them into **tiers**: Tier 1 gets full functional testing; Tier 2 gets smoke and critical paths; Tier 3 is best effort.
-3. When several dimensions multiply, use [pairwise testing](/learn/manual-testing/pairwise-and-combinatorial-testing) to cover every pair of values with fewer runs.
+3. When several dimensions multiply, use [pairwise testing](/careers/testing/manual-testing/pairwise-and-combinatorial-testing) to cover every pair of values with fewer runs.
 4. Use containers, virtual machines and device clouds to make environments reproducible.
 
 ## Real-world example

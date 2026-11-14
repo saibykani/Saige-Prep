@@ -139,7 +139,7 @@ sequenceDiagram
 
 ### Related practices
 
-Long-running **soak tests** check maturity, such as memory leaks and resource exhaustion over time; see [performance testing types](/learn/performance/performance-testing-types). **Chaos engineering** runs controlled failure experiments to build confidence in resilience; see [chaos engineering basics](/learn/specialist/chaos-engineering-basics). All failure-injection work must be authorised, scoped and have an agreed way to stop.
+Long-running **soak tests** check maturity, such as memory leaks and resource exhaustion over time; see [performance testing types](/careers/testing/performance/performance-testing-types). **Chaos engineering** runs controlled failure experiments to build confidence in resilience; see [chaos engineering basics](/careers/testing/specialist/chaos-engineering-basics). All failure-injection work must be authorised, scoped and have an agreed way to stop.
 
 ## Real-world example
 

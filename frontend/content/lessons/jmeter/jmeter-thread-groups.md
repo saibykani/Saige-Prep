@@ -159,11 +159,11 @@ A quick word on the **Action to be taken after a Sampler error** setting. **Cont
 ## Common mistakes
 
 - **Zero ramp-up with many threads**, creating an artificial spike that real users never produce.
-- **Confusing ramp-up with request rate.** Use timers to control pacing; see [timers and throughput shaping](/learn/jmeter/jmeter-timers-and-throughput-shaping).
+- **Confusing ramp-up with request rate.** Use timers to control pacing; see [timers and throughput shaping](/careers/testing/jmeter/jmeter-timers-and-throughput-shaping).
 - **Infinite loops without a duration**, leaving a test running forever.
 - **Too many threads for one machine.** The load generator becomes the bottleneck.
 - **Targeting systems you do not own.** Practise on localhost only.
 
 ## Key takeaways summary
 
-Threads are virtual users, ramp-up controls how quickly they start, and loops or duration control how long they work. Compute expected samples before running, use time-based tests for steady state, and reach for setUp and tearDown Thread Groups for preparation and cleanup. Next: what each user actually sends, in [the HTTP Request sampler](/learn/jmeter/jmeter-http-request-sampler).
+Threads are virtual users, ramp-up controls how quickly they start, and loops or duration control how long they work. Compute expected samples before running, use time-based tests for steady state, and reach for setUp and tearDown Thread Groups for preparation and cleanup. Next: what each user actually sends, in [the HTTP Request sampler](/careers/testing/jmeter/jmeter-http-request-sampler).

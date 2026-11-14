@@ -120,8 +120,8 @@ Rows should come from test design techniques, not guesswork:
 
 | Source technique | Example rows for "age 18 to 60" |
 |---|---|
-| [Boundary value analysis](/learn/manual-testing/boundary-value-analysis) | 17, 18, 60, 61 |
-| [Equivalence partitioning](/learn/manual-testing/equivalence-partitioning) | 10 (invalid low), 35 (valid), 75 (invalid high) |
+| [Boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) | 17, 18, 60, 61 |
+| [Equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning) | 10 (invalid low), 35 (valid), 75 (invalid high) |
 | Decision tables | Combinations of member/non-member and coupon/no coupon |
 
 ### TestNG
@@ -138,7 +138,7 @@ Rows should come from test design techniques, not guesswork:
 
 ### BDD
 
-Cucumber expresses the same idea with **Scenario Outline** and **Examples** tables (see [Cucumber and BDD](/learn/automation/cucumber-bdd)).
+Cucumber expresses the same idea with **Scenario Outline** and **Examples** tables (see [Cucumber and BDD](/careers/testing/automation/cucumber-bdd)).
 
 ```mermaid
 flowchart LR

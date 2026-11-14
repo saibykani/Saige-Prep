@@ -96,7 +96,7 @@ Popular plugins you will meet often:
 | Plugin | What it adds | Typical use |
 |---|---|---|
 | Custom Thread Groups | Concurrency, Ultimate, Stepping and Arrivals thread groups | Step and staircase load shapes with a preview graph |
-| Throughput Shaping Timer | A timer driven by a schedule of target requests per second | Hitting a precise RPS profile (see [timers](/learn/jmeter/jmeter-timers-and-throughput-shaping)) |
+| Throughput Shaping Timer | A timer driven by a schedule of target requests per second | Hitting a precise RPS profile (see [timers](/careers/testing/jmeter/jmeter-timers-and-throughput-shaping)) |
 | 3 Basic Graphs | Active Threads Over Time, Response Times Over Time, Transactions per Second | Quick visual checks while debugging |
 | PerfMon Metrics Collector | Server CPU and memory charts via a server agent | Legacy; prefer a real monitoring stack today |
 

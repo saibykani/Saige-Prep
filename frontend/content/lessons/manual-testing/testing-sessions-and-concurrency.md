@@ -117,7 +117,7 @@ stateDiagram-v2
 - **Pessimistic locking:** the first editor locks the record; others see "being edited by A".
 - **Last write wins** is acceptable only when the product explicitly chooses it.
 
-Double submission (clicking Pay twice, or two tabs submitting the same form) is a related concurrency issue — see [idempotency, retries and rate limiting](/learn/api-testing/idempotency-retries-rate-limiting).
+Double submission (clicking Pay twice, or two tabs submitting the same form) is a related concurrency issue — see [idempotency, retries and rate limiting](/careers/testing/api-testing/idempotency-retries-rate-limiting).
 
 ## Real-world example
 

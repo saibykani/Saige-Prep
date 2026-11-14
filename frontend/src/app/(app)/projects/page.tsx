@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { HubHero } from "@/components/layout/hub-hero";
 import { CourseCard } from "@/components/ui/course-card";
 import { getProjects } from "@/content/loader";
+import { courseHref } from "@/content/routes";
 import { ProjectDoneBadge } from "@/features/projects/project-done";
 
 // Rendered client-side behind AppShell (session/guest check), so instant-navigation validation does not apply.
@@ -26,7 +27,7 @@ export default function Page() {
           { value: starters, label: "with starter code" },
         ]}
         actions={[
-          { href: "/learn/automation", label: "Learn automation first", primary: true },
+          { href: courseHref("testing", "automation"), label: "Learn automation first", primary: true },
           { href: "/interviews", label: "Practise talking about them" },
         ]}
       />

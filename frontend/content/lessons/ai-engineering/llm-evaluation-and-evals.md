@@ -104,7 +104,7 @@ The exam paper is your **golden dataset**. The marking scheme is your **metrics*
 
 Unlike a unit test, an eval rarely expects 100%. Models make mistakes, so you agree what "good enough" looks like for each kind of question, and some critical questions are marked **must-pass**.
 
-The specialist-track lesson on [LLM evaluation](/learn/specialist/llm-evaluation) introduces grading styles; here we build a working harness.
+The specialist-track lesson on [LLM evaluation](/careers/testing/specialist/llm-evaluation) introduces grading styles; here we build a working harness.
 
 ## Technical explanation
 
@@ -138,7 +138,7 @@ Start with the cheapest metric that can actually judge the criterion:
 | Structured field correct | Exact match after normalisation | Precise and free |
 | Output parses | Schema validity rate | Use Pydantic or JSON Schema |
 | Short factual answer | Token F1 or contains-required-facts | Tolerates wording |
-| Classification | Accuracy, precision, recall, F1 per class | See [model evaluation metrics](/learn/ai-engineering/model-evaluation-metrics) |
+| Classification | Accuracy, precision, recall, F1 per class | See [model evaluation metrics](/careers/ai-engineering/ai-engineering/model-evaluation-metrics) |
 | Must not contain X | Property check (regex, PII detector) | Safety and privacy |
 | RAG grounding | Faithfulness, context precision and recall | Ragas implements these |
 | Helpfulness, tone, reasoning | Rubric graded by human or LLM-as-judge | Calibrate the judge first |
@@ -354,4 +354,4 @@ When the candidate is healthy, the three eval tests pass and `last_run.json` con
 
 ## Key takeaways summary
 
-A good eval combines a versioned golden dataset, a pinned system configuration, cheap deterministic metrics backed by unit tests, repeated runs that measure non-determinism honestly, and thresholds that compare candidate to baseline per slice. Running it in CI turns prompt and model changes into reviewed, measurable releases. Where code cannot judge quality, the next lesson adds [LLM-as-judge with human calibration](/learn/ai-engineering/llm-as-judge-and-human-review).
+A good eval combines a versioned golden dataset, a pinned system configuration, cheap deterministic metrics backed by unit tests, repeated runs that measure non-determinism honestly, and thresholds that compare candidate to baseline per slice. Running it in CI turns prompt and model changes into reviewed, measurable releases. Where code cannot judge quality, the next lesson adds [LLM-as-judge with human calibration](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review).

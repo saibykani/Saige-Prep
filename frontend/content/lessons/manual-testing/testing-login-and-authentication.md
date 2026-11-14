@@ -90,7 +90,7 @@ A login page is the front door of an application. Testing it is not only checkin
 
 ## Technical explanation
 
-**Authentication** proves who a user is; **authorisation** decides what they may do (see [testing user permissions](/learn/manual-testing/testing-user-permissions)). After a successful login the server usually issues a **session**, often a cookie holding a random identifier. Most serious login defects are not about wrong passwords being accepted; they are about information leaks, weak lockout and poor session handling.
+**Authentication** proves who a user is; **authorisation** decides what they may do (see [testing user permissions](/careers/testing/manual-testing/testing-user-permissions)). After a successful login the server usually issues a **session**, often a cookie holding a random identifier. Most serious login defects are not about wrong passwords being accepted; they are about information leaks, weak lockout and poor session handling.
 
 Security checks in this lesson are for applications you own or are explicitly authorised to test.
 

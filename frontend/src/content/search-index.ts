@@ -2,7 +2,8 @@ import "server-only";
 import { NAV_ITEMS } from "@/lib/navigation";
 import { PRACTICE, TOOLS } from "@/lib/registry";
 import type { SearchDoc } from "@/lib/search";
-import { allTopics } from "./curriculum";
+import { allTopics, domainOfInterviewTrack } from "./curriculum";
+import { interviewHref, roleHref } from "./routes";
 import { getInterviewTracks, getLessons, getProjects, getRoles } from "./loader";
 
 /**
@@ -42,7 +43,7 @@ function buildAllDocs(): SearchDoc[] {
       kind: "role",
       title: role.title,
       text: `${role.overview} ${role.skills.essential.join(" ")} ${role.tools.join(" ")}`,
-      href: `/roadmaps/${role.slug}`,
+      href: roleHref(role.slug),
       tags: [role.category],
     });
   }
@@ -54,7 +55,7 @@ function buildAllDocs(): SearchDoc[] {
         kind: "interview",
         title: q.question,
         text: q.keyPoints.join(" "),
-        href: `/interviews?track=${track.track}`,
+        href: interviewHref(domainOfInterviewTrack(track.track), track.track),
         level: q.difficulty,
         minutes: q.minutes,
         tags: [track.track, q.kind],

@@ -154,8 +154,8 @@ The history itself is valuable: it records which build fixed it, why it was reop
 
 ## Step-by-step walkthrough
 
-1. **Log the defect** with full detail (see [writing a great defect report](/learn/manual-testing/writing-a-great-defect-report)).
-2. **Triage** decides: accept and assign, reject, mark duplicate or defer (see [defect triage](/learn/manual-testing/defect-triage)).
+1. **Log the defect** with full detail (see [writing a great defect report](/careers/testing/manual-testing/writing-a-great-defect-report)).
+2. **Triage** decides: accept and assign, reject, mark duplicate or defer (see [defect triage](/careers/testing/manual-testing/defect-triage)).
 3. **Developer fixes** and records the build or version that contains the fix.
 4. **Tester retests** on that build, using the original steps plus variations.
 5. **Run regression** around the change.

@@ -122,7 +122,7 @@ Integration should normally be **incremental**, and its order should be planned 
 - Data: field names, types, formats, units, encodings, optional versus mandatory fields
 - Behaviour: the order of calls, retries, idempotency, transactions spanning components
 - Errors: timeouts, error status codes, malformed responses, partner unavailable
-- Contracts: does each side still match the agreed interface after a change? [Contract testing](/learn/api-testing/contract-testing) automates this check.
+- Contracts: does each side still match the agreed interface after a change? [Contract testing](/careers/testing/api-testing/contract-testing) automates this check.
 
 ## Real-world example
 

@@ -187,4 +187,4 @@ On a well-validated API, pytest reports `7 passed`. A failure such as `FA-07 ver
 
 ## Key takeaways summary
 
-Error guessing turns experience into targeted tests. Make it a fault attack with a written, categorised and maintained checklist with expected results, run it after systematic techniques, and feed it with every defect that escapes. Pair it with [exploratory testing charters](/learn/manual-testing/exploratory-testing-charters) to go deeper where attacks find trouble.
+Error guessing turns experience into targeted tests. Make it a fault attack with a written, categorised and maintained checklist with expected results, run it after systematic techniques, and feed it with every defect that escapes. Pair it with [exploratory testing charters](/careers/testing/manual-testing/exploratory-testing-charters) to go deeper where attacks find trouble.

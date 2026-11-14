@@ -120,7 +120,7 @@ flowchart LR
   A --> F[Results file .jtl/.csv]
 ```
 
-Every listener has **Write results to file / Read from file**. Results files (`.jtl`, CSV by default) are what you keep; in non-GUI mode you pass `-l results.jtl` and build the HTML report later, see [the HTML dashboard report](/learn/jmeter/jmeter-html-dashboard-report).
+Every listener has **Write results to file / Read from file**. Results files (`.jtl`, CSV by default) are what you keep; in non-GUI mode you pass `-l results.jtl` and build the HTML report later, see [the HTML dashboard report](/careers/testing/jmeter/jmeter-html-dashboard-report).
 
 ## Step-by-step walkthrough
 
@@ -172,4 +172,4 @@ A note on **Std. Dev.** (standard deviation) in the Summary Report: it measures 
 
 ## Key takeaways summary
 
-Use View Results Tree to debug, Summary and Aggregate Reports to measure, and results files for anything you keep. Read percentiles alongside average, check Error %, and remember throughput is completed requests per second. Disable heavy listeners under load. Go deeper in [analysing JMeter results](/learn/jmeter/jmeter-analyzing-results).
+Use View Results Tree to debug, Summary and Aggregate Reports to measure, and results files for anything you keep. Read percentiles alongside average, check Error %, and remember throughput is completed requests per second. Disable heavy listeners under load. Go deeper in [analysing JMeter results](/careers/testing/jmeter/jmeter-analyzing-results).

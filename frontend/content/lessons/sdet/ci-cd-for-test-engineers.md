@@ -191,7 +191,7 @@ Without `set -o pipefail` the script would report the exit status of `tee`, whic
 
 ## Troubleshooting
 
-- **Passes locally, fails in CI.** Compare tool versions, time zone, locale, environment variables and test data. Running the build inside the same container image in both places removes most differences (see [Docker for testers](/learn/sdet/docker-for-testers)).
+- **Passes locally, fails in CI.** Compare tool versions, time zone, locale, environment variables and test data. Running the build inside the same container image in both places removes most differences (see [Docker for testers](/careers/testing/sdet/docker-for-testers)).
 - **Pipeline is too slow.** Measure per stage first, then cache dependencies, parallelise and push tests down the pyramid.
 - **Random red builds.** Identify flaky tests from history, quarantine them visibly with an owner, and fix the cause (usually waits, shared data or ordering).
 

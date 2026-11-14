@@ -266,9 +266,9 @@ On a well-defended staging app, all security tests pass and the report shows zer
 ## Troubleshooting
 
 - **Results vary wildly between runs.** Increase runs per case, pin the model version and report success rates with intervals.
-- **The judge for harmful content is unreliable.** Calibrate it against human labels as in [LLM-as-judge and human review](/learn/ai-engineering/llm-as-judge-and-human-review); prefer exact oracles such as canaries and tool-call logs where possible.
+- **The judge for harmful content is unreliable.** Calibrate it against human labels as in [LLM-as-judge and human review](/careers/ai-engineering/ai-engineering/llm-as-judge-and-human-review); prefer exact oracles such as canaries and tool-call logs where possible.
 - **The suite is too slow for every pull request.** Run a small high-value set on pull requests that touch prompts, tools or retrieval, and the full suite nightly.
 
 ## Key takeaways summary
 
-Red teaming AI is authorised, scoped attack simulation against systems you own or are permitted to test. Prompt injection, especially indirect injection through documents and tool results, cannot be prompted away, so defences are architectural: least privilege, human approval, untrusted output handling and monitoring. Map coverage to the OWASP Top 10 for LLM Applications, measure attack success rates with exact oracles such as canaries and tool-call logs, and keep every finding as a regression test. The specialist lesson on [OWASP Top 10 for testers](/learn/specialist/owasp-top-10-for-testers) covers the classic web risks that often combine with these.
+Red teaming AI is authorised, scoped attack simulation against systems you own or are permitted to test. Prompt injection, especially indirect injection through documents and tool results, cannot be prompted away, so defences are architectural: least privilege, human approval, untrusted output handling and monitoring. Map coverage to the OWASP Top 10 for LLM Applications, measure attack success rates with exact oracles such as canaries and tool-call logs, and keep every finding as a regression test. The specialist lesson on [OWASP Top 10 for testers](/careers/testing/specialist/owasp-top-10-for-testers) covers the classic web risks that often combine with these.

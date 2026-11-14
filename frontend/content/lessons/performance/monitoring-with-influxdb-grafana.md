@@ -104,7 +104,7 @@ InfluxDB versions differ: 1.x uses databases and InfluxQL; 2.x uses organisation
 
 ### Getting data in
 
-- **Test metrics:** JMeter's Backend Listener with the InfluxDB client sends aggregated metrics (throughput, errors, percentiles per transaction) every few seconds. Setup is covered in detail in [Backend Listener, InfluxDB and Grafana](/learn/jmeter/jmeter-backend-listener-grafana).
+- **Test metrics:** JMeter's Backend Listener with the InfluxDB client sends aggregated metrics (throughput, errors, percentiles per transaction) every few seconds. Setup is covered in detail in [Backend Listener, InfluxDB and Grafana](/careers/testing/jmeter/jmeter-backend-listener-grafana).
 - **Server metrics:** **Telegraf**, InfluxData's agent, runs on each host and uses input plugins (cpu, mem, disk, diskio, net, plus plugins for databases, JVMs via Jolokia, Docker, and more) to write to InfluxDB.
 - **Application metrics:** many frameworks expose pool sizes, GC and request metrics that Telegraf or other agents can scrape. Some teams use Prometheus instead of InfluxDB; Grafana works with both.
 
@@ -193,7 +193,7 @@ GROUP BY time($__interval), "transaction"
 - **Monitoring the app but not the database or load generator.**
 - **High-cardinality tags** such as per-request IDs.
 - **Unsynchronised clocks**, which misalign cause and effect.
-- **Treating live dashboards as the report.** Keep the JTL and HTML report for detailed analysis ([HTML dashboard report](/learn/jmeter/jmeter-html-dashboard-report)).
+- **Treating live dashboards as the report.** Keep the JTL and HTML report for detailed analysis ([HTML dashboard report](/careers/testing/jmeter/jmeter-html-dashboard-report)).
 - **Exposing Grafana or InfluxDB publicly with default credentials.**
 
 ## Key takeaways summary

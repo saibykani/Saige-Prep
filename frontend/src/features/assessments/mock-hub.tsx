@@ -9,6 +9,8 @@ import { useStore } from "@/lib/store";
 
 export interface BankSummary {
   bank: string;
+  /** Canonical scoped URL of the test. */
+  href: string;
   title: string;
   count: number;
   topics: number;
@@ -26,7 +28,7 @@ export function MockHub({ banks }: { banks: BankSummary[] }) {
           return (
             <CourseCard
               key={b.bank}
-              href={`/mock-tests/${b.bank}`}
+              href={b.href}
               title={b.title}
               themeKey={b.bank}
               kind="mock"

@@ -102,7 +102,7 @@ Test data is the software equivalent. If every test uses "John Smith, 30 years o
 
 ## Technical explanation
 
-Test data is the data needed to execute tests: inputs, preconditions in the database, configuration and expected outputs. Good test data design applies [equivalence partitioning](/learn/manual-testing/equivalence-partitioning) and [boundary value analysis](/learn/manual-testing/boundary-value-analysis) to *data*, and adds experience-based knowledge of what breaks systems.
+Test data is the data needed to execute tests: inputs, preconditions in the database, configuration and expected outputs. Good test data design applies [equivalence partitioning](/careers/testing/manual-testing/equivalence-partitioning) and [boundary value analysis](/careers/testing/manual-testing/boundary-value-analysis) to *data*, and adds experience-based knowledge of what breaks systems.
 
 **Four data classes**
 
@@ -206,4 +206,4 @@ On a correct implementation pytest reports `6 passed`, with case IDs TD-01 to TD
 
 ## Key takeaways summary
 
-Good test data is designed, not grabbed. Build valid, invalid, boundary and special classes from partitions, boundaries and experience; prefer synthetic data; keep each test's data independent and versioned; and record why each value exists. See [data-driven testing](/learn/automation/data-driven-testing) for scaling this in automation.
+Good test data is designed, not grabbed. Build valid, invalid, boundary and special classes from partitions, boundaries and experience; prefer synthetic data; keep each test's data independent and versioned; and record why each value exists. See [data-driven testing](/careers/testing/automation/data-driven-testing) for scaling this in automation.

@@ -176,4 +176,4 @@ An online ticketing team believed their service would survive the loss of its ca
 
 ## Key takeaways summary
 
-Chaos engineering is careful, scientific fire drilling: define normal, predict, inject a small realistic fault, observe, and fix. It pairs naturally with [microservices testing](/learn/specialist/microservices-testing).
+Chaos engineering is careful, scientific fire drilling: define normal, predict, inject a small realistic fault, observe, and fix. It pairs naturally with [microservices testing](/careers/testing/specialist/microservices-testing).

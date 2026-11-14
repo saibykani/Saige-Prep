@@ -262,7 +262,7 @@ hit = sum(any(h["source"] == src for h in retrieve(q, k=2)) for q, src in EVAL)
 print(f"retrieval hit rate@2: {hit}/{len(EVAL)}")
 ```
 
-For faithfulness, check each answer's claims against its cited chunks, by human review or with an LLM-as-judge prompt (see [LLM evaluation and evals](/learn/ai-engineering/llm-evaluation-and-evals)).
+For faithfulness, check each answer's claims against its cited chunks, by human review or with an LLM-as-judge prompt (see [LLM evaluation and evals](/careers/ai-engineering/ai-engineering/llm-evaluation-and-evals)).
 
 ## Expected output
 

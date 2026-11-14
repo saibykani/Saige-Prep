@@ -105,7 +105,7 @@ Shift-left activities for a tester:
 | During coding | Pair on unit/API tests; review pull requests | Untested branches, weak assertions |
 | Feature branch | Test early builds or preview environments | Integration surprises found late |
 
-Many of these are **static testing**: examining work products without executing code (see [static vs dynamic testing](/learn/manual-testing/static-vs-dynamic-testing)).
+Many of these are **static testing**: examining work products without executing code (see [static vs dynamic testing](/careers/testing/manual-testing/static-vs-dynamic-testing)).
 
 ### Continuous testing
 
@@ -124,7 +124,7 @@ flowchart LR
 Design rules for a healthy pipeline:
 
 - **Fast first.** The commit stage should finish in minutes so developers wait for it.
-- **Push checks down** the [test pyramid](/learn/sdet/test-pyramid-and-strategy): most logic tested at unit and API level, few UI journeys.
+- **Push checks down** the [test pyramid](/careers/testing/sdet/test-pyramid-and-strategy): most logic tested at unit and API level, few UI journeys.
 - **Fail the build on real failures** and treat flaky tests as defects to fix, not noise to ignore.
 - **Own every failure.** Someone investigates each red build promptly.
 

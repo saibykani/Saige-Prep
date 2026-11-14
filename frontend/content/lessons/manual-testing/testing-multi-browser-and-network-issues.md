@@ -107,7 +107,7 @@ So testing Chrome and Edge alone mostly tests one engine. Typical cross-browser 
 - Newer JavaScript or CSS features not yet supported (check caniuse.com)
 - Touch versus mouse, and mobile on-screen keyboards covering inputs
 
-A **browser matrix** lists the browser, version range, OS and device to test. Build it from analytics and risk; see also [compatibility and installation testing](/learn/manual-testing/compatibility-and-installation-testing).
+A **browser matrix** lists the browser, version range, OS and device to test. Build it from analytics and risk; see also [compatibility and installation testing](/careers/testing/manual-testing/compatibility-and-installation-testing).
 
 ### Networks
 
@@ -154,7 +154,7 @@ A ticket-booking site worked flawlessly in Chrome on office Wi-Fi. Two issues we
    - Go offline before submitting, right after submitting, and mid-upload.
    - Reconnect and check the real state in the backend or admin screen.
 5. **Double submission:** double-click and rapidly tap submit buttons under throttling.
-6. **Record the environment** precisely in any [defect report](/learn/manual-testing/writing-a-great-defect-report): browser and version, OS, device, network profile.
+6. **Record the environment** precisely in any [defect report](/careers/testing/manual-testing/writing-a-great-defect-report): browser and version, OS, device, network profile.
 
 ### Sample test cases
 

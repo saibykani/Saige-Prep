@@ -5,6 +5,7 @@
  * honestly as "not written yet" rather than with placeholder text.
  */
 
+import { courseHref, interviewDomain } from "./routes";
 import { domainFile, type DomainFile } from "./schema-expansion";
 import testingRaw from "../../content/domains/testing.json";
 import aiEngineeringRaw from "../../content/domains/ai-engineering.json";
@@ -26,7 +27,7 @@ export interface Module {
 export interface Track {
   slug: string;
   title: string;
-  /** Route of the track page (matches src/lib/navigation.ts). */
+  /** Canonical route of the course page: /careers/<domain>/<course> (matches src/lib/navigation.ts). */
   href: string;
   description: string;
   /** Sub-track shown as a tab inside its parent track (e.g. JMeter inside Performance). */
@@ -68,7 +69,7 @@ const courseTracks: Track[] = DOMAINS.flatMap((domain) =>
   domain.courses.map((course) => ({
     slug: course.slug,
     title: course.title,
-    href: `/learn/${course.slug}`,
+    href: courseHref(domain.slug, course.slug),
     description: course.description,
     ...(course.parent ? { parent: course.parent } : {}),
     domain: domain.slug,
@@ -98,6 +99,16 @@ export function allTopics() {
   return TRACKS.flatMap((track) =>
     track.modules.flatMap((module) => module.topics.map((topic) => ({ ...topic, track, module }))),
   );
+}
+
+/** Domain slug of a course (track), if it exists. */
+export function domainOfCourse(course: string) {
+  return findTrack(course)?.domain;
+}
+
+/** Domain slug of an interview track. */
+export function domainOfInterviewTrack(track: string) {
+  return interviewDomain(track, domainOfCourse);
 }
 
 export function findTrack(slug: string) {

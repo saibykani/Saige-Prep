@@ -159,7 +159,7 @@ export function MockTest({ bank, title, questions, topicTitles, backHref }: { ba
               return (
                 <li key={t.topic}>
                   <div className="mb-1 flex justify-between text-sm">
-                    <Link href={`/learn/${bank}/${t.topic}`} className="hover:text-accent">
+                    <Link href={`${backHref}/${t.topic}`} className="hover:text-accent">
                       {topicTitles[t.topic] ?? t.topic}
                     </Link>
                     <span className="text-muted">

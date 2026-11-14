@@ -87,7 +87,7 @@ When you buy a made-to-measure suit, the tailor has already checked the seams, t
 
 ## Technical explanation
 
-Acceptance testing is the final ISTQB test level. Its focus is on **validation** and on demonstrating **readiness for deployment**, meaning the system fulfils the user's business needs. Ideally it reveals few defects; serious defects found here are expensive and may indicate gaps earlier. See [verification vs validation](/learn/manual-testing/verification-vs-validation) for the underlying distinction.
+Acceptance testing is the final ISTQB test level. Its focus is on **validation** and on demonstrating **readiness for deployment**, meaning the system fulfils the user's business needs. Ideally it reveals few defects; serious defects found here are expensive and may indicate gaps earlier. See [verification vs validation](/careers/testing/manual-testing/verification-vs-validation) for the underlying distinction.
 
 ISTQB CTFL v4.0 lists these main forms:
 
@@ -130,7 +130,7 @@ The business accepted the release with a condition: a simplified split-pallet fl
 5. **Write business scenarios** rather than step-by-step scripts, so users exercise real workflows.
 6. **Run sessions with support**: a tester records issues, helps reproduce them and separates defects from training needs.
 7. **Triage findings** into defects, change requests and training or documentation gaps.
-8. **Record the sign-off decision** with evidence and any conditions; see [release sign-off](/learn/manual-testing/release-sign-off).
+8. **Record the sign-off decision** with evidence and any conditions; see [release sign-off](/careers/testing/manual-testing/release-sign-off).
 
 ### Worked example: a UAT scenario
 

@@ -17,11 +17,11 @@ import { headingsOf } from "@/lib/markdown-utils";
 // Rendered client-side behind AppShell (session/guest check), so instant-navigation validation does not apply.
 export const instant = false;
 
-type Props = { params: Promise<{ track: string; lesson: string }> };
+type Props = { params: Promise<{ domain: string; course: string; lesson: string }> };
 
 export function generateStaticParams() {
   return TRACKS.flatMap((track) =>
-    track.modules.flatMap((m) => m.topics.map((topic) => ({ track: track.slug, lesson: topic.slug }))),
+    track.modules.flatMap((m) => m.topics.map((topic) => ({ domain: track.domain, course: track.slug, lesson: topic.slug }))),
   );
 }
 
@@ -33,11 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LessonPage({ params }: Props) {
-  const { track: trackSlug, lesson: lessonSlug } = await params;
+  const { domain, course: trackSlug, lesson: lessonSlug } = await params;
   const track = findTrack(trackSlug);
   const ordered = allTopics().filter((t) => t.track.slug === trackSlug);
   const index = ordered.findIndex((t) => t.slug === lessonSlug);
-  if (!track || index === -1) notFound();
+  if (!track || track.domain !== domain || index === -1) notFound();
   const topic = ordered[index];
   const lesson = getLesson(lessonSlug);
   const lessons = getLessons();

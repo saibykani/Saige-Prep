@@ -219,4 +219,4 @@ def test_invalid_transition_is_rejected(state, event):
 
 ## Key takeaways summary
 
-Model the states and events, turn the diagram into a table, then test every valid transition (0-switch coverage) and, where risk demands, every invalid one. Always start from a known state and verify the end state. Related techniques: [decision table testing](/learn/manual-testing/decision-table-testing) for the rules inside a transition, and [use-case testing](/learn/manual-testing/use-case-testing) for end-to-end flows.
+Model the states and events, turn the diagram into a table, then test every valid transition (0-switch coverage) and, where risk demands, every invalid one. Always start from a known state and verify the end state. Related techniques: [decision table testing](/careers/testing/manual-testing/decision-table-testing) for the rules inside a transition, and [use-case testing](/careers/testing/manual-testing/use-case-testing) for end-to-end flows.

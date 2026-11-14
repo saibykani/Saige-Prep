@@ -23,6 +23,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { CountUp } from "@/components/ui/count-up";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/feedback";
+import { courseHref } from "@/content/routes";
 import { useCurrentUser } from "@/features/auth/hooks";
 import { isGuest } from "@/lib/auth-mode";
 import { useStore, type ActivityKind, type StoreData } from "@/lib/store";
@@ -96,7 +97,7 @@ function ContinueLearningRow({ lessons, index }: { lessons: StoreData["lessons"]
             <p className="text-sm text-muted">Lessons you open will line up here so you can pick up where you left off.</p>
           </div>
           <Link
-            href="/learn/manual-testing"
+            href={courseHref("testing", "manual-testing")}
             className="ripple press-fx inline-flex h-10 shrink-0 items-center gap-2 overflow-hidden rounded-lg bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-strong"
           >
             Open your first lesson <ArrowRight className="h-4 w-4" aria-hidden />
@@ -155,7 +156,7 @@ export function DashboardView({
     {
       label: "Complete your first lesson",
       detail: "Start with Manual Testing fundamentals.",
-      href: "/learn/manual-testing",
+      href: courseHref("testing", "manual-testing"),
       done: completedLessons > 0,
     },
     {

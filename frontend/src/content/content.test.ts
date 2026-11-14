@@ -12,7 +12,7 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("server-only", () => ({}));
 
-const { allTopics } = await import("./curriculum");
+const { allTopics, TRACKS } = await import("./curriculum");
 const { REQUIRED_LESSON_HEADINGS, interviewTrack, questionBankFile, roleFile, project } = await import("./schema");
 const { ROLE_CATALOG, ALL_ROLE_SLUGS } = await import("./role-catalog");
 const { CONTENT_DIR, parseLessonFile, readDir, readJson } = await import("./loader");
@@ -65,9 +65,15 @@ describe("lessons", () => {
     for (const related of lesson.related) expect(topicSlugs.has(related), `${lesson.slug} related ${related}`).toBe(true);
     for (const q of lesson.quiz) expect(topicSlugs.has(q.topic), `${q.id} topic ${q.topic}`).toBe(true);
     expect(lesson.body, `${lesson.slug} contains raw HTML`).not.toMatch(/<(script|iframe|img|div|span|style)\b/i);
-    for (const [, href] of lesson.body.matchAll(/\]\((\/learn\/[^)\s#]+)/g)) {
-      const target = href.split("/").pop() ?? "";
-      expect(topicSlugs.has(target) || href.split("/").length === 3, `${lesson.slug} links to unknown ${href}`).toBe(true);
+    for (const [, href] of lesson.body.matchAll(/\]\((\/careers\/[^)\s#]+)/g)) {
+      const [, , domain, course, topic] = href.split("/");
+      const track = TRACKS.find((t) => t.slug === course);
+      expect(track?.domain, `${lesson.slug} links to unknown course ${href}`).toBe(domain);
+      if (topic) expect(topicSlugs.has(topic), `${lesson.slug} links to unknown lesson ${href}`).toBe(true);
+    }
+    for (const [, href] of lesson.body.matchAll(/\]\((\/learn\/[a-z0-9-]+(?:\/[a-z0-9-]+)?)/g)) {
+      const known = TRACKS.some((t) => href.startsWith(`/learn/${t.slug}`));
+      expect(known, `${lesson.slug} uses legacy URL ${href}; use /careers/<domain>/<course>/<lesson>`).toBe(false);
     }
   });
 });

@@ -174,4 +174,4 @@ A helpful habit is to read your tree from the sampler's point of view. Pick a sa
 
 ## Key takeaways summary
 
-Where you put an element decides what it affects; what kind of element it is decides when it runs. Remember the sequence config, pre-processors, timers, sampler, post-processors, assertions, listeners, and keep element placement as close as possible to the samplers they are meant for. Next: steering flow with [logic controllers](/learn/jmeter/jmeter-logic-controllers).
+Where you put an element decides what it affects; what kind of element it is decides when it runs. Remember the sequence config, pre-processors, timers, sampler, post-processors, assertions, listeners, and keep element placement as close as possible to the samplers they are meant for. Next: steering flow with [logic controllers](/careers/testing/jmeter/jmeter-logic-controllers).

@@ -2,6 +2,8 @@ import { Clock, MessagesSquare, Users } from "lucide-react";
 import type { Metadata } from "next";
 import { HubHero } from "@/components/layout/hub-hero";
 import { CourseCard } from "@/components/ui/course-card";
+import { domainOfInterviewTrack } from "@/content/curriculum";
+import { interviewHref } from "@/content/routes";
 import { getInterviewTracks } from "@/content/loader";
 import { InterviewTrackProgress } from "@/features/interviews/interview-progress";
 import { formatMinutes, levelRange } from "@/lib/visual-themes";
@@ -35,7 +37,7 @@ export default function Page() {
         {tracks.map((t) => (
           <CourseCard
             key={t.track}
-            href={`/interviews/${t.track}`}
+            href={interviewHref(domainOfInterviewTrack(t.track), t.track)}
             title={t.title}
             description={t.description}
             themeKey={t.track}

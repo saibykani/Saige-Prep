@@ -187,4 +187,4 @@ An internal IT help assistant answered "How many days of leave can I carry over?
 
 ## Key takeaways summary
 
-Evaluate RAG in two halves: did retrieval find the right context, and did generation stay faithful to it? Label your questions, include unanswerable ones and trace every failure to its stage. Review the foundations in [LLM evaluation](/learn/specialist/llm-evaluation).
+Evaluate RAG in two halves: did retrieval find the right context, and did generation stay faithful to it? Label your questions, include unanswerable ones and trace every failure to its stage. Review the foundations in [LLM evaluation](/careers/testing/specialist/llm-evaluation).

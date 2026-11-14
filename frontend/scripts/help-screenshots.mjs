@@ -179,7 +179,7 @@ async function roadmaps(page) {
   await shot(page, "roadmaps-catalogue", { top: true });
   await page.getByRole("searchbox", { name: "Search roles" }).or(page.getByRole("textbox", { name: "Search roles" })).fill("manual");
   await shot(page, "roadmaps-search", { top: true });
-  await go(page, "/roadmaps/manual-qa-engineer");
+  await go(page, "/careers/testing/roles/manual-qa-engineer");
   await shot(page, "roadmaps-detail", { top: true });
   await page.getByRole("button", { name: "Set as my target role" }).click();
   await page.getByRole("button", { name: "✓ Your target role" }).waitFor();
@@ -208,9 +208,9 @@ async function planner(page) {
 
 async function lesson(page) {
   const main = page.locator("main").first();
-  await go(page, "/learn/manual-testing");
+  await go(page, "/careers/testing/manual-testing");
   await shot(page, "lesson-track", { top: true });
-  await go(page, "/learn/manual-testing/what-is-software-testing");
+  await go(page, "/careers/testing/manual-testing/what-is-software-testing");
   await shot(page, "lesson-header", { top: true });
   await shot(page, "lesson-body", { focus: main.getByRole("heading", { name: "Beginner-friendly explanation" }) });
   await shot(page, "lesson-example", { focus: main.getByRole("heading", { name: "Real-world example" }) });
@@ -254,11 +254,11 @@ async function lesson(page) {
 }
 
 async function jmeter(page) {
-  await go(page, "/learn/performance");
+  await go(page, "/careers/testing/performance");
   await shot(page, "jmeter-performance-track", { top: true });
-  await go(page, "/learn/jmeter");
+  await go(page, "/careers/testing/jmeter");
   await shot(page, "jmeter-track", { top: true });
-  await go(page, "/learn/jmeter/what-is-jmeter");
+  await go(page, "/careers/testing/jmeter/what-is-jmeter");
   await shot(page, "jmeter-first-lesson", { top: true });
 }
 
@@ -340,7 +340,7 @@ async function mockTest(page) {
   const main = page.locator("main").first();
   await go(page, "/mock-tests");
   await shot(page, "mock-hub", { top: true });
-  await main.locator('a[href="/mock-tests/manual-testing"]').first().click();
+  await main.locator('a[href="/careers/testing/mock-tests/manual-testing"]').first().click();
   await page.getByRole("heading", { level: 1, name: "Manual Testing mock test" }).waitFor({ timeout: 120_000 });
   await page.getByRole("radiogroup", { name: "Questions" }).getByRole("radio", { name: "10", exact: true }).click();
   await page.getByRole("radiogroup", { name: "Time limit" }).getByRole("radio", { name: "No timer" }).click();
@@ -373,7 +373,7 @@ async function interview(page) {
   const main = page.locator("main").first();
   await go(page, "/interviews");
   await shot(page, "interview-hub", { top: true });
-  await go(page, "/interviews/manual-qa");
+  await go(page, "/careers/testing/interviews/manual-qa");
   await shot(page, "interview-lengths", { top: true });
   await page.getByRole("button", { name: "15-minute interview" }).click();
 

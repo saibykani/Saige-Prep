@@ -129,7 +129,7 @@ Key mechanics:
 
 ### Testing and debugging along the chain
 
-Dynamic testing observes **failures**. Static testing such as a review finds **defects** directly, without needing them to fail. Debugging traces a failure back to its **defect** and fixes it. Root cause analysis goes one step further to the **root cause**, so that the process can be improved. See [root cause analysis](/learn/manual-testing/root-cause-analysis).
+Dynamic testing observes **failures**. Static testing such as a review finds **defects** directly, without needing them to fail. Debugging traces a failure back to its **defect** and fixes it. Root cause analysis goes one step further to the **root cause**, so that the process can be improved. See [root cause analysis](/careers/testing/manual-testing/root-cause-analysis).
 
 ## Real-world example
 
