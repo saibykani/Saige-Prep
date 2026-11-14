@@ -289,3 +289,12 @@ Every step: `npm run check` (tsc, eslint, vitest) green, `npm run build` green, 
 - Language: English first; schema carries a locale so Hindi can be added later.
 - Other open decisions: the recommended defaults above apply until changed.
 - Delivery: one agent per step, sequentially; each step is validated and pushed before the next starts.
+
+## Scope update (2026-11-14, by the owner)
+- **India first, world later.** Coverage expands beyond IT to every major career path in India, including professional fields such as law (CLAT, AILET, AIBE; LLB path), chartered accountancy and commerce (ICAI CA Foundation/Inter/Final, CS, CMA), medicine and allied fields (NEET-UG/PG), engineering entrance (JEE Main/Advanced, GATE), management (CAT), and the government exams listed above. Each path gets an overview first (role, eligibility, qualifying exams with official links and last-verified dates, study route), with deep lessons, practice and mocks added in waves. Global (non-India) coverage is a later phase; the domain/exam schema carries a `country` field from the start so it can be added without migration.
+- **Voice interview practice: browser voice, no AI.** The interview simulator uses the browser's built-in Web Speech API: speech synthesis reads each question aloud in the best available system voice (user-selectable, with rate and pitch), and speech recognition captures the spoken answer as a live transcript where the browser supports it (typed answers otherwise). There's no AI scoring: after answering, the learner sees the model answer and key points beside their transcript and self-rates; ratings are stored locally like other practice. Nothing is sent to a third-party AI service. Caveats to state in the UI: recognition availability varies by browser, and Chrome's recognition is processed by the browser vendor's speech service.
+
+### Added delivery steps
+- **Step 12a: Voice interview simulator** (after the mock runner v2): question queue from the existing interview banks (role, domain, exam interview), voice picker, read-aloud, live transcript, model answer + key-point checklist, self-rating, keyboard-only and screen-reader friendly, works without speech support. Acceptance: unit tests for the session state machine; e2e with speech APIs stubbed; CSP still has no third-party connect-src.
+- **Step 23a: India career catalogue**: overview pages for the professional paths above, each with official-source links and last-verified dates, built on the domain/exam schema.
+- **Later phase: global**: country dimension in navigation and exams.
