@@ -298,3 +298,11 @@ Every step: `npm run check` (tsc, eslint, vitest) green, `npm run build` green, 
 - **Step 12a: Voice interview simulator** (after the mock runner v2): question queue from the existing interview banks (role, domain, exam interview), voice picker, read-aloud, live transcript, model answer + key-point checklist, self-rating, keyboard-only and screen-reader friendly, works without speech support. Acceptance: unit tests for the session state machine; e2e with speech APIs stubbed; CSP still has no third-party connect-src.
 - **Step 23a: India career catalogue**: overview pages for the professional paths above, each with official-source links and last-verified dates, built on the domain/exam schema.
 - **Later phase: global**: country dimension in navigation and exams.
+
+### Previous-year papers library (owner request, 2026-11-14)
+Every exam page gets a **Previous papers** section:
+- A year-by-year index (exam, stage, shift, year) linking to the official question papers and answer keys on the conducting body's site (e.g. UPSC publishes prelims papers and keys; SSC/RRB/IBPS publish answer keys and response sheets for a limited window). Each link carries a last-verified date. Dead links are flagged by the yearly verification step.
+- **Year-wise practice sets**: original questions written to mirror each year's section pattern, topic mix and difficulty, timed and marked like the real paper (with negative marking), so learners can take a "2024-style" full paper. Clearly labelled "modelled on", never presented as the real paper.
+- Topic-wise PYQ trend notes (which topics appear most often), written from the official papers.
+Aptitude and reasoning (quant, logical/analytical reasoning, verbal, data interpretation, GA, computer awareness) are the shared core across all exams (steps 12–13).
+Delivered with each exam (steps 14–15 and later exam waves).
